@@ -38,7 +38,7 @@ platform :ios, '10.0'
 use_frameworks!
 
 target '<Your Target Name>' do
-    pod 'CyberSwift', :git => "https://github.com/GolosChain/cyber-ios.git"
+    pod 'CyberSwift', :git => "https://github.com/GolosChain/cyberSwift.git"
 end
 ```
 
@@ -109,7 +109,7 @@ Logger.log(message: "\nresponse Result = \(result)\n", event: .debug)
 ```
 
 Output:
-<img src='https://github.com/GolosChain/cyber-ios/blob/master/CyberSwift/Resources/Media.xcassets/screenshot-logger.imageset/screenshot-logger%403x.png'/>
+<img src='https://github.com/GolosChain/cyberSwift/blob/master/CyberSwift/Resources/Media.xcassets/screenshot-logger.imageset/screenshot-logger%403x.png'/>
 
 
 ## Running the tests
@@ -154,11 +154,11 @@ For the versions available, see the [tags on this repository](https://github.com
 
 * **Monastyrskyi Sergey** - *Initial work* - [Monserg](https://github.com/Monserg)
 
-See also the list of [contributors](https://github.com/GolosChain/cyber-ios/graphs/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/GolosChain/cyberSwift/graphs/contributors) who participated in this project.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/GolosChain/cyber-ios/blob/master/LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/GolosChain/cyberSwift/blob/master/LICENSE.md) file for details
 
 ## Acknowledgments
 
