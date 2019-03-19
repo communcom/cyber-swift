@@ -73,7 +73,7 @@ public indirect enum MethodAPIType {
     case getPost(userID: String, permlink: String, refBlockNum: UInt64)
     
     /// Getting user comments feed
-    case getUserComments(nickName: String, timeFrameMode: FeedTimeFrameMode, sortMode: CommentSortMode, paginationLimit: Int8, paginationSequenceKey: String?)
+    case getUserComments(nickName: String, sortMode: CommentSortMode, paginationLimit: Int8, paginationSequenceKey: String?)
     
     /// Getting post comments feed
     case getPostComments(userNickName: String, permlink: String, refBlockNum: UInt64, timeFrameMode: FeedTimeFrameMode, sortMode: CommentSortMode, paginationLimit: Int8, paginationSequenceKey: String?)
@@ -82,7 +82,7 @@ public indirect enum MethodAPIType {
     /// This method return request parameters from selected enum case.
     func introduced() -> RequestMethodParameters {
         switch self {
-        /// Template { "id": 1, "jsonrpc": "2.0", "method": "content.getProfile", "params": { "userId": "tst3uuqzetwf" }}
+        /// Template { "id": 2, "jsonrpc": "2.0", "method": "content.getProfile", "params": { "userId": "tst3uuqzetwf" }}
         case .getProfile(let userNickNameValue):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
@@ -110,16 +110,16 @@ public indirect enum MethodAPIType {
                      methodName:        "getFeed",
                      parameters:        parameters)
             
-        /// Template { "id": 3, "jsonrpc": "2.0", "method": "content.getPost", "params": { "userId": "tst2nbduouxh", "permlink": "hephaestusfightswithantigoneagainststyx", "refBlockNum": 381607 }}
+        /// Template { "id": 64, "jsonrpc": "2.0", "method": "content.getPost", "params": { "userId": "tst2nbduouxh", "permlink": "hephaestusfightswithantigoneagainststyx", "refBlockNum": 381607 }}
         case .getPost(let userNickNameValue, let permlinkValue, let refBlockNumValue):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getPost",
                      parameters:        ["userId": userNickNameValue, "permlink": permlinkValue, "refBlockNum": "\(refBlockNumValue)"])
             
-        /// Template { "id": 4, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "user", "userId": "tst2nbduouxh" }}
-        case .getUserComments(let userNickNameValue, let timeFrameModeValue, let sortModeValue, let paginationLimitValue, let paginationSequenceKeyValue):
-            var parameters: [String: String] = ["type": "user", "userId": userNickNameValue, "timeframe": timeFrameModeValue.rawValue, "sortBy": sortModeValue.rawValue, "limit": "\(paginationLimitValue)"]
+        /// Template { "id": 64, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "user", "userId": "tst2nbduouxh" }}
+        case .getUserComments(let userNickNameValue, let sortModeValue, let paginationLimitValue, let paginationSequenceKeyValue):
+            var parameters: [String: String] = ["type": "user", "userId": userNickNameValue, "sortBy": sortModeValue.rawValue, "limit": "\(paginationLimitValue)"]
             
             if let paginationSequenceKeyValue = paginationSequenceKeyValue {
                 parameters["sequenceKey"] = paginationSequenceKeyValue
@@ -130,7 +130,7 @@ public indirect enum MethodAPIType {
                      methodName:        "getComments",
                      parameters:        parameters)
             
-        /// Template { "id": 5, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "post", "userId": "tst2nbduouxh" }}
+        /// Template { "id": 64, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "user", "userId": "tst2nbduouxh" }}
         case .getPostComments(let userNickNameValue, let permlinkValue, let refBlockNumValue, let timeFrameModeValue, let sortModeValue, let paginationLimitValue, let paginationSequenceKeyValue):
             var parameters: [String: String] = ["type": "post", "userId": userNickNameValue, "permlink": permlinkValue, "refBlockNum": "\(refBlockNumValue)", "timeframe": timeFrameModeValue.rawValue, "sortBy": sortModeValue.rawValue, "limit": "\(paginationLimitValue)"]
             

@@ -110,4 +110,34 @@ public class RestAPIManager {
             completion(nil, ErrorAPI.disableInternetConnection())
         }
     }
+    
+    
+    /// API `content.getComments` by user
+    public func loadUserComments(nickName: String = Config.currentUser.nickName, sortMode: CommentSortMode = .time, paginationLimit: Int8 = Config.paginationLimit, paginationSequenceKey: String? = nil, completion: @escaping (ResponseAPIContentGetPost?, ErrorAPI?) -> Void) {
+        if Config.isNetworkAvailable {
+            let methodAPIType = MethodAPIType.getUserComments(nickName: nickName, sortMode: sortMode, paginationLimit: paginationLimit, paginationSequenceKey: paginationSequenceKey)
+            
+            Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                                 onResult:          { responseAPIResult in
+                                                    Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
+                                                    
+                                                    guard let result = (responseAPIResult as! ResponseAPIContentGetPostResult).result else {
+                                                        completion(nil, ErrorAPI.requestFailed(message: "API user \'content.getComments\' have error: \((responseAPIResult as! ResponseAPIContentGetProfileResult).error!.message)"))
+                                                        return
+                                                    }
+                                                    
+                                                    completion(result, nil)
+            },
+                                                 onError: { errorAPI in
+                                                    Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
+                                                    
+                                                    completion(nil, errorAPI)
+            })
+        }
+            
+        // Offline mode
+        else {
+            completion(nil, ErrorAPI.disableInternetConnection())
+        }
+    }
 }
