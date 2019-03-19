@@ -95,7 +95,7 @@ extension Broadcast {
             var jsonString: String
             
             switch methodAPIType {
-            case .getFeed(_), .getPost(_), .getProfile(_):
+            case .getFeed(_), .getPost(_), .getUserComments(_), .getPostComments(_), .getProfile(_):
                 jsonData        =   try jsonEncoder.encode(requestAPI)
                 jsonString      =   "\(String(data: jsonData, encoding: .utf8)!)"
             }
