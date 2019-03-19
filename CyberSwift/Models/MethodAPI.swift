@@ -82,7 +82,7 @@ public indirect enum MethodAPIType {
     /// This method return request parameters from selected enum case.
     func introduced() -> RequestMethodParameters {
         switch self {
-        /// Template { "id": 2, "jsonrpc": "2.0", "method": "content.getProfile", "params": { "userId": "tst3uuqzetwf" }}
+        /// Template { "id": 1, "jsonrpc": "2.0", "method": "content.getProfile", "params": { "userId": "tst3uuqzetwf" }}
         case .getProfile(let userNickNameValue):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
@@ -110,14 +110,14 @@ public indirect enum MethodAPIType {
                      methodName:        "getFeed",
                      parameters:        parameters)
             
-        /// Template { "id": 64, "jsonrpc": "2.0", "method": "content.getPost", "params": { "userId": "tst2nbduouxh", "permlink": "hephaestusfightswithantigoneagainststyx", "refBlockNum": 381607 }}
+        /// Template { "id": 3, "jsonrpc": "2.0", "method": "content.getPost", "params": { "userId": "tst2nbduouxh", "permlink": "hephaestusfightswithantigoneagainststyx", "refBlockNum": 381607 }}
         case .getPost(let userNickNameValue, let permlinkValue, let refBlockNumValue):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getPost",
                      parameters:        ["userId": userNickNameValue, "permlink": permlinkValue, "refBlockNum": "\(refBlockNumValue)"])
             
-        /// Template { "id": 64, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "user", "userId": "tst2nbduouxh" }}
+        /// Template { "id": 4, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "user", "userId": "tst2nbduouxh", "sortBy": "time", "limit": "20" }}
         case .getUserComments(let userNickNameValue, let sortModeValue, let paginationLimitValue, let paginationSequenceKeyValue):
             var parameters: [String: String] = ["type": "user", "userId": userNickNameValue, "sortBy": sortModeValue.rawValue, "limit": "\(paginationLimitValue)"]
             
@@ -130,7 +130,7 @@ public indirect enum MethodAPIType {
                      methodName:        "getComments",
                      parameters:        parameters)
             
-        /// Template { "id": 64, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "user", "userId": "tst2nbduouxh" }}
+        /// Template { "id": 5, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "user", "userId": "tst2nbduouxh" }}
         case .getPostComments(let userNickNameValue, let permlinkValue, let refBlockNumValue, let timeFrameModeValue, let sortModeValue, let paginationLimitValue, let paginationSequenceKeyValue):
             var parameters: [String: String] = ["type": "post", "userId": userNickNameValue, "permlink": permlinkValue, "refBlockNum": "\(refBlockNumValue)", "timeframe": timeFrameModeValue.rawValue, "sortBy": sortModeValue.rawValue, "limit": "\(paginationLimitValue)"]
             

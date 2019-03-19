@@ -228,3 +228,127 @@ public struct ResponseAPIContentGetPostResult: Decodable {
     public let result: ResponseAPIContentGetPost?
     public let error: ResponseAPIError?
 }
+
+
+// MARK: -
+public struct ResponseAPIContentGetCommentsResult: Decodable {
+    // MARK: - In work API `content.getComments`
+    public let id: Int64
+    public let jsonrpc: String
+    public let result: ResponseAPIContentGetComments?
+    public let error: ResponseAPIError?
+}
+
+
+// MARK: -
+public struct ResponseAPIContentGetComments: Decodable {
+    // MARK: - In work API `content.getComments`
+    public let items: [ResponseAPIContentGetComment]?
+    public let sequenceKey: String?
+}
+
+
+// MARK: -
+public struct ResponseAPIContentGetComment: Decodable {
+    // MARK: - In work API `content.getComments`
+    public let content: ResponseAPIContentGetCommentContent
+    public let votes: ResponseAPIContentGetCommentVotes
+    public let payout: ResponseAPIContentGetCommentPayout
+    public let contentId: ResponseAPIContentGetCommentContentId
+    public let meta: ResponseAPIContentGetCommentMeta
+    public let author: ResponseAPIContentGetCommentAuthor?
+    public let community: ResponseAPIContentGetCommentParent
+}
+
+
+// MARK: -
+public struct ResponseAPIContentGetCommentContent: Decodable {
+    // MARK: - In work API `content.getComments`
+    public let body: ResponseAPIContentGetCommentContentBody
+}
+
+
+// MARK: -
+public struct ResponseAPIContentGetCommentContentBody: Decodable {
+    // MARK: - In work API `content.getComments`
+    public let preview: String
+    public let full: String
+}
+
+
+// MARK: -
+public struct ResponseAPIContentGetCommentVotes: Decodable {
+    // MARK: - In work API `content.getComments`
+    public let hasUpVote: Bool
+    public let hasDownVote: Bool
+}
+
+
+// MARK: -
+public struct ResponseAPIContentGetCommentPayout: Decodable {
+    // MARK: - In work API `content.getComments`
+    public let rShares: UInt64
+}
+
+
+// MARK: -
+public struct ResponseAPIContentGetCommentContentId: Decodable {
+    // MARK: - In work API `content.getComments`
+    public let userId: String
+    public let permlink: String
+    public let refBlockNum: UInt64
+}
+
+
+// MARK: -
+public struct ResponseAPIContentGetCommentMeta: Decodable {
+    // MARK: - In work API `content.getComments`
+    public let time: String
+}
+
+
+// MARK: -
+public struct ResponseAPIContentGetCommentAuthor: Decodable {
+    // MARK: - In work API `content.getComments`
+    public let userId: String
+    public let username: String
+}
+
+
+// MARK: -
+public struct ResponseAPIContentGetCommentParent: Decodable {
+    // MARK: - In work API `content.getComments`
+    public let userId: ResponseAPIContentGetCommentParentPost?
+    public let username: ResponseAPIContentGetCommentParentComment?
+}
+
+
+// MARK: -
+public struct ResponseAPIContentGetCommentParentPost: Decodable {
+    // MARK: - In work API `content.getComments`
+    public let userId: ResponseAPIContentGetCommentParentPostContent
+    public let username: ResponseAPIContentGetCommentParentPostCommunity
+}
+
+
+// MARK: -
+public struct ResponseAPIContentGetCommentParentPostContent: Decodable {
+    // MARK: - In work API `content.getComments`
+    public let title: String
+}
+
+
+// MARK: -
+public struct ResponseAPIContentGetCommentParentPostCommunity: Decodable {
+    // MARK: - In work API `content.getComments`
+    public let id: String
+    public let name: String
+    public let avatarUrl: String?
+}
+
+
+// MARK: -
+public struct ResponseAPIContentGetCommentParentComment: Decodable {
+    // MARK: - In work API `content.getComments`
+    public let contentId: String?
+}
