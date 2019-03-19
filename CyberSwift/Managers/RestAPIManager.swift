@@ -62,7 +62,7 @@ public class RestAPIManager {
                                                     Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
                                                     
                                                     guard let result = (responseAPIResult as! ResponseAPIContentGetFeedResult).result else {
-                                                        completion(nil, ErrorAPI.requestFailed(message: "API \'content.getFeed\' have error: \((responseAPIResult as! ResponseAPIContentGetProfileResult).error!.message)"))
+                                                        completion(nil, ErrorAPI.requestFailed(message: "API \'content.getFeed\' have error: \((responseAPIResult as! ResponseAPIContentGetFeedResult).error!.message)"))
                                                         return
                                                     }
                                                     
@@ -92,7 +92,7 @@ public class RestAPIManager {
                                                     Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
                                                     
                                                     guard let result = (responseAPIResult as! ResponseAPIContentGetPostResult).result else {
-                                                        completion(nil, ErrorAPI.requestFailed(message: "API \'content.getPost\' have error: \((responseAPIResult as! ResponseAPIContentGetProfileResult).error!.message)"))
+                                                        completion(nil, ErrorAPI.requestFailed(message: "API \'content.getPost\' have error: \((responseAPIResult as! ResponseAPIContentGetPostResult).error!.message)"))
                                                         return
                                                     }
                                                     
@@ -113,7 +113,7 @@ public class RestAPIManager {
     
     
     /// API `content.getComments` by user
-    public func loadUserComments(nickName: String = Config.currentUser.nickName, sortMode: CommentSortMode = .time, paginationLimit: Int8 = Config.paginationLimit, paginationSequenceKey: String? = nil, completion: @escaping (ResponseAPIContentGetPost?, ErrorAPI?) -> Void) {
+    public func loadUserComments(nickName: String = Config.currentUser.nickName, sortMode: CommentSortMode = .time, paginationLimit: Int8 = Config.paginationLimit, paginationSequenceKey: String? = nil, completion: @escaping (ResponseAPIContentGetComments?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             let methodAPIType = MethodAPIType.getUserComments(nickName: nickName, sortMode: sortMode, paginationLimit: paginationLimit, paginationSequenceKey: paginationSequenceKey)
             
@@ -121,8 +121,8 @@ public class RestAPIManager {
                                                  onResult:          { responseAPIResult in
                                                     Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
                                                     
-                                                    guard let result = (responseAPIResult as! ResponseAPIContentGetPostResult).result else {
-                                                        completion(nil, ErrorAPI.requestFailed(message: "API user \'content.getComments\' have error: \((responseAPIResult as! ResponseAPIContentGetProfileResult).error!.message)"))
+                                                    guard let result = (responseAPIResult as! ResponseAPIContentGetCommentsResult).result else {
+                                                        completion(nil, ErrorAPI.requestFailed(message: "API user \'content.getComments\' have error: \((responseAPIResult as! ResponseAPIContentGetCommentsResult).error!.message)"))
                                                         return
                                                     }
                                                     
