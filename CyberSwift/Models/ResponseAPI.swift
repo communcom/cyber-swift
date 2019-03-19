@@ -257,7 +257,7 @@ public struct ResponseAPIContentGetComment: Decodable {
     public let contentId: ResponseAPIContentGetCommentContentId
     public let meta: ResponseAPIContentGetCommentMeta
     public let author: ResponseAPIContentGetCommentAuthor?
-    public let community: ResponseAPIContentGetCommentParent
+    public let parent: ResponseAPIContentGetCommentParent
 }
 
 
@@ -318,16 +318,16 @@ public struct ResponseAPIContentGetCommentAuthor: Decodable {
 // MARK: -
 public struct ResponseAPIContentGetCommentParent: Decodable {
     // MARK: - In work API `content.getComments`
-    public let userId: ResponseAPIContentGetCommentParentPost?
-    public let username: ResponseAPIContentGetCommentParentComment?
+    public let post: ResponseAPIContentGetCommentParentPost?
+    public let comment: ResponseAPIContentGetCommentParentComment?
 }
 
 
 // MARK: -
 public struct ResponseAPIContentGetCommentParentPost: Decodable {
     // MARK: - In work API `content.getComments`
-    public let userId: ResponseAPIContentGetCommentParentPostContent
-    public let username: ResponseAPIContentGetCommentParentPostCommunity
+    public let content: ResponseAPIContentGetCommentParentPostContent
+    public let community: ResponseAPIContentGetCommentParentPostCommunity
 }
 
 
@@ -350,5 +350,5 @@ public struct ResponseAPIContentGetCommentParentPostCommunity: Decodable {
 // MARK: -
 public struct ResponseAPIContentGetCommentParentComment: Decodable {
     // MARK: - In work API `content.getComments`
-    public let contentId: String?
+    public let contentId: ResponseAPIContentGetCommentContentId?
 }
