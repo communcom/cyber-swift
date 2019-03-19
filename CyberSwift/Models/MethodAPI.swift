@@ -1,0 +1,105 @@
+//
+//  MethodAPI.swift
+//  CyberSwift
+//
+//  Created by msm72 on 12.04.2018.
+//  Copyright © 2018 Golos.io. All rights reserved.
+//
+//  This enum use for GET Requests
+//
+//  https://github.com/GolosChain/facade-service/tree/develop
+//
+
+import Foundation
+
+/// Type of request parameters
+typealias RequestMethodParameters   =   (methodAPIType: MethodAPIType, methodGroup: String, methodName: String, parameters: [String: String])
+
+public enum MethodAPIGroup: String {
+    case offline            =   "offline"
+    case options            =   "options"
+    case onlineNotify       =   "onlineNotify"
+    case push               =   "push"
+    case notify             =   "notify"
+    case favorites          =   "favorites"
+    case meta               =   "meta"
+    case frame              =   "frame"
+    case registration       =   "registration"
+    case rates              =   "rates"
+    case content            =   "content"
+}
+
+public enum FeedTypeMode: String {
+    case community          =   "community"
+    case subscriptions      =   "subscriptions"
+    case byUser             =   "byUser"
+}
+
+public enum FeedTimeFrameMode: String {
+    case day                =   "day"
+    case week               =   "week"
+    case month              =   "month"
+    case year               =   "year"
+    case all                =   "all"
+    case wilsonHot          =   "WilsonHot"
+    case wilsonTrending     =   "WilsonTrending"
+}
+
+public enum FeedSortMode: String {
+    case time               =   "time"
+    case timeDesc           =   "timeDesc"
+    case popular            =   "popular"
+}
+
+public indirect enum MethodAPIType {
+    /// Getting a user profile
+    case getProfile(nickNames: String)
+    
+    /// Getting tape posts
+    case getFeed(typeMode: FeedTypeMode, userID: String?, communityID: String?, timeFrameMode: FeedTimeFrameMode, sortMode: FeedSortMode, paginationLimit: Int8, paginationSequenceKey: String?)
+    
+    /// Getting selected post
+    case getPost(userID: String, permlink: String, refBlockNum: UInt64)
+    
+    
+    /// This method return request parameters from selected enum case.
+    func introduced() -> RequestMethodParameters {
+        switch self {
+        /// Template { "id": 2, "jsonrpc": "2.0", "method": "content.getProfile", "params": { "userId": "tst3uuqzetwf" }}
+        case .getProfile(let userNickNameValue):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.content.rawValue,
+                     methodName:        "getProfile",
+                     parameters:        ["userId": userNickNameValue])
+            
+        /// Template { "id": 2, "jsonrpc": "2.0", "method": "content.getProfile", "params": { "type": "community", "timeframe": "day", "sortBy": "popular", "limit": 20, "userId": "tst3uuqzetwf", "communityId": "gls" }}
+        case .getFeed(let typeModeValue, let userIDValue, let communityIDValue, let timeFrameModeValue, let sortModeValue, let paginationLimitValue, let paginationSequenceKeyValue):
+            var parameters: [String: String] = ["type": typeModeValue.rawValue, "timeframe": timeFrameModeValue.rawValue, "sortBy": sortModeValue.rawValue, "limit": "\(paginationLimitValue)"]
+            
+            if let userIDValue = userIDValue {
+                parameters["userId"] = userIDValue
+            }
+            
+            if let communityIDValue = communityIDValue {
+                parameters["communityId"] = communityIDValue
+            }
+            
+            if let paginationSequenceKeyValue = paginationSequenceKeyValue {
+                parameters["sequenceKey"] = paginationSequenceKeyValue
+            }
+            
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.content.rawValue,
+                     methodName:        "getFeed",
+                     parameters:        parameters)
+            
+        /// Template { "id": 64, "jsonrpc": "2.0", "method": "content.getProfile", "params": { "userId": "tst2nbduouxh", "permlink": "hephaestusfightswithantigoneagainststyx", "refBlockNum": 381607 }}
+        case .getPost(let userNickNameValue, let permlinkValue, let refBlockNumValue):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.content.rawValue,
+                     methodName:        "getPost",
+                     parameters:        ["userId": userNickNameValue, "permlink": permlinkValue, "refBlockNum": "\(refBlockNumValue)"])
+            
+        } // switch
+    }
+}
