@@ -8,6 +8,33 @@
 
 import Foundation
 
+/// [Multiple types](https://stackoverflow.com/questions/46759044/swift-structures-handling-multiple-types-for-a-single-property)
+public struct Conflicted: Codable {
+    public let stringValue: String?
+    
+    // Where we determine what type the value is
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        
+        do {
+            stringValue = try container.decode(String.self)
+        } catch {
+            do {
+                stringValue = "\(try container.decode(Int64.self))"
+            } catch {
+                stringValue = ""
+            }
+        }
+    }
+    
+    // We need to go back to a dynamic type, so based on the data we have stored, encode to the proper type
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(stringValue)
+    }
+}
+
+
 // MARK: -
 public struct ResponseAPIErrorResult: Decodable {
     // MARK: - In work
@@ -168,9 +195,11 @@ public struct ResponseAPIContentGetPostContentMetadata: Decodable {
 // MARK: -
 public struct ResponseAPIContentGetPostContentMetadataEmbed: Decodable {
     // MARK: - In work API `content.getFeed`
-    public let url: String
+    public let url: String?
     public let result: ResponseAPIContentGetPostContentMetadataEmbedResult?
-    public let id: String?
+    public let id: Conflicted
+    public let html: String?
+    public let type: String?
 }
 
 
@@ -219,7 +248,7 @@ public struct ResponseAPIContentGetPostStatsWilson: Decodable {
 // MARK: -
 public struct ResponseAPIContentGetPostPayout: Decodable {
     // MARK: - In work API `content.getFeed`
-    public let rShares: UInt64
+    public let rShares: Conflicted
 }
 
 
