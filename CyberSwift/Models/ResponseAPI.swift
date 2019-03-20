@@ -197,7 +197,7 @@ public struct ResponseAPIContentGetPostContentMetadataEmbed: Decodable {
     // MARK: - In work API `content.getFeed`
     public let url: String?
     public let result: ResponseAPIContentGetPostContentMetadataEmbedResult?
-    public let id: String // Conflicted
+    public let id: Conflicted
     public let html: String?
     public let type: String?
 }
