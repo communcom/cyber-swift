@@ -122,7 +122,7 @@ extension Broadcast {
         let requestMethodAPIType = self.prepareGETRequest(methodAPIType: methodAPIType)
         
         guard requestMethodAPIType.errorAPI == nil else {
-            onError(ErrorAPI.requestFailed(message: "Broadcast, line 352: \(requestMethodAPIType.errorAPI!.localizedDescription)"))
+            onError(ErrorAPI.requestFailed(message: "Broadcast, line \(#line): \(requestMethodAPIType.errorAPI!)"))
             return
         }
         
@@ -135,7 +135,7 @@ extension Broadcast {
             }
                 
             else {
-                onError(ErrorAPI.responseUnsuccessful(message: "Broadcast, line 365: \(requestMethodAPIType.errorAPI!.localizedDescription)"))
+                onError(ErrorAPI.responseUnsuccessful(message: "Broadcast, line \(#line): \(requestMethodAPIType.errorAPI!)"))
             }
         })
     }

@@ -197,7 +197,7 @@ public struct ResponseAPIContentGetPostContentMetadataEmbed: Decodable {
     // MARK: - In work API `content.getFeed`
     public let url: String?
     public let result: ResponseAPIContentGetPostContentMetadataEmbedResult?
-    public let id: Conflicted
+    public let id: String // Conflicted
     public let html: String?
     public let type: String?
 }
@@ -346,8 +346,8 @@ public struct ResponseAPIContentGetCommentContentBody: Decodable {
 // MARK: -
 public struct ResponseAPIContentGetCommentVotes: Decodable {
     // MARK: - In work API `content.getComments`
-    public let upCount: UInt64
-    public let downCount: UInt64
+    public let upCount: UInt64?
+    public let downCount: UInt64?
     public let hasUpVote: Bool
     public let hasDownVote: Bool
 }
