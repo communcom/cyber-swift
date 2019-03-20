@@ -10,8 +10,8 @@ import Foundation
 public class RestAPIManager {
     // MARK: - Properties
     public static let instance = RestAPIManager()
-
-
+    
+    
     // MARK: - Class Initialization
     private init() {}
     
@@ -30,12 +30,12 @@ public class RestAPIManager {
             Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                                  onResult:          { responseAPIResult in
                                                     Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
-                                    
+                                                    
                                                     guard (responseAPIResult as! ResponseAPIContentGetProfileResult).result == nil else {
                                                         completion(ErrorAPI.requestFailed(message: "User \(nickName) profile is not found."))
                                                         return
                                                     }
-                                                                                                        
+                                                    
                                                     completion(nil)
             },
                                                  onError: { errorAPI in
@@ -123,6 +123,41 @@ public class RestAPIManager {
                                                     
                                                     guard let result = (responseAPIResult as! ResponseAPIContentGetCommentsResult).result else {
                                                         completion(nil, ErrorAPI.requestFailed(message: "API user \'content.getComments\' have error: \((responseAPIResult as! ResponseAPIContentGetCommentsResult).error!.message)"))
+                                                        return
+                                                    }
+                                                    
+                                                    completion(result, nil)
+            },
+                                                 onError: { errorAPI in
+                                                    Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
+                                                    
+                                                    completion(nil, errorAPI)
+            })
+        }
+            
+        // Offline mode
+        else {
+            completion(nil, ErrorAPI.disableInternetConnection())
+        }
+    }
+    
+    
+    /// API `content.getComments` by post
+    public func loadPostComments(nickName: String = Config.currentUser.nickName, permlink: String, refBlockNum: UInt64, sortMode: CommentSortMode = .time, paginationLimit: Int8 = Config.paginationLimit, paginationSequenceKey: String? = nil, completion: @escaping (ResponseAPIContentGetComments?, ErrorAPI?) -> Void) {
+        if Config.isNetworkAvailable {
+            let methodAPIType = MethodAPIType.getPostComments(userNickName:             nickName,
+                                                              permlink:                 permlink,
+                                                              refBlockNum:              refBlockNum,
+                                                              sortMode:                 sortMode,
+                                                              paginationLimit:          paginationLimit,
+                                                              paginationSequenceKey:    paginationSequenceKey)
+            
+            Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                                 onResult:          { responseAPIResult in
+                                                    Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
+                                                    
+                                                    guard let result = (responseAPIResult as! ResponseAPIContentGetCommentsResult).result else {
+                                                        completion(nil, ErrorAPI.requestFailed(message: "API post \'content.getComments\' have error: \((responseAPIResult as! ResponseAPIContentGetCommentsResult).error!.message)"))
                                                         return
                                                     }
                                                     

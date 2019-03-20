@@ -76,7 +76,7 @@ public indirect enum MethodAPIType {
     case getUserComments(nickName: String, sortMode: CommentSortMode, paginationLimit: Int8, paginationSequenceKey: String?)
     
     /// Getting post comments feed
-    case getPostComments(userNickName: String, permlink: String, refBlockNum: UInt64, timeFrameMode: FeedTimeFrameMode, sortMode: CommentSortMode, paginationLimit: Int8, paginationSequenceKey: String?)
+    case getPostComments(userNickName: String, permlink: String, refBlockNum: UInt64, sortMode: CommentSortMode, paginationLimit: Int8, paginationSequenceKey: String?)
     
     
     /// This method return request parameters from selected enum case.
@@ -130,9 +130,9 @@ public indirect enum MethodAPIType {
                      methodName:        "getComments",
                      parameters:        parameters)
             
-        /// Template { "id": 5, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "user", "userId": "tst2nbduouxh" }}
-        case .getPostComments(let userNickNameValue, let permlinkValue, let refBlockNumValue, let timeFrameModeValue, let sortModeValue, let paginationLimitValue, let paginationSequenceKeyValue):
-            var parameters: [String: String] = ["type": "post", "userId": userNickNameValue, "permlink": permlinkValue, "refBlockNum": "\(refBlockNumValue)", "timeframe": timeFrameModeValue.rawValue, "sortBy": sortModeValue.rawValue, "limit": "\(paginationLimitValue)"]
+        /// Template { "id": 5, "jsonrpc": "2.0", "method": "content.getComments", "params":{  "type: "post", "userId": "tst1xrhojmka", "sortBy": "time", "permlink":  "demeterfightswithandromedaagainstepimetheus", "refBlockNum": "520095", "limit": "20" }}
+        case .getPostComments(let userNickNameValue, let permlinkValue, let refBlockNumValue, let sortModeValue, let paginationLimitValue, let paginationSequenceKeyValue):
+            var parameters: [String: String] = ["type": "post", "userId": userNickNameValue, "permlink": permlinkValue, "refBlockNum": "\(refBlockNumValue)", "sortBy": sortModeValue.rawValue, "limit": "\(paginationLimitValue)"]
             
             if let paginationSequenceKeyValue = paginationSequenceKeyValue {
                 parameters["sequenceKey"] = paginationSequenceKeyValue
