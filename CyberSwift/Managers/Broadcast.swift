@@ -135,7 +135,7 @@ extension Broadcast {
             }
                 
             else {
-                onError(ErrorAPI.responseUnsuccessful(message: "Broadcast, line \(#line): \(requestMethodAPIType.errorAPI!)"))
+                onError(ErrorAPI.responseUnsuccessful(message: "Broadcast, line \(#line): \(responseAPIType.errorAPI!)"))
             }
         })
     }
