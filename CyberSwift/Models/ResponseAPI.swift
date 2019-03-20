@@ -142,6 +142,7 @@ public struct ResponseAPIContentGetPostContent: Decodable {
     // MARK: - In work API `content.getFeed`
     public let body: ResponseAPIContentGetPostContentBody
     public let title: String
+    public let metadata: ResponseAPIContentGetPostContentMetadata?
 }
 
 
@@ -150,9 +151,44 @@ public struct ResponseAPIContentGetPostContentBody: Decodable {
     // MARK: - In work API `content.getFeed`
     public let preview: String?
     
-    
     // MARK: - In work API `content.getPost`
     public let full: String?
+}
+
+
+// MARK: -
+public struct ResponseAPIContentGetPostContentMetadata: Decodable {
+    // MARK: - In work API `content.getFeed`
+    public let embeds: [ResponseAPIContentGetPostContentMetadataEmbed]?
+    
+    // MARK: - In work API `content.getPost`
+}
+
+
+// MARK: -
+public struct ResponseAPIContentGetPostContentMetadataEmbed: Decodable {
+    // MARK: - In work API `content.getFeed`
+    public let url: String
+    public let result: ResponseAPIContentGetPostContentMetadataEmbedResult
+    public let id: String
+}
+
+
+// MARK: -
+public struct ResponseAPIContentGetPostContentMetadataEmbedResult: Decodable {
+    // MARK: - In work API `content.getFeed`
+    public let type: String
+    public let version: String
+    public let title: String
+    public let url: String
+    public let author: String
+    public let author_url: String
+    public let provider_name: String
+    public let description: String
+    public let thumbnail_url: String
+    public let thumbnail_width: UInt16
+    public let thumbnail_height: UInt16
+    public let html: String
 }
 
 
