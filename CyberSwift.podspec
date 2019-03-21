@@ -14,6 +14,8 @@ Pod::Spec.new do |spec|
     spec.source             =   { :git => "https://github.com/GolosChain/cyber-ios.git", :tag => "#{spec.version}" }
 
     # Cocoapods
+    spec.dependency 'eosswift', '~> 1.5'
+    spec.dependency 'RxBlocking', '~> 4.0'
     spec.dependency 'Starscream', '~> 3.0'
     spec.dependency 'Localize-Swift', '~> 2.0'
 

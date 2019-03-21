@@ -129,6 +129,9 @@ public class WebSocketManager {
                 
             case .getProfile(_):
                 return (responseAPI: try JSONDecoder().decode(ResponseAPIContentGetProfileResult.self, from: jsonData), errorAPI: nil)
+
+            case .authorize():
+                return (responseAPI: try JSONDecoder().decode(ResponseAPIContentGetProfileResult.self, from: jsonData), errorAPI: nil)
             }
         } catch {
             Logger.log(message: "\(error)", event: .error)

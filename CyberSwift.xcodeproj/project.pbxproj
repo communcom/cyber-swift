@@ -13,6 +13,8 @@
 		B18EBB32223F8F8800F52D3C /* CyberSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = B18EBB30223F8F8800F52D3C /* CyberSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B19D9638223F913900557F5A /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = B19D9637223F913900557F5A /* LICENSE.md */; };
 		B19D963A223F914100557F5A /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = B19D9639223F914100557F5A /* README.md */; };
+		B1A74A642243892B009D68E7 /* EOSTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A74A632243892B009D68E7 /* EOSTransaction.swift */; };
+		B1A74A662243893A009D68E7 /* EOSManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A74A652243893A009D68E7 /* EOSManager.swift */; };
 		B1C3F857223F98B1005711EF /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3F854223F98B1005711EF /* Date+Extensions.swift */; };
 		B1C3F858223F98B1005711EF /* ConstantsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3F855223F98B1005711EF /* ConstantsApp.swift */; };
 		B1C3F859223F98B1005711EF /* Encodable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3F856223F98B1005711EF /* Encodable+Extensions.swift */; };
@@ -37,6 +39,8 @@
 		B18EBB31223F8F8800F52D3C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B19D9637223F913900557F5A /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
 		B19D9639223F914100557F5A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		B1A74A632243892B009D68E7 /* EOSTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EOSTransaction.swift; sourceTree = "<group>"; };
+		B1A74A652243893A009D68E7 /* EOSManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EOSManager.swift; sourceTree = "<group>"; };
 		B1C3F854223F98B1005711EF /* Date+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		B1C3F855223F98B1005711EF /* ConstantsApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstantsApp.swift; sourceTree = "<group>"; };
 		B1C3F856223F98B1005711EF /* Encodable+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Encodable+Extensions.swift"; sourceTree = "<group>"; };
@@ -138,6 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				B1C3F85C223F98DC005711EF /* Broadcast.swift */,
+				B1A74A652243893A009D68E7 /* EOSManager.swift */,
 				B1C3F85D223F98DC005711EF /* Logger.swift */,
 				B1C3F85B223F98DC005711EF /* ReachabilityManager.swift */,
 				B1677C65223F9BD7005FB286 /* RestAPIManager.swift */,
@@ -149,6 +154,7 @@
 		B1C3F863223F98F4005711EF /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B1A74A632243892B009D68E7 /* EOSTransaction.swift */,
 				B1C3F865223F9906005711EF /* ErrorAPI.swift */,
 				B1C3F867223F9907005711EF /* MethodAPI.swift */,
 				B1C3F864223F9906005711EF /* RequestAPI.swift */,
@@ -274,8 +280,10 @@
 				B1C3F86B223F9907005711EF /* MethodAPI.swift in Sources */,
 				B1C3F857223F98B1005711EF /* Date+Extensions.swift in Sources */,
 				B1C3F859223F98B1005711EF /* Encodable+Extensions.swift in Sources */,
+				B1A74A662243893A009D68E7 /* EOSManager.swift in Sources */,
 				B1C3F858223F98B1005711EF /* ConstantsApp.swift in Sources */,
 				B1C3F860223F98DC005711EF /* Broadcast.swift in Sources */,
+				B1A74A642243892B009D68E7 /* EOSTransaction.swift in Sources */,
 				B1C3F868223F9907005711EF /* RequestAPI.swift in Sources */,
 				B1677C66223F9BD7005FB286 /* RestAPIManager.swift in Sources */,
 				B1C3F862223F98DC005711EF /* WebSocketManager.swift in Sources */,
@@ -350,7 +358,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -409,7 +417,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

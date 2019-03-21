@@ -8,6 +8,7 @@
 //  This enum use for GET Requests
 //
 //  https://github.com/GolosChain/facade-service/tree/develop
+//  https://github.com/GolosChain/api-documentation
 //
 
 import Foundation
@@ -27,6 +28,7 @@ public enum MethodAPIGroup: String {
     case registration       =   "registration"
     case rates              =   "rates"
     case content            =   "content"
+    case auth               =   "auth"
 }
 
 public enum FeedTypeMode: String {
@@ -77,6 +79,9 @@ public indirect enum MethodAPIType {
     
     /// Getting post comments feed
     case getPostComments(userNickName: String, permlink: String, refBlockNum: UInt64, sortMode: CommentSortMode, paginationLimit: Int8, paginationSequenceKey: String?)
+    
+    /// Log in
+    case authorize()
     
     
     /// This method return request parameters from selected enum case.
@@ -130,7 +135,7 @@ public indirect enum MethodAPIType {
                      methodName:        "getComments",
                      parameters:        parameters)
             
-        /// Template { "id": 5, "jsonrpc": "2.0", "method": "content.getComments", "params":{  "type: "post", "userId": "tst1xrhojmka", "sortBy": "time", "permlink":  "demeterfightswithandromedaagainstepimetheus", "refBlockNum": "520095", "limit": "20" }}
+        /// Template { "id": 5, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "post", "userId": "tst1xrhojmka", "sortBy": "time", "permlink":  "demeterfightswithandromedaagainstepimetheus", "refBlockNum": "520095", "limit": "20" }}
         case .getPostComments(let userNickNameValue, let permlinkValue, let refBlockNumValue, let sortModeValue, let paginationLimitValue, let paginationSequenceKeyValue):
             var parameters: [String: String] = ["type": "post", "userId": userNickNameValue, "permlink": permlinkValue, "refBlockNum": "\(refBlockNumValue)", "sortBy": sortModeValue.rawValue, "limit": "\(paginationLimitValue)"]
             
@@ -142,6 +147,14 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getComments",
                      parameters:        parameters)
+            
+        /// Template { "id": 6, "jsonrpc": "2.0", "method": "auth.authorize", "params": { "user": "tst1xrhojmka", "sign": "Cyberway" }}
+        case .authorize():
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.auth.rawValue,
+                     methodName:        "authorize",
+                     parameters:        ["user": Config.currentUser.nickName, "sign": Config.webSocketSecretKey])
+            
         } // switch
     }
 }
