@@ -21,6 +21,7 @@ public struct Config {
 
     /// Websocket
     static public var webSocket                         =   WebSocket(url: URL(string: "ws://116.203.98.241:8080")!)
+    static public var webSocketSecretKey: String        =   "Cyberway"
 
     public static var currentUser                       =   (nickName: Config.accountNickDestroyer2k, activeKey: Config.activeKeyDestroyer2k)
     public static var currentVoter                      =   (nickName: Config.accountNickTest, activeKey: Config.activeKeyTest)
