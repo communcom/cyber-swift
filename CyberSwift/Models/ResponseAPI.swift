@@ -424,3 +424,29 @@ public struct ResponseAPIContentGetCommentParentComment: Decodable {
     // MARK: - In work API `content.getComments`
     public let contentId: ResponseAPIContentGetCommentContentId?
 }
+
+
+// MARK: -
+public struct ResponseAPIAuthAuthorizeResult: Decodable {
+    // MARK: - In work API `auth.authorize`
+    public let id: Int64
+    public let jsonrpc: String
+    public let result: ResponseAPIAuthAuthorize?
+    public let error: ResponseAPIError?
+}
+
+
+// MARK: -
+public struct ResponseAPIAuthAuthorize: Decodable {
+    // MARK: - In work API `auth.authorize`
+    public let user: String
+    public let roles: [ResponseAPIAuthAuthorizeRole]?
+    public let permission: String
+}
+
+
+// MARK: -
+public struct ResponseAPIAuthAuthorizeRole: Decodable {
+    // MARK: - In work API `auth.authorize`
+//    public let title: String?
+}

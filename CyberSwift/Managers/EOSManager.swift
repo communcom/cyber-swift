@@ -124,6 +124,19 @@ class EOSManager {
         }
     }
     
+    static func signWebSocketSecretKey() -> String? {
+        do {
+            let privateKey = try EOSPrivateKey.init(base58: Config.currentUser.activeKey)
+            
+            let signature = PrivateKeySigning().sign(digest:            Config.webSocketSecretKey.data(using: .utf8)!,
+                                                     eosPrivateKey:     privateKey)
+            
+            return signature
+        } catch {
+            return nil
+        }
+    }
+    
     static func publish(message: String, headline: String = "", parentData: ParentData? = nil, tags: [EOSTransaction.Tags] = [EOSTransaction.Tags()], completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         EOSManager.getChainInfo(completion: { (info, error) in
             guard error == nil else {

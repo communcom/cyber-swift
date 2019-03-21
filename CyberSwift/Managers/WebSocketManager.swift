@@ -92,6 +92,16 @@ public class WebSocketManager {
         guard let id = json["id"] as? Int else {
             if let params = json["params"] as? Dictionary<String, String>, let paramsSecret = params["secret"] {
                 Config.webSocketSecretKey = paramsSecret
+
+                // Sign webSocket secret key
+                RestAPIManager.instance.authorize(completion: { (authAuthorize, errorAPI) in
+                    guard errorAPI == nil else {
+                        Logger.log(message: errorAPI!.caseInfo.message.localized(), event: .error)
+                        return
+                    }
+                    
+                    Logger.log(message: authAuthorize!.permission, event: .debug)
+                })
             }
             
             if let method = json["method"] as? String, method == "sign" {

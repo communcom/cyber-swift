@@ -22,6 +22,36 @@ public class RestAPIManager {
     
     // MARK: - Class Functions
     
+    /// API `auth.authorize`
+    public func authorize(completion: @escaping (ResponseAPIAuthAuthorize?, ErrorAPI?) -> Void) {
+        if Config.isNetworkAvailable {
+            let methodAPIType = MethodAPIType.authorize()
+            
+            Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                                 onResult:          { responseAPIResult in
+                                                    Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
+                                                    
+                                                    guard let result = (responseAPIResult as! ResponseAPIAuthAuthorizeResult).result else {
+                                                        completion(nil, ErrorAPI.requestFailed(message: "API \'auth.authorize\' have error: \((responseAPIResult as! ResponseAPIAuthAuthorizeResult).error!.message)"))
+                                                        return
+                                                    }
+                                                    
+                                                    completion(result, nil)
+            },
+                                                 onError: { errorAPI in
+                                                    Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
+                                                    
+                                                    completion(nil, errorAPI)
+            })
+        }
+            
+        // Offline mode
+        else {
+            completion(nil, ErrorAPI.disableInternetConnection())
+        }
+    }
+    
+    
     /// API `content.getProfile`
     public func loadUserProfile(byNickName nickName: String, completion: @escaping (ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {

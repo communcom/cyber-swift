@@ -153,7 +153,7 @@ public indirect enum MethodAPIType {
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.auth.rawValue,
                      methodName:        "authorize",
-                     parameters:        ["user": Config.currentUser.nickName, "sign": Config.webSocketSecretKey])
+                     parameters:        ["user": Config.currentUser.nickName, "secret": Config.webSocketSecretKey, "sign": EOSManager.signWebSocketSecretKey() ?? "Cyberway"])
             
         } // switch
     }
