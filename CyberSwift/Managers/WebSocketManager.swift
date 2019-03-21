@@ -90,10 +90,15 @@ public class WebSocketManager {
         Logger.log(message: json.description, event: .debug)
 
         guard let id = json["id"] as? Int else {
+            if let params = json["params"] as? Dictionary<String, String>, let parameterSecret = params["secret"] {
+                UserDefaults.standard.set(parameterSecret, forKey: Config.secretKey)
+                UserDefaults.standard.synchronize()
+            }
+            
             if let method = json["method"] as? String, method == "sign" {
                 self.completionIsConnected!()
             }
-            
+
             return
         }
         
