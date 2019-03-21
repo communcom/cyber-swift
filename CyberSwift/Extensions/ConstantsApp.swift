@@ -56,4 +56,8 @@ public struct Config {
             return ReachabilityManager.connection()
         }
     }
+    
+    
+    /// Keys
+    static let secretKey: String                        =   "secretKey"
 }
