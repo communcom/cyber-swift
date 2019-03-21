@@ -11,6 +11,7 @@ target 'CyberSwift' do
   pod 'Localize-Swift', '~> 2.0'
   
   # Websockets in swift for iOS and OSX
-  pod 'Starscream', '~> 3.0'
+  #  pod 'Starscream', '~> 3.0'
+  pod 'RxStarscream'
   
 end
