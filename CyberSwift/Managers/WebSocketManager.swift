@@ -9,14 +9,15 @@
 import Foundation
 import Starscream
 
+var webSocket = WebSocket(url: URL(string: "ws://116.203.98.241:8080")!)
+
 public class WebSocketManager {
     // MARK: - Properties
-    public static let instance          =   WebSocketManager()
-//    public var webSocket: WebSocket     =   Config.webSocket
-
+    public static let instance = WebSocketManager()
+    
     private var errorAPI: ErrorAPI?
     
-    private var requestMethodsAPIStore  =   [Int: RequestMethodAPIStore]()
+    private var requestMethodsAPIStore = [Int: RequestMethodAPIStore]()
     
     // Handlers
     public var completionIsConnected: (() -> Void)?
@@ -34,48 +35,59 @@ public class WebSocketManager {
     public func connect() {
         Logger.log(message: "Success", event: .severe)
         
-        if Config.webSocket.isConnected { return }
+        if webSocket.isConnected { return }
         
-        Config.webSocket.connect()
+        webSocket.connect()
+        webSocket.delegate = WebSocketManager.instance
+        
+        WebSocketManager.instance.completionIsConnected = {
+            guard self.requestMethodsAPIStore.count > 0 else {
+                return
+            }
+            
+//            for requestMethodAPIStore in self.requestMethodsAPIStore {
+//                self.sendMessage(requestMethodAPIStore.value)
+//            }
+        }
     }
     
     public func disconnect() {
         Logger.log(message: "Success", event: .severe)
         
-        guard Config.webSocket.isConnected else { return }
+        guard webSocket.isConnected else { return }
         
         if let requestMethodAPIStore = self.requestMethodsAPIStore.first?.value {
             requestMethodAPIStore.completion((responseAPI: nil, errorAPI: ErrorAPI.responseUnsuccessful(message: "No Internet Connection")))
             self.requestMethodsAPIStore = [Int: RequestMethodAPIStore]()
         }
         
-        Config.webSocket.disconnect()
+        webSocket.disconnect()
     }
     
     public func sendMessage(_ message: String) {
         Logger.log(message: "\nrequestMessage = \n\t\(message)", event: .debug)
         
-        Config.webSocket.write(string: message)
+        webSocket.write(string: message)
     }
     
     
     /// Send content request message
     public func sendRequest(methodAPIType: RequestMethodAPIType, completion: @escaping (ResponseAPIType) -> Void) {
-        if Config.webSocket.isConnected {
+        if webSocket.isConnected {
             self.sendMessage(methodAPIType.requestMessage!)
         }
-        
+            
         else {
-            Config.webSocket.connect()
+            webSocket.connect()
             
             WebSocketManager.instance.completionIsConnected     =   {
                 self.sendMessage(methodAPIType.requestMessage!)
             }
         }
-
+        
         self.requestMethodsAPIStore[methodAPIType.id] = RequestMethodAPIStore(methodAPIType: methodAPIType.methodAPIType, completion: completion)
     }
-
+    
     
     /**
      Checks `JSON` for an error.
@@ -88,33 +100,23 @@ public class WebSocketManager {
      */
     private func validate(json: [String: Any], completion: @escaping (_ codeID: Int, _ hasError: Bool) -> Void) {
         Logger.log(message: json.description, event: .debug)
-
+        
         guard let id = json["id"] as? Int else {
             if let params = json["params"] as? Dictionary<String, String>, let paramsSecret = params["secret"] {
                 Config.webSocketSecretKey = paramsSecret
-
-                // Sign webSocket secret key
-                RestAPIManager.instance.authorize(completion: { (authAuthorize, errorAPI) in
-                    guard errorAPI == nil else {
-                        Logger.log(message: errorAPI!.caseInfo.message.localized(), event: .error)
-                        return
-                    }
-                    
-                    Logger.log(message: authAuthorize!.permission, event: .debug)
-                })
             }
             
             if let method = json["method"] as? String, method == "sign" {
                 self.completionIsConnected!()
             }
-
+            
             return
         }
         
         completion(id, json["error"] != nil)
     }
     
-
+    
     /**
      Decode blockchain response.
      
@@ -139,7 +141,7 @@ public class WebSocketManager {
                 
             case .getProfile(_):
                 return (responseAPI: try JSONDecoder().decode(ResponseAPIContentGetProfileResult.self, from: jsonData), errorAPI: nil)
-
+                
             case .authorize():
                 return (responseAPI: try JSONDecoder().decode(ResponseAPIAuthAuthorizeResult.self, from: jsonData), errorAPI: nil)
             }
