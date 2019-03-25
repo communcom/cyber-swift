@@ -25,14 +25,58 @@ public class RestAPIManager {
     /// API `auth.authorize`
     public func authorize(completion: @escaping (ResponseAPIAuthAuthorize?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
-            let methodAPIType = MethodAPIType.authorize()
+            RestAPIManager.instance.generateSecret(completion: { (generatedSecret, errorAPI) in
+                guard errorAPI == nil else {
+                    Logger.log(message: errorAPI!.caseInfo.message.localized(), event: .error)
+                    
+                    completion(nil, errorAPI)
+                    
+                    return
+                }
+                
+                Logger.log(message: generatedSecret!.secret, event: .debug)
+                
+                Config.webSocketSecretKey = generatedSecret!.secret
+                
+                let methodAPIType = MethodAPIType.authorize()
+                
+                Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                                     onResult:          { responseAPIResult in
+                                                        Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
+                                                        
+                                                        guard let result = (responseAPIResult as! ResponseAPIAuthAuthorizeResult).result else {
+                                                            completion(nil, ErrorAPI.requestFailed(message: "API \'auth.authorize\' have error: \((responseAPIResult as! ResponseAPIAuthAuthorizeResult).error!.message)"))
+                                                            return
+                                                        }
+                                                        
+                                                        completion(result, nil)
+                },
+                                                     onError: { errorAPI in
+                                                        Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
+                                                        
+                                                        completion(nil, errorAPI)
+                })
+            })
+        }
+            
+        // Offline mode
+        else {
+            completion(nil, ErrorAPI.disableInternetConnection())
+        }
+    }
+    
+    
+    /// API `auth.generateSecret`
+    private func generateSecret(completion: @escaping (ResponseAPIAuthGenerateSecret?, ErrorAPI?) -> Void) {
+        if Config.isNetworkAvailable {
+            let methodAPIType = MethodAPIType.generateSecret()
             
             Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                                  onResult:          { responseAPIResult in
                                                     Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
                                                     
-                                                    guard let result = (responseAPIResult as! ResponseAPIAuthAuthorizeResult).result else {
-                                                        completion(nil, ErrorAPI.requestFailed(message: "API \'auth.authorize\' have error: \((responseAPIResult as! ResponseAPIAuthAuthorizeResult).error!.message)"))
+                                                    guard let result = (responseAPIResult as! ResponseAPIAuthGenerateSecretResult).result else {
+                                                        completion(nil, ErrorAPI.requestFailed(message: "API \'auth.generateSecret\' have error: \((responseAPIResult as! ResponseAPIAuthGenerateSecretResult).error!.message)"))
                                                         return
                                                     }
                                                     

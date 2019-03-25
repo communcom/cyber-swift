@@ -144,6 +144,9 @@ public class WebSocketManager {
                 
             case .authorize():
                 return (responseAPI: try JSONDecoder().decode(ResponseAPIAuthAuthorizeResult.self, from: jsonData), errorAPI: nil)
+
+            case .generateSecret():
+                return (responseAPI: try JSONDecoder().decode(ResponseAPIAuthGenerateSecretResult.self, from: jsonData), errorAPI: nil)
             }
         } catch {
             Logger.log(message: "\(error)", event: .error)

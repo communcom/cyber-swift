@@ -83,6 +83,9 @@ public indirect enum MethodAPIType {
     /// Log in
     case authorize()
     
+    /// Get the secret authorization to sign
+    case generateSecret()
+    
     
     /// This method return request parameters from selected enum case.
     func introduced() -> RequestMethodParameters {
@@ -154,6 +157,13 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.auth.rawValue,
                      methodName:        "authorize",
                      parameters:        ["user": Config.currentUser.nickName, "secret": Config.webSocketSecretKey, "sign": EOSManager.signWebSocketSecretKey() ?? "Cyberway"])
+            
+        /// Template { "id": 7, "jsonrpc": "2.0", "method": "auth.generateSecret", "params": { "": "" }}
+        case .generateSecret():
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.auth.rawValue,
+                     methodName:        "generateSecret",
+                     parameters:        ["": ""])
             
         } // switch
     }

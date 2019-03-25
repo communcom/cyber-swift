@@ -448,5 +448,22 @@ public struct ResponseAPIAuthAuthorize: Decodable {
 // MARK: -
 public struct ResponseAPIAuthAuthorizeRole: Decodable {
     // MARK: - In work API `auth.authorize`
-//    public let title: String?
+    //    public let title: String?
+}
+
+
+// MARK: -
+public struct ResponseAPIAuthGenerateSecretResult: Decodable {
+    // MARK: - In work API `auth.authorize`
+    public let id: Int64
+    public let jsonrpc: String
+    public let result: ResponseAPIAuthGenerateSecret?
+    public let error: ResponseAPIError?
+}
+
+
+// MARK: -
+public struct ResponseAPIAuthGenerateSecret: Decodable {
+    // MARK: - In work API `auth.authorize`
+    public let secret: String
 }
