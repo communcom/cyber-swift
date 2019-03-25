@@ -97,7 +97,7 @@ public class RestAPIManager {
     
     
     /// API `content.getProfile`
-    public func loadUserProfile(byNickName nickName: String, completion: @escaping (ErrorAPI?) -> Void) {
+    public func loadUserProfile(byNickName nickName: String, completion: @escaping (ResponseAPIContentGetProfile?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             let methodAPIType = MethodAPIType.getProfile(nickNames: nickName)
             
@@ -105,26 +105,26 @@ public class RestAPIManager {
                                                  onResult:          { responseAPIResult in
                                                     Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
                                                     
-                                                    guard (responseAPIResult as! ResponseAPIContentGetProfileResult).result == nil else {
-                                                        completion(ErrorAPI.requestFailed(message: "User \(nickName) profile is not found."))
+                                                    guard let profileResult = responseAPIResult as? ResponseAPIContentGetProfileResult, let result = profileResult.result else {
+                                                        completion(nil, ErrorAPI.requestFailed(message: "User \(nickName) profile is not found."))
                                                         return
                                                     }
                                                     
-                                                    completion(nil)
+                                                    completion(result, nil)
             },
                                                  onError: { errorAPI in
                                                     Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
                                                     
-                                                    completion(errorAPI)
+                                                    completion(nil, errorAPI)
             })
         }
             
         // Offline mode
         else {
-            completion(ErrorAPI.disableInternetConnection())
+            completion(nil, ErrorAPI.disableInternetConnection())
         }
     }
-    
+
     
     /// API `content.getFeed`
     public func loadFeed(typeMode: FeedTypeMode = .community, userID: String? = nil, communityID: String? = nil, timeFrameMode: FeedTimeFrameMode = .day, sortMode: FeedSortMode = .popular, paginationLimit: Int8 = Config.paginationLimit, paginationSequenceKey: String? = nil, completion: @escaping (ResponseAPIContentGetFeed?, ErrorAPI?) -> Void) {

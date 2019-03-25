@@ -94,7 +94,7 @@ public struct ResponseAPIContentGetProfileSubscriptionCommunity: Decodable {
     // MARK: - In work API `content.getProfile`
     public let id: String
     public let name: String
-    public let avatarUrl: String
+    public let avatarUrl: String?
 }
 
 
