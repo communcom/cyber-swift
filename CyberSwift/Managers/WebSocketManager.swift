@@ -163,8 +163,8 @@ extension WebSocketManager: WebSocketDelegate {
     }
     
     public func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
-        Logger.log(message: "Success", event: .severe)
-        
+        Logger.log(message: "websocketDidReceiveMessage: \n\t\(text)", event: .severe)
+
         if let jsonData = text.data(using: .utf8), let json = try? JSONSerialization.jsonObject(with: jsonData, options: .mutableLeaves) as! [String: Any] {
             // Check error
             self.validate(json: json, completion: { [weak self] (codeID, hasError) in
