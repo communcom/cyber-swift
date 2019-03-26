@@ -5,8 +5,8 @@ public protocol ChainTransaction {
     func chainApi() -> ChainApi
 }
 
-public extension ChainTransaction {
-    func push(
+extension ChainTransaction {
+    public func push(
         expirationDate: Date,
         actions: [ActionAbi],
         authorizingPrivateKey: EOSPrivateKey
