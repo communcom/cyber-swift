@@ -25,12 +25,12 @@ public class EOSPublicKey {
         if (parts.count == 1) {
             return Base58.decodeWithChecksum(base58: base58[3...base58.count-1])
         } else {
-            throw AddressFormatException.unsupportFormat()
+            throw AddressFormatException.unsupportFormat
         }
     }
 
     enum AddressFormatException: Error, Equatable {
-        case unsupportFormat()
+        case unsupportFormat
 
         static func ==(lhs: AddressFormatException, rhs: AddressFormatException) -> Bool {
             switch (lhs, rhs) {

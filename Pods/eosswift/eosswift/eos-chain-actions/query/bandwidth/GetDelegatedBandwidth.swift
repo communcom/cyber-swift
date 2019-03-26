@@ -34,12 +34,12 @@ public class GetDelegatedBandwidth {
                     )
                 }
             } else {
-                throw FailedToFetchDelegatedBandwidth.generic()
+                throw FailedToFetchDelegatedBandwidth.generic
             }
         }
     }
 }
 
 public enum FailedToFetchDelegatedBandwidth : Error {
-    case generic()
+    case generic
 }

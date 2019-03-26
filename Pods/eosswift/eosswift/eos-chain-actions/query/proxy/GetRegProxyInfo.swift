@@ -40,7 +40,7 @@ public class GetRegProxyInfo {
                     )
                 }
             } else {
-                throw FetchProxyError.failed()
+                throw FetchProxyError.failed
             }
         }
     }
@@ -75,7 +75,7 @@ public class GetRegProxyInfo {
                     wechat: row["wechat"]!.jsonValue as! String
                 )
             } else {
-                throw FetchProxyError.failed()
+                throw FetchProxyError.failed
             }
         }
     }
@@ -90,5 +90,5 @@ public class GetRegProxyInfo {
 }
 
 public enum FetchProxyError : Error {
-    case failed()
+    case failed
 }

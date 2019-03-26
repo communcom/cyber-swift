@@ -29,10 +29,10 @@ public class GetRamPrice {
                 if (rows.count > 0) {
                     return self.calculateRamPerKiloByte(row: rows[0])
                 } else {
-                    throw GetRamPriceError.failed()
+                    throw GetRamPriceError.failed
                 }
             } else {
-                throw GetRamPriceError.failed()
+                throw GetRamPriceError.failed
             }
         }
     }
@@ -53,5 +53,5 @@ public class GetRamPrice {
 }
 
 public enum GetRamPriceError : Error {
-    case failed()
+    case failed
 }

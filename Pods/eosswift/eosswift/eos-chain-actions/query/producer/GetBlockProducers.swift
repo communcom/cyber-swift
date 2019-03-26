@@ -21,10 +21,10 @@ public class GetBlockProducers {
                         apiEndpoint: apiEndpoint!
                     )
                 } else {
-                    throw GetBlockProducerError.chainProducerJsonMissing()
+                    throw GetBlockProducerError.chainProducerJsonMissing
                 }
             } else {
-                throw GetBlockProducerError.chainProducerJsonMissing()
+                throw GetBlockProducerError.chainProducerJsonMissing
             }
         }
     }
@@ -107,6 +107,6 @@ public class GetBlockProducers {
 }
 
 public enum GetBlockProducerError : Error {
-    case chainProducerJsonMissing()
+    case chainProducerJsonMissing
     case failedToFetchBlockProducer
 }

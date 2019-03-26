@@ -81,10 +81,10 @@ public indirect enum MethodAPIType {
     case getPostComments(userNickName: String, permlink: String, refBlockNum: UInt64, sortMode: CommentSortMode, paginationLimit: Int8, paginationSequenceKey: String?)
     
     /// Log in
-    case authorize()
+    case authorize(nickName: String)
     
     /// Get the secret authorization to sign
-    case generateSecret()
+    case generateSecret
     
     
     /// This method return request parameters from selected enum case.
@@ -152,14 +152,14 @@ public indirect enum MethodAPIType {
                      parameters:        parameters)
             
         /// Template { "id": 6, "jsonrpc": "2.0", "method": "auth.authorize", "params": { "user": "tst1xrhojmka", "sign": "Cyberway" }}
-        case .authorize():
+        case .authorize(let nickNameValue):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.auth.rawValue,
                      methodName:        "authorize",
-                     parameters:        ["user": Config.currentUser.nickName, "secret": Config.webSocketSecretKey, "sign": EOSManager.signWebSocketSecretKey() ?? "Cyberway"])
+                     parameters:        ["user": nickNameValue, "secret": Config.webSocketSecretKey, "sign": EOSManager.signWebSocketSecretKey() ?? "Cyberway"])
             
         /// Template { "id": 7, "jsonrpc": "2.0", "method": "auth.generateSecret", "params": { "": "" }}
-        case .generateSecret():
+        case .generateSecret:
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.auth.rawValue,
                      methodName:        "generateSecret",

@@ -15,7 +15,7 @@ import eosswift
 import Foundation
 import RxBlocking
 
-class EOSManager {
+public class EOSManager {
     // MARK: - Properties
     static let chainApi = ChainApiFactory.create(rootUrl: Config.CHAIN_CYBERWAY_API_BASE_URL)
     static let historyApi = HistoryApiFactory.create(rootUrl: Config.CHAIN_CYBERWAY_API_BASE_URL)

@@ -10,7 +10,7 @@ import Foundation
 import Localize_Swift
 
 public enum ErrorAPI {
-    case disableInternetConnection()
+    case disableInternetConnection(message: String?)
     case blockchain(message: String)
     case invalidData(message: String)
     case requestFailed(message: String)
@@ -21,8 +21,8 @@ public enum ErrorAPI {
     
     public var caseInfo: (title: String, message: String, code: Int) {
         switch self {
-        case .disableInternetConnection():
-            return (title: "Error".localized(), message: "No Internet Connection".localized(), code: 599)
+        case .disableInternetConnection(let message):
+            return (title: "Error".localized(), message: message ?? "No Internet Connection".localized(), code: 599)
             
         case .blockchain(let message):
             return (title: "Error".localized(), message: message, code: 100)

@@ -23,7 +23,7 @@ public class RestAPIManager {
     // MARK: - Class Functions
     
     /// API `auth.authorize`
-    public func authorize(completion: @escaping (ResponseAPIAuthAuthorize?, ErrorAPI?) -> Void) {
+    public func authorize(userNickName: String, completion: @escaping (ResponseAPIAuthAuthorize?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             RestAPIManager.instance.generateSecret(completion: { (generatedSecret, errorAPI) in
                 guard errorAPI == nil else {
@@ -38,7 +38,7 @@ public class RestAPIManager {
                 
                 Config.webSocketSecretKey = generatedSecret!.secret
                 
-                let methodAPIType = MethodAPIType.authorize()
+                let methodAPIType = MethodAPIType.authorize(nickName: userNickName)
                 
                 Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                                      onResult:          { responseAPIResult in
@@ -61,7 +61,7 @@ public class RestAPIManager {
             
         // Offline mode
         else {
-            completion(nil, ErrorAPI.disableInternetConnection())
+            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
         }
     }
     
@@ -69,7 +69,7 @@ public class RestAPIManager {
     /// API `auth.generateSecret`
     private func generateSecret(completion: @escaping (ResponseAPIAuthGenerateSecret?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
-            let methodAPIType = MethodAPIType.generateSecret()
+            let methodAPIType = MethodAPIType.generateSecret
             
             Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                                  onResult:          { responseAPIResult in
@@ -91,7 +91,7 @@ public class RestAPIManager {
             
         // Offline mode
         else {
-            completion(nil, ErrorAPI.disableInternetConnection())
+            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
         }
     }
     
@@ -121,7 +121,7 @@ public class RestAPIManager {
             
         // Offline mode
         else {
-            completion(nil, ErrorAPI.disableInternetConnection())
+            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
         }
     }
 
@@ -151,7 +151,7 @@ public class RestAPIManager {
             
         // Offline mode
         else {
-            completion(nil, ErrorAPI.disableInternetConnection())
+            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
         }
     }
     
@@ -181,7 +181,7 @@ public class RestAPIManager {
             
         // Offline mode
         else {
-            completion(nil, ErrorAPI.disableInternetConnection())
+            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
         }
     }
     
@@ -211,7 +211,7 @@ public class RestAPIManager {
             
         // Offline mode
         else {
-            completion(nil, ErrorAPI.disableInternetConnection())
+            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
         }
     }
     
@@ -246,7 +246,7 @@ public class RestAPIManager {
             
         // Offline mode
         else {
-            completion(nil, ErrorAPI.disableInternetConnection())
+            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
         }
     }
 }

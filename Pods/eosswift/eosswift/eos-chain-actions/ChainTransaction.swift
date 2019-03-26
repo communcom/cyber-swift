@@ -6,7 +6,7 @@ public protocol ChainTransaction {
 }
 
 public extension ChainTransaction {
-    public func push(
+    func push(
         expirationDate: Date,
         actions: [ActionAbi],
         authorizingPrivateKey: EOSPrivateKey
