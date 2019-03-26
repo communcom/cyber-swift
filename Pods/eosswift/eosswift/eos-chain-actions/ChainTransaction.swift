@@ -5,7 +5,7 @@ public protocol ChainTransaction {
     func chainApi() -> ChainApi
 }
 
-extension ChainTransaction {
+public extension ChainTransaction {
     public func push(
         expirationDate: Date,
         actions: [ActionAbi],
