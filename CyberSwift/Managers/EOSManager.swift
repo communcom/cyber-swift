@@ -124,9 +124,9 @@ public class EOSManager {
         }
     }
     
-    static func signWebSocketSecretKey() -> String? {
+    static func signWebSocketSecretKey(userActiveKey: String) -> String? {
         do {
-            let privateKey = try EOSPrivateKey.init(base58: Config.currentUser.activeKey)
+            let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
             
             let signature = PrivateKeySigning().sign(digest:            Config.webSocketSecretKey.data(using: .utf8)!,
                                                      eosPrivateKey:     privateKey)

@@ -81,7 +81,7 @@ public indirect enum MethodAPIType {
     case getPostComments(userNickName: String, permlink: String, refBlockNum: UInt64, sortMode: CommentSortMode, paginationLimit: Int8, paginationSequenceKey: String?)
     
     /// Log in
-    case authorize(nickName: String)
+    case authorize(nickName: String, activeKey: String)
     
     /// Get the secret authorization to sign
     case generateSecret
@@ -152,11 +152,11 @@ public indirect enum MethodAPIType {
                      parameters:        parameters)
             
         /// Template { "id": 6, "jsonrpc": "2.0", "method": "auth.authorize", "params": { "user": "tst1xrhojmka", "sign": "Cyberway" }}
-        case .authorize(let nickNameValue):
+        case .authorize(let nickNameValue, let activeKeyValue):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.auth.rawValue,
                      methodName:        "authorize",
-                     parameters:        ["user": nickNameValue, "secret": Config.webSocketSecretKey, "sign": EOSManager.signWebSocketSecretKey() ?? "Cyberway"])
+                     parameters:        ["user": nickNameValue, "secret": Config.webSocketSecretKey, "sign": EOSManager.signWebSocketSecretKey(userActiveKey: activeKeyValue) ?? "Cyberway"])
             
         /// Template { "id": 7, "jsonrpc": "2.0", "method": "auth.generateSecret", "params": { "": "" }}
         case .generateSecret:

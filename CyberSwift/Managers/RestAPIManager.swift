@@ -23,7 +23,7 @@ public class RestAPIManager {
     // MARK: - Class Functions
     
     /// API `auth.authorize`
-    public func authorize(userNickName: String, completion: @escaping (ResponseAPIAuthAuthorize?, ErrorAPI?) -> Void) {
+    public func authorize(userNickName: String, userActiveKey: String, completion: @escaping (ResponseAPIAuthAuthorize?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             RestAPIManager.instance.generateSecret(completion: { (generatedSecret, errorAPI) in
                 guard errorAPI == nil else {
@@ -38,7 +38,7 @@ public class RestAPIManager {
                 
                 Config.webSocketSecretKey = generatedSecret!.secret
                 
-                let methodAPIType = MethodAPIType.authorize(nickName: userNickName)
+                let methodAPIType = MethodAPIType.authorize(nickName: userNickName, activeKey: userActiveKey)
                 
                 Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                                      onResult:          { responseAPIResult in
