@@ -22,7 +22,15 @@ public struct Config {
     /// Websocket
     static public var webSocketSecretKey: String        =   "Cyberway"
 
-    public static var currentUser                       =   (nickName: Config.accountNickDestroyer2k, activeKey: Config.activeKeyDestroyer2k)
+    public static var currentUser: (nickName: String, activeKey: String) {
+        set { }
+        
+        get {
+            return (nickName:   KeychainManager.loadData(forUserNickName: Config.currentUserNickNameKey, withKey: Config.currentUserNickNameKey)?[Config.currentUserNickNameKey] as? String ?? Config.accountNickDestroyer2k,
+                    activeKey:  KeychainManager.loadData(forUserNickName: Config.currentUserActiveKey, withKey: Config.currentUserActiveKey)?[Config.currentUserActiveKey] as? String ?? Config.activeKeyDestroyer2k)
+        }
+    }
+    
     public static var currentVoter                      =   (nickName: Config.accountNickTest, activeKey: Config.activeKeyTest)
     public static var currentAuthor                     =   (nickName: Config.accountNickTest, activeKey: Config.activeKeyTest)
 
@@ -59,5 +67,7 @@ public struct Config {
     
     
     /// Keys
-    static let secretKey: String                        =   "secretKey"
+    static let userSecretKey: String                    =   "userSecretKey"
+    static let currentUserActiveKey: String             =   "currentUserActiveKey"
+    static let currentUserNickNameKey: String           =   "currentUserNickNameKey"
 }

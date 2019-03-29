@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		03329A709F0DA60180F91DBB /* Pods_CyberSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6ED672114DF191DC66860EA /* Pods_CyberSwift.framework */; };
+		B111B5BB224E1B5A00F84AD9 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B111B5BA224E1B5A00F84AD9 /* KeychainManager.swift */; };
 		B1677C66223F9BD7005FB286 /* RestAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1677C65223F9BD7005FB286 /* RestAPIManager.swift */; };
 		B1677C6E223FAA5F005FB286 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1677C6D223FAA5F005FB286 /* Media.xcassets */; };
 		B18EBB32223F8F8800F52D3C /* CyberSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = B18EBB30223F8F8800F52D3C /* CyberSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -32,6 +33,7 @@
 /* Begin PBXFileReference section */
 		34491307AF58D97E2E29C420 /* Pods-CyberSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CyberSwift.debug.xcconfig"; path = "Target Support Files/Pods-CyberSwift/Pods-CyberSwift.debug.xcconfig"; sourceTree = "<group>"; };
 		4837076B0145B925ED946333 /* Pods-CyberSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CyberSwift.release.xcconfig"; path = "Target Support Files/Pods-CyberSwift/Pods-CyberSwift.release.xcconfig"; sourceTree = "<group>"; };
+		B111B5BA224E1B5A00F84AD9 /* KeychainManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		B1677C65223F9BD7005FB286 /* RestAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestAPIManager.swift; sourceTree = "<group>"; };
 		B1677C6D223FAA5F005FB286 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		B18EBB2D223F8F8800F52D3C /* CyberSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CyberSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -143,6 +145,7 @@
 			children = (
 				B1C3F85C223F98DC005711EF /* Broadcast.swift */,
 				B1A74A652243893A009D68E7 /* EOSManager.swift */,
+				B111B5BA224E1B5A00F84AD9 /* KeychainManager.swift */,
 				B1C3F85D223F98DC005711EF /* Logger.swift */,
 				B1C3F85B223F98DC005711EF /* ReachabilityManager.swift */,
 				B1677C65223F9BD7005FB286 /* RestAPIManager.swift */,
@@ -278,6 +281,7 @@
 				B1C3F869223F9907005711EF /* ErrorAPI.swift in Sources */,
 				B1C3F861223F98DC005711EF /* Logger.swift in Sources */,
 				B1C3F86A223F9907005711EF /* ResponseAPI.swift in Sources */,
+				B111B5BB224E1B5A00F84AD9 /* KeychainManager.swift in Sources */,
 				B1C3F86B223F9907005711EF /* MethodAPI.swift in Sources */,
 				B1C3F857223F98B1005711EF /* Date+Extensions.swift in Sources */,
 				B1C3F859223F98B1005711EF /* Encodable+Extensions.swift in Sources */,

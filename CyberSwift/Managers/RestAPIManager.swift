@@ -49,6 +49,10 @@ public class RestAPIManager {
                                                             return
                                                         }
                                                         
+                                                        // Save in Keychain
+                                                        _ = KeychainManager.save(data: [Config.currentUserNickNameKey: userNickName], userNickName: Config.currentUserNickNameKey)
+                                                        _ = KeychainManager.save(data: [Config.currentUserActiveKey: userActiveKey], userNickName: Config.currentUserActiveKey)
+
                                                         completion(result, nil)
                 },
                                                      onError: { errorAPI in

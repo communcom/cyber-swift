@@ -8,6 +8,7 @@ target 'CyberSwift' do
   pod 'eosswift', '~> 1.5'
   pod 'RxBlocking', '~> 4.0'
 
+  pod 'Locksmith'
   pod 'Localize-Swift', '~> 2.0'
   
   # Websockets in swift for iOS and OSX
