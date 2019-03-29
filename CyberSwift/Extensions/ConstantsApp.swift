@@ -68,6 +68,6 @@ public struct Config {
     
     /// Keys
     static let userSecretKey: String                    =   "userSecretKey"
-    static let currentUserActiveKey: String             =   "currentUserActiveKey"
-    static let currentUserNickNameKey: String           =   "currentUserNickNameKey"
+    public static let currentUserActiveKey: String      =   "currentUserActiveKey"
+    public static let currentUserNickNameKey: String    =   "currentUserNickNameKey"
 }
