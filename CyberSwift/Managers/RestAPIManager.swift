@@ -52,7 +52,7 @@ public class RestAPIManager {
                                                         // Save in Keychain
                                                         _ = KeychainManager.save(data: [Config.currentUserNickNameKey: userNickName], userNickName: Config.currentUserNickNameKey)
                                                         _ = KeychainManager.save(data: [Config.currentUserActiveKey: userActiveKey], userNickName: Config.currentUserActiveKey)
-
+                                                        
                                                         completion(result, nil)
                 },
                                                      onError: { errorAPI in
@@ -128,7 +128,7 @@ public class RestAPIManager {
             completion(nil, ErrorAPI.disableInternetConnection(message: nil))
         }
     }
-
+    
     
     /// API `content.getFeed`
     public func loadFeed(typeMode: FeedTypeMode = .community, userID: String? = nil, communityID: String? = nil, timeFrameMode: FeedTimeFrameMode = .day, sortMode: FeedSortMode = .popular, paginationLimit: Int8 = Config.paginationLimit, paginationSequenceKey: String? = nil, completion: @escaping (ResponseAPIContentGetFeed?, ErrorAPI?) -> Void) {
@@ -161,7 +161,7 @@ public class RestAPIManager {
     
     
     /// API `content.getPost`
-    public func loadPost(userID: String = Config.currentUser.nickName, permlink: String, refBlockNum: UInt64, completion: @escaping (ResponseAPIContentGetPost?, ErrorAPI?) -> Void) {
+    public func loadPost(userID: String = Config.currentUser.nickName ?? "Cyber", permlink: String, refBlockNum: UInt64, completion: @escaping (ResponseAPIContentGetPost?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             let methodAPIType = MethodAPIType.getPost(userID: userID, permlink: permlink, refBlockNum: refBlockNum)
             
@@ -191,7 +191,7 @@ public class RestAPIManager {
     
     
     /// API `content.getComments` by user
-    public func loadUserComments(nickName: String = Config.currentUser.nickName, sortMode: CommentSortMode = .time, paginationLimit: Int8 = Config.paginationLimit, paginationSequenceKey: String? = nil, completion: @escaping (ResponseAPIContentGetComments?, ErrorAPI?) -> Void) {
+    public func loadUserComments(nickName: String = Config.currentUser.nickName ?? "Cyber", sortMode: CommentSortMode = .time, paginationLimit: Int8 = Config.paginationLimit, paginationSequenceKey: String? = nil, completion: @escaping (ResponseAPIContentGetComments?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             let methodAPIType = MethodAPIType.getUserComments(nickName: nickName, sortMode: sortMode, paginationLimit: paginationLimit, paginationSequenceKey: paginationSequenceKey)
             
@@ -221,7 +221,7 @@ public class RestAPIManager {
     
     
     /// API `content.getComments` by post
-    public func loadPostComments(nickName: String = Config.currentUser.nickName, permlink: String, refBlockNum: UInt64, sortMode: CommentSortMode = .time, paginationLimit: Int8 = Config.paginationLimit, paginationSequenceKey: String? = nil, completion: @escaping (ResponseAPIContentGetComments?, ErrorAPI?) -> Void) {
+    public func loadPostComments(nickName: String = Config.currentUser.nickName ?? "Cyber", permlink: String, refBlockNum: UInt64, sortMode: CommentSortMode = .time, paginationLimit: Int8 = Config.paginationLimit, paginationSequenceKey: String? = nil, completion: @escaping (ResponseAPIContentGetComments?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             let methodAPIType = MethodAPIType.getPostComments(userNickName:             nickName,
                                                               permlink:                 permlink,

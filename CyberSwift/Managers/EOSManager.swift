@@ -27,7 +27,7 @@ public class EOSManager {
         let privateKey = try! EOSPrivateKey(base58: Config.postingKeyDestroyer2k)
         print("privateKey = \(privateKey.base58)")
     }
-
+    
     /// CHAIN
     static func getChainInfo(completion: @escaping (Info?, Error?) -> Void) {
         _ = self.chainApi.getInfo().subscribe(onSuccess: { response in
@@ -42,7 +42,7 @@ public class EOSManager {
     static func getChainInfo() {
         _ = self.chainApi.getInfo().subscribe(onSuccess: { response in
             if let info = response.body {
-//                print("info = \(info)")
+                //                print("info = \(info)")
                 self.getChain(blockNumberID: info.head_block_id)
             }
         }, onError: { error in
@@ -80,14 +80,15 @@ public class EOSManager {
     
     // Create new account
     static func createNewAccount(nickName: String, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
+        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
+        
         let createNewAccountTransaction = EOSTransaction.init(chainApi: chainApi)
-//        Config.currentUser = (nickName: Config.accountNickCreateNewAccount, activeKey: Config.activeKeyCreateNewAccount)
-
-        let createNewAccountTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name: Config.currentUser.nickName),
-                                                                                      permission:    AccountNameWriterValue(name: "active"))
-
+        
+        let createNewAccountTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name:   userNickName),
+                                                                                      permission:    AccountNameWriterValue(name:   "active"))
+        
         do {
-            let currentUserPublicKey = try EOSPublicKey(base58: Config.currentUser.activeKey)
+            let currentUserPublicKey = try EOSPublicKey(base58: userActiveKey)
             
             let owner = AccountRequiredAuthAbi(threshold:   1,
                                                keys:        [AccountKeyAbi(key:     PublicKeyWriterValue(publicKey:         currentUserPublicKey,
@@ -97,8 +98,8 @@ public class EOSManager {
                                                accounts:    StringCollectionWriterValue(value: []),
                                                waits:       StringCollectionWriterValue(value: []))
             
-            let createNewAccountArgs = NewAccountArgs(creator:      AccountNameWriterValue(name: Config.currentUser.nickName),
-                                                      name:         AccountNameWriterValue(name: Config.currentUser.nickName),
+            let createNewAccountArgs = NewAccountArgs(creator:      AccountNameWriterValue(name:    userNickName),
+                                                      name:         AccountNameWriterValue(name:    userNickName),
                                                       owner:        owner,
                                                       active:       owner)
             
@@ -110,7 +111,7 @@ public class EOSManager {
                                                       data:            createNewAccountArgsData)
             
             do {
-                let privateKey = try EOSPrivateKey.init(base58: Config.currentUser.activeKey)
+                let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
                 
                 if let response = try createNewAccountTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [createNewAccountActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                     if response.success {
@@ -139,20 +140,22 @@ public class EOSManager {
     }
     
     static func publish(message: String, headline: String = "", parentData: ParentData? = nil, tags: [EOSTransaction.Tags] = [EOSTransaction.Tags()], completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
+        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
+        
         EOSManager.getChainInfo(completion: { (info, error) in
             guard error == nil else {
                 completion(nil, error)
                 return
             }
-        
+            
             let messageTransaction = EOSTransaction.init(chainApi: chainApi)
             
-            let messageTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name: Config.currentUser.nickName),
-                                                                                 permission:    AccountNameWriterValue(name: "active"))
+            let messageTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name:    userNickName),
+                                                                                 permission:    AccountNameWriterValue(name:    "active"))
             
             let refBlockNum: UInt64 = UInt64(info!.head_block_num)
             
-            let messageCreateArgs = EOSTransaction.MessageCreateArgs(authorValue:               Config.currentUser.nickName,
+            let messageCreateArgs = EOSTransaction.MessageCreateArgs(authorValue:               userNickName,
                                                                      parentDataValue:           parentData,
                                                                      refBlockNumValue:          refBlockNum,
                                                                      headermssgValue:           headline,
@@ -168,15 +171,10 @@ public class EOSManager {
                                                    name:            AccountNameWriterValue(name:    "createmssg"),
                                                    authorization:   [messageTransactionAuthorizationAbi],
                                                    data:            messageCreateArgsData)
-
-//            let messageCreateActionAbi = ActionAbi(account:         AccountNameWriterValue(name:    "alextester"),
-//                                                   name:            AccountNameWriterValue(name:    "mssga"),
-//                                                   authorization:   [messageTransactionAuthorizationAbi],
-//                                                   data:            messageCreateArgsData)
-
+            
             DispatchQueue.main.async {
                 do {
-                    let privateKey = try EOSPrivateKey.init(base58: Config.currentUser.activeKey)
+                    let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
                     
                     if let response = try messageTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [messageCreateActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                         if response.success {
@@ -189,12 +187,14 @@ public class EOSManager {
             }
         })
     }
-
+    
     static func delete(messageArgs: EOSTransaction.MessageDeleteArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
+        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
+        
         let messageTransaction = EOSTransaction.init(chainApi: chainApi)
         
-        let messageTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name: Config.currentUser.nickName),
-                                                                             permission:    AccountNameWriterValue(name: "active"))
+        let messageTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name:    userNickName),
+                                                                             permission:    AccountNameWriterValue(name:    "active"))
         
         let messageDeleteArgsData = DataWriterValue(hex: messageArgs.toHex())
         
@@ -204,7 +204,7 @@ public class EOSManager {
                                                data:            messageDeleteArgsData)
         
         do {
-            let privateKey = try EOSPrivateKey.init(base58: Config.currentUser.activeKey)
+            let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
             
             if let response = try messageTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [messageDeleteActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                 if response.success {
@@ -215,12 +215,14 @@ public class EOSManager {
             completion(nil, error)
         }
     }
-
+    
     static func update(messageArgs: EOSTransaction.MessageUpdateArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
+        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
+        
         let messageUpdateTransaction = EOSTransaction.init(chainApi: chainApi)
         
-        let messageUpdateTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name: Config.currentUser.nickName),
-                                                                                   permission:    AccountNameWriterValue(name: "active"))
+        let messageUpdateTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name:  userNickName),
+                                                                                   permission:    AccountNameWriterValue(name:  "active"))
         
         let messageUpdateArgsData = DataWriterValue(hex: messageArgs.toHex())
         
@@ -230,7 +232,7 @@ public class EOSManager {
                                                data:            messageUpdateArgsData)
         
         do {
-            let privateKey = try EOSPrivateKey.init(base58: Config.currentUser.activeKey)
+            let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
             
             if let response = try messageUpdateTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [messageUpdateActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                 if response.success {
@@ -243,10 +245,12 @@ public class EOSManager {
     }
     
     static func voteMessage(isDownvote: Bool, voter: String, author: String, permlink: String, weight: Int16, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
+        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
+        
         let voteTransaction = EOSTransaction.init(chainApi: chainApi)
         
-        let voteTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:        AccountNameWriterValue(name: Config.currentUser.nickName),
-                                                                          permission:   AccountNameWriterValue(name: "active"))
+        let voteTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:        AccountNameWriterValue(name:    userNickName),
+                                                                          permission:   AccountNameWriterValue(name:    "active"))
         
         let voteArgs = EOSTransaction.UpvoteArgs.init(voterValue:        voter,
                                                       authorValue:       author,
@@ -261,7 +265,7 @@ public class EOSManager {
                                       data:             voteArgsData)
         
         do {
-            let privateKey = try EOSPrivateKey.init(base58: Config.currentUser.activeKey)
+            let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
             
             if let response = try voteTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [voteActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                 if response.success {
@@ -282,12 +286,14 @@ public class EOSManager {
             completion(nil, error)
         }
     }
-
+    
     static func unvotePost(voter: String, author: String, permlink: String, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
+        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
+        
         let unvoteTransaction = EOSTransaction.init(chainApi: chainApi)
         
-        let unvoteTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:        AccountNameWriterValue(name: Config.currentUser.nickName),
-                                                                            permission:   AccountNameWriterValue(name: "active"))
+        let unvoteTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:        AccountNameWriterValue(name:  userNickName),
+                                                                            permission:   AccountNameWriterValue(name:  "active"))
         
         let unvoteArgs = EOSTransaction.UnvoteArgs.init(voterValue:        voter,
                                                         authorValue:       author,
@@ -301,7 +307,7 @@ public class EOSManager {
                                         data:             unvoteArgsData)
         
         do {
-            let privateKey = try EOSPrivateKey.init(base58: Config.currentUser.activeKey)
+            let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
             
             if let response = try unvoteTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [unvoteActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                 if response.success {
@@ -312,12 +318,14 @@ public class EOSManager {
             completion(nil, error)
         }
     }
-
+    
     static func publish(transferArgs: EOSTransaction.TransferArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
+        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
+        
         let transferTransaction = EOSTransaction.init(chainApi: chainApi)
         
-        let transferTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name: Config.currentUser.nickName),
-                                                                              permission:    AccountNameWriterValue(name: "active"))
+        let transferTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name:   userNickName),
+                                                                              permission:    AccountNameWriterValue(name:   "active"))
         
         let transferArgsData = DataWriterValue(hex: transferArgs.toHex())
         
@@ -327,7 +335,7 @@ public class EOSManager {
                                           data:            transferArgsData)
         
         do {
-            let privateKey = try EOSPrivateKey.init(base58: Config.currentUser.activeKey)
+            let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
             
             if let response = try transferTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [transferActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                 if response.success {
@@ -338,13 +346,15 @@ public class EOSManager {
             completion(nil, error)
         }
     }
-
+    
     // Update user profile: Pin/Unpin
     static func updateUserProfile(pinArgs: EOSTransaction.UserProfilePinArgs, isUnpin: Bool, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
+        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
+        
         let userProfilePinTransaction = EOSTransaction.init(chainApi: chainApi)
         
-        let userProfilePinTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name: Config.currentUser.nickName),
-                                                                                    permission:    AccountNameWriterValue(name: "active"))
+        let userProfilePinTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name:     userNickName),
+                                                                                    permission:    AccountNameWriterValue(name:     "active"))
         
         let pinArgsData = DataWriterValue(hex: pinArgs.toHex())
         
@@ -354,7 +364,7 @@ public class EOSManager {
                                      data:            pinArgsData)
         
         do {
-            let privateKey = try EOSPrivateKey.init(base58: Config.currentUser.activeKey)
+            let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
             
             if let response = try userProfilePinTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [pinActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                 if response.success {
@@ -365,13 +375,15 @@ public class EOSManager {
             completion(nil, error)
         }
     }
-
+    
     // Update user profile: Block/Unblock
     static func updateUserProfile(blockArgs: EOSTransaction.UserProfileBlockArgs, isUnblock: Bool, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
+        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
+        
         let userProfileBlockTransaction = EOSTransaction.init(chainApi: chainApi)
         
-        let userProfileBlockTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name: Config.currentUser.nickName),
-                                                                                      permission:    AccountNameWriterValue(name: "active"))
+        let userProfileBlockTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name:   userNickName),
+                                                                                      permission:    AccountNameWriterValue(name:   "active"))
         
         let blockArgsData = DataWriterValue(hex: blockArgs.toHex())
         
@@ -381,7 +393,7 @@ public class EOSManager {
                                        data:            blockArgsData)
         
         do {
-            let privateKey = try EOSPrivateKey.init(base58: Config.currentUser.activeKey)
+            let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
             
             if let response = try userProfileBlockTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [blockActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                 if response.success {
@@ -395,10 +407,12 @@ public class EOSManager {
     
     // Update user profile: Changereput
     private static func updateUserProfile(changereputArgs: EOSTransaction.UserProfileChangereputArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
+        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
+        
         let userProfileChangereputTransaction = EOSTransaction.init(chainApi: EOSManager.chainApi)
         
-        let userProfileChangereputTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name: Config.currentUser.nickName),
-                                                                                            permission:    AccountNameWriterValue(name: "active"))
+        let userProfileChangereputTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name:     userNickName),
+                                                                                            permission:    AccountNameWriterValue(name:     "active"))
         
         let changereputArgsData = DataWriterValue(hex: changereputArgs.toHex())
         
@@ -408,7 +422,7 @@ public class EOSManager {
                                              data:            changereputArgsData)
         
         do {
-            let privateKey = try EOSPrivateKey.init(base58: Config.currentUser.activeKey)
+            let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
             
             if let response = try userProfileChangereputTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [changereputActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                 if response.success {
@@ -419,16 +433,18 @@ public class EOSManager {
             completion(nil, error)
         }
     }
-
+    
     // Update user profile: Updatemeta
     static func updateUserProfile(metaArgs: EOSTransaction.UserProfileUpdatemetaArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
+        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
+        
         // JSON
         print(metaArgs.convertToJSON())
-
+        
         let userProfileUpdatemetaTransaction = EOSTransaction.init(chainApi: EOSManager.chainApi)
         
-        let userProfileUpdateTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name: Config.currentUser.nickName),
-                                                                                       permission:    AccountNameWriterValue(name: "active"))
+        let userProfileUpdateTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name:  userNickName),
+                                                                                       permission:    AccountNameWriterValue(name:  "active"))
         
         let updatemetaArgsData = DataWriterValue(hex: metaArgs.toHex())
         
@@ -438,7 +454,7 @@ public class EOSManager {
                                         data:            updatemetaArgsData)
         
         do {
-            let privateKey = try EOSPrivateKey.init(base58: Config.currentUser.activeKey)
+            let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
             
             if let response = try userProfileUpdatemetaTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [updateActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                 if response.success {
@@ -449,7 +465,7 @@ public class EOSManager {
             completion(nil, error)
         }
     }
-
+    
     // Update user profile: Deletemeta
     static func deleteUserProfile(metaArgs: EOSTransaction.UserProfileDeleteArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         let userProfileDeletemetaTransaction = EOSTransaction.init(chainApi: EOSManager.chainApi)
@@ -476,8 +492,8 @@ public class EOSManager {
             completion(nil, error)
         }
     }
-
-
+    
+    
     /// HISTORY
     static func getTransaction(blockNumberHint: String) {
         _ = self.historyApi.getTransaction(body: GetTransaction(id: blockNumberHint)).subscribe(onSuccess: { response in

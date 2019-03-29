@@ -22,22 +22,22 @@ public struct Config {
     /// Websocket
     static public var webSocketSecretKey: String        =   "Cyberway"
 
-    public static var currentUser: (nickName: String, activeKey: String) {
+    public static var currentUser: (nickName: String?, activeKey: String?) {
         set { }
         
         get {
-            return (nickName:   KeychainManager.loadData(forUserNickName: Config.currentUserNickNameKey, withKey: Config.currentUserNickNameKey)?[Config.currentUserNickNameKey] as? String ?? Config.accountNickDestroyer2k,
-                    activeKey:  KeychainManager.loadData(forUserNickName: Config.currentUserActiveKey, withKey: Config.currentUserActiveKey)?[Config.currentUserActiveKey] as? String ?? Config.activeKeyDestroyer2k)
+            return (nickName:   KeychainManager.loadData(forUserNickName: Config.currentUserNickNameKey, withKey: Config.currentUserNickNameKey)?[Config.currentUserNickNameKey] as? String,
+                    activeKey:  KeychainManager.loadData(forUserNickName: Config.currentUserActiveKey, withKey: Config.currentUserActiveKey)?[Config.currentUserActiveKey] as? String)
         }
     }
-    
+
     public static var currentVoter                      =   (nickName: Config.accountNickTest, activeKey: Config.activeKeyTest)
     public static var currentAuthor                     =   (nickName: Config.accountNickTest, activeKey: Config.activeKeyTest)
 
     // Accounts test values
-    static let accountNickDestroyer2k: String           =   "destroyer2k"
-    static let activeKeyDestroyer2k: String             =   "5JagnCwCrB2sWZw6zCvaBw51ifoQuNaKNsDovuGz96wU3tUw7hJ"
-    static let postingKeyDestroyer2k: String            =   "5JjQWZmWj36xbVdcX96gjMs5BRip7TPPCNFFnm19TPEviqnG5Ke"
+    public static let accountNickDestroyer2k: String    =   "destroyer2k"
+    public static let activeKeyDestroyer2k: String      =   "5JagnCwCrB2sWZw6zCvaBw51ifoQuNaKNsDovuGz96wU3tUw7hJ"
+    public static let postingKeyDestroyer2k: String     =   "5JjQWZmWj36xbVdcX96gjMs5BRip7TPPCNFFnm19TPEviqnG5Ke"
 
     static let accountNickMsm72: String                 =   "msm72"
     static let postingKeyMsm72: String                  =   "5Jj6qFdJLGKFFFQbfTwv6JNQmXzCidnjgSFNYKhrgqhzigH4sFp"
