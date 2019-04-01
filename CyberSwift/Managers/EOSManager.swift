@@ -17,7 +17,7 @@ import Foundation
 import RxBlocking
 
 public enum VoteType: String {
-    case vote       =   "vote"
+    case unvote     =   "unvote"
     case upvote     =   "upvote"
     case downvote   =   "downvote"
 }
@@ -261,14 +261,14 @@ public class EOSManager {
         let voteTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:        AccountNameWriterValue(name:    userNickName),
                                                                           permission:   AccountNameWriterValue(name:    "active"))
         
-        let voteArgs: Encodable = (voteType == .upvote) ?   EOSTransaction.UnvoteArgs.init(voterValue:        userNickName,
+        let voteArgs: Encodable = (voteType == .unvote) ?   EOSTransaction.UnvoteArgs.init(voterValue:        userNickName,
                                                                                            authorValue:       author,
                                                                                            permlinkValue:     permlink) :
-            EOSTransaction.UpvoteArgs.init(voterValue:          userNickName,
-                                           authorValue:         author,
-                                           permlinkValue:       permlink,
-                                           refBlockNumValue:    refBlockNum,
-                                           weightValue:         weight!)
+                                                            EOSTransaction.UpvoteArgs.init(voterValue:          userNickName,
+                                                                                           authorValue:         author,
+                                                                                           permlinkValue:       permlink,
+                                                                                           refBlockNumValue:    refBlockNum,
+                                                                                           weightValue:         weight!)
         
         let voteArgsData = DataWriterValue(hex: voteArgs.toHex())
         
@@ -283,12 +283,12 @@ public class EOSManager {
             if let response = try voteTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [voteActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                 if response.success {
                     // Update user profile reputation
-                    if voteType == .upvote {
+                    if voteType == .unvote {
                         completion(response, nil)
                     }
                         
                     else {
-                        let changereputArgs = EOSTransaction.UserProfileChangereputArgs(voterValue: userNickName, authorValue: author, rsharesValue: voteType == .vote ? 1 : -1)
+                        let changereputArgs = EOSTransaction.UserProfileChangereputArgs(voterValue: userNickName, authorValue: author, rsharesValue: voteType == .upvote ? 1 : -1)
                         
                         self.updateUserProfile(changereputArgs: changereputArgs) { (response, error) in
                             guard error == nil else {
