@@ -72,17 +72,17 @@ public class EOSTransaction: ChainTransaction {
             self.tags               =   tagsValues
             self.jsonmetadata       =   jsonmetadataValue
             
-            //            self.parentprmlnk       =   parentprmlnkValue
-            //            self.parentacc          =   NameWriterValue(name: parentprmlnkValue.isEmpty ? parentaccValue : accountValue)
-            //
-            //
-            //            self.bodymssg           =   "Лондон"
+//            self.parentprmlnk       =   parentprmlnkValue
+//            self.parentacc          =   NameWriterValue(name: parentprmlnkValue.isEmpty ? parentaccValue : accountValue)
+//
+//
+//            self.bodymssg           =   "Лондон"
             
-            //            self.bodymssg           =   "{{مصدر وحيد|تاريخ=ديسمبر 2018}}\n{{يتيمة|تاريخ=أغسطس 2016}}\n\n{{صندوق معلومات منظمة\n|اسم           = الوكالة الوطنية للتأمين الصحي <br/> Agence Nationale de l’Assurance Maladie\n|صورة          = \n|تعليق         = \n|حجم           = \n|بدل           = \n|خريطة         = \n|تعليق2        = \n|حجم2          = \n|بدل2          = \n|اختصار        = \n|شعار          = \n|تأسيس         = [[26 مايو]] [[2005]]\n|حل            = \n|نوع           = [[مؤسسة عمومية]]\n|حالة          = \n|اهتمامات      = \n|مقر           = 8 شارع المهدي بن بركة، حي الرياض، [[الرباط]]\n|منطقة الخدمة  = \n|عضوية         = \n|لغة           = \n|الرئيس        = جيلالي حازم\n|رتبة القائد   = \n|اسم القائد    = \n|رتبة القائد2  = \n|اسم القائد2   = \n|رتبة القائد3  = \n|اسم القائد3   = \n|جهاز          = \n|منظمة أم      = \n|انتماء        = \n|موظفون        = \n|متطوعون       = \n|ميزانية       = \n|موقع          = http://www.assurancemaladie.ma\n|ملاحظات        = \n|خريطة الموقع  = \n|دائرة عرض     = \n|خط طول        = \n}}\n’‘'الوكالة الوطنية للتأمين الصحي‘’' (ANAM) هي مؤسسة إدارية عامة [[المغرب|مغربية]]، ذات [[شخص اعتباري|شخصية اعتبارية]] وذمة مالية مستقلة، تأسست في [[26 مايو]] [[2005]]، تحت إشراف ال[[دولة]]. هدفها ضمان التنفيذ الفعال للقانون  رقم 00-65 <ref>[http://www.assurancemaladie.ma/upload/document/loi%2065-00_ar.pdf مدونة التغطیة الصحیة الأساسیة 00-65 القانون]</ref>، المتعلق بمدونة التغطية الصحية الأساسية.\n\n== المراجع ==\n{{مراجع}}\n{{شريط بوابات|الاقتصاد|المغرب|سلا}}\n\n{{بذرة}}\n[[تصنيف:الضمان الإجتماعي في المغرب]]\n[[تصنيف:تأمين]]\n[[تصنيف:تأمين صحي]]\n[[تصنيف:مؤسسات عمومية مغربية ذات طابع إداري]]"
+//            self.bodymssg           =   "{{مصدر وحيد|تاريخ=ديسمبر 2018}}\n{{يتيمة|تاريخ=أغسطس 2016}}\n\n{{صندوق معلومات منظمة\n|اسم           = الوكالة الوطنية للتأمين الصحي <br/> Agence Nationale de l’Assurance Maladie\n|صورة          = \n|تعليق         = \n|حجم           = \n|بدل           = \n|خريطة         = \n|تعليق2        = \n|حجم2          = \n|بدل2          = \n|اختصار        = \n|شعار          = \n|تأسيس         = [[26 مايو]] [[2005]]\n|حل            = \n|نوع           = [[مؤسسة عمومية]]\n|حالة          = \n|اهتمامات      = \n|مقر           = 8 شارع المهدي بن بركة، حي الرياض، [[الرباط]]\n|منطقة الخدمة  = \n|عضوية         = \n|لغة           = \n|الرئيس        = جيلالي حازم\n|رتبة القائد   = \n|اسم القائد    = \n|رتبة القائد2  = \n|اسم القائد2   = \n|رتبة القائد3  = \n|اسم القائد3   = \n|جهاز          = \n|منظمة أم      = \n|انتماء        = \n|موظفون        = \n|متطوعون       = \n|ميزانية       = \n|موقع          = http://www.assurancemaladie.ma\n|ملاحظات        = \n|خريطة الموقع  = \n|دائرة عرض     = \n|خط طول        = \n}}\n’‘'الوكالة الوطنية للتأمين الصحي‘’' (ANAM) هي مؤسسة إدارية عامة [[المغرب|مغربية]]، ذات [[شخص اعتباري|شخصية اعتبارية]] وذمة مالية مستقلة، تأسست في [[26 مايو]] [[2005]]، تحت إشراف ال[[دولة]]. هدفها ضمان التنفيذ الفعال للقانون  رقم 00-65 <ref>[http://www.assurancemaladie.ma/upload/document/loi%2065-00_ar.pdf مدونة التغطیة الصحیة الأساسیة 00-65 القانون]</ref>، المتعلق بمدونة التغطية الصحية الأساسية.\n\n== المراجع ==\n{{مراجع}}\n{{شريط بوابات|الاقتصاد|المغرب|سلا}}\n\n{{بذرة}}\n[[تصنيف:الضمان الإجتماعي في المغرب]]\n[[تصنيف:تأمين]]\n[[تصنيف:تأمين صحي]]\n[[تصنيف:مؤسسات عمومية مغربية ذات طابع إداري]]"
             
             
             
-            //            self.bodymssg           =   "Chuck Norris doesn’t get compiler errors, the language changes itself to accommodate Chuck Norris.\n at the moment he lives at 432 Wiza Mountain, Aleenside, WY 75942-7897 \n\n<br> and YODA said: Clear your mind must be, if you are to find the villains behind this plot. \n\n witcher quote: Finish all your business before you die. Bid loved ones farewell. Write your will. Apologize to those you’ve wronged. Otherwise, you’ll never truly leave this world. \n\n Rick and Morty quote: It’s fine, everything is fine. Theres an infinite number of realities Morty and in a few dozen of those I got lucky and turned everything back to normal. \n\n SuperHero Aurora Ivy has power to Atmokinesis and Grim Reaping \n\n Harry Potter quote: Dark and difficult times lie ahead. Soon we must all face the choice between what is right and what is easy. \n\n and some Lorem to finish text: Esse recusandae modi provident et voluptatibus occaecati commodi nostrum sequi aut unde in sint pariatur dignissimos dignissimos quasi sunt beatae explicabo omnis dolorem quo ratione vel aut aliquam sint soluta quia modi quidem aut officia labore sed non nihil et rerum unde sunt at qui assumenda culpa quisquam vero eos ad voluptatem aut exercitationem fugit modi vel iusto impedit assumenda illum consequatur reprehenderit accusamus ut quod est est voluptatem cumque molestiae non dolorem asperiores modi culpa dolor delectus non alias laboriosam suscipit nobis perspiciatis similique quis ea nisi ratione laboriosam voluptatem molestias quas numquam qui doloribus officiis autem quidem debitis magni tenetur aut et incidunt dolores sunt est dolores unde dolor et dolorem voluptatum non sit aut sed ut quibusdam voluptas est ea eligendi excepturi et dolorem eius facilis reiciendis debitis totam voluptate mollitia dolore quisquam sint ut quidem omnis voluptatibus voluptatem accusantium tenetur hic vitae deserunt culpa sequi voluptate labore voluptas."
+//            self.bodymssg           =   "Chuck Norris doesn’t get compiler errors, the language changes itself to accommodate Chuck Norris.\n at the moment he lives at 432 Wiza Mountain, Aleenside, WY 75942-7897 \n\n<br> and YODA said: Clear your mind must be, if you are to find the villains behind this plot. \n\n witcher quote: Finish all your business before you die. Bid loved ones farewell. Write your will. Apologize to those you’ve wronged. Otherwise, you’ll never truly leave this world. \n\n Rick and Morty quote: It’s fine, everything is fine. Theres an infinite number of realities Morty and in a few dozen of those I got lucky and turned everything back to normal. \n\n SuperHero Aurora Ivy has power to Atmokinesis and Grim Reaping \n\n Harry Potter quote: Dark and difficult times lie ahead. Soon we must all face the choice between what is right and what is easy. \n\n and some Lorem to finish text: Esse recusandae modi provident et voluptatibus occaecati commodi nostrum sequi aut unde in sint pariatur dignissimos dignissimos quasi sunt beatae explicabo omnis dolorem quo ratione vel aut aliquam sint soluta quia modi quidem aut officia labore sed non nihil et rerum unde sunt at qui assumenda culpa quisquam vero eos ad voluptatem aut exercitationem fugit modi vel iusto impedit assumenda illum consequatur reprehenderit accusamus ut quod est est voluptatem cumque molestiae non dolorem asperiores modi culpa dolor delectus non alias laboriosam suscipit nobis perspiciatis similique quis ea nisi ratione laboriosam voluptatem molestias quas numquam qui doloribus officiis autem quidem debitis magni tenetur aut et incidunt dolores sunt est dolores unde dolor et dolorem voluptatum non sit aut sed ut quibusdam voluptas est ea eligendi excepturi et dolorem eius facilis reiciendis debitis totam voluptate mollitia dolore quisquam sint ut quidem omnis voluptatibus voluptatem accusantium tenetur hic vitae deserunt culpa sequi voluptate labore voluptas."
         }
     }
     
@@ -160,20 +160,22 @@ public class EOSTransaction: ChainTransaction {
     public struct UpvoteArgs: Encodable {
         // MARK: - Properties
         let voter: NameWriterValue
-        let author: NameWriterValue
-        let permlink: String
         let weight: Int16
-        
+        let message_id: Mssgid
+
         
         // MARK: - Initialization
-        init(voterValue: String, authorValue: String, permlinkValue: String, weightValue: Int16) {
+        init(voterValue: String, authorValue: String, permlinkValue: String, refBlockNumValue: UInt64, weightValue: Int16) {
             self.voter      =   NameWriterValue(name: voterValue)
-            self.author     =   NameWriterValue(name: authorValue)
-            self.permlink   =   permlinkValue
+            
+            self.message_id =   Mssgid(authorValue:             authorValue,
+                                       permlinkValue:           permlinkValue,
+                                       refBlockNumValue:        refBlockNumValue)
+            
             self.weight     =   weightValue
         }
     }
-    
+
     
     /// Unvote
     public struct UnvoteArgs: Encodable {

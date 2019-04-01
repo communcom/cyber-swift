@@ -16,6 +16,12 @@ import eosswift
 import Foundation
 import RxBlocking
 
+public enum VoteType: String {
+    case vote       =   "vote"
+    case upvote     =   "upvote"
+    case downvote   =   "downvote"
+}
+
 public class EOSManager {
     // MARK: - Properties
     static let chainApi = ChainApiFactory.create(rootUrl: Config.CHAIN_CYBERWAY_API_BASE_URL)
@@ -244,23 +250,30 @@ public class EOSManager {
         }
     }
     
-    static func voteMessage(isDownvote: Bool, voter: String, author: String, permlink: String, weight: Int16, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
-        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
+    public static func message(voteType: VoteType, author: String, permlink: String, weight: Int16? = 0, refBlockNum: UInt64 = 0, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
+        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else {
+            completion(nil, NSError(domain: "User is not authorized.", code: 401, userInfo: nil))
+            return
+        }
         
         let voteTransaction = EOSTransaction.init(chainApi: chainApi)
         
         let voteTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:        AccountNameWriterValue(name:    userNickName),
                                                                           permission:   AccountNameWriterValue(name:    "active"))
         
-        let voteArgs = EOSTransaction.UpvoteArgs.init(voterValue:        voter,
-                                                      authorValue:       author,
-                                                      permlinkValue:     permlink,
-                                                      weightValue:       weight)
+        let voteArgs: Encodable = (voteType == .upvote) ?   EOSTransaction.UnvoteArgs.init(voterValue:        userNickName,
+                                                                                           authorValue:       author,
+                                                                                           permlinkValue:     permlink) :
+            EOSTransaction.UpvoteArgs.init(voterValue:          userNickName,
+                                           authorValue:         author,
+                                           permlinkValue:       permlink,
+                                           refBlockNumValue:    refBlockNum,
+                                           weightValue:         weight!)
         
         let voteArgsData = DataWriterValue(hex: voteArgs.toHex())
         
         let voteActionAbi = ActionAbi(account:          AccountNameWriterValue(name:    "gls.publish"),
-                                      name:             AccountNameWriterValue(name:    isDownvote ? "downvote" : "upvote"),
+                                      name:             AccountNameWriterValue(name:    voteType.rawValue),
                                       authorization:    [voteTransactionAuthorizationAbi],
                                       data:             voteArgsData)
         
@@ -270,15 +283,21 @@ public class EOSManager {
             if let response = try voteTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [voteActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                 if response.success {
                     // Update user profile reputation
-                    let changereputArgs = EOSTransaction.UserProfileChangereputArgs(voterValue: voter, authorValue: author, rsharesValue: isDownvote ? -1 : 1)
-                    
-                    self.updateUserProfile(changereputArgs: changereputArgs) { (response, error) in
-                        guard error == nil else {
-                            completion(nil, error)
-                            return
-                        }
-                        
+                    if voteType == .upvote {
                         completion(response, nil)
+                    }
+                        
+                    else {
+                        let changereputArgs = EOSTransaction.UserProfileChangereputArgs(voterValue: userNickName, authorValue: author, rsharesValue: voteType == .vote ? 1 : -1)
+                        
+                        self.updateUserProfile(changereputArgs: changereputArgs) { (response, error) in
+                            guard error == nil else {
+                                completion(nil, error)
+                                return
+                            }
+                            
+                            completion(response, nil)
+                        }
                     }
                 }
             }
@@ -287,37 +306,37 @@ public class EOSManager {
         }
     }
     
-    static func unvotePost(voter: String, author: String, permlink: String, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
-        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
-        
-        let unvoteTransaction = EOSTransaction.init(chainApi: chainApi)
-        
-        let unvoteTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:        AccountNameWriterValue(name:  userNickName),
-                                                                            permission:   AccountNameWriterValue(name:  "active"))
-        
-        let unvoteArgs = EOSTransaction.UnvoteArgs.init(voterValue:        voter,
-                                                        authorValue:       author,
-                                                        permlinkValue:     permlink)
-        
-        let unvoteArgsData = DataWriterValue(hex: unvoteArgs.toHex())
-        
-        let unvoteActionAbi = ActionAbi(account:          AccountNameWriterValue(name:    "gls.publish"),
-                                        name:             AccountNameWriterValue(name:    "unvote"),
-                                        authorization:    [unvoteTransactionAuthorizationAbi],
-                                        data:             unvoteArgsData)
-        
-        do {
-            let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
-            
-            if let response = try unvoteTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [unvoteActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
-                if response.success {
-                    completion(response, nil)
-                }
-            }
-        } catch {
-            completion(nil, error)
-        }
-    }
+    //    static func unvotePost(voter: String, author: String, permlink: String, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
+    //        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
+    //
+    //        let unvoteTransaction = EOSTransaction.init(chainApi: chainApi)
+    //
+    //        let unvoteTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:        AccountNameWriterValue(name:  userNickName),
+    //                                                                            permission:   AccountNameWriterValue(name:  "active"))
+    //
+    //        let unvoteArgs = EOSTransaction.UnvoteArgs.init(voterValue:        voter,
+    //                                                        authorValue:       author,
+    //                                                        permlinkValue:     permlink)
+    //
+    //        let unvoteArgsData = DataWriterValue(hex: unvoteArgs.toHex())
+    //
+    //        let unvoteActionAbi = ActionAbi(account:          AccountNameWriterValue(name:    "gls.publish"),
+    //                                        name:             AccountNameWriterValue(name:    "unvote"),
+    //                                        authorization:    [unvoteTransactionAuthorizationAbi],
+    //                                        data:             unvoteArgsData)
+    //
+    //        do {
+    //            let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
+    //
+    //            if let response = try unvoteTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [unvoteActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
+    //                if response.success {
+    //                    completion(response, nil)
+    //                }
+    //            }
+    //        } catch {
+    //            completion(nil, error)
+    //        }
+    //    }
     
     static func publish(transferArgs: EOSTransaction.TransferArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
