@@ -261,9 +261,9 @@ public class EOSManager {
         let voteTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:        AccountNameWriterValue(name:    userNickName),
                                                                           permission:   AccountNameWriterValue(name:    "active"))
         
-        let voteArgs: Encodable = (voteType == .unvote) ?   EOSTransaction.UnvoteArgs.init(voterValue:        userNickName,
-                                                                                           authorValue:       author,
-                                                                                           permlinkValue:     permlink) :
+        let voteArgs: Encodable = (voteType == .unvote) ?   EOSTransaction.UnvoteArgs.init(voterValue:          userNickName,
+                                                                                           authorValue:         author,
+                                                                                           permlinkValue:       permlink) :
                                                             EOSTransaction.UpvoteArgs.init(voterValue:          userNickName,
                                                                                            authorValue:         author,
                                                                                            permlinkValue:       permlink,

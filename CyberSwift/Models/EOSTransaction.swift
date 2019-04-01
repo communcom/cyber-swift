@@ -160,8 +160,8 @@ public class EOSTransaction: ChainTransaction {
     public struct UpvoteArgs: Encodable {
         // MARK: - Properties
         let voter: NameWriterValue
-        let weight: Int16
         let message_id: Mssgid
+        let weight: Int16
 
         
         // MARK: - Initialization
