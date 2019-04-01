@@ -263,7 +263,8 @@ public class EOSManager {
         
         let voteArgs: Encodable = (voteType == .unvote) ?   EOSTransaction.UnvoteArgs.init(voterValue:          userNickName,
                                                                                            authorValue:         author,
-                                                                                           permlinkValue:       permlink) :
+                                                                                           permlinkValue:       permlink,
+                                                                                           refBlockNumValue:    refBlockNum) :
                                                             EOSTransaction.UpvoteArgs.init(voterValue:          userNickName,
                                                                                            authorValue:         author,
                                                                                            permlinkValue:       permlink,

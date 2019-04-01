@@ -168,9 +168,9 @@ public class EOSTransaction: ChainTransaction {
         init(voterValue: String, authorValue: String, permlinkValue: String, refBlockNumValue: UInt64, weightValue: Int16) {
             self.voter      =   NameWriterValue(name: voterValue)
             
-            self.message_id =   Mssgid(authorValue:             authorValue,
-                                       permlinkValue:           permlinkValue,
-                                       refBlockNumValue:        refBlockNumValue)
+            self.message_id =   Mssgid(authorValue:         authorValue,
+                                       permlinkValue:       permlinkValue,
+                                       refBlockNumValue:    refBlockNumValue)
             
             self.weight     =   weightValue
         }
@@ -181,15 +181,16 @@ public class EOSTransaction: ChainTransaction {
     public struct UnvoteArgs: Encodable {
         // MARK: - Properties
         let voter: NameWriterValue
-        let author: NameWriterValue
-        let permlink: String
-        
+        let message_id: Mssgid
+
         
         // MARK: - Initialization
-        init(voterValue: String, authorValue: String, permlinkValue: String) {
+        init(voterValue: String, authorValue: String, permlinkValue: String, refBlockNumValue: UInt64) {
             self.voter      =   NameWriterValue(name: voterValue)
-            self.author     =   NameWriterValue(name: authorValue)
-            self.permlink   =   permlinkValue
+
+            self.message_id =   Mssgid(authorValue:         authorValue,
+                                       permlinkValue:       permlinkValue,
+                                       refBlockNumValue:    refBlockNumValue)
         }
     }
     
