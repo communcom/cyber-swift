@@ -310,7 +310,7 @@ public class RestAPIManager {
     
     
     /// EOS: contract `gls.publish`, action `deletemssg`
-    static func deleteMessage(author: String, permlink: String, refBlockNum: UInt64, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
+    public func deleteMessage(author: String, permlink: String, refBlockNum: UInt64, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             let messageDeleteArgs = EOSTransaction.MessageDeleteArgs(authorValue:           author,
                                                                      messagePermlink:       permlink,
