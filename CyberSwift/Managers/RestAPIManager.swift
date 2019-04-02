@@ -307,4 +307,29 @@ public class RestAPIManager {
             completion(nil, ErrorAPI.disableInternetConnection(message: nil))
         }
     }
+    
+    
+    /// EOS: contract `gls.publish`, action `deletemssg`
+    static func deleteMessage(author: String, permlink: String, refBlockNum: UInt64, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
+        if Config.isNetworkAvailable {
+            let messageDeleteArgs = EOSTransaction.MessageDeleteArgs(authorValue:           author,
+                                                                     messagePermlink:       permlink,
+                                                                     refBlockNumValue:      refBlockNum)
+
+            EOSManager.delete(messageArgs:  messageDeleteArgs,
+                              completion:   { (response, error) in
+                                guard error == nil else {
+                                    completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
+                                    return
+                                }
+                                
+                                completion(response, nil)
+            })
+        }
+            
+        // Offline mode
+        else {
+            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
+        }
+    }
 }
