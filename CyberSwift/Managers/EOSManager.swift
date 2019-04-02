@@ -27,12 +27,14 @@ public class EOSManager {
     static let chainApi = ChainApiFactory.create(rootUrl: Config.CHAIN_CYBERWAY_API_BASE_URL)
     static let historyApi = HistoryApiFactory.create(rootUrl: Config.CHAIN_CYBERWAY_API_BASE_URL)
     
+    
     // MARK: - Class Functions
     static func createPairKeys() {
         // Private key from encoded string
         let privateKey = try! EOSPrivateKey(base58: Config.postingKeyDestroyer2k)
         print("privateKey = \(privateKey.base58)")
     }
+    
     
     /// CHAIN
     static func getChainInfo(completion: @escaping (Info?, Error?) -> Void) {
@@ -45,6 +47,7 @@ public class EOSManager {
         })
     }
     
+    //
     static func getChainInfo() {
         _ = self.chainApi.getInfo().subscribe(onSuccess: { response in
             if let info = response.body {
@@ -58,6 +61,7 @@ public class EOSManager {
         })
     }
     
+    //
     static func getChain(blockNumberID: String) {
         _ = self.chainApi.getBlock(body: BlockNumOrId(block_num_or_id: blockNumberID)).subscribe(onSuccess: { response in
             if let info = response.body {
@@ -70,6 +74,7 @@ public class EOSManager {
         })
     }
     
+    //
     static func getAccount(nickName: String, completion: @escaping (HttpResponse<Account>?, Error?) -> Void) {
         _ = self.chainApi.getAccount(body: AccountName(account_name: nickName)).subscribe(onSuccess: { response in
             if let info = response.body {
@@ -132,6 +137,7 @@ public class EOSManager {
         }
     }
     
+    // Receive secret key
     static func signWebSocketSecretKey(userActiveKey: String) -> String? {
         do {
             let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
@@ -145,6 +151,7 @@ public class EOSManager {
         }
     }
     
+    // Send message (post/comment) to EOS
     static func publish(message: String, headline: String = "", parentData: ParentData? = nil, tags: [EOSTransaction.Tags] = [EOSTransaction.Tags()], completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
         
@@ -194,6 +201,7 @@ public class EOSManager {
         })
     }
     
+    // Delete message (post/comment) from EOS
     static func delete(messageArgs: EOSTransaction.MessageDeleteArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
         
@@ -222,6 +230,7 @@ public class EOSManager {
         }
     }
     
+    // Update message (post/comment) in EOS
     static func update(messageArgs: EOSTransaction.MessageUpdateArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
         
@@ -250,6 +259,7 @@ public class EOSManager {
         }
     }
     
+    // Message (post/comment) upvote/downvote/unvote
     public static func message(voteType: VoteType, author: String, permlink: String, weight: Int16? = 0, refBlockNum: UInt64 = 0, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else {
             completion(nil, NSError(domain: "User is not authorized.", code: 401, userInfo: nil))
@@ -307,38 +317,7 @@ public class EOSManager {
         }
     }
     
-    //    static func unvotePost(voter: String, author: String, permlink: String, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
-    //        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
-    //
-    //        let unvoteTransaction = EOSTransaction.init(chainApi: chainApi)
-    //
-    //        let unvoteTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:        AccountNameWriterValue(name:  userNickName),
-    //                                                                            permission:   AccountNameWriterValue(name:  "active"))
-    //
-    //        let unvoteArgs = EOSTransaction.UnvoteArgs.init(voterValue:        voter,
-    //                                                        authorValue:       author,
-    //                                                        permlinkValue:     permlink)
-    //
-    //        let unvoteArgsData = DataWriterValue(hex: unvoteArgs.toHex())
-    //
-    //        let unvoteActionAbi = ActionAbi(account:          AccountNameWriterValue(name:    "gls.publish"),
-    //                                        name:             AccountNameWriterValue(name:    "unvote"),
-    //                                        authorization:    [unvoteTransactionAuthorizationAbi],
-    //                                        data:             unvoteArgsData)
-    //
-    //        do {
-    //            let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
-    //
-    //            if let response = try unvoteTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [unvoteActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
-    //                if response.success {
-    //                    completion(response, nil)
-    //                }
-    //            }
-    //        } catch {
-    //            completion(nil, error)
-    //        }
-    //    }
-    
+    // Send transfer to EOS
     static func publish(transferArgs: EOSTransaction.TransferArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
         
