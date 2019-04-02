@@ -309,6 +309,33 @@ public class RestAPIManager {
     }
     
     
+    /// EOS: contract `gls.publish`, action `updatemssg`
+    public func updateMessage(author: String?, permlink: String, message: String, parentData: ParentData?, refBlockNum: UInt64, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
+        if Config.isNetworkAvailable {
+            let messageUpdateArgs = EOSTransaction.MessageUpdateArgs(authorValue:           author ?? Config.currentUser.nickName ?? "Cyberway",
+                                                                     messagePermlink:       permlink,
+                                                                     parentDataValue:       parentData,
+                                                                     refBlockNumValue:      refBlockNum,
+                                                                     bodymssgValue:         message)
+
+            EOSManager.update(messageArgs:  messageUpdateArgs,
+                              completion:   { (response, error) in
+                                guard error == nil else {
+                                    completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
+                                    return
+                                }
+                                
+                                completion(response, nil)
+            })
+        }
+            
+        // Offline mode
+        else {
+            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
+        }
+    }
+    
+    
     /// EOS: contract `gls.publish`, action `deletemssg`
     public func deleteMessage(author: String, permlink: String, refBlockNum: UInt64, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
