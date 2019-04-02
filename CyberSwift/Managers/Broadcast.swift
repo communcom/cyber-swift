@@ -103,7 +103,8 @@ extension Broadcast {
             jsonString          =   jsonString
                                         .replacingOccurrences(of: "[[[", with: "[[")
                                         .replacingOccurrences(of: "[\"nil\"]", with: "]")
-            
+                                        .replacingOccurrences(of: "\"\(Config.paginationLimit)\"", with: "\(Config.paginationLimit)")
+
             Logger.log(message: "\nEncoded JSON -> String:\n\t " + jsonString, event: .debug)
             
             // Template: { "id": 2, "jsonrpc": "2.0", "method": "content.getProfile", "params": { "userId": "tst3uuqzetwf" }}
