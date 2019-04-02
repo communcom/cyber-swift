@@ -22,7 +22,7 @@ public enum VoteType: String {
     case downvote   =   "downvote"
 }
 
-public class EOSManager {
+class EOSManager {
     // MARK: - Properties
     static let chainApi = ChainApiFactory.create(rootUrl: Config.CHAIN_CYBERWAY_API_BASE_URL)
     static let historyApi = HistoryApiFactory.create(rootUrl: Config.CHAIN_CYBERWAY_API_BASE_URL)
@@ -51,7 +51,6 @@ public class EOSManager {
     static func getChainInfo() {
         _ = self.chainApi.getInfo().subscribe(onSuccess: { response in
             if let info = response.body {
-                //                print("info = \(info)")
                 self.getChain(blockNumberID: info.head_block_id)
             }
         }, onError: { error in
@@ -89,7 +88,7 @@ public class EOSManager {
         })
     }
     
-    // Create new account
+    // EOS: contract `gls.publish`, action `newaccount`
     static func createNewAccount(nickName: String, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
         
@@ -151,8 +150,8 @@ public class EOSManager {
         }
     }
     
-    // Send message (post/comment) to EOS
-    static func publish(message: String, headline: String = "", parentData: ParentData? = nil, tags: [EOSTransaction.Tags] = [EOSTransaction.Tags()], completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
+    // EOS: contract `gls.publish`, action `createmssg`
+    static func publish(message: String, headline: String = "", parentData: ParentData? = nil, tags: [EOSTransaction.Tags]?, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
         
         EOSManager.getChainInfo(completion: { (info, error) in
@@ -173,7 +172,7 @@ public class EOSManager {
                                                                      refBlockNumValue:          refBlockNum,
                                                                      headermssgValue:           headline,
                                                                      bodymssgValue:             message,
-                                                                     tagsValues:                tags)
+                                                                     tagsValues:                tags ?? [EOSTransaction.Tags()])
             
             // JSON
             print(messageCreateArgs.convertToJSON())
@@ -200,8 +199,8 @@ public class EOSManager {
             }
         })
     }
-    
-    // Delete message (post/comment) from EOS
+
+    // EOS: contract `gls.publish`, action `deletemssg`
     static func delete(messageArgs: EOSTransaction.MessageDeleteArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
         
@@ -230,7 +229,7 @@ public class EOSManager {
         }
     }
     
-    // Update message (post/comment) in EOS
+    // EOS: contract `gls.publish`, action `updatemssg`
     static func update(messageArgs: EOSTransaction.MessageUpdateArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
         
@@ -259,8 +258,8 @@ public class EOSManager {
         }
     }
     
-    // Message (post/comment) upvote/downvote/unvote
-    public static func message(voteType: VoteType, author: String, permlink: String, weight: Int16? = 0, refBlockNum: UInt64 = 0, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
+    // EOS: contract `gls.publish`, actions `upvote`, `downvote`, `unvote`
+    static func message(voteType: VoteType, author: String, permlink: String, weight: Int16, refBlockNum: UInt64, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else {
             completion(nil, NSError(domain: "User is not authorized.", code: 401, userInfo: nil))
             return
@@ -275,11 +274,11 @@ public class EOSManager {
                                                                                            authorValue:         author,
                                                                                            permlinkValue:       permlink,
                                                                                            refBlockNumValue:    refBlockNum) :
-                                                            EOSTransaction.UpvoteArgs.init(voterValue:          userNickName,
-                                                                                           authorValue:         author,
-                                                                                           permlinkValue:       permlink,
-                                                                                           refBlockNumValue:    refBlockNum,
-                                                                                           weightValue:         weight!)
+            EOSTransaction.UpvoteArgs.init(voterValue:          userNickName,
+                                           authorValue:         author,
+                                           permlinkValue:       permlink,
+                                           refBlockNumValue:    refBlockNum,
+                                           weightValue:         weight)
         
         let voteArgsData = DataWriterValue(hex: voteArgs.toHex())
         
@@ -316,8 +315,8 @@ public class EOSManager {
             completion(nil, error)
         }
     }
-    
-    // Send transfer to EOS
+
+    // EOS: contract `gls.vesting`, action `transfer`
     static func publish(transferArgs: EOSTransaction.TransferArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
         
@@ -346,7 +345,7 @@ public class EOSManager {
         }
     }
     
-    // Update user profile: Pin/Unpin
+    // EOS: contract `gls.social`, actions `pin`, `unpin`
     static func updateUserProfile(pinArgs: EOSTransaction.UserProfilePinArgs, isUnpin: Bool, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
         
@@ -375,7 +374,7 @@ public class EOSManager {
         }
     }
     
-    // Update user profile: Block/Unblock
+    // EOS: contract `gls.social`, actions `block`, `unblock`
     static func updateUserProfile(blockArgs: EOSTransaction.UserProfileBlockArgs, isUnblock: Bool, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
         
@@ -404,7 +403,7 @@ public class EOSManager {
         }
     }
     
-    // Update user profile: Changereput
+    // EOS: contract `gls.publish`, action `changereput`
     private static func updateUserProfile(changereputArgs: EOSTransaction.UserProfileChangereputArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
         
@@ -433,7 +432,7 @@ public class EOSManager {
         }
     }
     
-    // Update user profile: Updatemeta
+    // EOS: contract `gls.social`, action `updatemeta`
     static func updateUserProfile(metaArgs: EOSTransaction.UserProfileUpdatemetaArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
         
@@ -465,7 +464,7 @@ public class EOSManager {
         }
     }
     
-    // Update user profile: Deletemeta
+    // EOS: contract `gls.social`, action `deletemeta`
     static func deleteUserProfile(metaArgs: EOSTransaction.UserProfileDeleteArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         let userProfileDeletemetaTransaction = EOSTransaction.init(chainApi: EOSManager.chainApi)
         

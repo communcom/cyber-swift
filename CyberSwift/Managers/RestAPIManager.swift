@@ -5,6 +5,7 @@
 //  Copyright © 2018 golos. All rights reserved.
 //
 
+import eosswift
 import Foundation
 
 public class RestAPIManager {
@@ -244,6 +245,60 @@ public class RestAPIManager {
                                                     Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
                                                     
                                                     completion(nil, errorAPI)
+            })
+        }
+            
+        // Offline mode
+        else {
+            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
+        }
+    }
+    
+    
+    /// EOS: contract `gls.publish`, actions `upvote`, `downvote`, `unvote`
+    public func message(voteType: VoteType, author: String, permlink: String, weight: Int16? = 0, refBlockNum: UInt64 = 0, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
+        if Config.isNetworkAvailable {
+            EOSManager.message(voteType:        voteType,
+                               author:          author,
+                               permlink:        permlink,
+                               weight:          voteType == .unvote ? 0 : 10_000,
+                               refBlockNum:     refBlockNum,
+                               completion:      { (response, error) in
+                                guard error == nil else {
+                                    completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
+                                    return
+                                }
+                                
+                                completion(response, nil)
+            })
+        }
+            
+        // Offline mode
+        else {
+            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
+        }
+    }
+    
+    
+    /// EOS: contract `gls.publish`, action `createmssg`
+    public func publish(message: String, headline: String? = "", parentData: ParentData? = nil, tags: [EOSTransaction.Tags]?, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
+        if Config.isNetworkAvailable {
+            EOSManager.publish(message:     "This is my next test post in EOS...",
+                               headline:    String(format: "Test Post Title %i", arc4random_uniform(100)),
+                               tags:        tags,
+                               completion:  { (response, error) in
+                                guard error == nil else {
+                                    completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
+                                    return
+                                }
+                                
+                                completion(response, nil)
+
+//                                if response!.success, response!.statusCode == 202, let refBlockNum = res, let permlink = response?.body?.processed.action_traces.first?.act.data["permlink"]?.jsonValue as? String {
+//                                    print(permlink)
+//                                    self.createCommentMessage(parentData: ParentData(refBlockNum: UInt64, permlink: permlink))
+//                                    //                                        self.votePost(permlink: permlink)
+//                                }
             })
         }
             
