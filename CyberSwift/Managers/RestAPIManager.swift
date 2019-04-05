@@ -281,12 +281,15 @@ public class RestAPIManager {
     
     
     /// EOS: contract `gls.publish`, action `createmssg`
-    public func publish(message: String, headline: String? = "", parentData: ParentData? = nil, tags: [EOSTransaction.Tags]?, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
+    public func publish(message: String, headline: String? = "", parentData: ParentData? = nil, tags: [String]?, metaData: String?, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
-            EOSManager.publish(message:     "This is my next test post in EOS...",
-                               headline:    String(format: "Test Post Title %i", arc4random_uniform(100)),
-                               tags:        tags,
-                               completion:  { (response, error) in
+            let arrayTags = tags == nil ? [EOSTransaction.Tags()] : tags!.map({ EOSTransaction.Tags.init(tagValue: $0) })
+            
+            EOSManager.publish(message:         message,
+                               headline:        String(format: "Test Post Title %i", arc4random_uniform(100)),
+                               tags:            arrayTags,
+                               jsonMetaData:    metaData,
+                               completion:      { (response, error) in
                                 guard error == nil else {
                                     completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
                                     return

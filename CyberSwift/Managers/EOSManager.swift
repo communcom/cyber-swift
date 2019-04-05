@@ -151,7 +151,8 @@ class EOSManager {
     }
     
     // EOS: contract `gls.publish`, action `createmssg`
-    static func publish(message: String, headline: String = "", parentData: ParentData? = nil, tags: [EOSTransaction.Tags]?, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
+    // https://github.com/GolosChain/golos.contracts/blob/master/golos.publication/golos.publication.abi#L238-L291
+    static func publish(message: String, headline: String = "", parentData: ParentData? = nil, tags: [EOSTransaction.Tags], jsonMetaData: String?, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
         
         EOSManager.getChainInfo(completion: { (info, error) in
@@ -172,7 +173,8 @@ class EOSManager {
                                                                      refBlockNumValue:          refBlockNum,
                                                                      headermssgValue:           headline,
                                                                      bodymssgValue:             message,
-                                                                     tagsValues:                tags ?? [EOSTransaction.Tags()])
+                                                                     tagsValues:                tags,
+                                                                     jsonmetadataValue:         jsonMetaData)
             
             // JSON
             print(messageCreateArgs.convertToJSON())

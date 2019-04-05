@@ -43,25 +43,25 @@ public class EOSTransaction: ChainTransaction {
         let headermssg: String
         let bodymssg: String
         let languagemssg: String
-        let tags: [Tags]
-        let jsonmetadata: String
+        let tags: [Tags]?
+        let jsonmetadata: String?
         
         
         // MARK: - Initialization
-        init(authorValue: String, parentDataValue: ParentData? = nil, refBlockNumValue: UInt64 = 0, beneficiariesValues: [Beneficiary?] = [], tokenpropValue: Int64 = 0, vestpaymentValue: Byte = 1, headermssgValue: String = "test", bodymssgValue: String = "test", languagemssgValue: String = "ru", tagsValues: [Tags] = [Tags()], jsonmetadataValue: String = "") {
+        init(authorValue: String, parentDataValue: ParentData? = nil, refBlockNumValue: UInt64 = 0, beneficiariesValues: [Beneficiary?] = [], tokenpropValue: Int64 = 0, vestpaymentValue: Byte = 1, headermssgValue: String = "test", bodymssgValue: String = "test", languagemssgValue: String = "ru", tagsValues: [Tags]? = [Tags()], jsonmetadataValue: String? = "") {
             let prefixTitle         =   parentDataValue == nil ? headermssgValue : "Comment"
             let messagePermlink     =   (prefixTitle + "-" + Date().convert(toStringFormat: .expirationDateType)).lowercased()
-                .replacingOccurrences(of: " ", with: "-")
-                .replacingOccurrences(of: ":", with: "-")
+                                            .replacingOccurrences(of: " ", with: "-")
+                                            .replacingOccurrences(of: ":", with: "-")
             
             self.message_id         =   Mssgid(authorValue:             authorValue,
                                                permlinkValue:           messagePermlink,
                                                refBlockNumValue:        refBlockNumValue)
             
             self.parent_id          =   parentDataValue == nil ?        Mssgid() :
-                Mssgid(authorValue:         authorValue,
-                       permlinkValue:       parentDataValue == nil ? messagePermlink : parentDataValue!.permlink,
-                       refBlockNumValue:    parentDataValue == nil ? refBlockNumValue : parentDataValue!.refBlockNum)
+                                                                        Mssgid(authorValue:         authorValue,
+                                                                               permlinkValue:       parentDataValue == nil ? messagePermlink : parentDataValue!.permlink,
+                                                                               refBlockNumValue:    parentDataValue == nil ? refBlockNumValue : parentDataValue!.refBlockNum)
             
             self.beneficiaries      =   beneficiariesValues
             self.tokenprop          =   tokenpropValue

@@ -52,9 +52,9 @@ public struct Config {
     static let postingKeyJosephKalu: String             =   "5K6CfG8gzhTZNwHDxPmeQiPChx6FpgiVYN7USVp2aGC2WsDqH4h"
     
     // 159 testnet
-    public static let accountNickTest: String           =   "tst1dmkhfimy"
-    public static let activeKeyTest: String             =   "5J1JAhPhCZ78ysXxFPZFrjyHrhbs5ThY47GGk7ZKuZUYtabWXog"
-    
+    public static let accountNickTest: String           =   "vbjdktidppoq"  //"tst1dmkhfimy"
+    public static let activeKeyTest: String             =   "5JA54JMgG4herXK85re6CSyPvmBs1X9EZ1qKwrqyrYVNaR1GKTS"    // "5J1JAhPhCZ78ysXxFPZFrjyHrhbs5ThY47GGk7ZKuZUYtabWXog"
+
     
     /// Check network connection
     public static var isNetworkAvailable: Bool {
