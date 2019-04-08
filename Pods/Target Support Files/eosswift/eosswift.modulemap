@@ -1,6 +1,0 @@
-framework module eosswift {
-  umbrella header "eosswift-umbrella.h"
-
-  export *
-  module * { export * }
-}

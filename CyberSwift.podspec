@@ -15,7 +15,7 @@ Pod::Spec.new do |spec|
 
     # Cocoapods
     spec.dependency 'Locksmith'
-    spec.dependency 'eosswift', '~> 1.5'
+# spec.dependency 'eosswift', '~> 1.5'
     spec.dependency 'RxBlocking', '~> 4.0'
     spec.dependency 'Starscream', '~> 3.0'
     spec.dependency 'Localize-Swift', '~> 2.0'

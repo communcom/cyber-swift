@@ -9,6 +9,216 @@
 /* Begin PBXBuildFile section */
 		03329A709F0DA60180F91DBB /* Pods_CyberSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6ED672114DF191DC66860EA /* Pods_CyberSwift.framework */; };
 		B111B5BB224E1B5A00F84AD9 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B111B5BA224E1B5A00F84AD9 /* KeychainManager.swift */; };
+		B13A22BC225B6009005980F2 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = B13A21CC225B6008005980F2 /* LICENSE */; };
+		B13A22BD225B6009005980F2 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = B13A21CD225B6008005980F2 /* README.md */; };
+		B13A22BE225B6009005980F2 /* VoteChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21D2225B6008005980F2 /* VoteChain.swift */; };
+		B13A22BF225B6009005980F2 /* VoteArgs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21D4225B6008005980F2 /* VoteArgs.swift */; };
+		B13A22C0225B6009005980F2 /* VoteBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21D5225B6008005980F2 /* VoteBody.swift */; };
+		B13A22C1225B6009005980F2 /* TransferChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21D7225B6008005980F2 /* TransferChain.swift */; };
+		B13A22C2225B6009005980F2 /* TransferArgs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21D9225B6008005980F2 /* TransferArgs.swift */; };
+		B13A22C3225B6009005980F2 /* TransferBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21DA225B6008005980F2 /* TransferBody.swift */; };
+		B13A22C4225B6009005980F2 /* SignedTransactionAbi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21DC225B6008005980F2 /* SignedTransactionAbi.swift */; };
+		B13A22C5225B6009005980F2 /* TransactionAuthorizationAbi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21DD225B6008005980F2 /* TransactionAuthorizationAbi.swift */; };
+		B13A22C6225B6009005980F2 /* TransactionAbi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21DE225B6008005980F2 /* TransactionAbi.swift */; };
+		B13A22C7225B6009005980F2 /* ActionAbi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21DF225B6008005980F2 /* ActionAbi.swift */; };
+		B13A22C8225B6009005980F2 /* BuyRamChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21E1225B6008005980F2 /* BuyRamChain.swift */; };
+		B13A22C9225B6009005980F2 /* BuyRamBytesChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21E2225B6008005980F2 /* BuyRamBytesChain.swift */; };
+		B13A22CA225B6009005980F2 /* UnDelegateBandwidth.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21E3225B6008005980F2 /* UnDelegateBandwidth.swift */; };
+		B13A22CB225B6009005980F2 /* CreateAccountChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21E4225B6008005980F2 /* CreateAccountChain.swift */; };
+		B13A22CC225B6009005980F2 /* DelegateBandwidthBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21E7225B6008005980F2 /* DelegateBandwidthBody.swift */; };
+		B13A22CD225B6009005980F2 /* DelegateBandwidthArgs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21E8225B6008005980F2 /* DelegateBandwidthArgs.swift */; };
+		B13A22CE225B6009005980F2 /* NewAccountBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21EA225B6008005980F2 /* NewAccountBody.swift */; };
+		B13A22CF225B6009005980F2 /* AccountRequiredAuthAbi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21EB225B6008005980F2 /* AccountRequiredAuthAbi.swift */; };
+		B13A22D0225B6009005980F2 /* AccountKeyAbi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21EC225B6008005980F2 /* AccountKeyAbi.swift */; };
+		B13A22D1225B6009005980F2 /* NewAccountArgs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21ED225B6008005980F2 /* NewAccountArgs.swift */; };
+		B13A22D2225B6009005980F2 /* BuyRamBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21EF225B6008005980F2 /* BuyRamBody.swift */; };
+		B13A22D3225B6009005980F2 /* BuyRamBytesBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21F0225B6008005980F2 /* BuyRamBytesBody.swift */; };
+		B13A22D4225B6009005980F2 /* BuyRamBytesArgs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21F1225B6008005980F2 /* BuyRamBytesArgs.swift */; };
+		B13A22D5225B6009005980F2 /* BuyRamArgs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21F2225B6008005980F2 /* BuyRamArgs.swift */; };
+		B13A22D6225B6009005980F2 /* SellRamArgs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21F4225B6008005980F2 /* SellRamArgs.swift */; };
+		B13A22D7225B6009005980F2 /* SellRamBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21F5225B6008005980F2 /* SellRamBody.swift */; };
+		B13A22D8225B6009005980F2 /* UnDelegateBandwidthBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21F7225B6008005980F2 /* UnDelegateBandwidthBody.swift */; };
+		B13A22D9225B6009005980F2 /* UnDelegateBandwidthArgs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21F8225B6008005980F2 /* UnDelegateBandwidthArgs.swift */; };
+		B13A22DA225B6009005980F2 /* RefundBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21FA225B6008005980F2 /* RefundBody.swift */; };
+		B13A22DB225B6009005980F2 /* RefundArgs.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21FB225B6008005980F2 /* RefundArgs.swift */; };
+		B13A22DC225B6009005980F2 /* RefundChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21FC225B6008005980F2 /* RefundChain.swift */; };
+		B13A22DD225B6009005980F2 /* SellRamChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21FD225B6008005980F2 /* SellRamChain.swift */; };
+		B13A22DE225B6009005980F2 /* DelegateBandwidthChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21FE225B6008005980F2 /* DelegateBandwidthChain.swift */; };
+		B13A22DF225B6009005980F2 /* TransactionContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A21FF225B6008005980F2 /* TransactionContext.swift */; };
+		B13A22E0225B6009005980F2 /* ChainTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2200225B6008005980F2 /* ChainTransaction.swift */; };
+		B13A22E1225B6009005980F2 /* ChainResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2201225B6008005980F2 /* ChainResponse.swift */; };
+		B13A22E2225B6009005980F2 /* GetDelegatedBandwidth.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2204225B6008005980F2 /* GetDelegatedBandwidth.swift */; };
+		B13A22E3225B6009005980F2 /* BandwidthJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2205225B6008005980F2 /* BandwidthJson.swift */; };
+		B13A22E4225B6009005980F2 /* BpBranding.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2208225B6008005980F2 /* BpBranding.swift */; };
+		B13A22E5225B6009005980F2 /* BpNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2209225B6008005980F2 /* BpNode.swift */; };
+		B13A22E6225B6009005980F2 /* BpSocial.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A220A225B6008005980F2 /* BpSocial.swift */; };
+		B13A22E7225B6009005980F2 /* BpLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A220B225B6008005980F2 /* BpLocation.swift */; };
+		B13A22E8225B6009005980F2 /* BpOrg.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A220C225B6008005980F2 /* BpOrg.swift */; };
+		B13A22E9225B6009005980F2 /* BpParent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A220D225B6008005980F2 /* BpParent.swift */; };
+		B13A22EA225B6009005980F2 /* GetBlockProducers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A220E225B6008005980F2 /* GetBlockProducers.swift */; };
+		B13A22EB225B6009005980F2 /* BlockProducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A220F225B6008005980F2 /* BlockProducer.swift */; };
+		B13A22EC225B6009005980F2 /* GetRegProxyInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2211225B6008005980F2 /* GetRegProxyInfo.swift */; };
+		B13A22ED225B6009005980F2 /* ProxyJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2212225B6008005980F2 /* ProxyJson.swift */; };
+		B13A22EE225B6009005980F2 /* GetRamPrice.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2214225B6008005980F2 /* GetRamPrice.swift */; };
+		B13A22EF225B6009005980F2 /* CheckAccountNameExists.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2216225B6008005980F2 /* CheckAccountNameExists.swift */; };
+		B13A22F0225B6009005980F2 /* AssetWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2219225B6008005980F2 /* AssetWriter.swift */; };
+		B13A22F1225B6009005980F2 /* DataWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A221A225B6008005980F2 /* DataWriter.swift */; };
+		B13A22F2225B6009005980F2 /* HexCollectionWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A221B225B6008005980F2 /* HexCollectionWriter.swift */; };
+		B13A22F3225B6009005980F2 /* AbiTypeWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A221C225B6008005980F2 /* AbiTypeWriter.swift */; };
+		B13A22F4225B6009005980F2 /* StringCollectionWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A221D225B6008005980F2 /* StringCollectionWriter.swift */; };
+		B13A22F5225B6009005980F2 /* PublicKeyWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A221E225B6008005980F2 /* PublicKeyWriter.swift */; };
+		B13A22F6225B6009005980F2 /* TimestampWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A221F225B6008005980F2 /* TimestampWriter.swift */; };
+		B13A22F7225B6009005980F2 /* AccountNameWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2220225B6008005980F2 /* AccountNameWriter.swift */; };
+		B13A22F8225B6009005980F2 /* AccountNameCollectionWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2221225B6008005980F2 /* AccountNameCollectionWriter.swift */; };
+		B13A22F9225B6009005980F2 /* NameWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2222225B6008005980F2 /* NameWriter.swift */; };
+		B13A22FA225B6009005980F2 /* BlockNumWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2223225B6008005980F2 /* BlockNumWriter.swift */; };
+		B13A22FB225B6009005980F2 /* BlockPrefixWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2224225B6008005980F2 /* BlockPrefixWriter.swift */; };
+		B13A22FC225B6009005980F2 /* ChainIdWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2225225B6008005980F2 /* ChainIdWriter.swift */; };
+		B13A22FD225B6009005980F2 /* AbiEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2226225B6008005980F2 /* AbiEncoder.swift */; };
+		B13A22FE225B6009005980F2 /* AbiEncodingContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2227225B6008005980F2 /* AbiEncodingContainer.swift */; };
+		B13A22FF225B6009005980F2 /* regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2228225B6008005980F2 /* regex.swift */; };
+		B13A2300225B6009005980F2 /* PrivateKeySigning.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A222C225B6008005980F2 /* PrivateKeySigning.swift */; };
+		B13A2301225B6009005980F2 /* EOSPublicKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A222D225B6008005980F2 /* EOSPublicKey.swift */; };
+		B13A2302225B6009005980F2 /* ECPublicKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A222E225B6008005980F2 /* ECPublicKey.swift */; };
+		B13A2303225B6009005980F2 /* EOSPrivateKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A222F225B6008005980F2 /* EOSPrivateKey.swift */; };
+		B13A2304225B6009005980F2 /* ECPrivateKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2230225B6008005980F2 /* ECPrivateKey.swift */; };
+		B13A2305225B6009005980F2 /* HexWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2232225B6008005980F2 /* HexWriter.swift */; };
+		B13A2306225B6009005980F2 /* Sha256.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2234225B6008005980F2 /* Sha256.swift */; };
+		B13A2307225B6009005980F2 /* RIPEMD160-Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2235225B6008005980F2 /* RIPEMD160-Ext.swift */; };
+		B13A2308225B6009005980F2 /* RIPEMD160.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2236225B6008005980F2 /* RIPEMD160.swift */; };
+		B13A2309225B6009005980F2 /* RIPEMD160-HMAC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2237225B6008005980F2 /* RIPEMD160-HMAC.swift */; };
+		B13A230A225B6009005980F2 /* Base58String.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2239225B6008005980F2 /* Base58String.swift */; };
+		B13A230B225B6009005980F2 /* Base58.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A223A225B6008005980F2 /* Base58.swift */; };
+		B13A230C225B6009005980F2 /* Pretty.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A223C225B6008005980F2 /* Pretty.swift */; };
+		B13A230D225B6009005980F2 /* BlockIdDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A223E225B6008005980F2 /* BlockIdDetails.swift */; };
+		B13A230E225B6009005980F2 /* eos_swift.h in Headers */ = {isa = PBXBuildFile; fileRef = B13A223F225B6008005980F2 /* eos_swift.h */; };
+		B13A230F225B6009005980F2 /* uECC.h in Headers */ = {isa = PBXBuildFile; fileRef = B13A2241225B6008005980F2 /* uECC.h */; };
+		B13A2310225B6009005980F2 /* asm_arm.inc.h in Headers */ = {isa = PBXBuildFile; fileRef = B13A2242225B6008005980F2 /* asm_arm.inc.h */; };
+		B13A2311225B6009005980F2 /* uECC_vli.h in Headers */ = {isa = PBXBuildFile; fileRef = B13A2243225B6008005980F2 /* uECC_vli.h */; };
+		B13A2312225B6009005980F2 /* platform-specific.inc.h in Headers */ = {isa = PBXBuildFile; fileRef = B13A2244225B6008005980F2 /* platform-specific.inc.h */; };
+		B13A2313225B6009005980F2 /* types.h in Headers */ = {isa = PBXBuildFile; fileRef = B13A2245225B6008005980F2 /* types.h */; };
+		B13A2314225B6009005980F2 /* asm_arm_mult_square_umaal.inc.h in Headers */ = {isa = PBXBuildFile; fileRef = B13A2247225B6008005980F2 /* asm_arm_mult_square_umaal.inc.h */; };
+		B13A2315225B6009005980F2 /* asm_avr_mult_square.inc.h in Headers */ = {isa = PBXBuildFile; fileRef = B13A2248225B6008005980F2 /* asm_avr_mult_square.inc.h */; };
+		B13A2316225B6009005980F2 /* asm_avr.inc.h in Headers */ = {isa = PBXBuildFile; fileRef = B13A2249225B6008005980F2 /* asm_avr.inc.h */; };
+		B13A2317225B6009005980F2 /* asm_arm_mult_square.inc.h in Headers */ = {isa = PBXBuildFile; fileRef = B13A224A225B6008005980F2 /* asm_arm_mult_square.inc.h */; };
+		B13A2318225B6009005980F2 /* curve-specific.inc.h in Headers */ = {isa = PBXBuildFile; fileRef = B13A224B225B6008005980F2 /* curve-specific.inc.h */; };
+		B13A2319225B6009005980F2 /* uECC.c in Sources */ = {isa = PBXBuildFile; fileRef = B13A224C225B6008005980F2 /* uECC.c */; };
+		B13A231A225B6009005980F2 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2250225B6008005980F2 /* Connection.swift */; };
+		B13A231B225B6009005980F2 /* RxHttp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2251225B6008005980F2 /* RxHttp.swift */; };
+		B13A231C225B6009005980F2 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2252225B6008005980F2 /* Logger.swift */; };
+		B13A231D225B6009005980F2 /* HttpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2253225B6008005980F2 /* HttpRequest.swift */; };
+		B13A231E225B6009005980F2 /* HttpResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2254225B6008005980F2 /* HttpResponse.swift */; };
+		B13A231F225B6009005980F2 /* HttpErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2255225B6008005980F2 /* HttpErrorResponse.swift */; };
+		B13A2320225B6009005980F2 /* DateDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2257225B6008005980F2 /* DateDecoder.swift */; };
+		B13A2321225B6009005980F2 /* HistoryApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2258225B6008005980F2 /* HistoryApi.swift */; };
+		B13A2322225B6009005980F2 /* ChainApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2259225B6008005980F2 /* ChainApi.swift */; };
+		B13A2323225B6009005980F2 /* TransactionAuthorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A225C225B6008005980F2 /* TransactionAuthorization.swift */; };
+		B13A2324225B6009005980F2 /* TransactionActionTrace.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A225E225B6008005980F2 /* TransactionActionTrace.swift */; };
+		B13A2325225B6009005980F2 /* TransactionProcessed.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A225F225B6008005980F2 /* TransactionProcessed.swift */; };
+		B13A2326225B6009005980F2 /* TransactionComitted.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2260225B6008005980F2 /* TransactionComitted.swift */; };
+		B13A2327225B6009005980F2 /* TransactionParentReceipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2261225B6008005980F2 /* TransactionParentReceipt.swift */; };
+		B13A2328225B6009005980F2 /* TransactionAct.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2262225B6008005980F2 /* TransactionAct.swift */; };
+		B13A2329225B6009005980F2 /* TransactionActAuthorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2263225B6008005980F2 /* TransactionActAuthorization.swift */; };
+		B13A232A225B6009005980F2 /* TransactionReceipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2264225B6008005980F2 /* TransactionReceipt.swift */; };
+		B13A232B225B6009005980F2 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2266225B6008005980F2 /* Transaction.swift */; };
+		B13A232C225B6009005980F2 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2267225B6008005980F2 /* Action.swift */; };
+		B13A232D225B6009005980F2 /* Producer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A226A225B6008005980F2 /* Producer.swift */; };
+		B13A232E225B6009005980F2 /* ProducerList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A226B225B6008005980F2 /* ProducerList.swift */; };
+		B13A232F225B6009005980F2 /* GetProducers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A226D225B6008005980F2 /* GetProducers.swift */; };
+		B13A2330225B6009005980F2 /* AbiStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2270225B6008005980F2 /* AbiStruct.swift */; };
+		B13A2331225B6009005980F2 /* AbiAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2271225B6008005980F2 /* AbiAction.swift */; };
+		B13A2332225B6009005980F2 /* AbiContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2272225B6008005980F2 /* AbiContract.swift */; };
+		B13A2333225B6009005980F2 /* AbiType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2273225B6008005980F2 /* AbiType.swift */; };
+		B13A2334225B6009005980F2 /* RawCodeForAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2274225B6008005980F2 /* RawCodeForAccount.swift */; };
+		B13A2335225B6009005980F2 /* CodeForAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2275225B6008005980F2 /* CodeForAccount.swift */; };
+		B13A2336225B6009005980F2 /* AbiForAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2276225B6008005980F2 /* AbiForAccount.swift */; };
+		B13A2337225B6009005980F2 /* BinaryHex.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2277225B6008005980F2 /* BinaryHex.swift */; };
+		B13A2338225B6009005980F2 /* ContractTableRows.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2278225B6008005980F2 /* ContractTableRows.swift */; };
+		B13A2339225B6009005980F2 /* AbiField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2279225B6008005980F2 /* AbiField.swift */; };
+		B13A233A225B6009005980F2 /* AbiTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A227A225B6008005980F2 /* AbiTable.swift */; };
+		B13A233B225B6009005980F2 /* GetCodeByAccountName.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A227C225B6008005980F2 /* GetCodeByAccountName.swift */; };
+		B13A233C225B6009005980F2 /* GetCurrencyBalance.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A227D225B6008005980F2 /* GetCurrencyBalance.swift */; };
+		B13A233D225B6009005980F2 /* GetCurrencyStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A227E225B6008005980F2 /* GetCurrencyStats.swift */; };
+		B13A233E225B6009005980F2 /* AbiBinToJson.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A227F225B6008005980F2 /* AbiBinToJson.swift */; };
+		B13A233F225B6009005980F2 /* GetTableRows.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2280225B6008005980F2 /* GetTableRows.swift */; };
+		B13A2340225B6009005980F2 /* ChainError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2281225B6008005980F2 /* ChainError.swift */; };
+		B13A2341225B6009005980F2 /* GetRequiredKeysBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2283225B6008005980F2 /* GetRequiredKeysBody.swift */; };
+		B13A2342225B6009005980F2 /* PushTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2284225B6008005980F2 /* PushTransaction.swift */; };
+		B13A2343225B6009005980F2 /* RequiredKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2285225B6008005980F2 /* RequiredKeys.swift */; };
+		B13A2344225B6009005980F2 /* ResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2286225B6008005980F2 /* ResponseBody.swift */; };
+		B13A2345225B6009005980F2 /* RequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2287225B6008005980F2 /* RequestBody.swift */; };
+		B13A2346225B6009005980F2 /* parsing_types.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2288225B6008005980F2 /* parsing_types.swift */; };
+		B13A2347225B6009005980F2 /* codable_type.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2289225B6008005980F2 /* codable_type.swift */; };
+		B13A2348225B6009005980F2 /* Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A228A225B6008005980F2 /* Encodable.swift */; };
+		B13A2349225B6009005980F2 /* Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A228C225B6008005980F2 /* Info.swift */; };
+		B13A234A225B6009005980F2 /* HistoricAccountAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A228F225B6008005980F2 /* HistoricAccountAction.swift */; };
+		B13A234B225B6009005980F2 /* ExecutedTransactionParent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2290225B6008005980F2 /* ExecutedTransactionParent.swift */; };
+		B13A234C225B6009005980F2 /* Accounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2291225B6008005980F2 /* Accounts.swift */; };
+		B13A234D225B6009005980F2 /* ExecutedTransactionReceipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2292225B6008005980F2 /* ExecutedTransactionReceipt.swift */; };
+		B13A234E225B6009005980F2 /* ExecutedTransactionAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2293225B6008005980F2 /* ExecutedTransactionAction.swift */; };
+		B13A234F225B6009005980F2 /* HistoricAccountActionParent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2294225B6008005980F2 /* HistoricAccountActionParent.swift */; };
+		B13A2350225B6009005980F2 /* ExecutedTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2295225B6008005980F2 /* ExecutedTransaction.swift */; };
+		B13A2351225B6009005980F2 /* HistoricTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2296225B6008005980F2 /* HistoricTransaction.swift */; };
+		B13A2352225B6009005980F2 /* GetActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2298225B6008005980F2 /* GetActions.swift */; };
+		B13A2353225B6009005980F2 /* GetKeyAccounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2299225B6008005980F2 /* GetKeyAccounts.swift */; };
+		B13A2354225B6009005980F2 /* GetTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A229A225B6008005980F2 /* GetTransaction.swift */; };
+		B13A2355225B6009005980F2 /* GetControlledAccounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A229B225B6008005980F2 /* GetControlledAccounts.swift */; };
+		B13A2356225B6009005980F2 /* SelfDelegatedBandwidth.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A229E225B6009005980F2 /* SelfDelegatedBandwidth.swift */; };
+		B13A2357225B6009005980F2 /* AccountPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A229F225B6009005980F2 /* AccountPermission.swift */; };
+		B13A2358225B6009005980F2 /* AccountKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A22A0225B6009005980F2 /* AccountKey.swift */; };
+		B13A2359225B6009005980F2 /* AccountRequiredAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A22A1225B6009005980F2 /* AccountRequiredAuth.swift */; };
+		B13A235A225B6009005980F2 /* RefundRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A22A2225B6009005980F2 /* RefundRequest.swift */; };
+		B13A235B225B6009005980F2 /* AccountAuthPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A22A3225B6009005980F2 /* AccountAuthPermission.swift */; };
+		B13A235C225B6009005980F2 /* VoterInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A22A4225B6009005980F2 /* VoterInfo.swift */; };
+		B13A235D225B6009005980F2 /* AccountAuthWait.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A22A5225B6009005980F2 /* AccountAuthWait.swift */; };
+		B13A235E225B6009005980F2 /* AccountResourceLimit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A22A6225B6009005980F2 /* AccountResourceLimit.swift */; };
+		B13A235F225B6009005980F2 /* TotalResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A22A7225B6009005980F2 /* TotalResources.swift */; };
+		B13A2360225B6009005980F2 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A22A8225B6009005980F2 /* Account.swift */; };
+		B13A2361225B6009005980F2 /* AccountAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A22A9225B6009005980F2 /* AccountAuth.swift */; };
+		B13A2362225B6009005980F2 /* AccountName.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A22AB225B6009005980F2 /* AccountName.swift */; };
+		B13A2363225B6009005980F2 /* ChainErrorDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A22AC225B6009005980F2 /* ChainErrorDetail.swift */; };
+		B13A2364225B6009005980F2 /* ChainErrorItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A22AD225B6009005980F2 /* ChainErrorItem.swift */; };
+		B13A2365225B6009005980F2 /* BlockHeaderRootMerkle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A22B0225B6009005980F2 /* BlockHeaderRootMerkle.swift */; };
+		B13A2366225B6009005980F2 /* CycleSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A22B1225B6009005980F2 /* CycleSummary.swift */; };
+		B13A2367225B6009005980F2 /* BlockHeaderSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A22B2225B6009005980F2 /* BlockHeaderSchedule.swift */; };
+		B13A2368225B6009005980F2 /* BlockHeaderStateHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A22B3225B6009005980F2 /* BlockHeaderStateHeader.swift */; };
+		B13A2369225B6009005980F2 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A22B4225B6009005980F2 /* Block.swift */; };
+		B13A236A225B6009005980F2 /* CycleSummaryTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A22B5225B6009005980F2 /* CycleSummaryTransaction.swift */; };
+		B13A236B225B6009005980F2 /* BlockHeaderProducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A22B6225B6009005980F2 /* BlockHeaderProducer.swift */; };
+		B13A236C225B6009005980F2 /* BlockHeaderState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A22B7225B6009005980F2 /* BlockHeaderState.swift */; };
+		B13A236D225B6009005980F2 /* Region.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A22B8225B6009005980F2 /* Region.swift */; };
+		B13A236E225B6009005980F2 /* BlockNumOrId.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A22BA225B6009005980F2 /* BlockNumOrId.swift */; };
+		B13A236F225B6009005980F2 /* primitive_type.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A22BB225B6009005980F2 /* primitive_type.swift */; };
+		B13A2392225B6115005980F2 /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = B13A2371225B6114005980F2 /* LICENSE.md */; };
+		B13A2393225B6115005980F2 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = B13A2372225B6114005980F2 /* README.md */; };
+		B13A2394225B6115005980F2 /* RandomUInt64.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2374225B6114005980F2 /* RandomUInt64.swift */; };
+		B13A2395225B6115005980F2 /* SipHasher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2375225B6114005980F2 /* SipHasher.swift */; };
+		B13A2396225B6115005980F2 /* SipHashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2376225B6114005980F2 /* SipHashable.swift */; };
+		B13A2397225B6115005980F2 /* Primitive Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2377225B6114005980F2 /* Primitive Types.swift */; };
+		B13A2398225B6115005980F2 /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = B13A2379225B6115005980F2 /* LICENSE.md */; };
+		B13A2399225B6115005980F2 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = B13A237A225B6115005980F2 /* README.md */; };
+		B13A239A225B6115005980F2 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A237C225B6115005980F2 /* Random.swift */; };
+		B13A239B225B6115005980F2 /* GCD.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A237D225B6115005980F2 /* GCD.swift */; };
+		B13A239C225B6115005980F2 /* Hashable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A237E225B6115005980F2 /* Hashable.swift */; };
+		B13A239D225B6115005980F2 /* Strideable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A237F225B6115005980F2 /* Strideable.swift */; };
+		B13A239E225B6115005980F2 /* Addition.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2380225B6115005980F2 /* Addition.swift */; };
+		B13A239F225B6115005980F2 /* Data Conversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2381225B6115005980F2 /* Data Conversion.swift */; };
+		B13A23A0225B6115005980F2 /* Bitwise Ops.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2382225B6115005980F2 /* Bitwise Ops.swift */; };
+		B13A23A1225B6115005980F2 /* Comparable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2383225B6115005980F2 /* Comparable.swift */; };
+		B13A23A2225B6115005980F2 /* Words and Bits.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2384225B6115005980F2 /* Words and Bits.swift */; };
+		B13A23A3225B6115005980F2 /* Square Root.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2385225B6115005980F2 /* Square Root.swift */; };
+		B13A23A4225B6115005980F2 /* Division.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2386225B6115005980F2 /* Division.swift */; };
+		B13A23A5225B6115005980F2 /* Prime Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2387225B6115005980F2 /* Prime Test.swift */; };
+		B13A23A6225B6115005980F2 /* Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2388225B6115005980F2 /* Codable.swift */; };
+		B13A23A7225B6115005980F2 /* BigUInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2389225B6115005980F2 /* BigUInt.swift */; };
+		B13A23A8225B6115005980F2 /* Multiplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A238A225B6115005980F2 /* Multiplication.swift */; };
+		B13A23A9225B6115005980F2 /* Exponentiation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A238B225B6115005980F2 /* Exponentiation.swift */; };
+		B13A23AA225B6115005980F2 /* Floating Point Conversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A238C225B6115005980F2 /* Floating Point Conversion.swift */; };
+		B13A23AB225B6115005980F2 /* Shifts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A238D225B6115005980F2 /* Shifts.swift */; };
+		B13A23AC225B6115005980F2 /* Subtraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A238E225B6115005980F2 /* Subtraction.swift */; };
+		B13A23AD225B6115005980F2 /* Integer Conversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A238F225B6115005980F2 /* Integer Conversion.swift */; };
+		B13A23AE225B6115005980F2 /* BigInt.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2390225B6115005980F2 /* BigInt.swift */; };
+		B13A23AF225B6115005980F2 /* String Conversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = B13A2391225B6115005980F2 /* String Conversion.swift */; };
 		B1677C66223F9BD7005FB286 /* RestAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1677C65223F9BD7005FB286 /* RestAPIManager.swift */; };
 		B1677C6E223FAA5F005FB286 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1677C6D223FAA5F005FB286 /* Media.xcassets */; };
 		B18EBB32223F8F8800F52D3C /* CyberSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = B18EBB30223F8F8800F52D3C /* CyberSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -34,6 +244,217 @@
 		34491307AF58D97E2E29C420 /* Pods-CyberSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CyberSwift.debug.xcconfig"; path = "Target Support Files/Pods-CyberSwift/Pods-CyberSwift.debug.xcconfig"; sourceTree = "<group>"; };
 		4837076B0145B925ED946333 /* Pods-CyberSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CyberSwift.release.xcconfig"; path = "Target Support Files/Pods-CyberSwift/Pods-CyberSwift.release.xcconfig"; sourceTree = "<group>"; };
 		B111B5BA224E1B5A00F84AD9 /* KeychainManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
+		B13A21CC225B6008005980F2 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		B13A21CD225B6008005980F2 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		B13A21D2225B6008005980F2 /* VoteChain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoteChain.swift; sourceTree = "<group>"; };
+		B13A21D4225B6008005980F2 /* VoteArgs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoteArgs.swift; sourceTree = "<group>"; };
+		B13A21D5225B6008005980F2 /* VoteBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoteBody.swift; sourceTree = "<group>"; };
+		B13A21D7225B6008005980F2 /* TransferChain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransferChain.swift; sourceTree = "<group>"; };
+		B13A21D9225B6008005980F2 /* TransferArgs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransferArgs.swift; sourceTree = "<group>"; };
+		B13A21DA225B6008005980F2 /* TransferBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransferBody.swift; sourceTree = "<group>"; };
+		B13A21DC225B6008005980F2 /* SignedTransactionAbi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignedTransactionAbi.swift; sourceTree = "<group>"; };
+		B13A21DD225B6008005980F2 /* TransactionAuthorizationAbi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionAuthorizationAbi.swift; sourceTree = "<group>"; };
+		B13A21DE225B6008005980F2 /* TransactionAbi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionAbi.swift; sourceTree = "<group>"; };
+		B13A21DF225B6008005980F2 /* ActionAbi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionAbi.swift; sourceTree = "<group>"; };
+		B13A21E1225B6008005980F2 /* BuyRamChain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyRamChain.swift; sourceTree = "<group>"; };
+		B13A21E2225B6008005980F2 /* BuyRamBytesChain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyRamBytesChain.swift; sourceTree = "<group>"; };
+		B13A21E3225B6008005980F2 /* UnDelegateBandwidth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnDelegateBandwidth.swift; sourceTree = "<group>"; };
+		B13A21E4225B6008005980F2 /* CreateAccountChain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountChain.swift; sourceTree = "<group>"; };
+		B13A21E7225B6008005980F2 /* DelegateBandwidthBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DelegateBandwidthBody.swift; sourceTree = "<group>"; };
+		B13A21E8225B6008005980F2 /* DelegateBandwidthArgs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DelegateBandwidthArgs.swift; sourceTree = "<group>"; };
+		B13A21EA225B6008005980F2 /* NewAccountBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewAccountBody.swift; sourceTree = "<group>"; };
+		B13A21EB225B6008005980F2 /* AccountRequiredAuthAbi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountRequiredAuthAbi.swift; sourceTree = "<group>"; };
+		B13A21EC225B6008005980F2 /* AccountKeyAbi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountKeyAbi.swift; sourceTree = "<group>"; };
+		B13A21ED225B6008005980F2 /* NewAccountArgs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewAccountArgs.swift; sourceTree = "<group>"; };
+		B13A21EF225B6008005980F2 /* BuyRamBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyRamBody.swift; sourceTree = "<group>"; };
+		B13A21F0225B6008005980F2 /* BuyRamBytesBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyRamBytesBody.swift; sourceTree = "<group>"; };
+		B13A21F1225B6008005980F2 /* BuyRamBytesArgs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyRamBytesArgs.swift; sourceTree = "<group>"; };
+		B13A21F2225B6008005980F2 /* BuyRamArgs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyRamArgs.swift; sourceTree = "<group>"; };
+		B13A21F4225B6008005980F2 /* SellRamArgs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellRamArgs.swift; sourceTree = "<group>"; };
+		B13A21F5225B6008005980F2 /* SellRamBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellRamBody.swift; sourceTree = "<group>"; };
+		B13A21F7225B6008005980F2 /* UnDelegateBandwidthBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnDelegateBandwidthBody.swift; sourceTree = "<group>"; };
+		B13A21F8225B6008005980F2 /* UnDelegateBandwidthArgs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnDelegateBandwidthArgs.swift; sourceTree = "<group>"; };
+		B13A21FA225B6008005980F2 /* RefundBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefundBody.swift; sourceTree = "<group>"; };
+		B13A21FB225B6008005980F2 /* RefundArgs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefundArgs.swift; sourceTree = "<group>"; };
+		B13A21FC225B6008005980F2 /* RefundChain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefundChain.swift; sourceTree = "<group>"; };
+		B13A21FD225B6008005980F2 /* SellRamChain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellRamChain.swift; sourceTree = "<group>"; };
+		B13A21FE225B6008005980F2 /* DelegateBandwidthChain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DelegateBandwidthChain.swift; sourceTree = "<group>"; };
+		B13A21FF225B6008005980F2 /* TransactionContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionContext.swift; sourceTree = "<group>"; };
+		B13A2200225B6008005980F2 /* ChainTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChainTransaction.swift; sourceTree = "<group>"; };
+		B13A2201225B6008005980F2 /* ChainResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChainResponse.swift; sourceTree = "<group>"; };
+		B13A2204225B6008005980F2 /* GetDelegatedBandwidth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetDelegatedBandwidth.swift; sourceTree = "<group>"; };
+		B13A2205225B6008005980F2 /* BandwidthJson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BandwidthJson.swift; sourceTree = "<group>"; };
+		B13A2208225B6008005980F2 /* BpBranding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BpBranding.swift; sourceTree = "<group>"; };
+		B13A2209225B6008005980F2 /* BpNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BpNode.swift; sourceTree = "<group>"; };
+		B13A220A225B6008005980F2 /* BpSocial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BpSocial.swift; sourceTree = "<group>"; };
+		B13A220B225B6008005980F2 /* BpLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BpLocation.swift; sourceTree = "<group>"; };
+		B13A220C225B6008005980F2 /* BpOrg.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BpOrg.swift; sourceTree = "<group>"; };
+		B13A220D225B6008005980F2 /* BpParent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BpParent.swift; sourceTree = "<group>"; };
+		B13A220E225B6008005980F2 /* GetBlockProducers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetBlockProducers.swift; sourceTree = "<group>"; };
+		B13A220F225B6008005980F2 /* BlockProducer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockProducer.swift; sourceTree = "<group>"; };
+		B13A2211225B6008005980F2 /* GetRegProxyInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetRegProxyInfo.swift; sourceTree = "<group>"; };
+		B13A2212225B6008005980F2 /* ProxyJson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProxyJson.swift; sourceTree = "<group>"; };
+		B13A2214225B6008005980F2 /* GetRamPrice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetRamPrice.swift; sourceTree = "<group>"; };
+		B13A2216225B6008005980F2 /* CheckAccountNameExists.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckAccountNameExists.swift; sourceTree = "<group>"; };
+		B13A2219225B6008005980F2 /* AssetWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssetWriter.swift; sourceTree = "<group>"; };
+		B13A221A225B6008005980F2 /* DataWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataWriter.swift; sourceTree = "<group>"; };
+		B13A221B225B6008005980F2 /* HexCollectionWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HexCollectionWriter.swift; sourceTree = "<group>"; };
+		B13A221C225B6008005980F2 /* AbiTypeWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbiTypeWriter.swift; sourceTree = "<group>"; };
+		B13A221D225B6008005980F2 /* StringCollectionWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringCollectionWriter.swift; sourceTree = "<group>"; };
+		B13A221E225B6008005980F2 /* PublicKeyWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublicKeyWriter.swift; sourceTree = "<group>"; };
+		B13A221F225B6008005980F2 /* TimestampWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimestampWriter.swift; sourceTree = "<group>"; };
+		B13A2220225B6008005980F2 /* AccountNameWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountNameWriter.swift; sourceTree = "<group>"; };
+		B13A2221225B6008005980F2 /* AccountNameCollectionWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountNameCollectionWriter.swift; sourceTree = "<group>"; };
+		B13A2222225B6008005980F2 /* NameWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NameWriter.swift; sourceTree = "<group>"; };
+		B13A2223225B6008005980F2 /* BlockNumWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockNumWriter.swift; sourceTree = "<group>"; };
+		B13A2224225B6008005980F2 /* BlockPrefixWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockPrefixWriter.swift; sourceTree = "<group>"; };
+		B13A2225225B6008005980F2 /* ChainIdWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChainIdWriter.swift; sourceTree = "<group>"; };
+		B13A2226225B6008005980F2 /* AbiEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbiEncoder.swift; sourceTree = "<group>"; };
+		B13A2227225B6008005980F2 /* AbiEncodingContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbiEncodingContainer.swift; sourceTree = "<group>"; };
+		B13A2228225B6008005980F2 /* regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = regex.swift; sourceTree = "<group>"; };
+		B13A222C225B6008005980F2 /* PrivateKeySigning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivateKeySigning.swift; sourceTree = "<group>"; };
+		B13A222D225B6008005980F2 /* EOSPublicKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EOSPublicKey.swift; sourceTree = "<group>"; };
+		B13A222E225B6008005980F2 /* ECPublicKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ECPublicKey.swift; sourceTree = "<group>"; };
+		B13A222F225B6008005980F2 /* EOSPrivateKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EOSPrivateKey.swift; sourceTree = "<group>"; };
+		B13A2230225B6008005980F2 /* ECPrivateKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ECPrivateKey.swift; sourceTree = "<group>"; };
+		B13A2232225B6008005980F2 /* HexWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HexWriter.swift; sourceTree = "<group>"; };
+		B13A2234225B6008005980F2 /* Sha256.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sha256.swift; sourceTree = "<group>"; };
+		B13A2235225B6008005980F2 /* RIPEMD160-Ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RIPEMD160-Ext.swift"; sourceTree = "<group>"; };
+		B13A2236225B6008005980F2 /* RIPEMD160.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RIPEMD160.swift; sourceTree = "<group>"; };
+		B13A2237225B6008005980F2 /* RIPEMD160-HMAC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RIPEMD160-HMAC.swift"; sourceTree = "<group>"; };
+		B13A2239225B6008005980F2 /* Base58String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Base58String.swift; sourceTree = "<group>"; };
+		B13A223A225B6008005980F2 /* Base58.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Base58.swift; sourceTree = "<group>"; };
+		B13A223C225B6008005980F2 /* Pretty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pretty.swift; sourceTree = "<group>"; };
+		B13A223E225B6008005980F2 /* BlockIdDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockIdDetails.swift; sourceTree = "<group>"; };
+		B13A223F225B6008005980F2 /* eos_swift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eos_swift.h; sourceTree = "<group>"; };
+		B13A2241225B6008005980F2 /* uECC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = uECC.h; sourceTree = "<group>"; };
+		B13A2242225B6008005980F2 /* asm_arm.inc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asm_arm.inc.h; sourceTree = "<group>"; };
+		B13A2243225B6008005980F2 /* uECC_vli.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = uECC_vli.h; sourceTree = "<group>"; };
+		B13A2244225B6008005980F2 /* platform-specific.inc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "platform-specific.inc.h"; sourceTree = "<group>"; };
+		B13A2245225B6008005980F2 /* types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = types.h; sourceTree = "<group>"; };
+		B13A2247225B6008005980F2 /* asm_arm_mult_square_umaal.inc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asm_arm_mult_square_umaal.inc.h; sourceTree = "<group>"; };
+		B13A2248225B6008005980F2 /* asm_avr_mult_square.inc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asm_avr_mult_square.inc.h; sourceTree = "<group>"; };
+		B13A2249225B6008005980F2 /* asm_avr.inc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asm_avr.inc.h; sourceTree = "<group>"; };
+		B13A224A225B6008005980F2 /* asm_arm_mult_square.inc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asm_arm_mult_square.inc.h; sourceTree = "<group>"; };
+		B13A224B225B6008005980F2 /* curve-specific.inc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "curve-specific.inc.h"; sourceTree = "<group>"; };
+		B13A224C225B6008005980F2 /* uECC.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = uECC.c; sourceTree = "<group>"; };
+		B13A224D225B6008005980F2 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		B13A2250225B6008005980F2 /* Connection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
+		B13A2251225B6008005980F2 /* RxHttp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxHttp.swift; sourceTree = "<group>"; };
+		B13A2252225B6008005980F2 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		B13A2253225B6008005980F2 /* HttpRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpRequest.swift; sourceTree = "<group>"; };
+		B13A2254225B6008005980F2 /* HttpResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpResponse.swift; sourceTree = "<group>"; };
+		B13A2255225B6008005980F2 /* HttpErrorResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpErrorResponse.swift; sourceTree = "<group>"; };
+		B13A2257225B6008005980F2 /* DateDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateDecoder.swift; sourceTree = "<group>"; };
+		B13A2258225B6008005980F2 /* HistoryApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryApi.swift; sourceTree = "<group>"; };
+		B13A2259225B6008005980F2 /* ChainApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChainApi.swift; sourceTree = "<group>"; };
+		B13A225C225B6008005980F2 /* TransactionAuthorization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionAuthorization.swift; sourceTree = "<group>"; };
+		B13A225E225B6008005980F2 /* TransactionActionTrace.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionActionTrace.swift; sourceTree = "<group>"; };
+		B13A225F225B6008005980F2 /* TransactionProcessed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionProcessed.swift; sourceTree = "<group>"; };
+		B13A2260225B6008005980F2 /* TransactionComitted.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionComitted.swift; sourceTree = "<group>"; };
+		B13A2261225B6008005980F2 /* TransactionParentReceipt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionParentReceipt.swift; sourceTree = "<group>"; };
+		B13A2262225B6008005980F2 /* TransactionAct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionAct.swift; sourceTree = "<group>"; };
+		B13A2263225B6008005980F2 /* TransactionActAuthorization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionActAuthorization.swift; sourceTree = "<group>"; };
+		B13A2264225B6008005980F2 /* TransactionReceipt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionReceipt.swift; sourceTree = "<group>"; };
+		B13A2266225B6008005980F2 /* Transaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
+		B13A2267225B6008005980F2 /* Action.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
+		B13A226A225B6008005980F2 /* Producer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Producer.swift; sourceTree = "<group>"; };
+		B13A226B225B6008005980F2 /* ProducerList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProducerList.swift; sourceTree = "<group>"; };
+		B13A226D225B6008005980F2 /* GetProducers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetProducers.swift; sourceTree = "<group>"; };
+		B13A2270225B6008005980F2 /* AbiStruct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbiStruct.swift; sourceTree = "<group>"; };
+		B13A2271225B6008005980F2 /* AbiAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbiAction.swift; sourceTree = "<group>"; };
+		B13A2272225B6008005980F2 /* AbiContract.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbiContract.swift; sourceTree = "<group>"; };
+		B13A2273225B6008005980F2 /* AbiType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbiType.swift; sourceTree = "<group>"; };
+		B13A2274225B6008005980F2 /* RawCodeForAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawCodeForAccount.swift; sourceTree = "<group>"; };
+		B13A2275225B6008005980F2 /* CodeForAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeForAccount.swift; sourceTree = "<group>"; };
+		B13A2276225B6008005980F2 /* AbiForAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbiForAccount.swift; sourceTree = "<group>"; };
+		B13A2277225B6008005980F2 /* BinaryHex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BinaryHex.swift; sourceTree = "<group>"; };
+		B13A2278225B6008005980F2 /* ContractTableRows.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContractTableRows.swift; sourceTree = "<group>"; };
+		B13A2279225B6008005980F2 /* AbiField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbiField.swift; sourceTree = "<group>"; };
+		B13A227A225B6008005980F2 /* AbiTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbiTable.swift; sourceTree = "<group>"; };
+		B13A227C225B6008005980F2 /* GetCodeByAccountName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetCodeByAccountName.swift; sourceTree = "<group>"; };
+		B13A227D225B6008005980F2 /* GetCurrencyBalance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetCurrencyBalance.swift; sourceTree = "<group>"; };
+		B13A227E225B6008005980F2 /* GetCurrencyStats.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetCurrencyStats.swift; sourceTree = "<group>"; };
+		B13A227F225B6008005980F2 /* AbiBinToJson.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbiBinToJson.swift; sourceTree = "<group>"; };
+		B13A2280225B6008005980F2 /* GetTableRows.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetTableRows.swift; sourceTree = "<group>"; };
+		B13A2281225B6008005980F2 /* ChainError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChainError.swift; sourceTree = "<group>"; };
+		B13A2283225B6008005980F2 /* GetRequiredKeysBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetRequiredKeysBody.swift; sourceTree = "<group>"; };
+		B13A2284225B6008005980F2 /* PushTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushTransaction.swift; sourceTree = "<group>"; };
+		B13A2285225B6008005980F2 /* RequiredKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequiredKeys.swift; sourceTree = "<group>"; };
+		B13A2286225B6008005980F2 /* ResponseBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseBody.swift; sourceTree = "<group>"; };
+		B13A2287225B6008005980F2 /* RequestBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestBody.swift; sourceTree = "<group>"; };
+		B13A2288225B6008005980F2 /* parsing_types.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = parsing_types.swift; sourceTree = "<group>"; };
+		B13A2289225B6008005980F2 /* codable_type.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = codable_type.swift; sourceTree = "<group>"; };
+		B13A228A225B6008005980F2 /* Encodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Encodable.swift; sourceTree = "<group>"; };
+		B13A228C225B6008005980F2 /* Info.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Info.swift; sourceTree = "<group>"; };
+		B13A228F225B6008005980F2 /* HistoricAccountAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoricAccountAction.swift; sourceTree = "<group>"; };
+		B13A2290225B6008005980F2 /* ExecutedTransactionParent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExecutedTransactionParent.swift; sourceTree = "<group>"; };
+		B13A2291225B6008005980F2 /* Accounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Accounts.swift; sourceTree = "<group>"; };
+		B13A2292225B6008005980F2 /* ExecutedTransactionReceipt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExecutedTransactionReceipt.swift; sourceTree = "<group>"; };
+		B13A2293225B6008005980F2 /* ExecutedTransactionAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExecutedTransactionAction.swift; sourceTree = "<group>"; };
+		B13A2294225B6008005980F2 /* HistoricAccountActionParent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoricAccountActionParent.swift; sourceTree = "<group>"; };
+		B13A2295225B6008005980F2 /* ExecutedTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExecutedTransaction.swift; sourceTree = "<group>"; };
+		B13A2296225B6008005980F2 /* HistoricTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoricTransaction.swift; sourceTree = "<group>"; };
+		B13A2298225B6008005980F2 /* GetActions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetActions.swift; sourceTree = "<group>"; };
+		B13A2299225B6008005980F2 /* GetKeyAccounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetKeyAccounts.swift; sourceTree = "<group>"; };
+		B13A229A225B6008005980F2 /* GetTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetTransaction.swift; sourceTree = "<group>"; };
+		B13A229B225B6008005980F2 /* GetControlledAccounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetControlledAccounts.swift; sourceTree = "<group>"; };
+		B13A229E225B6009005980F2 /* SelfDelegatedBandwidth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelfDelegatedBandwidth.swift; sourceTree = "<group>"; };
+		B13A229F225B6009005980F2 /* AccountPermission.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountPermission.swift; sourceTree = "<group>"; };
+		B13A22A0225B6009005980F2 /* AccountKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountKey.swift; sourceTree = "<group>"; };
+		B13A22A1225B6009005980F2 /* AccountRequiredAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountRequiredAuth.swift; sourceTree = "<group>"; };
+		B13A22A2225B6009005980F2 /* RefundRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefundRequest.swift; sourceTree = "<group>"; };
+		B13A22A3225B6009005980F2 /* AccountAuthPermission.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountAuthPermission.swift; sourceTree = "<group>"; };
+		B13A22A4225B6009005980F2 /* VoterInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VoterInfo.swift; sourceTree = "<group>"; };
+		B13A22A5225B6009005980F2 /* AccountAuthWait.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountAuthWait.swift; sourceTree = "<group>"; };
+		B13A22A6225B6009005980F2 /* AccountResourceLimit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountResourceLimit.swift; sourceTree = "<group>"; };
+		B13A22A7225B6009005980F2 /* TotalResources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TotalResources.swift; sourceTree = "<group>"; };
+		B13A22A8225B6009005980F2 /* Account.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
+		B13A22A9225B6009005980F2 /* AccountAuth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountAuth.swift; sourceTree = "<group>"; };
+		B13A22AB225B6009005980F2 /* AccountName.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountName.swift; sourceTree = "<group>"; };
+		B13A22AC225B6009005980F2 /* ChainErrorDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChainErrorDetail.swift; sourceTree = "<group>"; };
+		B13A22AD225B6009005980F2 /* ChainErrorItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChainErrorItem.swift; sourceTree = "<group>"; };
+		B13A22B0225B6009005980F2 /* BlockHeaderRootMerkle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockHeaderRootMerkle.swift; sourceTree = "<group>"; };
+		B13A22B1225B6009005980F2 /* CycleSummary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CycleSummary.swift; sourceTree = "<group>"; };
+		B13A22B2225B6009005980F2 /* BlockHeaderSchedule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockHeaderSchedule.swift; sourceTree = "<group>"; };
+		B13A22B3225B6009005980F2 /* BlockHeaderStateHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockHeaderStateHeader.swift; sourceTree = "<group>"; };
+		B13A22B4225B6009005980F2 /* Block.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
+		B13A22B5225B6009005980F2 /* CycleSummaryTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CycleSummaryTransaction.swift; sourceTree = "<group>"; };
+		B13A22B6225B6009005980F2 /* BlockHeaderProducer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockHeaderProducer.swift; sourceTree = "<group>"; };
+		B13A22B7225B6009005980F2 /* BlockHeaderState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockHeaderState.swift; sourceTree = "<group>"; };
+		B13A22B8225B6009005980F2 /* Region.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Region.swift; sourceTree = "<group>"; };
+		B13A22BA225B6009005980F2 /* BlockNumOrId.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockNumOrId.swift; sourceTree = "<group>"; };
+		B13A22BB225B6009005980F2 /* primitive_type.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = primitive_type.swift; sourceTree = "<group>"; };
+		B13A2371225B6114005980F2 /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
+		B13A2372225B6114005980F2 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		B13A2374225B6114005980F2 /* RandomUInt64.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RandomUInt64.swift; sourceTree = "<group>"; };
+		B13A2375225B6114005980F2 /* SipHasher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SipHasher.swift; sourceTree = "<group>"; };
+		B13A2376225B6114005980F2 /* SipHashable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SipHashable.swift; sourceTree = "<group>"; };
+		B13A2377225B6114005980F2 /* Primitive Types.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Primitive Types.swift"; sourceTree = "<group>"; };
+		B13A2379225B6115005980F2 /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
+		B13A237A225B6115005980F2 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		B13A237C225B6115005980F2 /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
+		B13A237D225B6115005980F2 /* GCD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCD.swift; sourceTree = "<group>"; };
+		B13A237E225B6115005980F2 /* Hashable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hashable.swift; sourceTree = "<group>"; };
+		B13A237F225B6115005980F2 /* Strideable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Strideable.swift; sourceTree = "<group>"; };
+		B13A2380225B6115005980F2 /* Addition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Addition.swift; sourceTree = "<group>"; };
+		B13A2381225B6115005980F2 /* Data Conversion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data Conversion.swift"; sourceTree = "<group>"; };
+		B13A2382225B6115005980F2 /* Bitwise Ops.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Bitwise Ops.swift"; sourceTree = "<group>"; };
+		B13A2383225B6115005980F2 /* Comparable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comparable.swift; sourceTree = "<group>"; };
+		B13A2384225B6115005980F2 /* Words and Bits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Words and Bits.swift"; sourceTree = "<group>"; };
+		B13A2385225B6115005980F2 /* Square Root.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Square Root.swift"; sourceTree = "<group>"; };
+		B13A2386225B6115005980F2 /* Division.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Division.swift; sourceTree = "<group>"; };
+		B13A2387225B6115005980F2 /* Prime Test.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Prime Test.swift"; sourceTree = "<group>"; };
+		B13A2388225B6115005980F2 /* Codable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Codable.swift; sourceTree = "<group>"; };
+		B13A2389225B6115005980F2 /* BigUInt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BigUInt.swift; sourceTree = "<group>"; };
+		B13A238A225B6115005980F2 /* Multiplication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Multiplication.swift; sourceTree = "<group>"; };
+		B13A238B225B6115005980F2 /* Exponentiation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Exponentiation.swift; sourceTree = "<group>"; };
+		B13A238C225B6115005980F2 /* Floating Point Conversion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Floating Point Conversion.swift"; sourceTree = "<group>"; };
+		B13A238D225B6115005980F2 /* Shifts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shifts.swift; sourceTree = "<group>"; };
+		B13A238E225B6115005980F2 /* Subtraction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Subtraction.swift; sourceTree = "<group>"; };
+		B13A238F225B6115005980F2 /* Integer Conversion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Integer Conversion.swift"; sourceTree = "<group>"; };
+		B13A2390225B6115005980F2 /* BigInt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BigInt.swift; sourceTree = "<group>"; };
+		B13A2391225B6115005980F2 /* String Conversion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String Conversion.swift"; sourceTree = "<group>"; };
 		B1677C65223F9BD7005FB286 /* RestAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestAPIManager.swift; sourceTree = "<group>"; };
 		B1677C6D223FAA5F005FB286 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		B18EBB2D223F8F8800F52D3C /* CyberSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CyberSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +509,736 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		B13A21CA225B5FFA005980F2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B13A2378225B6115005980F2 /* BigInt */,
+				B13A21CB225B6008005980F2 /* eosswift */,
+				B13A2370225B6114005980F2 /* SipHash */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		B13A21CB225B6008005980F2 /* eosswift */ = {
+			isa = PBXGroup;
+			children = (
+				B13A21CC225B6008005980F2 /* LICENSE */,
+				B13A21CD225B6008005980F2 /* README.md */,
+				B13A21CE225B6008005980F2 /* eosswift */,
+			);
+			path = eosswift;
+			sourceTree = "<group>";
+		};
+		B13A21CE225B6008005980F2 /* eosswift */ = {
+			isa = PBXGroup;
+			children = (
+				B13A21CF225B6008005980F2 /* eos-chain-actions */,
+				B13A2217225B6008005980F2 /* eos-abi-writer */,
+				B13A2229225B6008005980F2 /* eos-core */,
+				B13A223F225B6008005980F2 /* eos_swift.h */,
+				B13A2240225B6008005980F2 /* microecc */,
+				B13A224E225B6008005980F2 /* eos-http-rpc */,
+				B13A22BB225B6009005980F2 /* primitive_type.swift */,
+			);
+			path = eosswift;
+			sourceTree = "<group>";
+		};
+		B13A21CF225B6008005980F2 /* eos-chain-actions */ = {
+			isa = PBXGroup;
+			children = (
+				B13A21D0225B6008005980F2 /* transaction */,
+				B13A21FF225B6008005980F2 /* TransactionContext.swift */,
+				B13A2200225B6008005980F2 /* ChainTransaction.swift */,
+				B13A2201225B6008005980F2 /* ChainResponse.swift */,
+				B13A2202225B6008005980F2 /* query */,
+			);
+			path = "eos-chain-actions";
+			sourceTree = "<group>";
+		};
+		B13A21D0225B6008005980F2 /* transaction */ = {
+			isa = PBXGroup;
+			children = (
+				B13A21D1225B6008005980F2 /* vote */,
+				B13A21D6225B6008005980F2 /* transfer */,
+				B13A21DB225B6008005980F2 /* abi */,
+				B13A21E0225B6008005980F2 /* account */,
+			);
+			path = transaction;
+			sourceTree = "<group>";
+		};
+		B13A21D1225B6008005980F2 /* vote */ = {
+			isa = PBXGroup;
+			children = (
+				B13A21D2225B6008005980F2 /* VoteChain.swift */,
+				B13A21D3225B6008005980F2 /* actions */,
+			);
+			path = vote;
+			sourceTree = "<group>";
+		};
+		B13A21D3225B6008005980F2 /* actions */ = {
+			isa = PBXGroup;
+			children = (
+				B13A21D4225B6008005980F2 /* VoteArgs.swift */,
+				B13A21D5225B6008005980F2 /* VoteBody.swift */,
+			);
+			path = actions;
+			sourceTree = "<group>";
+		};
+		B13A21D6225B6008005980F2 /* transfer */ = {
+			isa = PBXGroup;
+			children = (
+				B13A21D7225B6008005980F2 /* TransferChain.swift */,
+				B13A21D8225B6008005980F2 /* actions */,
+			);
+			path = transfer;
+			sourceTree = "<group>";
+		};
+		B13A21D8225B6008005980F2 /* actions */ = {
+			isa = PBXGroup;
+			children = (
+				B13A21D9225B6008005980F2 /* TransferArgs.swift */,
+				B13A21DA225B6008005980F2 /* TransferBody.swift */,
+			);
+			path = actions;
+			sourceTree = "<group>";
+		};
+		B13A21DB225B6008005980F2 /* abi */ = {
+			isa = PBXGroup;
+			children = (
+				B13A21DC225B6008005980F2 /* SignedTransactionAbi.swift */,
+				B13A21DD225B6008005980F2 /* TransactionAuthorizationAbi.swift */,
+				B13A21DE225B6008005980F2 /* TransactionAbi.swift */,
+				B13A21DF225B6008005980F2 /* ActionAbi.swift */,
+			);
+			path = abi;
+			sourceTree = "<group>";
+		};
+		B13A21E0225B6008005980F2 /* account */ = {
+			isa = PBXGroup;
+			children = (
+				B13A21E1225B6008005980F2 /* BuyRamChain.swift */,
+				B13A21E2225B6008005980F2 /* BuyRamBytesChain.swift */,
+				B13A21E3225B6008005980F2 /* UnDelegateBandwidth.swift */,
+				B13A21E4225B6008005980F2 /* CreateAccountChain.swift */,
+				B13A21E5225B6008005980F2 /* actions */,
+				B13A21FC225B6008005980F2 /* RefundChain.swift */,
+				B13A21FD225B6008005980F2 /* SellRamChain.swift */,
+				B13A21FE225B6008005980F2 /* DelegateBandwidthChain.swift */,
+			);
+			path = account;
+			sourceTree = "<group>";
+		};
+		B13A21E5225B6008005980F2 /* actions */ = {
+			isa = PBXGroup;
+			children = (
+				B13A21E6225B6008005980F2 /* delegatebw */,
+				B13A21E9225B6008005980F2 /* newaccount */,
+				B13A21EE225B6008005980F2 /* buyram */,
+				B13A21F3225B6008005980F2 /* sellram */,
+				B13A21F6225B6008005980F2 /* undelegatebw */,
+				B13A21F9225B6008005980F2 /* refund */,
+			);
+			path = actions;
+			sourceTree = "<group>";
+		};
+		B13A21E6225B6008005980F2 /* delegatebw */ = {
+			isa = PBXGroup;
+			children = (
+				B13A21E7225B6008005980F2 /* DelegateBandwidthBody.swift */,
+				B13A21E8225B6008005980F2 /* DelegateBandwidthArgs.swift */,
+			);
+			path = delegatebw;
+			sourceTree = "<group>";
+		};
+		B13A21E9225B6008005980F2 /* newaccount */ = {
+			isa = PBXGroup;
+			children = (
+				B13A21EA225B6008005980F2 /* NewAccountBody.swift */,
+				B13A21EB225B6008005980F2 /* AccountRequiredAuthAbi.swift */,
+				B13A21EC225B6008005980F2 /* AccountKeyAbi.swift */,
+				B13A21ED225B6008005980F2 /* NewAccountArgs.swift */,
+			);
+			path = newaccount;
+			sourceTree = "<group>";
+		};
+		B13A21EE225B6008005980F2 /* buyram */ = {
+			isa = PBXGroup;
+			children = (
+				B13A21EF225B6008005980F2 /* BuyRamBody.swift */,
+				B13A21F0225B6008005980F2 /* BuyRamBytesBody.swift */,
+				B13A21F1225B6008005980F2 /* BuyRamBytesArgs.swift */,
+				B13A21F2225B6008005980F2 /* BuyRamArgs.swift */,
+			);
+			path = buyram;
+			sourceTree = "<group>";
+		};
+		B13A21F3225B6008005980F2 /* sellram */ = {
+			isa = PBXGroup;
+			children = (
+				B13A21F4225B6008005980F2 /* SellRamArgs.swift */,
+				B13A21F5225B6008005980F2 /* SellRamBody.swift */,
+			);
+			path = sellram;
+			sourceTree = "<group>";
+		};
+		B13A21F6225B6008005980F2 /* undelegatebw */ = {
+			isa = PBXGroup;
+			children = (
+				B13A21F7225B6008005980F2 /* UnDelegateBandwidthBody.swift */,
+				B13A21F8225B6008005980F2 /* UnDelegateBandwidthArgs.swift */,
+			);
+			path = undelegatebw;
+			sourceTree = "<group>";
+		};
+		B13A21F9225B6008005980F2 /* refund */ = {
+			isa = PBXGroup;
+			children = (
+				B13A21FA225B6008005980F2 /* RefundBody.swift */,
+				B13A21FB225B6008005980F2 /* RefundArgs.swift */,
+			);
+			path = refund;
+			sourceTree = "<group>";
+		};
+		B13A2202225B6008005980F2 /* query */ = {
+			isa = PBXGroup;
+			children = (
+				B13A2203225B6008005980F2 /* bandwidth */,
+				B13A2206225B6008005980F2 /* producer */,
+				B13A2210225B6008005980F2 /* proxy */,
+				B13A2213225B6008005980F2 /* ramprice */,
+				B13A2215225B6008005980F2 /* accountname */,
+			);
+			path = query;
+			sourceTree = "<group>";
+		};
+		B13A2203225B6008005980F2 /* bandwidth */ = {
+			isa = PBXGroup;
+			children = (
+				B13A2204225B6008005980F2 /* GetDelegatedBandwidth.swift */,
+				B13A2205225B6008005980F2 /* BandwidthJson.swift */,
+			);
+			path = bandwidth;
+			sourceTree = "<group>";
+		};
+		B13A2206225B6008005980F2 /* producer */ = {
+			isa = PBXGroup;
+			children = (
+				B13A2207225B6008005980F2 /* bpjson */,
+				B13A220E225B6008005980F2 /* GetBlockProducers.swift */,
+				B13A220F225B6008005980F2 /* BlockProducer.swift */,
+			);
+			path = producer;
+			sourceTree = "<group>";
+		};
+		B13A2207225B6008005980F2 /* bpjson */ = {
+			isa = PBXGroup;
+			children = (
+				B13A2208225B6008005980F2 /* BpBranding.swift */,
+				B13A2209225B6008005980F2 /* BpNode.swift */,
+				B13A220A225B6008005980F2 /* BpSocial.swift */,
+				B13A220B225B6008005980F2 /* BpLocation.swift */,
+				B13A220C225B6008005980F2 /* BpOrg.swift */,
+				B13A220D225B6008005980F2 /* BpParent.swift */,
+			);
+			path = bpjson;
+			sourceTree = "<group>";
+		};
+		B13A2210225B6008005980F2 /* proxy */ = {
+			isa = PBXGroup;
+			children = (
+				B13A2211225B6008005980F2 /* GetRegProxyInfo.swift */,
+				B13A2212225B6008005980F2 /* ProxyJson.swift */,
+			);
+			path = proxy;
+			sourceTree = "<group>";
+		};
+		B13A2213225B6008005980F2 /* ramprice */ = {
+			isa = PBXGroup;
+			children = (
+				B13A2214225B6008005980F2 /* GetRamPrice.swift */,
+			);
+			path = ramprice;
+			sourceTree = "<group>";
+		};
+		B13A2215225B6008005980F2 /* accountname */ = {
+			isa = PBXGroup;
+			children = (
+				B13A2216225B6008005980F2 /* CheckAccountNameExists.swift */,
+			);
+			path = accountname;
+			sourceTree = "<group>";
+		};
+		B13A2217225B6008005980F2 /* eos-abi-writer */ = {
+			isa = PBXGroup;
+			children = (
+				B13A2218225B6008005980F2 /* types */,
+				B13A2226225B6008005980F2 /* AbiEncoder.swift */,
+				B13A2227225B6008005980F2 /* AbiEncodingContainer.swift */,
+				B13A2228225B6008005980F2 /* regex.swift */,
+			);
+			path = "eos-abi-writer";
+			sourceTree = "<group>";
+		};
+		B13A2218225B6008005980F2 /* types */ = {
+			isa = PBXGroup;
+			children = (
+				B13A2219225B6008005980F2 /* AssetWriter.swift */,
+				B13A221A225B6008005980F2 /* DataWriter.swift */,
+				B13A221B225B6008005980F2 /* HexCollectionWriter.swift */,
+				B13A221C225B6008005980F2 /* AbiTypeWriter.swift */,
+				B13A221D225B6008005980F2 /* StringCollectionWriter.swift */,
+				B13A221E225B6008005980F2 /* PublicKeyWriter.swift */,
+				B13A221F225B6008005980F2 /* TimestampWriter.swift */,
+				B13A2220225B6008005980F2 /* AccountNameWriter.swift */,
+				B13A2221225B6008005980F2 /* AccountNameCollectionWriter.swift */,
+				B13A2222225B6008005980F2 /* NameWriter.swift */,
+				B13A2223225B6008005980F2 /* BlockNumWriter.swift */,
+				B13A2224225B6008005980F2 /* BlockPrefixWriter.swift */,
+				B13A2225225B6008005980F2 /* ChainIdWriter.swift */,
+			);
+			path = types;
+			sourceTree = "<group>";
+		};
+		B13A2229225B6008005980F2 /* eos-core */ = {
+			isa = PBXGroup;
+			children = (
+				B13A222A225B6008005980F2 /* crypto */,
+				B13A2231225B6008005980F2 /* hex */,
+				B13A2233225B6008005980F2 /* hash */,
+				B13A2238225B6008005980F2 /* encode */,
+				B13A223B225B6008005980F2 /* utils */,
+				B13A223D225B6008005980F2 /* block */,
+			);
+			path = "eos-core";
+			sourceTree = "<group>";
+		};
+		B13A222A225B6008005980F2 /* crypto */ = {
+			isa = PBXGroup;
+			children = (
+				B13A222B225B6008005980F2 /* signature */,
+				B13A222D225B6008005980F2 /* EOSPublicKey.swift */,
+				B13A222E225B6008005980F2 /* ECPublicKey.swift */,
+				B13A222F225B6008005980F2 /* EOSPrivateKey.swift */,
+				B13A2230225B6008005980F2 /* ECPrivateKey.swift */,
+			);
+			path = crypto;
+			sourceTree = "<group>";
+		};
+		B13A222B225B6008005980F2 /* signature */ = {
+			isa = PBXGroup;
+			children = (
+				B13A222C225B6008005980F2 /* PrivateKeySigning.swift */,
+			);
+			path = signature;
+			sourceTree = "<group>";
+		};
+		B13A2231225B6008005980F2 /* hex */ = {
+			isa = PBXGroup;
+			children = (
+				B13A2232225B6008005980F2 /* HexWriter.swift */,
+			);
+			path = hex;
+			sourceTree = "<group>";
+		};
+		B13A2233225B6008005980F2 /* hash */ = {
+			isa = PBXGroup;
+			children = (
+				B13A2234225B6008005980F2 /* Sha256.swift */,
+				B13A2235225B6008005980F2 /* RIPEMD160-Ext.swift */,
+				B13A2236225B6008005980F2 /* RIPEMD160.swift */,
+				B13A2237225B6008005980F2 /* RIPEMD160-HMAC.swift */,
+			);
+			path = hash;
+			sourceTree = "<group>";
+		};
+		B13A2238225B6008005980F2 /* encode */ = {
+			isa = PBXGroup;
+			children = (
+				B13A2239225B6008005980F2 /* Base58String.swift */,
+				B13A223A225B6008005980F2 /* Base58.swift */,
+			);
+			path = encode;
+			sourceTree = "<group>";
+		};
+		B13A223B225B6008005980F2 /* utils */ = {
+			isa = PBXGroup;
+			children = (
+				B13A223C225B6008005980F2 /* Pretty.swift */,
+			);
+			path = utils;
+			sourceTree = "<group>";
+		};
+		B13A223D225B6008005980F2 /* block */ = {
+			isa = PBXGroup;
+			children = (
+				B13A223E225B6008005980F2 /* BlockIdDetails.swift */,
+			);
+			path = block;
+			sourceTree = "<group>";
+		};
+		B13A2240225B6008005980F2 /* microecc */ = {
+			isa = PBXGroup;
+			children = (
+				B13A2241225B6008005980F2 /* uECC.h */,
+				B13A2242225B6008005980F2 /* asm_arm.inc.h */,
+				B13A2243225B6008005980F2 /* uECC_vli.h */,
+				B13A2244225B6008005980F2 /* platform-specific.inc.h */,
+				B13A2245225B6008005980F2 /* types.h */,
+				B13A2246225B6008005980F2 /* include */,
+				B13A224B225B6008005980F2 /* curve-specific.inc.h */,
+				B13A224C225B6008005980F2 /* uECC.c */,
+				B13A224D225B6008005980F2 /* module.modulemap */,
+			);
+			path = microecc;
+			sourceTree = "<group>";
+		};
+		B13A2246225B6008005980F2 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				B13A2247225B6008005980F2 /* asm_arm_mult_square_umaal.inc.h */,
+				B13A2248225B6008005980F2 /* asm_avr_mult_square.inc.h */,
+				B13A2249225B6008005980F2 /* asm_avr.inc.h */,
+				B13A224A225B6008005980F2 /* asm_arm_mult_square.inc.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		B13A224E225B6008005980F2 /* eos-http-rpc */ = {
+			isa = PBXGroup;
+			children = (
+				B13A224F225B6008005980F2 /* networking */,
+				B13A2258225B6008005980F2 /* HistoryApi.swift */,
+				B13A2259225B6008005980F2 /* ChainApi.swift */,
+				B13A225A225B6008005980F2 /* model */,
+			);
+			path = "eos-http-rpc";
+			sourceTree = "<group>";
+		};
+		B13A224F225B6008005980F2 /* networking */ = {
+			isa = PBXGroup;
+			children = (
+				B13A2250225B6008005980F2 /* Connection.swift */,
+				B13A2251225B6008005980F2 /* RxHttp.swift */,
+				B13A2252225B6008005980F2 /* Logger.swift */,
+				B13A2253225B6008005980F2 /* HttpRequest.swift */,
+				B13A2254225B6008005980F2 /* HttpResponse.swift */,
+				B13A2255225B6008005980F2 /* HttpErrorResponse.swift */,
+				B13A2256225B6008005980F2 /* decoding */,
+			);
+			path = networking;
+			sourceTree = "<group>";
+		};
+		B13A2256225B6008005980F2 /* decoding */ = {
+			isa = PBXGroup;
+			children = (
+				B13A2257225B6008005980F2 /* DateDecoder.swift */,
+			);
+			path = decoding;
+			sourceTree = "<group>";
+		};
+		B13A225A225B6008005980F2 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				B13A225B225B6008005980F2 /* transaction */,
+				B13A2268225B6008005980F2 /* producer */,
+				B13A226E225B6008005980F2 /* contract */,
+				B13A2281225B6008005980F2 /* ChainError.swift */,
+				B13A2282225B6008005980F2 /* signing */,
+				B13A2286225B6008005980F2 /* ResponseBody.swift */,
+				B13A2287225B6008005980F2 /* RequestBody.swift */,
+				B13A2288225B6008005980F2 /* parsing_types.swift */,
+				B13A2289225B6008005980F2 /* codable_type.swift */,
+				B13A228A225B6008005980F2 /* Encodable.swift */,
+				B13A228B225B6008005980F2 /* info */,
+				B13A228D225B6008005980F2 /* history */,
+				B13A229C225B6009005980F2 /* account */,
+				B13A22AC225B6009005980F2 /* ChainErrorDetail.swift */,
+				B13A22AD225B6009005980F2 /* ChainErrorItem.swift */,
+				B13A22AE225B6009005980F2 /* block */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		B13A225B225B6008005980F2 /* transaction */ = {
+			isa = PBXGroup;
+			children = (
+				B13A225C225B6008005980F2 /* TransactionAuthorization.swift */,
+				B13A225D225B6008005980F2 /* response */,
+				B13A2265225B6008005980F2 /* request */,
+			);
+			path = transaction;
+			sourceTree = "<group>";
+		};
+		B13A225D225B6008005980F2 /* response */ = {
+			isa = PBXGroup;
+			children = (
+				B13A225E225B6008005980F2 /* TransactionActionTrace.swift */,
+				B13A225F225B6008005980F2 /* TransactionProcessed.swift */,
+				B13A2260225B6008005980F2 /* TransactionComitted.swift */,
+				B13A2261225B6008005980F2 /* TransactionParentReceipt.swift */,
+				B13A2262225B6008005980F2 /* TransactionAct.swift */,
+				B13A2263225B6008005980F2 /* TransactionActAuthorization.swift */,
+				B13A2264225B6008005980F2 /* TransactionReceipt.swift */,
+			);
+			path = response;
+			sourceTree = "<group>";
+		};
+		B13A2265225B6008005980F2 /* request */ = {
+			isa = PBXGroup;
+			children = (
+				B13A2266225B6008005980F2 /* Transaction.swift */,
+				B13A2267225B6008005980F2 /* Action.swift */,
+			);
+			path = request;
+			sourceTree = "<group>";
+		};
+		B13A2268225B6008005980F2 /* producer */ = {
+			isa = PBXGroup;
+			children = (
+				B13A2269225B6008005980F2 /* response */,
+				B13A226C225B6008005980F2 /* request */,
+			);
+			path = producer;
+			sourceTree = "<group>";
+		};
+		B13A2269225B6008005980F2 /* response */ = {
+			isa = PBXGroup;
+			children = (
+				B13A226A225B6008005980F2 /* Producer.swift */,
+				B13A226B225B6008005980F2 /* ProducerList.swift */,
+			);
+			path = response;
+			sourceTree = "<group>";
+		};
+		B13A226C225B6008005980F2 /* request */ = {
+			isa = PBXGroup;
+			children = (
+				B13A226D225B6008005980F2 /* GetProducers.swift */,
+			);
+			path = request;
+			sourceTree = "<group>";
+		};
+		B13A226E225B6008005980F2 /* contract */ = {
+			isa = PBXGroup;
+			children = (
+				B13A226F225B6008005980F2 /* response */,
+				B13A227B225B6008005980F2 /* request */,
+			);
+			path = contract;
+			sourceTree = "<group>";
+		};
+		B13A226F225B6008005980F2 /* response */ = {
+			isa = PBXGroup;
+			children = (
+				B13A2270225B6008005980F2 /* AbiStruct.swift */,
+				B13A2271225B6008005980F2 /* AbiAction.swift */,
+				B13A2272225B6008005980F2 /* AbiContract.swift */,
+				B13A2273225B6008005980F2 /* AbiType.swift */,
+				B13A2274225B6008005980F2 /* RawCodeForAccount.swift */,
+				B13A2275225B6008005980F2 /* CodeForAccount.swift */,
+				B13A2276225B6008005980F2 /* AbiForAccount.swift */,
+				B13A2277225B6008005980F2 /* BinaryHex.swift */,
+				B13A2278225B6008005980F2 /* ContractTableRows.swift */,
+				B13A2279225B6008005980F2 /* AbiField.swift */,
+				B13A227A225B6008005980F2 /* AbiTable.swift */,
+			);
+			path = response;
+			sourceTree = "<group>";
+		};
+		B13A227B225B6008005980F2 /* request */ = {
+			isa = PBXGroup;
+			children = (
+				B13A227C225B6008005980F2 /* GetCodeByAccountName.swift */,
+				B13A227D225B6008005980F2 /* GetCurrencyBalance.swift */,
+				B13A227E225B6008005980F2 /* GetCurrencyStats.swift */,
+				B13A227F225B6008005980F2 /* AbiBinToJson.swift */,
+				B13A2280225B6008005980F2 /* GetTableRows.swift */,
+			);
+			path = request;
+			sourceTree = "<group>";
+		};
+		B13A2282225B6008005980F2 /* signing */ = {
+			isa = PBXGroup;
+			children = (
+				B13A2283225B6008005980F2 /* GetRequiredKeysBody.swift */,
+				B13A2284225B6008005980F2 /* PushTransaction.swift */,
+				B13A2285225B6008005980F2 /* RequiredKeys.swift */,
+			);
+			path = signing;
+			sourceTree = "<group>";
+		};
+		B13A228B225B6008005980F2 /* info */ = {
+			isa = PBXGroup;
+			children = (
+				B13A228C225B6008005980F2 /* Info.swift */,
+			);
+			path = info;
+			sourceTree = "<group>";
+		};
+		B13A228D225B6008005980F2 /* history */ = {
+			isa = PBXGroup;
+			children = (
+				B13A228E225B6008005980F2 /* response */,
+				B13A2297225B6008005980F2 /* request */,
+			);
+			path = history;
+			sourceTree = "<group>";
+		};
+		B13A228E225B6008005980F2 /* response */ = {
+			isa = PBXGroup;
+			children = (
+				B13A228F225B6008005980F2 /* HistoricAccountAction.swift */,
+				B13A2290225B6008005980F2 /* ExecutedTransactionParent.swift */,
+				B13A2291225B6008005980F2 /* Accounts.swift */,
+				B13A2292225B6008005980F2 /* ExecutedTransactionReceipt.swift */,
+				B13A2293225B6008005980F2 /* ExecutedTransactionAction.swift */,
+				B13A2294225B6008005980F2 /* HistoricAccountActionParent.swift */,
+				B13A2295225B6008005980F2 /* ExecutedTransaction.swift */,
+				B13A2296225B6008005980F2 /* HistoricTransaction.swift */,
+			);
+			path = response;
+			sourceTree = "<group>";
+		};
+		B13A2297225B6008005980F2 /* request */ = {
+			isa = PBXGroup;
+			children = (
+				B13A2298225B6008005980F2 /* GetActions.swift */,
+				B13A2299225B6008005980F2 /* GetKeyAccounts.swift */,
+				B13A229A225B6008005980F2 /* GetTransaction.swift */,
+				B13A229B225B6008005980F2 /* GetControlledAccounts.swift */,
+			);
+			path = request;
+			sourceTree = "<group>";
+		};
+		B13A229C225B6009005980F2 /* account */ = {
+			isa = PBXGroup;
+			children = (
+				B13A229D225B6009005980F2 /* response */,
+				B13A22AA225B6009005980F2 /* request */,
+			);
+			path = account;
+			sourceTree = "<group>";
+		};
+		B13A229D225B6009005980F2 /* response */ = {
+			isa = PBXGroup;
+			children = (
+				B13A229E225B6009005980F2 /* SelfDelegatedBandwidth.swift */,
+				B13A229F225B6009005980F2 /* AccountPermission.swift */,
+				B13A22A0225B6009005980F2 /* AccountKey.swift */,
+				B13A22A1225B6009005980F2 /* AccountRequiredAuth.swift */,
+				B13A22A2225B6009005980F2 /* RefundRequest.swift */,
+				B13A22A3225B6009005980F2 /* AccountAuthPermission.swift */,
+				B13A22A4225B6009005980F2 /* VoterInfo.swift */,
+				B13A22A5225B6009005980F2 /* AccountAuthWait.swift */,
+				B13A22A6225B6009005980F2 /* AccountResourceLimit.swift */,
+				B13A22A7225B6009005980F2 /* TotalResources.swift */,
+				B13A22A8225B6009005980F2 /* Account.swift */,
+				B13A22A9225B6009005980F2 /* AccountAuth.swift */,
+			);
+			path = response;
+			sourceTree = "<group>";
+		};
+		B13A22AA225B6009005980F2 /* request */ = {
+			isa = PBXGroup;
+			children = (
+				B13A22AB225B6009005980F2 /* AccountName.swift */,
+			);
+			path = request;
+			sourceTree = "<group>";
+		};
+		B13A22AE225B6009005980F2 /* block */ = {
+			isa = PBXGroup;
+			children = (
+				B13A22AF225B6009005980F2 /* response */,
+				B13A22B9225B6009005980F2 /* request */,
+			);
+			path = block;
+			sourceTree = "<group>";
+		};
+		B13A22AF225B6009005980F2 /* response */ = {
+			isa = PBXGroup;
+			children = (
+				B13A22B0225B6009005980F2 /* BlockHeaderRootMerkle.swift */,
+				B13A22B1225B6009005980F2 /* CycleSummary.swift */,
+				B13A22B2225B6009005980F2 /* BlockHeaderSchedule.swift */,
+				B13A22B3225B6009005980F2 /* BlockHeaderStateHeader.swift */,
+				B13A22B4225B6009005980F2 /* Block.swift */,
+				B13A22B5225B6009005980F2 /* CycleSummaryTransaction.swift */,
+				B13A22B6225B6009005980F2 /* BlockHeaderProducer.swift */,
+				B13A22B7225B6009005980F2 /* BlockHeaderState.swift */,
+				B13A22B8225B6009005980F2 /* Region.swift */,
+			);
+			path = response;
+			sourceTree = "<group>";
+		};
+		B13A22B9225B6009005980F2 /* request */ = {
+			isa = PBXGroup;
+			children = (
+				B13A22BA225B6009005980F2 /* BlockNumOrId.swift */,
+			);
+			path = request;
+			sourceTree = "<group>";
+		};
+		B13A2370225B6114005980F2 /* SipHash */ = {
+			isa = PBXGroup;
+			children = (
+				B13A2371225B6114005980F2 /* LICENSE.md */,
+				B13A2372225B6114005980F2 /* README.md */,
+				B13A2373225B6114005980F2 /* SipHash */,
+			);
+			path = SipHash;
+			sourceTree = "<group>";
+		};
+		B13A2373225B6114005980F2 /* SipHash */ = {
+			isa = PBXGroup;
+			children = (
+				B13A2374225B6114005980F2 /* RandomUInt64.swift */,
+				B13A2375225B6114005980F2 /* SipHasher.swift */,
+				B13A2376225B6114005980F2 /* SipHashable.swift */,
+				B13A2377225B6114005980F2 /* Primitive Types.swift */,
+			);
+			path = SipHash;
+			sourceTree = "<group>";
+		};
+		B13A2378225B6115005980F2 /* BigInt */ = {
+			isa = PBXGroup;
+			children = (
+				B13A2379225B6115005980F2 /* LICENSE.md */,
+				B13A237A225B6115005980F2 /* README.md */,
+				B13A237B225B6115005980F2 /* sources */,
+			);
+			path = BigInt;
+			sourceTree = "<group>";
+		};
+		B13A237B225B6115005980F2 /* sources */ = {
+			isa = PBXGroup;
+			children = (
+				B13A237C225B6115005980F2 /* Random.swift */,
+				B13A237D225B6115005980F2 /* GCD.swift */,
+				B13A237E225B6115005980F2 /* Hashable.swift */,
+				B13A237F225B6115005980F2 /* Strideable.swift */,
+				B13A2380225B6115005980F2 /* Addition.swift */,
+				B13A2381225B6115005980F2 /* Data Conversion.swift */,
+				B13A2382225B6115005980F2 /* Bitwise Ops.swift */,
+				B13A2383225B6115005980F2 /* Comparable.swift */,
+				B13A2384225B6115005980F2 /* Words and Bits.swift */,
+				B13A2385225B6115005980F2 /* Square Root.swift */,
+				B13A2386225B6115005980F2 /* Division.swift */,
+				B13A2387225B6115005980F2 /* Prime Test.swift */,
+				B13A2388225B6115005980F2 /* Codable.swift */,
+				B13A2389225B6115005980F2 /* BigUInt.swift */,
+				B13A238A225B6115005980F2 /* Multiplication.swift */,
+				B13A238B225B6115005980F2 /* Exponentiation.swift */,
+				B13A238C225B6115005980F2 /* Floating Point Conversion.swift */,
+				B13A238D225B6115005980F2 /* Shifts.swift */,
+				B13A238E225B6115005980F2 /* Subtraction.swift */,
+				B13A238F225B6115005980F2 /* Integer Conversion.swift */,
+				B13A2390225B6115005980F2 /* BigInt.swift */,
+				B13A2391225B6115005980F2 /* String Conversion.swift */,
+			);
+			path = sources;
+			sourceTree = "<group>";
+		};
 		B18EBB23223F8F8800F52D3C = {
 			isa = PBXGroup;
 			children = (
@@ -111,6 +1262,7 @@
 		B18EBB2F223F8F8800F52D3C /* CyberSwift */ = {
 			isa = PBXGroup;
 			children = (
+				B13A21CA225B5FFA005980F2 /* Pods */,
 				B1C3F853223F98A6005711EF /* Extensions */,
 				B1C3F85A223F98C7005711EF /* Managers */,
 				B1C3F863223F98F4005711EF /* Models */,
@@ -173,7 +1325,18 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B13A2317225B6009005980F2 /* asm_arm_mult_square.inc.h in Headers */,
+				B13A2316225B6009005980F2 /* asm_avr.inc.h in Headers */,
+				B13A2311225B6009005980F2 /* uECC_vli.h in Headers */,
+				B13A230E225B6009005980F2 /* eos_swift.h in Headers */,
+				B13A2313225B6009005980F2 /* types.h in Headers */,
 				B18EBB32223F8F8800F52D3C /* CyberSwift.h in Headers */,
+				B13A230F225B6009005980F2 /* uECC.h in Headers */,
+				B13A2314225B6009005980F2 /* asm_arm_mult_square_umaal.inc.h in Headers */,
+				B13A2310225B6009005980F2 /* asm_arm.inc.h in Headers */,
+				B13A2315225B6009005980F2 /* asm_avr_mult_square.inc.h in Headers */,
+				B13A2318225B6009005980F2 /* curve-specific.inc.h in Headers */,
+				B13A2312225B6009005980F2 /* platform-specific.inc.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,10 +1401,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B13A22BD225B6009005980F2 /* README.md in Resources */,
+				B13A2398225B6115005980F2 /* LICENSE.md in Resources */,
+				B13A2399225B6115005980F2 /* README.md in Resources */,
 				B19D963A223F914100557F5A /* README.md in Resources */,
 				B1C3F86E223F993F005711EF /* Localizable.strings in Resources */,
 				B1677C6E223FAA5F005FB286 /* Media.xcassets in Resources */,
 				B19D9638223F913900557F5A /* LICENSE.md in Resources */,
+				B13A22BC225B6009005980F2 /* LICENSE in Resources */,
+				B13A2393225B6115005980F2 /* README.md in Resources */,
+				B13A2392225B6115005980F2 /* LICENSE.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -278,20 +1447,213 @@
 			buildActionMask = 2147483647;
 			files = (
 				B1C3F85F223F98DC005711EF /* ReachabilityManager.swift in Sources */,
+				B13A2369225B6009005980F2 /* Block.swift in Sources */,
+				B13A2330225B6009005980F2 /* AbiStruct.swift in Sources */,
+				B13A23A8225B6115005980F2 /* Multiplication.swift in Sources */,
+				B13A235B225B6009005980F2 /* AccountAuthPermission.swift in Sources */,
+				B13A22F6225B6009005980F2 /* TimestampWriter.swift in Sources */,
+				B13A22DC225B6009005980F2 /* RefundChain.swift in Sources */,
+				B13A2397225B6115005980F2 /* Primitive Types.swift in Sources */,
+				B13A22C4225B6009005980F2 /* SignedTransactionAbi.swift in Sources */,
+				B13A23A2225B6115005980F2 /* Words and Bits.swift in Sources */,
+				B13A234A225B6009005980F2 /* HistoricAccountAction.swift in Sources */,
+				B13A22D9225B6009005980F2 /* UnDelegateBandwidthArgs.swift in Sources */,
+				B13A236F225B6009005980F2 /* primitive_type.swift in Sources */,
+				B13A235F225B6009005980F2 /* TotalResources.swift in Sources */,
+				B13A230D225B6009005980F2 /* BlockIdDetails.swift in Sources */,
+				B13A22FF225B6009005980F2 /* regex.swift in Sources */,
+				B13A2364225B6009005980F2 /* ChainErrorItem.swift in Sources */,
+				B13A2361225B6009005980F2 /* AccountAuth.swift in Sources */,
+				B13A231B225B6009005980F2 /* RxHttp.swift in Sources */,
+				B13A233C225B6009005980F2 /* GetCurrencyBalance.swift in Sources */,
+				B13A2395225B6115005980F2 /* SipHasher.swift in Sources */,
+				B13A22F9225B6009005980F2 /* NameWriter.swift in Sources */,
+				B13A2322225B6009005980F2 /* ChainApi.swift in Sources */,
+				B13A2354225B6009005980F2 /* GetTransaction.swift in Sources */,
+				B13A22C0225B6009005980F2 /* VoteBody.swift in Sources */,
+				B13A22F0225B6009005980F2 /* AssetWriter.swift in Sources */,
+				B13A239D225B6115005980F2 /* Strideable.swift in Sources */,
+				B13A2323225B6009005980F2 /* TransactionAuthorization.swift in Sources */,
+				B13A22DD225B6009005980F2 /* SellRamChain.swift in Sources */,
+				B13A23A0225B6115005980F2 /* Bitwise Ops.swift in Sources */,
+				B13A22C9225B6009005980F2 /* BuyRamBytesChain.swift in Sources */,
+				B13A235A225B6009005980F2 /* RefundRequest.swift in Sources */,
 				B1C3F869223F9907005711EF /* ErrorAPI.swift in Sources */,
 				B1C3F861223F98DC005711EF /* Logger.swift in Sources */,
+				B13A2329225B6009005980F2 /* TransactionActAuthorization.swift in Sources */,
+				B13A22D3225B6009005980F2 /* BuyRamBytesBody.swift in Sources */,
+				B13A22E1225B6009005980F2 /* ChainResponse.swift in Sources */,
+				B13A22DE225B6009005980F2 /* DelegateBandwidthChain.swift in Sources */,
 				B1C3F86A223F9907005711EF /* ResponseAPI.swift in Sources */,
+				B13A22E7225B6009005980F2 /* BpLocation.swift in Sources */,
+				B13A23AB225B6115005980F2 /* Shifts.swift in Sources */,
+				B13A236E225B6009005980F2 /* BlockNumOrId.swift in Sources */,
+				B13A22CA225B6009005980F2 /* UnDelegateBandwidth.swift in Sources */,
+				B13A2355225B6009005980F2 /* GetControlledAccounts.swift in Sources */,
+				B13A23A1225B6115005980F2 /* Comparable.swift in Sources */,
 				B111B5BB224E1B5A00F84AD9 /* KeychainManager.swift in Sources */,
+				B13A2367225B6009005980F2 /* BlockHeaderSchedule.swift in Sources */,
+				B13A22F3225B6009005980F2 /* AbiTypeWriter.swift in Sources */,
+				B13A2347225B6009005980F2 /* codable_type.swift in Sources */,
+				B13A232F225B6009005980F2 /* GetProducers.swift in Sources */,
+				B13A23A5225B6115005980F2 /* Prime Test.swift in Sources */,
+				B13A22EB225B6009005980F2 /* BlockProducer.swift in Sources */,
+				B13A235D225B6009005980F2 /* AccountAuthWait.swift in Sources */,
+				B13A2353225B6009005980F2 /* GetKeyAccounts.swift in Sources */,
 				B1C3F86B223F9907005711EF /* MethodAPI.swift in Sources */,
+				B13A2346225B6009005980F2 /* parsing_types.swift in Sources */,
+				B13A231A225B6009005980F2 /* Connection.swift in Sources */,
+				B13A22C2225B6009005980F2 /* TransferArgs.swift in Sources */,
+				B13A22C6225B6009005980F2 /* TransactionAbi.swift in Sources */,
+				B13A236A225B6009005980F2 /* CycleSummaryTransaction.swift in Sources */,
+				B13A22CB225B6009005980F2 /* CreateAccountChain.swift in Sources */,
+				B13A239A225B6115005980F2 /* Random.swift in Sources */,
+				B13A22EA225B6009005980F2 /* GetBlockProducers.swift in Sources */,
+				B13A233E225B6009005980F2 /* AbiBinToJson.swift in Sources */,
 				B1C3F857223F98B1005711EF /* Date+Extensions.swift in Sources */,
+				B13A2333225B6009005980F2 /* AbiType.swift in Sources */,
+				B13A22FE225B6009005980F2 /* AbiEncodingContainer.swift in Sources */,
+				B13A2357225B6009005980F2 /* AccountPermission.swift in Sources */,
+				B13A23A4225B6115005980F2 /* Division.swift in Sources */,
+				B13A2300225B6009005980F2 /* PrivateKeySigning.swift in Sources */,
+				B13A2303225B6009005980F2 /* EOSPrivateKey.swift in Sources */,
 				B1C3F859223F98B1005711EF /* Encodable+Extensions.swift in Sources */,
+				B13A22C3225B6009005980F2 /* TransferBody.swift in Sources */,
+				B13A23A6225B6115005980F2 /* Codable.swift in Sources */,
+				B13A2351225B6009005980F2 /* HistoricTransaction.swift in Sources */,
+				B13A2365225B6009005980F2 /* BlockHeaderRootMerkle.swift in Sources */,
+				B13A2358225B6009005980F2 /* AccountKey.swift in Sources */,
+				B13A236D225B6009005980F2 /* Region.swift in Sources */,
+				B13A2360225B6009005980F2 /* Account.swift in Sources */,
+				B13A23AF225B6115005980F2 /* String Conversion.swift in Sources */,
+				B13A2309225B6009005980F2 /* RIPEMD160-HMAC.swift in Sources */,
+				B13A23AE225B6115005980F2 /* BigInt.swift in Sources */,
+				B13A22D0225B6009005980F2 /* AccountKeyAbi.swift in Sources */,
+				B13A22CF225B6009005980F2 /* AccountRequiredAuthAbi.swift in Sources */,
+				B13A239C225B6115005980F2 /* Hashable.swift in Sources */,
+				B13A231E225B6009005980F2 /* HttpResponse.swift in Sources */,
+				B13A2304225B6009005980F2 /* ECPrivateKey.swift in Sources */,
+				B13A231F225B6009005980F2 /* HttpErrorResponse.swift in Sources */,
+				B13A23A3225B6115005980F2 /* Square Root.swift in Sources */,
+				B13A22D8225B6009005980F2 /* UnDelegateBandwidthBody.swift in Sources */,
+				B13A2356225B6009005980F2 /* SelfDelegatedBandwidth.swift in Sources */,
+				B13A22E8225B6009005980F2 /* BpOrg.swift in Sources */,
+				B13A2348225B6009005980F2 /* Encodable.swift in Sources */,
+				B13A234C225B6009005980F2 /* Accounts.swift in Sources */,
+				B13A2328225B6009005980F2 /* TransactionAct.swift in Sources */,
+				B13A2368225B6009005980F2 /* BlockHeaderStateHeader.swift in Sources */,
+				B13A2394225B6115005980F2 /* RandomUInt64.swift in Sources */,
+				B13A22E5225B6009005980F2 /* BpNode.swift in Sources */,
+				B13A2336225B6009005980F2 /* AbiForAccount.swift in Sources */,
+				B13A2366225B6009005980F2 /* CycleSummary.swift in Sources */,
+				B13A2350225B6009005980F2 /* ExecutedTransaction.swift in Sources */,
+				B13A2341225B6009005980F2 /* GetRequiredKeysBody.swift in Sources */,
+				B13A22F1225B6009005980F2 /* DataWriter.swift in Sources */,
+				B13A2306225B6009005980F2 /* Sha256.swift in Sources */,
+				B13A2332225B6009005980F2 /* AbiContract.swift in Sources */,
+				B13A22CC225B6009005980F2 /* DelegateBandwidthBody.swift in Sources */,
+				B13A236B225B6009005980F2 /* BlockHeaderProducer.swift in Sources */,
+				B13A22EE225B6009005980F2 /* GetRamPrice.swift in Sources */,
+				B13A233F225B6009005980F2 /* GetTableRows.swift in Sources */,
+				B13A2352225B6009005980F2 /* GetActions.swift in Sources */,
+				B13A232C225B6009005980F2 /* Action.swift in Sources */,
+				B13A2345225B6009005980F2 /* RequestBody.swift in Sources */,
+				B13A22F2225B6009005980F2 /* HexCollectionWriter.swift in Sources */,
+				B13A22ED225B6009005980F2 /* ProxyJson.swift in Sources */,
+				B13A236C225B6009005980F2 /* BlockHeaderState.swift in Sources */,
+				B13A22C5225B6009005980F2 /* TransactionAuthorizationAbi.swift in Sources */,
+				B13A22BF225B6009005980F2 /* VoteArgs.swift in Sources */,
+				B13A22EF225B6009005980F2 /* CheckAccountNameExists.swift in Sources */,
 				B1A74A662243893A009D68E7 /* EOSManager.swift in Sources */,
+				B13A2359225B6009005980F2 /* AccountRequiredAuth.swift in Sources */,
+				B13A2327225B6009005980F2 /* TransactionParentReceipt.swift in Sources */,
+				B13A22D1225B6009005980F2 /* NewAccountArgs.swift in Sources */,
+				B13A22CE225B6009005980F2 /* NewAccountBody.swift in Sources */,
+				B13A230A225B6009005980F2 /* Base58String.swift in Sources */,
 				B1C3F858223F98B1005711EF /* ConstantsApp.swift in Sources */,
+				B13A2319225B6009005980F2 /* uECC.c in Sources */,
+				B13A22FD225B6009005980F2 /* AbiEncoder.swift in Sources */,
+				B13A232E225B6009005980F2 /* ProducerList.swift in Sources */,
 				B1C3F860223F98DC005711EF /* Broadcast.swift in Sources */,
+				B13A22E0225B6009005980F2 /* ChainTransaction.swift in Sources */,
+				B13A232B225B6009005980F2 /* Transaction.swift in Sources */,
+				B13A2321225B6009005980F2 /* HistoryApi.swift in Sources */,
+				B13A22F8225B6009005980F2 /* AccountNameCollectionWriter.swift in Sources */,
+				B13A22E2225B6009005980F2 /* GetDelegatedBandwidth.swift in Sources */,
+				B13A2338225B6009005980F2 /* ContractTableRows.swift in Sources */,
+				B13A235C225B6009005980F2 /* VoterInfo.swift in Sources */,
+				B13A22F4225B6009005980F2 /* StringCollectionWriter.swift in Sources */,
+				B13A22BE225B6009005980F2 /* VoteChain.swift in Sources */,
+				B13A22DB225B6009005980F2 /* RefundArgs.swift in Sources */,
+				B13A22D4225B6009005980F2 /* BuyRamBytesArgs.swift in Sources */,
+				B13A2344225B6009005980F2 /* ResponseBody.swift in Sources */,
+				B13A2396225B6115005980F2 /* SipHashable.swift in Sources */,
+				B13A2335225B6009005980F2 /* CodeForAccount.swift in Sources */,
+				B13A234D225B6009005980F2 /* ExecutedTransactionReceipt.swift in Sources */,
+				B13A231C225B6009005980F2 /* Logger.swift in Sources */,
 				B1A74A642243892B009D68E7 /* EOSTransaction.swift in Sources */,
+				B13A22CD225B6009005980F2 /* DelegateBandwidthArgs.swift in Sources */,
+				B13A22FB225B6009005980F2 /* BlockPrefixWriter.swift in Sources */,
+				B13A2339225B6009005980F2 /* AbiField.swift in Sources */,
+				B13A23A9225B6115005980F2 /* Exponentiation.swift in Sources */,
+				B13A22E4225B6009005980F2 /* BpBranding.swift in Sources */,
+				B13A23AA225B6115005980F2 /* Floating Point Conversion.swift in Sources */,
+				B13A22E3225B6009005980F2 /* BandwidthJson.swift in Sources */,
 				B1C3F868223F9907005711EF /* RequestAPI.swift in Sources */,
+				B13A2302225B6009005980F2 /* ECPublicKey.swift in Sources */,
+				B13A2305225B6009005980F2 /* HexWriter.swift in Sources */,
+				B13A2340225B6009005980F2 /* ChainError.swift in Sources */,
+				B13A22C8225B6009005980F2 /* BuyRamChain.swift in Sources */,
+				B13A22D6225B6009005980F2 /* SellRamArgs.swift in Sources */,
+				B13A22E9225B6009005980F2 /* BpParent.swift in Sources */,
+				B13A232D225B6009005980F2 /* Producer.swift in Sources */,
+				B13A22FC225B6009005980F2 /* ChainIdWriter.swift in Sources */,
+				B13A22E6225B6009005980F2 /* BpSocial.swift in Sources */,
+				B13A231D225B6009005980F2 /* HttpRequest.swift in Sources */,
+				B13A22F7225B6009005980F2 /* AccountNameWriter.swift in Sources */,
 				B1677C66223F9BD7005FB286 /* RestAPIManager.swift in Sources */,
+				B13A239E225B6115005980F2 /* Addition.swift in Sources */,
+				B13A22DA225B6009005980F2 /* RefundBody.swift in Sources */,
+				B13A23A7225B6115005980F2 /* BigUInt.swift in Sources */,
 				B1C3F862223F98DC005711EF /* WebSocketManager.swift in Sources */,
+				B13A2307225B6009005980F2 /* RIPEMD160-Ext.swift in Sources */,
+				B13A2326225B6009005980F2 /* TransactionComitted.swift in Sources */,
+				B13A233A225B6009005980F2 /* AbiTable.swift in Sources */,
+				B13A22DF225B6009005980F2 /* TransactionContext.swift in Sources */,
+				B13A2362225B6009005980F2 /* AccountName.swift in Sources */,
+				B13A2334225B6009005980F2 /* RawCodeForAccount.swift in Sources */,
+				B13A2343225B6009005980F2 /* RequiredKeys.swift in Sources */,
+				B13A23AD225B6115005980F2 /* Integer Conversion.swift in Sources */,
+				B13A2308225B6009005980F2 /* RIPEMD160.swift in Sources */,
+				B13A22D2225B6009005980F2 /* BuyRamBody.swift in Sources */,
+				B13A2337225B6009005980F2 /* BinaryHex.swift in Sources */,
+				B13A22C1225B6009005980F2 /* TransferChain.swift in Sources */,
+				B13A2342225B6009005980F2 /* PushTransaction.swift in Sources */,
+				B13A232A225B6009005980F2 /* TransactionReceipt.swift in Sources */,
+				B13A234B225B6009005980F2 /* ExecutedTransactionParent.swift in Sources */,
+				B13A2320225B6009005980F2 /* DateDecoder.swift in Sources */,
+				B13A2349225B6009005980F2 /* Info.swift in Sources */,
+				B13A234F225B6009005980F2 /* HistoricAccountActionParent.swift in Sources */,
+				B13A2331225B6009005980F2 /* AbiAction.swift in Sources */,
+				B13A22C7225B6009005980F2 /* ActionAbi.swift in Sources */,
+				B13A23AC225B6115005980F2 /* Subtraction.swift in Sources */,
+				B13A22FA225B6009005980F2 /* BlockNumWriter.swift in Sources */,
+				B13A239F225B6115005980F2 /* Data Conversion.swift in Sources */,
+				B13A22D5225B6009005980F2 /* BuyRamArgs.swift in Sources */,
+				B13A235E225B6009005980F2 /* AccountResourceLimit.swift in Sources */,
+				B13A2324225B6009005980F2 /* TransactionActionTrace.swift in Sources */,
+				B13A22EC225B6009005980F2 /* GetRegProxyInfo.swift in Sources */,
+				B13A233B225B6009005980F2 /* GetCodeByAccountName.swift in Sources */,
+				B13A230C225B6009005980F2 /* Pretty.swift in Sources */,
+				B13A2301225B6009005980F2 /* EOSPublicKey.swift in Sources */,
+				B13A233D225B6009005980F2 /* GetCurrencyStats.swift in Sources */,
+				B13A22D7225B6009005980F2 /* SellRamBody.swift in Sources */,
+				B13A2363225B6009005980F2 /* ChainErrorDetail.swift in Sources */,
+				B13A230B225B6009005980F2 /* Base58.swift in Sources */,
+				B13A22F5225B6009005980F2 /* PublicKeyWriter.swift in Sources */,
+				B13A234E225B6009005980F2 /* ExecutedTransactionAction.swift in Sources */,
+				B13A239B225B6115005980F2 /* GCD.swift in Sources */,
+				B13A2325225B6009005980F2 /* TransactionProcessed.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
