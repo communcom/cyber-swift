@@ -79,7 +79,7 @@ public class PhoneCode {
     
     
     // MARK: - Functions
-    class func getCountries() -> [County] {
+    public class func getCountries() -> [County] {
         return [ UnitedStates(codeValue: 1, labelValue: "United States", flagURLString: "https://cdn.countryflags.com/thumbs/united-states-of-america/flag-800.png"),
                  Russia(codeValue: 7, labelValue: "Russia", flagURLString: "https://cdn.countryflags.com/thumbs/russia/flag-800.png", defaultValue: true, verificationPhoneValue: "+7 (916) 930-63-59"),
                  Kazakhstan(codeValue: 7, labelValue: "Kazakhstan", flagURLString: "https://cdn.countryflags.com/thumbs/kazakhstan/flag-800.png", verificationPhoneValue: "+7 (777) 007-69-77"),
