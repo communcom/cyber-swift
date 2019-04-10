@@ -10,6 +10,7 @@
 		03329A709F0DA60180F91DBB /* Pods_CyberSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6ED672114DF191DC66860EA /* Pods_CyberSwift.framework */; };
 		B111B5BB224E1B5A00F84AD9 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B111B5BA224E1B5A00F84AD9 /* KeychainManager.swift */; };
 		B1677C66223F9BD7005FB286 /* RestAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1677C65223F9BD7005FB286 /* RestAPIManager.swift */; };
+		B1804BA9225DCF9B00260A32 /* PhoneCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1804BA8225DCF9B00260A32 /* PhoneCode.swift */; };
 		B18EBB32223F8F8800F52D3C /* CyberSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = B18EBB30223F8F8800F52D3C /* CyberSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B1A74A642243892B009D68E7 /* EOSTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A74A632243892B009D68E7 /* EOSTransaction.swift */; };
 		B1A74A662243893A009D68E7 /* EOSManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A74A652243893A009D68E7 /* EOSManager.swift */; };
@@ -32,6 +33,7 @@
 		B111B5BA224E1B5A00F84AD9 /* KeychainManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		B1677C65223F9BD7005FB286 /* RestAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestAPIManager.swift; sourceTree = "<group>"; };
 		B1677C6D223FAA5F005FB286 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
+		B1804BA8225DCF9B00260A32 /* PhoneCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCode.swift; sourceTree = "<group>"; };
 		B18EBB2D223F8F8800F52D3C /* CyberSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CyberSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B18EBB30223F8F8800F52D3C /* CyberSwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CyberSwift.h; sourceTree = "<group>"; };
 		B18EBB31223F8F8800F52D3C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 		B1C3F863223F98F4005711EF /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B1804BA8225DCF9B00260A32 /* PhoneCode.swift */,
 				B1A74A632243892B009D68E7 /* EOSTransaction.swift */,
 				B1C3F865223F9906005711EF /* ErrorAPI.swift */,
 				B1C3F867223F9907005711EF /* MethodAPI.swift */,
@@ -283,6 +286,7 @@
 				B1A74A642243892B009D68E7 /* EOSTransaction.swift in Sources */,
 				B1C3F868223F9907005711EF /* RequestAPI.swift in Sources */,
 				B1677C66223F9BD7005FB286 /* RestAPIManager.swift in Sources */,
+				B1804BA9225DCF9B00260A32 /* PhoneCode.swift in Sources */,
 				B1C3F862223F98DC005711EF /* WebSocketManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

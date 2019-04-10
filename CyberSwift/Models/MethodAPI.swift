@@ -8,6 +8,7 @@
 //  This enum use for GET Requests
 //
 //  https://github.com/GolosChain/facade-service/tree/develop
+//  https://github.com/GolosChain/registration-service/tree/develop
 //  https://github.com/GolosChain/api-documentation
 //
 
@@ -63,6 +64,13 @@ public enum CommentSortMode: String {
     case timeDesc           =   "timeDesc"
 }
 
+public enum RegistrationStategyMode: String {
+    case smsFromUser        =   "smsFromUser"
+    case smsToUser          =   "smsToUser"
+    case mail               =   "mail"
+    case social             =   "social"
+}
+
 
 public indirect enum MethodAPIType {
     /// Getting a user profile
@@ -85,6 +93,10 @@ public indirect enum MethodAPIType {
     
     /// Get the secret authorization to sign
     case generateSecret
+    
+    
+    /// Get current registration status for user
+    case getState(nickName: String?, phone: String?)
     
     
     /// This method return request parameters from selected enum case.
@@ -164,6 +176,23 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.auth.rawValue,
                      methodName:        "generateSecret",
                      parameters:        ["": ""])
+            
+        /// Template { "id": 8, "jsonrpc": "2.0", "method": "registration.getState", "params": { "": "" }}
+        case .getState(let nickNameValue, let phoneValue):
+            var parameters = [String: String]()
+                
+            if nickNameValue != nil {
+                parameters["user"] = nickNameValue!
+            }
+            
+            if phoneValue != nil {
+                parameters["phone"] = phoneValue!
+            }
+
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.registration.rawValue,
+                     methodName:        "getState",
+                     parameters:        parameters)
             
         } // switch
     }

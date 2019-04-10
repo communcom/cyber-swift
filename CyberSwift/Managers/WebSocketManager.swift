@@ -147,7 +147,9 @@ public class WebSocketManager {
 
             case .generateSecret:
                 return (responseAPI: try JSONDecoder().decode(ResponseAPIAuthGenerateSecretResult.self, from: jsonData), errorAPI: nil)
-            }
+
+            case .getState(_):
+                return (responseAPI: try JSONDecoder().decode(ResponseAPIAuthGenerateSecretResult.self, from: jsonData), errorAPI: nil)            }
         } catch {
             Logger.log(message: "\(error)", event: .error)
             return (responseAPI: nil, errorAPI: ErrorAPI.jsonParsingFailure(message: error.localizedDescription))

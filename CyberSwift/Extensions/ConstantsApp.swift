@@ -71,3 +71,4 @@ public struct Config {
     public static let currentUserActiveKey: String      =   "currentUserActiveKey"
     public static let currentUserNickNameKey: String    =   "currentUserNickNameKey"
 }
+
