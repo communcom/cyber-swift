@@ -23,7 +23,8 @@ public class RestAPIManager {
     
     // MARK: - Class Functions
     
-    /// API `auth.authorize`
+    /// FACADE-SERVICE
+    //  API `auth.authorize`
     public func authorize(userNickName: String, userActiveKey: String, completion: @escaping (ResponseAPIAuthAuthorize?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             RestAPIManager.instance.generateSecret(completion: { (generatedSecret, errorAPI) in
@@ -255,7 +256,39 @@ public class RestAPIManager {
     }
     
     
-    /// EOS: contract `gls.publish`, actions `upvote`, `downvote`, `unvote`
+    /// REGISTRATION-SERVICE
+    //  API `registration.getState`
+    public func getState(nickName: String? = Config.currentUser.nickName, phone: String?, completion: @escaping (ResponseAPIContentGetComments?, ErrorAPI?) -> Void) {
+        if Config.isNetworkAvailable {
+            let methodAPIType = MethodAPIType.getState(nickName: nickName, phone: phone)
+            
+            Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                                 onResult:          { responseAPIResult in
+                                                    Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
+                                                    
+                                                    guard let result = (responseAPIResult as! ResponseAPIContentGetCommentsResult).result else {
+                                                        completion(nil, ErrorAPI.requestFailed(message: "API post \'registration.getState\' have error: \((responseAPIResult as! ResponseAPIContentGetCommentsResult).error!.message)"))
+                                                        return
+                                                    }
+                                                    
+                                                    completion(result, nil)
+            },
+                                                 onError: { errorAPI in
+                                                    Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
+                                                    
+                                                    completion(nil, errorAPI)
+            })
+        }
+            
+            // Offline mode
+        else {
+            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
+        }
+    }
+
+    
+    /// EOS
+    //  Contract `gls.publish`, actions `upvote`, `downvote`, `unvote`
     public func message(voteType: VoteType, author: String, permlink: String, weight: Int16? = 0, refBlockNum: UInt64 = 0, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             EOSManager.message(voteType:        voteType,
@@ -280,7 +313,7 @@ public class RestAPIManager {
     }
     
     
-    /// EOS: contract `gls.publish`, action `createmssg`
+    //  Contract `gls.publish`, action `createmssg`
     public func publish(message: String, headline: String? = "", parentData: ParentData? = nil, tags: [String]?, metaData: String?, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             let arrayTags = tags == nil ? [EOSTransaction.Tags()] : tags!.map({ EOSTransaction.Tags.init(tagValue: $0) })
@@ -312,7 +345,7 @@ public class RestAPIManager {
     }
     
     
-    /// EOS: contract `gls.publish`, action `updatemssg`
+    //  Contract `gls.publish`, action `updatemssg`
     public func updateMessage(author: String?, permlink: String, message: String, parentData: ParentData?, refBlockNum: UInt64, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             let messageUpdateArgs = EOSTransaction.MessageUpdateArgs(authorValue:           author ?? Config.currentUser.nickName ?? "Cyberway",
@@ -339,7 +372,7 @@ public class RestAPIManager {
     }
     
     
-    /// EOS: contract `gls.publish`, action `deletemssg`
+    //  Contract `gls.publish`, action `deletemssg`
     public func deleteMessage(author: String, permlink: String, refBlockNum: UInt64, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             let messageDeleteArgs = EOSTransaction.MessageDeleteArgs(authorValue:           author,

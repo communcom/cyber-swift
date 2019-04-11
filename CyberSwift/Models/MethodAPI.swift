@@ -7,9 +7,9 @@
 //
 //  This enum use for GET Requests
 //
-//  https://github.com/GolosChain/facade-service/tree/develop
-//  https://github.com/GolosChain/registration-service/tree/develop
-//  https://github.com/GolosChain/api-documentation
+//  API DOC:                https://github.com/GolosChain/api-documentation
+//  FACADE-SERVICE:         https://github.com/GolosChain/facade-service/tree/develop
+//  REGISTRATION-SERVICE:   https://github.com/GolosChain/registration-service/tree/develop
 //
 
 import Foundation
@@ -73,43 +73,46 @@ public enum RegistrationStategyMode: String {
 
 
 public indirect enum MethodAPIType {
-    /// Getting a user profile
+    /// FACADE-SERVICE
+    //  Getting a user profile
     case getProfile(nickNames: String)
     
-    /// Getting tape posts
+    //  Getting tape posts
     case getFeed(typeMode: FeedTypeMode, userID: String?, communityID: String?, timeFrameMode: FeedTimeFrameMode, sortMode: FeedSortMode, paginationSequenceKey: String?)
     
-    /// Getting selected post
+    //  Getting selected post
     case getPost(userID: String, permlink: String, refBlockNum: UInt64)
     
-    /// Getting user comments feed
+    //  Getting user comments feed
     case getUserComments(nickName: String, sortMode: CommentSortMode, paginationSequenceKey: String?)
     
-    /// Getting post comments feed
+    //  Getting post comments feed
     case getPostComments(userNickName: String, permlink: String, refBlockNum: UInt64, sortMode: CommentSortMode, paginationSequenceKey: String?)
     
-    /// Log in
+    //  Log in
     case authorize(nickName: String, activeKey: String)
     
-    /// Get the secret authorization to sign
+    //  Get the secret authorization to sign
     case generateSecret
     
     
-    /// Get current registration status for user
+    /// REGISTRATION-SERVICE
+    //  Get current registration status for user
     case getState(nickName: String?, phone: String?)
     
     
     /// This method return request parameters from selected enum case.
     func introduced() -> RequestMethodParameters {
         switch self {
-        /// Template { "id": 1, "jsonrpc": "2.0", "method": "content.getProfile", "params": { "userId": "tst3uuqzetwf" }}
+        /// FACADE-SERVICE
+        //  Template { "id": 1, "jsonrpc": "2.0", "method": "content.getProfile", "params": { "userId": "tst3uuqzetwf" }}
         case .getProfile(let userNickNameValue):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getProfile",
                      parameters:        ["userId": userNickNameValue])
             
-        /// Template { "id": 2, "jsonrpc": "2.0", "method": "content.getFeed", "params": { "type": "community", "timeframe": "day", "sortBy": "popular", "limit": 20, "userId": "tst3uuqzetwf", "communityId": "gls" }}
+        //  Template { "id": 2, "jsonrpc": "2.0", "method": "content.getFeed", "params": { "type": "community", "timeframe": "day", "sortBy": "popular", "limit": 20, "userId": "tst3uuqzetwf", "communityId": "gls" }}
         case .getFeed(let typeModeValue, let userNickNameValue, let communityIDValue, let timeFrameModeValue, let sortModeValue, let paginationSequenceKeyValue):
             var parameters: [String: String] = ["type": typeModeValue.rawValue, "timeframe": timeFrameModeValue.rawValue, "sortBy": sortModeValue.rawValue, "limit": "\(Config.paginationLimit)"]
             
@@ -130,14 +133,14 @@ public indirect enum MethodAPIType {
                      methodName:        "getFeed",
                      parameters:        parameters)
             
-        /// Template { "id": 3, "jsonrpc": "2.0", "method": "content.getPost", "params": { "userId": "tst2nbduouxh", "permlink": "hephaestusfightswithantigoneagainststyx", "refBlockNum": 381607 }}
+        //  Template { "id": 3, "jsonrpc": "2.0", "method": "content.getPost", "params": { "userId": "tst2nbduouxh", "permlink": "hephaestusfightswithantigoneagainststyx", "refBlockNum": 381607 }}
         case .getPost(let userNickNameValue, let permlinkValue, let refBlockNumValue):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getPost",
                      parameters:        ["userId": userNickNameValue, "permlink": permlinkValue, "refBlockNum": "\(refBlockNumValue)"])
             
-        /// Template { "id": 4, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "user", "userId": "tst2nbduouxh", "sortBy": "time", "limit": 20 }}
+        //  Template { "id": 4, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "user", "userId": "tst2nbduouxh", "sortBy": "time", "limit": 20 }}
         case .getUserComments(let userNickNameValue, let sortModeValue, let paginationSequenceKeyValue):
             var parameters: [String: String] = ["type": "user", "userId": userNickNameValue, "sortBy": sortModeValue.rawValue, "limit": "\(Config.paginationLimit)"]
             
@@ -150,7 +153,7 @@ public indirect enum MethodAPIType {
                      methodName:        "getComments",
                      parameters:        parameters)
             
-        /// Template { "id": 5, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "post", "userId": "tst1xrhojmka", "sortBy": "time", "permlink":  "demeterfightswithandromedaagainstepimetheus", "refBlockNum": "520095", "limit": 20 }}
+        //  Template { "id": 5, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "post", "userId": "tst1xrhojmka", "sortBy": "time", "permlink":  "demeterfightswithandromedaagainstepimetheus", "refBlockNum": "520095", "limit": 20 }}
         case .getPostComments(let userNickNameValue, let permlinkValue, let refBlockNumValue, let sortModeValue, let paginationSequenceKeyValue):
             var parameters: [String: String] = ["type": "post", "userId": userNickNameValue, "permlink": permlinkValue, "refBlockNum": "\(refBlockNumValue)", "sortBy": sortModeValue.rawValue, "limit": "\(Config.paginationLimit)"]
             
@@ -163,21 +166,23 @@ public indirect enum MethodAPIType {
                      methodName:        "getComments",
                      parameters:        parameters)
             
-        /// Template { "id": 6, "jsonrpc": "2.0", "method": "auth.authorize", "params": { "user": "tst1xrhojmka", "sign": "Cyberway" }}
+        //  Template { "id": 6, "jsonrpc": "2.0", "method": "auth.authorize", "params": { "user": "tst1xrhojmka", "sign": "Cyberway" }}
         case .authorize(let nickNameValue, let activeKeyValue):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.auth.rawValue,
                      methodName:        "authorize",
                      parameters:        ["user": nickNameValue, "secret": Config.webSocketSecretKey, "sign": EOSManager.signWebSocketSecretKey(userActiveKey: activeKeyValue) ?? "Cyberway"])
             
-        /// Template { "id": 7, "jsonrpc": "2.0", "method": "auth.generateSecret", "params": { "": "" }}
+        //  Template { "id": 7, "jsonrpc": "2.0", "method": "auth.generateSecret", "params": { "": "" }}
         case .generateSecret:
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.auth.rawValue,
                      methodName:        "generateSecret",
                      parameters:        ["": ""])
             
-        /// Template { "id": 8, "jsonrpc": "2.0", "method": "registration.getState", "params": { "": "" }}
+            
+        /// REGISTRATION-SERVICE ()
+        //  Template { "id": 8, "jsonrpc": "2.0", "method": "registration.getState", "params": { "": "" }}
         case .getState(let nickNameValue, let phoneValue):
             var parameters = [String: String]()
                 
