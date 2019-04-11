@@ -467,3 +467,20 @@ public struct ResponseAPIAuthGenerateSecret: Decodable {
     // MARK: - In work API `auth.authorize`
     public let secret: String
 }
+
+
+// MARK: -
+public struct ResponseAPIRegistrationGetStateResult: Decodable {
+    // MARK: - In work API `auth.authorize`
+    public let id: Int64
+    public let jsonrpc: String
+    public let result: ResponseAPIRegistrationGetState?
+    public let error: ResponseAPIError?
+}
+
+
+// MARK: -
+public struct ResponseAPIRegistrationGetState: Decodable {
+    // MARK: - In work API `registration.getState`
+    public let currentState: String
+}

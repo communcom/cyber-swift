@@ -181,7 +181,7 @@ public indirect enum MethodAPIType {
                      parameters:        ["": ""])
             
             
-        /// REGISTRATION-SERVICE ()
+        /// REGISTRATION-SERVICE
         //  Template { "id": 8, "jsonrpc": "2.0", "method": "registration.getState", "params": { "": "" }}
         case .getState(let nickNameValue, let phoneValue):
             var parameters = [String: String]()

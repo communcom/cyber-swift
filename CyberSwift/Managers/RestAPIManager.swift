@@ -21,10 +21,8 @@ public class RestAPIManager {
     }
     
     
-    // MARK: - Class Functions
-    
-    /// FACADE-SERVICE
-    //  API `auth.authorize`
+    // MARK: - FACADE-SERVICE
+    // API `auth.authorize`
     public func authorize(userNickName: String, userActiveKey: String, completion: @escaping (ResponseAPIAuthAuthorize?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             RestAPIManager.instance.generateSecret(completion: { (generatedSecret, errorAPI) in
@@ -72,7 +70,7 @@ public class RestAPIManager {
     }
     
     
-    /// API `auth.generateSecret`
+    // API `auth.generateSecret`
     private func generateSecret(completion: @escaping (ResponseAPIAuthGenerateSecret?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             let methodAPIType = MethodAPIType.generateSecret
@@ -102,7 +100,7 @@ public class RestAPIManager {
     }
     
     
-    /// API `content.getProfile`
+    // API `content.getProfile`
     public func loadUserProfile(byNickName nickName: String, completion: @escaping (ResponseAPIContentGetProfile?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             let methodAPIType = MethodAPIType.getProfile(nickNames: nickName)
@@ -132,7 +130,7 @@ public class RestAPIManager {
     }
     
     
-    /// API `content.getFeed`
+    // API `content.getFeed`
     public func loadFeed(typeMode: FeedTypeMode = .community, userID: String? = nil, communityID: String? = nil, timeFrameMode: FeedTimeFrameMode = .day, sortMode: FeedSortMode = .popular, paginationLimit: Int8 = Config.paginationLimit, paginationSequenceKey: String? = nil, completion: @escaping (ResponseAPIContentGetFeed?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             let methodAPIType = MethodAPIType.getFeed(typeMode: typeMode, userID: userID, communityID: communityID, timeFrameMode: timeFrameMode, sortMode: sortMode, paginationSequenceKey: paginationSequenceKey)
@@ -162,7 +160,7 @@ public class RestAPIManager {
     }
     
     
-    /// API `content.getPost`
+    // API `content.getPost`
     public func loadPost(userID: String = Config.currentUser.nickName ?? "Cyber", permlink: String, refBlockNum: UInt64, completion: @escaping (ResponseAPIContentGetPost?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             let methodAPIType = MethodAPIType.getPost(userID: userID, permlink: permlink, refBlockNum: refBlockNum)
@@ -192,7 +190,7 @@ public class RestAPIManager {
     }
     
     
-    /// API `content.getComments` by user
+    // API `content.getComments` by user
     public func loadUserComments(nickName: String = Config.currentUser.nickName ?? "Cyber", sortMode: CommentSortMode = .time, paginationLimit: Int8 = Config.paginationLimit, paginationSequenceKey: String? = nil, completion: @escaping (ResponseAPIContentGetComments?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             let methodAPIType = MethodAPIType.getUserComments(nickName: nickName, sortMode: sortMode, paginationSequenceKey: paginationSequenceKey)
@@ -222,7 +220,7 @@ public class RestAPIManager {
     }
     
     
-    /// API `content.getComments` by post
+    // API `content.getComments` by post
     public func loadPostComments(nickName: String = Config.currentUser.nickName ?? "Cyber", permlink: String, refBlockNum: UInt64, sortMode: CommentSortMode = .time, paginationLimit: Int8 = Config.paginationLimit, paginationSequenceKey: String? = nil, completion: @escaping (ResponseAPIContentGetComments?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             let methodAPIType = MethodAPIType.getPostComments(userNickName:             nickName,
@@ -256,9 +254,9 @@ public class RestAPIManager {
     }
     
     
-    /// REGISTRATION-SERVICE
-    //  API `registration.getState`
-    public func getState(nickName: String? = Config.currentUser.nickName, phone: String?, completion: @escaping (ResponseAPIContentGetComments?, ErrorAPI?) -> Void) {
+    // MARK: - REGISTRATION-SERVICE
+    // API `registration.getState`
+    public func getState(nickName: String? = Config.currentUser.nickName, phone: String?, completion: @escaping (ResponseAPIRegistrationGetState?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             let methodAPIType = MethodAPIType.getState(nickName: nickName, phone: phone)
             
@@ -266,8 +264,8 @@ public class RestAPIManager {
                                                  onResult:          { responseAPIResult in
                                                     Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
                                                     
-                                                    guard let result = (responseAPIResult as! ResponseAPIContentGetCommentsResult).result else {
-                                                        completion(nil, ErrorAPI.requestFailed(message: "API post \'registration.getState\' have error: \((responseAPIResult as! ResponseAPIContentGetCommentsResult).error!.message)"))
+                                                    guard let result = (responseAPIResult as! ResponseAPIRegistrationGetStateResult).result else {
+                                                        completion(nil, ErrorAPI.requestFailed(message: "API post \'registration.getState\' have error: \((responseAPIResult as! ResponseAPIRegistrationGetStateResult).error!.message)"))
                                                         return
                                                     }
                                                     
@@ -287,8 +285,8 @@ public class RestAPIManager {
     }
 
     
-    /// EOS
-    //  Contract `gls.publish`, actions `upvote`, `downvote`, `unvote`
+    // MARK: - EOS
+    // Contract `gls.publish`, actions `upvote`, `downvote`, `unvote`
     public func message(voteType: VoteType, author: String, permlink: String, weight: Int16? = 0, refBlockNum: UInt64 = 0, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             EOSManager.message(voteType:        voteType,
@@ -313,7 +311,7 @@ public class RestAPIManager {
     }
     
     
-    //  Contract `gls.publish`, action `createmssg`
+    // Contract `gls.publish`, action `createmssg`
     public func publish(message: String, headline: String? = "", parentData: ParentData? = nil, tags: [String]?, metaData: String?, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             let arrayTags = tags == nil ? [EOSTransaction.Tags()] : tags!.map({ EOSTransaction.Tags.init(tagValue: $0) })
@@ -345,7 +343,7 @@ public class RestAPIManager {
     }
     
     
-    //  Contract `gls.publish`, action `updatemssg`
+    // Contract `gls.publish`, action `updatemssg`
     public func updateMessage(author: String?, permlink: String, message: String, parentData: ParentData?, refBlockNum: UInt64, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             let messageUpdateArgs = EOSTransaction.MessageUpdateArgs(authorValue:           author ?? Config.currentUser.nickName ?? "Cyberway",
@@ -372,7 +370,7 @@ public class RestAPIManager {
     }
     
     
-    //  Contract `gls.publish`, action `deletemssg`
+    // Contract `gls.publish`, action `deletemssg`
     public func deleteMessage(author: String, permlink: String, refBlockNum: UInt64, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             let messageDeleteArgs = EOSTransaction.MessageDeleteArgs(authorValue:           author,
