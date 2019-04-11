@@ -471,7 +471,7 @@ public struct ResponseAPIAuthGenerateSecret: Decodable {
 
 // MARK: -
 public struct ResponseAPIRegistrationGetStateResult: Decodable {
-    // MARK: - In work API `auth.authorize`
+    // MARK: - In work API `registration.getState`
     public let id: Int64
     public let jsonrpc: String
     public let result: ResponseAPIRegistrationGetState?
@@ -483,4 +483,23 @@ public struct ResponseAPIRegistrationGetStateResult: Decodable {
 public struct ResponseAPIRegistrationGetState: Decodable {
     // MARK: - In work API `registration.getState`
     public let currentState: String
+}
+
+
+// MARK: -
+public struct ResponseAPIRegistrationFirstStepResult: Decodable {
+    // MARK: - In work API `registration.firstStep`
+    public let id: Int64
+    public let jsonrpc: String
+    public let result: ResponseAPIRegistrationFirstStep?
+    public let error: ResponseAPIError?
+}
+
+
+// MARK: -
+public struct ResponseAPIRegistrationFirstStep: Decodable {
+    // MARK: - In work API `registration.firstStep`
+    public let code: UInt64
+    public let strategy: String
+    public let nextSmsRetry: String
 }

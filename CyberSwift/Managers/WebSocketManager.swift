@@ -152,7 +152,7 @@ public class WebSocketManager {
                 return (responseAPI: try JSONDecoder().decode(ResponseAPIRegistrationGetStateResult.self, from: jsonData), errorAPI: nil)
                 
             case .firstStep(_):
-                return (responseAPI: try JSONDecoder().decode(ResponseAPIRegistrationGetStateResult.self, from: jsonData), errorAPI: nil)
+                return (responseAPI: try JSONDecoder().decode(ResponseAPIRegistrationFirstStepResult.self, from: jsonData), errorAPI: nil)
             }
         } catch {
             Logger.log(message: "\(error)", event: .error)

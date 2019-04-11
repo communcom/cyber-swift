@@ -285,7 +285,7 @@ public class RestAPIManager {
     }
 
     // API `registration.firstStep`
-    public func firstStep(phone: String, captcha: String? = nil, testingPass: String? = Config.testingPassword, completion: @escaping (ResponseAPIRegistrationGetState?, ErrorAPI?) -> Void) {
+    public func firstStep(phone: String, captcha: String? = nil, testingPass: String? = Config.testingPassword, completion: @escaping (ResponseAPIRegistrationFirstStep?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             let methodAPIType = MethodAPIType.firstStep(phone: phone, captcha: captcha, testingPass: testingPass)
             
@@ -293,8 +293,8 @@ public class RestAPIManager {
                                                  onResult:          { responseAPIResult in
                                                     Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
                                                     
-                                                    guard let result = (responseAPIResult as! ResponseAPIRegistrationGetStateResult).result else {
-                                                        completion(nil, ErrorAPI.requestFailed(message: "API post \'registration.firstStep\' have error: \((responseAPIResult as! ResponseAPIRegistrationGetStateResult).error!.message)"))
+                                                    guard let result = (responseAPIResult as! ResponseAPIRegistrationFirstStepResult).result else {
+                                                        completion(nil, ErrorAPI.requestFailed(message: "API post \'registration.firstStep\' have error: \((responseAPIResult as! ResponseAPIRegistrationFirstStepResult).error!.message)"))
                                                         return
                                                     }
                                                     

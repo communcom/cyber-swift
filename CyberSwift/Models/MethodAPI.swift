@@ -204,15 +204,14 @@ public indirect enum MethodAPIType {
 
         //  Template { "id": 9, "jsonrpc": "2.0", "method": "registration.firstStep", "params": { "phone": "+70000000000", "captcha": "", "testingPass": "DpQad16yDlllEy6" }}
         case .firstStep(let phoneValue, let captchaValue, let testingPassValue):
-            guard testingPassValue == nil else {
+            guard let testingPassword = testingPassValue else {
                 return  (methodAPIType:     self,
                          methodGroup:       MethodAPIGroup.registration.rawValue,
                          methodName:        "firstStep",
-                         parameters:        ["testingPass": testingPassValue!])
-
+                         parameters:        ["phone": phoneValue])
             }
             
-            var parameters = ["phone": phoneValue]
+            var parameters = ["testingPass": testingPassword, "phone": phoneValue]
             
             if captchaValue != nil {
                 parameters["captcha"] = captchaValue!
