@@ -285,9 +285,9 @@ public class RestAPIManager {
     }
 
     // API `registration.firstStep`
-    public func firstStep(phone: String, captcha: String? = nil, testingPass: String? = Config.testingPassword, completion: @escaping (ResponseAPIRegistrationFirstStep?, ErrorAPI?) -> Void) {
+    public func firstStep(phone: String, isDebugMode: Bool = true, completion: @escaping (ResponseAPIRegistrationFirstStep?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
-            let methodAPIType = MethodAPIType.firstStep(phone: phone, captcha: captcha, testingPass: testingPass)
+            let methodAPIType = MethodAPIType.firstStep(phone: phone, isDebugMode: isDebugMode)
             
             Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                                  onResult:          { responseAPIResult in
@@ -314,9 +314,9 @@ public class RestAPIManager {
     }
 
     // API `registration.verify`
-    public func verify(phone: String, code: String, completion: @escaping (ResponseAPIRegistrationVerify?, ErrorAPI?) -> Void) {
+    public func verify(phone: String, code: String, isDebugMode: Bool = true, completion: @escaping (ResponseAPIRegistrationVerify?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
-            let methodAPIType = MethodAPIType.verify(phone: phone, code: code)
+            let methodAPIType = MethodAPIType.verify(phone: phone, code: code, isDebugMode: isDebugMode)
             
             Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                                  onResult:          { responseAPIResult in

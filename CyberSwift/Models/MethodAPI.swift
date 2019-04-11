@@ -101,10 +101,10 @@ public indirect enum MethodAPIType {
     case getState(nickName: String?, phone: String?)
     
     //  First step of registration
-    case firstStep(phone: String, captcha: String?, testingPass: String?)
+    case firstStep(phone: String, isDebugMode: Bool)
     
     //  Second registration step, account verification
-    case verify(phone: String, code: String)
+    case verify(phone: String, code: String, isDebugMode: Bool)
     
     
     /// This method return request parameters from selected enum case.
@@ -205,19 +205,13 @@ public indirect enum MethodAPIType {
                      methodName:        "getState",
                      parameters:        parameters)
 
-        //  Template { "id": 9, "jsonrpc": "2.0", "method": "registration.firstStep", "params": { "phone": "+70000000000", "captcha": "", "testingPass": "DpQad16yDlllEy6" }}
-        case .firstStep(let phoneValue, let captchaValue, let testingPassValue):
-            guard let testingPassword = testingPassValue else {
-                return  (methodAPIType:     self,
-                         methodGroup:       MethodAPIGroup.registration.rawValue,
-                         methodName:        "firstStep",
-                         parameters:        ["phone": phoneValue])
-            }
-            
-            var parameters = ["testingPass": testingPassword, "phone": phoneValue]
-            
-            if captchaValue != nil {
-                parameters["captcha"] = captchaValue!
+        //  Debug template      { "id": 9, "jsonrpc": "2.0", "method": "registration.firstStep", "params": { "phone": "+70000000000", "testingPass": "DpQad16yDlllEy6" }}
+        //  Release template    { "id": 9, "jsonrpc": "2.0", "method": "registration.firstStep", "params": { "phone": "+70000000000" }}
+        case .firstStep(let phoneValue, let isDebugMode):
+            var parameters = ["phone": phoneValue]
+
+            if isDebugMode {
+                parameters["testingPass"] = Config.testingPassword
             }
             
             return  (methodAPIType:     self,
@@ -225,12 +219,19 @@ public indirect enum MethodAPIType {
                      methodName:        "firstStep",
                      parameters:        parameters)
 
-        //  Template { "id": 10, "jsonrpc": "2.0", "method": "registration.verify", "params": { "phone": "+70000000000", "code": "1563" }}
-        case .verify(let phoneValue, let codeValue):
+        //  Debug template      { "id": 10, "jsonrpc": "2.0", "method": "registration.verify", "params": { "phone": "+70000000000", "code": "1563", "testingPass": "DpQad16yDlllEy6" }}
+        //  Release template    { "id": 10, "jsonrpc": "2.0", "method": "registration.verify", "params": { "phone": "+70000000000", "code": "1563" }}
+        case .verify(let phoneValue, let codeValue, let isDebugMode):
+            var parameters = ["phone": phoneValue, "code": codeValue]
+            
+            if isDebugMode {
+                parameters["testingPass"] = Config.testingPassword
+            }
+
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.registration.rawValue,
                      methodName:        "verify",
-                     parameters:        ["phone": phoneValue, "code": codeValue])
+                     parameters:        parameters)
             
         } // switch
     }
