@@ -342,6 +342,35 @@ public class RestAPIManager {
         }
     }
 
+    // API `registration.setUsername`
+    public func setUser(name: String, phone: String, isDebugMode: Bool = true, completion: @escaping (ResponseAPIRegistrationSetUsername?, ErrorAPI?) -> Void) {
+        if Config.isNetworkAvailable {
+            let methodAPIType = MethodAPIType.setUser(name: name, phone: phone, isDebugMode: isDebugMode)
+            
+            Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                                 onResult:          { responseAPIResult in
+                                                    Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
+                                                    
+                                                    guard let result = (responseAPIResult as! ResponseAPIRegistrationSetUsernameResult).result else {
+                                                        completion(nil, ErrorAPI.requestFailed(message: "API post \'registration.setUsername\' have error: \((responseAPIResult as! ResponseAPIRegistrationSetUsernameResult).error!.message)"))
+                                                        return
+                                                    }
+                                                    
+                                                    completion(result, nil)
+            },
+                                                 onError: { errorAPI in
+                                                    Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
+                                                    
+                                                    completion(nil, errorAPI)
+            })
+        }
+            
+        // Offline mode
+        else {
+            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
+        }
+    }
+
     
     // MARK: - EOS
     // Contract `gls.publish`, actions `upvote`, `downvote`, `unvote`

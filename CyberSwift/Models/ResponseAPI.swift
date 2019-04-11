@@ -520,3 +520,20 @@ public struct ResponseAPIRegistrationVerify: Decodable {
     // MARK: - In work API `registration.verify`
     public let status: String
 }
+
+
+// MARK: -
+public struct ResponseAPIRegistrationSetUsernameResult: Decodable {
+    // MARK: - In work API `registration.setUsername`
+    public let id: Int64
+    public let jsonrpc: String
+    public let result: ResponseAPIRegistrationSetUsername?
+    public let error: ResponseAPIError?
+}
+
+
+// MARK: -
+public struct ResponseAPIRegistrationSetUsername: Decodable {
+    // MARK: - In work API `registration.setUsername`
+    public let status: String
+}

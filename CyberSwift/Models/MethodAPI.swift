@@ -106,6 +106,9 @@ public indirect enum MethodAPIType {
     //  Second registration step, account verification
     case verify(phone: String, code: String, isDebugMode: Bool)
     
+    //  The third step of registration, account verification
+    case setUser(name: String, phone: String, isDebugMode: Bool)
+    
     
     /// This method return request parameters from selected enum case.
     func introduced() -> RequestMethodParameters {
@@ -231,6 +234,20 @@ public indirect enum MethodAPIType {
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.registration.rawValue,
                      methodName:        "verify",
+                     parameters:        parameters)
+            
+        //  Debug template      { "id": 11, "jsonrpc": "2.0", "method": "registration.setUsername", "params": { "user": "tester", "phone": "+70000000000", "testingPass": "DpQad16yDlllEy6" }}
+        //  Release template    { "id": 11, "jsonrpc": "2.0", "method": "registration.setUsername", "params": { "user": "tester", "phone": "+70000000000" }}
+        case .setUser(let nameValue, let phoneValue, let isDebugMode):
+            var parameters = ["phone": phoneValue, "user": nameValue]
+            
+            if isDebugMode {
+                parameters["testingPass"] = Config.testingPassword
+            }
+            
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.registration.rawValue,
+                     methodName:        "setUsername",
                      parameters:        parameters)
             
         } // switch
