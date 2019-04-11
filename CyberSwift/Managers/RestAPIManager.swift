@@ -278,12 +278,41 @@ public class RestAPIManager {
             })
         }
             
-            // Offline mode
+        // Offline mode
         else {
             completion(nil, ErrorAPI.disableInternetConnection(message: nil))
         }
     }
 
+    // API `registration.firstStep`
+    public func firstStep(phone: String, captcha: String? = nil, testingPass: String? = Config.testingPassword, completion: @escaping (ResponseAPIRegistrationGetState?, ErrorAPI?) -> Void) {
+        if Config.isNetworkAvailable {
+            let methodAPIType = MethodAPIType.firstStep(phone: phone, captcha: captcha, testingPass: testingPass)
+            
+            Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                                 onResult:          { responseAPIResult in
+                                                    Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
+                                                    
+                                                    guard let result = (responseAPIResult as! ResponseAPIRegistrationGetStateResult).result else {
+                                                        completion(nil, ErrorAPI.requestFailed(message: "API post \'registration.firstStep\' have error: \((responseAPIResult as! ResponseAPIRegistrationGetStateResult).error!.message)"))
+                                                        return
+                                                    }
+                                                    
+                                                    completion(result, nil)
+            },
+                                                 onError: { errorAPI in
+                                                    Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
+                                                    
+                                                    completion(nil, errorAPI)
+            })
+        }
+            
+        // Offline mode
+        else {
+            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
+        }
+    }
+    
     
     // MARK: - EOS
     // Contract `gls.publish`, actions `upvote`, `downvote`, `unvote`

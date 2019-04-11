@@ -10,6 +10,7 @@ import Foundation
 
 public class County: Encodable {
     public var code: UInt16
+    public var shortCode: String
     public var label: String
     public var flagURL: URL
     public var `default`: Bool
@@ -21,8 +22,9 @@ public class County: Encodable {
     }
 
 
-    init(codeValue: UInt16, labelValue: String, flagURLString: String, defaultValue: Bool = false, verificationPhoneValue: String = "", verificationOverridesValue: Override? = nil) {
+    init(codeValue: UInt16, shortCodeValue: String, labelValue: String, flagURLString: String, defaultValue: Bool = false, verificationPhoneValue: String = "", verificationOverridesValue: Override? = nil) {
         self.code = codeValue
+        self.shortCode = shortCodeValue
         self.label = labelValue
         self.flagURL = URL(string: flagURLString)!
         self.default = defaultValue
@@ -78,7 +80,25 @@ public class PhoneCode {
     class Bulgaria: County {}
     class BurkinaFaso: County {}
     class Burundi: County {}
-    
+    class Cambodia: County {}
+    class Cameroon: County {}
+    class Canada: County {}
+    class CapeVerde: County {}
+    class CaymanIslands: County {}
+    class CentralAfricanRepublic: County {}
+    //    class Cameroon: County {}
+    //    class Cameroon: County {}
+    //    class Cameroon: County {}
+    //    class Cameroon: County {}
+    //    class Cameroon: County {}
+    //    class Cameroon: County {}
+    //    class Cameroon: County {}
+    //    class Cameroon: County {}
+    //    class Cameroon: County {}
+    //    class Cameroon: County {}
+    //    class Cameroon: County {}
+    //    class Cameroon: County {}
+    //    class Cameroon: County {}
 
     
 
@@ -87,72 +107,74 @@ public class PhoneCode {
     
     // MARK: - Functions
     public class func getCountries() -> [County] {
-        return [ UnitedStates(codeValue: 1, labelValue: "United States", flagURLString: "https://cdn.countryflags.com/thumbs/united-states-of-america/flag-800.png"),
-                 Russia(codeValue: 7, labelValue: "Russia", flagURLString: "https://cdn.countryflags.com/thumbs/russia/flag-800.png", defaultValue: true, verificationPhoneValue: "+7 (916) 930-63-59"),
-                 Kazakhstan(codeValue: 7, labelValue: "Kazakhstan", flagURLString: "https://cdn.countryflags.com/thumbs/kazakhstan/flag-800.png", verificationPhoneValue: "+7 (777) 007-69-77"),
-                 Lithuania(codeValue: 370, labelValue: "Lithuania", flagURLString: "https://cdn.countryflags.com/thumbs/lithuania/flag-800.png"),
-                 Belarus(codeValue: 375, labelValue: "Belarus", flagURLString: "https://cdn.countryflags.com/thumbs/belarus/flag-800.png", verificationPhoneValue: "+375 (29) 230-87-70"),
-                 Ukraine(codeValue: 380, labelValue: "Ukraine", flagURLString: "https://cdn.countryflags.com/thumbs/ukraine/flag-800.png", verificationPhoneValue: "+380 (93) 177-77-72", verificationOverridesValue: Override(startsWith: ["62", "64", "71", "72"], verificationPhone: "+7 (916) 930-63-59")),
-                 Afghanistan(codeValue: 93, labelValue: "Afghanistan", flagURLString: "https://cdn.countryflags.com/thumbs/afghanistan/flag-800.png"),
-                 Albania(codeValue: 355, labelValue: "Albania", flagURLString: "https://cdn.countryflags.com/thumbs/albania/flag-800.png"),
-                 Algeria(codeValue: 213, labelValue: "Algeria", flagURLString: "https://cdn.countryflags.com/thumbs/algeria/flag-800.png"),
-                 AmericanSamoa(codeValue: 1, labelValue: "American Samoa", flagURLString: "https://cdn.countryflags.com/thumbs/samoa/flag-800.png"),
-                 Andorra(codeValue: 376, labelValue: "Andorra", flagURLString: "https://cdn.countryflags.com/thumbs/andorra/flag-800.png"),
-                 Angola(codeValue: 244, labelValue: "Angola", flagURLString: "https://cdn.countryflags.com/thumbs/angola/flag-800.png"),
-                 Anguilla(codeValue: 1, labelValue: "Anguilla", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Flag_of_Anguilla.svg/2880px-Flag_of_Anguilla.svg.png"),
-            Antigua(codeValue: 1, labelValue: "Antigua", flagURLString: "https://cdn.countryflags.com/thumbs/antigua-and-barbuda/flag-800.png"),
-            Argentina(codeValue: 54, labelValue: "Argentina", flagURLString: "https://cdn.countryflags.com/thumbs/argentina/flag-800.png"),
-            Armenia(codeValue: 374, labelValue: "Armenia", flagURLString: "https://cdn.countryflags.com/thumbs/armenia/flag-800.png"),
-            Aruba(codeValue: 297, labelValue: "Aruba", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Flag_of_Aruba.svg/2560px-Flag_of_Aruba.svg.png"),
-            Australia(codeValue: 61, labelValue: "Australia", flagURLString: "https://cdn.countryflags.com/thumbs/australia/flag-800.png"),
-            Austria(codeValue: 43, labelValue: "Austria", flagURLString: "https://cdn.countryflags.com/thumbs/austria/flag-800.png"),
-            Azerbaijan(codeValue: 994, labelValue: "Azerbaijan", flagURLString: "https://cdn.countryflags.com/thumbs/azerbaijan/flag-800.png"),
-            Bahrain(codeValue: 973, labelValue: "Bahrain", flagURLString: "https://cdn.countryflags.com/thumbs/bahrain/flag-800.png"),
-            Bangladesh(codeValue: 880, labelValue: "Bangladesh", flagURLString: "https://cdn.countryflags.com/thumbs/bangladesh/flag-800.png"),
-            Barbados(codeValue: 1, labelValue: "Barbados", flagURLString: "https://cdn.countryflags.com/thumbs/barbados/flag-800.png"),
-            Belgium(codeValue: 32, labelValue: "Belgium", flagURLString: "https://cdn.countryflags.com/thumbs/belgium/flag-800.png"),
-            Belize(codeValue: 501, labelValue: "Belize", flagURLString: "https://cdn.countryflags.com/thumbs/belize/flag-800.png"),
-            Benin(codeValue: 229, labelValue: "Benin", flagURLString: "https://cdn.countryflags.com/thumbs/benin/flag-800.png"),
-            Bermuda(codeValue: 1, labelValue: "Bermuda", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Flag_of_Bermuda.svg/2880px-Flag_of_Bermuda.svg.png"),
-            Bhutan(codeValue: 975, labelValue: "Bhutan", flagURLString: "https://cdn.countryflags.com/thumbs/bhutan/flag-800.png"),
-            Bolivia(codeValue: 591, labelValue: "Bolivia", flagURLString: "https://cdn.countryflags.com/thumbs/bolivia/flag-800.png"),
-            BonaireSintEustatiusSaba(codeValue: 599, labelValue: "Bonaire, Sint Eustatius and Saba", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Flag_of_the_Netherlands.svg/2560px-Flag_of_the_Netherlands.svg.png"),
-            BosniaHerzegovina(codeValue: 387, labelValue: "Bosnia and Herzegovina", flagURLString: "https://cdn.countryflags.com/thumbs/bosnia-and-herzegovina/flag-800.png"),
-            Botswana(codeValue: 267, labelValue: "Botswana", flagURLString: "https://cdn.countryflags.com/thumbs/botswana/flag-800.png"),
-            Brazil(codeValue: 55, labelValue: "Brazil", flagURLString: "https://cdn.countryflags.com/thumbs/brazil/flag-800.png"),
-            BritishIndianOceanTerritory(codeValue: 246, labelValue: "British Indian Ocean Territory", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Flag_of_the_British_Indian_Ocean_Territory.svg/2880px-Flag_of_the_British_Indian_Ocean_Territory.svg.png"),
-            BritishVirginIslands(codeValue: 1, labelValue: "British Virgin Islands", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Flag_of_the_British_Virgin_Islands.svg/2880px-Flag_of_the_British_Virgin_Islands.svg.png"),
-            Brunei(codeValue: 673, labelValue: "Brunei", flagURLString: "https://cdn.countryflags.com/thumbs/brunei/flag-800.png"),
-            Bulgaria(codeValue: 359, labelValue: "Bulgaria", flagURLString: "https://cdn.countryflags.com/thumbs/bulgaria/flag-800.png"),
-            BurkinaFaso(codeValue: 226, labelValue: "Burkina Faso", flagURLString: "https://cdn.countryflags.com/thumbs/burkina-faso/flag-800.png"),
-            Burundi(codeValue: 257, labelValue: "Burundi", flagURLString: "https://cdn.countryflags.com/thumbs/burundi/flag-800.png")
-            
+        return [ UnitedStates(codeValue: 1, shortCodeValue: "US", labelValue: "United States", flagURLString: "https://cdn.countryflags.com/thumbs/united-states-of-america/flag-800.png"),
+                 Russia(codeValue: 7, shortCodeValue: "RU", labelValue: "Russia", flagURLString: "https://cdn.countryflags.com/thumbs/russia/flag-800.png", defaultValue: true, verificationPhoneValue: "+7 (916) 930-63-59"),
+                 Kazakhstan(codeValue: 7, shortCodeValue: "KZ", labelValue: "Kazakhstan", flagURLString: "https://cdn.countryflags.com/thumbs/kazakhstan/flag-800.png", verificationPhoneValue: "+7 (777) 007-69-77"),
+                 Lithuania(codeValue: 370, shortCodeValue: "LT", labelValue: "Lithuania", flagURLString: "https://cdn.countryflags.com/thumbs/lithuania/flag-800.png"),
+                 Belarus(codeValue: 375, shortCodeValue: "BY", labelValue: "Belarus", flagURLString: "https://cdn.countryflags.com/thumbs/belarus/flag-800.png", verificationPhoneValue: "+375 (29) 230-87-70"),
+                 Ukraine(codeValue: 380, shortCodeValue: "UA", labelValue: "Ukraine", flagURLString: "https://cdn.countryflags.com/thumbs/ukraine/flag-800.png", verificationPhoneValue: "+380 (93) 177-77-72", verificationOverridesValue: Override(startsWith: ["62", "64", "71", "72"], verificationPhone: "+7 (916) 930-63-59")),
+                 Afghanistan(codeValue: 93, shortCodeValue: "AF", labelValue: "Afghanistan", flagURLString: "https://cdn.countryflags.com/thumbs/afghanistan/flag-800.png"),
+                 Albania(codeValue: 355, shortCodeValue: "AL", labelValue: "Albania", flagURLString: "https://cdn.countryflags.com/thumbs/albania/flag-800.png"),
+                 Algeria(codeValue: 213, shortCodeValue: "DZ", labelValue: "Algeria", flagURLString: "https://cdn.countryflags.com/thumbs/algeria/flag-800.png"),
+                 AmericanSamoa(codeValue: 1, shortCodeValue: "AS", labelValue: "American Samoa", flagURLString: "https://cdn.countryflags.com/thumbs/samoa/flag-800.png"),
+                 Andorra(codeValue: 376, shortCodeValue: "AD", labelValue: "Andorra", flagURLString: "https://cdn.countryflags.com/thumbs/andorra/flag-800.png"),
+                 Angola(codeValue: 244, shortCodeValue: "AO", labelValue: "Angola", flagURLString: "https://cdn.countryflags.com/thumbs/angola/flag-800.png"),
+                 Anguilla(codeValue: 1, shortCodeValue: "AI", labelValue: "Anguilla", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Flag_of_Anguilla.svg/2880px-Flag_of_Anguilla.svg.png"),
+                 Antigua(codeValue: 1, shortCodeValue: "AG", labelValue: "Antigua", flagURLString: "https://cdn.countryflags.com/thumbs/antigua-and-barbuda/flag-800.png"),
+                 Argentina(codeValue: 54, shortCodeValue: "AR", labelValue: "Argentina", flagURLString: "https://cdn.countryflags.com/thumbs/argentina/flag-800.png"),
+                 Armenia(codeValue: 374, shortCodeValue: "AM", labelValue: "Armenia", flagURLString: "https://cdn.countryflags.com/thumbs/armenia/flag-800.png"),
+                 Aruba(codeValue: 297, shortCodeValue: "AW", labelValue: "Aruba", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Flag_of_Aruba.svg/2560px-Flag_of_Aruba.svg.png"),
+                 Australia(codeValue: 61, shortCodeValue: "AU", labelValue: "Australia", flagURLString: "https://cdn.countryflags.com/thumbs/australia/flag-800.png"),
+                 Austria(codeValue: 43, shortCodeValue: "AT", labelValue: "Austria", flagURLString: "https://cdn.countryflags.com/thumbs/austria/flag-800.png"),
+                 Azerbaijan(codeValue: 994, shortCodeValue: "AZ", labelValue: "Azerbaijan", flagURLString: "https://cdn.countryflags.com/thumbs/azerbaijan/flag-800.png"),
+                 Bahrain(codeValue: 973, shortCodeValue: "BH", labelValue: "Bahrain", flagURLString: "https://cdn.countryflags.com/thumbs/bahrain/flag-800.png"),
+                 Bangladesh(codeValue: 880, shortCodeValue: "BD", labelValue: "Bangladesh", flagURLString: "https://cdn.countryflags.com/thumbs/bangladesh/flag-800.png"),
+                 Barbados(codeValue: 1, shortCodeValue: "BB", labelValue: "Barbados", flagURLString: "https://cdn.countryflags.com/thumbs/barbados/flag-800.png"),
+                 Belgium(codeValue: 32, shortCodeValue: "BE", labelValue: "Belgium", flagURLString: "https://cdn.countryflags.com/thumbs/belgium/flag-800.png"),
+                 Belize(codeValue: 501, shortCodeValue: "BZ", labelValue: "Belize", flagURLString: "https://cdn.countryflags.com/thumbs/belize/flag-800.png"),
+                 Benin(codeValue: 229, shortCodeValue: "BJ", labelValue: "Benin", flagURLString: "https://cdn.countryflags.com/thumbs/benin/flag-800.png"),
+                 Bermuda(codeValue: 1, shortCodeValue: "BM", labelValue: "Bermuda", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Flag_of_Bermuda.svg/2880px-Flag_of_Bermuda.svg.png"),
+                 Bhutan(codeValue: 975, shortCodeValue: "BT", labelValue: "Bhutan", flagURLString: "https://cdn.countryflags.com/thumbs/bhutan/flag-800.png"),
+                 Bolivia(codeValue: 591, shortCodeValue: "BO", labelValue: "Bolivia", flagURLString: "https://cdn.countryflags.com/thumbs/bolivia/flag-800.png"),
+                 BonaireSintEustatiusSaba(codeValue: 599, shortCodeValue: "BS", labelValue: "Bonaire, Sint Eustatius and Saba", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Flag_of_the_Netherlands.svg/2560px-Flag_of_the_Netherlands.svg.png"),
+                 BosniaHerzegovina(codeValue: 387, shortCodeValue: "BA", labelValue: "Bosnia and Herzegovina", flagURLString: "https://cdn.countryflags.com/thumbs/bosnia-and-herzegovina/flag-800.png"),
+                 Botswana(codeValue: 267, shortCodeValue: "BW", labelValue: "Botswana", flagURLString: "https://cdn.countryflags.com/thumbs/botswana/flag-800.png"),
+                 Brazil(codeValue: 55, shortCodeValue: "BR", labelValue: "Brazil", flagURLString: "https://cdn.countryflags.com/thumbs/brazil/flag-800.png"),
+                 BritishIndianOceanTerritory(codeValue: 246, shortCodeValue: "IO", labelValue: "British Indian Ocean Territory", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Flag_of_the_British_Indian_Ocean_Territory.svg/2880px-Flag_of_the_British_Indian_Ocean_Territory.svg.png"),
+                 BritishVirginIslands(codeValue: 1, shortCodeValue: "VG", labelValue: "British Virgin Islands", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Flag_of_the_British_Virgin_Islands.svg/2880px-Flag_of_the_British_Virgin_Islands.svg.png"),
+                 Brunei(codeValue: 673, shortCodeValue: "BN", labelValue: "Brunei", flagURLString: "https://cdn.countryflags.com/thumbs/brunei/flag-800.png"),
+                 Bulgaria(codeValue: 359, shortCodeValue: "BG", labelValue: "Bulgaria", flagURLString: "https://cdn.countryflags.com/thumbs/bulgaria/flag-800.png"),
+                 BurkinaFaso(codeValue: 226, shortCodeValue: "BF", labelValue: "Burkina Faso", flagURLString: "https://cdn.countryflags.com/thumbs/burkina-faso/flag-800.png"),
+                 Burundi(codeValue: 257, shortCodeValue: "BI", labelValue: "Burundi", flagURLString: "https://cdn.countryflags.com/thumbs/burundi/flag-800.png"),
+                 Cambodia(codeValue: 855, shortCodeValue: "KH", labelValue: "Cambodia", flagURLString: "https://cdn.countryflags.com/thumbs/cambodia/flag-800.png"),
+                 Cameroon(codeValue: 237, shortCodeValue: "CM", labelValue: "Cameroon", flagURLString: "https://cdn.countryflags.com/thumbs/cameroon/flag-800.png"),
+                 Canada(codeValue: 1, shortCodeValue: "CA", labelValue: "Canada", flagURLString: "https://cdn.countryflags.com/thumbs/canada/flag-800.png"),
+                 CapeVerde(codeValue: 238, shortCodeValue: "CV", labelValue: "Cape Verde", flagURLString: "https://cdn.countryflags.com/thumbs/cape-verde/flag-800.png"),
+                 CaymanIslands(codeValue: 1, shortCodeValue: "KY", labelValue: "Cayman Islands", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Flag_of_the_Cayman_Islands.svg/2880px-Flag_of_the_Cayman_Islands.svg.png"),
+                 CentralAfricanRepublic(codeValue: 236, shortCodeValue: "CF", labelValue: "Central African Republic", flagURLString: "https://cdn.countryflags.com/thumbs/central-african-republic/flag-800.png"),
+//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
 
-    
         ]
     }
 
     /*
-    {
-    "code": 855,
-    "label": "Cambodia"
-    },
-    {
-    "code": 237,
-    "label": "Cameroon"
-    },
-    {
-    "code": 1,
-    "label": "Canada"
-    },
-    {
-    "code": 238,
-    "label": "Cape Verde"
-    },
-    {
-    "code": 1,
-    "label": "Cayman Islands"
-    },
+
     {
     "code": 236,
     "label": "Central African Republic"

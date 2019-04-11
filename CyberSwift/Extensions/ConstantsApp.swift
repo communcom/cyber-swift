@@ -17,6 +17,7 @@ public struct Config {
     static let expireSeconds: Double = 30.0
     
     public static var isPublicTestnet: Bool             =   true
+    public static let testingPassword: String           =   "DpQad16yDlllEy6"
     static let CHAIN_CYBERWAY_API_BASE_URL: String      =   isPublicTestnet ? "http://46.4.96.246:8888/" : "http://159.69.85.233:8888/"
     
     /// Websocket

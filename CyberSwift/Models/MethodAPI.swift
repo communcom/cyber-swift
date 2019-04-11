@@ -100,6 +100,9 @@ public indirect enum MethodAPIType {
     //  Get current registration status for user
     case getState(nickName: String?, phone: String?)
     
+    //  First step of registration
+    case firstStep(phone: String, captcha: String?, testingPass: String?)
+    
     
     /// This method return request parameters from selected enum case.
     func introduced() -> RequestMethodParameters {
@@ -182,7 +185,7 @@ public indirect enum MethodAPIType {
             
             
         /// REGISTRATION-SERVICE
-        //  Template { "id": 8, "jsonrpc": "2.0", "method": "registration.getState", "params": { "": "" }}
+        //  Template { "id": 8, "jsonrpc": "2.0", "method": "registration.getState", "params": { "phone": "+70000000000" }}
         case .getState(let nickNameValue, let phoneValue):
             var parameters = [String: String]()
                 
@@ -198,7 +201,28 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.registration.rawValue,
                      methodName:        "getState",
                      parameters:        parameters)
+
+        //  Template { "id": 9, "jsonrpc": "2.0", "method": "registration.firstStep", "params": { "phone": "+70000000000", "captcha": "", "testingPass": "DpQad16yDlllEy6" }}
+        case .firstStep(let phoneValue, let captchaValue, let testingPassValue):
+            guard testingPassValue == nil else {
+                return  (methodAPIType:     self,
+                         methodGroup:       MethodAPIGroup.registration.rawValue,
+                         methodName:        "firstStep",
+                         parameters:        ["testingPass": testingPassValue!])
+
+            }
             
+            var parameters = ["phone": phoneValue]
+            
+            if captchaValue != nil {
+                parameters["captcha"] = captchaValue!
+            }
+            
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.registration.rawValue,
+                     methodName:        "firstStep",
+                     parameters:        parameters)
+
         } // switch
     }
 }
