@@ -94,16 +94,19 @@ extension Broadcast {
             var jsonData        =   Data()
             var jsonString: String
             
-            switch methodAPIType {
-            case .getFeed(_), .getPost(_), .getUserComments(_), .getPostComments(_), .getProfile(_), .authorize(_), .generateSecret, .getState(_), .firstStep(_):
-                jsonData        =   try jsonEncoder.encode(requestAPI)
-                jsonString      =   "\(String(data: jsonData, encoding: .utf8)!)"
-            }
-            
-            jsonString          =   jsonString
-                                        .replacingOccurrences(of: "[[[", with: "[[")
-                                        .replacingOccurrences(of: "[\"nil\"]", with: "]")
-                                        .replacingOccurrences(of: "\"\(Config.paginationLimit)\"", with: "\(Config.paginationLimit)")
+//            switch methodAPIType {
+//            case .getFeed(_), .getPost(_), .getUserComments(_), .getPostComments(_), .getProfile(_), .authorize(_), .generateSecret, .getState(_), .firstStep(_):
+//                jsonData        =   try jsonEncoder.encode(requestAPI)
+//                jsonString      =   "\(String(data: jsonData, encoding: .utf8)!)"
+//            }
+
+            jsonData        =   try jsonEncoder.encode(requestAPI)
+            jsonString      =   "\(String(data: jsonData, encoding: .utf8)!)"
+
+            jsonString      =   jsonString
+                                    .replacingOccurrences(of: "[[[", with: "[[")
+                                    .replacingOccurrences(of: "[\"nil\"]", with: "]")
+                                    .replacingOccurrences(of: "\"\(Config.paginationLimit)\"", with: "\(Config.paginationLimit)")
 
             Logger.log(message: "\nEncoded JSON -> String:\n\t " + jsonString, event: .debug)
             

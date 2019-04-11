@@ -103,6 +103,9 @@ public indirect enum MethodAPIType {
     //  First step of registration
     case firstStep(phone: String, captcha: String?, testingPass: String?)
     
+    //  Second registration step, account verification
+    case verify(phone: String, code: String)
+    
     
     /// This method return request parameters from selected enum case.
     func introduced() -> RequestMethodParameters {
@@ -222,6 +225,13 @@ public indirect enum MethodAPIType {
                      methodName:        "firstStep",
                      parameters:        parameters)
 
+        //  Template { "id": 10, "jsonrpc": "2.0", "method": "registration.verify", "params": { "phone": "+70000000000", "code": "1563" }}
+        case .verify(let phoneValue, let codeValue):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.registration.rawValue,
+                     methodName:        "verify",
+                     parameters:        ["phone": phoneValue, "code": codeValue])
+            
         } // switch
     }
 }

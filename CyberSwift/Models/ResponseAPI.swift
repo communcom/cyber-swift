@@ -503,3 +503,22 @@ public struct ResponseAPIRegistrationFirstStep: Decodable {
     public let strategy: String
     public let nextSmsRetry: String
 }
+
+
+// MARK: -
+public struct ResponseAPIRegistrationVerifyResult: Decodable {
+    // MARK: - In work API `registration.verify`
+    public let id: Int64
+    public let jsonrpc: String
+    public let result: ResponseAPIRegistrationVerify?
+    public let error: ResponseAPIError?
+}
+
+
+// MARK: -
+public struct ResponseAPIRegistrationVerify: Decodable {
+    // MARK: - In work API `registration.verify`
+//    public let code: UInt64
+//    public let strategy: String
+//    public let nextSmsRetry: String
+}
