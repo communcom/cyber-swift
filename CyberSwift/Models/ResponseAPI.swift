@@ -518,7 +518,5 @@ public struct ResponseAPIRegistrationVerifyResult: Decodable {
 // MARK: -
 public struct ResponseAPIRegistrationVerify: Decodable {
     // MARK: - In work API `registration.verify`
-//    public let code: UInt64
-//    public let strategy: String
-//    public let nextSmsRetry: String
+    public let status: String
 }
