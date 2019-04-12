@@ -71,11 +71,16 @@ public enum RegistrationStategyMode: String {
     case social             =   "social"
 }
 
+public enum ProfileType: String {
+    case golos              =   "gls"
+    case cyber              =   "cyber"
+}
+
 
 public indirect enum MethodAPIType {
     /// FACADE-SERVICE
     //  Getting a user profile
-    case getProfile(nickName: String)
+    case getProfile(nickName: String, type: ProfileType)
     
     //  Getting tape posts
     case getFeed(typeMode: FeedTypeMode, userID: String?, communityID: String?, timeFrameMode: FeedTimeFrameMode, sortMode: FeedSortMode, paginationSequenceKey: String?)
@@ -127,12 +132,12 @@ public indirect enum MethodAPIType {
         switch self {
         /// FACADE-SERVICE
         //  Template { "id": 1, "jsonrpc": "2.0", "method": "content.getProfile", "params": { "userId": "tst3uuqzetwf" }}
-        case .getProfile(let nickNameValue):
+        case .getProfile(let nickNameValue, let typeValue):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getProfile",
                      user:              nil,
-                     parameters:        ["userId": nickNameValue])
+                     parameters:        ["userId": nickNameValue, "type": typeValue.rawValue])
             
         //  Template { "id": 2, "jsonrpc": "2.0", "method": "content.getFeed", "params": { "type": "community", "timeframe": "day", "sortBy": "popular", "limit": 20, "userId": "tst3uuqzetwf", "communityId": "gls" }}
         case .getFeed(let typeModeValue, let userNickNameValue, let communityIDValue, let timeFrameModeValue, let sortModeValue, let paginationSequenceKeyValue):
