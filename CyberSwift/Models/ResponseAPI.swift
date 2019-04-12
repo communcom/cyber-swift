@@ -577,7 +577,7 @@ public struct ResponseAPIPushHistoryFresh: Decodable {
 
 public struct ResponseAPIOnlineNotifyHistoryResult: Decodable {
     // MARK: - In work API `onlineNotify.history`
-    public let id: Int64
+    public let id: String
     public let jsonrpc: String
     public let result: ResponseAPIOnlineNotifyHistory?
     public let error: ResponseAPIError?
