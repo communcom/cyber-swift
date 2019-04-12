@@ -113,7 +113,7 @@ public indirect enum MethodAPIType {
     case setUser(name: String, phone: String, isDebugMode: Bool)
     
     //  Re-send of the confirmation code (for the smsToUser strategy)
-    case resendSmsCode(nickName: String, isDebugMode: Bool)
+    case resendSmsCode(phone: String, isDebugMode: Bool)
     
     //  The last step of registration, entry in the blockchain
 //    case toBlockChain()
@@ -266,10 +266,10 @@ public indirect enum MethodAPIType {
                      methodName:        "setUsername",
                      parameters:        parameters)
 
-        //  Debug template      { "id": 5, "jsonrpc": "2.0", "method": "registration.resendSmsCode", "params": { "user": "tester", "testingPass": "DpQad16yDlllEy6" }}
-        //  Release template    { "id": 5, "jsonrpc": "2.0", "method": "registration.resendSmsCode", "params": { "user": "tester" }}
-        case .resendSmsCode(let nameValue, let isDebugMode):
-            var parameters = ["user": nameValue]
+        //  Debug template      { "id": 5, "jsonrpc": "2.0", "method": "registration.resendSmsCode", "params": { "phone": "+70000000000", "testingPass": "DpQad16yDlllEy6" }}
+        //  Release template    { "id": 5, "jsonrpc": "2.0", "method": "registration.resendSmsCode", "params": { "phone": "+70000000000" }}
+        case .resendSmsCode(let phoneValue, let isDebugMode):
+            var parameters = ["phone": phoneValue]
             
             if isDebugMode {
                 parameters["testingPass"] = Config.testingPassword

@@ -12,6 +12,7 @@
 		B1677C66223F9BD7005FB286 /* RestAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1677C65223F9BD7005FB286 /* RestAPIManager.swift */; };
 		B1804BA9225DCF9B00260A32 /* PhoneCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1804BA8225DCF9B00260A32 /* PhoneCode.swift */; };
 		B18EBB32223F8F8800F52D3C /* CyberSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = B18EBB30223F8F8800F52D3C /* CyberSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B19A28D4226075EF001C9F43 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19A28D3226075EF001C9F43 /* String+Extensions.swift */; };
 		B1A74A642243892B009D68E7 /* EOSTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A74A632243892B009D68E7 /* EOSTransaction.swift */; };
 		B1A74A662243893A009D68E7 /* EOSManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A74A652243893A009D68E7 /* EOSManager.swift */; };
 		B1C3F857223F98B1005711EF /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3F854223F98B1005711EF /* Date+Extensions.swift */; };
@@ -37,6 +38,7 @@
 		B18EBB2D223F8F8800F52D3C /* CyberSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CyberSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B18EBB30223F8F8800F52D3C /* CyberSwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CyberSwift.h; sourceTree = "<group>"; };
 		B18EBB31223F8F8800F52D3C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B19A28D3226075EF001C9F43 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		B19D9637223F913900557F5A /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
 		B19D9639223F914100557F5A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		B1A74A632243892B009D68E7 /* EOSTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EOSTransaction.swift; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 				B1C3F855223F98B1005711EF /* ConstantsApp.swift */,
 				B1C3F854223F98B1005711EF /* Date+Extensions.swift */,
 				B1C3F856223F98B1005711EF /* Encodable+Extensions.swift */,
+				B19A28D3226075EF001C9F43 /* String+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -284,6 +287,7 @@
 				B1C3F858223F98B1005711EF /* ConstantsApp.swift in Sources */,
 				B1C3F860223F98DC005711EF /* Broadcast.swift in Sources */,
 				B1A74A642243892B009D68E7 /* EOSTransaction.swift in Sources */,
+				B19A28D4226075EF001C9F43 /* String+Extensions.swift in Sources */,
 				B1C3F868223F9907005711EF /* RequestAPI.swift in Sources */,
 				B1677C66223F9BD7005FB286 /* RestAPIManager.swift in Sources */,
 				B1804BA9225DCF9B00260A32 /* PhoneCode.swift in Sources */,

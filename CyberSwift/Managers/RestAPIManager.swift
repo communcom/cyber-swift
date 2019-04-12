@@ -395,9 +395,9 @@ public class RestAPIManager {
     }
 
     // API `registration.resendSmsCode`
-    public func resendSmsCode(nickName: String, isDebugMode: Bool = true, completion: @escaping (ResponseAPIRegistrationFirstStep?, ErrorAPI?) -> Void) {
+    public func resendSmsCode(phone: String, isDebugMode: Bool = true, completion: @escaping (ResponseAPIRegistrationFirstStep?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
-            let methodAPIType = MethodAPIType.resendSmsCode(nickName: nickName, isDebugMode: isDebugMode)
+            let methodAPIType = MethodAPIType.resendSmsCode(phone: phone, isDebugMode: isDebugMode)
             
             Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                                  onResult:          { responseAPIResult in
