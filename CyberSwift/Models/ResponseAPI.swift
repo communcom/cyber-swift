@@ -235,7 +235,7 @@ public struct ResponseAPIContentGetPostVotes: Decodable {
 // MARK: -
 public struct ResponseAPIContentGetPostStats: Decodable {
     // MARK: - In work API `content.getFeed`
-    public let wilson: ResponseAPIContentGetPostStatsWilson
+    public let wilson: ResponseAPIContentGetPostStatsWilson?
     public let commentsCount: UInt64
 }
 
