@@ -41,9 +41,23 @@ public class WebSocketManager {
         webSocket.delegate = WebSocketManager.instance
         
         WebSocketManager.instance.completionIsConnected = {
+            guard Config.currentUser.nickName == nil else {
+                RestAPIManager.instance.authorize(userNickName: Config.currentUser.nickName!, userActiveKey: Config.currentUser.activeKey!, completion: { (authAuthorize, errorAPI) in
+                    guard errorAPI == nil else {
+                        Logger.log(message: errorAPI!.caseInfo.message.localized(), event: .error)
+                        return
+                    }
+                    
+                    Logger.log(message: authAuthorize!.permission, event: .debug)
+                })
+                
+                return
+            }
+            
             guard self.requestMethodsAPIStore.count > 0 else {
                 return
             }
+            
             
 //            for requestMethodAPIStore in self.requestMethodsAPIStore {
 //                self.sendMessage(requestMethodAPIStore.value)
