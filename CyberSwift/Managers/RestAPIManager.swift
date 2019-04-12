@@ -248,9 +248,9 @@ public class RestAPIManager {
     }
     
     // API `push.historyFresh`
-    public func getPushHistoryFresh(nickName: String, completion: @escaping (ResponseAPIPushHistoryFresh?, ErrorAPI?) -> Void) {
+    public func getPushHistoryFresh(nickName: String = Config.currentUser.nickName ?? "Cyberway", completion: @escaping (ResponseAPIPushHistoryFresh?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
-            let methodAPIType = MethodAPIType.getPushHistoryFresh(nickName: nickName, profile: String(format: "%@%@", nickName, Config.currentDeviceType))
+            let methodAPIType = MethodAPIType.getPushHistoryFresh(profile: String(format: "%@%@", nickName, Config.currentDeviceType))
             
             Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                                  onResult:          { responseAPIResult in

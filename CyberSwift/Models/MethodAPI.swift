@@ -15,7 +15,7 @@
 import Foundation
 
 /// Type of request parameters
-typealias RequestMethodParameters   =   (methodAPIType: MethodAPIType, methodGroup: String, methodName: String, user: String?, parameters: [String: String])
+typealias RequestMethodParameters   =   (methodAPIType: MethodAPIType, methodGroup: String, methodName: String, parameters: [String: String])
 
 public enum MethodAPIGroup: String {
     case offline            =   "offline"
@@ -104,7 +104,7 @@ public indirect enum MethodAPIType {
 //    case getPushHistory(nickName: String)
 
     //  Receiving the number of unread notifications according to user settings
-    case getPushHistoryFresh(nickName: String, profile: String)
+    case getPushHistoryFresh(profile: String)
     
     //  Receive user's notifications
     case getOnlineNotifyHistory(fromId: String?, paginationLimit: Int8, markAsViewed: Bool, freshOnly: Bool)
@@ -139,7 +139,6 @@ public indirect enum MethodAPIType {
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getProfile",
-                     user:              nil,
                      parameters:        ["userId": nickNameValue, "type": typeValue.rawValue])
             
         //  Template { "id": 2, "jsonrpc": "2.0", "method": "content.getFeed", "params": { "type": "community", "timeframe": "day", "sortBy": "popular", "limit": 20, "userId": "tst3uuqzetwf", "communityId": "gls" }}
@@ -161,7 +160,6 @@ public indirect enum MethodAPIType {
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getFeed",
-                     user:              nil,
                      parameters:        parameters)
             
         //  Template { "id": 3, "jsonrpc": "2.0", "method": "content.getPost", "params": { "userId": "tst2nbduouxh", "permlink": "hephaestusfightswithantigoneagainststyx", "refBlockNum": 381607 }}
@@ -169,7 +167,6 @@ public indirect enum MethodAPIType {
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getPost",
-                     user:              nil,
                      parameters:        ["userId": userNickNameValue, "permlink": permlinkValue, "refBlockNum": "\(refBlockNumValue)"])
             
         //  Template { "id": 4, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "user", "userId": "tst2nbduouxh", "sortBy": "time", "limit": 20 }}
@@ -183,7 +180,6 @@ public indirect enum MethodAPIType {
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getComments",
-                     user:              nil,
                      parameters:        parameters)
             
         //  Template { "id": 5, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "post", "userId": "tst1xrhojmka", "sortBy": "time", "permlink":  "demeterfightswithandromedaagainstepimetheus", "refBlockNum": "520095", "limit": 20 }}
@@ -197,7 +193,6 @@ public indirect enum MethodAPIType {
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getComments",
-                     user:              nil,
                      parameters:        parameters)
             
         //  Template { "id": 1, "jsonrpc": "2.0", "method": "onlineNotify.history", "params": { "freshOnly": true, "fromId": "3123", markAsViewed}}
@@ -211,7 +206,6 @@ public indirect enum MethodAPIType {
             return (methodAPIType:      self,
                     methodGroup:        MethodAPIGroup.onlineNotify.rawValue,
                     methodName:         "history",
-                    user:               nil,
                     parameters:         parameters)
             
             
@@ -220,7 +214,6 @@ public indirect enum MethodAPIType {
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.auth.rawValue,
                      methodName:        "authorize",
-                     user:              nil,
                      parameters:        ["user": nickNameValue, "secret": Config.webSocketSecretKey, "sign": EOSManager.signWebSocketSecretKey(userActiveKey: activeKeyValue) ?? "Cyberway"])
             
         //  Template { "id": 7, "jsonrpc": "2.0", "method": "auth.generateSecret", "params": { "": "" }}
@@ -228,15 +221,13 @@ public indirect enum MethodAPIType {
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.auth.rawValue,
                      methodName:        "generateSecret",
-                     user:              nil,
                      parameters:        ["": ""])
 
-        //  Template { "id": 7, "jsonrpc": "2.0", "method": "auth.generateSecret", "params": { "": "" }}
-        case .getPushHistoryFresh(let nickNameValue, let profileValue):
+        //  Template { "id": 8, "jsonrpc": "2.0", "method": "push.historyFresh", "params": { "": "" }}
+        case .getPushHistoryFresh(let profileValue):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.push.rawValue,
-                     methodName:        "history",
-                     user:              nickNameValue,
+                     methodName:        "historyFresh",
                      parameters:        ["profile": profileValue])
 
             
@@ -256,7 +247,6 @@ public indirect enum MethodAPIType {
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.registration.rawValue,
                      methodName:        "getState",
-                     user:              nil,
                      parameters:        parameters)
 
         //  Debug template      { "id": 2, "jsonrpc": "2.0", "method": "registration.firstStep", "params": { "phone": "+70000000000", "testingPass": "DpQad16yDlllEy6" }}
@@ -271,7 +261,6 @@ public indirect enum MethodAPIType {
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.registration.rawValue,
                      methodName:        "firstStep",
-                     user:              nil,
                      parameters:        parameters)
 
         //  Debug template      { "id": 3, "jsonrpc": "2.0", "method": "registration.verify", "params": { "phone": "+70000000000", "code": "1563", "testingPass": "DpQad16yDlllEy6" }}
@@ -286,7 +275,6 @@ public indirect enum MethodAPIType {
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.registration.rawValue,
                      methodName:        "verify",
-                     user:              nil,
                      parameters:        parameters)
             
         //  Debug template      { "id": 4, "jsonrpc": "2.0", "method": "registration.setUsername", "params": { "user": "tester", "phone": "+70000000000", "testingPass": "DpQad16yDlllEy6" }}
@@ -301,7 +289,6 @@ public indirect enum MethodAPIType {
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.registration.rawValue,
                      methodName:        "setUsername",
-                     user:              nil,
                      parameters:        parameters)
 
         //  Debug template      { "id": 5, "jsonrpc": "2.0", "method": "registration.resendSmsCode", "params": { "phone": "+70000000000", "testingPass": "DpQad16yDlllEy6" }}
@@ -316,7 +303,6 @@ public indirect enum MethodAPIType {
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.registration.rawValue,
                      methodName:        "resendSmsCode",
-                     user:              nil,
                      parameters:        parameters)
 
         //  Debug template      { "id": 6, "jsonrpc": "2.0", "method": "registration.toBlockChain", "params": { "user": "tester", "phone": "+70000000000", "testingPass": "DpQad16yDlllEy6" }}
