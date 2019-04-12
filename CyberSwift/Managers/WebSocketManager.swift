@@ -130,6 +130,7 @@ public class WebSocketManager {
             Logger.log(message: "jsonData = \n\t\(String(describing: try JSONSerialization.jsonObject(with: jsonData, options : .allowFragments) as? [String: AnyObject]))", event: .debug)
             
             switch methodAPIType {
+            // FACADE-SERVICE
             case .getFeed(_):
                 return (responseAPI: try JSONDecoder().decode(ResponseAPIContentGetFeedResult.self, from: jsonData), errorAPI: nil)
                 
@@ -148,6 +149,11 @@ public class WebSocketManager {
             case .generateSecret:
                 return (responseAPI: try JSONDecoder().decode(ResponseAPIAuthGenerateSecretResult.self, from: jsonData), errorAPI: nil)
 
+            case .getHistoryFresh(_):
+                return (responseAPI: try JSONDecoder().decode(ResponseAPINotifyGetHistoryFreshResult.self, from: jsonData), errorAPI: nil)
+                
+            
+            // REGISTRATION-SERVICE
             case .getState(_):
                 return (responseAPI: try JSONDecoder().decode(ResponseAPIRegistrationGetStateResult.self, from: jsonData), errorAPI: nil)
                 

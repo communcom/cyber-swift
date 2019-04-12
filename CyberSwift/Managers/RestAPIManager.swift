@@ -69,7 +69,6 @@ public class RestAPIManager {
         }
     }
     
-    
     // API `auth.generateSecret`
     private func generateSecret(completion: @escaping (ResponseAPIAuthGenerateSecret?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
@@ -98,7 +97,6 @@ public class RestAPIManager {
             completion(nil, ErrorAPI.disableInternetConnection(message: nil))
         }
     }
-    
     
     // API `content.getProfile`
     public func loadUserProfile(byNickName nickName: String, completion: @escaping (ResponseAPIContentGetProfile?, ErrorAPI?) -> Void) {
@@ -129,7 +127,6 @@ public class RestAPIManager {
         }
     }
     
-    
     // API `content.getFeed`
     public func loadFeed(typeMode: FeedTypeMode = .community, userID: String? = nil, communityID: String? = nil, timeFrameMode: FeedTimeFrameMode = .day, sortMode: FeedSortMode = .popular, paginationLimit: Int8 = Config.paginationLimit, paginationSequenceKey: String? = nil, completion: @escaping (ResponseAPIContentGetFeed?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
@@ -158,7 +155,6 @@ public class RestAPIManager {
             completion(nil, ErrorAPI.disableInternetConnection(message: nil))
         }
     }
-    
     
     // API `content.getPost`
     public func loadPost(userID: String = Config.currentUser.nickName ?? "Cyber", permlink: String, refBlockNum: UInt64, completion: @escaping (ResponseAPIContentGetPost?, ErrorAPI?) -> Void) {
@@ -189,7 +185,6 @@ public class RestAPIManager {
         }
     }
     
-    
     // API `content.getComments` by user
     public func loadUserComments(nickName: String = Config.currentUser.nickName ?? "Cyber", sortMode: CommentSortMode = .time, paginationLimit: Int8 = Config.paginationLimit, paginationSequenceKey: String? = nil, completion: @escaping (ResponseAPIContentGetComments?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
@@ -218,7 +213,6 @@ public class RestAPIManager {
             completion(nil, ErrorAPI.disableInternetConnection(message: nil))
         }
     }
-    
     
     // API `content.getComments` by post
     public func loadPostComments(nickName: String = Config.currentUser.nickName ?? "Cyber", permlink: String, refBlockNum: UInt64, sortMode: CommentSortMode = .time, paginationLimit: Int8 = Config.paginationLimit, paginationSequenceKey: String? = nil, completion: @escaping (ResponseAPIContentGetComments?, ErrorAPI?) -> Void) {
@@ -253,6 +247,35 @@ public class RestAPIManager {
         }
     }
     
+    // API `notify.getHistoryFresh`
+    private func getHistoryFresh(nickName: String, completion: @escaping (ResponseAPINotifyGetHistoryFresh?, ErrorAPI?) -> Void) {
+        if Config.isNetworkAvailable {
+            let methodAPIType = MethodAPIType.generateSecret
+            
+            Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                                 onResult:          { responseAPIResult in
+                                                    Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
+                                                    
+                                                    guard let result = (responseAPIResult as! ResponseAPINotifyGetHistoryFreshResult).result else {
+                                                        completion(nil, ErrorAPI.requestFailed(message: "API \'notify.getHistoryFresh\' have error: \((responseAPIResult as! ResponseAPINotifyGetHistoryFreshResult).error!.message)"))
+                                                        return
+                                                    }
+                                                    
+                                                    completion(result, nil)
+            },
+                                                 onError: { errorAPI in
+                                                    Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
+                                                    
+                                                    completion(nil, errorAPI)
+            })
+        }
+            
+        // Offline mode
+        else {
+            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
+        }
+    }
+
     
     // MARK: - REGISTRATION-SERVICE
     // API `registration.getState`

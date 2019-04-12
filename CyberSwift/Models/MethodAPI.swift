@@ -94,7 +94,10 @@ public indirect enum MethodAPIType {
     
     //  Get the secret authorization to sign
     case generateSecret
-    
+
+    //  Receiving the number of unread notifications
+    case getHistoryFresh(nickName: String)
+
     
     /// REGISTRATION-SERVICE
     //  Get current registration status for user
@@ -194,10 +197,17 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.auth.rawValue,
                      methodName:        "generateSecret",
                      parameters:        ["": ""])
-            
+
+        //  Template { "id": 7, "jsonrpc": "2.0", "method": "auth.generateSecret", "params": { "": "" }}
+        case .getHistoryFresh(let nickNameValue):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.notify.rawValue,
+                     methodName:        "getHistoryFresh",
+                     parameters:        ["user": nickNameValue])
+
             
         /// REGISTRATION-SERVICE
-        //  Template { "id": 8, "jsonrpc": "2.0", "method": "registration.getState", "params": { "phone": "+70000000000" }}
+        //  Template { "id": 1, "jsonrpc": "2.0", "method": "registration.getState", "params": { "phone": "+70000000000" }}
         case .getState(let nickNameValue, let phoneValue):
             var parameters = [String: String]()
                 
@@ -214,8 +224,8 @@ public indirect enum MethodAPIType {
                      methodName:        "getState",
                      parameters:        parameters)
 
-        //  Debug template      { "id": 9, "jsonrpc": "2.0", "method": "registration.firstStep", "params": { "phone": "+70000000000", "testingPass": "DpQad16yDlllEy6" }}
-        //  Release template    { "id": 9, "jsonrpc": "2.0", "method": "registration.firstStep", "params": { "phone": "+70000000000" }}
+        //  Debug template      { "id": 2, "jsonrpc": "2.0", "method": "registration.firstStep", "params": { "phone": "+70000000000", "testingPass": "DpQad16yDlllEy6" }}
+        //  Release template    { "id": 2, "jsonrpc": "2.0", "method": "registration.firstStep", "params": { "phone": "+70000000000" }}
         case .firstStep(let phoneValue, let isDebugMode):
             var parameters = ["phone": phoneValue]
 
@@ -228,8 +238,8 @@ public indirect enum MethodAPIType {
                      methodName:        "firstStep",
                      parameters:        parameters)
 
-        //  Debug template      { "id": 10, "jsonrpc": "2.0", "method": "registration.verify", "params": { "phone": "+70000000000", "code": "1563", "testingPass": "DpQad16yDlllEy6" }}
-        //  Release template    { "id": 10, "jsonrpc": "2.0", "method": "registration.verify", "params": { "phone": "+70000000000", "code": "1563" }}
+        //  Debug template      { "id": 3, "jsonrpc": "2.0", "method": "registration.verify", "params": { "phone": "+70000000000", "code": "1563", "testingPass": "DpQad16yDlllEy6" }}
+        //  Release template    { "id": 3, "jsonrpc": "2.0", "method": "registration.verify", "params": { "phone": "+70000000000", "code": "1563" }}
         case .verify(let phoneValue, let codeValue, let isDebugMode):
             var parameters = ["phone": phoneValue, "code": codeValue]
             
@@ -242,8 +252,8 @@ public indirect enum MethodAPIType {
                      methodName:        "verify",
                      parameters:        parameters)
             
-        //  Debug template      { "id": 11, "jsonrpc": "2.0", "method": "registration.setUsername", "params": { "user": "tester", "phone": "+70000000000", "testingPass": "DpQad16yDlllEy6" }}
-        //  Release template    { "id": 11, "jsonrpc": "2.0", "method": "registration.setUsername", "params": { "user": "tester", "phone": "+70000000000" }}
+        //  Debug template      { "id": 4, "jsonrpc": "2.0", "method": "registration.setUsername", "params": { "user": "tester", "phone": "+70000000000", "testingPass": "DpQad16yDlllEy6" }}
+        //  Release template    { "id": 4, "jsonrpc": "2.0", "method": "registration.setUsername", "params": { "user": "tester", "phone": "+70000000000" }}
         case .setUser(let nameValue, let phoneValue, let isDebugMode):
             var parameters = ["phone": phoneValue, "user": nameValue]
             
@@ -256,8 +266,8 @@ public indirect enum MethodAPIType {
                      methodName:        "setUsername",
                      parameters:        parameters)
 
-        //  Debug template      { "id": 12, "jsonrpc": "2.0", "method": "registration.resendSmsCode", "params": { "user": "tester", "testingPass": "DpQad16yDlllEy6" }}
-        //  Release template    { "id": 12, "jsonrpc": "2.0", "method": "registration.resendSmsCode", "params": { "user": "tester" }}
+        //  Debug template      { "id": 5, "jsonrpc": "2.0", "method": "registration.resendSmsCode", "params": { "user": "tester", "testingPass": "DpQad16yDlllEy6" }}
+        //  Release template    { "id": 5, "jsonrpc": "2.0", "method": "registration.resendSmsCode", "params": { "user": "tester" }}
         case .resendSmsCode(let nameValue, let isDebugMode):
             var parameters = ["user": nameValue]
             
@@ -270,8 +280,8 @@ public indirect enum MethodAPIType {
                      methodName:        "resendSmsCode",
                      parameters:        parameters)
 
-        //  Debug template      { "id": 13, "jsonrpc": "2.0", "method": "registration.toBlockChain", "params": { "user": "tester", "phone": "+70000000000", "testingPass": "DpQad16yDlllEy6" }}
-        //  Release template    { "id": 13, "jsonrpc": "2.0", "method": "registration.toBlockChain", "params": { "user": "tester", "phone": "+70000000000" }}
+        //  Debug template      { "id": 6, "jsonrpc": "2.0", "method": "registration.toBlockChain", "params": { "user": "tester", "phone": "+70000000000", "testingPass": "DpQad16yDlllEy6" }}
+        //  Release template    { "id": 6, "jsonrpc": "2.0", "method": "registration.toBlockChain", "params": { "user": "tester", "phone": "+70000000000" }}
 //        case .toBlockChain(let nameValue, let phoneValue, let isDebugMode):
 //            var parameters = ["phone": phoneValue, "user": nameValue]
 //
