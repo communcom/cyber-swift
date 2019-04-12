@@ -277,7 +277,7 @@ public class RestAPIManager {
     }
     
     // API `onlineNotify.history`
-    public func getOnlineNotifyHistory(fromId: String? = nil, paginationLimit: Int8 = Config.paginationLimit, markAsViewed: Bool = true, freshOnly: Bool = false, completion: @escaping (ResponseAPIOnlineNotifyHistory?, ErrorAPI?) -> Void) {
+    public func getOnlineNotifyHistory(fromId: String? = nil, paginationLimit: Int8 = Config.paginationLimit, markAsViewed: Bool = false, freshOnly: Bool = false, completion: @escaping (ResponseAPIOnlineNotifyHistory?, ErrorAPI?) -> Void) {
         if (!Config.isNetworkAvailable) {return completion(nil, ErrorAPI.disableInternetConnection(message: nil))}
         
         let methodAPIType = MethodAPIType.getOnlineNotifyHistory(fromId: fromId, paginationLimit: paginationLimit, markAsViewed: markAsViewed, freshOnly: freshOnly)

@@ -106,9 +106,6 @@ public indirect enum MethodAPIType {
     //  Receiving the number of unread notifications according to user settings
     case getPushHistoryFresh(nickName: String, profile: String)
     
-    //  Receiving the number of unread notifications
-    case getHistoryFresh(nickName: String)
-    
     //  Receive user's notifications
     case getOnlineNotifyHistory(fromId: String?, paginationLimit: Int8, markAsViewed: Bool, freshOnly: Bool)
 
