@@ -250,7 +250,7 @@ public class RestAPIManager {
     // API `notify.getHistoryFresh`
     public func getHistoryFresh(nickName: String, completion: @escaping (ResponseAPINotifyGetHistoryFresh?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
-            let methodAPIType = MethodAPIType.generateSecret
+            let methodAPIType = MethodAPIType.getHistoryFresh(nickName: nickName)
             
             Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                                  onResult:          { responseAPIResult in
