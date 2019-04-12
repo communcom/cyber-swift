@@ -101,7 +101,7 @@ public class RestAPIManager {
     // API `content.getProfile`
     public func loadUserProfile(byNickName nickName: String, completion: @escaping (ResponseAPIContentGetProfile?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
-            let methodAPIType = MethodAPIType.getProfile(nickNames: nickName)
+            let methodAPIType = MethodAPIType.getProfile(nickName: nickName)
             
             Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                                  onResult:          { responseAPIResult in
@@ -248,7 +248,7 @@ public class RestAPIManager {
     }
     
     // API `push.historyFresh`
-    public func getPushHistoryFresh(nickName: String, deviceID: String, completion: @escaping (ResponseAPIPushHistoryFresh?, ErrorAPI?) -> Void) {
+    public func getPushHistoryFresh(nickName: String, completion: @escaping (ResponseAPIPushHistoryFresh?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             let methodAPIType = MethodAPIType.getPushHistoryFresh(nickName: nickName, profile: String(format: "%@%@", nickName, Config.currentDeviceType))
             

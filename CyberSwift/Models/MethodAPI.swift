@@ -75,7 +75,7 @@ public enum RegistrationStategyMode: String {
 public indirect enum MethodAPIType {
     /// FACADE-SERVICE
     //  Getting a user profile
-    case getProfile(nickNames: String)
+    case getProfile(nickName: String)
     
     //  Getting tape posts
     case getFeed(typeMode: FeedTypeMode, userID: String?, communityID: String?, timeFrameMode: FeedTimeFrameMode, sortMode: FeedSortMode, paginationSequenceKey: String?)
@@ -127,12 +127,12 @@ public indirect enum MethodAPIType {
         switch self {
         /// FACADE-SERVICE
         //  Template { "id": 1, "jsonrpc": "2.0", "method": "content.getProfile", "params": { "userId": "tst3uuqzetwf" }}
-        case .getProfile(let userNickNameValue):
+        case .getProfile(let nickNameValue):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getProfile",
                      user:              nil,
-                     parameters:        ["userId": userNickNameValue])
+                     parameters:        ["userId": nickNameValue])
             
         //  Template { "id": 2, "jsonrpc": "2.0", "method": "content.getFeed", "params": { "type": "community", "timeframe": "day", "sortBy": "popular", "limit": 20, "userId": "tst3uuqzetwf", "communityId": "gls" }}
         case .getFeed(let typeModeValue, let userNickNameValue, let communityIDValue, let timeFrameModeValue, let sortModeValue, let paginationSequenceKeyValue):
