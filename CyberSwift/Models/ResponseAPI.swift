@@ -590,7 +590,7 @@ public struct ResponseAPIOnlineNotifyHistory: Decodable {
 }
 
 public struct ResponseAPIOnlineNotification: Decodable {
-    public let id: String
+    public let _id: String
     public let timestamp: String
     public let eventType: String
     public let fresh: Bool
