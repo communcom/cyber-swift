@@ -248,7 +248,7 @@ public class RestAPIManager {
     }
     
     // API `notify.getHistoryFresh`
-    private func getHistoryFresh(nickName: String, completion: @escaping (ResponseAPINotifyGetHistoryFresh?, ErrorAPI?) -> Void) {
+    public func getHistoryFresh(nickName: String, completion: @escaping (ResponseAPINotifyGetHistoryFresh?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             let methodAPIType = MethodAPIType.generateSecret
             
