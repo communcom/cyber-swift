@@ -395,7 +395,7 @@ public class RestAPIManager {
     }
 
     // API `registration.resendSmsCode`
-    public func resendSmsCode(phone: String, isDebugMode: Bool = true, completion: @escaping (ResponseAPIRegistrationFirstStep?, ErrorAPI?) -> Void) {
+    public func resendSmsCode(phone: String, isDebugMode: Bool = true, completion: @escaping (ResponseAPIResendSmsCode?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             let methodAPIType = MethodAPIType.resendSmsCode(phone: phone, isDebugMode: isDebugMode)
             
@@ -403,8 +403,8 @@ public class RestAPIManager {
                                                  onResult:          { responseAPIResult in
                                                     Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
                                                     
-                                                    guard let result = (responseAPIResult as! ResponseAPIRegistrationFirstStepResult).result else {
-                                                        completion(nil, ErrorAPI.requestFailed(message: "API post \'registration.resendSmsCode\' have error: \((responseAPIResult as! ResponseAPIRegistrationFirstStepResult).error!.message)"))
+                                                    guard let result = (responseAPIResult as! ResponseAPIResendSmsCodeResult).result else {
+                                                        completion(nil, ErrorAPI.requestFailed(message: "API post \'registration.resendSmsCode\' have error: \((responseAPIResult as! ResponseAPIResendSmsCodeResult).error!.message)"))
                                                         return
                                                     }
                                                     

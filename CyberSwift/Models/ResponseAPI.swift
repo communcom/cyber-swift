@@ -540,6 +540,24 @@ public struct ResponseAPIRegistrationSetUsername: Decodable {
 
 
 // MARK: -
+public struct ResponseAPIResendSmsCodeResult: Decodable {
+    // MARK: - In work API `registration.resendSmsCode`
+    public let id: Int64
+    public let jsonrpc: String
+    public let result: ResponseAPIResendSmsCode?
+    public let error: ResponseAPIError?
+}
+
+
+// MARK: -
+public struct ResponseAPIResendSmsCode: Decodable {
+    // MARK: - In work API `registration.resendSmsCode`
+    public let nextSmsRetry: String
+    public let code: UInt64
+}
+
+
+// MARK: -
 public struct ResponseAPINotifyGetHistoryFreshResult: Decodable {
     // MARK: - In work API `notify.getHistoryFresh`
     public let id: Int64
