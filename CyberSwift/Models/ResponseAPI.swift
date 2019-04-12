@@ -70,7 +70,7 @@ public struct ResponseAPIContentGetProfile: Decodable {
     public let userId: String
     public let username: String
     public let registration: ResponseAPIContentGetProfileRegistration
-    public let personal: ResponseAPIContentGetProfilePersonal
+    public let personal: ResponseAPIContentGetProfilePersonal?
 }
 
 
@@ -78,7 +78,7 @@ public struct ResponseAPIContentGetProfile: Decodable {
 public struct ResponseAPIContentGetProfileSubscription: Decodable {
     // MARK: - In work API `content.getProfile`
     public let userIds: [ResponseAPIContentGetProfileSubscriptionUserID?]
-    public let communities: [ResponseAPIContentGetProfileSubscriptionCommunity]
+    public let communities: [ResponseAPIContentGetProfileSubscriptionCommunity?]
 }
 
 
