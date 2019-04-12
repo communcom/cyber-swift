@@ -572,3 +572,16 @@ public struct ResponseAPIPushHistoryFresh: Decodable {
     // MARK: - In work API `push.historyFresh`
 //    public let status: String
 }
+
+public struct ResponseAPIOnlineNotifyHistoryResult: Decodable {
+    // MARK: - In work API `onlineNotify.history`
+    public let id: Int64
+    public let jsonrpc: String
+    public let result: ResponseAPIOnlineNotifyHistory?
+    public let error: ResponseAPIError?
+}
+
+public struct ResponseAPIOnlineNotifyHistory: Decodable {
+    // MARK: - In work API `onlineNotify.history`
+    
+}
