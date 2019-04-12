@@ -109,6 +109,12 @@ public indirect enum MethodAPIType {
     //  The third step of registration, account verification
     case setUser(name: String, phone: String, isDebugMode: Bool)
     
+    //  Re-send of the confirmation code (for the smsToUser strategy)
+    case resendSmsCode(nickName: String, isDebugMode: Bool)
+    
+    //  The last step of registration, entry in the blockchain
+//    case toBlockChain()
+
     
     /// This method return request parameters from selected enum case.
     func introduced() -> RequestMethodParameters {
@@ -249,6 +255,34 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.registration.rawValue,
                      methodName:        "setUsername",
                      parameters:        parameters)
+
+        //  Debug template      { "id": 12, "jsonrpc": "2.0", "method": "registration.resendSmsCode", "params": { "user": "tester", "testingPass": "DpQad16yDlllEy6" }}
+        //  Release template    { "id": 12, "jsonrpc": "2.0", "method": "registration.resendSmsCode", "params": { "user": "tester" }}
+        case .resendSmsCode(let nameValue, let isDebugMode):
+            var parameters = ["user": nameValue]
+            
+            if isDebugMode {
+                parameters["testingPass"] = Config.testingPassword
+            }
+            
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.registration.rawValue,
+                     methodName:        "resendSmsCode",
+                     parameters:        parameters)
+
+        //  Debug template      { "id": 13, "jsonrpc": "2.0", "method": "registration.toBlockChain", "params": { "user": "tester", "phone": "+70000000000", "testingPass": "DpQad16yDlllEy6" }}
+        //  Release template    { "id": 13, "jsonrpc": "2.0", "method": "registration.toBlockChain", "params": { "user": "tester", "phone": "+70000000000" }}
+//        case .toBlockChain(let nameValue, let phoneValue, let isDebugMode):
+//            var parameters = ["phone": phoneValue, "user": nameValue]
+//
+//            if isDebugMode {
+//                parameters["testingPass"] = Config.testingPassword
+//            }
+//
+//            return  (methodAPIType:     self,
+//                     methodGroup:       MethodAPIGroup.registration.rawValue,
+//                     methodName:        "setUsername",
+//                     parameters:        parameters)
             
         } // switch
     }

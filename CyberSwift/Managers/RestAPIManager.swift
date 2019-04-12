@@ -371,6 +371,35 @@ public class RestAPIManager {
         }
     }
 
+    // API `registration.resendSmsCode`
+    public func resendSmsCode(nickName: String, isDebugMode: Bool = true, completion: @escaping (ResponseAPIRegistrationFirstStep?, ErrorAPI?) -> Void) {
+        if Config.isNetworkAvailable {
+            let methodAPIType = MethodAPIType.resendSmsCode(nickName: nickName, isDebugMode: isDebugMode)
+            
+            Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                                 onResult:          { responseAPIResult in
+                                                    Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
+                                                    
+                                                    guard let result = (responseAPIResult as! ResponseAPIRegistrationFirstStepResult).result else {
+                                                        completion(nil, ErrorAPI.requestFailed(message: "API post \'registration.resendSmsCode\' have error: \((responseAPIResult as! ResponseAPIRegistrationFirstStepResult).error!.message)"))
+                                                        return
+                                                    }
+                                                    
+                                                    completion(result, nil)
+            },
+                                                 onError: { errorAPI in
+                                                    Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
+                                                    
+                                                    completion(nil, errorAPI)
+            })
+        }
+            
+        // Offline mode
+        else {
+            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
+        }
+    }
+    
     
     // MARK: - EOS
     // Contract `gls.publish`, actions `upvote`, `downvote`, `unvote`

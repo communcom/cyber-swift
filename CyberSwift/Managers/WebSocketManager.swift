@@ -151,7 +151,7 @@ public class WebSocketManager {
             case .getState(_):
                 return (responseAPI: try JSONDecoder().decode(ResponseAPIRegistrationGetStateResult.self, from: jsonData), errorAPI: nil)
                 
-            case .firstStep(_):
+            case .firstStep(_), .resendSmsCode(_):
                 return (responseAPI: try JSONDecoder().decode(ResponseAPIRegistrationFirstStepResult.self, from: jsonData), errorAPI: nil)
 
             case .verify(_):
