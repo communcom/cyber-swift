@@ -99,9 +99,9 @@ public class RestAPIManager {
     }
     
     // API `content.getProfile`
-    public func loadUserProfile(byNickName nickName: String, completion: @escaping (ResponseAPIContentGetProfile?, ErrorAPI?) -> Void) {
+    public func getProfile(nickName: String, type: ProfileType = .cyber, completion: @escaping (ResponseAPIContentGetProfile?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
-            let methodAPIType = MethodAPIType.getProfile(nickName: nickName)
+            let methodAPIType = MethodAPIType.getProfile(nickName: nickName, type: type)
             
             Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                                  onResult:          { responseAPIResult in
