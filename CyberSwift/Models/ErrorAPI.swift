@@ -9,7 +9,7 @@
 import Foundation
 import Localize_Swift
 
-public enum ErrorAPI {
+public enum ErrorAPI: Error {
     case disableInternetConnection(message: String?)
     case blockchain(message: String)
     case invalidData(message: String)
