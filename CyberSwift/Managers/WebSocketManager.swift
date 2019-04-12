@@ -149,8 +149,8 @@ public class WebSocketManager {
             case .generateSecret:
                 return (responseAPI: try JSONDecoder().decode(ResponseAPIAuthGenerateSecretResult.self, from: jsonData), errorAPI: nil)
 
-            case .getHistoryFresh(_):
-                return (responseAPI: try JSONDecoder().decode(ResponseAPINotifyGetHistoryFreshResult.self, from: jsonData), errorAPI: nil)
+            case .getPushHistoryFresh(_):
+                return (responseAPI: try JSONDecoder().decode(ResponseAPIPushHistoryFreshResult.self, from: jsonData), errorAPI: nil)
                 
             
             // REGISTRATION-SERVICE

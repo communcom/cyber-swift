@@ -10,6 +10,8 @@ import Starscream
 import Foundation
 
 public struct Config {
+    public static let currentDeviceType: String         =   { return UIDevice.modelName.replacingOccurrences(of: " ", with: "-") }()
+
     /// Pagination
     public static let paginationLimit: Int8 = 20
     

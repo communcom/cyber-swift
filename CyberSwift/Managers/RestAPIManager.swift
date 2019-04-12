@@ -247,17 +247,17 @@ public class RestAPIManager {
         }
     }
     
-    // API `notify.getHistoryFresh`
-    public func getHistoryFresh(nickName: String, completion: @escaping (ResponseAPINotifyGetHistoryFresh?, ErrorAPI?) -> Void) {
+    // API `push.historyFresh`
+    public func getPushHistoryFresh(nickName: String, deviceID: String, completion: @escaping (ResponseAPIPushHistoryFresh?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
-            let methodAPIType = MethodAPIType.getHistoryFresh(nickName: nickName)
+            let methodAPIType = MethodAPIType.getPushHistoryFresh(nickName: nickName, profile: String(format: "%@%@", nickName, Config.currentDeviceType))
             
             Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                                  onResult:          { responseAPIResult in
                                                     Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
                                                     
-                                                    guard let result = (responseAPIResult as! ResponseAPINotifyGetHistoryFreshResult).result else {
-                                                        completion(nil, ErrorAPI.requestFailed(message: "API \'notify.getHistoryFresh\' have error: \((responseAPIResult as! ResponseAPINotifyGetHistoryFreshResult).error!.message)"))
+                                                    guard let result = (responseAPIResult as! ResponseAPIPushHistoryFreshResult).result else {
+                                                        completion(nil, ErrorAPI.requestFailed(message: "API \'push.historyFresh\' have error: \((responseAPIResult as! ResponseAPIPushHistoryFreshResult).error!.message)"))
                                                         return
                                                     }
                                                     

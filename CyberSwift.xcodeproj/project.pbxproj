@@ -13,6 +13,7 @@
 		B1804BA9225DCF9B00260A32 /* PhoneCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1804BA8225DCF9B00260A32 /* PhoneCode.swift */; };
 		B18EBB32223F8F8800F52D3C /* CyberSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = B18EBB30223F8F8800F52D3C /* CyberSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B19A28D4226075EF001C9F43 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19A28D3226075EF001C9F43 /* String+Extensions.swift */; };
+		B19A28D6226087EE001C9F43 /* UIDevice+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19A28D5226087EE001C9F43 /* UIDevice+Extensions.swift */; };
 		B1A74A642243892B009D68E7 /* EOSTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A74A632243892B009D68E7 /* EOSTransaction.swift */; };
 		B1A74A662243893A009D68E7 /* EOSManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A74A652243893A009D68E7 /* EOSManager.swift */; };
 		B1C3F857223F98B1005711EF /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3F854223F98B1005711EF /* Date+Extensions.swift */; };
@@ -39,6 +40,7 @@
 		B18EBB30223F8F8800F52D3C /* CyberSwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CyberSwift.h; sourceTree = "<group>"; };
 		B18EBB31223F8F8800F52D3C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B19A28D3226075EF001C9F43 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
+		B19A28D5226087EE001C9F43 /* UIDevice+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIDevice+Extensions.swift"; sourceTree = "<group>"; };
 		B19D9637223F913900557F5A /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
 		B19D9639223F914100557F5A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		B1A74A632243892B009D68E7 /* EOSTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EOSTransaction.swift; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 				B1C3F854223F98B1005711EF /* Date+Extensions.swift */,
 				B1C3F856223F98B1005711EF /* Encodable+Extensions.swift */,
 				B19A28D3226075EF001C9F43 /* String+Extensions.swift */,
+				B19A28D5226087EE001C9F43 /* UIDevice+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -277,6 +280,7 @@
 			files = (
 				B1C3F85F223F98DC005711EF /* ReachabilityManager.swift in Sources */,
 				B1C3F869223F9907005711EF /* ErrorAPI.swift in Sources */,
+				B19A28D6226087EE001C9F43 /* UIDevice+Extensions.swift in Sources */,
 				B1C3F861223F98DC005711EF /* Logger.swift in Sources */,
 				B1C3F86A223F9907005711EF /* ResponseAPI.swift in Sources */,
 				B111B5BB224E1B5A00F84AD9 /* KeychainManager.swift in Sources */,

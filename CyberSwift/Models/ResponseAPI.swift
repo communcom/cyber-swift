@@ -558,17 +558,17 @@ public struct ResponseAPIResendSmsCode: Decodable {
 
 
 // MARK: -
-public struct ResponseAPINotifyGetHistoryFreshResult: Decodable {
-    // MARK: - In work API `notify.getHistoryFresh`
+public struct ResponseAPIPushHistoryFreshResult: Decodable {
+    // MARK: - In work API `push.historyFresh`
     public let id: Int64
     public let jsonrpc: String
-    public let result: ResponseAPINotifyGetHistoryFresh?
+    public let result: ResponseAPIPushHistoryFresh?
     public let error: ResponseAPIError?
 }
 
 
 // MARK: -
-public struct ResponseAPINotifyGetHistoryFresh: Decodable {
-    // MARK: - In work API `notify.getHistoryFresh`
+public struct ResponseAPIPushHistoryFresh: Decodable {
+    // MARK: - In work API `push.historyFresh`
 //    public let status: String
 }
