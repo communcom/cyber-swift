@@ -12,6 +12,5 @@ public struct RequestAPI: Codable {
     public let id: Int
     public let method: String
     public let jsonrpc: String
-    public let user: String?
     public let params: [String: String]
 }

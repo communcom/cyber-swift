@@ -86,7 +86,6 @@ extension Broadcast {
         let requestAPI          =   RequestAPI(id:          codeID,
                                                method:      String(format: "%@.%@", requestParamsType.methodGroup, requestParamsType.methodName),
                                                jsonrpc:     "2.0",
-                                               user:        requestParamsType.user,
                                                params:      requestParamsType.parameters)
         
         do {
