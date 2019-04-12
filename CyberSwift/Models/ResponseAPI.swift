@@ -78,7 +78,7 @@ public struct ResponseAPIContentGetProfile: Decodable {
 public struct ResponseAPIContentGetProfileSubscription: Decodable {
     // MARK: - In work API `content.getProfile`
     public let userIds: [ResponseAPIContentGetProfileSubscriptionUserID?]
-    public let communities: [ResponseAPIContentGetProfileSubscriptionCommunity]
+    public let communities: [ResponseAPIContentGetProfileSubscriptionCommunity?]
 }
 
 
@@ -109,13 +109,14 @@ public struct ResponseAPIContentGetProfileRegistration: Decodable {
 public struct ResponseAPIContentGetProfileStat: Decodable {
     // MARK: - In work API `content.getProfile`
     public let postsCount: Int64
+    public let commentsCount: Int64
 }
 
 
 // MARK: -
 public struct ResponseAPIContentGetProfilePersonal: Decodable {
     // MARK: - In work API `content.getProfile`
-    public let contacts: ResponseAPIContentGetProfileContact
+    public let contacts: ResponseAPIContentGetProfileContact?
     public let avatarUrl: String?
     public let coverUrl: String?
     public let biography: String?
@@ -570,7 +571,7 @@ public struct ResponseAPIPushHistoryFreshResult: Decodable {
 // MARK: -
 public struct ResponseAPIPushHistoryFresh: Decodable {
     // MARK: - In work API `push.historyFresh`
-//    public let status: String
+    //    public let status: String
 }
 
 public struct ResponseAPIOnlineNotifyHistoryResult: Decodable {
