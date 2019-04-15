@@ -108,6 +108,9 @@ public indirect enum MethodAPIType {
     
     //  Receive user's notifications
     case getOnlineNotifyHistory(fromId: String?, paginationLimit: Int8, markAsViewed: Bool, freshOnly: Bool)
+    
+    //  Receive user's fresh notifications count
+    case getOnlineNotifyHistoryFresh
 
     
     /// REGISTRATION-SERVICE
@@ -208,6 +211,12 @@ public indirect enum MethodAPIType {
                     methodName:         "history",
                     parameters:         parameters)
             
+        //  Template { "id": 1, "jsonrpc": "2.0", "method": "onlineNotify.historyFresh", "params": {}}
+        case .getOnlineNotifyHistoryFresh:
+            return (methodAPIType:      self,
+                    methodGroup:        MethodAPIGroup.onlineNotify.rawValue,
+                    methodName:         "historyFresh",
+                    parameters:         [:])
             
         //  Template { "id": 6, "jsonrpc": "2.0", "method": "auth.authorize", "params": { "user": "tst1xrhojmka", "sign": "Cyberway" }}
         case .authorize(let nickNameValue, let activeKeyValue):

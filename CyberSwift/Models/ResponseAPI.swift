@@ -562,7 +562,7 @@ public struct ResponseAPIResendSmsCode: Decodable {
 // MARK: -
 public struct ResponseAPIPushHistoryFreshResult: Decodable {
     // MARK: - In work API `push.historyFresh`
-    public let id: String
+    public let id: Int64
     public let jsonrpc: String
     public let result: ResponseAPIPushHistoryFresh?
     public let error: ResponseAPIError?
@@ -573,7 +573,6 @@ public struct ResponseAPIPushHistoryFreshResult: Decodable {
 public struct ResponseAPIPushHistoryFresh: Decodable {
     // MARK: - In work API `push.historyFresh`
     //    public let status: String
-    public let fresh: UInt64
 }
 
 public struct ResponseAPIOnlineNotifyHistoryResult: Decodable {
@@ -583,6 +582,7 @@ public struct ResponseAPIOnlineNotifyHistoryResult: Decodable {
     public let error: ResponseAPIError?
 }
 
+// MARK: - onlineNotify.history
 public struct ResponseAPIOnlineNotifyHistory: Decodable {
     // MARK: - In work API `onlineNotify.history`
     public let total: Int64
@@ -633,4 +633,16 @@ public struct ResponseAPIOnlineNotificationDataCommentContentId: Decodable {
     public let userId: String
     public let permlink: String
     public let refBlockNum: Int64
+}
+
+// MARK: - onlineNotify.historyFresh
+public struct ResponseAPIOnlineNotifyHistoryFreshResult: Decodable {
+    public let jsonrpc: String
+    public let id: String
+    public let result: ResponseAPIOnlineNotifyHistoryFresh?
+    public let error: ResponseAPIError?
+}
+
+public struct ResponseAPIOnlineNotifyHistoryFresh: Decodable {
+    public let fresh: UInt64
 }

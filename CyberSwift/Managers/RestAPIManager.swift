@@ -295,6 +295,26 @@ public class RestAPIManager {
             completion(nil, errorAPI)
         }
     }
+    
+    // API `onlineNotify.historyFresh`
+    public func getOnlineNotifyHistoryFresh(completion: @escaping (ResponseAPIOnlineNotifyHistoryFresh?, ErrorAPI?) -> Void) {
+        if (!Config.isNetworkAvailable) {return completion(nil, ErrorAPI.disableInternetConnection(message: nil))}
+        
+        let methodAPIType = MethodAPIType.getOnlineNotifyHistoryFresh
+        
+        Broadcast.instance.executeGETRequest(byContentAPIType: methodAPIType, onResult: { (responseAPIResult) in
+            Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
+            guard let result = (responseAPIResult as! ResponseAPIOnlineNotifyHistoryFreshResult).result else {
+                completion(nil, ErrorAPI.requestFailed(message: "API \'onlineNotify.historyFresh\' have error: \((responseAPIResult as! ResponseAPIOnlineNotifyHistoryResult).error!.message)"))
+                return
+            }
+            completion(result, nil)
+        }) { (errorAPI) in
+            Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
+            
+            completion(nil, errorAPI)
+        }
+    }
 
     
     // MARK: - REGISTRATION-SERVICE
