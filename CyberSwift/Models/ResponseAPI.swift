@@ -620,7 +620,7 @@ public struct ResponseAPIOnlineNotificationDataPost: Decodable {
 public struct ResponseAPIOnlineNotificationDataPostContentId: Decodable {
     public let userId: String
     public let permlink: String
-    public let refBlockNum: Int64
+    public let refBlockNum: UInt64
 }
 
 public struct ResponseAPIOnlineNotificationDataComment: Decodable {
