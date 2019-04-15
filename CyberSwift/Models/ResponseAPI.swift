@@ -562,7 +562,7 @@ public struct ResponseAPIResendSmsCode: Decodable {
 // MARK: -
 public struct ResponseAPIPushHistoryFreshResult: Decodable {
     // MARK: - In work API `push.historyFresh`
-    public let id: Int64
+    public let id: String
     public let jsonrpc: String
     public let result: ResponseAPIPushHistoryFresh?
     public let error: ResponseAPIError?
@@ -573,6 +573,7 @@ public struct ResponseAPIPushHistoryFreshResult: Decodable {
 public struct ResponseAPIPushHistoryFresh: Decodable {
     // MARK: - In work API `push.historyFresh`
     //    public let status: String
+    public let fresh: UInt64
 }
 
 public struct ResponseAPIOnlineNotifyHistoryResult: Decodable {
