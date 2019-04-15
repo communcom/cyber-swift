@@ -171,7 +171,9 @@ public struct ResponseAPIContentGetPostContent: Decodable {
     // MARK: - In work API `content.getFeed`
     public let body: ResponseAPIContentGetPostContentBody
     public let title: String
+    public let tags: [String]?
     public let metadata: ResponseAPIContentGetPostContentMetadata?
+    public let embeds: [ResponseAPIContentGetPostContentEmbed]
 }
 
 
@@ -191,6 +193,34 @@ public struct ResponseAPIContentGetPostContentMetadata: Decodable {
     public let embeds: [ResponseAPIContentGetPostContentMetadataEmbed]?
     
     // MARK: - In work API `content.getPost`
+}
+
+
+// MARK: -
+public struct ResponseAPIContentGetPostContentEmbed: Decodable {
+    // MARK: - In work API `content.getFeed`
+    public let _id: String
+    public let id: String
+    public let type: String
+    public let result: ResponseAPIContentGetPostContentEmbedResult
+}
+
+
+// MARK: -
+public struct ResponseAPIContentGetPostContentEmbedResult: Decodable {
+    // MARK: - In work API `content.getFeed`
+    public let type: String
+    public let version: String
+    public let title: String
+    public let url: String
+    public let author: String
+    public let author_url: String
+    public let provider_name: String
+    public let description: String
+    public let thumbnail_url: String
+    public let thumbnail_width: UInt64
+    public let thumbnail_height: UInt64
+    public let html: String
 }
 
 
@@ -236,7 +266,7 @@ public struct ResponseAPIContentGetPostVotes: Decodable {
 // MARK: -
 public struct ResponseAPIContentGetPostStats: Decodable {
     // MARK: - In work API `content.getFeed`
-    public let wilson: ResponseAPIContentGetPostStatsWilson
+    public let wilson: ResponseAPIContentGetPostStatsWilson?
     public let commentsCount: UInt64
 }
 

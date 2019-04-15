@@ -107,6 +107,8 @@ extension Broadcast {
                                     .replacingOccurrences(of: "[[[", with: "[[")
                                     .replacingOccurrences(of: "[\"nil\"]", with: "]")
                                     .replacingOccurrences(of: "\"\(Config.paginationLimit)\"", with: "\(Config.paginationLimit)")
+                                    .replacingOccurrences(of: "\"_", with: "")
+                                    .replacingOccurrences(of: "_\"", with: "")
 
             Logger.log(message: "\nEncoded JSON -> String:\n\t " + jsonString, event: .debug)
             

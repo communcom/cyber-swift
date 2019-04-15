@@ -25,41 +25,27 @@ public class RestAPIManager {
     // API `auth.authorize`
     public func authorize(userNickName: String, userActiveKey: String, completion: @escaping (ResponseAPIAuthAuthorize?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
-            RestAPIManager.instance.generateSecret(completion: { (generatedSecret, errorAPI) in
-                guard errorAPI == nil else {
-                    Logger.log(message: errorAPI!.caseInfo.message.localized(), event: .error)
-                    
-                    completion(nil, errorAPI)
-                    
-                    return
-                }
-                
-                Logger.log(message: generatedSecret!.secret, event: .debug)
-                
-                Config.webSocketSecretKey = generatedSecret!.secret
-                
-                let methodAPIType = MethodAPIType.authorize(nickName: userNickName, activeKey: userActiveKey)
-                
-                Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
-                                                     onResult:          { responseAPIResult in
-                                                        Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
-                                                        
-                                                        guard let result = (responseAPIResult as! ResponseAPIAuthAuthorizeResult).result else {
-                                                            completion(nil, ErrorAPI.requestFailed(message: "API \'auth.authorize\' have error: \((responseAPIResult as! ResponseAPIAuthAuthorizeResult).error!.message)"))
-                                                            return
-                                                        }
-                                                        
-                                                        // Save in Keychain
-                                                        _ = KeychainManager.save(data: [Config.currentUserNickNameKey: userNickName], userNickName: Config.currentUserNickNameKey)
-                                                        _ = KeychainManager.save(data: [Config.currentUserActiveKey: userActiveKey], userNickName: Config.currentUserActiveKey)
-                                                        
-                                                        completion(result, nil)
-                },
-                                                     onError: { errorAPI in
-                                                        Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
-                                                        
-                                                        completion(nil, errorAPI)
-                })
+            let methodAPIType = MethodAPIType.authorize(nickName: userNickName, activeKey: userActiveKey)
+            
+            Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                                 onResult:          { responseAPIResult in
+                                                    Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
+                                                    
+                                                    guard let result = (responseAPIResult as! ResponseAPIAuthAuthorizeResult).result else {
+                                                        completion(nil, ErrorAPI.requestFailed(message: "API \'auth.authorize\' have error: \((responseAPIResult as! ResponseAPIAuthAuthorizeResult).error!.message)"))
+                                                        return
+                                                    }
+                                                    
+                                                    // Save in Keychain
+                                                    _ = KeychainManager.save(data: [Config.currentUserNickNameKey: userNickName], userNickName: Config.currentUserNickNameKey)
+                                                    _ = KeychainManager.save(data: [Config.currentUserActiveKey: userActiveKey], userNickName: Config.currentUserActiveKey)
+                                                    
+                                                    completion(result, nil)
+            },
+                                                 onError: { errorAPI in
+                                                    Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
+                                                    
+                                                    completion(nil, errorAPI)
             })
         }
             
