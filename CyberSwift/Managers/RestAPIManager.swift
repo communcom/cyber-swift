@@ -305,7 +305,7 @@ public class RestAPIManager {
         Broadcast.instance.executeGETRequest(byContentAPIType: methodAPIType, onResult: { (responseAPIResult) in
             Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
             guard let result = (responseAPIResult as! ResponseAPIOnlineNotifyHistoryFreshResult).result else {
-                completion(nil, ErrorAPI.requestFailed(message: "API \'onlineNotify.historyFresh\' have error: \((responseAPIResult as! ResponseAPIOnlineNotifyHistoryResult).error!.message)"))
+                completion(nil, ErrorAPI.requestFailed(message: "API \'onlineNotify.historyFresh\' have error: \((responseAPIResult as! ResponseAPIOnlineNotifyHistoryFreshResult).error!.message)"))
                 return
             }
             completion(result, nil)

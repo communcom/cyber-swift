@@ -638,7 +638,7 @@ public struct ResponseAPIOnlineNotificationDataCommentContentId: Decodable {
 // MARK: - onlineNotify.historyFresh
 public struct ResponseAPIOnlineNotifyHistoryFreshResult: Decodable {
     public let jsonrpc: String
-    public let id: String
+    public let id: UInt64
     public let result: ResponseAPIOnlineNotifyHistoryFresh?
     public let error: ResponseAPIError?
 }
