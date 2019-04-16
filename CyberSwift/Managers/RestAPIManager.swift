@@ -558,4 +558,27 @@ public class RestAPIManager {
             completion(nil, ErrorAPI.disableInternetConnection(message: nil))
         }
     }
+    
+    
+    // EOS: contract `gls.ctrl`, action `votewitness`
+    public func votewitness(voter: String, withness: String, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
+        if Config.isNetworkAvailable {
+            let votewitnessArgs = EOSTransaction.VotewitnessArgs(voterValue: voter, witnessValue: withness)
+            
+            EOSManager.vote(witnessArgs:    votewitnessArgs,
+                              completion:   { (response, error) in
+                                guard error == nil else {
+                                    completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
+                                    return
+                                }
+                                
+                                completion(response, nil)
+            })
+        }
+            
+        // Offline mode
+        else {
+            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
+        }
+    }
 }
