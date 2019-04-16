@@ -111,6 +111,9 @@ public indirect enum MethodAPIType {
     
     //  Receive user's fresh notifications count
     case getOnlineNotifyHistoryFresh
+    
+    //  Mark all notifications as viewed
+    case notifyMarkAllAsViewed
 
     
     /// REGISTRATION-SERVICE
@@ -218,6 +221,13 @@ public indirect enum MethodAPIType {
                     methodName:         "historyFresh",
                     parameters:         [:])
             
+        //  Template {"jsonrpc": "2.0", "id": "1", "result": { "status": "OK" } }
+        case .notifyMarkAllAsViewed:
+            return (methodAPIType:      self,
+                    methodGroup:        MethodAPIGroup.notify.rawValue,
+                    methodName:         "markAllAsViewed",
+                    parameters:         [:])
+            
         //  Template { "id": 6, "jsonrpc": "2.0", "method": "auth.authorize", "params": { "user": "tst1xrhojmka", "sign": "Cyberway" }}
         case .authorize(let nickNameValue, let activeKeyValue):
             return  (methodAPIType:     self,
@@ -238,6 +248,7 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.push.rawValue,
                      methodName:        "historyFresh",
                      parameters:        ["profile": profileValue])
+            
 
             
         /// REGISTRATION-SERVICE

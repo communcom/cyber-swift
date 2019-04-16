@@ -700,3 +700,15 @@ public struct ResponseAPIOnlineNotifyHistoryFreshFreshByTypes: Decodable {
     public let witnessVote: UInt16
     public let witnessCancelVote: UInt16
 }
+
+// MARK: - notify.markAllAsViewed
+public struct ResponseAPINotifyMarkAllAsViewedResult: Decodable {
+    public let jsonrpc: String
+    public let id: String
+    public let result: ResponseAPINotifyMarkAllAsViewed?
+    public let error: ResponseAPIError?
+}
+
+public struct ResponseAPINotifyMarkAllAsViewed: Decodable {
+    public let status: String
+}
