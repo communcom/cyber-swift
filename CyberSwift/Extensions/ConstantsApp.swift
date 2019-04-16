@@ -16,7 +16,7 @@ public struct Config {
     public static let paginationLimit: Int8 = 20
     
     static let blocksBehind: Int = 3
-    static let expireSeconds: Double = 30.0
+    public static let expireSeconds: Double = 30.0
     
     public static var isPublicTestnet: Bool             =   true
     public static let testingPassword: String           =   "DpQad16yDlllEy6"
