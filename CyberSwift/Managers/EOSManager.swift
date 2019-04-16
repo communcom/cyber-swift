@@ -10,6 +10,7 @@
 //  https://docs.google.com/document/d/1caNVBva1EDB9c9fA7K8Wutn1xlAimp23YCfKm_inx9E/edit
 //  https://github.com/GolosChain/golos.contracts/blob/master/golos.publication/golos.publication.abi#L297-L326
 //  https://developers.eos.io/eosio-nodeos/reference#get_info
+//  https://github.com/GolosChain/golos.contracts/blob/master/golos.ctrl/abi/golos.ctrl.abi
 //
 
 import eosswift
@@ -492,7 +493,39 @@ class EOSManager {
             completion(nil, error)
         }
     }
-    
+
+    // EOS: contract `gls.ctrl`, action `votewitness`
+    static func vote(witnessArgs: EOSTransaction.VotewitnessArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
+        guard let currentUserNickName = Config.currentUser.nickName, let currentUserActiveKey = Config.currentUser.activeKey else {
+            completion(nil, NSError(domain: "Unauthorized".localized(), code: 401, userInfo: nil))
+            return
+        }
+        
+        let votewithessTransaction = EOSTransaction.init(chainApi: EOSManager.chainApi)
+        
+        let votewithessTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name: currentUserNickName),
+                                                                                 permission:    AccountNameWriterValue(name: "active"))
+        
+        let votewithessArgsData = DataWriterValue(hex: witnessArgs.toHex())
+        
+        let votewithessActionAbi = ActionAbi(account:         AccountNameWriterValue(name:    "gls.ctrl"),
+                                             name:            AccountNameWriterValue(name:    "votewitness"),
+                                             authorization:   [votewithessTransactionAuthorizationAbi],
+                                             data:            votewithessArgsData)
+        
+        do {
+            let privateKey = try EOSPrivateKey.init(base58: currentUserActiveKey)
+            
+            if let response = try votewithessTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [votewithessActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
+                if response.success {
+                    completion(response, nil)
+                }
+            }
+        } catch {
+            completion(nil, error)
+        }
+    }
+
     
     /// HISTORY
     static func getTransaction(blockNumberHint: String) {

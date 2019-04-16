@@ -353,7 +353,21 @@ public class EOSTransaction: ChainTransaction {
             self.account    =   NameWriterValue(name: accountValue)
         }
     }
-    
+
+    /// Votewitness
+    public struct VotewitnessArgs: Encodable {
+        // MARK: - Properties
+        let voter: NameWriterValue
+        let witness: NameWriterValue
+
+        
+        // MARK: - Initialization
+        init(voterValue: String, witnessValue: String) {
+            self.voter      =   NameWriterValue(name: voterValue)
+            self.witness    =   NameWriterValue(name: witnessValue)
+        }
+    }
+
     
     // MARK: - Properties
     private let _chainApi: ChainApi
