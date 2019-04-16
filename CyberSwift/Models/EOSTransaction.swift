@@ -354,7 +354,21 @@ public class EOSTransaction: ChainTransaction {
         }
     }
 
-    /// Votewitness
+    /// Regwitness (1)
+    public struct RegwitnessArgs: Encodable {
+        // MARK: - Properties
+        let witness: NameWriterValue
+        let url: String
+
+        
+        // MARK: - Initialization
+        init(witnessValue: String, urlValue: String) {
+            self.witness    =   NameWriterValue(name: witnessValue)
+            self.url        =   urlValue
+        }
+    }
+
+    /// Votewitness (2)
     public struct VotewitnessArgs: Encodable {
         // MARK: - Properties
         let voter: NameWriterValue

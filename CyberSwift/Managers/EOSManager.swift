@@ -494,7 +494,39 @@ class EOSManager {
         }
     }
 
-    // EOS: contract `gls.ctrl`, action `votewitness`
+    // EOS: contract `gls.ctrl`, action `regwitness` (1)
+    static func reg(witnessArgs: EOSTransaction.RegwitnessArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
+        guard let currentUserNickName = Config.currentUser.nickName, let currentUserActiveKey = Config.currentUser.activeKey else {
+            completion(nil, NSError(domain: "Unauthorized".localized(), code: 401, userInfo: nil))
+            return
+        }
+        
+        let regwithessTransaction = EOSTransaction.init(chainApi: EOSManager.chainApi)
+        
+        let regwithessTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name: currentUserNickName),
+                                                                                permission:    AccountNameWriterValue(name: "active"))
+        
+        let regwithessArgsData = DataWriterValue(hex: witnessArgs.toHex())
+        
+        let regwithessActionAbi = ActionAbi(account:         AccountNameWriterValue(name:    "gls.ctrl"),
+                                            name:            AccountNameWriterValue(name:    "regwitness"),
+                                            authorization:   [regwithessTransactionAuthorizationAbi],
+                                            data:            regwithessArgsData)
+        
+        do {
+            let privateKey = try EOSPrivateKey.init(base58: currentUserActiveKey)
+            
+            if let response = try regwithessTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [regwithessActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
+                if response.success {
+                    completion(response, nil)
+                }
+            }
+        } catch {
+            completion(nil, error)
+        }
+    }
+
+    // EOS: contract `gls.ctrl`, action `votewitness` (2)
     static func vote(witnessArgs: EOSTransaction.VotewitnessArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let currentUserNickName = Config.currentUser.nickName, let currentUserActiveKey = Config.currentUser.activeKey else {
             completion(nil, NSError(domain: "Unauthorized".localized(), code: 401, userInfo: nil))

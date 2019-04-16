@@ -559,11 +559,34 @@ public class RestAPIManager {
         }
     }
     
+
+    // EOS: contract `gls.ctrl`, action `regwitness`
+    public func reg(witness: String, url: String, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
+        if Config.isNetworkAvailable {
+            let regwitnessArgs = EOSTransaction.RegwitnessArgs(witnessValue: witness, urlValue: url)
+            
+            EOSManager.reg(witnessArgs:     regwitnessArgs,
+                           completion:      { (response, error) in
+                            guard error == nil else {
+                                completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
+                                return
+                            }
+                            
+                            completion(response, nil)
+            })
+        }
+            
+        // Offline mode
+        else {
+            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
+        }
+    }
+    
     
     // EOS: contract `gls.ctrl`, action `votewitness`
-    public func votewitness(voter: String, withness: String, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
+    public func vote(witness: String, voter: String, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
-            let votewitnessArgs = EOSTransaction.VotewitnessArgs(voterValue: voter, witnessValue: withness)
+            let votewitnessArgs = EOSTransaction.VotewitnessArgs(voterValue: voter, witnessValue: witness)
             
             EOSManager.vote(witnessArgs:    votewitnessArgs,
                               completion:   { (response, error) in
