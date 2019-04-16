@@ -23,7 +23,7 @@ public struct Config {
     static let CHAIN_CYBERWAY_API_BASE_URL: String      =   isPublicTestnet ? "http://46.4.96.246:8888/" : "http://159.69.85.233:8888/"
     
     /// Websocket
-    static public var webSocketSecretKey: String        =   "Cyberway"
+    public static var webSocketSecretKey: String        =   "Cyberway"
     
     public static var currentUser: (nickName: String?, activeKey: String?) {
         set { }
@@ -73,5 +73,5 @@ public struct Config {
     static let userSecretKey: String                    =   "userSecretKey"
     public static let currentUserActiveKey: String      =   "currentUserActiveKey"
     public static let currentUserNickNameKey: String    =   "currentUserNickNameKey"
+    public static let isCurrentUserLoggedKey: String    =   "isCurrentUserLoggedKey"
 }
-
