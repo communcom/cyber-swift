@@ -627,4 +627,27 @@ public class RestAPIManager {
             completion(nil, ErrorAPI.disableInternetConnection(message: nil))
         }
     }
+    
+    
+    // EOS: contract `gls.ctrl`, action `unregwitness` (4)
+    public func unreg(witness: String, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
+        if Config.isNetworkAvailable {
+            let unregwitnessArgs = EOSTransaction.UnregwitnessArgs(witnessValue: witness)
+            
+            EOSManager.unreg(witnessArgs:     unregwitnessArgs,
+                             completion:      { (response, error) in
+                                guard error == nil else {
+                                    completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
+                                    return
+                                }
+                                
+                                completion(response, nil)
+            })
+        }
+            
+        // Offline mode
+        else {
+            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
+        }
+    }
 }
