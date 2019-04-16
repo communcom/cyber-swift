@@ -261,6 +261,46 @@ public class RestAPIManager {
             completion(nil, ErrorAPI.disableInternetConnection(message: nil))
         }
     }
+    
+    // API `onlineNotify.history`
+    public func getOnlineNotifyHistory(fromId: String? = nil, paginationLimit: Int8 = Config.paginationLimit, markAsViewed: Bool = false, freshOnly: Bool = false, completion: @escaping (ResponseAPIOnlineNotifyHistory?, ErrorAPI?) -> Void) {
+        if (!Config.isNetworkAvailable) {return completion(nil, ErrorAPI.disableInternetConnection(message: nil))}
+        
+        let methodAPIType = MethodAPIType.getOnlineNotifyHistory(fromId: fromId, paginationLimit: paginationLimit, markAsViewed: markAsViewed, freshOnly: freshOnly)
+        
+        Broadcast.instance.executeGETRequest(byContentAPIType: methodAPIType, onResult: { (responseAPIResult) in
+            Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
+            guard let result = (responseAPIResult as! ResponseAPIOnlineNotifyHistoryResult).result else {
+                completion(nil, ErrorAPI.requestFailed(message: "API \'onlineNotify.history\' have error: \((responseAPIResult as! ResponseAPIOnlineNotifyHistoryResult).error!.message)"))
+                return
+            }
+            completion(result, nil)
+        }) { (errorAPI) in
+            Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
+            
+            completion(nil, errorAPI)
+        }
+    }
+    
+    // API `onlineNotify.historyFresh`
+    public func getOnlineNotifyHistoryFresh(completion: @escaping (ResponseAPIOnlineNotifyHistoryFresh?, ErrorAPI?) -> Void) {
+        if (!Config.isNetworkAvailable) {return completion(nil, ErrorAPI.disableInternetConnection(message: nil))}
+        
+        let methodAPIType = MethodAPIType.getOnlineNotifyHistoryFresh
+        
+        Broadcast.instance.executeGETRequest(byContentAPIType: methodAPIType, onResult: { (responseAPIResult) in
+            Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
+            guard let result = (responseAPIResult as! ResponseAPIOnlineNotifyHistoryFreshResult).result else {
+                completion(nil, ErrorAPI.requestFailed(message: "API \'onlineNotify.historyFresh\' have error: \((responseAPIResult as! ResponseAPIOnlineNotifyHistoryFreshResult).error!.message)"))
+                return
+            }
+            completion(result, nil)
+        }) { (errorAPI) in
+            Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
+            
+            completion(nil, errorAPI)
+        }
+    }
 
     
     // MARK: - REGISTRATION-SERVICE

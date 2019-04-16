@@ -166,6 +166,12 @@ public class WebSocketManager {
             case .getPushHistoryFresh(_):
                 return (responseAPI: try JSONDecoder().decode(ResponseAPIPushHistoryFreshResult.self, from: jsonData), errorAPI: nil)
                 
+            case .getOnlineNotifyHistory(_):
+                return (responseAPI: try JSONDecoder().decode(ResponseAPIOnlineNotifyHistoryResult.self, from: jsonData), errorAPI: nil)
+                
+            case .getOnlineNotifyHistoryFresh:
+                return (responseAPI: try JSONDecoder().decode(ResponseAPIOnlineNotifyHistoryFreshResult.self, from: jsonData), errorAPI: nil)
+                
             
             // REGISTRATION-SERVICE
             case .getState(_):

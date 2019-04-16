@@ -86,6 +86,7 @@ public struct ResponseAPIContentGetProfileSubscription: Decodable {
 public struct ResponseAPIContentGetProfileSubscriptionUserID: Decodable {
     // MARK: - In work API `content.getProfile`
     public let id: String
+    public let avatarUrl: String?
 }
 
 
@@ -602,4 +603,94 @@ public struct ResponseAPIPushHistoryFreshResult: Decodable {
 public struct ResponseAPIPushHistoryFresh: Decodable {
     // MARK: - In work API `push.historyFresh`
     //    public let status: String
+}
+
+public struct ResponseAPIOnlineNotifyHistoryResult: Decodable {
+    // MARK: - In work API `onlineNotify.history`
+    public let jsonrpc: String
+    public let result: ResponseAPIOnlineNotifyHistory?
+    public let error: ResponseAPIError?
+}
+
+// MARK: - onlineNotify.history
+public struct ResponseAPIOnlineNotifyHistory: Decodable {
+    // MARK: - In work API `onlineNotify.history`
+    public let total: Int64
+    public let data: [ResponseAPIOnlineNotificationData]
+}
+
+public struct ResponseAPIOnlineNotificationData: Decodable {
+    public let _id: String
+    public let timestamp: String
+    public let eventType: String
+    public let fresh: Bool
+    public let unread: Bool
+    
+    public let community: ResponseAPIOnlineNotificationDataComunity?
+    public let actor: ResponseAPIOnlineNotificationDataActor?
+    public let post: ResponseAPIOnlineNotificationDataPost?
+    public let comment: ResponseAPIOnlineNotificationDataComment?
+    
+}
+
+public struct ResponseAPIOnlineNotificationDataComunity: Decodable {
+    public let id: String
+    public let name: String
+}
+
+public struct ResponseAPIOnlineNotificationDataActor: Decodable {
+    public let id: String
+    public let avatarUrl: String?
+}
+
+public struct ResponseAPIOnlineNotificationDataPost: Decodable {
+    public let contentId: ResponseAPIOnlineNotificationDataPostContentId
+    public let title: String
+}
+
+public struct ResponseAPIOnlineNotificationDataPostContentId: Decodable {
+    public let userId: String
+    public let permlink: String
+    public let refBlockNum: UInt64
+}
+
+public struct ResponseAPIOnlineNotificationDataComment: Decodable {
+    public let contentId: ResponseAPIOnlineNotificationDataCommentContentId
+    public let body: String
+}
+
+public struct ResponseAPIOnlineNotificationDataCommentContentId: Decodable {
+    public let userId: String
+    public let permlink: String
+    public let refBlockNum: Int64
+}
+
+// MARK: - onlineNotify.historyFresh
+public struct ResponseAPIOnlineNotifyHistoryFreshResult: Decodable {
+    public let jsonrpc: String
+    public let id: UInt64
+    public let result: ResponseAPIOnlineNotifyHistoryFresh?
+    public let error: ResponseAPIError?
+}
+
+public struct ResponseAPIOnlineNotifyHistoryFresh: Decodable {
+    public let fresh: UInt16
+    public let freshByTypes: ResponseAPIOnlineNotifyHistoryFreshFreshByTypes?
+}
+
+public struct ResponseAPIOnlineNotifyHistoryFreshFreshByTypes: Decodable {
+    public let summary: UInt16
+    public let upvote: UInt16
+    public let downvote: UInt16
+    public let transfer: UInt16
+    public let reply: UInt16
+    public let subscribe: UInt16
+    public let unsubscribe: UInt16
+    public let mention: UInt16
+    public let repost: UInt16
+    public let reward: UInt16
+    public let curatorReward: UInt16
+    public let message: UInt16
+    public let witnessVote: UInt16
+    public let witnessCancelVote: UInt16
 }

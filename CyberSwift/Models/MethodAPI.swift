@@ -105,6 +105,12 @@ public indirect enum MethodAPIType {
 
     //  Receiving the number of unread notifications according to user settings
     case getPushHistoryFresh(profile: String)
+    
+    //  Receive user's notifications
+    case getOnlineNotifyHistory(fromId: String?, paginationLimit: Int8, markAsViewed: Bool, freshOnly: Bool)
+    
+    //  Receive user's fresh notifications count
+    case getOnlineNotifyHistoryFresh
 
     
     /// REGISTRATION-SERVICE
@@ -191,6 +197,26 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getComments",
                      parameters:        parameters)
+            
+        //  Template { "id": 1, "jsonrpc": "2.0", "method": "onlineNotify.history", "params": { "freshOnly": true, "fromId": "3123", markAsViewed}}
+        case .getOnlineNotifyHistory(let fromId, _, let markAsViewed, let freshOnly):
+            var parameters: [String: String] = ["limit": "\(Config.paginationLimit)", "markAsViewed": markAsViewed.toParam, "freshOnly": freshOnly.toParam]
+            
+            if let fromId = fromId {
+                parameters["fromId"] = fromId
+            }
+            
+            return (methodAPIType:      self,
+                    methodGroup:        MethodAPIGroup.onlineNotify.rawValue,
+                    methodName:         "history",
+                    parameters:         parameters)
+            
+        //  Template { "id": 1, "jsonrpc": "2.0", "method": "onlineNotify.historyFresh", "params": {}}
+        case .getOnlineNotifyHistoryFresh:
+            return (methodAPIType:      self,
+                    methodGroup:        MethodAPIGroup.onlineNotify.rawValue,
+                    methodName:         "historyFresh",
+                    parameters:         [:])
             
         //  Template { "id": 6, "jsonrpc": "2.0", "method": "auth.authorize", "params": { "user": "tst1xrhojmka", "sign": "Cyberway" }}
         case .authorize(let nickNameValue, let activeKeyValue):
