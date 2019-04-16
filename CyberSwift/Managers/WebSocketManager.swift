@@ -41,7 +41,9 @@ public class WebSocketManager {
         webSocket.delegate = WebSocketManager.instance
         
         WebSocketManager.instance.completionIsConnected = {
-            guard Config.currentUser.nickName == nil else {
+            guard UserDefaults.standard.value(forKey: Config.isCurrentUserLoggedKey) != nil else { return }
+            
+            guard (UserDefaults.standard.value(forKey: Config.isCurrentUserLoggedKey) as? Bool) == false else {
                 RestAPIManager.instance.authorize(userNickName: Config.currentUser.nickName!, userActiveKey: Config.currentUser.activeKey!, completion: { (authAuthorize, errorAPI) in
                     guard errorAPI == nil else {
                         Logger.log(message: errorAPI!.caseInfo.message.localized(), event: .error)

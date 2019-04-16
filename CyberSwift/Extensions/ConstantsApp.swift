@@ -16,14 +16,14 @@ public struct Config {
     public static let paginationLimit: Int8 = 20
     
     static let blocksBehind: Int = 3
-    static let expireSeconds: Double = 30.0
+    public static let expireSeconds: Double = 30.0
     
     public static var isPublicTestnet: Bool             =   true
     public static let testingPassword: String           =   "DpQad16yDlllEy6"
     static let CHAIN_CYBERWAY_API_BASE_URL: String      =   isPublicTestnet ? "http://46.4.96.246:8888/" : "http://159.69.85.233:8888/"
     
     /// Websocket
-    static public var webSocketSecretKey: String        =   "Cyberway"
+    public static var webSocketSecretKey: String        =   "Cyberway"
     
     public static var currentUser: (nickName: String?, activeKey: String?) {
         set { }
@@ -73,5 +73,5 @@ public struct Config {
     static let userSecretKey: String                    =   "userSecretKey"
     public static let currentUserActiveKey: String      =   "currentUserActiveKey"
     public static let currentUserNickNameKey: String    =   "currentUserNickNameKey"
+    public static let isCurrentUserLoggedKey: String    =   "isCurrentUserLoggedKey"
 }
-
