@@ -630,6 +630,7 @@ public struct ResponseAPIOnlineNotificationData: Decodable {
     public let actor: ResponseAPIOnlineNotificationDataActor?
     public let post: ResponseAPIOnlineNotificationDataPost?
     public let comment: ResponseAPIOnlineNotificationDataComment?
+    public let value: ResponseAPIOnlineNotificationDataValue?
     
 }
 
@@ -663,6 +664,11 @@ public struct ResponseAPIOnlineNotificationDataCommentContentId: Decodable {
     public let userId: String
     public let permlink: String
     public let refBlockNum: Int64
+}
+
+public struct ResponseAPIOnlineNotificationDataValue: Decodable {
+    public let amount: String
+    public let currency: String
 }
 
 // MARK: - onlineNotify.historyFresh
