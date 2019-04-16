@@ -558,6 +558,38 @@ class EOSManager {
         }
     }
 
+    // EOS: contract `gls.ctrl`, action `unvotewitn` (3)
+    static func unvote(witnessArgs: EOSTransaction.UnvotewitnessArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
+        guard let currentUserNickName = Config.currentUser.nickName, let currentUserActiveKey = Config.currentUser.activeKey else {
+            completion(nil, NSError(domain: "Unauthorized".localized(), code: 401, userInfo: nil))
+            return
+        }
+        
+        let unvotewithessTransaction = EOSTransaction.init(chainApi: EOSManager.chainApi)
+        
+        let unvotewithessTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name: currentUserNickName),
+                                                                                   permission:    AccountNameWriterValue(name: "active"))
+        
+        let unvotewithessArgsData = DataWriterValue(hex: witnessArgs.toHex())
+        
+        let unvotewithessActionAbi = ActionAbi(account:         AccountNameWriterValue(name:    "gls.ctrl"),
+                                               name:            AccountNameWriterValue(name:    "unvotewitn"),
+                                               authorization:   [unvotewithessTransactionAuthorizationAbi],
+                                               data:            unvotewithessArgsData)
+        
+        do {
+            let privateKey = try EOSPrivateKey.init(base58: currentUserActiveKey)
+            
+            if let response = try unvotewithessTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [unvotewithessActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
+                if response.success {
+                    completion(response, nil)
+                }
+            }
+        } catch {
+            completion(nil, error)
+        }
+    }
+    
     
     /// HISTORY
     static func getTransaction(blockNumberHint: String) {

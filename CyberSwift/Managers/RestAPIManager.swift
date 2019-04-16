@@ -560,7 +560,7 @@ public class RestAPIManager {
     }
     
 
-    // EOS: contract `gls.ctrl`, action `regwitness`
+    // EOS: contract `gls.ctrl`, action `regwitness` (1)
     public func reg(witness: String, url: String, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             let regwitnessArgs = EOSTransaction.RegwitnessArgs(witnessValue: witness, urlValue: url)
@@ -583,12 +583,35 @@ public class RestAPIManager {
     }
     
     
-    // EOS: contract `gls.ctrl`, action `votewitness`
+    // EOS: contract `gls.ctrl`, action `votewitness` (2)
     public func vote(witness: String, voter: String, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             let votewitnessArgs = EOSTransaction.VotewitnessArgs(voterValue: voter, witnessValue: witness)
             
             EOSManager.vote(witnessArgs:    votewitnessArgs,
+                              completion:   { (response, error) in
+                                guard error == nil else {
+                                    completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
+                                    return
+                                }
+                                
+                                completion(response, nil)
+            })
+        }
+            
+        // Offline mode
+        else {
+            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
+        }
+    }
+    
+    
+    // EOS: contract `gls.ctrl`, action `unvotewitn` (3)
+    public func unvote(witness: String, voter: String, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
+        if Config.isNetworkAvailable {
+            let unvotewitnessArgs = EOSTransaction.UnvotewitnessArgs(voterValue: voter, witnessValue: witness)
+            
+            EOSManager.unvote(witnessArgs:  unvotewitnessArgs,
                               completion:   { (response, error) in
                                 guard error == nil else {
                                     completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
