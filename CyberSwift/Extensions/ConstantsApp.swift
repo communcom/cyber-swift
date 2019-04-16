@@ -9,7 +9,7 @@
 import Starscream
 import Foundation
 
-public struct c {
+public struct Config {
     public static let currentDeviceType: String         =   { return UIDevice.modelName.replacingOccurrences(of: " ", with: "-") }()
 
     /// Pagination
@@ -73,5 +73,5 @@ public struct c {
     static let userSecretKey: String                    =   "userSecretKey"
     public static let currentUserActiveKey: String      =   "currentUserActiveKey"
     public static let currentUserNickNameKey: String    =   "currentUserNickNameKey"
-//    public static let isCurrentUserLoggedKey: String    =   "isCurrentUserLoggedKey"
+    public static let isCurrentUserLoggedKey: String    =   "isCurrentUserLoggedKey"
 }
