@@ -371,8 +371,8 @@ public struct ResponseAPIContentGetCommentContent: Decodable {
 // MARK: -
 public struct ResponseAPIContentGetCommentContentBody: Decodable {
     // MARK: - In work API `content.getComments`
-    public let preview: String
-    public let full: String
+    public let preview: String?
+    public let full: String?
 }
 
 
