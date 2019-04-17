@@ -54,7 +54,7 @@ public struct Config {
     static let accountNickJosephKalu: String            =   "joseph.kalu"
     static let postingKeyJosephKalu: String             =   "5K6CfG8gzhTZNwHDxPmeQiPChx6FpgiVYN7USVp2aGC2WsDqH4h"
     
-    // 159 testnet: http://116.203.39.126:7777/get_users
+    // testnet: http://116.203.39.126:7777/get_users
     public static let accountNickTest: String           =   "tst3fsptavsy"
     public static let activeKeyTest: String             =   "5JDiPL4erNuKc7nRbFVhjuFshFrPMcLi7SUJu3PJ28o6pE2yCw3"
 
