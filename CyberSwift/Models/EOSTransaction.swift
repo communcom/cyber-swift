@@ -77,7 +77,7 @@ public class EOSTransaction: ChainTransaction {
         
         
         // MARK: - Initialization
-        init(authorValue: String, parentDataValue: ParentData? = nil, parentRecidValue: UInt64 = 0, refBlockNumValue: UInt64 = 0, beneficiariesValues: [Beneficiary?] = [], tokenpropValue: Int64 = 0, vestpaymentValue: Byte = 1, headermssgValue: String = "test", bodymssgValue: String = "test", languagemssgValue: String = "ru", tagsValues: [Tags]? = [Tags()], jsonmetadataValue: String? = "", curatorsPrcntValue: UInt16 = 0) {
+        init(authorValue: String, parentDataValue: ParentData? = nil, parentRecidValue: UInt64 = 0, refBlockNumValue: UInt64 = 0, beneficiariesValues: [Beneficiary?] = [], tokenpropValue: Int64 = 0, vestpaymentValue: Byte = 1, headermssgValue: String = "test", bodymssgValue: String = "test", languagemssgValue: String = "ru", tagsValues: [Tags]? = [Tags()], jsonmetadataValue: String? = "", curatorsPrcntValue: UInt16 = 900) {
             let prefixTitle         =   parentDataValue == nil ? headermssgValue : "Comment"
             let messagePermlink     =   (prefixTitle + "-" + Date().convert(toStringFormat: .expirationDateType)).lowercased()
                                             .replacingOccurrences(of: " ", with: "-")
