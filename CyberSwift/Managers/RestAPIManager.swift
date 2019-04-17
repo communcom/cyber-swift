@@ -36,11 +36,15 @@ public class RestAPIManager {
                                                         return
                                                     }
                                                     
-                                                    // Save in Keychain
-                                                    _ = KeychainManager.save(data: [Config.currentUserNickNameKey: userNickName], userNickName: Config.currentUserNickNameKey)
-                                                    _ = KeychainManager.save(data: [Config.currentUserActiveKey: userActiveKey], userNickName: Config.currentUserActiveKey)
-                                                    
-                                                    completion(result, nil)
+                                                    DispatchQueue.main.async(execute: {
+                                                        UserDefaults.standard.set(true, forKey: Config.isCurrentUserLoggedKey)
+                                                        
+                                                        // Save in Keychain
+                                                        _ = KeychainManager.save(data: [Config.currentUserNickNameKey: userNickName], userNickName: Config.currentUserNickNameKey)
+                                                        _ = KeychainManager.save(data: [Config.currentUserActiveKey: userActiveKey], userNickName: Config.currentUserActiveKey)
+                                                        
+                                                        completion(result, nil)
+                                                    })
             },
                                                  onError: { errorAPI in
                                                     Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
