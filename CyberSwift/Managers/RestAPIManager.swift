@@ -470,8 +470,8 @@ public class RestAPIManager {
     }
     
     
-    // MARK: - EOS
-    // Contract `gls.publish`, actions `upvote`, `downvote`, `unvote`
+    //  MARK: - Contract `gls.publish`
+    /// Actions `upvote`, `downvote`, `unvote`
     public func message(voteType: VoteType, author: String, permlink: String, weight: Int16? = 0, refBlockNum: UInt64 = 0, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             EOSManager.message(voteType:        voteType,
@@ -495,8 +495,7 @@ public class RestAPIManager {
         }
     }
     
-    
-    // Contract `gls.publish`, action `createmssg`
+    /// Action `createmssg`
     public func publish(message: String, headline: String? = "", parentData: ParentData? = nil, tags: [String]?, metaData: String?, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             let arrayTags = tags == nil ? [EOSTransaction.Tags()] : tags!.map({ EOSTransaction.Tags.init(tagValue: $0) })
@@ -527,8 +526,7 @@ public class RestAPIManager {
         }
     }
     
-    
-    // Contract `gls.publish`, action `updatemssg`
+    /// Action `updatemssg`
     public func updateMessage(author: String?, permlink: String, message: String, parentData: ParentData?, refBlockNum: UInt64, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             let messageUpdateArgs = EOSTransaction.MessageUpdateArgs(authorValue:           author ?? Config.currentUser.nickName ?? "Cyberway",
@@ -554,8 +552,7 @@ public class RestAPIManager {
         }
     }
     
-    
-    // Contract `gls.publish`, action `deletemssg`
+    /// Action `deletemssg`
     public func deleteMessage(author: String, permlink: String, refBlockNum: UInt64, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             let messageDeleteArgs = EOSTransaction.MessageDeleteArgs(authorValue:           author,
@@ -564,6 +561,121 @@ public class RestAPIManager {
 
             EOSManager.delete(messageArgs:  messageDeleteArgs,
                               completion:   { (response, error) in
+                                guard error == nil else {
+                                    completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
+                                    return
+                                }
+                                
+                                completion(response, nil)
+            })
+        }
+            
+        // Offline mode
+        else {
+            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
+        }
+    }
+    
+    /// Action `reblog`
+    public func reblog(author: String, permlink: String, refBlockNum: UInt64, rebloger: String, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
+        if Config.isNetworkAvailable {
+            let reblogArgs = EOSTransaction.ReblogArgs(authorValue:         author,
+                                                       permlinkValue:       permlink,
+                                                       refBlockNumValue:    refBlockNum,
+                                                       reblogerValue:       rebloger)
+            
+            EOSManager.reblog(args:         reblogArgs,
+                              completion:   { (response, error) in
+                                guard error == nil else {
+                                    completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
+                                    return
+                                }
+                                
+                                completion(response, nil)
+            })
+        }
+            
+        // Offline mode
+        else {
+            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
+        }
+    }
+    
+
+    // MARK: - Contract `gls.ctrl`
+    /// Action `regwitness` (1)
+    public func reg(witness: String, url: String, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
+        if Config.isNetworkAvailable {
+            let regwitnessArgs = EOSTransaction.RegwitnessArgs(witnessValue: witness, urlValue: url)
+            
+            EOSManager.reg(witnessArgs:     regwitnessArgs,
+                           completion:      { (response, error) in
+                            guard error == nil else {
+                                completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
+                                return
+                            }
+                            
+                            completion(response, nil)
+            })
+        }
+            
+        // Offline mode
+        else {
+            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
+        }
+    }
+    
+    /// Action `votewitness` (2)
+    public func vote(witness: String, voter: String, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
+        if Config.isNetworkAvailable {
+            let votewitnessArgs = EOSTransaction.VotewitnessArgs(voterValue: voter, witnessValue: witness)
+            
+            EOSManager.vote(witnessArgs:    votewitnessArgs,
+                              completion:   { (response, error) in
+                                guard error == nil else {
+                                    completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
+                                    return
+                                }
+                                
+                                completion(response, nil)
+            })
+        }
+            
+        // Offline mode
+        else {
+            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
+        }
+    }
+    
+    /// Action `unvotewitn` (3)
+    public func unvote(witness: String, voter: String, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
+        if Config.isNetworkAvailable {
+            let unvotewitnessArgs = EOSTransaction.UnvotewitnessArgs(voterValue: voter, witnessValue: witness)
+            
+            EOSManager.unvote(witnessArgs:  unvotewitnessArgs,
+                              completion:   { (response, error) in
+                                guard error == nil else {
+                                    completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
+                                    return
+                                }
+                                
+                                completion(response, nil)
+            })
+        }
+            
+        // Offline mode
+        else {
+            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
+        }
+    }
+    
+    /// Action `unregwitness` (4)
+    public func unreg(witness: String, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
+        if Config.isNetworkAvailable {
+            let unregwitnessArgs = EOSTransaction.UnregwitnessArgs(witnessValue: witness)
+            
+            EOSManager.unreg(witnessArgs:     unregwitnessArgs,
+                             completion:      { (response, error) in
                                 guard error == nil else {
                                     completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
                                     return
