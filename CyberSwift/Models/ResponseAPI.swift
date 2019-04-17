@@ -704,7 +704,7 @@ public struct ResponseAPIOnlineNotifyHistoryFreshFreshByTypes: Decodable {
 // MARK: - notify.markAllAsViewed
 public struct ResponseAPINotifyMarkAllAsViewedResult: Decodable {
     public let jsonrpc: String
-    public let id: String
+    public let id: UInt16
     public let result: ResponseAPINotifyMarkAllAsViewed?
     public let error: ResponseAPIError?
 }
