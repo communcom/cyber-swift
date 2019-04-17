@@ -138,6 +138,24 @@ public class PhoneCode {
     class Honduras: County {}
     class HongKong: County {}
     class Hungary: County {}
+    class Iceland: County {}
+    class India: County {}
+    class Indonesia: County {}
+    class Iran: County {}
+    class Iraq: County {}
+    class Ireland: County {}
+    class IsleMan: County {}
+    class Israel: County {}
+    class Italy: County {}
+    class Jamaica: County {}
+    class Japan: County {}
+    class Jersey: County {}
+    class Jordan: County {}
+    class Kenya: County {}
+    class Kiribati: County {}
+    class Kosovo: County {}
+    class Kuwait: County {}
+    class Kyrgyzstan: County {}
 
 //    class Cameroon: County {}
 //    class Cameroon: County {}
@@ -268,6 +286,24 @@ public class PhoneCode {
                  Honduras(codeValue: 504, shortCodeValue: "HN", labelValue: "Honduras", flagURLString: "https://cdn.countryflags.com/thumbs/honduras/flag-800.png"),
                  HongKong(codeValue: 852, shortCodeValue: "HK", labelValue: "Hong Kong", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Flag_of_Hong_Kong.svg/2560px-Flag_of_Hong_Kong.svg.png"),
                  Hungary(codeValue: 36, shortCodeValue: "HU", labelValue: "Hungary", flagURLString: "https://cdn.countryflags.com/thumbs/hungary/flag-800.png"),
+                 Iceland(codeValue: 354, shortCodeValue: "IS", labelValue: "Iceland", flagURLString: "https://cdn.countryflags.com/thumbs/iceland/flag-800.png"),
+                 India(codeValue: 91, shortCodeValue: "IN", labelValue: "India", flagURLString: "https://cdn.countryflags.com/thumbs/india/flag-800.png"),
+                 Indonesia(codeValue: 62, shortCodeValue: "ID", labelValue: "Indonesia", flagURLString: "https://cdn.countryflags.com/thumbs/indonesia/flag-800.png"),
+                 Iran(codeValue: 98, shortCodeValue: "IR", labelValue: "Iran", flagURLString: "https://cdn.countryflags.com/thumbs/iran/flag-800.png"),
+                 Iraq(codeValue: 964, shortCodeValue: "IQ", labelValue: "Iraq", flagURLString: "https://cdn.countryflags.com/thumbs/iraq/flag-800.png"),
+                 Ireland(codeValue: 353, shortCodeValue: "IE", labelValue: "Ireland", flagURLString: "https://cdn.countryflags.com/thumbs/ireland/flag-800.png"),
+                 IsleMan(codeValue: 44, shortCodeValue: "IM", labelValue: "Isle Of Man", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Flag_of_the_Isle_of_Mann.svg/2880px-Flag_of_the_Isle_of_Mann.svg.png"),
+                 Israel(codeValue: 972, shortCodeValue: "IL", labelValue: "Israel", flagURLString: "https://cdn.countryflags.com/thumbs/israel/flag-800.png"),
+                 Italy(codeValue: 39, shortCodeValue: "IT", labelValue: "Italy", flagURLString: "https://cdn.countryflags.com/thumbs/italy/flag-800.png"),
+                 Jamaica(codeValue: 1, shortCodeValue: "JM", labelValue: "Jamaica", flagURLString: "https://cdn.countryflags.com/thumbs/jamaica/flag-800.png"),
+                 Japan(codeValue: 81, shortCodeValue: "JP", labelValue: "Japan", flagURLString: "https://cdn.countryflags.com/thumbs/japan/flag-800.png"),
+                 Jersey(codeValue: 44, shortCodeValue: "JE", labelValue: "Jersey", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Flag_of_Jersey.svg/2560px-Flag_of_Jersey.svg.png"),
+                 Jordan(codeValue: 962, shortCodeValue: "JO", labelValue: "Jordan", flagURLString: "https://cdn.countryflags.com/thumbs/jordan/flag-800.png"),
+                 Kenya(codeValue: 254, shortCodeValue: "KE", labelValue: "Kenya", flagURLString: "https://cdn.countryflags.com/thumbs/kenya/flag-800.png"),
+                 Kiribati(codeValue: 686, shortCodeValue: "KI", labelValue: "Kiribati", flagURLString: "https://cdn.countryflags.com/thumbs/kiribati/flag-800.png"),
+                 Kosovo(codeValue: 383, shortCodeValue: "XK", labelValue: "Kosovo", flagURLString: "https://cdn.countryflags.com/thumbs/kosovo/flag-800.png"),
+                 Kuwait(codeValue: 965, shortCodeValue: "KW", labelValue: "Kuwait", flagURLString: "https://cdn.countryflags.com/thumbs/kuwait/flag-800.png"),
+                 Kyrgyzstan(codeValue: 996, shortCodeValue: "KG", labelValue: "Kyrgyzstan", flagURLString: "https://cdn.countryflags.com/thumbs/kyrgyzstan/flag-800.png"),
 
                  
                  
@@ -301,177 +337,6 @@ public class PhoneCode {
     }
 
     /*
-     
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "IS",
-     "countryName": "Iceland",
-     "countryPhoneCode": 354,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/IS.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "IN",
-     "countryName": "India",
-     "countryPhoneCode": 91,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/IN.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "ID",
-     "countryName": "Indonesia",
-     "countryPhoneCode": 62,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/ID.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "IR",
-     "countryName": "Iran",
-     "countryPhoneCode": 98,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/IR.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "IQ",
-     "countryName": "Iraq",
-     "countryPhoneCode": 964,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/IQ.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "IE",
-     "countryName": "Ireland",
-     "countryPhoneCode": 353,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/IE.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "IM",
-     "countryName": "Isle Of Man",
-     "countryPhoneCode": 44,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/IM.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "IL",
-     "countryName": "Israel",
-     "countryPhoneCode": 972,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/IL.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "IT",
-     "countryName": "Italy",
-     "countryPhoneCode": 39,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/IT.png"
-     },
-
-     
-     
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "JM",
-     "countryName": "Jamaica",
-     "countryPhoneCode": 1,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/JM.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "JP",
-     "countryName": "Japan",
-     "countryPhoneCode": 81,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/JP.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "JE",
-     "countryName": "Jersey",
-     "countryPhoneCode": 44,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/JE.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "JO",
-     "countryName": "Jordan",
-     "countryPhoneCode": 962,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/JO.png"
-     },
-
-     
-     
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "KE",
-     "countryName": "Kenya",
-     "countryPhoneCode": 254,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/KE.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "KI",
-     "countryName": "Kiribati",
-     "countryPhoneCode": 686,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/KI.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "XK",
-     "countryName": "Kosovo",
-     "countryPhoneCode": 383,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/XK.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "KW",
-     "countryName": "Kuwait",
-     "countryPhoneCode": 965,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/KW.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "KG",
-     "countryName": "Kyrgyzstan",
-     "countryPhoneCode": 996,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/KG.png"
-     },
-
-     
      
      {
      class : County {}
