@@ -17,15 +17,42 @@ public typealias BaseT = Int64
 public typealias ParentData = (refBlockNum: UInt64, permlink: String)
 
 public class EOSTransaction: ChainTransaction {
+    // MARK: - Properties
+    private let _chainApi: ChainApi
+    
+    
+    // MARK: - Initialization
+    public init(chainApi: ChainApi) {
+        self._chainApi = chainApi
+    }
+    
+    public func chainApi() -> ChainApi {
+        return _chainApi
+    }
+
+    
+    //  MARK: - Contract `gls.publish`
+    /// Action `reblog`
+    public struct ReblogArgs: Encodable {
+        let rebloger: NameWriterValue
+        let message_id: Mssgid
+        
+        init(authorValue: String = "", permlinkValue: String = "", refBlockNumValue: UInt64 = 0, reblogerValue: String) {
+            self.rebloger   =   NameWriterValue(name: reblogerValue)
+            
+            self.message_id =   Mssgid(authorValue:         authorValue,
+                                       permlinkValue:       permlinkValue,
+                                       refBlockNumValue:    refBlockNumValue)
+        }
+    }
+    
+    
     /// Create Post/Comment
     public struct Mssgid: Encodable {
-        // MARK: - Properties
         let author: NameWriterValue
         let permlink: String
         let ref_block_num: UInt64
         
-        
-        // MARK: - Initialization
         init(authorValue: String = "", permlinkValue: String = "", refBlockNumValue: UInt64 = 0) {
             self.author             =   NameWriterValue(name: authorValue)
             self.permlink           =   permlinkValue
@@ -354,71 +381,47 @@ public class EOSTransaction: ChainTransaction {
         }
     }
 
-    /// Regwitness (1)
+    
+    //  MARK: - Contract `gls.ctrl`
+    /// Action `regwitness` (1)
     public struct RegwitnessArgs: Encodable {
-        // MARK: - Properties
         let witness: NameWriterValue
         let url: String
 
-        
-        // MARK: - Initialization
         init(witnessValue: String, urlValue: String) {
             self.witness    =   NameWriterValue(name: witnessValue)
             self.url        =   urlValue
         }
     }
 
-    /// Votewitness (2)
+    /// Action `votewitness` (2)
     public struct VotewitnessArgs: Encodable {
-        // MARK: - Properties
         let voter: NameWriterValue
         let witness: NameWriterValue
 
-        
-        // MARK: - Initialization
         init(voterValue: String, witnessValue: String) {
             self.voter      =   NameWriterValue(name: voterValue)
             self.witness    =   NameWriterValue(name: witnessValue)
         }
     }
 
-    /// Unvotewitness (3)
+    /// Action `unvotewitness` (3)
     public struct UnvotewitnessArgs: Encodable {
-        // MARK: - Properties
         let voter: NameWriterValue
         let witness: NameWriterValue
         
-        
-        // MARK: - Initialization
         init(voterValue: String, witnessValue: String) {
             self.voter      =   NameWriterValue(name: voterValue)
             self.witness    =   NameWriterValue(name: witnessValue)
         }
     }
     
-    /// Unregwitness (4)
+    /// Action `unregwitness` (4)
     public struct UnregwitnessArgs: Encodable {
-        // MARK: - Properties
         let witness: NameWriterValue
         
-        
-        // MARK: - Initialization
         init(witnessValue: String) {
             self.witness    =   NameWriterValue(name: witnessValue)
         }
-    }
-    
-   
-    // MARK: - Properties
-    private let _chainApi: ChainApi
-    
-    
-    // MARK: - Initialization
-    public init(chainApi: ChainApi) {
-        self._chainApi = chainApi
-    }
-    
-    public func chainApi() -> ChainApi {
-        return _chainApi
     }
 }

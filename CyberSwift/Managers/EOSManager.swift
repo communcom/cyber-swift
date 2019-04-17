@@ -37,7 +37,7 @@ class EOSManager {
     }
     
     
-    /// CHAIN
+    /// MARK: - CHAIN
     static func getChainInfo(completion: @escaping (Info?, Error?) -> Void) {
         _ = self.chainApi.getInfo().subscribe(onSuccess: { response in
             if let info = response.body {
@@ -48,7 +48,7 @@ class EOSManager {
         })
     }
     
-    //
+    ///
     static func getChainInfo() {
         _ = self.chainApi.getInfo().subscribe(onSuccess: { response in
             if let info = response.body {
@@ -61,7 +61,7 @@ class EOSManager {
         })
     }
     
-    //
+    ///
     static func getChain(blockNumberID: String) {
         _ = self.chainApi.getBlock(body: BlockNumOrId(block_num_or_id: blockNumberID)).subscribe(onSuccess: { response in
             if let info = response.body {
@@ -74,7 +74,7 @@ class EOSManager {
         })
     }
     
-    //
+    ///
     static func getAccount(nickName: String, completion: @escaping (HttpResponse<Account>?, Error?) -> Void) {
         _ = self.chainApi.getAccount(body: AccountName(account_name: nickName)).subscribe(onSuccess: { response in
             if let info = response.body {
@@ -89,7 +89,23 @@ class EOSManager {
         })
     }
     
-    // EOS: contract `gls.publish`, action `newaccount`
+    /// Receive secret key
+    static func signWebSocketSecretKey(userActiveKey: String) -> String? {
+        do {
+            let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
+            
+            let signature = PrivateKeySigning().sign(digest:            Config.webSocketSecretKey.data(using: .utf8)!,
+                                                     eosPrivateKey:     privateKey)
+            
+            return signature
+        } catch {
+            return nil
+        }
+    }
+
+    
+    //  MARK: - Contract `gls.publish`
+    /// Action `newaccount`
     static func createNewAccount(nickName: String, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
         
@@ -137,21 +153,7 @@ class EOSManager {
         }
     }
     
-    // Receive secret key
-    static func signWebSocketSecretKey(userActiveKey: String) -> String? {
-        do {
-            let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
-            
-            let signature = PrivateKeySigning().sign(digest:            Config.webSocketSecretKey.data(using: .utf8)!,
-                                                     eosPrivateKey:     privateKey)
-            
-            return signature
-        } catch {
-            return nil
-        }
-    }
-    
-    // EOS: contract `gls.publish`, action `createmssg`
+    /// Action `createmssg`
     // https://github.com/GolosChain/golos.contracts/blob/master/golos.publication/golos.publication.abi#L238-L291
     static func publish(message: String, headline: String = "", parentData: ParentData? = nil, tags: [EOSTransaction.Tags], jsonMetaData: String?, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
@@ -203,7 +205,7 @@ class EOSManager {
         })
     }
 
-    // EOS: contract `gls.publish`, action `deletemssg`
+    /// Action `deletemssg`
     static func delete(messageArgs: EOSTransaction.MessageDeleteArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
         
@@ -232,7 +234,7 @@ class EOSManager {
         }
     }
     
-    // EOS: contract `gls.publish`, action `updatemssg`
+    /// Action `updatemssg`
     static func update(messageArgs: EOSTransaction.MessageUpdateArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
         
@@ -261,7 +263,36 @@ class EOSManager {
         }
     }
     
-    // EOS: contract `gls.publish`, actions `upvote`, `downvote`, `unvote`
+    /// Action `changereput`
+    private static func updateUserProfile(changereputArgs: EOSTransaction.UserProfileChangereputArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
+        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
+        
+        let userProfileChangereputTransaction = EOSTransaction.init(chainApi: EOSManager.chainApi)
+        
+        let userProfileChangereputTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name:     userNickName),
+                                                                                            permission:    AccountNameWriterValue(name:     "active"))
+        
+        let changereputArgsData = DataWriterValue(hex: changereputArgs.toHex())
+        
+        let changereputActionAbi = ActionAbi(account:         AccountNameWriterValue(name:    "gls.publish"),
+                                             name:            AccountNameWriterValue(name:    "changereput"),
+                                             authorization:   [userProfileChangereputTransactionAuthorizationAbi],
+                                             data:            changereputArgsData)
+        
+        do {
+            let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
+            
+            if let response = try userProfileChangereputTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [changereputActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
+                if response.success {
+                    completion(response, nil)
+                }
+            }
+        } catch {
+            completion(nil, error)
+        }
+    }
+
+    /// Actions `upvote`, `downvote`, `unvote`
     static func message(voteType: VoteType, author: String, permlink: String, weight: Int16, refBlockNum: UInt64, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else {
             completion(nil, NSError(domain: "User is not authorized.", code: 401, userInfo: nil))
@@ -319,7 +350,41 @@ class EOSManager {
         }
     }
 
-    // EOS: contract `gls.vesting`, action `transfer`
+    /// Action `reblog`
+    public static func reblog(args: EOSTransaction.ReblogArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
+        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else {
+            completion(nil, NSError(domain: "User is not authorized.", code: 401, userInfo: nil))
+            return
+        }
+
+        let reblogTransaction = EOSTransaction.init(chainApi: EOSManager.chainApi)
+        
+        let reblogTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name:     userNickName),
+                                                                            permission:    AccountNameWriterValue(name:     "active"))
+        
+        let reblogArgsData = DataWriterValue(hex: args.toHex())
+        
+        let reblogActionAbi = ActionAbi(account:         AccountNameWriterValue(name:    "gls.publish"),
+                                        name:            AccountNameWriterValue(name:    "reblog"),
+                                        authorization:   [reblogTransactionAuthorizationAbi],
+                                        data:            reblogArgsData)
+        
+        do {
+            let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
+            
+            if let response = try reblogTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [reblogActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
+                if response.success {
+                    completion(response, nil)
+                }
+            }
+        } catch {
+            completion(nil, error)
+        }
+    }
+
+    
+    //  MARK: - Contract `gls.vesting`
+    /// Action `transfer`
     static func publish(transferArgs: EOSTransaction.TransferArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
         
@@ -348,7 +413,9 @@ class EOSManager {
         }
     }
     
-    // EOS: contract `gls.social`, actions `pin`, `unpin`
+    
+    //  MARK: - Contract `gls.social`
+    /// Actions `pin`, `unpin`
     static func updateUserProfile(pinArgs: EOSTransaction.UserProfilePinArgs, isUnpin: Bool, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
         
@@ -377,7 +444,7 @@ class EOSManager {
         }
     }
     
-    // EOS: contract `gls.social`, actions `block`, `unblock`
+    /// Actions `block`, `unblock`
     static func updateUserProfile(blockArgs: EOSTransaction.UserProfileBlockArgs, isUnblock: Bool, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
         
@@ -406,58 +473,29 @@ class EOSManager {
         }
     }
     
-    // EOS: contract `gls.publish`, action `changereput`
-    private static func updateUserProfile(changereputArgs: EOSTransaction.UserProfileChangereputArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
-        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
-        
-        let userProfileChangereputTransaction = EOSTransaction.init(chainApi: EOSManager.chainApi)
-        
-        let userProfileChangereputTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name:     userNickName),
-                                                                                            permission:    AccountNameWriterValue(name:     "active"))
-        
-        let changereputArgsData = DataWriterValue(hex: changereputArgs.toHex())
-        
-        let changereputActionAbi = ActionAbi(account:         AccountNameWriterValue(name:    "gls.publish"),
-                                             name:            AccountNameWriterValue(name:    "changereput"),
-                                             authorization:   [userProfileChangereputTransactionAuthorizationAbi],
-                                             data:            changereputArgsData)
-        
-        do {
-            let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
-            
-            if let response = try userProfileChangereputTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [changereputActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
-                if response.success {
-                    completion(response, nil)
-                }
-            }
-        } catch {
-            completion(nil, error)
-        }
-    }
-    
-    // EOS: contract `gls.social`, action `updatemeta`
-    static func updateUserProfile(metaArgs: EOSTransaction.UserProfileUpdatemetaArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
+    /// Action `updatemeta`
+    static func update(userProfileMetaArgs: EOSTransaction.UserProfileUpdatemetaArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
         
         // JSON
-        print(metaArgs.convertToJSON())
+        print(userProfileMetaArgs.convertToJSON())
         
         let userProfileUpdatemetaTransaction = EOSTransaction.init(chainApi: EOSManager.chainApi)
         
         let userProfileUpdateTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name:  userNickName),
                                                                                        permission:    AccountNameWriterValue(name:  "active"))
         
-        let updatemetaArgsData = DataWriterValue(hex: metaArgs.toHex())
+        let userProfileUpdatemetaArgsData = DataWriterValue(hex: userProfileMetaArgs.toHex())
         
-        let updateActionAbi = ActionAbi(account:         AccountNameWriterValue(name:    "gls.social"),
-                                        name:            AccountNameWriterValue(name:    "updatemeta"),
-                                        authorization:   [userProfileUpdateTransactionAuthorizationAbi],
-                                        data:            updatemetaArgsData)
+        let userProfileUpdateActionAbi = ActionAbi(account:         AccountNameWriterValue(name:    "gls.social"),
+                                                   name:            AccountNameWriterValue(name:    "updatemeta"),
+                                                   authorization:   [userProfileUpdateTransactionAuthorizationAbi],
+                                                   data:            userProfileUpdatemetaArgsData)
         
         do {
             let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
             
-            if let response = try userProfileUpdatemetaTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [updateActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
+            if let response = try userProfileUpdatemetaTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [userProfileUpdateActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                 if response.success {
                     completion(response, nil)
                 }
@@ -467,24 +505,24 @@ class EOSManager {
         }
     }
     
-    // EOS: contract `gls.social`, action `deletemeta`
-    static func deleteUserProfile(metaArgs: EOSTransaction.UserProfileDeleteArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
+    // Action `deletemeta`
+    static func delete(userProfileMetaArgs: EOSTransaction.UserProfileDeleteArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         let userProfileDeletemetaTransaction = EOSTransaction.init(chainApi: EOSManager.chainApi)
         
         let userProfileDeleteTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name: Config.accountNickTest),
                                                                                        permission:    AccountNameWriterValue(name: "active"))
         
-        let deletemetaArgsData = DataWriterValue(hex: metaArgs.toHex())
+        let userProfileDeletemetaArgsData = DataWriterValue(hex: userProfileMetaArgs.toHex())
         
-        let deleteActionAbi = ActionAbi(account:         AccountNameWriterValue(name:    "gls.social"),
-                                        name:            AccountNameWriterValue(name:    "deletemeta"),
-                                        authorization:   [userProfileDeleteTransactionAuthorizationAbi],
-                                        data:            deletemetaArgsData)
+        let userProfileDeleteActionAbi = ActionAbi(account:         AccountNameWriterValue(name:    "gls.social"),
+                                                   name:            AccountNameWriterValue(name:    "deletemeta"),
+                                                   authorization:   [userProfileDeleteTransactionAuthorizationAbi],
+                                                   data:            userProfileDeletemetaArgsData)
         
         do {
             let privateKey = try EOSPrivateKey.init(base58: Config.activeKeyTest)
             
-            if let response = try userProfileDeletemetaTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [deleteActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
+            if let response = try userProfileDeletemetaTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [userProfileDeleteActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                 if response.success {
                     completion(response, nil)
                 }
@@ -494,7 +532,9 @@ class EOSManager {
         }
     }
 
-    // EOS: contract `gls.ctrl`, action `regwitness` (1)
+    
+    //  MARK: - Contract `gls.ctrl`
+    /// Action `regwitness` (1)
     static func reg(witnessArgs: EOSTransaction.RegwitnessArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let currentUserNickName = Config.currentUser.nickName, let currentUserActiveKey = Config.currentUser.activeKey else {
             completion(nil, NSError(domain: "Unauthorized".localized(), code: 401, userInfo: nil))
@@ -526,7 +566,7 @@ class EOSManager {
         }
     }
 
-    // EOS: contract `gls.ctrl`, action `votewitness` (2)
+    // Action `votewitness` (2)
     static func vote(witnessArgs: EOSTransaction.VotewitnessArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let currentUserNickName = Config.currentUser.nickName, let currentUserActiveKey = Config.currentUser.activeKey else {
             completion(nil, NSError(domain: "Unauthorized".localized(), code: 401, userInfo: nil))
@@ -558,7 +598,7 @@ class EOSManager {
         }
     }
 
-    // EOS: contract `gls.ctrl`, action `unvotewitn` (3)
+    // Action `unvotewitn` (3)
     static func unvote(witnessArgs: EOSTransaction.UnvotewitnessArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let currentUserNickName = Config.currentUser.nickName, let currentUserActiveKey = Config.currentUser.activeKey else {
             completion(nil, NSError(domain: "Unauthorized".localized(), code: 401, userInfo: nil))
@@ -590,7 +630,7 @@ class EOSManager {
         }
     }
     
-    // EOS: contract `gls.ctrl`, action `unregwitness` (4)
+    // Action `unregwitness` (4)
     static func unreg(witnessArgs: EOSTransaction.UnregwitnessArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let currentUserNickName = Config.currentUser.nickName, let currentUserActiveKey = Config.currentUser.activeKey else {
             completion(nil, NSError(domain: "Unauthorized".localized(), code: 401, userInfo: nil))
@@ -623,7 +663,7 @@ class EOSManager {
     }
     
     
-    /// HISTORY
+    // MARK: - HISTORY
     static func getTransaction(blockNumberHint: String) {
         _ = self.historyApi.getTransaction(body: GetTransaction(id: blockNumberHint)).subscribe(onSuccess: { response in
             if let info = response.body {
@@ -635,7 +675,4 @@ class EOSManager {
             }
         })
     }
-    
-    
-    /// DBSIZE
 }
