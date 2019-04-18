@@ -156,6 +156,14 @@ public class PhoneCode {
     class Kosovo: County {}
     class Kuwait: County {}
     class Kyrgyzstan: County {}
+    class Laos: County {}
+    class Latvia: County {}
+    class Lebanon: County {}
+    class Lesotho: County {}
+    class Liberia: County {}
+    class Libya: County {}
+    class Liechtenstein: County {}
+    class Luxembourg: County {}
 
 //    class Cameroon: County {}
 //    class Cameroon: County {}
@@ -304,6 +312,14 @@ public class PhoneCode {
                  Kosovo(codeValue: 383, shortCodeValue: "XK", labelValue: "Kosovo", flagURLString: "https://cdn.countryflags.com/thumbs/kosovo/flag-800.png"),
                  Kuwait(codeValue: 965, shortCodeValue: "KW", labelValue: "Kuwait", flagURLString: "https://cdn.countryflags.com/thumbs/kuwait/flag-800.png"),
                  Kyrgyzstan(codeValue: 996, shortCodeValue: "KG", labelValue: "Kyrgyzstan", flagURLString: "https://cdn.countryflags.com/thumbs/kyrgyzstan/flag-800.png"),
+                 Laos(codeValue: 856, shortCodeValue: "LA", labelValue: "Laos", flagURLString: "https://cdn.countryflags.com/thumbs/laos/flag-800.png"),
+                 Latvia(codeValue: 371, shortCodeValue: "LV", labelValue: "Latvia", flagURLString: "https://cdn.countryflags.com/thumbs/latvia/flag-800.png"),
+                 Lebanon(codeValue: 961, shortCodeValue: "LB", labelValue: "Lebanon", flagURLString: "https://cdn.countryflags.com/thumbs/lebanon/flag-800.png"),
+                 Lesotho(codeValue: 266, shortCodeValue: "LS", labelValue: "Lesotho", flagURLString: "https://cdn.countryflags.com/thumbs/lesotho/flag-800.png"),
+                 Liberia(codeValue: 231, shortCodeValue: "LR", labelValue: "Liberia", flagURLString: "https://cdn.countryflags.com/thumbs/liberia/flag-800.png"),
+                 Libya(codeValue: 218, shortCodeValue: "LY", labelValue: "Libya", flagURLString: "https://cdn.countryflags.com/thumbs/libya/flag-800.png"),
+                 Liechtenstein(codeValue: 423, shortCodeValue: "LI", labelValue: "Liechtenstein", flagURLString: "https://cdn.countryflags.com/thumbs/liechtenstein/flag-800.png"),
+                 Luxembourg(codeValue: 352, shortCodeValue: "LU", labelValue: "Luxembourg", flagURLString: "https://cdn.countryflags.com/thumbs/luxembourg/flag-800.png"),
 
                  
                  
@@ -339,84 +355,8 @@ public class PhoneCode {
     /*
      
      {
-     class Laos: County {}
-     Laos(codeValue: 856, shortCodeValue: "LA", labelValue: "Laos", flagURLString: "https://cdn.countryflags.com/thumbs/laos/flag-800.png"),
-     
-     "countryCode": "LA",
-     "countryName": "Laos",
-     "countryPhoneCode": 856,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/LA.png"
-     },
-     {
-     class Latvia: County {}
-     Latvia(codeValue: 371, shortCodeValue: "LV", labelValue: "Latvia", flagURLString: "https://cdn.countryflags.com/thumbs/latvia/flag-800.png"),
-     
-     "countryCode": "LV",
-     "countryName": "Latvia",
-     "countryPhoneCode": 371,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/LV.png"
-     },
-     {
-     class Lebanon: County {}
-     Lebanon(codeValue: 961, shortCodeValue: "LB", labelValue: "Lebanon", flagURLString: "https://cdn.countryflags.com/thumbs/lebanon/flag-800.png"),
-     
-     "countryCode": "LB",
-     "countryName": "Lebanon",
-     "countryPhoneCode": 961,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/LB.png"
-     },
-     {
-     class Lesotho: County {}
-     Lesotho(codeValue: 266, shortCodeValue: "LS", labelValue: "Lesotho", flagURLString: "https://cdn.countryflags.com/thumbs/lesotho/flag-800.png"),
-     
-     "countryCode": "LS",
-     "countryName": "Lesotho",
-     "countryPhoneCode": 266,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/LS.png"
-     },
-     {
-     class Liberia: County {}
-     Liberia(codeValue: 231, shortCodeValue: "LR", labelValue: "Liberia", flagURLString: "https://cdn.countryflags.com/thumbs/liberia/flag-800.png"),
-     
-     "countryCode": "LR",
-     "countryName": "Liberia",
-     "countryPhoneCode": 231,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/LR.png"
-     },
-     {
-     class Libya: County {}
-     Libya(codeValue: 218, shortCodeValue: "LY", labelValue: "Libya", flagURLString: "https://cdn.countryflags.com/thumbs/libya/flag-800.png"),
-     
-     "countryCode": "LY",
-     "countryName": "Libya",
-     "countryPhoneCode": 218,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/LY.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "LI",
-     "countryName": "Liechtenstein",
-     "countryPhoneCode": 423,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/LI.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "LU",
-     "countryName": "Luxembourg",
-     "countryPhoneCode": 352,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/LU.png"
-     },
-
-     
-     
-     
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+     class Macau: County {}
+     Macau(codeValue: 853, shortCodeValue: "MO", labelValue: "Macau", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Flag_of_Macau.svg/2560px-Flag_of_Macau.svg.png"),
      
      "countryCode": "MO",
      "countryName": "Macau",
@@ -424,8 +364,8 @@ public class PhoneCode {
      "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MO.png"
      },
      {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+     class Macedonia: County {}
+     Macedonia(codeValue: 389, shortCodeValue: "MK", labelValue: "Macedonia", flagURLString: "https://cdn.countryflags.com/thumbs/macedonia/flag-800.png"),
      
      "countryCode": "MK",
      "countryName": "Macedonia",
@@ -433,8 +373,8 @@ public class PhoneCode {
      "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MK.png"
      },
      {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+     class Madagascar: County {}
+     Madagascar(codeValue: 261, shortCodeValue: "MG", labelValue: "Madagascar", flagURLString: "https://cdn.countryflags.com/thumbs/madagascar/flag-800.png"),
      
      "countryCode": "MG",
      "countryName": "Madagascar",
@@ -442,8 +382,8 @@ public class PhoneCode {
      "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MG.png"
      },
      {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+     class Malawi: County {}
+     Malawi(codeValue: 265, shortCodeValue: "MW", labelValue: "Malawi", flagURLString: "https://cdn.countryflags.com/thumbs/malawi/flag-800.png"),
      
      "countryCode": "MW",
      "countryName": "Malawi",
@@ -451,8 +391,8 @@ public class PhoneCode {
      "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MW.png"
      },
      {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+     class Malaysia: County {}
+     Malaysia(codeValue: 60, shortCodeValue: "MY", labelValue: "Malaysia", flagURLString: "https://cdn.countryflags.com/thumbs/malaysia/flag-800.png"),
      
      "countryCode": "MY",
      "countryName": "Malaysia",
@@ -460,8 +400,8 @@ public class PhoneCode {
      "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MY.png"
      },
      {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+     class Maldives: County {}
+     Maldives(codeValue: 960, shortCodeValue: "MV", labelValue: "Maldives", flagURLString: "https://cdn.countryflags.com/thumbs/maldives/flag-800.png"),
      
      "countryCode": "MV",
      "countryName": "Maldives",
@@ -469,8 +409,8 @@ public class PhoneCode {
      "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MV.png"
      },
      {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+     class Mali: County {}
+     Mali(codeValue: 223, shortCodeValue: "ML", labelValue: "Mali", flagURLString: "https://cdn.countryflags.com/thumbs/mali/flag-800.png"),
      
      "countryCode": "ML",
      "countryName": "Mali",
@@ -478,8 +418,8 @@ public class PhoneCode {
      "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/ML.png"
      },
      {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+     class Malta: County {}
+     Malta(codeValue: 356, shortCodeValue: "MT", labelValue: "Malta", flagURLString: "https://cdn.countryflags.com/thumbs/malta/flag-800.png"),
      
      "countryCode": "MT",
      "countryName": "Malta",
@@ -487,8 +427,8 @@ public class PhoneCode {
      "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MT.png"
      },
      {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+     class MarshallIslands: County {}
+     MarshallIslands(codeValue: 692, shortCodeValue: "MH", labelValue: "Marshall Islands", flagURLString: "https://cdn.countryflags.com/thumbs/marshall-islands/flag-800.png"),
      
      "countryCode": "MH",
      "countryName": "Marshall Islands",
@@ -496,8 +436,8 @@ public class PhoneCode {
      "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MH.png"
      },
      {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+     class Martinique: County {}
+     Martinique(codeValue: 596, shortCodeValue: "MQ", labelValue: "Martinique", flagURLString: "http://www.geognos.com/api/en/countries/flag/MQ.png"),
      
      "countryCode": "MQ",
      "countryName": "Martinique",
@@ -505,8 +445,8 @@ public class PhoneCode {
      "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MQ.png"
      },
      {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+     class Mauritania: County {}
+     Mauritania(codeValue: 222, shortCodeValue: "MR", labelValue: "Mauritania", flagURLString: "https://cdn.countryflags.com/thumbs/mauritania/flag-800.png"),
      
      "countryCode": "MR",
      "countryName": "Mauritania",
@@ -514,8 +454,8 @@ public class PhoneCode {
      "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MR.png"
      },
      {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+     class Mauritius: County {}
+     Mauritius(codeValue: 230, shortCodeValue: "MU", labelValue: "Mauritius", flagURLString: "https://cdn.countryflags.com/thumbs/mauritius/flag-800.png"),
      
      "countryCode": "MU",
      "countryName": "Mauritius",
@@ -523,8 +463,8 @@ public class PhoneCode {
      "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MU.png"
      },
      {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+     class Mayotte: County {}
+     Mayotte(codeValue: 262, shortCodeValue: "YT", labelValue: "Mayotte", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Flag_of_Mayotte_%28local%29.svg/2560px-Flag_of_Mayotte_%28local%29.svg.png"),
      
      "countryCode": "YT",
      "countryName": "Mayotte",
@@ -532,8 +472,8 @@ public class PhoneCode {
      "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/YT.png"
      },
      {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+     class Mexico: County {}
+     Mexico(codeValue: 52, shortCodeValue: "MX", labelValue: "Mexico", flagURLString: "https://cdn.countryflags.com/thumbs/mexico/flag-800.png"),
      
      "countryCode": "MX",
      "countryName": "Mexico",
