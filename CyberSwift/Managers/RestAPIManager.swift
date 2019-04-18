@@ -480,22 +480,22 @@ public class RestAPIManager {
     }
     
     /// Action `createmssg`
-    public func publish(message: String, headline: String? = "", parentData: ParentData? = nil, tags: [String]?, metaData: String?, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
+    public func create(message: String, headline: String? = "", parentData: ParentData? = nil, tags: [String]?, metaData: String?, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             let arrayTags = tags == nil ? [EOSTransaction.Tags()] : tags!.map({ EOSTransaction.Tags.init(tagValue: $0) })
             
-            EOSManager.publish(message:         message,
-                               headline:        String(format: "Test Post Title %i", arc4random_uniform(100)),
-                               tags:            arrayTags,
-                               jsonMetaData:    metaData,
-                               completion:      { (response, error) in
+            EOSManager.create(message:         message,
+                              headline:        headline ?? String(format: "Test Post Title %i", arc4random_uniform(100)),
+                              tags:            arrayTags,
+                              jsonMetaData:    metaData,
+                              completion:      { (response, error) in
                                 guard error == nil else {
                                     completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
                                     return
                                 }
                                 
                                 completion(response, nil)
-
+                                
 //                                if response!.success, response!.statusCode == 202, let refBlockNum = res, let permlink = response?.body?.processed.action_traces.first?.act.data["permlink"]?.jsonValue as? String {
 //                                    print(permlink)
 //                                    self.createCommentMessage(parentData: ParentData(refBlockNum: UInt64, permlink: permlink))

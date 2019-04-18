@@ -23,6 +23,8 @@
 - add 'embeds' in ResponseAPI
 
 ### API 'content.getComments' by post
+* 18.04.2019:
+- change 'refBlockNum' type: String -> UInt64
 
 ### API 'push.historyFresh'
 
