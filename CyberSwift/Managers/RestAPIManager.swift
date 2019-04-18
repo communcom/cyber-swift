@@ -305,6 +305,26 @@ public class RestAPIManager {
             completion(nil, errorAPI)
         }
     }
+    
+    // API `notify.markAllAsViewed`
+    public func notifyMarkAllAsViewed(completion: @escaping (ResponseAPINotifyMarkAllAsViewed?, ErrorAPI?) -> Void) {
+        if (!Config.isNetworkAvailable) {return completion(nil, ErrorAPI.disableInternetConnection(message: nil))}
+        
+        let methodAPIType = MethodAPIType.notifyMarkAllAsViewed
+        
+        Broadcast.instance.executeGETRequest(byContentAPIType: methodAPIType, onResult: { (responseAPIResult) in
+            Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
+            guard let result = (responseAPIResult as! ResponseAPINotifyMarkAllAsViewedResult).result else {
+                completion(nil, ErrorAPI.requestFailed(message: "API \'onlineNotify.historyFresh\' have error: \((responseAPIResult as! ResponseAPINotifyMarkAllAsViewedResult).error!.message)"))
+                return
+            }
+            completion(result, nil)
+        }) { (errorAPI) in
+            Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
+            
+            completion(nil, errorAPI)
+        }
+    }
 
     
     // MARK: - REGISTRATION-SERVICE

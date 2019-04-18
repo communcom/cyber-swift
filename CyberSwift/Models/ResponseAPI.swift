@@ -660,6 +660,7 @@ public struct ResponseAPIOnlineNotificationData: Decodable {
     public let actor: ResponseAPIOnlineNotificationDataActor?
     public let post: ResponseAPIOnlineNotificationDataPost?
     public let comment: ResponseAPIOnlineNotificationDataComment?
+    public let value: ResponseAPIOnlineNotificationDataValue?
     
 }
 
@@ -695,6 +696,11 @@ public struct ResponseAPIOnlineNotificationDataCommentContentId: Decodable {
     public let refBlockNum: Int64
 }
 
+public struct ResponseAPIOnlineNotificationDataValue: Decodable {
+    public let amount: String
+    public let currency: String
+}
+
 // MARK: - onlineNotify.historyFresh
 public struct ResponseAPIOnlineNotifyHistoryFreshResult: Decodable {
     public let jsonrpc: String
@@ -723,4 +729,16 @@ public struct ResponseAPIOnlineNotifyHistoryFreshFreshByTypes: Decodable {
     public let message: UInt16
     public let witnessVote: UInt16
     public let witnessCancelVote: UInt16
+}
+
+// MARK: - notify.markAllAsViewed
+public struct ResponseAPINotifyMarkAllAsViewedResult: Decodable {
+    public let jsonrpc: String
+    public let id: UInt16
+    public let result: ResponseAPINotifyMarkAllAsViewed?
+    public let error: ResponseAPIError?
+}
+
+public struct ResponseAPINotifyMarkAllAsViewed: Decodable {
+    public let status: String
 }
