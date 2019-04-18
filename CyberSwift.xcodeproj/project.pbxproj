@@ -28,6 +28,7 @@
 		B1C3F869223F9907005711EF /* ErrorAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3F865223F9906005711EF /* ErrorAPI.swift */; };
 		B1C3F86A223F9907005711EF /* ResponseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3F866223F9906005711EF /* ResponseAPI.swift */; };
 		B1C3F86B223F9907005711EF /* MethodAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3F867223F9907005711EF /* MethodAPI.swift */; };
+		B1CE5CFC22677C0000731FD0 /* API.md in Resources */ = {isa = PBXBuildFile; fileRef = B1CE5CFB22677C0000731FD0 /* API.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,7 @@
 		B1C3F867223F9907005711EF /* MethodAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MethodAPI.swift; sourceTree = "<group>"; };
 		B1C3F86F223F993F005711EF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B1C3F871223F9962005711EF /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B1CE5CFB22677C0000731FD0 /* API.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = API.md; sourceTree = "<group>"; };
 		F6ED672114DF191DC66860EA /* Pods_CyberSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CyberSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -97,6 +99,7 @@
 			children = (
 				B19D9637223F913900557F5A /* LICENSE.md */,
 				B19D9639223F914100557F5A /* README.md */,
+				B1CE5CFB22677C0000731FD0 /* API.md */,
 				B18EBB2F223F8F8800F52D3C /* CyberSwift */,
 				B18EBB2E223F8F8800F52D3C /* Products */,
 				75F3EB65C5A22587C3A36A98 /* Pods */,
@@ -246,6 +249,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B1CE5CFC22677C0000731FD0 /* API.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

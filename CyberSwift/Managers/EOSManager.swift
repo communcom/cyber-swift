@@ -155,7 +155,7 @@ class EOSManager {
     
     /// Action `createmssg`
     // https://github.com/GolosChain/golos.contracts/blob/master/golos.publication/golos.publication.abi#L238-L291
-    static func publish(message: String, headline: String = "", parentData: ParentData? = nil, tags: [EOSTransaction.Tags], jsonMetaData: String?, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
+    static func create(message: String, headline: String = "", parentData: ParentData? = nil, tags: [EOSTransaction.Tags], jsonMetaData: String?, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
         
         EOSManager.getChainInfo(completion: { (info, error) in
