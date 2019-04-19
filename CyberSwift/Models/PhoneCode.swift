@@ -505,8 +505,8 @@ public class PhoneCode {
      "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SN.png"
      },
      {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+     class Serbia: County {}
+     Serbia(codeValue: 381, shortCodeValue: "RS", labelValue: "Serbia", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Flag_of_Serbia.svg/2560px-Flag_of_Serbia.svg.png"),
      
      "countryCode": "RS",
      "countryName": "Serbia",
@@ -514,8 +514,8 @@ public class PhoneCode {
      "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/RS.png"
      },
      {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+     class Seychelles: County {}
+     Seychelles(codeValue: 248, shortCodeValue: "SC", labelValue: "Seychelles", flagURLString: "https://cdn.countryflags.com/thumbs/seychelles/flag-800.png"),
      
      "countryCode": "SC",
      "countryName": "Seychelles",
@@ -523,8 +523,8 @@ public class PhoneCode {
      "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SC.png"
      },
      {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+     class SierraLeone: County {}
+     SierraLeone(codeValue: 232, shortCodeValue: "SL", labelValue: "Sierra Leone", flagURLString: "https://cdn.countryflags.com/thumbs/sierra-leone/flag-800.png"),
      
      "countryCode": "SL",
      "countryName": "Sierra Leone",
@@ -532,8 +532,8 @@ public class PhoneCode {
      "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SL.png"
      },
      {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+     class Singapore: County {}
+     Singapore(codeValue: 65, shortCodeValue: "SG", labelValue: "Singapore", flagURLString: "https://cdn.countryflags.com/thumbs/singapore/flag-800.png"),
      
      "countryCode": "SG",
      "countryName": "Singapore",
@@ -541,8 +541,8 @@ public class PhoneCode {
      "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SG.png"
      },
      {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+     class SintMaarten: County {}
+     SintMaarten(codeValue: 1, shortCodeValue: "SX", labelValue: "Sint Maarten", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Flag_of_Sint_Maarten.svg/2560px-Flag_of_Sint_Maarten.svg.png"),
      
      "countryCode": "SX",
      "countryName": "Sint Maarten",

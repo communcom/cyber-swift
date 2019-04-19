@@ -87,8 +87,8 @@ public struct GSBase58 {
         
         for c in string where c != " " {
             // search for base58 character
-            guard let base58Index = base58Alphabet.index(of: c) else { return [] }
-            
+            guard let base58Index = base58Alphabet.firstIndex(of: c) else { return [] }
+
             var carry = base58Index.encodedOffset
             var i = 0
             
