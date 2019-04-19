@@ -415,8 +415,8 @@ public class PhoneCode {
      "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BL.png"
      },
      {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+     class SaintHelena: County {}
+     SaintHelena(codeValue: 290, shortCodeValue: "SH", labelValue: "Saint Helena", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Flag_of_Saint_Helena.svg/2880px-Flag_of_Saint_Helena.svg.png"),
      
      "countryCode": "SH",
      "countryName": "Saint Helena",
@@ -424,8 +424,8 @@ public class PhoneCode {
      "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SH.png"
      },
      {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+     class SaintKittsNevis: County {}
+     SaintKittsNevis(codeValue: 1, shortCodeValue: "KN", labelValue: "Saint Kitts and Nevis", flagURLString: "https://cdn.countryflags.com/thumbs/saint-kitts-and-nevis/flag-800.png"),
      
      "countryCode": "KN",
      "countryName": "Saint Kitts and Nevis",

@@ -195,6 +195,9 @@ public class WebSocketManager {
 
             case .setUser(_):
                 return (responseAPI: try JSONDecoder().decode(ResponseAPIRegistrationSetUsernameResult.self, from: jsonData), errorAPI: nil)
+                
+            case .toBlockChain(_):
+                return (responseAPI: try JSONDecoder().decode(ResponseAPIRegistrationToBlockChainResult.self, from: jsonData), errorAPI: nil)
             }
         } catch {
             Logger.log(message: "\(error)", event: .error)

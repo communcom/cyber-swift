@@ -44,6 +44,9 @@
 
 ### API 'registration.resendSmsCode'
 
+### API 'registration.resendSmsCode'
+*19.04.2019:
+- create API
 
 
 ## Contracts

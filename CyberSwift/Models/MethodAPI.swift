@@ -133,7 +133,7 @@ public indirect enum MethodAPIType {
     case resendSmsCode(phone: String, isDebugMode: Bool)
     
     //  The last step of registration, entry in the blockchain
-//    case toBlockChain()
+    case toBlockChain(nickName: String, keys: [UserKeys])
 
     
     /// This method return request parameters from selected enum case.
@@ -325,19 +325,30 @@ public indirect enum MethodAPIType {
                      methodName:        "resendSmsCode",
                      parameters:        parameters)
 
-        //  Debug template      { "id": 6, "jsonrpc": "2.0", "method": "registration.toBlockChain", "params": { "user": "tester", "phone": "+70000000000", "testingPass": "DpQad16yDlllEy6" }}
-        //  Release template    { "id": 6, "jsonrpc": "2.0", "method": "registration.toBlockChain", "params": { "user": "tester", "phone": "+70000000000" }}
-//        case .toBlockChain(let nameValue, let phoneValue, let isDebugMode):
-//            var parameters = ["phone": phoneValue, "user": nameValue]
-//
-//            if isDebugMode {
-//                parameters["testingPass"] = Config.testingPassword
-//            }
-//
-//            return  (methodAPIType:     self,
-//                     methodGroup:       MethodAPIGroup.registration.rawValue,
-//                     methodName:        "setUsername",
-//                     parameters:        parameters)
+            //  Template    { "id": 6, "jsonrpc": "2.0", "method": "registration.toBlockChain", "params": { "user": "tester", "owber": "5HtBPHEhgRmZpAR7EtF3NwG5wVzotNGHBBFo8CF6kucwqeiatpw", "active": "5K4bqcDKtveY8JA3saNkqmCsv18JQsxKf7LGU27nLPzigCmCK69", "posting": "5KPcWDsxka9MEZYBspFqFJueq2L7hgFxWTNkhxoqf1iFYJwZXYD", "memo": "5Kgn17ZFaJVzYVY3Mc8H99MuwqhECA7EWwkbDC7EZgFAjHAEtvS" }}
+        case .toBlockChain(let nickNameValue, let keysValues):
+            var parameters = ["user": nickNameValue]
+
+            if let ownerUserKey = keysValues.first(where: { $0.type == "owner" }) {
+                parameters["owner"] = ownerUserKey.publicKey
+            }
+
+            if let activeUserKey = keysValues.first(where: { $0.type == "active" }) {
+                parameters["active"] = activeUserKey.publicKey
+            }
+
+            if let postingUserKey = keysValues.first(where: { $0.type == "posting" }) {
+                parameters["posting"] = postingUserKey.publicKey
+            }
+
+            if let memoUserKey = keysValues.first(where: { $0.type == "memo" }) {
+                parameters["memo"] = memoUserKey.publicKey
+            }
+            
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.registration.rawValue,
+                     methodName:        "toBlockChain",
+                     parameters:        parameters)
             
         } // switch
     }

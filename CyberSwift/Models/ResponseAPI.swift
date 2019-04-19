@@ -620,6 +620,23 @@ public struct ResponseAPIResendSmsCode: Decodable {
 
 
 // MARK: -
+public struct ResponseAPIRegistrationToBlockChainResult: Decodable {
+    // MARK: - In work API `registration.toBlockChain`
+    public let id: Int64
+    public let jsonrpc: String
+    public let result: ResponseAPIRegistrationToBlockChain?
+    public let error: ResponseAPIError?
+}
+
+
+// MARK: -
+public struct ResponseAPIRegistrationToBlockChain: Decodable {
+    // MARK: - In work API `registration.toBlockChain`
+    public let status: String
+}
+
+
+// MARK: -
 public struct ResponseAPIPushHistoryFreshResult: Decodable {
     // MARK: - In work API `push.historyFresh`
     public let id: Int64
@@ -632,9 +649,11 @@ public struct ResponseAPIPushHistoryFreshResult: Decodable {
 // MARK: -
 public struct ResponseAPIPushHistoryFresh: Decodable {
     // MARK: - In work API `push.historyFresh`
-    //    public let status: String
+//    public let status: String
 }
 
+
+// MARK: -
 public struct ResponseAPIOnlineNotifyHistoryResult: Decodable {
     // MARK: - In work API `onlineNotify.history`
     public let jsonrpc: String
@@ -642,13 +661,16 @@ public struct ResponseAPIOnlineNotifyHistoryResult: Decodable {
     public let error: ResponseAPIError?
 }
 
-// MARK: - onlineNotify.history
+
+// MARK: -
 public struct ResponseAPIOnlineNotifyHistory: Decodable {
     // MARK: - In work API `onlineNotify.history`
     public let total: Int64
     public let data: [ResponseAPIOnlineNotificationData]
 }
 
+
+// MARK: -
 public struct ResponseAPIOnlineNotificationData: Decodable {
     public let _id: String
     public let timestamp: String
@@ -664,32 +686,44 @@ public struct ResponseAPIOnlineNotificationData: Decodable {
     
 }
 
+
+// MARK: -
 public struct ResponseAPIOnlineNotificationDataComunity: Decodable {
     public let id: String
     public let name: String
 }
 
+
+// MARK: -
 public struct ResponseAPIOnlineNotificationDataActor: Decodable {
     public let id: String
     public let avatarUrl: String?
 }
 
+
+// MARK: -
 public struct ResponseAPIOnlineNotificationDataPost: Decodable {
     public let contentId: ResponseAPIOnlineNotificationDataPostContentId
     public let title: String
 }
 
+
+// MARK: -
 public struct ResponseAPIOnlineNotificationDataPostContentId: Decodable {
     public let userId: String
     public let permlink: String
     public let refBlockNum: UInt64
 }
 
+
+// MARK: -
 public struct ResponseAPIOnlineNotificationDataComment: Decodable {
     public let contentId: ResponseAPIOnlineNotificationDataCommentContentId
     public let body: String
 }
 
+
+// MARK: -
 public struct ResponseAPIOnlineNotificationDataCommentContentId: Decodable {
     public let userId: String
     public let permlink: String
@@ -701,7 +735,7 @@ public struct ResponseAPIOnlineNotificationDataValue: Decodable {
     public let currency: String
 }
 
-// MARK: - onlineNotify.historyFresh
+// MARK: -
 public struct ResponseAPIOnlineNotifyHistoryFreshResult: Decodable {
     public let jsonrpc: String
     public let id: UInt64
@@ -709,11 +743,15 @@ public struct ResponseAPIOnlineNotifyHistoryFreshResult: Decodable {
     public let error: ResponseAPIError?
 }
 
+
+// MARK: -
 public struct ResponseAPIOnlineNotifyHistoryFresh: Decodable {
     public let fresh: UInt16
     public let freshByTypes: ResponseAPIOnlineNotifyHistoryFreshFreshByTypes?
 }
 
+
+// MARK: -
 public struct ResponseAPIOnlineNotifyHistoryFreshFreshByTypes: Decodable {
     public let summary: UInt16
     public let upvote: UInt16

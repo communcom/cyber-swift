@@ -506,7 +506,36 @@ public class RestAPIManager {
             completion(nil, ErrorAPI.disableInternetConnection(message: nil))
         }
     }
-    
+
+    // API `registration.toBlockChain`
+    public func toBlockChain(nickName: String, keys: [UserKeys], completion: @escaping (ResponseAPIRegistrationToBlockChain?, ErrorAPI?) -> Void) {
+        if Config.isNetworkAvailable {
+            let methodAPIType = MethodAPIType.toBlockChain(nickName: nickName, keys: keys)
+            
+            Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                                 onResult:          { responseAPIResult in
+                                                    Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
+                                                    
+                                                    guard let result = (responseAPIResult as! ResponseAPIRegistrationToBlockChainResult).result else {
+                                                        completion(nil, ErrorAPI.requestFailed(message: "API post \'registration.toBlockChain\' have error: \((responseAPIResult as! ResponseAPIRegistrationToBlockChainResult).error!.message)"))
+                                                        return
+                                                    }
+                                                    
+                                                    completion(result, nil)
+            },
+                                                 onError: { errorAPI in
+                                                    Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
+                                                    
+                                                    completion(nil, errorAPI)
+            })
+        }
+            
+        // Offline mode
+        else {
+            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
+        }
+    }
+
     
     //  MARK: - Contract `gls.publish`
     /// Actions `upvote`, `downvote`, `unvote`
