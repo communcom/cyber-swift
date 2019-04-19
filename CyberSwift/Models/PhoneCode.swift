@@ -433,8 +433,8 @@ public class PhoneCode {
      "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/KN.png"
      },
      {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+     class SaintMartin: County {}
+     SaintMartin(codeValue: 590, shortCodeValue: "MF", labelValue: "Saint Martin", flagURLString: "http://www.geognos.com/api/en/countries/flag/MF.png"),
      
      "countryCode": "MF",
      "countryName": "Saint Martin",
@@ -442,8 +442,8 @@ public class PhoneCode {
      "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MF.png"
      },
      {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+     class SaintPierreMiquelon: County {}
+     SaintPierreMiquelon(codeValue: 508, shortCodeValue: "PM", labelValue: "Saint Pierre and Miquelon", flagURLString: "https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Flag_of_France.svg/2560px-Flag_of_France.svg.png"),
      
      "countryCode": "PM",
      "countryName": "Saint Pierre and Miquelon",
