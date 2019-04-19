@@ -46,7 +46,7 @@ public class RestAPIManager {
             brainKeyBytesSha256     +=  checksumSha256Bytes
             
             if let privateKey = PrivateKey(brainKeyBytesSha256.base58EncodedString) {
-                let publicKey = privateKey.createPublic(prefix: PublicKey.AddressPrefix.init(stringLiteral: "EOS"))
+                let publicKey = privateKey.createPublic(prefix: PublicKey.AddressPrefix.mainNet)
                 userKeys.append((type: keyType.rawValue, privateKey: privateKey.description, publicKey: publicKey.description))
             }
         }
