@@ -451,8 +451,8 @@ public class PhoneCode {
      "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PM.png"
      },
      {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+     class SaintVincentGrenadines: County {}
+     SaintVincentGrenadines(codeValue: 1, shortCodeValue: "VC", labelValue: "Saint Vincent and the Grenadines", flagURLString: "https://cdn.countryflags.com/thumbs/saint-vincent-and-the-grenadines/flag-800.png"),
      
      "countryCode": "VC",
      "countryName": "Saint Vincent and the Grenadines",
@@ -460,8 +460,8 @@ public class PhoneCode {
      "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/VC.png"
      },
      {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+     class Samoa: County {}
+     Samoa(codeValue: 685, shortCodeValue: WS"", labelValue: "Samoa", flagURLString: "https://cdn.countryflags.com/thumbs/samoa/flag-800.png"),
      
      "countryCode": "WS",
      "countryName": "Samoa",
@@ -469,8 +469,8 @@ public class PhoneCode {
      "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/WS.png"
      },
      {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+     class SanMarino: County {}
+     SanMarino(codeValue: 378, shortCodeValue: "SM", labelValue: "San Marino", flagURLString: "https://cdn.countryflags.com/thumbs/san-marino/flag-800.png"),
      
      "countryCode": "SM",
      "countryName": "San Marino",
@@ -478,8 +478,8 @@ public class PhoneCode {
      "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SM.png"
      },
      {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+     class SaoTomePrincipe: County {}
+     SaoTomePrincipe(codeValue: 239, shortCodeValue: "ST", labelValue: "Sao Tome and Principe", flagURLString: "https://cdn.countryflags.com/thumbs/sao-tome-and-principe/flag-800.png"),
      
      "countryCode": "ST",
      "countryName": "Sao Tome and Principe",
@@ -487,8 +487,8 @@ public class PhoneCode {
      "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/ST.png"
      },
      {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+     class SaudiArabia: County {}
+     SaudiArabia(codeValue: 966, shortCodeValue: "SA", labelValue: "Saudi Arabia", flagURLString: "https://cdn.countryflags.com/thumbs/saudi-arabia/flag-800.png"),
      
      "countryCode": "SA",
      "countryName": "Saudi Arabia",
@@ -496,8 +496,8 @@ public class PhoneCode {
      "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SA.png"
      },
      {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+     class Senegal: County {}
+     Senegal(codeValue: 221, shortCodeValue: "SN", labelValue: "Senegal", flagURLString: "https://cdn.countryflags.com/thumbs/senegal/flag-800.png"),
      
      "countryCode": "SN",
      "countryName": "Senegal",

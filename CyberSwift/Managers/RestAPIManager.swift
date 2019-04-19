@@ -31,7 +31,7 @@ public class RestAPIManager {
     
     
     // MARK: - Class Functions
-    public func generate(keyTypes: [UserKeyType], nickName: String, password: String) -> [UserKeys] {
+    private func generate(keyTypes: [UserKeyType], nickName: String, password: String) -> [UserKeys] {
         var userKeys: [UserKeys] = [UserKeys]()
         
         for keyType in keyTypes {
@@ -508,9 +508,13 @@ public class RestAPIManager {
     }
 
     // API `registration.toBlockChain`
-    public func toBlockChain(nickName: String, keys: [UserKeys], completion: @escaping (Bool, ErrorAPI?) -> Void) {
+    public func toBlockChain(nickName: String, completion: @escaping (Bool, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
-            let methodAPIType = MethodAPIType.toBlockChain(nickName: nickName, keys: keys)
+            let userkeys = RestAPIManager.instance.generate(keyTypes:   [.owner, .active, .posting, .memo],
+                                                            nickName:   nickName,
+                                                            password:   String.randomString(length: 12))
+
+            let methodAPIType = MethodAPIType.toBlockChain(nickName: nickName, keys: userkeys)
             
             Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                                  onResult:          { responseAPIResult in
@@ -522,10 +526,10 @@ public class RestAPIManager {
                                                     }
                                                     
                                                     // Save in Keychain
-                                                    let ownerUserKeys   =   keys.first(where: { $0.type == "owner" })
-                                                    let activeUserKeys  =   keys.first(where: { $0.type == "active" })
-                                                    let postingUserKeys =   keys.first(where: { $0.type == "posting" })
-                                                    let memoUserKeys    =   keys.first(where: { $0.type == "memo" })
+                                                    let ownerUserKeys   =   userkeys.first(where: { $0.type == "owner" })
+                                                    let activeUserKeys  =   userkeys.first(where: { $0.type == "active" })
+                                                    let postingUserKeys =   userkeys.first(where: { $0.type == "posting" })
+                                                    let memoUserKeys    =   userkeys.first(where: { $0.type == "memo" })
 
                                                     Config.currentUser  =   (nickName: nickName, activeKey: activeUserKeys!.privateKey)
                                                     
