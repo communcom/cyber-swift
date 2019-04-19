@@ -508,7 +508,7 @@ public class RestAPIManager {
     }
 
     // API `registration.toBlockChain`
-    public func toBlockChain(nickName: String, keys: [UserKeys], completion: @escaping (ResponseAPIRegistrationToBlockChain?, ErrorAPI?) -> Void) {
+    public func toBlockChain(nickName: String, keys: [UserKeys], completion: @escaping (Bool, ErrorAPI?) -> Void) {
         if Config.isNetworkAvailable {
             let methodAPIType = MethodAPIType.toBlockChain(nickName: nickName, keys: keys)
             
@@ -516,23 +516,36 @@ public class RestAPIManager {
                                                  onResult:          { responseAPIResult in
                                                     Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
                                                     
-                                                    guard let result = (responseAPIResult as! ResponseAPIRegistrationToBlockChainResult).result else {
-                                                        completion(nil, ErrorAPI.requestFailed(message: "API post \'registration.toBlockChain\' have error: \((responseAPIResult as! ResponseAPIRegistrationToBlockChainResult).error!.message)"))
+                                                    guard (responseAPIResult as! ResponseAPIRegistrationToBlockChainResult).result != nil else {
+                                                        completion(false, ErrorAPI.requestFailed(message: "API post \'registration.toBlockChain\' have error: \((responseAPIResult as! ResponseAPIRegistrationToBlockChainResult).error!.message)"))
                                                         return
                                                     }
+                                                    
+                                                    // Save in Keychain
+                                                    let ownerUserKeys   =   keys.first(where: { $0.type == "owner" })
+                                                    let activeUserKeys  =   keys.first(where: { $0.type == "active" })
+                                                    let postingUserKeys =   keys.first(where: { $0.type == "posting" })
+                                                    let memoUserKeys    =   keys.first(where: { $0.type == "memo" })
+
+                                                    Config.currentUser  =   (nickName: nickName, activeKey: activeUserKeys!.privateKey)
+                                                    
+                                                    let result: Bool    =   KeychainManager.save(data: [Config.currentUserOwnerKey: ownerUserKeys!], userNickName: nickName) &&
+                                                                            KeychainManager.save(data: [Config.currentUserActiveKey: activeUserKeys!], userNickName: nickName) &&
+                                                                            KeychainManager.save(data: [Config.currentUserPostingKey: postingUserKeys!], userNickName: nickName) &&
+                                                                            KeychainManager.save(data: [Config.currentUserMemoKey: memoUserKeys!], userNickName: nickName)
                                                     
                                                     completion(result, nil)
             },
                                                  onError: { errorAPI in
                                                     Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
                                                     
-                                                    completion(nil, errorAPI)
+                                                    completion(false, errorAPI)
             })
         }
             
         // Offline mode
         else {
-            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
+            completion(false, ErrorAPI.disableInternetConnection(message: nil))
         }
     }
 
