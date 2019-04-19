@@ -11,17 +11,17 @@
 		3BCDB40B2260E9C300739F7E /* Bool+Parameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCDB40A2260E9C300739F7E /* Bool+Parameter.swift */; };
 		B111B5BB224E1B5A00F84AD9 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B111B5BA224E1B5A00F84AD9 /* KeychainManager.swift */; };
 		B1677C66223F9BD7005FB286 /* RestAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1677C65223F9BD7005FB286 /* RestAPIManager.swift */; };
-		B179915D2268BB300014CB44 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B179915C2268BB300014CB44 /* Array+Extensions.swift */; };
-		B179916022699D080014CB44 /* PrivateKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = B179915E22699D070014CB44 /* PrivateKey.swift */; };
-		B179916122699D080014CB44 /* PublicKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = B179915F22699D070014CB44 /* PublicKey.swift */; };
-		B179916322699EA10014CB44 /* GSBase58.swift in Sources */ = {isa = PBXBuildFile; fileRef = B179916222699EA10014CB44 /* GSBase58.swift */; };
-		B17991652269A3660014CB44 /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17991642269A3660014CB44 /* Data+Extensions.swift */; };
-		B17991682269A3DC0014CB44 /* Secp256k1.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17991662269A3DA0014CB44 /* Secp256k1.swift */; };
-		B17991692269A3DC0014CB44 /* SteemEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17991672269A3DB0014CB44 /* SteemEncoder.swift */; };
-		B179916B2269A4B10014CB44 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = B179916A2269A4B00014CB44 /* Random.swift */; };
+		B179916E2269B3EB0014CB44 /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B179916D2269B3EA0014CB44 /* Data+Extensions.swift */; };
+		B17991702269B4070014CB44 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B179916F2269B4060014CB44 /* Array+Extensions.swift */; };
+		B17991722269B4290014CB44 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17991712269B4280014CB44 /* String+Extensions.swift */; };
+		B17991792269B4560014CB44 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17991732269B4530014CB44 /* Random.swift */; };
+		B179917A2269B4560014CB44 /* Secp256k1.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17991742269B4540014CB44 /* Secp256k1.swift */; };
+		B179917B2269B4560014CB44 /* SteemEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17991752269B4540014CB44 /* SteemEncoder.swift */; };
+		B179917C2269B4560014CB44 /* PrivateKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17991762269B4550014CB44 /* PrivateKey.swift */; };
+		B179917D2269B4560014CB44 /* GSBase58.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17991772269B4550014CB44 /* GSBase58.swift */; };
+		B179917E2269B4560014CB44 /* PublicKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17991782269B4560014CB44 /* PublicKey.swift */; };
 		B1804BA9225DCF9B00260A32 /* PhoneCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1804BA8225DCF9B00260A32 /* PhoneCode.swift */; };
 		B18EBB32223F8F8800F52D3C /* CyberSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = B18EBB30223F8F8800F52D3C /* CyberSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B19A28D4226075EF001C9F43 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19A28D3226075EF001C9F43 /* String+Extensions.swift */; };
 		B19A28D6226087EE001C9F43 /* UIDevice+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19A28D5226087EE001C9F43 /* UIDevice+Extensions.swift */; };
 		B1A74A642243892B009D68E7 /* EOSTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A74A632243892B009D68E7 /* EOSTransaction.swift */; };
 		B1A74A662243893A009D68E7 /* EOSManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A74A652243893A009D68E7 /* EOSManager.swift */; };
@@ -45,19 +45,19 @@
 		B111B5BA224E1B5A00F84AD9 /* KeychainManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		B1677C65223F9BD7005FB286 /* RestAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestAPIManager.swift; sourceTree = "<group>"; };
 		B1677C6D223FAA5F005FB286 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
-		B179915C2268BB300014CB44 /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
-		B179915E22699D070014CB44 /* PrivateKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivateKey.swift; sourceTree = "<group>"; };
-		B179915F22699D070014CB44 /* PublicKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublicKey.swift; sourceTree = "<group>"; };
-		B179916222699EA10014CB44 /* GSBase58.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GSBase58.swift; sourceTree = "<group>"; };
-		B17991642269A3660014CB44 /* Data+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
-		B17991662269A3DA0014CB44 /* Secp256k1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Secp256k1.swift; sourceTree = "<group>"; };
-		B17991672269A3DB0014CB44 /* SteemEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SteemEncoder.swift; sourceTree = "<group>"; };
-		B179916A2269A4B00014CB44 /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
+		B179916D2269B3EA0014CB44 /* Data+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
+		B179916F2269B4060014CB44 /* Array+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
+		B17991712269B4280014CB44 /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
+		B17991732269B4530014CB44 /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
+		B17991742269B4540014CB44 /* Secp256k1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Secp256k1.swift; sourceTree = "<group>"; };
+		B17991752269B4540014CB44 /* SteemEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SteemEncoder.swift; sourceTree = "<group>"; };
+		B17991762269B4550014CB44 /* PrivateKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivateKey.swift; sourceTree = "<group>"; };
+		B17991772269B4550014CB44 /* GSBase58.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GSBase58.swift; sourceTree = "<group>"; };
+		B17991782269B4560014CB44 /* PublicKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublicKey.swift; sourceTree = "<group>"; };
 		B1804BA8225DCF9B00260A32 /* PhoneCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCode.swift; sourceTree = "<group>"; };
 		B18EBB2D223F8F8800F52D3C /* CyberSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CyberSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B18EBB30223F8F8800F52D3C /* CyberSwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CyberSwift.h; sourceTree = "<group>"; };
 		B18EBB31223F8F8800F52D3C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B19A28D3226075EF001C9F43 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		B19A28D5226087EE001C9F43 /* UIDevice+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIDevice+Extensions.swift"; sourceTree = "<group>"; };
 		B19D9637223F913900557F5A /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
 		B19D9639223F914100557F5A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -112,12 +112,12 @@
 		B179916C2269A4B70014CB44 /* Golos */ = {
 			isa = PBXGroup;
 			children = (
-				B179916222699EA10014CB44 /* GSBase58.swift */,
-				B179915E22699D070014CB44 /* PrivateKey.swift */,
-				B179915F22699D070014CB44 /* PublicKey.swift */,
-				B179916A2269A4B00014CB44 /* Random.swift */,
-				B17991662269A3DA0014CB44 /* Secp256k1.swift */,
-				B17991672269A3DB0014CB44 /* SteemEncoder.swift */,
+				B17991772269B4550014CB44 /* GSBase58.swift */,
+				B17991762269B4550014CB44 /* PrivateKey.swift */,
+				B17991782269B4560014CB44 /* PublicKey.swift */,
+				B17991732269B4530014CB44 /* Random.swift */,
+				B17991742269B4540014CB44 /* Secp256k1.swift */,
+				B17991752269B4540014CB44 /* SteemEncoder.swift */,
 			);
 			path = Golos;
 			sourceTree = "<group>";
@@ -168,13 +168,13 @@
 		B1C3F853223F98A6005711EF /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				B179915C2268BB300014CB44 /* Array+Extensions.swift */,
+				B179916F2269B4060014CB44 /* Array+Extensions.swift */,
 				3BCDB40A2260E9C300739F7E /* Bool+Parameter.swift */,
 				B1C3F855223F98B1005711EF /* ConstantsApp.swift */,
-				B17991642269A3660014CB44 /* Data+Extensions.swift */,
+				B179916D2269B3EA0014CB44 /* Data+Extensions.swift */,
 				B1C3F854223F98B1005711EF /* Date+Extensions.swift */,
 				B1C3F856223F98B1005711EF /* Encodable+Extensions.swift */,
-				B19A28D3226075EF001C9F43 /* String+Extensions.swift */,
+				B17991712269B4280014CB44 /* String+Extensions.swift */,
 				B19A28D5226087EE001C9F43 /* UIDevice+Extensions.swift */,
 			);
 			path = Extensions;
@@ -315,33 +315,33 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B179917A2269B4560014CB44 /* Secp256k1.swift in Sources */,
 				B1C3F85F223F98DC005711EF /* ReachabilityManager.swift in Sources */,
 				B1C3F869223F9907005711EF /* ErrorAPI.swift in Sources */,
+				B179917B2269B4560014CB44 /* SteemEncoder.swift in Sources */,
 				B19A28D6226087EE001C9F43 /* UIDevice+Extensions.swift in Sources */,
 				B1C3F861223F98DC005711EF /* Logger.swift in Sources */,
-				B179916122699D080014CB44 /* PublicKey.swift in Sources */,
 				B1C3F86A223F9907005711EF /* ResponseAPI.swift in Sources */,
+				B179917E2269B4560014CB44 /* PublicKey.swift in Sources */,
 				B111B5BB224E1B5A00F84AD9 /* KeychainManager.swift in Sources */,
 				B1C3F86B223F9907005711EF /* MethodAPI.swift in Sources */,
+				B179917C2269B4560014CB44 /* PrivateKey.swift in Sources */,
 				B1C3F857223F98B1005711EF /* Date+Extensions.swift in Sources */,
 				B1C3F859223F98B1005711EF /* Encodable+Extensions.swift in Sources */,
 				B1A74A662243893A009D68E7 /* EOSManager.swift in Sources */,
-				B179916322699EA10014CB44 /* GSBase58.swift in Sources */,
+				B17991792269B4560014CB44 /* Random.swift in Sources */,
+				B179916E2269B3EB0014CB44 /* Data+Extensions.swift in Sources */,
+				B17991722269B4290014CB44 /* String+Extensions.swift in Sources */,
 				B1C3F858223F98B1005711EF /* ConstantsApp.swift in Sources */,
-				B179915D2268BB300014CB44 /* Array+Extensions.swift in Sources */,
+				B179917D2269B4560014CB44 /* GSBase58.swift in Sources */,
 				B1C3F860223F98DC005711EF /* Broadcast.swift in Sources */,
 				B1A74A642243892B009D68E7 /* EOSTransaction.swift in Sources */,
-				B17991682269A3DC0014CB44 /* Secp256k1.swift in Sources */,
-				B19A28D4226075EF001C9F43 /* String+Extensions.swift in Sources */,
 				3BCDB40B2260E9C300739F7E /* Bool+Parameter.swift in Sources */,
+				B17991702269B4070014CB44 /* Array+Extensions.swift in Sources */,
 				B1C3F868223F9907005711EF /* RequestAPI.swift in Sources */,
 				B1677C66223F9BD7005FB286 /* RestAPIManager.swift in Sources */,
-				B17991692269A3DC0014CB44 /* SteemEncoder.swift in Sources */,
 				B1804BA9225DCF9B00260A32 /* PhoneCode.swift in Sources */,
-				B17991652269A3660014CB44 /* Data+Extensions.swift in Sources */,
 				B1C3F862223F98DC005711EF /* WebSocketManager.swift in Sources */,
-				B179916022699D080014CB44 /* PrivateKey.swift in Sources */,
-				B179916B2269A4B10014CB44 /* Random.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
