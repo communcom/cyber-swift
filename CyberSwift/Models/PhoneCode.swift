@@ -190,33 +190,32 @@ public class PhoneCode {
     class Nauru: County {}
     class Netherlands: County {}
     class NewCaledonia: County {}
-
-//    class Cameroon: County {}
-//    class Cameroon: County {}
-//    class Cameroon: County {}
-//    class Cameroon: County {}
-//    class Cameroon: County {}
-//    class Cameroon: County {}
-//    class Cameroon: County {}
-//    class Cameroon: County {}
-//    class Cameroon: County {}
-//    class Cameroon: County {}
-//    class Cameroon: County {}
-//    class Cameroon: County {}
-//    class Cameroon: County {}
-//    class Cameroon: County {}
-//    class Cameroon: County {}
-//    class Cameroon: County {}
-//    class Cameroon: County {}
-//    class Cameroon: County {}
-//    class Cameroon: County {}
-//    class Cameroon: County {}
-//    class Cameroon: County {}
-//    class Cameroon: County {}
-//    class Cameroon: County {}
-//    class Cameroon: County {}
-
-    
+    class NewZealand: County {}
+    class Nicaragua: County {}
+    class Niger: County {}
+    class Nigeria: County {}
+    class Niue: County {}
+    class NorfolkIsland: County {}
+    class NorthKorea: County {}
+    class NorthernMarianaIslands: County {}
+    class Norway: County {}
+    class Oman: County {}
+    class Pakistan: County {}
+    class Palau: County {}
+    class Palestine: County {}
+    class Panama: County {}
+    class PapuaNewGuinea: County {}
+    class Paraguay: County {}
+    class Peru: County {}
+    class Philippines: County {}
+    class Poland: County {}
+    class Portugal: County {}
+    class PuertoRico: County {}
+    class Qatar: County {}
+    class RepublicCongo: County {}
+    class Réunion: County {}
+    class Romania: County {}
+    class Rwanda: County {}
 
 
     
@@ -372,291 +371,43 @@ public class PhoneCode {
                  Nauru(codeValue: 674, shortCodeValue: "NR", labelValue: "Nauru", flagURLString: "https://cdn.countryflags.com/thumbs/nauru/flag-800.png"),
                  Netherlands(codeValue: 31, shortCodeValue: "NL", labelValue: "Netherlands", flagURLString: "https://cdn.countryflags.com/thumbs/netherlands/flag-800.png"),
                  NewCaledonia(codeValue: 687, shortCodeValue: "NC", labelValue: "New Caledonia", flagURLString: "https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Flag_of_France.svg/2560px-Flag_of_France.svg.png"),
+                 NewZealand(codeValue: 64, shortCodeValue: "NZ", labelValue: "New Zealand", flagURLString: "https://cdn.countryflags.com/thumbs/new-zealand/flag-800.png"),
+                 Nicaragua(codeValue: 505, shortCodeValue: "NI", labelValue: "Nicaragua", flagURLString: "https://cdn.countryflags.com/thumbs/nicaragua/flag-800.png"),
+                 Niger(codeValue: 227, shortCodeValue: "NE", labelValue: "Niger", flagURLString: "https://cdn.countryflags.com/thumbs/niger/flag-800.png"),
+                 Nigeria(codeValue: 234, shortCodeValue: "NG", labelValue: "Nigeria", flagURLString: "https://cdn.countryflags.com/thumbs/nigeria/flag-800.png"),
+                 Niue(codeValue: 683, shortCodeValue: "NU", labelValue: "Niue", flagURLString: "https://cdn.countryflags.com/thumbs/niue/flag-800.png"),
+                 NorfolkIsland(codeValue: 672, shortCodeValue: "NF", labelValue: "Norfolk Island", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Flag_of_Norfolk_Island.svg/2880px-Flag_of_Norfolk_Island.svg.png"),
+                 NorthKorea(codeValue: 850, shortCodeValue: "KP", labelValue: "North Korea", flagURLString: "https://cdn.countryflags.com/thumbs/north-korea/flag-800.png"),
+                 NorthernMarianaIslands(codeValue: 1, shortCodeValue: "MP", labelValue: "Northern Mariana Islands", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Flag_of_the_Northern_Mariana_Islands.svg/2880px-Flag_of_the_Northern_Mariana_Islands.svg.png"),
+                 Norway(codeValue: 47, shortCodeValue: "NO", labelValue: "Norway", flagURLString: "https://cdn.countryflags.com/thumbs/norway/flag-800.png"),
+                 Oman(codeValue: 968, shortCodeValue: "OM", labelValue: "Oman", flagURLString: "https://cdn.countryflags.com/thumbs/oman/flag-800.png"),
+                 Pakistan(codeValue: 92, shortCodeValue: "PK", labelValue: "Pakistan", flagURLString: "https://cdn.countryflags.com/thumbs/pakistan/flag-800.png"),
+                 Palau(codeValue: 680, shortCodeValue: "PW", labelValue: "Palau", flagURLString: "https://cdn.countryflags.com/thumbs/palau/flag-800.png"),
+                 Palestine(codeValue: 970, shortCodeValue: "PS", labelValue: "Palestine", flagURLString: "http://www.geognos.com/api/en/countries/flag/PS.png"),
+                 Panama(codeValue: 507, shortCodeValue: "PA", labelValue: "Panama", flagURLString: "https://cdn.countryflags.com/thumbs/panama/flag-800.png"),
+                 PapuaNewGuinea(codeValue: 675, shortCodeValue: "PG", labelValue: "Papua New Guinea", flagURLString: "https://cdn.countryflags.com/thumbs/papua-new-guinea/flag-800.png"),
+                 Paraguay(codeValue: 595, shortCodeValue: "PY", labelValue: "Paraguay", flagURLString: "https://cdn.countryflags.com/thumbs/paraguay/flag-800.png"),
+                 Peru(codeValue: 51, shortCodeValue: "PE", labelValue: "Peru", flagURLString: "https://cdn.countryflags.com/thumbs/peru/flag-800.png"),
+                 Philippines(codeValue: 63, shortCodeValue: "PH", labelValue: "Philippines", flagURLString: "https://cdn.countryflags.com/thumbs/philippines/flag-800.png"),
+                 Poland(codeValue: 48, shortCodeValue: "PL", labelValue: "Poland", flagURLString: "https://cdn.countryflags.com/thumbs/poland/flag-800.png"),
+                 Portugal(codeValue: 351, shortCodeValue: "PT", labelValue: "Portugal", flagURLString: "https://cdn.countryflags.com/thumbs/portugal/flag-800.png"),
+                 PuertoRico(codeValue: 1, shortCodeValue: "PR", labelValue: "Puerto Rico", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Flag_of_Puerto_Rico.svg/2560px-Flag_of_Puerto_Rico.svg.png"),
+                 Qatar(codeValue: 974, shortCodeValue: "QA", labelValue: "Qatar", flagURLString: "https://cdn.countryflags.com/thumbs/qatar/flag-800.png"),
+                 RepublicCongo(codeValue: 242, shortCodeValue: "CG", labelValue: "Republic of the Congo", flagURLString: "https://cdn.countryflags.com/thumbs/congo-democratic-republic-of-the/flag-800.png"),
+                 Réunion(codeValue: 262, shortCodeValue: "RE", labelValue: "Réunion", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Flag_of_Réunion.svg/2560px-Flag_of_Réunion.svg.png"),
+                 Romania(codeValue: 40, shortCodeValue: "RO", labelValue: "Romania", flagURLString: "https://cdn.countryflags.com/thumbs/romania/flag-800.png"),
+                 Rwanda(codeValue: 250, shortCodeValue: "RW", labelValue: "Rwanda", flagURLString: "https://cdn.countryflags.com/thumbs/rwanda/flag-800.png"),
 
                  
                  
-//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-//            (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
 
         ]
     }
 
     /*
      {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "NZ",
-     "countryName": "New Zealand",
-     "countryPhoneCode": 64,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/NZ.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "NI",
-     "countryName": "Nicaragua",
-     "countryPhoneCode": 505,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/NI.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "NE",
-     "countryName": "Niger",
-     "countryPhoneCode": 227,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/NE.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "NG",
-     "countryName": "Nigeria",
-     "countryPhoneCode": 234,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/NG.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "NU",
-     "countryName": "Niue",
-     "countryPhoneCode": 683,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/NU.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "NF",
-     "countryName": "Norfolk Island",
-     "countryPhoneCode": 672,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/NF.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "KP",
-     "countryName": "North Korea",
-     "countryPhoneCode": 850,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/KP.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "MP",
-     "countryName": "Northern Mariana Islands",
-     "countryPhoneCode": 1,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MP.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "NO",
-     "countryName": "Norway",
-     "countryPhoneCode": 47,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/NO.png"
-     },
-
-     
-     
-     
-     
-     
-     
-     
-     class Oman: County {}
-
-     Oman(codeValue: 968, shortCodeValue: "OM", labelValue: "Oman", flagURLString: "https://cdn.countryflags.com/thumbs/oman/flag-800.png"),
-
-     
-     
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "PK",
-     "countryName": "Pakistan",
-     "countryPhoneCode": 92,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PK.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "PW",
-     "countryName": "Palau",
-     "countryPhoneCode": 680,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PW.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "PS",
-     "countryName": "Palestine",
-     "countryPhoneCode": 970,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PS.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "PA",
-     "countryName": "Panama",
-     "countryPhoneCode": 507,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PA.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "PG",
-     "countryName": "Papua New Guinea",
-     "countryPhoneCode": 675,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PG.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "PY",
-     "countryName": "Paraguay",
-     "countryPhoneCode": 595,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PY.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "PE",
-     "countryName": "Peru",
-     "countryPhoneCode": 51,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PE.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "PH",
-     "countryName": "Philippines",
-     "countryPhoneCode": 63,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PH.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "PL",
-     "countryName": "Poland",
-     "countryPhoneCode": 48,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PL.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "PT",
-     "countryName": "Portugal",
-     "countryPhoneCode": 351,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PT.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "PR",
-     "countryName": "Puerto Rico",
-     "countryPhoneCode": 1,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PR.png"
-     },
-
-     
-     
-     
-     
-     
-     
-     class Qatar: County {}
-
-     Qatar(codeValue: 974, shortCodeValue: "QA", labelValue: "Qatar", flagURLString: "https://cdn.countryflags.com/thumbs/qatar/flag-800.png"),
-
-     
-     
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "CG",
-     "countryName": "Republic of the Congo",
-     "countryPhoneCode": 242,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CG.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "RE",
-     "countryName": "Réunion",
-     "countryPhoneCode": 262,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/RE.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "RO",
-     "countryName": "Romania",
-     "countryPhoneCode": 40,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/RO.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "RW",
-     "countryName": "Rwanda",
-     "countryPhoneCode": 250,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/RW.png"
-     },
-
-     
-     
-     
-     
-     
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
+     class SaintBarthélemy: County {}
+     SaintBarthélemy(codeValue: 590, shortCodeValue: "BLhttps://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Flag_of_Saint_Barthelemy_%28local%29.svg/2560px-Flag_of_Saint_Barthelemy_%28local%29.svg.png", labelValue: "Saint Barthélemy", flagURLString: ""),
      
      "countryCode": "BL",
      "countryName": "Saint Barthélemy",

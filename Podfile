@@ -8,11 +8,17 @@ target 'CyberSwift' do
   pod 'eosswift', '~> 1.5'
   pod 'RxBlocking', '~> 4.0'
 
+  pod 'Checksum'
   pod 'Locksmith'
+  pod 'CryptoSwift'
+  pod 'secp256k1.swift'
   pod 'Localize-Swift', '~> 2.0'
-  
+
   # Websockets in swift for iOS and OSX
   #  pod 'Starscream', '~> 3.0'
   pod 'RxStarscream'
   
+  # GoloCrypto
+  pod 'GoloCrypto', :git => "https://github.com/Monserg/GoloGrypto.git"
+
 end

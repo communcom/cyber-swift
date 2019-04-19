@@ -8,6 +8,15 @@
 import eosswift
 import Foundation
 
+public typealias UserKeys = (type: String, privateKey: String, publicKey: String)
+
+public enum UserKeyType: String {
+    case memo       =   "memo"
+    case owner      =   "owner"
+    case active     =   "active"
+    case posting    =   "posting"
+}
+
 public class RestAPIManager {
     // MARK: - Properties
     public static let instance = RestAPIManager()
@@ -18,6 +27,31 @@ public class RestAPIManager {
     
     deinit {
         Logger.log(message: "Success", event: .severe)
+    }
+    
+    
+    // MARK: - Class Functions
+    public func generate(keyTypes: [UserKeyType], nickName: String, password: String) -> [UserKeys] {
+        var userKeys: [UserKeys] = [UserKeys]()
+        
+        for keyType in keyTypes {
+            let seed                =   nickName + keyType.rawValue + password
+            let brainKey            =   seed.removeWhitespaceCharacters()
+            let brainKeyBytes       =   brainKey.bytes
+            
+            var brainKeyBytesSha256 =   brainKeyBytes.sha256()
+            brainKeyBytesSha256.insert(0x80, at: 0)
+            
+            let checksumSha256Bytes =   brainKeyBytesSha256.generateChecksumSha256()
+            brainKeyBytesSha256     +=  checksumSha256Bytes
+            
+            if let privateKey = PrivateKey(brainKeyBytesSha256.base58EncodedString) {
+                let publicKey = privateKey.createPublic(prefix: PublicKey.AddressPrefix.init(stringLiteral: "EOS"))
+                userKeys.append((type: keyType.rawValue, privateKey: privateKey.description, publicKey: publicKey.description))
+            }
+        }
+        
+        return userKeys
     }
     
     
