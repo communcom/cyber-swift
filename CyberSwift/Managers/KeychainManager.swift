@@ -39,7 +39,7 @@ public class KeychainManager {
         var resultKey: String?
         
         if let data = Locksmith.loadDataForUserAccount(userAccount: userNickName, inService: type) {
-            resultKey = data[Config.currentUserActiveKey] as? String
+            resultKey = data[Config.currentUserPublicActiveKey] as? String
         }
         
         return resultKey
@@ -55,6 +55,31 @@ public class KeychainManager {
     
     
     /// Save login data to Keychain
+    public static func save(keys: [UserKeys], nickName: String) -> Bool {
+        var result: Bool = true
+        
+        let ownerUserKeys   =   keys.first(where: { $0.type == "owner" })
+        let activeUserKeys  =   keys.first(where: { $0.type == "active" })
+        let postingUserKeys =   keys.first(where: { $0.type == "posting" })
+        let memoUserKeys    =   keys.first(where: { $0.type == "memo" })
+        
+        Config.currentUser  =   (nickName: nickName, activeKey: activeUserKeys!.privateKey)
+
+        result = result && self.save(data: [Config.currentUserPrivateMemoKey: memoUserKeys!.privateKey], userNickName: nickName)
+        result = result && self.save(data: [Config.currentUserPublickMemoKey: memoUserKeys!.publicKey], userNickName: nickName)
+
+        result = result && self.save(data: [Config.currentUserPrivateOwnerKey: ownerUserKeys!.privateKey], userNickName: nickName)
+        result = result && self.save(data: [Config.currentUserPublickMemoKey: ownerUserKeys!.publicKey], userNickName: nickName)
+
+        result = result && self.save(data: [Config.currentUserPrivateActiveKey: activeUserKeys!.privateKey], userNickName: nickName)
+        result = result && self.save(data: [Config.currentUserPublicActiveKey: activeUserKeys!.publicKey], userNickName: nickName)
+
+        result = result && self.save(data: [Config.currentUserPrivatePostingKey: postingUserKeys!.privateKey], userNickName: nickName)
+        result = result && self.save(data: [Config.currentUserPublicPostingKey: postingUserKeys!.publicKey], userNickName: nickName)
+
+        return result
+    }
+    
     public static func save(data: [String: Any], userNickName: String) -> Bool {
         let keyData = data.keys.first ?? "XXX"
         

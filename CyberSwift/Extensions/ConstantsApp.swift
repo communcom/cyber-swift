@@ -30,7 +30,7 @@ public struct Config {
         
         get {
             return (nickName:   KeychainManager.loadData(forUserNickName: Config.currentUserNickNameKey, withKey: Config.currentUserNickNameKey)?[Config.currentUserNickNameKey] as? String,
-                    activeKey:  KeychainManager.loadData(forUserNickName: Config.currentUserActiveKey, withKey: Config.currentUserActiveKey)?[Config.currentUserActiveKey] as? String)
+                    activeKey:  KeychainManager.loadData(forUserNickName: Config.currentUserPublicActiveKey, withKey: Config.currentUserPublicActiveKey)?[Config.currentUserPublicActiveKey] as? String)
         }
     }
     

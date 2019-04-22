@@ -75,7 +75,7 @@ public class RestAPIManager {
                                                         
                                                         // Save in Keychain
                                                         _ = KeychainManager.save(data: [Config.currentUserNickNameKey: userNickName], userNickName: Config.currentUserNickNameKey)
-                                                        _ = KeychainManager.save(data: [Config.currentUserActiveKey: userActiveKey], userNickName: Config.currentUserActiveKey)
+                                                        _ = KeychainManager.save(data: [Config.currentUserPublicActiveKey: userActiveKey], userNickName: Config.currentUserPublicActiveKey)
                                                         
                                                         completion(result, nil)
                                                     })
@@ -526,18 +526,7 @@ public class RestAPIManager {
                                                     }
                                                     
                                                     // Save in Keychain
-                                                    let ownerUserKeys   =   userkeys.first(where: { $0.type == "owner" })
-                                                    let activeUserKeys  =   userkeys.first(where: { $0.type == "active" })
-                                                    let postingUserKeys =   userkeys.first(where: { $0.type == "posting" })
-                                                    let memoUserKeys    =   userkeys.first(where: { $0.type == "memo" })
-
-                                                    Config.currentUser  =   (nickName: nickName, activeKey: activeUserKeys!.privateKey)
-                                                    
-                                                    let result: Bool    =   KeychainManager.save(data: [Config.currentUserOwnerKey: ownerUserKeys!], userNickName: nickName) &&
-                                                                            KeychainManager.save(data: [Config.currentUserActiveKey: activeUserKeys!], userNickName: nickName) &&
-                                                                            KeychainManager.save(data: [Config.currentUserPostingKey: postingUserKeys!], userNickName: nickName) &&
-                                                                            KeychainManager.save(data: [Config.currentUserMemoKey: memoUserKeys!], userNickName: nickName)
-                                                    
+                                                    let result: Bool = KeychainManager.save(keys: userkeys, nickName: nickName)
                                                     completion(result, nil)
             },
                                                  onError: { errorAPI in
