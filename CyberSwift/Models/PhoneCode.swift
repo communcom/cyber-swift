@@ -429,7 +429,7 @@ public class PhoneCode {
                  Réunion(codeValue: 262, shortCodeValue: "RE", labelValue: "Réunion", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Flag_of_Réunion.svg/2560px-Flag_of_Réunion.svg.png"),
                  Romania(codeValue: 40, shortCodeValue: "RO", labelValue: "Romania", flagURLString: "https://cdn.countryflags.com/thumbs/romania/flag-800.png"),
                  Rwanda(codeValue: 250, shortCodeValue: "RW", labelValue: "Rwanda", flagURLString: "https://cdn.countryflags.com/thumbs/rwanda/flag-800.png"),
-                 SaintBarthélemy(codeValue: 590, shortCodeValue: "BLhttps://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Flag_of_Saint_Barthelemy_%28local%29.svg/2560px-Flag_of_Saint_Barthelemy_%28local%29.svg.png", labelValue: "Saint Barthélemy", flagURLString: ""),
+                 SaintBarthélemy(codeValue: 590, shortCodeValue: "BL", labelValue: "Saint Barthélemy", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Flag_of_Saint_Barthelemy_%28local%29.svg/2560px-Flag_of_Saint_Barthelemy_%28local%29.svg.png"),
                  SaintHelena(codeValue: 290, shortCodeValue: "SH", labelValue: "Saint Helena", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Flag_of_Saint_Helena.svg/2880px-Flag_of_Saint_Helena.svg.png"),
                  SaintKittsNevis(codeValue: 1, shortCodeValue: "KN", labelValue: "Saint Kitts and Nevis", flagURLString: "https://cdn.countryflags.com/thumbs/saint-kitts-and-nevis/flag-800.png"),
                  SaintMartin(codeValue: 590, shortCodeValue: "MF", labelValue: "Saint Martin", flagURLString: "http://www.geognos.com/api/en/countries/flag/MF.png"),
