@@ -1,36 +1,36 @@
 import Foundation
 
 class AbiEncoder : Encoder {
-
+    
     var codingPath: [CodingKey] = []
-
+    
     var userInfo: [CodingUserInfoKey : Any] = [:]
-
+    
     private let abiEncodingContainer: AbiEncodingContainer
-
+    
     func toData() -> Data {
         return abiEncodingContainer.toData()
     }
-
+    
     init(capacity: Int) {
         abiEncodingContainer = AbiEncodingContainer(capacity: capacity)
     }
-
+    
     func container<Key>(keyedBy type: Key.Type) -> KeyedEncodingContainer<Key> where Key : CodingKey {
         fatalError("container<Key> not supported")
     }
-
+    
     func unkeyedContainer() -> UnkeyedEncodingContainer {
         return abiEncodingContainer
     }
-
+    
     func singleValueContainer() -> SingleValueEncodingContainer {
         fatalError("singleValueContainer not supported")
     }
 }
 
 extension AbiEncoder {
-
+    
     func encode(encodable: Encodable) throws {
         let mirror = Mirror(reflecting: encodable)
         for child in mirror.children {
@@ -68,7 +68,17 @@ extension AbiEncoder {
             case is UInt32:
                 try abiEncodingContainer.encode(child.value as! UInt32)
             case is UInt64:
-                try abiEncodingContainer.encode(child.value as! UInt64, asDefault: child.label! != "ref_block_num")
+                if child.label! == "ref_block_num" {
+                    try abiEncodingContainer.encode(child.value as! UInt64, asDefault: false)
+                }
+                    
+                else if child.label! == "parent_recid" {
+                    try abiEncodingContainer.encode(child.value as! UInt64, asDefault: false)
+                }
+                    
+                else {
+                    try abiEncodingContainer.encode(child.value as! UInt64, asDefault: true)
+                }
             case is NameWriter:
                 try abiEncodingContainer.encode(child.value as! NameWriter)
             case is AccountNameWriter:

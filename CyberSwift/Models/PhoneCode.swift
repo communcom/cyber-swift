@@ -216,6 +216,38 @@ public class PhoneCode {
     class Réunion: County {}
     class Romania: County {}
     class Rwanda: County {}
+    class SaintBarthélemy: County {}
+    class SaintHelena: County {}
+    class SaintKittsNevis: County {}
+    class SaintMartin: County {}
+    class SaintPierreMiquelon: County {}
+    class SaintVincentGrenadines: County {}
+    class Samoa: County {}
+    class SanMarino: County {}
+    class SaoTomePrincipe: County {}
+    class SaudiArabia: County {}
+    class Senegal: County {}
+    class Serbia: County {}
+    class Seychelles: County {}
+    class SierraLeone: County {}
+    class Singapore: County {}
+    class SintMaarten: County {}
+    class Slovakia: County {}
+    class Slovenia: County {}
+    class SolomonIslands: County {}
+    class Somalia: County {}
+    class SouthAfrica: County {}
+    class SouthKorea: County {}
+    class SouthSudan: County {}
+    class Spain: County {}
+    class SriLanka: County {}
+    class SaintLucia: County {}
+    class Sudan: County {}
+    class Suriname: County {}
+    class Swaziland: County {}
+    class Sweden: County {}
+    class Switzerland: County {}
+    class Syria: County {}
 
 
     
@@ -397,6 +429,38 @@ public class PhoneCode {
                  Réunion(codeValue: 262, shortCodeValue: "RE", labelValue: "Réunion", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/Flag_of_Réunion.svg/2560px-Flag_of_Réunion.svg.png"),
                  Romania(codeValue: 40, shortCodeValue: "RO", labelValue: "Romania", flagURLString: "https://cdn.countryflags.com/thumbs/romania/flag-800.png"),
                  Rwanda(codeValue: 250, shortCodeValue: "RW", labelValue: "Rwanda", flagURLString: "https://cdn.countryflags.com/thumbs/rwanda/flag-800.png"),
+                 SaintBarthélemy(codeValue: 590, shortCodeValue: "BLhttps://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Flag_of_Saint_Barthelemy_%28local%29.svg/2560px-Flag_of_Saint_Barthelemy_%28local%29.svg.png", labelValue: "Saint Barthélemy", flagURLString: ""),
+                 SaintHelena(codeValue: 290, shortCodeValue: "SH", labelValue: "Saint Helena", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Flag_of_Saint_Helena.svg/2880px-Flag_of_Saint_Helena.svg.png"),
+                 SaintKittsNevis(codeValue: 1, shortCodeValue: "KN", labelValue: "Saint Kitts and Nevis", flagURLString: "https://cdn.countryflags.com/thumbs/saint-kitts-and-nevis/flag-800.png"),
+                 SaintMartin(codeValue: 590, shortCodeValue: "MF", labelValue: "Saint Martin", flagURLString: "http://www.geognos.com/api/en/countries/flag/MF.png"),
+                 SaintPierreMiquelon(codeValue: 508, shortCodeValue: "PM", labelValue: "Saint Pierre and Miquelon", flagURLString: "https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Flag_of_France.svg/2560px-Flag_of_France.svg.png"),
+                 SaintVincentGrenadines(codeValue: 1, shortCodeValue: "VC", labelValue: "Saint Vincent and the Grenadines", flagURLString: "https://cdn.countryflags.com/thumbs/saint-vincent-and-the-grenadines/flag-800.png"),
+                 Samoa(codeValue: 685, shortCodeValue: "WS", labelValue: "Samoa", flagURLString: "https://cdn.countryflags.com/thumbs/samoa/flag-800.png"),
+                 SanMarino(codeValue: 378, shortCodeValue: "SM", labelValue: "San Marino", flagURLString: "https://cdn.countryflags.com/thumbs/san-marino/flag-800.png"),
+                 SaoTomePrincipe(codeValue: 239, shortCodeValue: "ST", labelValue: "Sao Tome and Principe", flagURLString: "https://cdn.countryflags.com/thumbs/sao-tome-and-principe/flag-800.png"),
+                 SaudiArabia(codeValue: 966, shortCodeValue: "SA", labelValue: "Saudi Arabia", flagURLString: "https://cdn.countryflags.com/thumbs/saudi-arabia/flag-800.png"),
+                 Senegal(codeValue: 221, shortCodeValue: "SN", labelValue: "Senegal", flagURLString: "https://cdn.countryflags.com/thumbs/senegal/flag-800.png"),
+                 Serbia(codeValue: 381, shortCodeValue: "RS", labelValue: "Serbia", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Flag_of_Serbia.svg/2560px-Flag_of_Serbia.svg.png"),
+                 Seychelles(codeValue: 248, shortCodeValue: "SC", labelValue: "Seychelles", flagURLString: "https://cdn.countryflags.com/thumbs/seychelles/flag-800.png"),
+                 SierraLeone(codeValue: 232, shortCodeValue: "SL", labelValue: "Sierra Leone", flagURLString: "https://cdn.countryflags.com/thumbs/sierra-leone/flag-800.png"),
+                 Singapore(codeValue: 65, shortCodeValue: "SG", labelValue: "Singapore", flagURLString: "https://cdn.countryflags.com/thumbs/singapore/flag-800.png"),
+                 SintMaarten(codeValue: 1, shortCodeValue: "SX", labelValue: "Sint Maarten", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Flag_of_Sint_Maarten.svg/2560px-Flag_of_Sint_Maarten.svg.png"),
+                 Slovakia(codeValue: 421, shortCodeValue: "SK", labelValue: "Slovakia", flagURLString: "https://cdn.countryflags.com/thumbs/slovakia/flag-800.png"),
+                 Slovenia(codeValue: 386, shortCodeValue: "SI", labelValue: "Slovenia", flagURLString: "https://cdn.countryflags.com/thumbs/slovenia/flag-800.png"),
+                 SolomonIslands(codeValue: 677, shortCodeValue: "SB", labelValue: "Solomon Islands", flagURLString: "https://cdn.countryflags.com/thumbs/solomon-islands/flag-800.png"),
+                 Somalia(codeValue: 252, shortCodeValue: "SO", labelValue: "Somalia", flagURLString: "https://cdn.countryflags.com/thumbs/somalia/flag-800.png"),
+                 SouthAfrica(codeValue: 27, shortCodeValue: "ZA", labelValue: "South Africa", flagURLString: "https://cdn.countryflags.com/thumbs/south-africa/flag-800.png"),
+                 SouthKorea(codeValue: 82, shortCodeValue: "KR", labelValue: "South Korea", flagURLString: "https://cdn.countryflags.com/thumbs/south-korea/flag-800.png"),
+                 SouthSudan(codeValue: 211, shortCodeValue: "SS", labelValue: "South Sudan", flagURLString: "https://cdn.countryflags.com/thumbs/south-sudan/flag-800.png"),
+                 Spain(codeValue: 34, shortCodeValue: "ES", labelValue: "Spain", flagURLString: "https://cdn.countryflags.com/thumbs/spain/flag-800.png"),
+                 SriLanka(codeValue: 94, shortCodeValue: "LK", labelValue: "Sri Lanka", flagURLString: "https://cdn.countryflags.com/thumbs/sri-lanka/flag-800.png"),
+                 SaintLucia(codeValue: 1, shortCodeValue: "LC", labelValue: "Saint Lucia", flagURLString: "https://cdn.countryflags.com/thumbs/saint-lucia/flag-800.png"),
+                 Sudan(codeValue: 249, shortCodeValue: "SD", labelValue: "Sudan", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Flag_of_Sudan.svg/2880px-Flag_of_Sudan.svg.png"),
+                 Suriname(codeValue: 597, shortCodeValue: "SR", labelValue: "Suriname", flagURLString: "https://cdn.countryflags.com/thumbs/suriname/flag-800.png"),
+                 Swaziland(codeValue: 268, shortCodeValue: "SZ", labelValue: "Swaziland", flagURLString: "https://cdn.countryflags.com/thumbs/swaziland/flag-800.png"),
+                 Sweden(codeValue: 46, shortCodeValue: "SE", labelValue: "Sweden", flagURLString: "https://cdn.countryflags.com/thumbs/sweden/flag-800.png"),
+                 Switzerland(codeValue: 41, shortCodeValue: "CH", labelValue: "Switzerland", flagURLString: "https://cdn.countryflags.com/thumbs/switzerland/flag-800.png"),
+                 Syria(codeValue: 963, shortCodeValue: "SY", labelValue: "Syria", flagURLString: "https://cdn.countryflags.com/thumbs/syria/flag-800.png"),
 
                  
                  
@@ -405,298 +469,6 @@ public class PhoneCode {
     }
 
     /*
-     {
-     class SaintBarthélemy: County {}
-     SaintBarthélemy(codeValue: 590, shortCodeValue: "BLhttps://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Flag_of_Saint_Barthelemy_%28local%29.svg/2560px-Flag_of_Saint_Barthelemy_%28local%29.svg.png", labelValue: "Saint Barthélemy", flagURLString: ""),
-     
-     "countryCode": "BL",
-     "countryName": "Saint Barthélemy",
-     "countryPhoneCode": 590,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BL.png"
-     },
-     {
-     class SaintHelena: County {}
-     SaintHelena(codeValue: 290, shortCodeValue: "SH", labelValue: "Saint Helena", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Flag_of_Saint_Helena.svg/2880px-Flag_of_Saint_Helena.svg.png"),
-     
-     "countryCode": "SH",
-     "countryName": "Saint Helena",
-     "countryPhoneCode": 290,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SH.png"
-     },
-     {
-     class SaintKittsNevis: County {}
-     SaintKittsNevis(codeValue: 1, shortCodeValue: "KN", labelValue: "Saint Kitts and Nevis", flagURLString: "https://cdn.countryflags.com/thumbs/saint-kitts-and-nevis/flag-800.png"),
-     
-     "countryCode": "KN",
-     "countryName": "Saint Kitts and Nevis",
-     "countryPhoneCode": 1,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/KN.png"
-     },
-     {
-     class SaintMartin: County {}
-     SaintMartin(codeValue: 590, shortCodeValue: "MF", labelValue: "Saint Martin", flagURLString: "http://www.geognos.com/api/en/countries/flag/MF.png"),
-     
-     "countryCode": "MF",
-     "countryName": "Saint Martin",
-     "countryPhoneCode": 590,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/MF.png"
-     },
-     {
-     class SaintPierreMiquelon: County {}
-     SaintPierreMiquelon(codeValue: 508, shortCodeValue: "PM", labelValue: "Saint Pierre and Miquelon", flagURLString: "https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Flag_of_France.svg/2560px-Flag_of_France.svg.png"),
-     
-     "countryCode": "PM",
-     "countryName": "Saint Pierre and Miquelon",
-     "countryPhoneCode": 508,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/PM.png"
-     },
-     {
-     class SaintVincentGrenadines: County {}
-     SaintVincentGrenadines(codeValue: 1, shortCodeValue: "VC", labelValue: "Saint Vincent and the Grenadines", flagURLString: "https://cdn.countryflags.com/thumbs/saint-vincent-and-the-grenadines/flag-800.png"),
-     
-     "countryCode": "VC",
-     "countryName": "Saint Vincent and the Grenadines",
-     "countryPhoneCode": 1,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/VC.png"
-     },
-     {
-     class Samoa: County {}
-     Samoa(codeValue: 685, shortCodeValue: WS"", labelValue: "Samoa", flagURLString: "https://cdn.countryflags.com/thumbs/samoa/flag-800.png"),
-     
-     "countryCode": "WS",
-     "countryName": "Samoa",
-     "countryPhoneCode": 685,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/WS.png"
-     },
-     {
-     class SanMarino: County {}
-     SanMarino(codeValue: 378, shortCodeValue: "SM", labelValue: "San Marino", flagURLString: "https://cdn.countryflags.com/thumbs/san-marino/flag-800.png"),
-     
-     "countryCode": "SM",
-     "countryName": "San Marino",
-     "countryPhoneCode": 378,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SM.png"
-     },
-     {
-     class SaoTomePrincipe: County {}
-     SaoTomePrincipe(codeValue: 239, shortCodeValue: "ST", labelValue: "Sao Tome and Principe", flagURLString: "https://cdn.countryflags.com/thumbs/sao-tome-and-principe/flag-800.png"),
-     
-     "countryCode": "ST",
-     "countryName": "Sao Tome and Principe",
-     "countryPhoneCode": 239,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/ST.png"
-     },
-     {
-     class SaudiArabia: County {}
-     SaudiArabia(codeValue: 966, shortCodeValue: "SA", labelValue: "Saudi Arabia", flagURLString: "https://cdn.countryflags.com/thumbs/saudi-arabia/flag-800.png"),
-     
-     "countryCode": "SA",
-     "countryName": "Saudi Arabia",
-     "countryPhoneCode": 966,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SA.png"
-     },
-     {
-     class Senegal: County {}
-     Senegal(codeValue: 221, shortCodeValue: "SN", labelValue: "Senegal", flagURLString: "https://cdn.countryflags.com/thumbs/senegal/flag-800.png"),
-     
-     "countryCode": "SN",
-     "countryName": "Senegal",
-     "countryPhoneCode": 221,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SN.png"
-     },
-     {
-     class Serbia: County {}
-     Serbia(codeValue: 381, shortCodeValue: "RS", labelValue: "Serbia", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Flag_of_Serbia.svg/2560px-Flag_of_Serbia.svg.png"),
-     
-     "countryCode": "RS",
-     "countryName": "Serbia",
-     "countryPhoneCode": 381,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/RS.png"
-     },
-     {
-     class Seychelles: County {}
-     Seychelles(codeValue: 248, shortCodeValue: "SC", labelValue: "Seychelles", flagURLString: "https://cdn.countryflags.com/thumbs/seychelles/flag-800.png"),
-     
-     "countryCode": "SC",
-     "countryName": "Seychelles",
-     "countryPhoneCode": 248,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SC.png"
-     },
-     {
-     class SierraLeone: County {}
-     SierraLeone(codeValue: 232, shortCodeValue: "SL", labelValue: "Sierra Leone", flagURLString: "https://cdn.countryflags.com/thumbs/sierra-leone/flag-800.png"),
-     
-     "countryCode": "SL",
-     "countryName": "Sierra Leone",
-     "countryPhoneCode": 232,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SL.png"
-     },
-     {
-     class Singapore: County {}
-     Singapore(codeValue: 65, shortCodeValue: "SG", labelValue: "Singapore", flagURLString: "https://cdn.countryflags.com/thumbs/singapore/flag-800.png"),
-     
-     "countryCode": "SG",
-     "countryName": "Singapore",
-     "countryPhoneCode": 65,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SG.png"
-     },
-     {
-     class SintMaarten: County {}
-     SintMaarten(codeValue: 1, shortCodeValue: "SX", labelValue: "Sint Maarten", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Flag_of_Sint_Maarten.svg/2560px-Flag_of_Sint_Maarten.svg.png"),
-     
-     "countryCode": "SX",
-     "countryName": "Sint Maarten",
-     "countryPhoneCode": 1,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SX.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "SK",
-     "countryName": "Slovakia",
-     "countryPhoneCode": 421,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SK.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "SI",
-     "countryName": "Slovenia",
-     "countryPhoneCode": 386,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SI.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "SB",
-     "countryName": "Solomon Islands",
-     "countryPhoneCode": 677,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SB.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "SO",
-     "countryName": "Somalia",
-     "countryPhoneCode": 252,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SO.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "ZA",
-     "countryName": "South Africa",
-     "countryPhoneCode": 27,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/ZA.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "KR",
-     "countryName": "South Korea",
-     "countryPhoneCode": 82,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/KR.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "SS",
-     "countryName": "South Sudan",
-     "countryPhoneCode": 211,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SS.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "ES",
-     "countryName": "Spain",
-     "countryPhoneCode": 34,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/ES.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "LK",
-     "countryName": "Sri Lanka",
-     "countryPhoneCode": 94,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/LK.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "LC",
-     "countryName": "St. Lucia",
-     "countryPhoneCode": 1,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/LC.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "SD",
-     "countryName": "Sudan",
-     "countryPhoneCode": 249,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SD.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "SR",
-     "countryName": "Suriname",
-     "countryPhoneCode": 597,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SR.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "SZ",
-     "countryName": "Swaziland",
-     "countryPhoneCode": 268,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SZ.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "SE",
-     "countryName": "Sweden",
-     "countryPhoneCode": 46,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SE.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "CH",
-     "countryName": "Switzerland",
-     "countryPhoneCode": 41,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/CH.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "SY",
-     "countryName": "Syria",
-     "countryPhoneCode": 963,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/SY.png"
-     },
-
-     
-     
-     
      {
      class : County {}
      (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
