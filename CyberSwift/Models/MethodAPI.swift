@@ -116,7 +116,7 @@ public indirect enum MethodAPIType {
     case notifyMarkAllAsViewed
 
     //  Request for user settings
-    case getOptions(nickName: String, profile: String)
+    case getOptions(profile: String)
     
     
     /// REGISTRATION-SERVICE
@@ -253,11 +253,11 @@ public indirect enum MethodAPIType {
                     parameters:         [:])
             
         //  Template { "id": 11, "jsonrpc": "2.0", "method": "options.get", "params": { "profile": "tst1xrhojmka" }}
-        case .getOptions(let nickName, let profileValue):
+        case .getOptions(let profileValue):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.options.rawValue,
                      methodName:        "get",
-                     parameters:        ["user": nickName, "profile": profileValue])
+                     parameters:        ["profile": profileValue])
 
 
             
