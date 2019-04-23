@@ -656,7 +656,7 @@ public struct ResponseAPIPushHistoryFreshResult: Decodable {
 // MARK: -
 public struct ResponseAPIPushHistoryFresh: Decodable {
     // MARK: - In work API `push.historyFresh`
-//    public let status: String
+    //    public let status: String
 }
 
 
@@ -803,5 +803,62 @@ public struct ResponseAPIGetOptionsResult: Decodable {
 
 // MARK: -
 public struct ResponseAPIGetOptions: Decodable {
-    public let status: String
+    public let basic: ResponseAPIGetOptionsBasic?
+    public let notify: ResponseAPIGetOptionsNotify
+    public let push: ResponseAPIGetOptionsNotifyPush
+}
+
+
+// MARK: -
+public struct ResponseAPIGetOptionsBasic: Decodable {
+    //    public let basic: ResponseAPIGetOptionsBacis
+}
+
+
+// MARK: -
+public struct ResponseAPIGetOptionsNotify: Decodable {
+    public let show: ResponseAPIGetOptionsNotifyShow
+}
+
+
+// MARK: -
+public struct ResponseAPIGetOptionsNotifyShow: Decodable {
+    public let upvote: Bool
+    public let downvote: Bool
+    public let transfer: Bool
+    public let reply: Bool
+    public let subscribe: Bool
+    public let unsubscribe: Bool
+    public let mention: Bool
+    public let repost: Bool
+    public let reward: Bool
+    public let curatorReward: Bool
+    public let message: Bool
+    public let witnessVote: Bool
+    public let witnessCancelVote: Bool
+}
+
+
+// MARK: -
+public struct ResponseAPIGetOptionsNotifyPush: Decodable {
+    public let lang: String
+    public let show: ResponseAPIGetOptionsNotifyPushShow
+}
+
+
+// MARK: -
+public struct ResponseAPIGetOptionsNotifyPushShow: Decodable {
+    public let upvote: Bool
+    public let downvote: Bool
+    public let transfer: Bool
+    public let reply: Bool
+    public let subscribe: Bool
+    public let unsubscribe: Bool
+    public let mention: Bool
+    public let repost: Bool
+    public let reward: Bool
+    public let curatorReward: Bool
+    public let message: Bool
+    public let witnessVote: Bool
+    public let witnessCancelVote: Bool
 }
