@@ -34,6 +34,12 @@ public struct Conflicted: Codable {
     }
 }
 
+public enum StatusState: String {
+    case ok         =   "OK"
+    case error      =   "Error"
+    case offline    =   "Offline"
+}
+
 
 // MARK: -
 public struct ResponseAPIErrorResult: Decodable {
@@ -770,7 +776,8 @@ public struct ResponseAPIOnlineNotifyHistoryFreshFreshByTypes: Decodable {
     public let witnessCancelVote: UInt16
 }
 
-// MARK: - notify.markAllAsViewed
+
+// MARK: -
 public struct ResponseAPINotifyMarkAllAsViewedResult: Decodable {
     public let jsonrpc: String
     public let id: UInt16
@@ -778,6 +785,23 @@ public struct ResponseAPINotifyMarkAllAsViewedResult: Decodable {
     public let error: ResponseAPIError?
 }
 
+
+// MARK: -
 public struct ResponseAPINotifyMarkAllAsViewed: Decodable {
+    public let status: String
+}
+
+
+// MARK: -
+public struct ResponseAPIGetOptionsResult: Decodable {
+    public let jsonrpc: String
+    public let id: UInt16
+    public let result: ResponseAPIGetOptions?
+    public let error: ResponseAPIError?
+}
+
+
+// MARK: -
+public struct ResponseAPIGetOptions: Decodable {
     public let status: String
 }

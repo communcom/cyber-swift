@@ -115,6 +115,9 @@ public indirect enum MethodAPIType {
     //  Mark all notifications as viewed
     case notifyMarkAllAsViewed
 
+    //  Request for user settings
+    case getOptions(nickName: String, profile: String)
+    
     
     /// REGISTRATION-SERVICE
     //  Get current registration status for user
@@ -201,33 +204,6 @@ public indirect enum MethodAPIType {
                      methodName:        "getComments",
                      parameters:        parameters)
             
-        //  Template { "id": 1, "jsonrpc": "2.0", "method": "onlineNotify.history", "params": { "freshOnly": true, "fromId": "3123", markAsViewed}}
-        case .getOnlineNotifyHistory(let fromId, _, let markAsViewed, let freshOnly):
-            var parameters: [String: String] = ["limit": "\(Config.paginationLimit)", "markAsViewed": markAsViewed.toParam, "freshOnly": freshOnly.toParam]
-            
-            if let fromId = fromId {
-                parameters["fromId"] = fromId
-            }
-            
-            return (methodAPIType:      self,
-                    methodGroup:        MethodAPIGroup.onlineNotify.rawValue,
-                    methodName:         "history",
-                    parameters:         parameters)
-            
-        //  Template { "id": 1, "jsonrpc": "2.0", "method": "onlineNotify.historyFresh", "params": {}}
-        case .getOnlineNotifyHistoryFresh:
-            return (methodAPIType:      self,
-                    methodGroup:        MethodAPIGroup.onlineNotify.rawValue,
-                    methodName:         "historyFresh",
-                    parameters:         [:])
-            
-        //  Template {"jsonrpc": "2.0", "id": "1", "result": { "status": "OK" } }
-        case .notifyMarkAllAsViewed:
-            return (methodAPIType:      self,
-                    methodGroup:        MethodAPIGroup.notify.rawValue,
-                    methodName:         "markAllAsViewed",
-                    parameters:         [:])
-            
         //  Template { "id": 6, "jsonrpc": "2.0", "method": "auth.authorize", "params": { "user": "tst1xrhojmka", "sign": "Cyberway" }}
         case .authorize(let nickNameValue, let activeKeyValue):
             return  (methodAPIType:     self,
@@ -249,6 +225,40 @@ public indirect enum MethodAPIType {
                      methodName:        "historyFresh",
                      parameters:        ["profile": profileValue])
             
+        //  Template { "id": 9, "jsonrpc": "2.0", "method": "onlineNotify.history", "params": { "freshOnly": true, "fromId": "3123", markAsViewed}}
+        case .getOnlineNotifyHistory(let fromId, _, let markAsViewed, let freshOnly):
+            var parameters: [String: String] = ["limit": "\(Config.paginationLimit)", "markAsViewed": markAsViewed.toParam, "freshOnly": freshOnly.toParam]
+            
+            if let fromId = fromId {
+                parameters["fromId"] = fromId
+            }
+            
+            return (methodAPIType:      self,
+                    methodGroup:        MethodAPIGroup.onlineNotify.rawValue,
+                    methodName:         "history",
+                    parameters:         parameters)
+            
+        //  Template { "id": 10, "jsonrpc": "2.0", "method": "onlineNotify.historyFresh", "params": {}}
+        case .getOnlineNotifyHistoryFresh:
+            return (methodAPIType:      self,
+                    methodGroup:        MethodAPIGroup.onlineNotify.rawValue,
+                    methodName:         "historyFresh",
+                    parameters:         [:])
+            
+        //  Template { "id": 11, "jsonrpc": "2.0", "result": { "status": "OK" } }
+        case .notifyMarkAllAsViewed:
+            return (methodAPIType:      self,
+                    methodGroup:        MethodAPIGroup.notify.rawValue,
+                    methodName:         "markAllAsViewed",
+                    parameters:         [:])
+            
+        //  Template { "id": 11, "jsonrpc": "2.0", "method": "options.get", "params": { "profile": "tst1xrhojmka" }}
+        case .getOptions(let nickName, let profileValue):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.options.rawValue,
+                     methodName:        "get",
+                     parameters:        ["user": nickName, "profile": profileValue])
+
 
             
         /// REGISTRATION-SERVICE
