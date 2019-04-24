@@ -118,6 +118,12 @@ public indirect enum MethodAPIType {
     //  Request for user settings
     case getOptions(profile: String)
     
+    //  Set Basic options
+    case setBasicOptions(nsfw: String, language: String)
+    
+    //  Set Push options
+//    case setPushOptions(nickName: String, deviceType: String, options: RequestParameterAPI.PushOptions)
+
     
     /// REGISTRATION-SERVICE
     //  Get current registration status for user
@@ -252,13 +258,22 @@ public indirect enum MethodAPIType {
                     methodName:         "markAllAsViewed",
                     parameters:         [:])
             
-        //  Template { "id": 11, "jsonrpc": "2.0", "method": "options.get", "params": { "profile": "tst1xrhojmka" }}
+        //  Template { "id": 11, "jsonrpc": "2.0", "method": "options.get", "params": { "profile": <userNickName-deviceUDID> }}
         case .getOptions(let profileValue):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.options.rawValue,
                      methodName:        "get",
                      parameters:        ["profile": profileValue])
-
+            
+        //  Template { "id": 12, "jsonrpc": "2.0", "method": "options.set", "params": { "profile": <userNickName-deviceUDID>, "basic": { "language": "ru", "nsfwContent": "Always alert" }}}
+        case .setBasicOptions(let nsfw, let language):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.options.rawValue,
+                     methodName:        "get",
+                     parameters:        [
+                                            "profile":  String(format: "%@%@", Config.currentUser.nickName!, Config.currentDeviceType),
+                                            "basic":    String(format: "[\"language\": \"%@\", \"nsfwContent\": %@]", language, nsfw)
+                                        ])
 
             
         /// REGISTRATION-SERVICE

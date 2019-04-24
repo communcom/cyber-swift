@@ -387,6 +387,33 @@ public class RestAPIManager {
         }
     }
 
+    // API basic `options.set`
+    public func setBasicOptions(language: String, nsfwContent: NsfwContentMode, completion: @escaping (ResponseAPISetOptionsBasic?, ErrorAPI?) -> Void) {
+        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        guard (Config.currentUser.nickName != nil) else {
+            return completion(nil, ErrorAPI.disableInternetConnection(message: nil))
+        }
+        
+        let methodAPIType = MethodAPIType.setBasicOptions(nsfw: nsfwContent.rawValue, language: language)
+        
+        Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                             onResult:          { (responseAPIResult) in
+                                                Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
+                                                
+                                                guard let result = (responseAPIResult as! ResponseAPISetOptionsBasicResult).result else {
+                                                    completion(nil, ErrorAPI.requestFailed(message: "API basic \'options.set\' have error: \((responseAPIResult as! ResponseAPISetOptionsBasicResult).error!.message)"))
+                                                    return
+                                                }
+                                                
+                                                completion(result, nil)
+        }) { (errorAPI) in
+            Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
+            
+            completion(nil, errorAPI)
+        }
+    }
+
     
     // MARK: - REGISTRATION-SERVICE
     // API `registration.getState`

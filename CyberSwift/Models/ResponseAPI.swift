@@ -862,3 +862,18 @@ public struct ResponseAPIGetOptionsNotifyPushShow: Decodable {
     public let witnessVote: Bool
     public let witnessCancelVote: Bool
 }
+
+
+// MARK: -
+public struct ResponseAPISetOptionsBasicResult: Decodable {
+    public let jsonrpc: String
+    public let id: UInt16
+    public let result: ResponseAPISetOptionsBasic?
+    public let error: ResponseAPIError?
+}
+
+
+// MARK: -
+public struct ResponseAPISetOptionsBasic: Decodable {
+//    public let upvote: Bool
+}

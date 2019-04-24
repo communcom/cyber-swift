@@ -5,6 +5,8 @@
 //  Created by msm72 on 4/10/19.
 //  Copyright © 2019 golos.io. All rights reserved.
 //
+//  https://www.countryflags.com/en/
+//
 
 import Foundation
 

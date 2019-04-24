@@ -9,6 +9,10 @@
 import Foundation
 
 extension Bool {
+    var intValue: Int {
+        return self ? 1 : 0
+    }
+
     var toParam: String {
         return self ? "true" : ""
     }
