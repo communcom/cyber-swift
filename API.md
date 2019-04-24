@@ -1,5 +1,5 @@
 # API's
-[Documentation](https://github.com/GolosChain/api-documentation#authauthorize)
+[Documentation](https://github.com/GolosChain/api-documentation)
 
 
 ## Facade-Service
@@ -27,6 +27,10 @@
 - change 'refBlockNum' type: String -> UInt64
 
 ### API 'push.historyFresh'
+
+### API 'options.get'
+* 23.04.2019:
+- create API
 
 
 

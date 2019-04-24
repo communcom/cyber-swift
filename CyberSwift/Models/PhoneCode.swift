@@ -248,9 +248,38 @@ public class PhoneCode {
     class Sweden: Country {}
     class Switzerland: Country {}
     class Syria: Country {}
+    class Taiwan: Country {}
+    class Tajikistan: Country {}
+    class Tanzania: Country {}
+    class Thailand: Country {}
+    class Bahamas: Country {}
+    class Gambia: Country {}
+    class TimorLeste: Country {}
+    class Togo: Country {}
+    class Tokelau: Country {}
+    class Tonga: Country {}
+    class TrinidadTobago: Country {}
+    class Tunisia: Country {}
+    class Turkey: Country {}
+    class Turkmenistan: Country {}
+    class TurksCaicosIslands: Country {}
+    class Tuvalu: Country {}
+    class Uganda: Country {}
+    class UnitedArabEmirates: Country {}
+    class UnitedKingdom: Country {}
+    class Uruguay: Country {}
+    class USVirginIslands: Country {}
+    class Uzbekistan: Country {}
+    class Vanuatu: Country {}
+    class VaticanCity: Country {}
+    class Venezuela: Country {}
+    class Vietnam: Country {}
+    class WallisFutuna: Country {}
+    class WesternSahara: Country {}
+    class Yemen: Country {}
+    class Zambia: Country {}
+    class Zimbabwe: Country {}
 
-
-    
     
     // MARK: - Functions
     public class func getCountries() -> [Country] {
@@ -461,269 +490,37 @@ public class PhoneCode {
                  Sweden(codeValue: 46, shortCodeValue: "SE", labelValue: "Sweden", flagURLString: "https://cdn.countryflags.com/thumbs/sweden/flag-800.png"),
                  Switzerland(codeValue: 41, shortCodeValue: "CH", labelValue: "Switzerland", flagURLString: "https://cdn.countryflags.com/thumbs/switzerland/flag-800.png"),
                  Syria(codeValue: 963, shortCodeValue: "SY", labelValue: "Syria", flagURLString: "https://cdn.countryflags.com/thumbs/syria/flag-800.png"),
-
-                 
-                 
-
+                 Taiwan(codeValue: 886, shortCodeValue: "TW", labelValue: "Taiwan", flagURLString: "https://cdn.countryflags.com/thumbs/taiwan/flag-800.png"),
+                 Tajikistan(codeValue: 992, shortCodeValue: "TJ", labelValue: "Tajikistan", flagURLString: "https://cdn.countryflags.com/thumbs/tajikistan/flag-800.png"),
+                 Tanzania(codeValue: 255, shortCodeValue: "TZ", labelValue: "Tanzania", flagURLString: "https://cdn.countryflags.com/thumbs/tanzania/flag-800.png"),
+                 Thailand(codeValue: 66, shortCodeValue: "TH", labelValue: "Thailand", flagURLString: "https://cdn.countryflags.com/thumbs/thailand/flag-800.png"),
+                 Bahamas(codeValue: 1, shortCodeValue: "BS", labelValue: "The Bahamas", flagURLString: "https://cdn.countryflags.com/thumbs/bahamas/flag-800.png"),
+                 Gambia(codeValue: 220, shortCodeValue: "GM", labelValue: "The Gambia", flagURLString: "https://cdn.countryflags.com/thumbs/gambia/flag-800.png"),
+                 TimorLeste(codeValue: 670, shortCodeValue: "TL", labelValue: "Timor-Leste", flagURLString: "https://cdn.countryflags.com/thumbs/east-timor/flag-800.png"),
+                 Togo(codeValue: 228, shortCodeValue: "TG", labelValue: "Togo", flagURLString: "https://cdn.countryflags.com/thumbs/togo/flag-800.png"),
+                 Tokelau(codeValue: 690, shortCodeValue: "TK", labelValue: "Tokelau", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Flag_of_Tokelau.svg/2880px-Flag_of_Tokelau.svg.png"),
+                 Tonga(codeValue: 676, shortCodeValue: "TO", labelValue: "Tonga", flagURLString: "https://cdn.countryflags.com/thumbs/tonga/flag-800.png"),
+                 TrinidadTobago(codeValue: 1, shortCodeValue: "TT", labelValue: "Trinidad and Tobago", flagURLString: "https://cdn.countryflags.com/thumbs/trinidad-and-tobago/flag-800.png"),
+                 Tunisia(codeValue: 216, shortCodeValue: "TN", labelValue: "Tunisia", flagURLString: "https://cdn.countryflags.com/thumbs/tunisia/flag-800.png"),
+                 Turkey(codeValue: 90, shortCodeValue: "TR", labelValue: "Turkey", flagURLString: "https://cdn.countryflags.com/thumbs/turkey/flag-800.png"),
+                 Turkmenistan(codeValue: 993, shortCodeValue: "TM", labelValue: "Turkmenistan", flagURLString: "https://cdn.countryflags.com/thumbs/turkmenistan/flag-800.png"),
+                 TurksCaicosIslands(codeValue: 1, shortCodeValue: "TC", labelValue: "Turks and Caicos Islands", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Flag_of_the_Turks_and_Caicos_Islands.svg/2880px-Flag_of_the_Turks_and_Caicos_Islands.svg.png"),
+                 Tuvalu(codeValue: 688, shortCodeValue: "TV", labelValue: "Tuvalu", flagURLString: "https://cdn.countryflags.com/thumbs/tuvalu/flag-800.png"),
+                 Uganda(codeValue: 256, shortCodeValue: "UG", labelValue: "Uganda", flagURLString: "https://cdn.countryflags.com/thumbs/uganda/flag-800.png"),
+                 UnitedArabEmirates(codeValue: 971, shortCodeValue: "AE", labelValue: "United Arab Emirates", flagURLString: "https://cdn.countryflags.com/thumbs/united-arab-emirates/flag-800.png"),
+                 UnitedKingdom(codeValue: 44, shortCodeValue: "GB", labelValue: "United Kingdom", flagURLString: "https://cdn.countryflags.com/thumbs/united-kingdom/flag-800.png"),
+                 Uruguay(codeValue: 598, shortCodeValue: "UY", labelValue: "Uruguay", flagURLString: "https://cdn.countryflags.com/thumbs/uruguay/flag-800.png"),
+                 USVirginIslands(codeValue: 1, shortCodeValue: "VI", labelValue: "US Virgin Islands", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Flag_of_the_United_States_Virgin_Islands.svg/2560px-Flag_of_the_United_States_Virgin_Islands.svg.png"),
+                 Uzbekistan(codeValue: 998, shortCodeValue: "UZ", labelValue: "Uzbekistan", flagURLString: "https://cdn.countryflags.com/thumbs/uzbekistan/flag-800.png"),
+                 Vanuatu(codeValue: 678, shortCodeValue: "VU", labelValue: "Vanuatu", flagURLString: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Flag_of_Vanuatu_%28official%29.svg/2560px-Flag_of_Vanuatu_%28official%29.svg.png"),
+                 VaticanCity(codeValue: 39, shortCodeValue: "VA", labelValue: "Vatican City", flagURLString: "https://cdn.countryflags.com/thumbs/vatican-city/flag-800.png"),
+                 Venezuela(codeValue: 58, shortCodeValue: "VE", labelValue: "Venezuela", flagURLString: "https://cdn.countryflags.com/thumbs/venezuela/flag-800.png"),
+                 Vietnam(codeValue: 84, shortCodeValue: "VN", labelValue: "Vietnam", flagURLString: "https://cdn.countryflags.com/thumbs/vietnam/flag-800.png"),
+                 WallisFutuna(codeValue: 681, shortCodeValue: "WF", labelValue: "Wallis and Futuna", flagURLString: "https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Flag_of_France.svg/2560px-Flag_of_France.svg.png"),
+                 WesternSahara(codeValue: 212, shortCodeValue: "EH", labelValue: "Western Sahara", flagURLString: "http://www.geognos.com/api/en/countries/flag/EH.png "),
+                 Yemen(codeValue: 967, shortCodeValue: "YE", labelValue: "Yemen", flagURLString: "https://cdn.countryflags.com/thumbs/yemen/flag-800.png"),
+                 Zambia(codeValue: 260, shortCodeValue: "ZM", labelValue: "Zambia", flagURLString: "https://cdn.countryflags.com/thumbs/zambia/flag-800.png"),
+                 Zimbabwe(codeValue: 263, shortCodeValue: "ZW", labelValue: "Zimbabwe", flagURLString: "https://cdn.countryflags.com/thumbs/zimbabwe/flag-800.png"),
         ]
     }
-
-    /*
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "TW",
-     "countryName": "Taiwan",
-     "countryPhoneCode": 886,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TW.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "TJ",
-     "countryName": "Tajikistan",
-     "countryPhoneCode": 992,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TJ.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "TZ",
-     "countryName": "Tanzania",
-     "countryPhoneCode": 255,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TZ.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "TH",
-     "countryName": "Thailand",
-     "countryPhoneCode": 66,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TH.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "BS",
-     "countryName": "The Bahamas",
-     "countryPhoneCode": 1,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/BS.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "GM",
-     "countryName": "The Gambia",
-     "countryPhoneCode": 220,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GM.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "TL",
-     "countryName": "Timor-Leste",
-     "countryPhoneCode": 670,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TL.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "TG",
-     "countryName": "Togo",
-     "countryPhoneCode": 228,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TG.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "TK",
-     "countryName": "Tokelau",
-     "countryPhoneCode": 690,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TK.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "TO",
-     "countryName": "Tonga",
-     "countryPhoneCode": 676,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TO.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "TT",
-     "countryName": "Trinidad and Tobago",
-     "countryPhoneCode": 1,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TT.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "TN",
-     "countryName": "Tunisia",
-     "countryPhoneCode": 216,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TN.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "TR",
-     "countryName": "Turkey",
-     "countryPhoneCode": 90,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TR.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "TM",
-     "countryName": "Turkmenistan",
-     "countryPhoneCode": 993,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TM.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "TC",
-     "countryName": "Turks and Caicos Islands",
-     "countryPhoneCode": 1,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TC.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "TV",
-     "countryName": "Tuvalu",
-     "countryPhoneCode": 688,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/TV.png"
-     },
-
-     
-     
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "UG",
-     "countryName": "Uganda",
-     "countryPhoneCode": 256,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/UG.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "AE",
-     "countryName": "United Arab Emirates",
-     "countryPhoneCode": 971,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/AE.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "GB",
-     "countryName": "United Kingdom",
-     "countryPhoneCode": 44,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/GB.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "UY",
-     "countryName": "Uruguay",
-     "countryPhoneCode": 598,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/UY.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "VI",
-     "countryName": "US Virgin Islands",
-     "countryPhoneCode": 1,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/VI.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "UZ",
-     "countryName": "Uzbekistan",
-     "countryPhoneCode": 998,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/UZ.png"
-     },
-
-     
-     
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "VU",
-     "countryName": "Vanuatu",
-     "countryPhoneCode": 678,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/VU.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "VA",
-     "countryName": "Vatican City",
-     "countryPhoneCode": 39,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/VA.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "VE",
-     "countryName": "Venezuela",
-     "countryPhoneCode": 58,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/VE.png"
-     },
-     {
-     class : County {}
-     (codeValue: , shortCodeValue: "", labelValue: "", flagURLString: ""),
-     
-     "countryCode": "VN",
-     "countryName": "Vietnam",
-     "countryPhoneCode": 84,
-     "thumbNailUrl": "http://www.geognos.com/api/en/countries/flag/VN.png"
-     },
-
-     
-
-     class WallisFutuna: County {}
-     class WesternSahara: County {}
-     class Yemen: County {}
-     class Zambia: County {}
-     class Zimbabwe: County {}
-     
-     WallisFutuna(codeValue: 681, shortCodeValue: "WF", labelValue: "Wallis and Futuna", flagURLString: "https://upload.wikimedia.org/wikipedia/en/thumb/c/c3/Flag_of_France.svg/2560px-Flag_of_France.svg.png"),
-     WesternSahara(codeValue: 212, shortCodeValue: "EH", labelValue: "Western Sahara", flagURLString: "http://www.geognos.com/api/en/countries/flag/EH.png "),
-     Yemen(codeValue: 967, shortCodeValue: "YE", labelValue: "Yemen", flagURLString: "https://cdn.countryflags.com/thumbs/yemen/flag-800.png"),
-     Zambia(codeValue: 260, shortCodeValue: "ZM", labelValue: "Zambia", flagURLString: "https://cdn.countryflags.com/thumbs/zambia/flag-800.png"),
-     Zimbabwe(codeValue: 263, shortCodeValue: "ZW", labelValue: "Zimbabwe", flagURLString: "https://cdn.countryflags.com/thumbs/zimbabwe/flag-800.png"),
-     
-     */
-    
 }
