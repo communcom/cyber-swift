@@ -179,7 +179,7 @@ public class WebSocketManager {
             case .notifyMarkAllAsViewed:
                 return (responseAPI: try JSONDecoder().decode(ResponseAPINotifyMarkAllAsViewedResult.self, from: jsonData), errorAPI: nil)
 
-            case .getOptions(_):
+            case .getOptions:
                 return (responseAPI: try JSONDecoder().decode(ResponseAPIGetOptionsResult.self, from: jsonData), errorAPI: nil)
 
             case .setBasicOptions(_):

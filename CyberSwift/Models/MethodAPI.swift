@@ -116,7 +116,7 @@ public indirect enum MethodAPIType {
     case notifyMarkAllAsViewed
 
     //  Request for user settings
-    case getOptions(profile: String)
+    case getOptions
     
     //  Set Basic options
     case setBasicOptions(nsfw: String, language: String)
@@ -259,20 +259,20 @@ public indirect enum MethodAPIType {
                     parameters:         [:])
             
         //  Template { "id": 11, "jsonrpc": "2.0", "method": "options.get", "params": { "profile": <userNickName-deviceUDID> }}
-        case .getOptions(let profileValue):
+        case .getOptions:
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.options.rawValue,
                      methodName:        "get",
-                     parameters:        ["profile": profileValue])
+                     parameters:        ["profile": String(format: "%@-%@", Config.currentUser.nickName!, Config.currentDeviceType)])
             
         //  Template { "id": 12, "jsonrpc": "2.0", "method": "options.set", "params": { "profile": <userNickName-deviceUDID>, "basic": { "language": "ru", "nsfwContent": "Always alert" }}}
         case .setBasicOptions(let nsfw, let language):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.options.rawValue,
-                     methodName:        "get",
+                     methodName:        "set",
                      parameters:        [
-                                            "profile":  String(format: "%@%@", Config.currentUser.nickName!, Config.currentDeviceType),
-                                            "basic":    String(format: "[\"language\": \"%@\", \"nsfwContent\": %@]", language, nsfw)
+                                            "profile":  String(format: "%@-%@", Config.currentUser.nickName!, Config.currentDeviceType),
+                                            "basic":    String(format: "{\"language\": \"%@\", \"nsfwContent\": \"%@\"}", language, nsfw)
                                         ])
 
             

@@ -364,11 +364,11 @@ public class RestAPIManager {
     public func getOptions(completion: @escaping (ResponseAPIGetOptions?, ErrorAPI?) -> Void) {
         if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
         
-        guard let nickName = Config.currentUser.nickName else {
+        guard Config.currentUser.nickName != nil else {
             return completion(nil, ErrorAPI.disableInternetConnection(message: nil))
         }
         
-        let methodAPIType = MethodAPIType.getOptions(profile: String(format: "%@%@", nickName, Config.currentDeviceType))
+        let methodAPIType = MethodAPIType.getOptions
         
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                              onResult:          { (responseAPIResult) in

@@ -109,7 +109,11 @@ extension Broadcast {
                                     .replacingOccurrences(of: "\"\(Config.paginationLimit)\"", with: "\(Config.paginationLimit)")
                                     .replacingOccurrences(of: "\"_", with: "")
                                     .replacingOccurrences(of: "_\"", with: "")
-
+                                    .replacingOccurrences(of: "\\", with: "")
+                                    .replacingOccurrences(of: "\"{", with: "{")
+                                    .replacingOccurrences(of: "}\"}}", with: "}}}")
+                                    .replacingOccurrences(of: "}\"", with: "}")
+            
             Logger.log(message: "\nEncoded JSON -> String:\n\t " + jsonString, event: .debug)
             
             // Template: { "id": 2, "jsonrpc": "2.0", "method": "content.getProfile", "params": { "userId": "tst3uuqzetwf" }}
