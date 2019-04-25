@@ -425,7 +425,7 @@ public class RestAPIManager {
 
     // API push `options.set`
     public func setPush(options:            RequestParameterAPI.PushOptions,
-                        resultHandling:     @escaping (ResponseAPISetOptionsPush) -> Void,
+                        responseHandling:   @escaping (ResponseAPISetOptionsPush) -> Void,
                         errorHandling:      @escaping (ErrorAPI) -> Void) {
         // Offline mode
         if (!Config.isNetworkAvailable) {
@@ -449,7 +449,7 @@ public class RestAPIManager {
                                                     return
                                                 }
                                                 
-                                                resultHandling(result)
+                                                responseHandling(result)
         },
                                              onError:           { (errorAPI) in
                                                 Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
@@ -642,10 +642,10 @@ public class RestAPIManager {
     
     //  MARK: - Contract `gls.social`
     /// Posting image
-    public func posting(image:          UIImage,
-                        imageType:      ImageType,
-                        resultHandling: @escaping (ChainResponse<TransactionCommitted>) -> Void,
-                        errorHandling:  @escaping (ErrorAPI) -> Void) {
+    public func posting(image:              UIImage,
+                        imageType:          ImageType,
+                        responseHandling:   @escaping (ChainResponse<TransactionCommitted>) -> Void,
+                        errorHandling:      @escaping (ErrorAPI) -> Void) {
         // Offline mode
         guard Config.isNetworkAvailable else {
             errorHandling(ErrorAPI.disableInternetConnection(message: nil))
@@ -699,13 +699,13 @@ public class RestAPIManager {
                 let userProfileAccountmetaArgs = EOSTransaction.UserProfileAccountmetaArgs(backgroundImageValue: imageType == .background ? imageURL : nil, coverImageValue: imageType == .cover ? imageURL : nil, profileImageValue: imageType == .profile ? imageURL : nil, userImageValue: imageType == .avatar ? imageURL : nil)
                 Logger.log(message: "userProfileAccountmetaArgs: \(userProfileAccountmetaArgs)", event: .debug)
                 
-                self.update(userProfileMetaArgs: EOSTransaction.UserProfileUpdatemetaArgs.init(accountValue: nickName,
-                                                                                               metaValue:    userProfileAccountmetaArgs),
-                       resultHandling: { result in
-                        resultHandling(result)
+                self.update(userProfileMetaArgs:    EOSTransaction.UserProfileUpdatemetaArgs.init(accountValue: nickName,
+                                                                                                  metaValue:    userProfileAccountmetaArgs),
+                            responseHandling:       { result in
+                                responseHandling(result)
                 },
-                       errorHandling: { errorAPI in
-                        errorHandling(errorAPI as! ErrorAPI)
+                            errorHandling:          { errorAPI in
+                                errorHandling(errorAPI as! ErrorAPI)
                 })
             }
                 
@@ -718,20 +718,20 @@ public class RestAPIManager {
     }
     
     /// Action `updatemeta`
-    public func update(userProfileMetaArgs: EOSTransaction.UserProfileUpdatemetaArgs,
-                       resultHandling:      @escaping (ChainResponse<TransactionCommitted>) -> Void,
-                       errorHandling:       @escaping (Error) -> Void) {
+    public func update(userProfileMetaArgs:     EOSTransaction.UserProfileUpdatemetaArgs,
+                       responseHandling:        @escaping (ChainResponse<TransactionCommitted>) -> Void,
+                       errorHandling:           @escaping (Error) -> Void) {
         // Offline mode
         guard Config.isNetworkAvailable else {
             errorHandling(ErrorAPI.disableInternetConnection(message: nil))
             return
         }
         
-        EOSManager.update(userProfileMetaArgs: userProfileMetaArgs,
-                          responseResult: { result in
-                            resultHandling(result)
+        EOSManager.update(userProfileMetaArgs:  userProfileMetaArgs,
+                          responseResult:       { result in
+                            responseHandling(result)
         },
-                          responseError: { errorAPI in
+                          responseError:        { errorAPI in
                             errorHandling(errorAPI)
         })
     }
