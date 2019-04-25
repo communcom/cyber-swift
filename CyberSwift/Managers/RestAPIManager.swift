@@ -19,13 +19,6 @@ public enum UserKeyType: String {
     case posting    =   "posting"
 }
 
-public enum ImageType {
-    case avatar
-    case cover
-    case profile
-    case background
-}
-
 public class RestAPIManager {
     // MARK: - Properties
     public static let instance = RestAPIManager()
@@ -643,8 +636,7 @@ public class RestAPIManager {
     //  MARK: - Contract `gls.social`
     /// Posting image
     public func posting(image:              UIImage,
-                        imageType:          ImageType,
-                        responseHandling:   @escaping (ChainResponse<TransactionCommitted>) -> Void,
+                        responseHandling:   @escaping (String) -> Void,
                         errorHandling:      @escaping (ErrorAPI) -> Void) {
         // Offline mode
         guard Config.isNetworkAvailable else {
@@ -690,26 +682,8 @@ public class RestAPIManager {
             Logger.log(message: "response = \(String(describing: response))", event: .debug)
             
             if let json = try? JSONSerialization.jsonObject(with: data!, options: .mutableLeaves) as? [String: Any], let imageURL = json["url"] as? String {
-                // Action `updatemeta`
-                guard let nickName = Config.currentUser.nickName else {
-                    errorHandling(ErrorAPI.invalidData(message: "Unauthorized"))
-                    return
-                }
-                
-                let userProfileAccountmetaArgs = EOSTransaction.UserProfileAccountmetaArgs(backgroundImageValue: imageType == .background ? imageURL : nil, coverImageValue: imageType == .cover ? imageURL : nil, profileImageValue: imageType == .profile ? imageURL : nil, userImageValue: imageType == .avatar ? imageURL : nil)
-                Logger.log(message: "userProfileAccountmetaArgs: \(userProfileAccountmetaArgs)", event: .debug)
-                
-                self.update(userProfileMetaArgs:    EOSTransaction.UserProfileUpdatemetaArgs.init(accountValue: nickName,
-                                                                                                  metaValue:    userProfileAccountmetaArgs),
-                            responseHandling:       { result in
-                                responseHandling(result)
-                },
-                            errorHandling:          { errorAPI in
-                                errorHandling(errorAPI as! ErrorAPI)
-                })
-            }
-                
-            else {
+                responseHandling(imageURL)
+            } else {
                 errorHandling(ErrorAPI.jsonParsingFailure(message: "JSON Conversion Failure"))
             }
         })
