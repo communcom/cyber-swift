@@ -75,9 +75,9 @@ public struct RequestParameterAPI {
         
         
         // MARK: - Initialization
-        public init(languageValue: String = "ru", nsfwContentValue: String = NsfwContentMode.alwaysAlert.rawValue) {
-            self.language           =   languageValue
-            self.nsfwContent        =   nsfwContentValue
+        public init(language: String = "ru", nsfwContent: String = NsfwContentMode.alwaysAlert.rawValue) {
+            self.language           =   language
+            self.nsfwContent        =   nsfwContent
         }
         
         
@@ -108,41 +108,24 @@ public struct RequestParameterAPI {
         
         
         // MARK: - Initialization
-        public init(upvoteValue: Bool = true, downvoteValue: Bool = true, transferValue: Bool = true, replyValue: Bool = true, subscribeValue: Bool = true, unsubscribeValue: Bool = true, mentionValue: Bool = true, repostValue: Bool = true, rewardValue: Bool = true, curatorRewardValue: Bool = true, messageValue: Bool = true, witnessVoteValue: Bool = true, witnessCancelVoteValue: Bool = true) {
-            self.upvote             =   upvoteValue
-            self.downvote           =   downvoteValue
-            self.transfer           =   transferValue
-            self.reply              =   replyValue
-            self.subscribe          =   subscribeValue
-            self.unsubscribe        =   unsubscribeValue
-            self.mention            =   mentionValue
-            self.repost             =   repostValue
-            self.reward             =   rewardValue
-            self.curatorReward      =   curatorRewardValue
-            self.message            =   messageValue
-            self.witnessVote        =   witnessVoteValue
-            self.witnessCancelVote  =   witnessCancelVoteValue
+        public init(upvote: Bool = true, downvote: Bool = true, transfer: Bool = true, reply: Bool = true, subscribe: Bool = true, unsubscribe: Bool = true, mention: Bool = true, repost: Bool = true, reward: Bool = true, curatorReward: Bool = true, message: Bool = true, witnessVote: Bool = true, witnessCancelVote: Bool = true) {
+            self.upvote             =   upvote
+            self.downvote           =   downvote
+            self.transfer           =   transfer
+            self.reply              =   reply
+            self.subscribe          =   subscribe
+            self.unsubscribe        =   unsubscribe
+            self.mention            =   mention
+            self.repost             =   repost
+            self.reward             =   reward
+            self.curatorReward      =   curatorReward
+            self.message            =   message
+            self.witnessVote        =   witnessVote
+            self.witnessCancelVote  =   witnessCancelVote
         }
-        
-        public init(languageValue: String = "ru", imageViews: [UIImageView]) {
-            self.upvote             =   !imageViews[0].isHighlighted
-            self.downvote           =   !imageViews[1].isHighlighted
-            self.transfer           =   !imageViews[2].isHighlighted
-            self.reply              =   !imageViews[3].isHighlighted
-            self.subscribe          =   !imageViews[4].isHighlighted
-            self.unsubscribe        =   !imageViews[5].isHighlighted
-            self.mention            =   !imageViews[6].isHighlighted
-            self.repost             =   !imageViews[7].isHighlighted
-            self.reward             =   !imageViews[8].isHighlighted
-            self.curatorReward      =   !imageViews[9].isHighlighted
-            self.message            =   !imageViews[10].isHighlighted
-            self.witnessVote        =   !imageViews[11].isHighlighted
-            self.witnessCancelVote  =   !imageViews[12].isHighlighted
-        }
-
         
         // MARK: - Functions
-        // Template: "upvote": <upvoteValue>, "downvote": <downvoteValue>, "reply": <replyValue>, "transfer": <transferValue>, "subscribe": <subscribeValue>, "unsubscribe": <unsibscribeValue>, "mention": <mentionValue>, "repost": <repostValue>,  "message": <messageValue>, "witnessVote": <witnessVoteValue>, "witnessCancelVote": <witnessCancelVoteValue>, "reward": <rewardValue>, "curatorReward": <curatorRewardValue>
+        // Template: "upvote": <upvote>, "downvote": <downvote>, "reply": <reply>, "transfer": <transfer>, "subscribe": <subscribe>, "unsubscribe": <unsibscribe>, "mention": <mention>, "repost": <repost>,  "message": <message>, "witnessVote": <witnessVote>, "witnessCancelVote": <witnessCancelVote>, "reward": <reward>, "curatorReward": <curatorReward>
         public func getPushOptionsValues() -> String {
             return  String(format: "\"vote\": %d, \"flag\": %d, \"reply\": %d, \"transfer\": %d, \"subscribe\": %d, \"unsubscribe\": %d, \"mention\": %d, \"repost\": %d, \"message\": %d, \"witnessVote\": %d, \"witnessCancelVote\": %d, \"reward\": %d, \"curatorReward\": %d", self.upvote.intValue, self.downvote.intValue, self.reply.intValue, self.transfer.intValue, self.subscribe.intValue, self.unsubscribe.intValue, self.mention.intValue, self.repost.intValue, self.message.intValue, self.witnessVote.intValue, self.witnessCancelVote.intValue, self.reward.intValue, self.curatorReward.intValue)
         }
