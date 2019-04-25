@@ -264,7 +264,7 @@ class EOSManager {
     }
     
     /// Action `changereput`
-    private static func updateUserProfile(changereputArgs: EOSTransaction.UserProfileChangereputArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
+    static func updateUserProfile(changereputArgs: EOSTransaction.UserProfileChangereputArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
         
         let userProfileChangereputTransaction = EOSTransaction.init(chainApi: EOSManager.chainApi)
@@ -351,7 +351,7 @@ class EOSManager {
     }
 
     /// Action `reblog`
-    public static func reblog(args: EOSTransaction.ReblogArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
+    static func reblog(args: EOSTransaction.ReblogArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else {
             completion(nil, NSError(domain: "User is not authorized.", code: 401, userInfo: nil))
             return
@@ -416,8 +416,14 @@ class EOSManager {
     
     //  MARK: - Contract `gls.social`
     /// Actions `pin`, `unpin`
-    static func updateUserProfile(pinArgs: EOSTransaction.UserProfilePinArgs, isUnpin: Bool, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
-        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
+    static func updateUserProfile(pinArgs:  EOSTransaction.UserProfilePinArgs,
+                                  isUnpin:  Bool,
+                                  responseResult:   @escaping (ChainResponse<TransactionCommitted>) -> Void,
+                                  responseError:    @escaping (Error) -> Void) {
+        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else {
+            responseError(ErrorAPI.invalidData(message: "Unauthorized"))
+            return
+        }
         
         let userProfilePinTransaction = EOSTransaction.init(chainApi: chainApi)
         
@@ -436,11 +442,11 @@ class EOSManager {
             
             if let response = try userProfilePinTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [pinActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                 if response.success {
-                    completion(response, nil)
+                    responseResult(response)
                 }
             }
         } catch {
-            completion(nil, error)
+            responseError(error)
         }
     }
     
@@ -474,8 +480,13 @@ class EOSManager {
     }
     
     /// Action `updatemeta`
-    static func update(userProfileMetaArgs: EOSTransaction.UserProfileUpdatemetaArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
-        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
+    static func update(userProfileMetaArgs: EOSTransaction.UserProfileUpdatemetaArgs,
+                       responseResult:      @escaping (ChainResponse<TransactionCommitted>) -> Void,
+                       responseError:       @escaping (Error) -> Void) {
+        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else {
+            responseError(ErrorAPI.invalidData(message: "Unauthorized"))
+            return
+        }
         
         // JSON
         print(userProfileMetaArgs.convertToJSON())
@@ -497,11 +508,11 @@ class EOSManager {
             
             if let response = try userProfileUpdatemetaTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [userProfileUpdateActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                 if response.success {
-                    completion(response, nil)
+                    responseResult(response)
                 }
             }
         } catch {
-            completion(nil, error)
+            responseError(error)
         }
     }
     

@@ -47,7 +47,7 @@
 ### API 'registration.setUsername'
 
 ### API 'registration.resendSmsCode'
-*19.04.2019:
+* 19.04.2019:
 - create API
 
 ### API 'registration.resendSmsCode'
@@ -61,6 +61,17 @@
 ## golos.social.abi
 [Documentation](https://github.com/GolosChain/golos.contracts/blob/master/golos.social/golos.social.abi)
 
+### API 'social.block', 'social.unblock'
+
+### API 'social.pin', 'social.unpin'
+* 25.04.2019:
+- add 'responseResult' & 'responseError'
+
+### API 'social.updatemeta'
+* 25.04.2019:
+- create contract
+
+### API 'social.deletemeta'
 
 
 ## golos.vesting.abi

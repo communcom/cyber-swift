@@ -4,6 +4,8 @@
 //  Created by msm72 on 12.07.2018.
 //  Copyright © 2018 golos. All rights reserved.
 //
+//  https://github.com/GolosChain/imghost
+//
 
 import eosswift
 import Foundation
@@ -15,6 +17,13 @@ public enum UserKeyType: String {
     case owner      =   "owner"
     case active     =   "active"
     case posting    =   "posting"
+}
+
+public enum ImageType {
+    case avatar
+    case cover
+    case profile
+    case background
 }
 
 public class RestAPIManager {
@@ -594,6 +603,108 @@ public class RestAPIManager {
         else {
             completion(false, ErrorAPI.disableInternetConnection(message: nil))
         }
+    }
+
+    
+    //  MARK: - Contract `gls.social`
+    /// Posting image
+    public func posting(imageName:      String,
+                        imageType:      ImageType,
+                        resultHandling: @escaping (ChainResponse<TransactionCommitted>) -> Void,
+                        errorHandling:  @escaping (ErrorAPI) -> Void) {
+        // Offline mode
+        guard Config.isNetworkAvailable else {
+            errorHandling(ErrorAPI.disableInternetConnection(message: nil))
+            return
+        }
+
+        guard let image = UIImage(named: imageName) else {
+            errorHandling(ErrorAPI.invalidData(message: "Invalid Data"))
+            return
+        }
+        
+        guard let imageData = image.jpegData(compressionQuality: 1.0) else {
+            errorHandling(ErrorAPI.invalidData(message: "Invalid Data"))
+            return
+        }
+        
+        let session             =   URLSession(configuration: .default)
+        let requestURL          =   URL(string: Config.imageHost)!
+        
+        let request             =   NSMutableURLRequest(url: requestURL)
+        request.httpMethod      =   "POST"
+        
+        let boundaryConstant    =   "----------------12345"
+        let contentType         =   "multipart/form-data;boundary=" + boundaryConstant
+        
+        request.setValue(contentType, forHTTPHeaderField: "Content-Type")
+        
+        // Create upload data to send
+        let uploadData          =   NSMutableData()
+        
+        // Add image
+        uploadData.append("\r\n--\(boundaryConstant)\r\n".data(using: String.Encoding.utf8)!)
+        uploadData.append("Content-Disposition: form-data; name=\"file\"; filename=\"\(imageName).png\"\r\n".data(using: String.Encoding.utf8)!)
+        uploadData.append("Content-Type: image/png\r\n\r\n".data(using: String.Encoding.utf8)!)
+        uploadData.append(imageData)
+        uploadData.append("\r\n--\(boundaryConstant)--\r\n".data(using: String.Encoding.utf8)!)
+        
+        request.httpBody        =   uploadData as Data
+        
+        let task = session.dataTask(with: request as URLRequest, completionHandler: { (data, _, error) -> Void in
+            guard error == nil else {
+                errorHandling(ErrorAPI.responseUnsuccessful(message: "POST Request Failed"))
+                return
+            }
+            
+            let response = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+            Logger.log(message: "response = \(String(describing: response))", event: .debug)
+            
+            if let json = try? JSONSerialization.jsonObject(with: data!, options: .mutableLeaves) as? [String: Any], let imageURL = json["url"] as? String {
+                // Action `updatemeta`
+                guard let nickName = Config.currentUser.nickName else {
+                    errorHandling(ErrorAPI.invalidData(message: "Unauthorized"))
+                    return
+                }
+                
+                let userProfileAccountmetaArgs = EOSTransaction.UserProfileAccountmetaArgs(backgroundImageValue: imageType == .background ? imageURL : nil, coverImageValue: imageType == .cover ? imageURL : nil, profileImageValue: imageType == .profile ? imageURL : nil, userImageValue: imageType == .avatar ? imageURL : nil)
+                Logger.log(message: "userProfileAccountmetaArgs: \(userProfileAccountmetaArgs)", event: .debug)
+                
+                self.update(userProfileMetaArgs: EOSTransaction.UserProfileUpdatemetaArgs.init(accountValue: nickName,
+                                                                                               metaValue:    userProfileAccountmetaArgs),
+                       resultHandling: { result in
+                        resultHandling(result)
+                },
+                       errorHandling: { errorAPI in
+                        errorHandling(errorAPI as! ErrorAPI)
+                })
+            }
+                
+            else {
+                errorHandling(ErrorAPI.jsonParsingFailure(message: "JSON Conversion Failure"))
+            }
+        })
+        
+        task.resume()
+    }
+    
+    /// Action `updatemeta`
+    public func update(userProfileMetaArgs: EOSTransaction.UserProfileUpdatemetaArgs,
+                       resultHandling:      @escaping (ChainResponse<TransactionCommitted>) -> Void,
+                       errorHandling:       @escaping (Error) -> Void) {
+        // Offline mode
+        guard Config.isNetworkAvailable else {
+            errorHandling(ErrorAPI.disableInternetConnection(message: nil))
+            return
+        }
+        
+        EOSManager.update(userProfileMetaArgs: userProfileMetaArgs,
+                          responseResult: { result in
+                            resultHandling(result)
+        },
+                          responseError: { errorAPI in
+                            errorHandling(errorAPI)
+        })
     }
 
     
