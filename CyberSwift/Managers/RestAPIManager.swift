@@ -608,7 +608,7 @@ public class RestAPIManager {
     
     //  MARK: - Contract `gls.social`
     /// Posting image
-    public func posting(imageName:      String,
+    public func posting(image:          UIImage,
                         imageType:      ImageType,
                         resultHandling: @escaping (ChainResponse<TransactionCommitted>) -> Void,
                         errorHandling:  @escaping (ErrorAPI) -> Void) {
@@ -618,11 +618,6 @@ public class RestAPIManager {
             return
         }
 
-        guard let image = UIImage(named: imageName) else {
-            errorHandling(ErrorAPI.invalidData(message: "Invalid Data"))
-            return
-        }
-        
         guard let imageData = image.jpegData(compressionQuality: 1.0) else {
             errorHandling(ErrorAPI.invalidData(message: "Invalid Data"))
             return
@@ -644,7 +639,7 @@ public class RestAPIManager {
         
         // Add image
         uploadData.append("\r\n--\(boundaryConstant)\r\n".data(using: String.Encoding.utf8)!)
-        uploadData.append("Content-Disposition: form-data; name=\"file\"; filename=\"\(imageName).png\"\r\n".data(using: String.Encoding.utf8)!)
+        uploadData.append("Content-Disposition: form-data; name=\"file\"; filename=\"\(String.randomString(length: 9)).png\"\r\n".data(using: String.Encoding.utf8)!)
         uploadData.append("Content-Type: image/png\r\n\r\n".data(using: String.Encoding.utf8)!)
         uploadData.append(imageData)
         uploadData.append("\r\n--\(boundaryConstant)--\r\n".data(using: String.Encoding.utf8)!)

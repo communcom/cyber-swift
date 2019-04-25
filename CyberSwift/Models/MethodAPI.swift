@@ -122,8 +122,11 @@ public indirect enum MethodAPIType {
     case setBasicOptions(nsfw: String, language: String)
     
     //  Set Push options
-//    case setPushOptions(nickName: String, deviceType: String, options: RequestParameterAPI.PushOptions)
+//    case setPush(options: RequestParameterAPI.PushOptions)
 
+    //  Set Notify options
+    //    case setNotify(options: RequestParameterAPI.PushOptions)
+    
     
     /// REGISTRATION-SERVICE
     //  Get current registration status for user

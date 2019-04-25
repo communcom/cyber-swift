@@ -70,6 +70,7 @@
 ### API 'social.updatemeta'
 * 25.04.2019:
 - create contract
+- change image type: String -> UIImage
 
 ### API 'social.deletemeta'
 
