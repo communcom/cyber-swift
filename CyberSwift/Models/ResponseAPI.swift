@@ -878,3 +878,18 @@ public struct ResponseAPISetOptionsBasicResult: Decodable {
 public struct ResponseAPISetOptionsBasic: Decodable {
     public let status: String
 }
+
+
+// MARK: -
+public struct ResponseAPISetOptionsPushResult: Decodable {
+    public let jsonrpc: String
+    public let id: UInt16
+    public let result: ResponseAPISetOptionsPush?
+    public let error: ResponseAPIError?
+}
+
+
+// MARK: -
+public struct ResponseAPISetOptionsPush: Decodable {
+    public let status: String
+}

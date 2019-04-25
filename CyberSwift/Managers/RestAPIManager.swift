@@ -423,6 +423,40 @@ public class RestAPIManager {
         }
     }
 
+    // API push `options.set`
+    public func setPush(options:            RequestParameterAPI.PushOptions,
+                        resultHandling:     @escaping (ResponseAPISetOptionsPush) -> Void,
+                        errorHandling:      @escaping (ErrorAPI) -> Void) {
+        // Offline mode
+        if (!Config.isNetworkAvailable) {
+            errorHandling(ErrorAPI.disableInternetConnection(message: nil))
+            return
+        }
+        
+        guard (Config.currentUser.nickName != nil) else {
+            errorHandling(ErrorAPI.invalidData(message: "Unauthorized"))
+            return
+        }
+        
+        let methodAPIType = MethodAPIType.setPush(options: options)
+        
+        Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                             onResult:          { (responseAPIResult) in
+                                                Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
+                                                
+                                                guard let result = (responseAPIResult as! ResponseAPISetOptionsPushResult).result else {
+                                                    errorHandling(ErrorAPI.requestFailed(message: "API push \'options.set\' have error: \((responseAPIResult as! ResponseAPISetOptionsPushResult).error!.message)"))
+                                                    return
+                                                }
+                                                
+                                                resultHandling(result)
+        },
+                                             onError:           { (errorAPI) in
+                                                Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
+                                                errorHandling(errorAPI)
+        })
+    }
+
     
     // MARK: - REGISTRATION-SERVICE
     // API `registration.getState`

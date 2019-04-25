@@ -185,6 +185,9 @@ public class WebSocketManager {
             case .setBasicOptions(_):
                 return (responseAPI: try JSONDecoder().decode(ResponseAPISetOptionsBasicResult.self, from: jsonData), errorAPI: nil)
 
+            case .setPush(_):
+                return (responseAPI: try JSONDecoder().decode(ResponseAPISetOptionsPushResult.self, from: jsonData), errorAPI: nil)
+
             
             // REGISTRATION-SERVICE
             case .getState(_):

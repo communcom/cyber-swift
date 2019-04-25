@@ -32,6 +32,13 @@
 * 23.04.2019:
 - create API
 
+### API basic 'options.set'
+* 24.04.2019:
+- create API
+
+### API push 'options.set'
+* 25.04.2019:
+- create API
 
 
 ## Registration-Service
