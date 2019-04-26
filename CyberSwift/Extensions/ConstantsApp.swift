@@ -20,9 +20,10 @@ public struct Config {
     
     public static var isPublicTestnet: Bool             =   true
     public static let testingPassword: String           =   "DpQad16yDlllEy6"
-    static let CHAIN_CYBERWAY_API_BASE_URL: String      =   isPublicTestnet ? "http://46.4.96.246:8888/" : "http://159.69.85.233:8888/"
+    static let CHAIN_CYBERWAY_API_BASE_URL: String      =   isPublicTestnet ? " https://node-cyberway.golos.io/" : "http://159.69.85.233:8888/"
+//    static let CHAIN_CYBERWAY_API_BASE_URL: String      =   isPublicTestnet ? "http://46.4.96.246:8888/" : "http://159.69.85.233:8888/"
     static let imageHost: String                        =   "https://img.golos.io/upload"
-    
+   
     /// Websocket
     public static var webSocketSecretKey: String        =   "Cyberway"
     
