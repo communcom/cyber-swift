@@ -363,30 +363,32 @@ public class RestAPIManager {
     }
 
     // API `options.get`
-    public func getOptions(completion: @escaping (ResponseAPIGetOptions?, ErrorAPI?) -> Void) {
-        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
+    public func getOptions(responseHandling:    @escaping (ResponseAPIGetOptions) -> Void,
+                           errorHandling:       @escaping (ErrorAPI) -> Void) {
+        // Offline mode
+        if (!Config.isNetworkAvailable) {
+            return errorHandling(ErrorAPI.disableInternetConnection(message: nil))
+        }
         
+        // Check user authorize
         guard Config.currentUser.nickName != nil else {
-            return completion(nil, ErrorAPI.disableInternetConnection(message: nil))
+            return errorHandling(ErrorAPI.invalidData(message: "Unauthorized"))
         }
         
         let methodAPIType = MethodAPIType.getOptions
         
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                              onResult:          { (responseAPIResult) in
-                                                Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
-                                                
                                                 guard let result = (responseAPIResult as! ResponseAPIGetOptionsResult).result else {
-                                                    completion(nil, ErrorAPI.requestFailed(message: "API \'options.get\' have error: \((responseAPIResult as! ResponseAPIGetOptionsResult).error!.message)"))
-                                                    return
+                                                    return errorHandling(ErrorAPI.requestFailed(message: "API \'options.get\' have error: \((responseAPIResult as! ResponseAPIGetOptionsResult).error!.message)"))
                                                 }
-                                                
-                                                completion(result, nil)
-        }) { (errorAPI) in
-            Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
-            
-            completion(nil, errorAPI)
-        }
+
+                                                responseHandling(result)
+        },
+                                             onError:           { (errorAPI) in
+                                                Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
+                                                errorHandling(errorAPI)
+        })
     }
 
     // API basic `options.set`
