@@ -498,8 +498,7 @@ class EOSManager {
                        responseResult:      @escaping (ChainResponse<TransactionCommitted>) -> Void,
                        responseError:       @escaping (Error) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else {
-            responseError(ErrorAPI.invalidData(message: "Unauthorized"))
-            return
+            return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
         }
         
         // JSON

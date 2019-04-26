@@ -379,9 +379,7 @@ public class RestAPIManager {
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         // Check user authorize
-        guard Config.currentUser.nickName != nil else {
-            return errorHandling(ErrorAPI.invalidData(message: "Unauthorized"))
-        }
+        guard Config.currentUser.nickName != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
         
         let methodAPIType = MethodAPIType.getOptions
         
@@ -685,11 +683,19 @@ public class RestAPIManager {
     }
     
     /// Action `updatemeta`
-    public func update(userProfileMetaArgs:     EOSTransaction.UserProfileUpdatemetaArgs,
+    public func update(userProfile:             [String: String],
                        responseHandling:        @escaping (ChainResponse<TransactionCommitted>) -> Void,
                        errorHandling:           @escaping (Error) -> Void) {
         // Offline mode
         guard Config.isNetworkAvailable else { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        // Check user authorize
+        guard let nickName = Config.currentUser.nickName else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
+        
+        let userProfileAccountmetaArgs = EOSTransaction.UserProfileAccountmetaArgs(json: userProfile)
+
+        let userProfileMetaArgs = EOSTransaction.UserProfileUpdatemetaArgs(accountValue:    nickName,
+                                                                           metaValue:       userProfileAccountmetaArgs)
         
         EOSManager.update(userProfileMetaArgs:  userProfileMetaArgs,
                           responseResult:       { result in
