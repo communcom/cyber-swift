@@ -33,18 +33,20 @@ class EOSManager {
     static func createPairKeys() {
         // Private key from encoded string
         let privateKey = try! EOSPrivateKey(base58: Config.postingKeyDestroyer2k)
-        print("privateKey = \(privateKey.base58)")
+        Logger.log(message: "\nprivateKey: \n\(privateKey.base58)\n", event: .debug)
     }
     
     
     /// MARK: - CHAIN
-    static func getChainInfo(completion: @escaping (Info?, Error?) -> Void) {
+    static func getChainInfo(responseResult:    @escaping (Info) -> Void,
+                             responseError:     @escaping (ErrorAPI) -> Void) {
         _ = self.chainApi.getInfo().subscribe(onSuccess: { response in
             if let info = response.body {
-                completion(info, nil)
+                responseResult(info)
             }
-        }, onError: { error in
-            completion(nil, error)
+        },
+                                              onError: { error in
+                                                responseError(ErrorAPI.invalidData(message: "\(error.localizedDescription)"))
         })
     }
     
@@ -56,7 +58,7 @@ class EOSManager {
             }
         }, onError: { error in
             if let httpErrorResponse = error as? HttpErrorResponse<ChainError> {
-                print("\(String(describing: httpErrorResponse.bodyString))")
+                Logger.log(message: "\(String(describing: httpErrorResponse.bodyString))", event: .error)
             }
         })
     }
@@ -65,25 +67,26 @@ class EOSManager {
     static func getChain(blockNumberID: String) {
         _ = self.chainApi.getBlock(body: BlockNumOrId(block_num_or_id: blockNumberID)).subscribe(onSuccess: { response in
             if let info = response.body {
-                print("info = \(info)")
+                Logger.log(message: "info = \(info)", event: .debug)
             }
         }, onError: { error in
             if let httpErrorResponse = error as? HttpErrorResponse<ChainError> {
-                print("\(String(describing: httpErrorResponse.bodyString))")
+                Logger.log(message: "\(String(describing: httpErrorResponse.bodyString))", event: .error)
             }
         })
     }
     
     ///
-    static func getAccount(nickName: String, completion: @escaping (HttpResponse<Account>?, Error?) -> Void) {
+    static func getAccount(nickName:    String,
+                           completion:  @escaping (HttpResponse<Account>?, Error?) -> Void) {
         _ = self.chainApi.getAccount(body: AccountName(account_name: nickName)).subscribe(onSuccess: { response in
             if let info = response.body {
-                print("info = \(info)")
+                Logger.log(message: "info = \(info)", event: .debug)
                 completion(response, nil)
             }
         }, onError: { error in
             if let httpErrorResponse = error as? HttpErrorResponse<ChainError> {
-                print("\(String(describing: httpErrorResponse.bodyString))")
+                Logger.log(message: "\(String(describing: httpErrorResponse.bodyString))", event: .error)
                 completion(nil, error)
             }
         })
@@ -106,7 +109,8 @@ class EOSManager {
     
     //  MARK: - Contract `gls.publish`
     /// Action `newaccount`
-    static func createNewAccount(nickName: String, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
+    static func createNewAccount(nickName:      String,
+                                 completion:    @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
         
         let createNewAccountTransaction = EOSTransaction.init(chainApi: chainApi)
@@ -161,21 +165,19 @@ class EOSManager {
                        tags:            [EOSTransaction.Tags],
                        jsonMetaData:    String?,
                        responseResult:  @escaping (ChainResponse<TransactionCommitted>) -> Void,
-                       responseError:   @escaping (Error) -> Void) {
+                       responseError:   @escaping (ErrorAPI) -> Void) {
         // Check user authorize
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else {
             return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
         }
     
-        EOSManager.getChainInfo(completion: { (info, error) in
-            guard error == nil else { return responseError(error!) }
-            
+        EOSManager.getChainInfo(responseResult: { (info) in
             let messageTransaction = EOSTransaction.init(chainApi: chainApi)
             
             let messageTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name:    userNickName),
                                                                                  permission:    AccountNameWriterValue(name:    "active"))
             
-            let refBlockNum: UInt64 = UInt64(info!.head_block_num)
+            let refBlockNum: UInt64 = UInt64(info.head_block_num)
             
             let messageCreateArgs = EOSTransaction.MessageCreateArgs(authorValue:               userNickName,
                                                                      parentDataValue:           parentData,
@@ -205,11 +207,15 @@ class EOSManager {
                         }
                     }
                 } catch {
-                    responseError(error)
+                    responseError(ErrorAPI.responseUnsuccessful(message: "\(error.localizedDescription)"))
                 }
             }
+        },
+                                responseError:  { (errorAPI) in
+                                    responseError(errorAPI)
         })
     }
+
 
     /// Action `deletemssg`
     static func delete(messageArgs: EOSTransaction.MessageDeleteArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
@@ -357,12 +363,14 @@ class EOSManager {
     }
 
     /// Action `reblog`
-    static func reblog(args: EOSTransaction.ReblogArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
+    static func reblog(args:            EOSTransaction.ReblogArgs,
+                       responseResult:  @escaping (ChainResponse<TransactionCommitted>) -> Void,
+                       responseError:   @escaping (ErrorAPI) -> Void) {
+        // Check user authorize
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else {
-            completion(nil, NSError(domain: "User is not authorized.", code: 401, userInfo: nil))
-            return
+            return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
         }
-
+        
         let reblogTransaction = EOSTransaction.init(chainApi: EOSManager.chainApi)
         
         let reblogTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name:     userNickName),
@@ -380,11 +388,11 @@ class EOSManager {
             
             if let response = try reblogTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [reblogActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                 if response.success {
-                    completion(response, nil)
+                    responseResult(response)
                 }
             }
         } catch {
-            completion(nil, error)
+            responseError(ErrorAPI.responseUnsuccessful(message: "\(error.localizedDescription)"))
         }
     }
 
@@ -495,7 +503,7 @@ class EOSManager {
         }
         
         // JSON
-        print(userProfileMetaArgs.convertToJSON())
+        Logger.log(message: "\nuserProfileMetaArgs: \n\(userProfileMetaArgs.convertToJSON())\n", event: .debug)
         
         let userProfileUpdatemetaTransaction = EOSTransaction.init(chainApi: EOSManager.chainApi)
         
@@ -616,7 +624,8 @@ class EOSManager {
     }
 
     // Action `unvotewitn` (3)
-    static func unvote(witnessArgs: EOSTransaction.UnvotewitnessArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
+    static func unvote(witnessArgs:     EOSTransaction.UnvotewitnessArgs,
+                       completion:      @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let currentUserNickName = Config.currentUser.nickName, let currentUserActiveKey = Config.currentUser.activeKey else {
             completion(nil, NSError(domain: "Unauthorized".localized(), code: 401, userInfo: nil))
             return
@@ -648,7 +657,8 @@ class EOSManager {
     }
     
     // Action `unregwitness` (4)
-    static func unreg(witnessArgs: EOSTransaction.UnregwitnessArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
+    static func unreg(witnessArgs:  EOSTransaction.UnregwitnessArgs,
+                      completion:   @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         guard let currentUserNickName = Config.currentUser.nickName, let currentUserActiveKey = Config.currentUser.activeKey else {
             completion(nil, NSError(domain: "Unauthorized".localized(), code: 401, userInfo: nil))
             return
@@ -684,11 +694,11 @@ class EOSManager {
     static func getTransaction(blockNumberHint: String) {
         _ = self.historyApi.getTransaction(body: GetTransaction(id: blockNumberHint)).subscribe(onSuccess: { response in
             if let info = response.body {
-                print("info = \(info)")
+                Logger.log(message: "info = \(info)", event: .debug)
             }
         }, onError: { error in
             if let httpErrorResponse = error as? HttpErrorResponse<ChainError> {
-                print("\(String(describing: httpErrorResponse.bodyString))")
+                Logger.log(message: "\(String(describing: httpErrorResponse.bodyString))", event: .error)
             }
         })
     }

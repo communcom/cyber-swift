@@ -38,7 +38,9 @@ public class RestAPIManager {
     
     
     // MARK: - Class Functions
-    private func generate(keyTypes: [UserKeyType], nickName: String, password: String) -> [UserKeys] {
+    private func generate(keyTypes:     [UserKeyType],
+                          nickName:     String,
+                          password:     String) -> [UserKeys] {
         var userKeys: [UserKeys] = [UserKeys]()
         
         for keyType in keyTypes {
@@ -64,316 +66,317 @@ public class RestAPIManager {
     
     // MARK: - FACADE-SERVICE
     // API `auth.authorize`
-    public func authorize(userNickName: String, userActiveKey: String, completion: @escaping (ResponseAPIAuthAuthorize?, ErrorAPI?) -> Void) {
-        if Config.isNetworkAvailable {
-            let methodAPIType = MethodAPIType.authorize(nickName: userNickName, activeKey: userActiveKey)
-            
-            Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
-                                                 onResult:          { responseAPIResult in
-                                                    Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
-                                                    
-                                                    guard let result = (responseAPIResult as! ResponseAPIAuthAuthorizeResult).result else {
-                                                        completion(nil, ErrorAPI.requestFailed(message: "API \'auth.authorize\' have error: \((responseAPIResult as! ResponseAPIAuthAuthorizeResult).error!.message)"))
-                                                        return
-                                                    }
-                                                    
-                                                    DispatchQueue.main.async(execute: {
-                                                        UserDefaults.standard.set(true, forKey: Config.isCurrentUserLoggedKey)
-                                                        
-                                                        // Save in Keychain
-                                                        _ = KeychainManager.save(data: [Config.currentUserNickNameKey: userNickName], userNickName: Config.currentUserNickNameKey)
-                                                        _ = KeychainManager.save(data: [Config.currentUserPublicActiveKey: userActiveKey], userNickName: Config.currentUserPublicActiveKey)
-                                                        
-                                                        completion(result, nil)
-                                                    })
-            },
-                                                 onError: { errorAPI in
-                                                    Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
-                                                    
-                                                    completion(nil, errorAPI)
-            })
-        }
-            
+    public func authorize(userNickName:     String,
+                          userActiveKey:    String,
+                          completion:       @escaping (ResponseAPIAuthAuthorize?, ErrorAPI?) -> Void) {
         // Offline mode
-        else {
-            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
-        }
+        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        let methodAPIType = MethodAPIType.authorize(nickName: userNickName, activeKey: userActiveKey)
+        
+        Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                             onResult:          { responseAPIResult in
+                                                guard let result = (responseAPIResult as! ResponseAPIAuthAuthorizeResult).result else {
+                                                    let responseAPIError = (responseAPIResult as! ResponseAPIAuthAuthorizeResult).error
+                                                    Logger.log(message: "\nAPI `auth.authorize` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
+                                                    return completion(nil, ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
+                                                }
+                                                
+                                                DispatchQueue.main.async(execute: {
+                                                    UserDefaults.standard.set(true, forKey: Config.isCurrentUserLoggedKey)
+                                                    
+                                                    // Save in Keychain
+                                                    _ = KeychainManager.save(data: [Config.currentUserNickNameKey: userNickName], userNickName: Config.currentUserNickNameKey)
+                                                    _ = KeychainManager.save(data: [Config.currentUserPublicActiveKey: userActiveKey], userNickName: Config.currentUserPublicActiveKey)
+                                                    
+                                                    Logger.log(message: "\nAPI `auth.authorize` response result: \n\(responseAPIResult)\n", event: .debug)
+                                                    completion(result, nil)
+                                                })
+        },
+                                             onError:           { (errorAPI) in
+                                                Logger.log(message: "\nAPI `auth.authorize` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
+                                                completion(nil, errorAPI)
+        })
     }
     
     // API `auth.generateSecret`
     private func generateSecret(completion: @escaping (ResponseAPIAuthGenerateSecret?, ErrorAPI?) -> Void) {
-        if Config.isNetworkAvailable {
-            let methodAPIType = MethodAPIType.generateSecret
-            
-            Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
-                                                 onResult:          { responseAPIResult in
-                                                    Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
-                                                    
-                                                    guard let result = (responseAPIResult as! ResponseAPIAuthGenerateSecretResult).result else {
-                                                        completion(nil, ErrorAPI.requestFailed(message: "API \'auth.generateSecret\' have error: \((responseAPIResult as! ResponseAPIAuthGenerateSecretResult).error!.message)"))
-                                                        return
-                                                    }
-                                                    
-                                                    completion(result, nil)
-            },
-                                                 onError: { errorAPI in
-                                                    Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
-                                                    
-                                                    completion(nil, errorAPI)
-            })
-        }
-            
         // Offline mode
-        else {
-            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
-        }
+        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        let methodAPIType = MethodAPIType.generateSecret
+        
+        Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                             onResult:          { (responseAPIResult) in
+                                                guard let result = (responseAPIResult as! ResponseAPIAuthGenerateSecretResult).result else {
+                                                    let responseAPIError = (responseAPIResult as! ResponseAPIAuthGenerateSecretResult).error
+                                                    Logger.log(message: "\nAPI `auth.generateSecret` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
+                                                    return completion(nil, ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
+                                                }
+                                                
+                                                Logger.log(message: "\nAPI `auth.generateSecret` response result: \n\(responseAPIResult)\n", event: .debug)
+                                                completion(result, nil)
+        },
+                                             onError:           { (errorAPI) in
+                                                Logger.log(message: "\nAPI `auth.generateSecret` response error: \n\(errorAPI.localizedDescription)\n", event: .debug)
+                                                
+                                                completion(nil, errorAPI)
+        })
     }
     
     // API `content.getProfile`
-    public func getProfile(nickName: String, type: ProfileType = .cyber, completion: @escaping (ResponseAPIContentGetProfile?, ErrorAPI?) -> Void) {
-        if Config.isNetworkAvailable {
-            let methodAPIType = MethodAPIType.getProfile(nickName: nickName, type: type)
-            
-            Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
-                                                 onResult:          { responseAPIResult in
-                                                    Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
-                                                    
-                                                    guard let profileResult = responseAPIResult as? ResponseAPIContentGetProfileResult, let result = profileResult.result else {
-                                                        completion(nil, ErrorAPI.requestFailed(message: "User \(nickName) profile is not found."))
-                                                        return
-                                                    }
-                                                    
-                                                    completion(result, nil)
-            },
-                                                 onError: { errorAPI in
-                                                    Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
-                                                    
-                                                    completion(nil, errorAPI)
-            })
-        }
-            
+    public func getProfile(nickName:    String,
+                           type:        ProfileType = .cyber,
+                           completion:  @escaping (ResponseAPIContentGetProfile?, ErrorAPI?) -> Void) {
         // Offline mode
-        else {
-            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
-        }
+        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        let methodAPIType = MethodAPIType.getProfile(nickName: nickName, type: type)
+        
+        Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                             onResult:          { (responseAPIResult) in
+                                                guard let profileResult = responseAPIResult as? ResponseAPIContentGetProfileResult, let result = profileResult.result else {
+                                                    let responseAPIError = (responseAPIResult as! ResponseAPIContentGetProfileResult).error
+                                                    Logger.log(message: "\nAPI `content.getProfile` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
+                                                    return completion(nil, ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
+                                                }
+                                                
+                                                Logger.log(message: "\nAPI `content.getProfile` response result: \n\(responseAPIResult)\n", event: .debug)
+                                                completion(result, nil)
+        },
+                                             onError:           { (errorAPI) in
+                                                Logger.log(message: "\nAPI `content.getProfile` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
+                                                completion(nil, errorAPI)
+        })
     }
     
     // API `content.getFeed`
-    public func loadFeed(typeMode: FeedTypeMode = .community, userID: String? = nil, communityID: String? = nil, timeFrameMode: FeedTimeFrameMode = .day, sortMode: FeedSortMode = .popular, paginationLimit: Int8 = Config.paginationLimit, paginationSequenceKey: String? = nil, completion: @escaping (ResponseAPIContentGetFeed?, ErrorAPI?) -> Void) {
-        if Config.isNetworkAvailable {
-            let methodAPIType = MethodAPIType.getFeed(typeMode: typeMode, userID: userID, communityID: communityID, timeFrameMode: timeFrameMode, sortMode: sortMode, paginationSequenceKey: paginationSequenceKey)
-            
-            Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
-                                                 onResult:          { responseAPIResult in
-                                                    Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
-                                                    
-                                                    guard let result = (responseAPIResult as! ResponseAPIContentGetFeedResult).result else {
-                                                        completion(nil, ErrorAPI.requestFailed(message: "API \'content.getFeed\' have error: \((responseAPIResult as! ResponseAPIContentGetFeedResult).error!.message)"))
-                                                        return
-                                                    }
-                                                    
-                                                    completion(result, nil)
-            },
-                                                 onError: { errorAPI in
-                                                    Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
-                                                    
-                                                    completion(nil, errorAPI)
-            })
-        }
-            
+    public func loadFeed(typeMode:                  FeedTypeMode = .community,
+                         userID:                    String? = nil,
+                         communityID:               String? = nil,
+                         timeFrameMode:             FeedTimeFrameMode = .day,
+                         sortMode:                  FeedSortMode = .popular,
+                         paginationLimit:           Int8 = Config.paginationLimit,
+                         paginationSequenceKey:     String? = nil,
+                         completion:                @escaping (ResponseAPIContentGetFeed?, ErrorAPI?) -> Void) {
         // Offline mode
-        else {
-            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
-        }
+        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        let methodAPIType = MethodAPIType.getFeed(typeMode: typeMode, userID: userID, communityID: communityID, timeFrameMode: timeFrameMode, sortMode: sortMode, paginationSequenceKey: paginationSequenceKey)
+        
+        Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                             onResult:          { (responseAPIResult) in
+                                                guard let result = (responseAPIResult as! ResponseAPIContentGetFeedResult).result else {
+                                                    let responseAPIError = (responseAPIResult as! ResponseAPIContentGetFeedResult).error
+                                                    Logger.log(message: "\nAPI `content.getFeed` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
+                                                    return completion(nil, ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
+                                                }
+                                                
+                                                Logger.log(message: "\nAPI `content.getFeed` response result: \n\(responseAPIResult)\n", event: .debug)
+                                                completion(result, nil)
+        },
+                                             onError:           { (errorAPI) in
+                                                Logger.log(message: "\nAPI `content.getFeed` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
+                                                completion(nil, errorAPI)
+        })
     }
     
     // API `content.getPost`
-    public func loadPost(userID: String = Config.currentUser.nickName ?? "Cyber", permlink: String, refBlockNum: UInt64, completion: @escaping (ResponseAPIContentGetPost?, ErrorAPI?) -> Void) {
-        if Config.isNetworkAvailable {
-            let methodAPIType = MethodAPIType.getPost(userID: userID, permlink: permlink, refBlockNum: refBlockNum)
-            
-            Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
-                                                 onResult:          { responseAPIResult in
-                                                    Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
-                                                    
-                                                    guard let result = (responseAPIResult as! ResponseAPIContentGetPostResult).result else {
-                                                        completion(nil, ErrorAPI.requestFailed(message: "API \'content.getPost\' have error: \((responseAPIResult as! ResponseAPIContentGetPostResult).error!.message)"))
-                                                        return
-                                                    }
-                                                    
-                                                    completion(result, nil)
-            },
-                                                 onError: { errorAPI in
-                                                    Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
-                                                    
-                                                    completion(nil, errorAPI)
-            })
-        }
-            
+    public func loadPost(userID:        String = Config.currentUser.nickName ?? "Cyber",
+                         permlink:      String,
+                         refBlockNum:   UInt64,
+                         completion:    @escaping (ResponseAPIContentGetPost?, ErrorAPI?) -> Void) {
         // Offline mode
-        else {
-            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
-        }
+        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        let methodAPIType = MethodAPIType.getPost(userID: userID, permlink: permlink, refBlockNum: refBlockNum)
+        
+        Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                             onResult:          { (responseAPIResult) in
+                                                guard let result = (responseAPIResult as! ResponseAPIContentGetPostResult).result else {
+                                                    let responseAPIError = (responseAPIResult as! ResponseAPIContentGetPostResult).error
+                                                    Logger.log(message: "\nAPI `content.getPost` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
+                                                    return completion(nil, ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
+                                                }
+                                                
+                                                Logger.log(message: "\nAPI `content.getPost` response result: \n\(responseAPIResult)\n", event: .debug)
+                                                completion(result, nil)
+        },
+                                             onError:           { (errorAPI) in
+                                                Logger.log(message: "\nAPI `content.getPost` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
+                                                completion(nil, errorAPI)
+        })
     }
     
     // API `content.getComments` by user
-    public func loadUserComments(nickName: String = Config.currentUser.nickName ?? "Cyber", sortMode: CommentSortMode = .time, paginationLimit: Int8 = Config.paginationLimit, paginationSequenceKey: String? = nil, completion: @escaping (ResponseAPIContentGetComments?, ErrorAPI?) -> Void) {
-        if Config.isNetworkAvailable {
-            let methodAPIType = MethodAPIType.getUserComments(nickName: nickName, sortMode: sortMode, paginationSequenceKey: paginationSequenceKey)
-            
-            Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
-                                                 onResult:          { responseAPIResult in
-                                                    Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
-                                                    
-                                                    guard let result = (responseAPIResult as! ResponseAPIContentGetCommentsResult).result else {
-                                                        completion(nil, ErrorAPI.requestFailed(message: "API user \'content.getComments\' have error: \((responseAPIResult as! ResponseAPIContentGetCommentsResult).error!.message)"))
-                                                        return
-                                                    }
-                                                    
-                                                    completion(result, nil)
-            },
-                                                 onError: { errorAPI in
-                                                    Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
-                                                    
-                                                    completion(nil, errorAPI)
-            })
-        }
-            
+    public func loadUserComments(nickName:                  String = Config.currentUser.nickName ?? "Cyber",
+                                 sortMode:                  CommentSortMode = .time,
+                                 paginationLimit:           Int8 = Config.paginationLimit,
+                                 paginationSequenceKey:     String? = nil,
+                                 completion:                @escaping (ResponseAPIContentGetComments?, ErrorAPI?) -> Void) {
         // Offline mode
-        else {
-            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
-        }
+        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        let methodAPIType = MethodAPIType.getUserComments(nickName: nickName, sortMode: sortMode, paginationSequenceKey: paginationSequenceKey)
+        
+        Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                             onResult:          { (responseAPIResult) in
+                                                guard let result = (responseAPIResult as! ResponseAPIContentGetCommentsResult).result else {
+                                                    let responseAPIError = (responseAPIResult as! ResponseAPIContentGetCommentsResult).error
+                                                    Logger.log(message: "\nAPI `content.getComments` by user response mapping error: \n\(responseAPIError!.message)\n", event: .error)
+                                                    return completion(nil, ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
+                                                }
+                                                
+                                                Logger.log(message: "\nAPI `content.getComments` by user response result: \n\(responseAPIResult)\n", event: .debug)
+                                                completion(result, nil)
+        },
+                                             onError:           { (errorAPI) in
+                                                Logger.log(message: "\nAPI `content.getComments` by user response error: \n\(errorAPI.localizedDescription)\n", event: .error)
+                                                completion(nil, errorAPI)
+        })
     }
     
     // API `content.getComments` by post
-    public func loadPostComments(nickName: String = Config.currentUser.nickName ?? "Cyber", permlink: String, refBlockNum: UInt64, sortMode: CommentSortMode = .time, paginationLimit: Int8 = Config.paginationLimit, paginationSequenceKey: String? = nil, completion: @escaping (ResponseAPIContentGetComments?, ErrorAPI?) -> Void) {
-        if Config.isNetworkAvailable {
-            let methodAPIType = MethodAPIType.getPostComments(userNickName:             nickName,
-                                                              permlink:                 permlink,
-                                                              refBlockNum:              refBlockNum,
-                                                              sortMode:                 sortMode,
-                                                              paginationSequenceKey:    paginationSequenceKey)
-            
-            Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
-                                                 onResult:          { responseAPIResult in
-                                                    Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
-                                                    
-                                                    guard let result = (responseAPIResult as! ResponseAPIContentGetCommentsResult).result else {
-                                                        completion(nil, ErrorAPI.requestFailed(message: "API post \'content.getComments\' have error: \((responseAPIResult as! ResponseAPIContentGetCommentsResult).error!.message)"))
-                                                        return
-                                                    }
-                                                    
-                                                    completion(result, nil)
-            },
-                                                 onError: { errorAPI in
-                                                    Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
-                                                    
-                                                    completion(nil, errorAPI)
-            })
-        }
-            
+    public func loadPostComments(nickName:                  String = Config.currentUser.nickName ?? "Cyber",
+                                 permlink:                  String,
+                                 refBlockNum:               UInt64,
+                                 sortMode:                  CommentSortMode = .time,
+                                 paginationLimit:           Int8 = Config.paginationLimit,
+                                 paginationSequenceKey:     String? = nil,
+                                 completion:                @escaping (ResponseAPIContentGetComments?, ErrorAPI?) -> Void) {
         // Offline mode
-        else {
-            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
-        }
+        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        let methodAPIType = MethodAPIType.getPostComments(userNickName:             nickName,
+                                                          permlink:                 permlink,
+                                                          refBlockNum:              refBlockNum,
+                                                          sortMode:                 sortMode,
+                                                          paginationSequenceKey:    paginationSequenceKey)
+        
+        Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                             onResult:          { (responseAPIResult) in
+                                                guard let result = (responseAPIResult as! ResponseAPIContentGetCommentsResult).result else {
+                                                    let responseAPIError = (responseAPIResult as! ResponseAPIContentGetCommentsResult).error
+                                                    Logger.log(message: "\nAPI `content.getComments` by post response mapping error: \n\(responseAPIError!.message)\n", event: .error)
+                                                    return completion(nil, ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
+                                                }
+                                                
+                                                Logger.log(message: "\nAPI `content.getComments` by post response result: \n\(responseAPIResult)\n", event: .debug)
+                                                completion(result, nil)
+        },
+                                             onError:           { (errorAPI) in
+                                                Logger.log(message: "\nAPI `content.getComments` by post response error: \n\(errorAPI.localizedDescription)\n", event: .error)
+                                                completion(nil, errorAPI)
+        })
     }
     
     // API `push.historyFresh`
-    public func getPushHistoryFresh(nickName: String = Config.currentUser.nickName ?? "Cyberway", completion: @escaping (ResponseAPIPushHistoryFresh?, ErrorAPI?) -> Void) {
-        if Config.isNetworkAvailable {
-            let methodAPIType = MethodAPIType.getPushHistoryFresh(profile: String(format: "%@%@", nickName, Config.currentDeviceType))
-            
-            Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
-                                                 onResult:          { responseAPIResult in
-                                                    Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
-                                                    
-                                                    guard let result = (responseAPIResult as! ResponseAPIPushHistoryFreshResult).result else {
-                                                        completion(nil, ErrorAPI.requestFailed(message: "API \'push.historyFresh\' have error: \((responseAPIResult as! ResponseAPIPushHistoryFreshResult).error!.message)"))
-                                                        return
-                                                    }
-                                                    
-                                                    completion(result, nil)
-            },
-                                                 onError: { errorAPI in
-                                                    Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
-                                                    
-                                                    completion(nil, errorAPI)
-            })
-        }
-            
+    public func getPushHistoryFresh(nickName:       String = Config.currentUser.nickName ?? "Cyberway",
+                                    completion:     @escaping (ResponseAPIPushHistoryFresh?, ErrorAPI?) -> Void) {
         // Offline mode
-        else {
-            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
-        }
+        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        let methodAPIType = MethodAPIType.getPushHistoryFresh(profile: String(format: "%@%@", nickName, Config.currentDeviceType))
+        
+        Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                             onResult:          { (responseAPIResult) in
+                                                guard let result = (responseAPIResult as! ResponseAPIPushHistoryFreshResult).result else {
+                                                    let responseAPIError = (responseAPIResult as! ResponseAPIPushHistoryFreshResult).error
+                                                    Logger.log(message: "\nAPI `push.historyFresh` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
+                                                    return completion(nil, ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
+                                                }
+                                                
+                                                Logger.log(message: "\nAPI `push.historyFresh` response result: \n\(responseAPIResult)\n", event: .debug)
+                                                completion(result, nil)
+        },
+                                             onError:           { (errorAPI) in
+                                                Logger.log(message: "\nAPI `push.historyFresh` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
+                                                completion(nil, errorAPI)
+        })
     }
     
     // API `onlineNotify.history`
-    public func getOnlineNotifyHistory(fromId: String? = nil, paginationLimit: Int8 = Config.paginationLimit, markAsViewed: Bool = false, freshOnly: Bool = false, completion: @escaping (ResponseAPIOnlineNotifyHistory?, ErrorAPI?) -> Void) {
-        if (!Config.isNetworkAvailable) {return completion(nil, ErrorAPI.disableInternetConnection(message: nil))}
+    public func getOnlineNotifyHistory(fromId:              String? = nil,
+                                       paginationLimit:     Int8 = Config.paginationLimit,
+                                       markAsViewed:        Bool = false,
+                                       freshOnly:           Bool = false,
+                                       completion:          @escaping (ResponseAPIOnlineNotifyHistory?, ErrorAPI?) -> Void) {
+        // Offline mode
+        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
         
         let methodAPIType = MethodAPIType.getOnlineNotifyHistory(fromId: fromId, paginationLimit: paginationLimit, markAsViewed: markAsViewed, freshOnly: freshOnly)
         
-        Broadcast.instance.executeGETRequest(byContentAPIType: methodAPIType, onResult: { (responseAPIResult) in
-            Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
-            guard let result = (responseAPIResult as! ResponseAPIOnlineNotifyHistoryResult).result else {
-                completion(nil, ErrorAPI.requestFailed(message: "API \'onlineNotify.history\' have error: \((responseAPIResult as! ResponseAPIOnlineNotifyHistoryResult).error!.message)"))
-                return
-            }
-            completion(result, nil)
-        }) { (errorAPI) in
-            Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
-            
-            completion(nil, errorAPI)
-        }
+        Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                             onResult:          { (responseAPIResult) in
+                                                Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
+                                                guard let result = (responseAPIResult as! ResponseAPIOnlineNotifyHistoryResult).result else {
+                                                    let responseAPIError = (responseAPIResult as! ResponseAPIOnlineNotifyHistoryResult).error
+                                                    Logger.log(message: "\nAPI `onlineNotify.history` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
+                                                    return completion(nil, ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
+                                                }
+                                                
+                                                Logger.log(message: "\nAPI `onlineNotify.history` response result: \n\(responseAPIResult)\n", event: .debug)
+                                                completion(result, nil)
+        },
+                                             onError:           { (errorAPI) in
+                                                Logger.log(message: "\nAPI `onlineNotify.history` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
+                                                completion(nil, errorAPI)
+        })
     }
     
     // API `onlineNotify.historyFresh`
     public func getOnlineNotifyHistoryFresh(completion: @escaping (ResponseAPIOnlineNotifyHistoryFresh?, ErrorAPI?) -> Void) {
-        if (!Config.isNetworkAvailable) {return completion(nil, ErrorAPI.disableInternetConnection(message: nil))}
+        // Offline mode
+        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
         
         let methodAPIType = MethodAPIType.getOnlineNotifyHistoryFresh
         
-        Broadcast.instance.executeGETRequest(byContentAPIType: methodAPIType, onResult: { (responseAPIResult) in
-            Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
-            guard let result = (responseAPIResult as! ResponseAPIOnlineNotifyHistoryFreshResult).result else {
-                completion(nil, ErrorAPI.requestFailed(message: "API \'onlineNotify.historyFresh\' have error: \((responseAPIResult as! ResponseAPIOnlineNotifyHistoryFreshResult).error!.message)"))
-                return
-            }
-            completion(result, nil)
-        }) { (errorAPI) in
-            Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
-            
-            completion(nil, errorAPI)
-        }
+        Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                             onResult:          { (responseAPIResult) in
+                                                guard let result = (responseAPIResult as! ResponseAPIOnlineNotifyHistoryFreshResult).result else {
+                                                    let responseAPIError = (responseAPIResult as! ResponseAPIOnlineNotifyHistoryFreshResult).error
+                                                    Logger.log(message: "\nAPI `onlineNotify.historyFresh` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
+                                                    return completion(nil, ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
+                                                }
+                                                
+                                                Logger.log(message: "\nAPI `onlineNotify.historyFresh` response result: \n\(responseAPIResult)\n", event: .debug)
+                                                completion(result, nil)
+        },
+                                             onError:           { (errorAPI) in
+                                                Logger.log(message: "\nAPI `onlineNotify.historyFresh` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
+                                                completion(nil, errorAPI)
+        })
     }
     
     // API `notify.markAllAsViewed`
     public func notifyMarkAllAsViewed(completion: @escaping (ResponseAPINotifyMarkAllAsViewed?, ErrorAPI?) -> Void) {
-        if (!Config.isNetworkAvailable) {return completion(nil, ErrorAPI.disableInternetConnection(message: nil))}
+        // Offline mode
+        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
         
         let methodAPIType = MethodAPIType.notifyMarkAllAsViewed
         
-        Broadcast.instance.executeGETRequest(byContentAPIType: methodAPIType, onResult: { (responseAPIResult) in
-            Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
-            guard let result = (responseAPIResult as! ResponseAPINotifyMarkAllAsViewedResult).result else {
-                completion(nil, ErrorAPI.requestFailed(message: "API \'onlineNotify.historyFresh\' have error: \((responseAPIResult as! ResponseAPINotifyMarkAllAsViewedResult).error!.message)"))
-                return
-            }
-            completion(result, nil)
-        }) { (errorAPI) in
-            Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
-            
-            completion(nil, errorAPI)
-        }
+        Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                             onResult:          { (responseAPIResult) in
+                                                guard let result = (responseAPIResult as! ResponseAPINotifyMarkAllAsViewedResult).result else {
+                                                    let responseAPIError = (responseAPIResult as! ResponseAPINotifyMarkAllAsViewedResult).error
+                                                    Logger.log(message: "\nAPI `notify.markAllAsViewed` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
+                                                    return completion(nil, ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
+                                                }
+                                                
+                                                Logger.log(message: "\nAPI `notify.markAllAsViewed` response result: \n\(responseAPIResult)\n", event: .debug)
+                                                completion(result, nil)
+        },
+                                             onError:           { (errorAPI) in
+                                                Logger.log(message: "\nAPI `notify.markAllAsViewed` response error = \(errorAPI.localizedDescription)\n", event: .error)
+                                                completion(nil, errorAPI)
+        })
     }
 
     // API `options.get`
     public func getOptions(responseHandling:    @escaping (ResponseAPIGetOptions) -> Void,
                            errorHandling:       @escaping (ErrorAPI) -> Void) {
         // Offline mode
-        if (!Config.isNetworkAvailable) {
-            return errorHandling(ErrorAPI.disableInternetConnection(message: nil))
-        }
+        if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         // Check user authorize
         guard Config.currentUser.nickName != nil else {
@@ -384,16 +387,17 @@ public class RestAPIManager {
         
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                              onResult:          { (responseAPIResult) in
-                                                Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
-
                                                 guard let result = (responseAPIResult as! ResponseAPIGetOptionsResult).result else {
-                                                    return errorHandling(ErrorAPI.requestFailed(message: "API \'options.get\' have error: \((responseAPIResult as! ResponseAPIGetOptionsResult).error!.message)"))
+                                                    let responseAPIError = (responseAPIResult as! ResponseAPIGetOptionsResult).error
+                                                    Logger.log(message: "\nAPI `options.get` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
+                                                    return errorHandling(ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
                                                 }
 
+                                                Logger.log(message: "\nAPI `options.get` response result: \n\(responseAPIResult)\n", event: .debug)
                                                 responseHandling(result)
         },
                                              onError:           { (errorAPI) in
-                                                Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
+                                                Logger.log(message: "\nAPI `options.get` response error: \n\(errorAPI.caseInfo.message)\n", event: .error)
                                                 errorHandling(errorAPI)
         })
     }
@@ -404,29 +408,26 @@ public class RestAPIManager {
                                 responseHandling:   @escaping (ResponseAPISetOptionsBasic) -> Void,
                                 errorHandling:      @escaping (ErrorAPI) -> Void) {
         // Offline mode
-        if (!Config.isNetworkAvailable) {
-            return errorHandling(ErrorAPI.disableInternetConnection(message: nil))
-        }
+        if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         // Check user authorize
-        guard Config.currentUser.nickName != nil else {
-            return errorHandling(ErrorAPI.invalidData(message: "Unauthorized"))
-        }
+        guard Config.currentUser.nickName != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
 
         let methodAPIType = MethodAPIType.setBasicOptions(nsfw: nsfwContent.rawValue, language: language)
         
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                              onResult:          { (responseAPIResult) in
-                                                Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
-                                                
                                                 guard let result = (responseAPIResult as! ResponseAPISetOptionsBasicResult).result else {
-                                                    return errorHandling(ErrorAPI.requestFailed(message: "API basic \'options.set\' have error: \((responseAPIResult as! ResponseAPISetOptionsBasicResult).error!.message)"))
+                                                    let responseAPIError = (responseAPIResult as! ResponseAPISetOptionsBasicResult).error
+                                                    Logger.log(message: "\nAPI basic \'options.set\' response mapping error: \n\(responseAPIError!.message)\n", event: .error)
+                                                    return errorHandling(ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
                                                 }
                                                 
+                                                Logger.log(message: "\nAPI basic `options.set` response result: \n\(responseAPIResult)\n", event: .debug)
                                                 responseHandling(result)
         },
                                              onError:           { (errorAPI) in
-                                                Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
+                                                Logger.log(message: "\nAPI basic `options.set` response error: \n\(errorAPI.caseInfo.message)\n", event: .error)
                                                 errorHandling(errorAPI)
         })
     }
@@ -437,31 +438,26 @@ public class RestAPIManager {
                     responseHandling:   @escaping (ResponseAPISetOptionsNotice) -> Void,
                     errorHandling:      @escaping (ErrorAPI) -> Void) {
         // Offline mode
-        if (!Config.isNetworkAvailable) {
-            errorHandling(ErrorAPI.disableInternetConnection(message: nil))
-            return
-        }
+        if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
-        guard (Config.currentUser.nickName != nil) else {
-            errorHandling(ErrorAPI.invalidData(message: "Unauthorized"))
-            return
-        }
+        // Check user authorize
+        guard (Config.currentUser.nickName != nil) else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
         
         let methodAPIType = MethodAPIType.setNotice(options: options, type: type)
         
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                              onResult:          { (responseAPIResult) in
-                                                Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
-                                                
                                                 guard let result = (responseAPIResult as! ResponseAPISetOptionsNoticeResult).result else {
-                                                    errorHandling(ErrorAPI.requestFailed(message: "API \(type.hashValue == 0 ? "push" : "notify") \'options.set\' have error: \((responseAPIResult as! ResponseAPISetOptionsNoticeResult).error!.message)"))
-                                                    return
+                                                    let responseAPIError = (responseAPIResult as! ResponseAPISetOptionsNoticeResult).error
+                                                    Logger.log(message: "\nAPI \(type.hashValue == 0 ? "push" : "notify") \'options.set\' response mapping error: \n\(responseAPIError!.message)\n", event: .error)
+                                                    return errorHandling(ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
                                                 }
                                                 
+                                                Logger.log(message: "\nAPI \(type.hashValue == 0 ? "push" : "notify") `options.set` response result: \n\(responseAPIResult)\n", event: .debug)
                                                 responseHandling(result)
         },
                                              onError:           { (errorAPI) in
-                                                Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
+                                                Logger.log(message: "\nAPI \(type.hashValue == 0 ? "push" : "notify") `options.set` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
                                                 errorHandling(errorAPI)
         })
     }
@@ -469,183 +465,168 @@ public class RestAPIManager {
     
     // MARK: - REGISTRATION-SERVICE
     // API `registration.getState`
-    public func getState(nickName: String? = Config.currentUser.nickName, phone: String?, completion: @escaping (ResponseAPIRegistrationGetState?, ErrorAPI?) -> Void) {
-        if Config.isNetworkAvailable {
-            let methodAPIType = MethodAPIType.getState(nickName: nickName, phone: phone)
-            
-            Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
-                                                 onResult:          { responseAPIResult in
-                                                    Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
-                                                    
-                                                    guard let result = (responseAPIResult as! ResponseAPIRegistrationGetStateResult).result else {
-                                                        completion(nil, ErrorAPI.requestFailed(message: "API post \'registration.getState\' have error: \((responseAPIResult as! ResponseAPIRegistrationGetStateResult).error!.message)"))
-                                                        return
-                                                    }
-                                                    
-                                                    completion(result, nil)
-            },
-                                                 onError: { errorAPI in
-                                                    Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
-                                                    
-                                                    completion(nil, errorAPI)
-            })
-        }
-            
+    public func getState(nickName:      String? = Config.currentUser.nickName,
+                         phone:         String?,
+                         completion:    @escaping (ResponseAPIRegistrationGetState?, ErrorAPI?) -> Void) {
         // Offline mode
-        else {
-            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
-        }
+        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
+
+        let methodAPIType = MethodAPIType.getState(nickName: nickName, phone: phone)
+        
+        Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                             onResult:          { responseAPIResult in
+                                                guard let result = (responseAPIResult as! ResponseAPIRegistrationGetStateResult).result else {
+                                                    let responseAPIError = (responseAPIResult as! ResponseAPIRegistrationGetStateResult).error
+                                                    Logger.log(message: "\nAPI `registration.getState` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
+                                                    return completion(nil, ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
+                                                }
+                                                
+                                                Logger.log(message: "\nAPI `registration.getState` response result: \n\(responseAPIResult)\n", event: .debug)
+                                                completion(result, nil)
+        },
+                                             onError:           { errorAPI in
+                                                Logger.log(message: "\nAPI `registration.getState` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
+                                                completion(nil, errorAPI)
+        })
     }
 
     // API `registration.firstStep`
-    public func firstStep(phone: String, isDebugMode: Bool = true, completion: @escaping (ResponseAPIRegistrationFirstStep?, ErrorAPI?) -> Void) {
-        if Config.isNetworkAvailable {
-            let methodAPIType = MethodAPIType.firstStep(phone: phone, isDebugMode: isDebugMode)
-            
-            Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
-                                                 onResult:          { responseAPIResult in
-                                                    Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
-                                                    
-                                                    guard let result = (responseAPIResult as! ResponseAPIRegistrationFirstStepResult).result else {
-                                                        completion(nil, ErrorAPI.requestFailed(message: "API post \'registration.firstStep\' have error: \((responseAPIResult as! ResponseAPIRegistrationFirstStepResult).error!.message)"))
-                                                        return
-                                                    }
-                                                    
-                                                    completion(result, nil)
-            },
-                                                 onError: { errorAPI in
-                                                    Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
-                                                    
-                                                    completion(nil, errorAPI)
-            })
-        }
-            
+    public func firstStep(phone:        String,
+                          isDebugMode:  Bool = true,
+                          completion:   @escaping (ResponseAPIRegistrationFirstStep?, ErrorAPI?) -> Void) {
         // Offline mode
-        else {
-            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
-        }
+        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        let methodAPIType = MethodAPIType.firstStep(phone: phone, isDebugMode: isDebugMode)
+        
+        Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                             onResult:          { responseAPIResult in
+                                                guard let result = (responseAPIResult as! ResponseAPIRegistrationFirstStepResult).result else {
+                                                    let responseAPIError = (responseAPIResult as! ResponseAPIRegistrationFirstStepResult).error
+                                                    Logger.log(message: "\nAPI `registration.firstStep` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
+                                                    return completion(nil, ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
+                                                }
+                                                
+                                                Logger.log(message: "\nAPI `registration.firstStep` response result: \n\(responseAPIResult)\n", event: .debug)
+                                                completion(result, nil)
+        },
+                                             onError: { errorAPI in
+                                                Logger.log(message: "\nAPI `registration.firstStep` response  error: \n\(errorAPI.localizedDescription)\n", event: .error)
+                                                completion(nil, errorAPI)
+        })
     }
 
     // API `registration.verify`
-    public func verify(phone: String, code: String, isDebugMode: Bool = true, completion: @escaping (ResponseAPIRegistrationVerify?, ErrorAPI?) -> Void) {
-        if Config.isNetworkAvailable {
-            let methodAPIType = MethodAPIType.verify(phone: phone, code: code, isDebugMode: isDebugMode)
-            
-            Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
-                                                 onResult:          { responseAPIResult in
-                                                    Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
-                                                    
-                                                    guard let result = (responseAPIResult as! ResponseAPIRegistrationVerifyResult).result else {
-                                                        completion(nil, ErrorAPI.requestFailed(message: "API post \'registration.verify\' have error: \((responseAPIResult as! ResponseAPIRegistrationVerifyResult).error!.message)"))
-                                                        return
-                                                    }
-                                                    
-                                                    completion(result, nil)
-            },
-                                                 onError: { errorAPI in
-                                                    Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
-                                                    
-                                                    completion(nil, errorAPI)
-            })
-        }
-            
+    public func verify(phone:           String,
+                       code:            String,
+                       isDebugMode:     Bool = true,
+                       completion:      @escaping (ResponseAPIRegistrationVerify?, ErrorAPI?) -> Void) {
         // Offline mode
-        else {
-            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
-        }
+        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        let methodAPIType = MethodAPIType.verify(phone: phone, code: code, isDebugMode: isDebugMode)
+        
+        Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                             onResult:          { responseAPIResult in
+                                                guard let result = (responseAPIResult as! ResponseAPIRegistrationVerifyResult).result else {
+                                                    let responseAPIError = (responseAPIResult as! ResponseAPIRegistrationVerifyResult).error
+                                                    Logger.log(message: "\nAPI `registration.verify` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
+                                                    return completion(nil, ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
+                                                }
+                                                
+                                                Logger.log(message: "\nAPI `registration.verify` response result: \n\(responseAPIResult)\n", event: .debug)
+                                                completion(result, nil)
+        },
+                                             onError:           { errorAPI in
+                                                Logger.log(message: "\nAPI `registration.verify` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
+                                                completion(nil, errorAPI)
+        })
     }
-
+    
     // API `registration.setUsername`
-    public func setUser(name: String, phone: String, isDebugMode: Bool = true, completion: @escaping (ResponseAPIRegistrationSetUsername?, ErrorAPI?) -> Void) {
-        if Config.isNetworkAvailable {
-            let methodAPIType = MethodAPIType.setUser(name: name, phone: phone, isDebugMode: isDebugMode)
-            
-            Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
-                                                 onResult:          { responseAPIResult in
-                                                    Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
-                                                    
-                                                    guard let result = (responseAPIResult as! ResponseAPIRegistrationSetUsernameResult).result else {
-                                                        completion(nil, ErrorAPI.requestFailed(message: "API post \'registration.setUsername\' have error: \((responseAPIResult as! ResponseAPIRegistrationSetUsernameResult).error!.message)"))
-                                                        return
-                                                    }
-                                                    
-                                                    completion(result, nil)
-            },
-                                                 onError: { errorAPI in
-                                                    Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
-                                                    
-                                                    completion(nil, errorAPI)
-            })
-        }
-            
+    public func setUser(name:           String,
+                        phone:          String,
+                        isDebugMode:    Bool = true,
+                        completion:     @escaping (ResponseAPIRegistrationSetUsername?, ErrorAPI?) -> Void) {
         // Offline mode
-        else {
-            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
-        }
+        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        let methodAPIType = MethodAPIType.setUser(name: name, phone: phone, isDebugMode: isDebugMode)
+        
+        Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                             onResult:          { responseAPIResult in
+                                                guard let result = (responseAPIResult as! ResponseAPIRegistrationSetUsernameResult).result else {
+                                                    let responseAPIError = (responseAPIResult as! ResponseAPIRegistrationSetUsernameResult).error
+                                                    Logger.log(message: "\nAPI `registration.setUsername` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
+                                                    return completion(nil, ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
+                                                }
+                                                
+                                                Logger.log(message: "\nAPI `registration.setUsername` response result: \n\(responseAPIResult)\n", event: .debug)
+                                                completion(result, nil)
+        },
+                                             onError:           { errorAPI in
+                                                Logger.log(message: "\nAPI `registration.setUsername` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
+                                                completion(nil, errorAPI)
+        })
     }
 
     // API `registration.resendSmsCode`
-    public func resendSmsCode(phone: String, isDebugMode: Bool = true, completion: @escaping (ResponseAPIResendSmsCode?, ErrorAPI?) -> Void) {
-        if Config.isNetworkAvailable {
-            let methodAPIType = MethodAPIType.resendSmsCode(phone: phone, isDebugMode: isDebugMode)
-            
-            Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
-                                                 onResult:          { responseAPIResult in
-                                                    Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
-                                                    
-                                                    guard let result = (responseAPIResult as! ResponseAPIResendSmsCodeResult).result else {
-                                                        completion(nil, ErrorAPI.requestFailed(message: "API post \'registration.resendSmsCode\' have error: \((responseAPIResult as! ResponseAPIResendSmsCodeResult).error!.message)"))
-                                                        return
-                                                    }
-                                                    
-                                                    completion(result, nil)
-            },
-                                                 onError: { errorAPI in
-                                                    Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
-                                                    
-                                                    completion(nil, errorAPI)
-            })
-        }
-            
+    public func resendSmsCode(phone:        String,
+                              isDebugMode:  Bool = true,
+                              completion:   @escaping (ResponseAPIResendSmsCode?, ErrorAPI?) -> Void) {
         // Offline mode
-        else {
-            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
-        }
+        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        let methodAPIType = MethodAPIType.resendSmsCode(phone: phone, isDebugMode: isDebugMode)
+        
+        Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                             onResult:          { responseAPIResult in
+                                                Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
+                                                
+                                                guard let result = (responseAPIResult as! ResponseAPIResendSmsCodeResult).result else {
+                                                    let responseAPIError = (responseAPIResult as! ResponseAPIResendSmsCodeResult).error
+                                                    Logger.log(message: "\nAPI `registration.resendSmsCode` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
+                                                    return completion(nil, ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
+                                                }
+                                                
+                                                Logger.log(message: "\nAPI `registration.resendSmsCode` response result: \n\(responseAPIResult)\n", event: .debug)
+                                                completion(result, nil)
+        },
+                                             onError:           { errorAPI in
+                                                Logger.log(message: "\nAPI `registration.resendSmsCode` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
+                                                completion(nil, errorAPI)
+        })
     }
 
     // API `registration.toBlockChain`
-    public func toBlockChain(nickName: String, completion: @escaping (Bool, ErrorAPI?) -> Void) {
-        if Config.isNetworkAvailable {
-            let userkeys = RestAPIManager.instance.generate(keyTypes:   [.owner, .active, .posting, .memo],
-                                                            nickName:   nickName,
-                                                            password:   String.randomString(length: 12))
-
-            let methodAPIType = MethodAPIType.toBlockChain(nickName: nickName, keys: userkeys)
-            
-            Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
-                                                 onResult:          { responseAPIResult in
-                                                    Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
-                                                    
-                                                    guard (responseAPIResult as! ResponseAPIRegistrationToBlockChainResult).result != nil else {
-                                                        completion(false, ErrorAPI.requestFailed(message: "API post \'registration.toBlockChain\' have error: \((responseAPIResult as! ResponseAPIRegistrationToBlockChainResult).error!.message)"))
-                                                        return
-                                                    }
-                                                    
-                                                    // Save in Keychain
-                                                    let result: Bool = KeychainManager.save(keys: userkeys, nickName: nickName)
-                                                    completion(result, nil)
-            },
-                                                 onError: { errorAPI in
-                                                    Logger.log(message: "nresponse API Error = \(errorAPI.caseInfo.message)\n", event: .error)
-                                                    
-                                                    completion(false, errorAPI)
-            })
-        }
-            
+    public func toBlockChain(nickName:      String,
+                             completion:    @escaping (Bool, ErrorAPI?) -> Void) {
         // Offline mode
-        else {
-            completion(false, ErrorAPI.disableInternetConnection(message: nil))
-        }
+        if (!Config.isNetworkAvailable) { return completion(false, ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        let userkeys = RestAPIManager.instance.generate(keyTypes:   [.owner, .active, .posting, .memo],
+                                                        nickName:   nickName,
+                                                        password:   String.randomString(length: 12))
+        
+        let methodAPIType = MethodAPIType.toBlockChain(nickName: nickName, keys: userkeys)
+        
+        Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                             onResult:          { responseAPIResult in
+                                                guard (responseAPIResult as! ResponseAPIRegistrationToBlockChainResult).result != nil else {
+                                                    let responseAPIError = (responseAPIResult as! ResponseAPIRegistrationToBlockChainResult).error
+                                                    Logger.log(message: "\nAPI `registration.toBlockChain` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
+                                                    return completion(false, ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
+                                                }
+                                                
+                                                // Save in Keychain
+                                                Logger.log(message: "\nAPI `registration.toBlockChain` response result: \n\(responseAPIResult)\n", event: .debug)
+                                                let result: Bool = KeychainManager.save(keys: userkeys, nickName: nickName)
+                                                completion(result, nil)
+        },
+                                             onError: { errorAPI in
+                                                Logger.log(message: "\nAPI `registration.toBlockChain` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
+                                                completion(false, errorAPI)
+        })
     }
 
     
@@ -655,15 +636,9 @@ public class RestAPIManager {
                         responseHandling:   @escaping (String) -> Void,
                         errorHandling:      @escaping (ErrorAPI) -> Void) {
         // Offline mode
-        guard Config.isNetworkAvailable else {
-            errorHandling(ErrorAPI.disableInternetConnection(message: nil))
-            return
-        }
+        guard Config.isNetworkAvailable else { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
 
-        guard let imageData = image.jpegData(compressionQuality: 1.0) else {
-            errorHandling(ErrorAPI.invalidData(message: "Invalid Data"))
-            return
-        }
+        guard let imageData = image.jpegData(compressionQuality: 1.0) else { return errorHandling(ErrorAPI.invalidData(message: "Invalid Data")) }
         
         let session             =   URLSession(configuration: .default)
         let requestURL          =   URL(string: Config.imageHost)!
@@ -698,8 +673,10 @@ public class RestAPIManager {
             Logger.log(message: "response = \(String(describing: response))", event: .debug)
             
             if let json = try? JSONSerialization.jsonObject(with: data!, options: .mutableLeaves) as? [String: Any], let imageURL = json["url"] as? String {
+                Logger.log(message: "\nAPI `posting image` response result: \n\(imageURL)\n", event: .debug)
                 responseHandling(imageURL)
             } else {
+                Logger.log(message: "\nAPI `registration.toBlockChain` response error: \n\"JSON Conversion Failure\"\n", event: .error)
                 errorHandling(ErrorAPI.jsonParsingFailure(message: "JSON Conversion Failure"))
             }
         })
@@ -712,16 +689,15 @@ public class RestAPIManager {
                        responseHandling:        @escaping (ChainResponse<TransactionCommitted>) -> Void,
                        errorHandling:           @escaping (Error) -> Void) {
         // Offline mode
-        guard Config.isNetworkAvailable else {
-            errorHandling(ErrorAPI.disableInternetConnection(message: nil))
-            return
-        }
+        guard Config.isNetworkAvailable else { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         EOSManager.update(userProfileMetaArgs:  userProfileMetaArgs,
                           responseResult:       { result in
+                            Logger.log(message: "\nAPI `updatemeta` response result: \n\(result)\n", event: .debug)
                             responseHandling(result)
         },
                           responseError:        { errorAPI in
+                            Logger.log(message: "\nAPI `updatemeta` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
                             errorHandling(errorAPI)
         })
     }
@@ -729,27 +705,28 @@ public class RestAPIManager {
     
     //  MARK: - Contract `gls.publish`
     /// Actions `upvote`, `downvote`, `unvote`
-    public func message(voteType: VoteType, author: String, permlink: String, weight: Int16? = 0, refBlockNum: UInt64 = 0, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
-        if Config.isNetworkAvailable {
-            EOSManager.message(voteType:        voteType,
-                               author:          author,
-                               permlink:        permlink,
-                               weight:          voteType == .unvote ? 0 : 10_000,
-                               refBlockNum:     refBlockNum,
-                               completion:      { (response, error) in
-                                guard error == nil else {
-                                    completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
-                                    return
-                                }
-                                
-                                completion(response, nil)
-            })
-        }
-            
+    public func message(voteType:       VoteType,
+                        author:         String,
+                        permlink:       String,
+                        weight:         Int16? = 0,
+                        refBlockNum:    UInt64 = 0,
+                        completion:     @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
         // Offline mode
-        else {
-            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
-        }
+        guard Config.isNetworkAvailable else { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        EOSManager.message(voteType:        voteType,
+                           author:          author,
+                           permlink:        permlink,
+                           weight:          voteType == .unvote ? 0 : 10_000,
+                           refBlockNum:     refBlockNum,
+                           completion:      { (response, error) in
+                            guard error == nil else {
+                                completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
+                                return
+                            }
+                            
+                            completion(response, nil)
+        })
     }
     
     /// Action `createmssg`
@@ -761,9 +738,7 @@ public class RestAPIManager {
                        responseHandling:    @escaping (ChainResponse<TransactionCommitted>) -> Void,
                        errorHandling:       @escaping (ErrorAPI) -> Void) {
         // Offline mode
-        if (!Config.isNetworkAvailable) {
-            return errorHandling(ErrorAPI.disableInternetConnection(message: nil))
-        }
+        if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         let arrayTags = tags == nil ? [EOSTransaction.Tags()] : tags!.map({ EOSTransaction.Tags.init(tagValue: $0) })
         
@@ -772,177 +747,169 @@ public class RestAPIManager {
                           tags:             arrayTags,
                           jsonMetaData:     metaData,
                           responseResult:   { (responseAPIResult) in
-                            Logger.log(message: "\nresponseAPIResult = \(responseAPIResult)\n", event: .debug)
+                            Logger.log(message: "\nAPI `createmssg` response result: \n\(responseAPIResult)\n", event: .debug)
                             responseHandling(responseAPIResult)
             },
-                          responseError:    { (error) in
-                            Logger.log(message: "API basic \'options.set\' have error: \(error)", event: .error)
-                            errorHandling(ErrorAPI.responseUnsuccessful(message: error.localizedDescription))
+                          responseError:    { (errorAPI) in
+                            Logger.log(message: "\nAPI `createmssg` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
+                            errorHandling(ErrorAPI.responseUnsuccessful(message: errorAPI.localizedDescription))
         })
     }
     
     /// Action `updatemssg`
-    public func updateMessage(author: String?, permlink: String, message: String, parentData: ParentData?, refBlockNum: UInt64, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
-        if Config.isNetworkAvailable {
-            let messageUpdateArgs = EOSTransaction.MessageUpdateArgs(authorValue:           author ?? Config.currentUser.nickName ?? "Cyberway",
-                                                                     messagePermlink:       permlink,
-                                                                     parentDataValue:       parentData,
-                                                                     refBlockNumValue:      refBlockNum,
-                                                                     bodymssgValue:         message)
-
-            EOSManager.update(messageArgs:  messageUpdateArgs,
-                              completion:   { (response, error) in
-                                guard error == nil else {
-                                    completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
-                                    return
-                                }
-                                
-                                completion(response, nil)
-            })
-        }
-            
+    public func updateMessage(author:       String?,
+                              permlink:     String,
+                              message:      String,
+                              parentData:   ParentData?,
+                              refBlockNum:  UInt64,
+                              completion:   @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
         // Offline mode
-        else {
-            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
-        }
-    }
-    
-    /// Action `deletemssg`
-    public func deleteMessage(author: String, permlink: String, refBlockNum: UInt64, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
-        if Config.isNetworkAvailable {
-            let messageDeleteArgs = EOSTransaction.MessageDeleteArgs(authorValue:           author,
-                                                                     messagePermlink:       permlink,
-                                                                     refBlockNumValue:      refBlockNum)
-
-            EOSManager.delete(messageArgs:  messageDeleteArgs,
-                              completion:   { (response, error) in
-                                guard error == nil else {
-                                    completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
-                                    return
-                                }
-                                
-                                completion(response, nil)
-            })
-        }
-            
-        // Offline mode
-        else {
-            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
-        }
-    }
-    
-    /// Action `reblog`
-    public func reblog(author: String, permlink: String, refBlockNum: UInt64, rebloger: String, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
-        if Config.isNetworkAvailable {
-            let reblogArgs = EOSTransaction.ReblogArgs(authorValue:         author,
-                                                       permlinkValue:       permlink,
-                                                       refBlockNumValue:    refBlockNum,
-                                                       reblogerValue:       rebloger)
-            
-            EOSManager.reblog(args:         reblogArgs,
-                              completion:   { (response, error) in
-                                guard error == nil else {
-                                    completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
-                                    return
-                                }
-                                
-                                completion(response, nil)
-            })
-        }
-            
-        // Offline mode
-        else {
-            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
-        }
-    }
-    
-
-    // MARK: - Contract `gls.ctrl`
-    /// Action `regwitness` (1)
-    public func reg(witness: String, url: String, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
-        if Config.isNetworkAvailable {
-            let regwitnessArgs = EOSTransaction.RegwitnessArgs(witnessValue: witness, urlValue: url)
-            
-            EOSManager.reg(witnessArgs:     regwitnessArgs,
-                           completion:      { (response, error) in
+        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        let messageUpdateArgs = EOSTransaction.MessageUpdateArgs(authorValue:           author ?? Config.currentUser.nickName ?? "Cyberway",
+                                                                 messagePermlink:       permlink,
+                                                                 parentDataValue:       parentData,
+                                                                 refBlockNumValue:      refBlockNum,
+                                                                 bodymssgValue:         message)
+        
+        EOSManager.update(messageArgs:  messageUpdateArgs,
+                          completion:   { (response, error) in
                             guard error == nil else {
                                 completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
                                 return
                             }
                             
                             completion(response, nil)
-            })
-        }
-            
+        })
+    }
+    
+    /// Action `deletemssg`
+    public func deleteMessage(author:       String,
+                              permlink:     String,
+                              refBlockNum:  UInt64,
+                              completion:   @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
         // Offline mode
-        else {
-            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
-        }
+        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        let messageDeleteArgs = EOSTransaction.MessageDeleteArgs(authorValue:           author,
+                                                                 messagePermlink:       permlink,
+                                                                 refBlockNumValue:      refBlockNum)
+        
+        EOSManager.delete(messageArgs:  messageDeleteArgs,
+                          completion:   { (response, error) in
+                            guard error == nil else {
+                                completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
+                                return
+                            }
+                            
+                            completion(response, nil)
+        })
+    }
+    
+    /// Action `reblog`
+    public func reblog(author:              String,
+                       rebloger:            String,
+                       permlink:            String,
+                       refBlockNum:         UInt64,
+                       responseHandling:    @escaping (ChainResponse<TransactionCommitted>) -> Void,
+                       errorHandling:       @escaping (ErrorAPI) -> Void) {
+        // Offline mode
+        if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        let reblogArgs = EOSTransaction.ReblogArgs(authorValue:         author,
+                                                   permlinkValue:       permlink,
+                                                   refBlockNumValue:    refBlockNum,
+                                                   reblogerValue:       rebloger)
+        
+        EOSManager.reblog(args:             reblogArgs,
+                          responseResult:   { (responseAPIResult) in
+                            Logger.log(message: "\nAPI `reblog` response result: \n\(responseAPIResult)\n", event: .debug)
+                            responseHandling(responseAPIResult)
+        },
+                          responseError:    { (errorAPI) in
+                            Logger.log(message: "\nAPI `createmssg` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
+                            errorHandling(errorAPI)
+        })
+    }
+    
+
+    // MARK: - Contract `gls.ctrl`
+    /// Action `regwitness` (1)
+    public func reg(witness:        String,
+                    url:            String,
+                    completion:     @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
+        // Offline mode
+        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        let regwitnessArgs = EOSTransaction.RegwitnessArgs(witnessValue: witness, urlValue: url)
+        
+        EOSManager.reg(witnessArgs:     regwitnessArgs,
+                       completion:      { (response, error) in
+                        guard error == nil else {
+                            completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
+                            return
+                        }
+                        
+                        completion(response, nil)
+        })
     }
     
     /// Action `votewitness` (2)
-    public func vote(witness: String, voter: String, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
-        if Config.isNetworkAvailable {
-            let votewitnessArgs = EOSTransaction.VotewitnessArgs(voterValue: voter, witnessValue: witness)
-            
-            EOSManager.vote(witnessArgs:    votewitnessArgs,
-                              completion:   { (response, error) in
-                                guard error == nil else {
-                                    completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
-                                    return
-                                }
-                                
-                                completion(response, nil)
-            })
-        }
-            
+    public func vote(witness:       String,
+                     voter:         String,
+                     completion:    @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
         // Offline mode
-        else {
-            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
-        }
+        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        let votewitnessArgs = EOSTransaction.VotewitnessArgs(voterValue: voter, witnessValue: witness)
+        
+        EOSManager.vote(witnessArgs:    votewitnessArgs,
+                        completion:   { (response, error) in
+                            guard error == nil else {
+                                completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
+                                return
+                            }
+                            
+                            completion(response, nil)
+        })
     }
     
     /// Action `unvotewitn` (3)
-    public func unvote(witness: String, voter: String, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
-        if Config.isNetworkAvailable {
-            let unvotewitnessArgs = EOSTransaction.UnvotewitnessArgs(voterValue: voter, witnessValue: witness)
-            
-            EOSManager.unvote(witnessArgs:  unvotewitnessArgs,
-                              completion:   { (response, error) in
-                                guard error == nil else {
-                                    completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
-                                    return
-                                }
-                                
-                                completion(response, nil)
-            })
-        }
-            
+    public func unvote(witness:     String,
+                       voter:       String,
+                       completion:  @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
         // Offline mode
-        else {
-            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
-        }
+        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        let unvotewitnessArgs = EOSTransaction.UnvotewitnessArgs(voterValue: voter, witnessValue: witness)
+        
+        EOSManager.unvote(witnessArgs:  unvotewitnessArgs,
+                          completion:   { (response, error) in
+                            guard error == nil else {
+                                completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
+                                return
+                            }
+                            
+                            completion(response, nil)
+        })
     }
     
     /// Action `unregwitness` (4)
-    public func unreg(witness: String, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
-        if Config.isNetworkAvailable {
-            let unregwitnessArgs = EOSTransaction.UnregwitnessArgs(witnessValue: witness)
-            
-            EOSManager.unreg(witnessArgs:     unregwitnessArgs,
-                             completion:      { (response, error) in
-                                guard error == nil else {
-                                    completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
-                                    return
-                                }
-                                
-                                completion(response, nil)
-            })
-        }
-            
+    public func unreg(witness:      String,
+                      completion:   @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
         // Offline mode
-        else {
-            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
-        }
+        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        let unregwitnessArgs = EOSTransaction.UnregwitnessArgs(witnessValue: witness)
+        
+        EOSManager.unreg(witnessArgs:     unregwitnessArgs,
+                         completion:      { (response, error) in
+                            guard error == nil else {
+                                completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
+                                return
+                            }
+                            
+                            completion(response, nil)
+        })
     }
 }
