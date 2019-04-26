@@ -155,14 +155,20 @@ class EOSManager {
     
     /// Action `createmssg`
     // https://github.com/GolosChain/golos.contracts/blob/master/golos.publication/golos.publication.abi#L238-L291
-    static func create(message: String, headline: String = "", parentData: ParentData? = nil, tags: [EOSTransaction.Tags], jsonMetaData: String?, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
-        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
-        
+    static func create(message:         String,
+                       headline:        String = "",
+                       parentData:      ParentData? = nil,
+                       tags:            [EOSTransaction.Tags],
+                       jsonMetaData:    String?,
+                       responseResult:  @escaping (ChainResponse<TransactionCommitted>) -> Void,
+                       responseError:   @escaping (Error) -> Void) {
+        // Check user authorize
+        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else {
+            return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
+        }
+    
         EOSManager.getChainInfo(completion: { (info, error) in
-            guard error == nil else {
-                completion(nil, error)
-                return
-            }
+            guard error == nil else { return responseError(error!) }
             
             let messageTransaction = EOSTransaction.init(chainApi: chainApi)
             
@@ -180,7 +186,7 @@ class EOSManager {
                                                                      jsonmetadataValue:         jsonMetaData)
             
             // JSON
-            print(messageCreateArgs.convertToJSON())
+            Logger.log(message: messageCreateArgs.convertToJSON(), event: .debug)
             
             let messageCreateArgsData = DataWriterValue(hex: messageCreateArgs.toHex())
             
@@ -195,11 +201,11 @@ class EOSManager {
                     
                     if let response = try messageTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [messageCreateActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                         if response.success {
-                            completion(response, nil)
+                            responseResult(response)
                         }
                     }
                 } catch {
-                    completion(nil, error)
+                    responseError(error)
                 }
             }
         })

@@ -881,15 +881,15 @@ public struct ResponseAPISetOptionsBasic: Decodable {
 
 
 // MARK: -
-public struct ResponseAPISetOptionsPushResult: Decodable {
+public struct ResponseAPISetOptionsNoticeResult: Decodable {
     public let jsonrpc: String
     public let id: UInt16
-    public let result: ResponseAPISetOptionsPush?
+    public let result: ResponseAPISetOptionsNotice?
     public let error: ResponseAPIError?
 }
 
 
 // MARK: -
-public struct ResponseAPISetOptionsPush: Decodable {
+public struct ResponseAPISetOptionsNotice: Decodable {
     public let status: String
 }

@@ -40,6 +40,10 @@
 * 25.04.2019:
 - create API
 
+### API notify 'options.set'
+* 26.04.2019:
+- create API
+
 
 ## Registration-Service
 [Documentation](https://github.com/GolosChain/registration-service/tree/develop)

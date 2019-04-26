@@ -19,6 +19,11 @@ public enum UserKeyType: String {
     case posting    =   "posting"
 }
 
+public enum NoticeType {
+    case push
+    case notify
+}
+
 public class RestAPIManager {
     // MARK: - Properties
     public static let instance = RestAPIManager()
@@ -426,10 +431,11 @@ public class RestAPIManager {
         })
     }
 
-    // API push `options.set`
-    public func setPush(options:            RequestParameterAPI.PushOptions,
-                        responseHandling:   @escaping (ResponseAPISetOptionsPush) -> Void,
-                        errorHandling:      @escaping (ErrorAPI) -> Void) {
+    // API notify/push `options.set`
+    public func set(options:            RequestParameterAPI.NoticeOptions,
+                    type:               NoticeType,
+                    responseHandling:   @escaping (ResponseAPISetOptionsNotice) -> Void,
+                    errorHandling:      @escaping (ErrorAPI) -> Void) {
         // Offline mode
         if (!Config.isNetworkAvailable) {
             errorHandling(ErrorAPI.disableInternetConnection(message: nil))
@@ -441,14 +447,14 @@ public class RestAPIManager {
             return
         }
         
-        let methodAPIType = MethodAPIType.setPush(options: options)
+        let methodAPIType = MethodAPIType.setNotice(options: options, type: type)
         
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                              onResult:          { (responseAPIResult) in
                                                 Logger.log(message: "\nresponse API Result = \(responseAPIResult)\n", event: .debug)
                                                 
-                                                guard let result = (responseAPIResult as! ResponseAPISetOptionsPushResult).result else {
-                                                    errorHandling(ErrorAPI.requestFailed(message: "API push \'options.set\' have error: \((responseAPIResult as! ResponseAPISetOptionsPushResult).error!.message)"))
+                                                guard let result = (responseAPIResult as! ResponseAPISetOptionsNoticeResult).result else {
+                                                    errorHandling(ErrorAPI.requestFailed(message: "API \(type.hashValue == 0 ? "push" : "notify") \'options.set\' have error: \((responseAPIResult as! ResponseAPISetOptionsNoticeResult).error!.message)"))
                                                     return
                                                 }
                                                 
@@ -747,34 +753,32 @@ public class RestAPIManager {
     }
     
     /// Action `createmssg`
-    public func create(message: String, headline: String? = "", parentData: ParentData? = nil, tags: [String]?, metaData: String?, completion: @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
-        if Config.isNetworkAvailable {
-            let arrayTags = tags == nil ? [EOSTransaction.Tags()] : tags!.map({ EOSTransaction.Tags.init(tagValue: $0) })
-            
-            EOSManager.create(message:         message,
-                              headline:        headline ?? String(format: "Test Post Title %i", arc4random_uniform(100)),
-                              tags:            arrayTags,
-                              jsonMetaData:    metaData,
-                              completion:      { (response, error) in
-                                guard error == nil else {
-                                    completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
-                                    return
-                                }
-                                
-                                completion(response, nil)
-                                
-//                                if response!.success, response!.statusCode == 202, let refBlockNum = res, let permlink = response?.body?.processed.action_traces.first?.act.data["permlink"]?.jsonValue as? String {
-//                                    print(permlink)
-//                                    self.createCommentMessage(parentData: ParentData(refBlockNum: UInt64, permlink: permlink))
-//                                    //                                        self.votePost(permlink: permlink)
-//                                }
-            })
-        }
-            
+    public func create(message:             String,
+                       headline:            String? = "",
+                       parentData:          ParentData? = nil,
+                       tags:                [String]?,
+                       metaData:            String?,
+                       responseHandling:    @escaping (ChainResponse<TransactionCommitted>) -> Void,
+                       errorHandling:       @escaping (ErrorAPI) -> Void) {
         // Offline mode
-        else {
-            completion(nil, ErrorAPI.disableInternetConnection(message: nil))
+        if (!Config.isNetworkAvailable) {
+            return errorHandling(ErrorAPI.disableInternetConnection(message: nil))
         }
+        
+        let arrayTags = tags == nil ? [EOSTransaction.Tags()] : tags!.map({ EOSTransaction.Tags.init(tagValue: $0) })
+        
+        EOSManager.create(message:          message,
+                          headline:         headline ?? String(format: "Test Post Title %i", arc4random_uniform(100)),
+                          tags:             arrayTags,
+                          jsonMetaData:     metaData,
+                          responseResult:   { (responseAPIResult) in
+                            Logger.log(message: "\nresponseAPIResult = \(responseAPIResult)\n", event: .debug)
+                            responseHandling(responseAPIResult)
+            },
+                          responseError:    { (error) in
+                            Logger.log(message: "API basic \'options.set\' have error: \(error)", event: .error)
+                            errorHandling(ErrorAPI.responseUnsuccessful(message: error.localizedDescription))
+        })
     }
     
     /// Action `updatemssg`

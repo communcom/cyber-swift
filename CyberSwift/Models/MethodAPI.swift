@@ -121,11 +121,8 @@ public indirect enum MethodAPIType {
     //  Set Basic options
     case setBasicOptions(nsfw: String, language: String)
     
-    //  Set Push options
-    case setPush(options: RequestParameterAPI.PushOptions)
-
-    //  Set Notify options
-    //    case setNotify(options: RequestParameterAPI.PushOptions)
+    //  Set Push/Notify options
+    case setNotice(options: RequestParameterAPI.NoticeOptions, type: NoticeType)
     
     
     /// REGISTRATION-SERVICE
@@ -279,14 +276,21 @@ public indirect enum MethodAPIType {
                                         ])
 
         //  Template { "id": 13, "jsonrpc": "2.0", "method": "options.set", "params": { "profile": <userNickName-deviceUDID>, "push": { "lang": <languageValue>, "show": { "upvote": <upvoteValue>, "downvote": <downvoteValue>, "reply": <replyValue>, "transfer": <transferValue>, "subscribe": <subscribeValue>, "unsubscribe": <unsibscribeValue>, "mention": <mentionValue>, "repost": <repostValue>,  "message": <messageValue>, "witnessVote": <witnessVoteValue>, "witnessCancelVote": <witnessCancelVoteValue>, "reward": <rewardValue>, "curatorReward": <curatorRewardValue> }}}
-        case .setPush(let options):
+        case .setNotice(let options, let type):
+            var parameters: [String: String] = [ "profile":  String(format: "%@-%@", Config.currentUser.nickName!, Config.currentDeviceType) ]
+            
+            if type == .push {
+                parameters["push"]      =   String(format: "{\"lang\": \"%@\", \"show\": {%@}}", "ru", options.getNoticeOptionsValues())
+            }
+            
+            if type == .notify {
+                parameters["notify"]    =   String(format: "{\"show\": {%@}}", options.getNoticeOptionsValues())
+            }
+
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.options.rawValue,
                      methodName:        "set",
-                     parameters:        [
-                                            "profile":  String(format: "%@-%@", Config.currentUser.nickName!, Config.currentDeviceType),
-                                            "push":    String(format: "{\"lang\": \"%@\", \"show\": {%@}}", "ru", options.getPushOptionsValues())
-                                        ])
+                     parameters:        parameters)
 
             
         /// REGISTRATION-SERVICE

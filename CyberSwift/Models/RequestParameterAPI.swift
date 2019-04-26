@@ -90,7 +90,7 @@ public struct RequestParameterAPI {
         
 
     // MARK: -
-    public struct PushOptions: Encodable {
+    public struct NoticeOptions: Encodable {
         // MARK: - Properties
         public let upvote: Bool
         public let downvote: Bool
@@ -126,8 +126,8 @@ public struct RequestParameterAPI {
         
         // MARK: - Functions
         // Template: "upvote": <upvote>, "downvote": <downvote>, "reply": <reply>, "transfer": <transfer>, "subscribe": <subscribe>, "unsubscribe": <unsibscribe>, "mention": <mention>, "repost": <repost>,  "message": <message>, "witnessVote": <witnessVote>, "witnessCancelVote": <witnessCancelVote>, "reward": <reward>, "curatorReward": <curatorReward>
-        public func getPushOptionsValues() -> String {
-            return  String(format: "\"vote\": %d, \"flag\": %d, \"reply\": %d, \"transfer\": %d, \"subscribe\": %d, \"unsubscribe\": %d, \"mention\": %d, \"repost\": %d, \"message\": %d, \"witnessVote\": %d, \"witnessCancelVote\": %d, \"reward\": %d, \"curatorReward\": %d", self.upvote.intValue, self.downvote.intValue, self.reply.intValue, self.transfer.intValue, self.subscribe.intValue, self.unsubscribe.intValue, self.mention.intValue, self.repost.intValue, self.message.intValue, self.witnessVote.intValue, self.witnessCancelVote.intValue, self.reward.intValue, self.curatorReward.intValue)
+        public func getNoticeOptionsValues() -> String {
+            return  String(format: "\"upvote\": %d, \"downvote\": %d, \"reply\": %d, \"transfer\": %d, \"subscribe\": %d, \"unsubscribe\": %d, \"mention\": %d, \"repost\": %d, \"message\": %d, \"witnessVote\": %d, \"witnessCancelVote\": %d, \"reward\": %d, \"curatorReward\": %d", self.upvote.intValue, self.downvote.intValue, self.reply.intValue, self.transfer.intValue, self.subscribe.intValue, self.unsubscribe.intValue, self.mention.intValue, self.repost.intValue, self.message.intValue, self.witnessVote.intValue, self.witnessCancelVote.intValue, self.reward.intValue, self.curatorReward.intValue)
         }
     }
 }
