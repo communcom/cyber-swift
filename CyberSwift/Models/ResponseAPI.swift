@@ -77,8 +77,8 @@ public struct ResponseAPIContentGetProfile: Decodable {
     public let username: String
     public let registration: ResponseAPIContentGetProfileRegistration
     public let personal: ResponseAPIContentGetProfilePersonal
+    public let subscribers: ResponseAPIContentGetProfileSubscribers
 }
-
 
 // MARK: -
 public struct ResponseAPIContentGetProfileSubscription: Decodable {
@@ -137,6 +137,12 @@ public struct ResponseAPIContentGetProfileContact: Decodable {
     public let telegram: String
     public let whatsApp: String
     public let weChat: String
+}
+
+// MARK: -
+public struct ResponseAPIContentGetProfileSubscribers: Decodable {
+    public let usersCount: UInt64
+    public let communitiesCount: UInt64
 }
 
 
