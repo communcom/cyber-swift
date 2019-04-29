@@ -83,8 +83,8 @@ public struct ResponseAPIContentGetProfile: Decodable {
 // MARK: -
 public struct ResponseAPIContentGetProfileSubscription: Decodable {
     // MARK: - In work API `content.getProfile`
-    public let userIds: [ResponseAPIContentGetProfileSubscriptionUserID?]
-    public let communities: [ResponseAPIContentGetProfileSubscriptionCommunity?]
+    public let userIds: [ResponseAPIContentGetProfileSubscriptionUserID?]?
+    public let communities: [ResponseAPIContentGetProfileSubscriptionCommunity?]?
 }
 
 
@@ -313,7 +313,7 @@ public struct ResponseAPIContentGetPostMeta: Decodable {
 public struct ResponseAPIContentGetPostAuthor: Decodable {
     // MARK: - In work API `content.getFeed`
     public let userId: String
-    public let username: String
+    public let username: String?
 }
 
 
