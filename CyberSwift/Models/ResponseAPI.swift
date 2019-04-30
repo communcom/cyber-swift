@@ -909,3 +909,4 @@ public struct ResponseAPISetOptionsNoticeResult: Decodable {
 public struct ResponseAPISetOptionsNotice: Decodable {
     public let status: String
 }
+
