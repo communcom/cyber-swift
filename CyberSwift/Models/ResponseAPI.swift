@@ -313,7 +313,7 @@ public struct ResponseAPIContentGetPostMeta: Decodable {
 public struct ResponseAPIContentGetPostAuthor: Decodable {
     // MARK: - In work API `content.getFeed`
     public let userId: String
-    public let username: String
+    public let username: String?
 }
 
 

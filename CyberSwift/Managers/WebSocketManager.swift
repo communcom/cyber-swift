@@ -9,7 +9,8 @@
 import Foundation
 import Starscream
 
-var webSocket = WebSocket(url: URL(string: "ws://116.203.98.241:8080")!)
+var webSocket = WebSocket(url: URL(string: "wss://cyber-gate.golos.io")!)
+//var webSocket = WebSocket(url: URL(string: "ws://116.203.98.241:8080")!)
 
 public class WebSocketManager {
     // MARK: - Properties
