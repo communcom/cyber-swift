@@ -149,6 +149,7 @@ public struct ResponseAPIContentGetProfileContact: Decodable {
     public let weChat: String
 }
 
+
 // MARK: -
 public struct ResponseAPIContentGetProfileSubscribers: Decodable {
     public let usersCount: UInt64
