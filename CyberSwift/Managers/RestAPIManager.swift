@@ -670,18 +670,25 @@ public class RestAPIManager {
             let response = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
             Logger.log(message: "response = \(String(describing: response))", event: .debug)
             
-            if let json = try? JSONSerialization.jsonObject(with: data!, options: .mutableLeaves) as? [String: Any], let imageURL = json["url"] as? String {
-                Logger.log(message: "\nAPI `posting image` response result: \n\(imageURL)\n", event: .debug)
-                responseHandling(imageURL)
-            } else {
+            do {
+                let json = try JSONSerialization.jsonObject(with: data!, options: .mutableLeaves) as? [String: Any]
+                
+                if let imageURL = json?["url"] as? String {
+                    Logger.log(message: "\nAPI `posting image` response result: \n\(imageURL)\n", event: .debug)
+                    responseHandling(imageURL)
+                } else {
+                    Logger.log(message: "\nAPI `registration.toBlockChain` response error: \n\"JSON Parsing Failure\"\n", event: .error)
+                    errorHandling(ErrorAPI.jsonParsingFailure(message: "JSON Parsing Failure"))
+                }
+            } catch {
                 Logger.log(message: "\nAPI `registration.toBlockChain` response error: \n\"JSON Conversion Failure\"\n", event: .error)
-                errorHandling(ErrorAPI.jsonParsingFailure(message: "JSON Conversion Failure"))
+                errorHandling(ErrorAPI.jsonConversionFailure(message: "JSON Conversion Failure"))
             }
         })
         
         task.resume()
     }
-    
+
     /// Action `updatemeta`
     public func update(userProfile:             [String: String],
                        responseHandling:        @escaping (ChainResponse<TransactionCommitted>) -> Void,

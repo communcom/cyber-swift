@@ -71,12 +71,13 @@ public struct ResponseAPIContentGetProfileResult: Decodable {
 // MARK: -
 public struct ResponseAPIContentGetProfile: Decodable {
     // MARK: - In work API `content.getProfile`
-    public let subscriptions: ResponseAPIContentGetProfileSubscription
+    public let subscriptions: ResponseAPIContentGetProfileSubscription?
     public let stats: ResponseAPIContentGetProfileStat
     public let userId: String
     public let username: String
     public let registration: ResponseAPIContentGetProfileRegistration
     public let personal: ResponseAPIContentGetProfilePersonal
+    public let subscribers: ResponseAPIContentGetProfileSubscriber?
 }
 
 
@@ -127,6 +128,14 @@ public struct ResponseAPIContentGetProfilePersonal: Decodable {
     public let avatarUrl: String?
     public let coverUrl: String?
     public let biography: String?
+}
+
+
+// MARK: -
+public struct ResponseAPIContentGetProfileSubscriber: Decodable {
+    // MARK: - In work API `content.getProfile`
+    public let usersCount: UInt64
+    public let communitiesCount: UInt64
 }
 
 
