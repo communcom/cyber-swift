@@ -55,6 +55,7 @@ public struct ResponseAPIError: Decodable {
     // MARK: - In work
     public let code: Int64
     public let message: String
+    public let currentState: String?
 }
 
 
