@@ -371,7 +371,7 @@ public class RestAPIManager {
                                                 completion(nil, errorAPI)
         })
     }
-
+    
     // API `options.get`
     public func getOptions(responseHandling:    @escaping (ResponseAPIGetOptions) -> Void,
                            errorHandling:       @escaping (ErrorAPI) -> Void) {
@@ -390,7 +390,7 @@ public class RestAPIManager {
                                                     Logger.log(message: "\nAPI `options.get` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
                                                     return errorHandling(ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
                                                 }
-
+                                                
                                                 Logger.log(message: "\nAPI `options.get` response result: \n\(responseAPIResult)\n", event: .debug)
                                                 responseHandling(result)
         },
@@ -399,7 +399,7 @@ public class RestAPIManager {
                                                 errorHandling(errorAPI)
         })
     }
-
+    
     // API basic `options.set`
     public func setBasicOptions(language:           String,
                                 nsfwContent:        NsfwContentMode,
@@ -410,7 +410,7 @@ public class RestAPIManager {
         
         // Check user authorize
         guard Config.currentUser.nickName != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
-
+        
         let methodAPIType = MethodAPIType.setBasicOptions(nsfw: nsfwContent.rawValue, language: language)
         
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
@@ -429,7 +429,7 @@ public class RestAPIManager {
                                                 errorHandling(errorAPI)
         })
     }
-
+    
     // API notify/push `options.set`
     public func set(options:            RequestParameterAPI.NoticeOptions,
                     type:               NoticeType,
@@ -459,7 +459,7 @@ public class RestAPIManager {
                                                 errorHandling(errorAPI)
         })
     }
-
+    
     
     // MARK: - REGISTRATION-SERVICE
     // API `registration.getState`
@@ -468,7 +468,7 @@ public class RestAPIManager {
                          completion:    @escaping (ResponseAPIRegistrationGetState?, ErrorAPI?) -> Void) {
         // Offline mode
         if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
-
+        
         let methodAPIType = MethodAPIType.getState(nickName: nickName, phone: phone)
         
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
@@ -487,7 +487,7 @@ public class RestAPIManager {
                                                 completion(nil, errorAPI)
         })
     }
-
+    
     // API `registration.firstStep`
     public func firstStep(phone:        String,
                           isDebugMode:  Bool = true,
@@ -506,6 +506,9 @@ public class RestAPIManager {
                                                 }
                                                 
                                                 Logger.log(message: "\nAPI `registration.firstStep` response result: \n\(responseAPIResult)\n", event: .debug)
+                                                UserDefaults.standard.set("registrationStep2", forKey: Config.registrationStepKey)
+                                                UserDefaults.standard.set(phone, forKey: Config.registrationUserPhoneKey)
+                                                UserDefaults.standard.set(result.code, forKey: Config.registrationSmsCodeKey)
                                                 completion(result, nil)
         },
                                              onError: { errorAPI in
@@ -513,7 +516,7 @@ public class RestAPIManager {
                                                 completion(nil, errorAPI)
         })
     }
-
+    
     // API `registration.verify`
     public func verify(phone:           String,
                        code:            String,
@@ -533,6 +536,7 @@ public class RestAPIManager {
                                                 }
                                                 
                                                 Logger.log(message: "\nAPI `registration.verify` response result: \n\(responseAPIResult)\n", event: .debug)
+                                                UserDefaults.standard.set("registrationStep3", forKey: Config.registrationStepKey)
                                                 completion(result, nil)
         },
                                              onError:           { errorAPI in
@@ -560,6 +564,8 @@ public class RestAPIManager {
                                                 }
                                                 
                                                 Logger.log(message: "\nAPI `registration.setUsername` response result: \n\(responseAPIResult)\n", event: .debug)
+                                                UserDefaults.standard.set("registrationStep4", forKey: Config.registrationStepKey)
+                                                UserDefaults.standard.set(name, forKey: Config.registrationUserNameKey)
                                                 completion(result, nil)
         },
                                              onError:           { errorAPI in
@@ -567,7 +573,7 @@ public class RestAPIManager {
                                                 completion(nil, errorAPI)
         })
     }
-
+    
     // API `registration.resendSmsCode`
     public func resendSmsCode(phone:        String,
                               isDebugMode:  Bool = true,
@@ -588,6 +594,7 @@ public class RestAPIManager {
                                                 }
                                                 
                                                 Logger.log(message: "\nAPI `registration.resendSmsCode` response result: \n\(responseAPIResult)\n", event: .debug)
+                                                UserDefaults.standard.set("registrationStep2", forKey: Config.registrationStepKey)
                                                 completion(result, nil)
         },
                                              onError:           { errorAPI in
@@ -595,7 +602,7 @@ public class RestAPIManager {
                                                 completion(nil, errorAPI)
         })
     }
-
+    
     // API `registration.toBlockChain`
     public func toBlockChain(nickName:      String,
                              completion:    @escaping (Bool, ErrorAPI?) -> Void) {
@@ -619,6 +626,7 @@ public class RestAPIManager {
                                                 // Save in Keychain
                                                 Logger.log(message: "\nAPI `registration.toBlockChain` response result: \n\(responseAPIResult)\n", event: .debug)
                                                 let result: Bool = KeychainManager.save(keys: userkeys, nickName: nickName)
+                                                UserDefaults.standard.set("registrationStep", forKey: Config.registrationStepKey)
                                                 completion(result, nil)
         },
                                              onError: { errorAPI in
@@ -626,7 +634,7 @@ public class RestAPIManager {
                                                 completion(false, errorAPI)
         })
     }
-
+    
     
     //  MARK: - Contract `gls.social`
     /// Posting image
@@ -635,7 +643,7 @@ public class RestAPIManager {
                         errorHandling:      @escaping (ErrorAPI) -> Void) {
         // Offline mode
         guard Config.isNetworkAvailable else { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
-
+        
         guard let imageData = image.jpegData(compressionQuality: 1.0) else { return errorHandling(ErrorAPI.invalidData(message: "Invalid Data")) }
         
         let session             =   URLSession(configuration: .default)
@@ -688,7 +696,7 @@ public class RestAPIManager {
         
         task.resume()
     }
-
+    
     /// Action `updatemeta`
     public func update(userProfile:             [String: String],
                        responseHandling:        @escaping (ChainResponse<TransactionCommitted>) -> Void,
@@ -700,7 +708,7 @@ public class RestAPIManager {
         guard let nickName = Config.currentUser.nickName else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
         
         let userProfileAccountmetaArgs = EOSTransaction.UserProfileAccountmetaArgs(json: userProfile)
-
+        
         let userProfileMetaArgs = EOSTransaction.UserProfileUpdatemetaArgs(accountValue:    nickName,
                                                                            metaValue:       userProfileAccountmetaArgs)
         
@@ -714,7 +722,7 @@ public class RestAPIManager {
                             errorHandling(errorAPI)
         })
     }
-
+    
     
     //  MARK: - Contract `gls.publish`
     /// Actions `upvote`, `downvote`, `unvote`
@@ -762,7 +770,7 @@ public class RestAPIManager {
                           responseResult:   { (responseAPIResult) in
                             Logger.log(message: "\nAPI `createmssg` response result: \n\(responseAPIResult)\n", event: .debug)
                             responseHandling(responseAPIResult)
-            },
+        },
                           responseError:    { (errorAPI) in
                             Logger.log(message: "\nAPI `createmssg` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
                             errorHandling(ErrorAPI.responseUnsuccessful(message: errorAPI.localizedDescription))
@@ -845,7 +853,7 @@ public class RestAPIManager {
         })
     }
     
-
+    
     // MARK: - Contract `gls.ctrl`
     /// Action `regwitness` (1)
     public func reg(witness:        String,

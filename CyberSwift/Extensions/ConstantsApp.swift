@@ -11,7 +11,7 @@ import Foundation
 
 public struct Config {
     public static let currentDeviceType: String         =   { return UIDevice.modelName.replacingOccurrences(of: " ", with: "-") }()
-
+    
     /// Pagination
     public static let paginationLimit: Int8 = 20
     
@@ -23,7 +23,7 @@ public struct Config {
     static let CHAIN_CYBERWAY_API_BASE_URL: String      =   isPublicTestnet ? "https://node-cyberway.golos.io/" : "http://159.69.85.233:8888/"
 //    static let CHAIN_CYBERWAY_API_BASE_URL: String      =   isPublicTestnet ? "http://46.4.96.246:8888/" : "http://159.69.85.233:8888/"
     static let imageHost: String                        =   "https://img.golos.io/upload"
-   
+    
     /// Websocket
     public static var webSocketSecretKey: String        =   "Cyberway"
     
@@ -59,7 +59,7 @@ public struct Config {
     // testnet: http://116.203.39.126:7777/get_users
     public static let accountNickTest: String           =   "tst2jejxypdx"
     public static let activeKeyTest: String             =   "5HrcdkjaCcXpemf5iXRN6rg4ZtXtDKBWg16gJmfWM7VXTSGWz33"
-
+    
     
     /// Check network connection
     public static var isNetworkAvailable: Bool {
@@ -83,4 +83,8 @@ public struct Config {
     public static let currentUserPublicPostingKey: String   =   "currentUserPublicPostingKey"
     public static let currentUserPrivateMemoKey: String     =   "currentUserPrivateMemoKey"
     public static let currentUserPublickMemoKey: String     =   "currentUserPublickMemoKey"
+    public static let registrationStepKey: String           =   "registrationStepKey"
+    public static let registrationSmsCodeKey: String        =   "registrationSmsCodeKey"
+    public static let registrationUserPhoneKey: String      =   "registrationUserPhoneKey"
+    public static let registrationUserNameKey: String       =   "registrationUserNameKey"
 }
