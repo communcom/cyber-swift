@@ -526,13 +526,14 @@ public class RestAPIManager {
     }
     
     // API `registration.verify`
-    public func verify(phone:           String,
-                       code:            String,
-                       isDebugMode:     Bool = true,
-                       completion:      @escaping (ResponseAPIRegistrationVerify?, ErrorAPI?) -> Void) {
+    public func verify(phone:               String,
+                       code:                String,
+                       isDebugMode:         Bool = true,
+                       responseHandling:    @escaping (ResponseAPIRegistrationVerify) -> Void,
+                       errorHandling:       @escaping (ResponseAPIError) -> Void) {
         // Offline mode
-        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
-        
+        if (!Config.isNetworkAvailable) { return errorHandling(ResponseAPIError(code: 503, message: "No Internet Connection", currentState: nil)) }
+
         let methodAPIType = MethodAPIType.verify(phone: phone, code: code, isDebugMode: isDebugMode)
         
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
@@ -540,54 +541,26 @@ public class RestAPIManager {
                                                 guard let result = (responseAPIResult as! ResponseAPIRegistrationVerifyResult).result else {
                                                     let responseAPIError = (responseAPIResult as! ResponseAPIRegistrationVerifyResult).error
                                                     Logger.log(message: "\nAPI `registration.verify` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
-                                                    return completion(nil, ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
+                                                    return errorHandling(responseAPIError!)
                                                 }
                                                 
                                                 Logger.log(message: "\nAPI `registration.verify` response result: \n\(responseAPIResult)\n", event: .debug)
                                                 UserDefaults.standard.set("setUsername", forKey: Config.registrationStepKey)
-                                                completion(result, nil)
+                                                responseHandling(result)
         },
                                              onError:           { errorAPI in
                                                 Logger.log(message: "\nAPI `registration.verify` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
-                                                completion(nil, errorAPI)
-        })
-    }
-    
-    // API `registration.setUsername`
-    public func setUser(name:           String,
-                        phone:          String,
-                        isDebugMode:    Bool = true,
-                        completion:     @escaping (ResponseAPIRegistrationSetUsername?, ErrorAPI?) -> Void) {
-        // Offline mode
-        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
-        
-        let methodAPIType = MethodAPIType.setUser(name: name, phone: phone, isDebugMode: isDebugMode)
-        
-        Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
-                                             onResult:          { responseAPIResult in
-                                                guard let result = (responseAPIResult as! ResponseAPIRegistrationSetUsernameResult).result else {
-                                                    let responseAPIError = (responseAPIResult as! ResponseAPIRegistrationSetUsernameResult).error
-                                                    Logger.log(message: "\nAPI `registration.setUsername` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
-                                                    return completion(nil, ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
-                                                }
-                                                
-                                                Logger.log(message: "\nAPI `registration.setUsername` response result: \n\(responseAPIResult)\n", event: .debug)
-                                                UserDefaults.standard.set("toBlockChain", forKey: Config.registrationStepKey)
-                                                UserDefaults.standard.set(name, forKey: Config.registrationUserNameKey)
-                                                completion(result, nil)
-        },
-                                             onError:           { errorAPI in
-                                                Logger.log(message: "\nAPI `registration.setUsername` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
-                                                completion(nil, errorAPI)
+                                                errorHandling(ResponseAPIError(code: Int64(errorAPI.caseInfo.code), message: errorAPI.caseInfo.message, currentState: nil))
         })
     }
     
     // API `registration.resendSmsCode`
-    public func resendSmsCode(phone:        String,
-                              isDebugMode:  Bool = true,
-                              completion:   @escaping (ResponseAPIResendSmsCode?, ErrorAPI?) -> Void) {
+    public func resendSmsCode(phone:                String,
+                              isDebugMode:          Bool = true,
+                              responseHandling:     @escaping (ResponseAPIResendSmsCode) -> Void,
+                              errorHandling:        @escaping (ErrorAPI) -> Void) {
         // Offline mode
-        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
+        if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         let methodAPIType = MethodAPIType.resendSmsCode(phone: phone, isDebugMode: isDebugMode)
         
@@ -598,25 +571,56 @@ public class RestAPIManager {
                                                 guard let result = (responseAPIResult as! ResponseAPIResendSmsCodeResult).result else {
                                                     let responseAPIError = (responseAPIResult as! ResponseAPIResendSmsCodeResult).error
                                                     Logger.log(message: "\nAPI `registration.resendSmsCode` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
-                                                    return completion(nil, ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
+                                                    return errorHandling(ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
                                                 }
                                                 
                                                 Logger.log(message: "\nAPI `registration.resendSmsCode` response result: \n\(responseAPIResult)\n", event: .debug)
                                                 UserDefaults.standard.set("verify", forKey: Config.registrationStepKey)
                                                 UserDefaults.standard.set(result.nextSmsRetry, forKey: Config.registrationSmsNextRetryKey)
-                                                completion(result, nil)
+                                                responseHandling(result)
         },
                                              onError:           { errorAPI in
                                                 Logger.log(message: "\nAPI `registration.resendSmsCode` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
-                                                completion(nil, errorAPI)
+                                                errorHandling(errorAPI)
+        })
+    }
+    
+    // API `registration.setUsername`
+    public func setUser(name:                   String,
+                        phone:                  String,
+                        isDebugMode:            Bool = true,
+                        responseHandling:       @escaping (ResponseAPIRegistrationSetUsername) -> Void,
+                        errorHandling:          @escaping (ErrorAPI) -> Void) {
+        // Offline mode
+        if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        let methodAPIType = MethodAPIType.setUser(name: name, phone: phone, isDebugMode: isDebugMode)
+        
+        Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                             onResult:          { responseAPIResult in
+                                                guard let result = (responseAPIResult as! ResponseAPIRegistrationSetUsernameResult).result else {
+                                                    let responseAPIError = (responseAPIResult as! ResponseAPIRegistrationSetUsernameResult).error
+                                                    Logger.log(message: "\nAPI `registration.setUsername` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
+                                                    return errorHandling(ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
+                                                }
+                                                
+                                                Logger.log(message: "\nAPI `registration.setUsername` response result: \n\(responseAPIResult)\n", event: .debug)
+                                                UserDefaults.standard.set("toBlockChain", forKey: Config.registrationStepKey)
+                                                UserDefaults.standard.set(name, forKey: Config.registrationUserNameKey)
+                                                responseHandling(result)
+        },
+                                             onError:           { errorAPI in
+                                                Logger.log(message: "\nAPI `registration.setUsername` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
+                                                errorHandling(errorAPI)
         })
     }
     
     // API `registration.toBlockChain`
-    public func toBlockChain(nickName:      String,
-                             completion:    @escaping (Bool, ErrorAPI?) -> Void) {
+    public func toBlockChain(nickName:              String,
+                             responseHandling:      @escaping (Bool) -> Void,
+                             errorHandling:         @escaping (ErrorAPI) -> Void) {
         // Offline mode
-        if (!Config.isNetworkAvailable) { return completion(false, ErrorAPI.disableInternetConnection(message: nil)) }
+        if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         let userkeys = RestAPIManager.instance.generate(keyTypes:   [.owner, .active, .posting, .memo],
                                                         nickName:   nickName,
@@ -629,18 +633,18 @@ public class RestAPIManager {
                                                 guard (responseAPIResult as! ResponseAPIRegistrationToBlockChainResult).result != nil else {
                                                     let responseAPIError = (responseAPIResult as! ResponseAPIRegistrationToBlockChainResult).error
                                                     Logger.log(message: "\nAPI `registration.toBlockChain` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
-                                                    return completion(false, ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
+                                                    return errorHandling(ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
                                                 }
                                                 
                                                 // Save in Keychain
                                                 Logger.log(message: "\nAPI `registration.toBlockChain` response result: \n\(responseAPIResult)\n", event: .debug)
                                                 let result: Bool = KeychainManager.save(keys: userkeys, nickName: nickName)
                                                 UserDefaults.standard.set("firstStep", forKey: Config.registrationStepKey)
-                                                completion(result, nil)
+                                                responseHandling(result)
         },
                                              onError: { errorAPI in
                                                 Logger.log(message: "\nAPI `registration.toBlockChain` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
-                                                completion(false, errorAPI)
+                                                errorHandling(errorAPI)
         })
     }
     
