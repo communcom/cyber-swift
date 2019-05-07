@@ -19,3 +19,4 @@
 "Dynamic Global Properties Error"           =   "Request failed\ndynamic global properties";
 "Result not found"                          =   "Result not found";
 "Unauthorized"                              =   "Unauthorized";
+"No Internet Connection"                    =   "No Internet Connection";

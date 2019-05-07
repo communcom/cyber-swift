@@ -589,6 +589,12 @@ public struct ResponseAPIRegistrationFirstStep: Decodable {
     public let code: UInt64
     public let strategy: String
     public let nextSmsRetry: String
+    
+    public init(code: UInt64 = 0, strategy: String = "", nextSmsRetry: String = "") {
+        self.code           =   code
+        self.strategy       =   strategy
+        self.nextSmsRetry   =   nextSmsRetry
+    }
 }
 
 

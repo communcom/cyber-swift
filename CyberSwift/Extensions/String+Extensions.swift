@@ -28,4 +28,12 @@ extension String {
         
         return result as String
     }
+    
+    public func convert(toDateFormat dateFormatType: DateFormatType) -> Date {
+        let dateFormatter           =   DateFormatter()
+        dateFormatter.dateFormat    =   dateFormatType.rawValue
+        dateFormatter.timeZone      =   TimeZone(identifier: "UTC")
+        
+        return dateFormatter.date(from: self)!
+    }
 }

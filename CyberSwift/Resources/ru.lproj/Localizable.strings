@@ -19,3 +19,4 @@
 "Dynamic Global Properties Error"           =   "Ошибка запроса\nдинамических глобальных свойств";
 "Result not found"                          =   "Ответ сервера не найден";
 "Unauthorized"                              =   "Пользователь неавторизован";
+"No Internet Connection"                    =   "Подключение к Интернету отсутствует";

@@ -463,11 +463,12 @@ public class RestAPIManager {
     
     // MARK: - REGISTRATION-SERVICE
     // API `registration.getState`
-    public func getState(nickName:      String? = Config.currentUser.nickName,
-                         phone:         String?,
-                         completion:    @escaping (ResponseAPIRegistrationGetState?, ErrorAPI?) -> Void) {
+    public func getState(nickName:          String? = Config.currentUser.nickName,
+                         phone:             String?,
+                         responseHandling:  @escaping (ResponseAPIRegistrationGetState) -> Void,
+                         errorHandling:     @escaping (ErrorAPI) -> Void) {
         // Offline mode
-        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
+        if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         let methodAPIType = MethodAPIType.getState(nickName: nickName, phone: phone)
         
@@ -476,25 +477,26 @@ public class RestAPIManager {
                                                 guard let result = (responseAPIResult as! ResponseAPIRegistrationGetStateResult).result else {
                                                     let responseAPIError = (responseAPIResult as! ResponseAPIRegistrationGetStateResult).error
                                                     Logger.log(message: "\nAPI `registration.getState` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
-                                                    return completion(nil, ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
+                                                    return errorHandling(ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
                                                 }
                                                 
                                                 Logger.log(message: "\nAPI `registration.getState` response result: \n\(responseAPIResult)\n", event: .debug)
-                                                completion(result, nil)
+                                                responseHandling(result)
         },
                                              onError:           { errorAPI in
                                                 Logger.log(message: "\nAPI `registration.getState` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
-                                                completion(nil, errorAPI)
+                                                errorHandling(errorAPI)
         })
     }
     
     // API `registration.firstStep`
-    public func firstStep(phone:        String,
-                          isDebugMode:  Bool = true,
-                          completion:   @escaping (ResponseAPIRegistrationFirstStep?, ErrorAPI?) -> Void) {
+    public func firstStep(phone:                String,
+                          isDebugMode:          Bool = true,
+                          responseHandling:     @escaping (ResponseAPIRegistrationFirstStep) -> Void,
+                          errorHandling:        @escaping (ResponseAPIError) -> Void) {
         // Offline mode
-        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
-        
+        if (!Config.isNetworkAvailable) { return errorHandling(ResponseAPIError(code: 503, message: "No Internet Connection", currentState: nil)) }
+
         let methodAPIType = MethodAPIType.firstStep(phone: phone, isDebugMode: isDebugMode)
         
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
@@ -502,18 +504,32 @@ public class RestAPIManager {
                                                 guard let result = (responseAPIResult as! ResponseAPIRegistrationFirstStepResult).result else {
                                                     let responseAPIError = (responseAPIResult as! ResponseAPIRegistrationFirstStepResult).error
                                                     Logger.log(message: "\nAPI `registration.firstStep` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
-                                                    return completion(nil, ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
+                                                    
+                                                    if responseAPIError!.currentState == "verify" {
+                                                        UserDefaults.standard.set("registrationStep2", forKey: Config.registrationStepKey)
+                                                    }
+                                                        
+                                                    else if responseAPIError!.currentState == "setUsername" {
+                                                        UserDefaults.standard.set("registrationStep3", forKey: Config.registrationStepKey)
+                                                    }
+                                                        
+                                                    else if responseAPIError!.currentState == "toBlockChain" {
+                                                        UserDefaults.standard.set("registrationStep4", forKey: Config.registrationStepKey)
+                                                    }
+                                                    
+                                                    return errorHandling(responseAPIError!)
                                                 }
                                                 
                                                 Logger.log(message: "\nAPI `registration.firstStep` response result: \n\(responseAPIResult)\n", event: .debug)
                                                 UserDefaults.standard.set("registrationStep2", forKey: Config.registrationStepKey)
                                                 UserDefaults.standard.set(phone, forKey: Config.registrationUserPhoneKey)
                                                 UserDefaults.standard.set(result.code, forKey: Config.registrationSmsCodeKey)
-                                                completion(result, nil)
+                                                UserDefaults.standard.set(result.nextSmsRetry, forKey: Config.registrationSmsNextRetryKey)
+                                                responseHandling(result)
         },
                                              onError: { errorAPI in
                                                 Logger.log(message: "\nAPI `registration.firstStep` response  error: \n\(errorAPI.localizedDescription)\n", event: .error)
-                                                completion(nil, errorAPI)
+                                                errorHandling(ResponseAPIError(code: Int64(errorAPI.caseInfo.code), message: errorAPI.caseInfo.message, currentState: nil))
         })
     }
     
@@ -595,6 +611,7 @@ public class RestAPIManager {
                                                 
                                                 Logger.log(message: "\nAPI `registration.resendSmsCode` response result: \n\(responseAPIResult)\n", event: .debug)
                                                 UserDefaults.standard.set("registrationStep2", forKey: Config.registrationStepKey)
+                                                UserDefaults.standard.set(result.nextSmsRetry, forKey: Config.registrationSmsNextRetryKey)
                                                 completion(result, nil)
         },
                                              onError:           { errorAPI in

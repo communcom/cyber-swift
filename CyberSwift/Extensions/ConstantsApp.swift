@@ -87,4 +87,5 @@ public struct Config {
     public static let registrationSmsCodeKey: String        =   "registrationSmsCodeKey"
     public static let registrationUserPhoneKey: String      =   "registrationUserPhoneKey"
     public static let registrationUserNameKey: String       =   "registrationUserNameKey"
+    public static let registrationSmsNextRetryKey: String   =   "registrationSmsNextRetryKey"
 }
