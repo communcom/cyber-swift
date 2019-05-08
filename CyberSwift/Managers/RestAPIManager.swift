@@ -497,6 +497,8 @@ public class RestAPIManager {
         // Offline mode
         if (!Config.isNetworkAvailable) { return errorHandling(ResponseAPIError(code: 503, message: "No Internet Connection", currentState: nil)) }
 
+        UserDefaults.standard.set(phone, forKey: Config.registrationUserPhoneKey)
+
         let methodAPIType = MethodAPIType.firstStep(phone: phone, isDebugMode: isDebugMode)
         
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
