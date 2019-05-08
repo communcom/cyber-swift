@@ -506,18 +506,24 @@ public class RestAPIManager {
                                                     Logger.log(message: "\nAPI `registration.firstStep` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
                                                     
                                                     if let state = responseAPIError!.currentState {
-                                                        UserDefaults.standard.set(state, forKey: Config.registrationStepKey)
+                                                        _ = KeychainManager.save(data: [Config.registrationStepKey: state], userNickName: phone)
+//                                                        UserDefaults.standard.set(state, forKey: Config.registrationStepKey)
                                                     }
                                                     
                                                     return errorHandling(responseAPIError!)
                                                 }
                                                 
                                                 Logger.log(message: "\nAPI `registration.firstStep` response result: \n\(responseAPIResult)\n", event: .debug)
-                                                UserDefaults.standard.set("verify", forKey: Config.registrationStepKey)
-                                                UserDefaults.standard.set(phone, forKey: Config.registrationUserPhoneKey)
-                                                UserDefaults.standard.set(result.code, forKey: Config.registrationSmsCodeKey)
-                                                UserDefaults.standard.set(result.nextSmsRetry, forKey: Config.registrationSmsNextRetryKey)
-                                                responseHandling(result)
+                                                
+                                                if KeychainManager.save(data: [Config.registrationStepKey: "verify", Config.registrationUserPhoneKey: phone, Config.registrationSmsCodeKey: result.code, Config.registrationSmsNextRetryKey: result.nextSmsRetry], userNickName: phone) {
+                                                    responseHandling(result)
+                                                }
+
+//                                                UserDefaults.standard.set("verify", forKey: Config.registrationStepKey)
+//                                                UserDefaults.standard.set(phone, forKey: Config.registrationUserPhoneKey)
+//                                                UserDefaults.standard.set(result.code, forKey: Config.registrationSmsCodeKey)
+//                                                UserDefaults.standard.set(result.nextSmsRetry, forKey: Config.registrationSmsNextRetryKey)
+//                                                responseHandling(result)
         },
                                              onError: { errorAPI in
                                                 Logger.log(message: "\nAPI `registration.firstStep` response  error: \n\(errorAPI.localizedDescription)\n", event: .error)
@@ -545,8 +551,13 @@ public class RestAPIManager {
                                                 }
                                                 
                                                 Logger.log(message: "\nAPI `registration.verify` response result: \n\(responseAPIResult)\n", event: .debug)
-                                                UserDefaults.standard.set("setUsername", forKey: Config.registrationStepKey)
-                                                responseHandling(result)
+                                                
+                                                if KeychainManager.save(data: [Config.registrationStepKey: "setUsername", Config.registrationUserPhoneKey: phone, Config.registrationSmsCodeKey: code], userNickName: phone) {
+                                                    responseHandling(result)
+                                                }
+
+//                                                UserDefaults.standard.set("setUsername", forKey: Config.registrationStepKey)
+//                                                responseHandling(result)
         },
                                              onError:           { errorAPI in
                                                 Logger.log(message: "\nAPI `registration.verify` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
@@ -575,9 +586,14 @@ public class RestAPIManager {
                                                 }
                                                 
                                                 Logger.log(message: "\nAPI `registration.resendSmsCode` response result: \n\(responseAPIResult)\n", event: .debug)
-                                                UserDefaults.standard.set("verify", forKey: Config.registrationStepKey)
-                                                UserDefaults.standard.set(result.nextSmsRetry, forKey: Config.registrationSmsNextRetryKey)
-                                                responseHandling(result)
+                                                
+                                                if KeychainManager.save(data: [Config.registrationStepKey: "verify", Config.registrationUserPhoneKey: phone, Config.registrationSmsCodeKey: result.code, Config.registrationSmsNextRetryKey: result.nextSmsRetry], userNickName: phone) {
+                                                    responseHandling(result)
+                                                }
+
+//                                                UserDefaults.standard.set("verify", forKey: Config.registrationStepKey)
+//                                                UserDefaults.standard.set(result.nextSmsRetry, forKey: Config.registrationSmsNextRetryKey)
+//                                                responseHandling(result)
         },
                                              onError:           { errorAPI in
                                                 Logger.log(message: "\nAPI `registration.resendSmsCode` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
@@ -586,7 +602,7 @@ public class RestAPIManager {
     }
     
     // API `registration.setUsername`
-    public func setUser(name:                   String,
+    public func setUser(nickName:               String,
                         phone:                  String,
                         isDebugMode:            Bool = true,
                         responseHandling:       @escaping (ResponseAPIRegistrationSetUsername) -> Void,
@@ -594,7 +610,7 @@ public class RestAPIManager {
         // Offline mode
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
-        let methodAPIType = MethodAPIType.setUser(name: name, phone: phone, isDebugMode: isDebugMode)
+        let methodAPIType = MethodAPIType.setUser(name: nickName, phone: phone, isDebugMode: isDebugMode)
         
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                              onResult:          { responseAPIResult in
@@ -605,9 +621,14 @@ public class RestAPIManager {
                                                 }
                                                 
                                                 Logger.log(message: "\nAPI `registration.setUsername` response result: \n\(responseAPIResult)\n", event: .debug)
-                                                UserDefaults.standard.set("toBlockChain", forKey: Config.registrationStepKey)
-                                                UserDefaults.standard.set(name, forKey: Config.registrationUserNameKey)
-                                                responseHandling(result)
+                                                
+                                                if KeychainManager.save(data: [Config.registrationStepKey: "toBlockChain", Config.registrationUserPhoneKey: phone, Config.registrationUserNameKey: nickName], userNickName: phone) {
+                                                    responseHandling(result)
+                                                }
+
+//                                                UserDefaults.standard.set("toBlockChain", forKey: Config.registrationStepKey)
+//                                                UserDefaults.standard.set(name, forKey: Config.registrationUserNameKey)
+//                                                responseHandling(result)
         },
                                              onError:           { errorAPI in
                                                 Logger.log(message: "\nAPI `registration.setUsername` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
@@ -617,6 +638,7 @@ public class RestAPIManager {
     
     // API `registration.toBlockChain`
     public func toBlockChain(nickName:              String,
+                             phone:                 String,
                              responseHandling:      @escaping (Bool) -> Void,
                              errorHandling:         @escaping (ErrorAPI) -> Void) {
         // Offline mode
@@ -639,8 +661,11 @@ public class RestAPIManager {
                                                 // Save in Keychain
                                                 Logger.log(message: "\nAPI `registration.toBlockChain` response result: \n\(responseAPIResult)\n", event: .debug)
                                                 let result: Bool = KeychainManager.save(keys: userkeys, nickName: nickName)
-                                                UserDefaults.standard.set("firstStep", forKey: Config.registrationStepKey)
-                                                responseHandling(result)
+
+                                                if KeychainManager.save(data: [Config.registrationStepKey: "firstStep"], userNickName: phone) {
+                                                    responseHandling(result)
+                                                }
+//                                                UserDefaults.standard.set("firstStep", forKey: Config.registrationStepKey)
         },
                                              onError: { errorAPI in
                                                 Logger.log(message: "\nAPI `registration.toBlockChain` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
