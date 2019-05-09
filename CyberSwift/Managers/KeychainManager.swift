@@ -53,6 +53,11 @@ public class KeychainManager {
         return Locksmith.loadDataForUserAccount(userAccount: userNickName)
     }
     
+    public static func loadAllData(byUserPhone userPhone: String) -> [String: Any]? {
+        return Locksmith.loadDataForUserAccount(userAccount: userPhone, inService: userPhone)
+        
+    }
+    
     
     /// Save login data to Keychain
     public static func save(keys: [UserKeys], nickName: String) -> Bool {
@@ -64,19 +69,19 @@ public class KeychainManager {
         let memoUserKeys    =   keys.first(where: { $0.type == "memo" })
         
         Config.currentUser  =   (nickName: nickName, activeKey: activeUserKeys!.privateKey)
-
+        
         result = result && self.save(data: [Config.currentUserPrivateMemoKey: memoUserKeys!.privateKey], userNickName: nickName)
         result = result && self.save(data: [Config.currentUserPublickMemoKey: memoUserKeys!.publicKey], userNickName: nickName)
-
+        
         result = result && self.save(data: [Config.currentUserPrivateOwnerKey: ownerUserKeys!.privateKey], userNickName: nickName)
         result = result && self.save(data: [Config.currentUserPublickMemoKey: ownerUserKeys!.publicKey], userNickName: nickName)
-
+        
         result = result && self.save(data: [Config.currentUserPrivateActiveKey: activeUserKeys!.privateKey], userNickName: nickName)
         result = result && self.save(data: [Config.currentUserPublicActiveKey: activeUserKeys!.publicKey], userNickName: nickName)
-
+        
         result = result && self.save(data: [Config.currentUserPrivatePostingKey: postingUserKeys!.privateKey], userNickName: nickName)
         result = result && self.save(data: [Config.currentUserPublicPostingKey: postingUserKeys!.publicKey], userNickName: nickName)
-
+        
         return result
     }
     
@@ -90,6 +95,24 @@ public class KeychainManager {
                 
             else {
                 try Locksmith.updateData(data: data, forUserAccount: userNickName, inService: keyData)
+            }
+            
+            Logger.log(message: "Successfully save User data to Keychain.", event: .severe)
+            return true
+        } catch {
+            Logger.log(message: "Error save User data to Keychain.", event: .error)
+            return false
+        }
+    }
+    
+    public static func save(data: [String: Any], userPhone: String) -> Bool {
+        do {
+            if Locksmith.loadDataForUserAccount(userAccount: userPhone, inService: userPhone) == nil {
+                try Locksmith.saveData(data: data, forUserAccount: userPhone, inService: userPhone)
+            }
+                
+            else {
+                try Locksmith.updateData(data: data, forUserAccount: userPhone, inService: userPhone)
             }
             
             Logger.log(message: "Successfully save User data to Keychain.", event: .severe)

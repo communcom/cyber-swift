@@ -496,9 +496,9 @@ public class RestAPIManager {
                           errorHandling:        @escaping (ResponseAPIError) -> Void) {
         // Offline mode
         if (!Config.isNetworkAvailable) { return errorHandling(ResponseAPIError(code: 503, message: "No Internet Connection", currentState: nil)) }
-
+        
         UserDefaults.standard.set(phone, forKey: Config.registrationUserPhoneKey)
-
+        
         let methodAPIType = MethodAPIType.firstStep(phone: phone, isDebugMode: isDebugMode)
         
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
@@ -506,33 +506,21 @@ public class RestAPIManager {
                                                 guard let result = (responseAPIResult as! ResponseAPIRegistrationFirstStepResult).result else {
                                                     let responseAPIError = (responseAPIResult as! ResponseAPIRegistrationFirstStepResult).error
                                                     Logger.log(message: "\nAPI `registration.firstStep` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
-                                                    
-                                                    if let state = responseAPIError!.currentState {
-                                                        _ = KeychainManager.save(data: [Config.registrationStepKey: state], userNickName: phone)
-//                                                        UserDefaults.standard.set(state, forKey: Config.registrationStepKey)
-                                                    }
-                                                    
                                                     return errorHandling(responseAPIError!)
                                                 }
                                                 
                                                 Logger.log(message: "\nAPI `registration.firstStep` response result: \n\(responseAPIResult)\n", event: .debug)
                                                 
-                                                if KeychainManager.save(data: [Config.registrationStepKey: "verify", Config.registrationUserPhoneKey: phone, Config.registrationSmsCodeKey: result.code, Config.registrationSmsNextRetryKey: result.nextSmsRetry], userNickName: phone) {
+                                                if KeychainManager.save(data: [Config.registrationStepKey: "verify", Config.registrationUserPhoneKey: phone, Config.registrationSmsCodeKey: result.code, Config.registrationSmsNextRetryKey: result.nextSmsRetry], userPhone: phone) {
                                                     responseHandling(result)
                                                 }
-
-//                                                UserDefaults.standard.set("verify", forKey: Config.registrationStepKey)
-//                                                UserDefaults.standard.set(phone, forKey: Config.registrationUserPhoneKey)
-//                                                UserDefaults.standard.set(result.code, forKey: Config.registrationSmsCodeKey)
-//                                                UserDefaults.standard.set(result.nextSmsRetry, forKey: Config.registrationSmsNextRetryKey)
-//                                                responseHandling(result)
         },
                                              onError: { errorAPI in
                                                 Logger.log(message: "\nAPI `registration.firstStep` response  error: \n\(errorAPI.localizedDescription)\n", event: .error)
                                                 errorHandling(ResponseAPIError(code: Int64(errorAPI.caseInfo.code), message: errorAPI.caseInfo.message, currentState: nil))
         })
     }
-    
+
     // API `registration.verify`
     public func verify(phone:               String,
                        code:                String,
