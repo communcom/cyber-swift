@@ -10,7 +10,12 @@ import UIKit
 import SwiftTheme
 
 extension UILabel {
-    func tune(withText text: String, hexColors: ThemeColorPicker?, font: UIFont?, alignment: NSTextAlignment, isMultiLines: Bool) {
+    public func tune(withText text: String, hexColors: ThemeColorPicker?) {
+        self.text               =   text.localized()
+        self.theme_textColor    =   hexColors
+    }
+    
+    public func tune(withText text: String, hexColors: ThemeColorPicker?, font: UIFont?, alignment: NSTextAlignment, isMultiLines: Bool) {
         self.text               =   text.localized()
         self.font               =   font
         self.theme_textColor    =   hexColors
@@ -19,7 +24,7 @@ extension UILabel {
         self.textAlignment      =   alignment
     }
     
-    func tune(withAttributedText text: String, hexColors: ThemeColorPicker?, font: UIFont?, alignment: NSTextAlignment, isMultiLines: Bool) {
+    public func tune(withAttributedText text: String, hexColors: ThemeColorPicker?, font: UIFont?, alignment: NSTextAlignment, isMultiLines: Bool) {
         ThemeManager.setTheme(index: Config.isAppThemeDark ? 1 : 0)
         
         let attributedString    =   NSMutableAttributedString(string:      text.localized(),

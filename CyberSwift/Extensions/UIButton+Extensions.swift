@@ -11,7 +11,7 @@ import SwiftTheme
 
 extension UIButton {    
     /// hexColors: [normal, highlighted, selected, disabled]
-    func tune(withTitle title: String, hexColors: [ThemeColorPicker], font: UIFont?, alignment: NSTextAlignment) {
+    public func tune(withTitle title: String, hexColors: [ThemeColorPicker], font: UIFont?, alignment: NSTextAlignment) {
         self.titleLabel?.font               =   font
         self.titleLabel?.textAlignment      =   alignment
         self.contentMode                    =   .scaleAspectFill
@@ -23,7 +23,7 @@ extension UIButton {
         self.theme_setTitleColor(hexColors[3], forState: .disabled)
     }
     
-    func setBlueButtonRoundEdges() {
+   public  func setBlueButtonRoundEdges() {
         self.layoutIfNeeded()
         setRoundEdges(cornerRadius: self.frame.height / 2)
 
@@ -32,7 +32,7 @@ extension UIButton {
         self.theme_setTitleColor(whiteColorPickers, forState: .normal)
     }
     
-    func fill(colorPicker: ThemeColorPicker = vividBlueColorPickers, cornerRadius: CGFloat = 5.0, font: UIFont = UIFont(name: "SFProDisplay-Regular", size: 16.0)!) {
+    public func fill(colorPicker: ThemeColorPicker = vividBlueColorPickers, cornerRadius: CGFloat = 5.0, font: UIFont = UIFont(name: "SFProDisplay-Regular", size: 16.0)!) {
         self.layoutIfNeeded()
         
         self.titleLabel?.font       =   font
@@ -42,7 +42,7 @@ extension UIButton {
         self.theme_setTitleColor(whiteColorPickers, forState: .normal)
     }
     
-    func setBorder(color: CGColor, cornerRadius: CGFloat) {
+    public func setBorder(color: CGColor, cornerRadius: CGFloat) {
         self.layoutIfNeeded()
         setRoundEdges(cornerRadius: cornerRadius)
         
@@ -51,7 +51,7 @@ extension UIButton {
         self.theme_backgroundColor  =   whiteVeryDarkGrayPickers
     }
     
-    func setBorderButtonRoundEdges() {
+    public func setBorderButtonRoundEdges() {
         self.layoutIfNeeded()
         setRoundEdges(cornerRadius: self.frame.height / 2)
 
@@ -61,7 +61,7 @@ extension UIButton {
         self.theme_backgroundColor  =   whiteColorPickers
         self.theme_setTitleColor(darkGrayWhiteColorPickers, forState: .normal)
     }
-        
+    
     private func setRoundEdges(cornerRadius: CGFloat) {
         layer.masksToBounds = true
         layer.cornerRadius = cornerRadius
@@ -69,7 +69,7 @@ extension UIButton {
     
     
     // For Like / Dislike buttons
-    func startLikeVote(withSpinner spinner: UIActivityIndicatorView) {
+    public func startLikeVote(withSpinner spinner: UIActivityIndicatorView) {
         self.isEnabled = false
         
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.1) {
@@ -78,7 +78,7 @@ extension UIButton {
         }
     }
     
-    func breakLikeVote(withSpinner spinner: UIActivityIndicatorView) {
+    public func breakLikeVote(withSpinner spinner: UIActivityIndicatorView) {
         self.isEnabled = true
         spinner.stopAnimating()
     }
