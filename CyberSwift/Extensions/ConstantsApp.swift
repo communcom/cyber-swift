@@ -14,6 +14,14 @@ public struct Config {
     public static let heightRatio: CGFloat              =   UIScreen.main.bounds.height / (UIApplication.shared.statusBarOrientation.isPortrait ? 812 : 375)
     public static let widthRatio: CGFloat               =   UIScreen.main.bounds.width / (UIApplication.shared.statusBarOrientation.isPortrait ? 375 : 812)
 
+    public static var isAppThemeDark: Bool {
+        set { }
+        
+        get {
+            return KeychainManager.loadData(forUserNickName: Config.currentUserNickNameKey, withKey: Config.currentUserThemeKey)?[Config.currentUserThemeKey] as? Bool ?? false
+        }
+    }
+
     public static let currentDeviceType: String         =   { return UIDevice.modelName.replacingOccurrences(of: " ", with: "-") }()
     
     /// Pagination
@@ -92,4 +100,5 @@ public struct Config {
     public static let registrationUserPhoneKey: String      =   "registrationUserPhoneKey"
     public static let registrationUserNameKey: String       =   "registrationUserNameKey"
     public static let registrationSmsNextRetryKey: String   =   "registrationSmsNextRetryKey"
+    public static let currentUserThemeKey: String           =   "currentUserThemeKey"
 }

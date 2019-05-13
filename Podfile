@@ -13,6 +13,7 @@ target 'CyberSwift' do
 
   pod 'Checksum'
   pod 'Locksmith'
+  pod 'SwiftTheme'
   pod 'CryptoSwift'
   pod 'secp256k1.swift'
   pod 'Localize-Swift', '~> 2.0'

@@ -20,6 +20,7 @@ Pod::Spec.new do |spec|
     spec.dependency 'RxCocoa'
     spec.dependency 'RxBlocking'
     spec.dependency 'GoloCrypto'
+    spec.dependency 'SwiftTheme'
     spec.dependency 'CryptoSwift'
     spec.dependency 'RxStarscream'
     spec.dependency 'secp256k1.swift'
