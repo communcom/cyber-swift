@@ -6,7 +6,10 @@ source 'https://github.com/CocoaPods/Specs.git'
 target 'CyberSwift' do
   # EOS framework
   pod 'eosswift', '~> 1.5'
-  pod 'RxBlocking', '~> 4.0'
+  
+  pod 'RxSwift'
+  pod 'RxCocoa'
+  pod 'RxBlocking'
 
   pod 'Checksum'
   pod 'Locksmith'

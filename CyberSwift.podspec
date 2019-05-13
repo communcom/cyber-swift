@@ -16,12 +16,14 @@ Pod::Spec.new do |spec|
     # Cocoapods
     spec.dependency 'Checksum'
     spec.dependency 'Locksmith'
+    spec.dependency 'RxSwift'
+    spec.dependency 'RxCocoa'
+    spec.dependency 'RxBlocking'
     spec.dependency 'GoloCrypto'
     spec.dependency 'CryptoSwift'
     spec.dependency 'RxStarscream'
     spec.dependency 'secp256k1.swift'
     spec.dependency 'eosswift', '~> 1.5'
-    spec.dependency 'RxBlocking', '~> 4.0'
     spec.dependency 'Starscream', '~> 3.0'
     spec.dependency 'Localize-Swift', '~> 2.0'
 

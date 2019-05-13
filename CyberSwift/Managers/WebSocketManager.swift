@@ -6,6 +6,7 @@
 //  Copyright © 2018 Golos.io. All rights reserved.
 //
 
+import RxSwift
 import Foundation
 import Starscream
 
@@ -15,7 +16,8 @@ var webSocket = WebSocket(url: URL(string: "wss://cyber-gate.golos.io")!)
 public class WebSocketManager {
     // MARK: - Properties
     public static let instance = WebSocketManager()
-    
+    public let completed = BehaviorSubject<Bool>(value: false)
+
     private var errorAPI: ErrorAPI?
     
     private var requestMethodsAPIStore = [Int: RequestMethodAPIStore]()
@@ -44,7 +46,11 @@ public class WebSocketManager {
         webSocket.delegate = WebSocketManager.instance
         
         WebSocketManager.instance.completionIsConnected = {
-            guard UserDefaults.standard.value(forKey: Config.isCurrentUserLoggedKey) != nil else { return }
+            guard UserDefaults.standard.value(forKey: Config.isCurrentUserLoggedKey) != nil else {
+                self.completed.onNext(true)
+                self.completed.onCompleted()
+                return
+            }
             
             guard (UserDefaults.standard.value(forKey: Config.isCurrentUserLoggedKey) as? Bool) == false else {
                 RestAPIManager.instance.authorize(userNickName: Config.currentUser.nickName!, userActiveKey: Config.currentUser.activeKey!, completion: { (authAuthorize, errorAPI) in
@@ -54,6 +60,9 @@ public class WebSocketManager {
                     }
                     
                     Logger.log(message: authAuthorize!.permission, event: .debug)
+                    
+                    self.completed.onNext(true)
+                    self.completed.onCompleted()
                 })
                 
                 return
@@ -62,7 +71,7 @@ public class WebSocketManager {
             guard self.requestMethodsAPIStore.count > 0 else {
                 return
             }
-            
+
             
 //            for requestMethodAPIStore in self.requestMethodsAPIStore {
 //                self.sendMessage(requestMethodAPIStore.value)
