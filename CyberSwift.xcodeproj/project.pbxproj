@@ -40,6 +40,7 @@
 		B1EA02CD22895EB400835244 /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EA02CB22895EB300835244 /* UILabel+Extensions.swift */; };
 		B1EA02CE22895EB400835244 /* UIButton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EA02CC22895EB400835244 /* UIButton+Extensions.swift */; };
 		B1EA02D02289626D00835244 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EA02CF2289626D00835244 /* UIColor+Extensions.swift */; };
+		B1EA02F62289D3B400835244 /* UITextField+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EA02F52289D3B400835244 /* UITextField+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -85,6 +86,7 @@
 		B1EA02CB22895EB300835244 /* UILabel+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
 		B1EA02CC22895EB400835244 /* UIButton+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
 		B1EA02CF2289626D00835244 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
+		B1EA02F52289D3B400835244 /* UITextField+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+Extensions.swift"; sourceTree = "<group>"; };
 		F6ED672114DF191DC66860EA /* Pods_CyberSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CyberSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -187,6 +189,7 @@
 				B1EA02CF2289626D00835244 /* UIColor+Extensions.swift */,
 				B19A28D5226087EE001C9F43 /* UIDevice+Extensions.swift */,
 				B1EA02CB22895EB300835244 /* UILabel+Extensions.swift */,
+				B1EA02F52289D3B400835244 /* UITextField+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -352,6 +355,7 @@
 				B1C3F860223F98DC005711EF /* Broadcast.swift in Sources */,
 				B1EA02CD22895EB400835244 /* UILabel+Extensions.swift in Sources */,
 				B1A74A642243892B009D68E7 /* EOSTransaction.swift in Sources */,
+				B1EA02F62289D3B400835244 /* UITextField+Extensions.swift in Sources */,
 				3BCDB40B2260E9C300739F7E /* Bool+Extensions.swift in Sources */,
 				B17991702269B4070014CB44 /* Array+Extensions.swift in Sources */,
 				B1C3F868223F9907005711EF /* RequestAPI.swift in Sources */,

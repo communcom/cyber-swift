@@ -542,7 +542,7 @@ public class RestAPIManager {
                                                 
                                                 Logger.log(message: "\nAPI `registration.verify` response result: \n\(responseAPIResult)\n", event: .debug)
                                                 
-                                                if KeychainManager.save(data: [Config.registrationStepKey: "setUsername", Config.registrationUserPhoneKey: phone, Config.registrationSmsCodeKey: code], userNickName: phone) {
+                                                if KeychainManager.save(data: [Config.registrationStepKey: "setUsername", Config.registrationUserPhoneKey: phone, Config.registrationSmsCodeKey: code], userPhone: phone) {
                                                     responseHandling(result)
                                                 }
 
@@ -577,7 +577,7 @@ public class RestAPIManager {
                                                 
                                                 Logger.log(message: "\nAPI `registration.resendSmsCode` response result: \n\(responseAPIResult)\n", event: .debug)
                                                 
-                                                if KeychainManager.save(data: [Config.registrationStepKey: "verify", Config.registrationUserPhoneKey: phone, Config.registrationSmsCodeKey: result.code, Config.registrationSmsNextRetryKey: result.nextSmsRetry], userNickName: phone) {
+                                                if KeychainManager.save(data: [Config.registrationStepKey: "verify", Config.registrationUserPhoneKey: phone, Config.registrationSmsCodeKey: result.code, Config.registrationSmsNextRetryKey: result.nextSmsRetry], userPhone: phone) {
                                                     responseHandling(result)
                                                 }
 
@@ -612,7 +612,7 @@ public class RestAPIManager {
                                                 
                                                 Logger.log(message: "\nAPI `registration.setUsername` response result: \n\(responseAPIResult)\n", event: .debug)
                                                 
-                                                if KeychainManager.save(data: [Config.registrationStepKey: "toBlockChain", Config.registrationUserPhoneKey: phone, Config.registrationUserNameKey: nickName], userNickName: phone) {
+                                                if KeychainManager.save(data: [Config.registrationStepKey: "toBlockChain", Config.registrationUserPhoneKey: phone, Config.registrationUserNameKey: nickName], userPhone: phone) {
                                                     responseHandling(result)
                                                 }
 
@@ -652,7 +652,7 @@ public class RestAPIManager {
                                                 Logger.log(message: "\nAPI `registration.toBlockChain` response result: \n\(responseAPIResult)\n", event: .debug)
                                                 let result: Bool = KeychainManager.save(keys: userkeys, nickName: nickName)
 
-                                                if KeychainManager.save(data: [Config.registrationStepKey: "firstStep"], userNickName: phone) {
+                                                if KeychainManager.save(data: [Config.registrationStepKey: "firstStep"], userPhone: phone) {
                                                     responseHandling(result)
                                                 }
 //                                                UserDefaults.standard.set("firstStep", forKey: Config.registrationStepKey)
