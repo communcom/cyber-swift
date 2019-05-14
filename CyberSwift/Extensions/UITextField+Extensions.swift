@@ -17,5 +17,11 @@ extension UITextField {
         
         self.attributedPlaceholder  =   NSAttributedString(string:      placeholder.localized(),
                                                            attributes:  [ NSAttributedString.Key.foregroundColor: UIColor(hexString: "#9B9FA2") ])
-    }    
+    }
+    
+    public func setLeftPaddingPoints(_ amount: CGFloat) {
+        let paddingView     =   UIView(frame: CGRect(x: 0, y: 0, width: amount, height: self.frame.size.height))
+        self.leftView       =   paddingView
+        self.leftViewMode   =   .always
+    }
 }
