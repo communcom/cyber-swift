@@ -33,7 +33,6 @@ public struct Config {
     public static var isPublicTestnet: Bool             =   true
     public static let testingPassword: String           =   "DpQad16yDlllEy6"
     static let CHAIN_CYBERWAY_API_BASE_URL: String      =   isPublicTestnet ? "https://node-cyberway.golos.io/" : "http://159.69.85.233:8888/"
-//    static let CHAIN_CYBERWAY_API_BASE_URL: String      =   isPublicTestnet ? "http://46.4.96.246:8888/" : "http://159.69.85.233:8888/"
     static let imageHost: String                        =   "https://img.golos.io/upload"
     
     /// Websocket
@@ -43,8 +42,14 @@ public struct Config {
         set { }
         
         get {
-            return (nickName:   KeychainManager.loadData(forUserNickName: Config.currentUserNickNameKey, withKey: Config.currentUserNickNameKey)?[Config.currentUserNickNameKey] as? String,
-                    activeKey:  KeychainManager.loadData(forUserNickName: Config.currentUserPublicActiveKey, withKey: Config.currentUserPublicActiveKey)?[Config.currentUserPublicActiveKey] as? String)
+            let phone = UserDefaults.standard.value(forKey: Config.registrationUserPhoneKey) as! String
+            
+            let userData = KeychainManager.loadAllData(byUserPhone: phone)
+            
+            let userNickname = userData![Config.registrationUserNameKey] as! String
+            let userPrivateActiveKey = userData![Config.currentUserPrivateActiveKey] as! String
+            
+            return (nickName: userNickname, activeKey: userPrivateActiveKey)
         }
     }
     

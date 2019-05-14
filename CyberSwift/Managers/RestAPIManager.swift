@@ -652,10 +652,20 @@ public class RestAPIManager {
                                                 Logger.log(message: "\nAPI `registration.toBlockChain` response result: \n\(responseAPIResult)\n", event: .debug)
                                                 let result: Bool = KeychainManager.save(keys: userkeys, nickName: nickName)
 
-                                                if KeychainManager.save(data: [Config.registrationStepKey: "firstStep"], userPhone: phone) {
+                                                if KeychainManager.save(data:       [Config.registrationStepKey: "firstStep",
+                                                                                     Config.registrationUserNameKey: nickName,
+                                                                                     Config.currentUserPublicOwnerKey: userkeys.first(where: { $0.type == "owner" })!.publicKey,
+                                                                                     Config.currentUserPrivateOwnerKey: userkeys.first(where: { $0.type == "owner" })!.privateKey,
+                                                                                     Config.currentUserPublicActiveKey: userkeys.first(where: { $0.type == "active" })!.publicKey,
+                                                                                     Config.currentUserPrivateActiveKey: userkeys.first(where: { $0.type == "active" })!.privateKey,
+                                                                                     Config.currentUserPublicPostingKey: userkeys.first(where: { $0.type == "posting" })!.publicKey,
+                                                                                     Config.currentUserPrivatePostingKey: userkeys.first(where: { $0.type == "posting" })!.privateKey,
+                                                                                     Config.currentUserPublickMemoKey: userkeys.first(where: { $0.type == "memo" })!.publicKey,
+                                                                                     Config.currentUserPrivateMemoKey: userkeys.first(where: { $0.type == "memo" })!.privateKey
+                                                                                    ],
+                                                                        userPhone:  phone) {
                                                     responseHandling(result)
                                                 }
-//                                                UserDefaults.standard.set("firstStep", forKey: Config.registrationStepKey)
         },
                                              onError: { errorAPI in
                                                 Logger.log(message: "\nAPI `registration.toBlockChain` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
