@@ -42,14 +42,26 @@ public struct Config {
         set { }
         
         get {
-            let phone = UserDefaults.standard.value(forKey: Config.registrationUserPhoneKey) as! String
-            
-            let userData = KeychainManager.loadAllData(byUserPhone: phone)
-            
-            let userNickname = userData![Config.registrationUserNameKey] as! String
-            let userPrivateActiveKey = userData![Config.currentUserPrivateActiveKey] as! String
-            
-            return (nickName: userNickname, activeKey: userPrivateActiveKey)
+            // User data by phone
+            if  let phone       =   UserDefaults.standard.value(forKey: Config.registrationUserPhoneKey) as? String,
+                let userData    =   KeychainManager.loadAllData(byUserPhone: phone) {
+                let userNickname            =   userData[Config.registrationUserNameKey] as! String
+                let userPrivateActiveKey    =   userData[Config.currentUserPrivateActiveKey] as! String
+                
+                return (nickName: userNickname, activeKey: userPrivateActiveKey)
+            }
+                
+                // User data by nickName
+            else if let userNickName    =   KeychainManager.loadData(forUserNickName:   Config.currentUserNickNameKey,
+                                                                     withKey:           Config.currentUserNickNameKey)?[Config.currentUserNickNameKey] as? String,
+                    let userActiveKey   =   KeychainManager.loadData(forUserNickName:   Config.currentUserPublicActiveKey,
+                                                                     withKey:           Config.currentUserPublicActiveKey)?[Config.currentUserPublicActiveKey] as? String {
+                return (nickName: userNickName, activeKey: userActiveKey)
+            }
+                
+            else {
+                return (nickName: nil, activeKey: nil)
+            }
         }
     }
     
