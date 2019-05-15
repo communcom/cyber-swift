@@ -778,7 +778,7 @@ public struct ResponseAPIOnlineNotifyHistoryFreshResult: Decodable {
 // MARK: -
 public struct ResponseAPIOnlineNotifyHistoryFresh: Decodable {
     public let fresh: UInt16
-    public let freshByTypes: ResponseAPIOnlineNotifyHistoryFreshFreshByTypes?
+    public let freshByTypes: ResponseAPIOnlineNotifyHistoryFreshFreshByTypes
 }
 
 
@@ -795,7 +795,7 @@ public struct ResponseAPIOnlineNotifyHistoryFreshFreshByTypes: Decodable {
     public let repost: UInt16
     public let reward: UInt16
     public let curatorReward: UInt16
-    public let message: UInt16
+    public let message: UInt16?
     public let witnessVote: UInt16
     public let witnessCancelVote: UInt16
 }
