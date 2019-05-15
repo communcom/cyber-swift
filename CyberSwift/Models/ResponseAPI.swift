@@ -382,6 +382,7 @@ public struct ResponseAPIContentGetComment: Decodable {
     public let meta: ResponseAPIContentGetCommentMeta
     public let author: ResponseAPIContentGetCommentAuthor?
     public let parent: ResponseAPIContentGetCommentParent
+    public let parentComment: ResponseAPIContentGetCommentParentComment?
 }
 
 
@@ -389,8 +390,8 @@ public struct ResponseAPIContentGetComment: Decodable {
 public struct ResponseAPIContentGetCommentContent: Decodable {
     // MARK: - In work API `content.getComments`
     public let body: ResponseAPIContentGetCommentContentBody
-    public let embeds: [ResponseAPIContentGetCommentContentEmbed]
-}
+    public let metadata: ResponseAPIContentGetCommentContentMetadata
+    public let embeds: [ResponseAPIContentGetCommentContentEmbed]}
 
 
 // MARK: -
@@ -398,6 +399,15 @@ public struct ResponseAPIContentGetCommentContentBody: Decodable {
     // MARK: - In work API `content.getComments`
     public let preview: String?
     public let full: String?
+}
+
+
+// MARK: -
+public struct ResponseAPIContentGetCommentContentMetadata: Decodable {
+    // MARK: - In work API `content.getComments`
+    public let app: String
+    public let format: String
+    public let tags: [String]
 }
 
 
@@ -466,7 +476,7 @@ public struct ResponseAPIContentGetCommentMeta: Decodable {
 public struct ResponseAPIContentGetCommentAuthor: Decodable {
     // MARK: - In work API `content.getComments`
     public let userId: String
-    public let username: String
+    public let username: String?
 }
 
 
@@ -475,6 +485,45 @@ public struct ResponseAPIContentGetCommentParent: Decodable {
     // MARK: - In work API `content.getComments`
     public let post: ResponseAPIContentGetCommentParentPost?
     public let comment: ResponseAPIContentGetCommentParentComment?
+}
+
+
+// MARK: -
+public struct ResponseAPIContentGetCommentParentComment: Decodable {
+    // MARK: - In work API `content.getComments`
+    public let contentId: ResponseAPIContentGetCommentParentCommentContentId?
+    public let content: ResponseAPIContentGetCommentParentCommentContent?
+    public let author: ResponseAPIContentGetCommentParentCommentAuthor?
+}
+
+
+// MARK: -
+public struct ResponseAPIContentGetCommentParentCommentContentId: Decodable {
+    // MARK: - In work API `content.getComments`
+    public let userId: String
+    public let permlink: String
+    public let refBlockNum: UInt64
+}
+
+
+// MARK: -
+public struct ResponseAPIContentGetCommentParentCommentContent: Decodable {
+    // MARK: - In work API `content.getComments`
+    public let body: ResponseAPIContentGetCommentParentCommentContentBody?
+}
+
+
+// MARK: -
+public struct ResponseAPIContentGetCommentParentCommentContentBody: Decodable {
+    // MARK: - In work API `content.getComments`
+    public let preview: String?
+}
+
+
+// MARK: -
+public struct ResponseAPIContentGetCommentParentCommentAuthor: Decodable {
+    // MARK: - In work API `content.getComments`
+    public let userId: String
 }
 
 
@@ -502,13 +551,6 @@ public struct ResponseAPIContentGetCommentParentPostCommunity: Decodable {
     public let id: String
     public let name: String
     public let avatarUrl: String?
-}
-
-
-// MARK: -
-public struct ResponseAPIContentGetCommentParentComment: Decodable {
-    // MARK: - In work API `content.getComments`
-    public let contentId: ResponseAPIContentGetCommentContentId?
 }
 
 
