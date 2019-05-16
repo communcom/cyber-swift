@@ -80,7 +80,7 @@ public struct ResponseAPIContentGetProfile: Decodable {
     public let createdAt: String
     public let personal: ResponseAPIContentGetProfilePersonal
     public let subscribers: ResponseAPIContentGetProfileSubscriber?
-    public let isSubscribed: Bool
+    public let isSubscribed: Bool?
 }
 
 // MARK: -
