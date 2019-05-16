@@ -390,7 +390,7 @@ public struct ResponseAPIContentGetComment: Decodable {
 public struct ResponseAPIContentGetCommentContent: Decodable {
     // MARK: - In work API `content.getComments`
     public let body: ResponseAPIContentGetCommentContentBody
-    public let metadata: ResponseAPIContentGetCommentContentMetadata
+    public let metadata: ResponseAPIContentGetCommentContentMetadata?
     public let embeds: [ResponseAPIContentGetCommentContentEmbed]}
 
 
@@ -832,14 +832,14 @@ public struct ResponseAPIOnlineNotifyHistoryFreshFreshByTypes: Decodable {
     public let transfer: UInt16
     public let reply: UInt16
     public let subscribe: UInt16
-    public let unsubscribe: UInt16
+    public let unsubscribe: UInt16?
     public let mention: UInt16
     public let repost: UInt16
     public let reward: UInt16
     public let curatorReward: UInt16
     public let message: UInt16?
-    public let witnessVote: UInt16
-    public let witnessCancelVote: UInt16
+    public let witnessVote: UInt16?
+    public let witnessCancelVote: UInt16?
 }
 
 
