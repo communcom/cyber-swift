@@ -75,7 +75,7 @@ public struct ResponseAPIContentGetProfile: Decodable {
     public let subscriptions: ResponseAPIContentGetProfileSubscription?
     public let stats: ResponseAPIContentGetProfileStat
     public let userId: String
-    public let username: String
+    public let username: String?
     public let registration: ResponseAPIContentGetProfileRegistration
     public let createdAt: String
     public let personal: ResponseAPIContentGetProfilePersonal
