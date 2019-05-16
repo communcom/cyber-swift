@@ -45,21 +45,24 @@ public struct Config {
             // User data by phone
             if  let phone       =   UserDefaults.standard.value(forKey: Config.registrationUserPhoneKey) as? String,
                 let userData    =   KeychainManager.loadAllData(byUserPhone: phone) {
-                let userNickname            =   userData[Config.registrationUserNameKey] as! String
+                let userNickName            =   userData[Config.registrationUserNameKey] as! String
                 let userPrivateActiveKey    =   userData[Config.currentUserPrivateActiveKey] as! String
+                Logger.log(message: "User data by phone: nickName = \(userNickName)", event: .debug)
                 
-                return (nickName: userNickname, activeKey: userPrivateActiveKey)
+                return (nickName: userNickName, activeKey: userPrivateActiveKey)
             }
                 
-                // User data by nickName
+            // User data by nickName
             else if let userNickName    =   KeychainManager.loadData(forUserNickName:   Config.currentUserNickNameKey,
                                                                      withKey:           Config.currentUserNickNameKey)?[Config.currentUserNickNameKey] as? String,
-                    let userActiveKey   =   KeychainManager.loadData(forUserNickName:   Config.currentUserPublicActiveKey,
-                                                                     withKey:           Config.currentUserPublicActiveKey)?[Config.currentUserPublicActiveKey] as? String {
+                let userActiveKey   =   KeychainManager.loadData(forUserNickName:   Config.currentUserPublicActiveKey,
+                                                                 withKey:           Config.currentUserPublicActiveKey)?[Config.currentUserPublicActiveKey] as? String {
+                Logger.log(message: "User data by nickName: nickName = \(userNickName)", event: .debug)
                 return (nickName: userNickName, activeKey: userActiveKey)
             }
                 
             else {
+                Logger.log(message: "User nickName is empty", event: .debug)
                 return (nickName: nil, activeKey: nil)
             }
         }
