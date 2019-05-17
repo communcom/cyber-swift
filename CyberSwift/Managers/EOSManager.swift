@@ -355,6 +355,8 @@ class EOSManager {
                             completion(response, nil)
                         }
                     }
+                } else {
+                    throw ErrorAPI.requestFailed(message: response.errorBody!)
                 }
             }
         } catch {
