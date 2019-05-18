@@ -23,7 +23,8 @@ public struct Config {
     }
 
     public static let currentDeviceType: String         =   { return UIDevice.modelName.replacingOccurrences(of: " ", with: "-") }()
-    
+    public static let smsCodeDebug: UInt64              =   appBuildConfig != .release ? 9999 : 0
+
     /// Pagination
     public static let paginationLimit: Int8 = 20
     
