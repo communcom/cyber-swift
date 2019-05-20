@@ -9,6 +9,14 @@
 import Foundation
 
 extension String {
+    var first: String {
+        return String(prefix(1))
+    }
+
+    public var uppercaseFirst: String {
+        return first.uppercased() + String(dropFirst())
+    }
+
     public static func randomString(length: Int) -> String {
         let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         
