@@ -204,6 +204,8 @@ class EOSManager {
                     if let response = try messageTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [messageCreateActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                         if response.success {
                             responseResult(response)
+                        } else {
+                            throw ErrorAPI.requestFailed(message: response.errorBody!)
                         }
                     }
                 } catch {
