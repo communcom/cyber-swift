@@ -180,7 +180,7 @@ public struct ResponseAPIContentGetFeed: Decodable {
 public struct ResponseAPIContentGetPost: Decodable {
     // MARK: - In work API `content.getFeed`
     public let content: ResponseAPIContentGetPostContent
-    public let votes: ResponseAPIContentGetPostVotes
+    public var votes: ResponseAPIContentGetPostVotes
     public let stats: ResponseAPIContentGetPostStats
     public let payout: ResponseAPIContentGetPostPayout
     public let contentId: ResponseAPIContentGetPostContentId
@@ -283,8 +283,8 @@ public struct ResponseAPIContentGetPostVotes: Decodable {
     // MARK: - In work API `content.getFeed`
     public let upCount: UInt64?
     public let downCount: UInt64?
-    public let hasUpVote: Bool
-    public let hasDownVote: Bool
+    public var hasUpVote: Bool
+    public var hasDownVote: Bool
 }
 
 
