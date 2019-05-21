@@ -48,9 +48,11 @@ public class Logger {
     // column:      The same will happen for this parameter too.
     // funcName:    The default value of this parameter is the signature of the function from where the log function is getting called.
     public class func log(message: String, event: LogEvent, fileName: String = #file, line: Int = #line, column: Int = #column, funcName: String = #function) {
-        if Config.isDebugMode {
+        #if DEBUG
             print("\(Date().toString()) \(event.rawValue)[\(sourceFileName(filePath: fileName))]:\(line) \(column) \(funcName) -> \(message)")
-        }
+        #else
+        #endif
+
     }
 }
 
