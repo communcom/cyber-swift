@@ -10,17 +10,7 @@
 
 import Foundation
 
-public enum AppBuildConfig: String {
-    case debug              =   "Debug"
-    case release            =   "Release"
-    
-    // For Testnet
-    case development        =   "Development"
-}
-
 /// App Scheme
-public let appBuildConfig   =   AppBuildConfig.init(rawValue: (Bundle.main.infoDictionary?["Config"] as? String)!.replacingOccurrences(of: "\\", with: ""))
-
 public enum LogEvent: String {
     case error      =   "[‼️]"
     case info       =   "[ℹ️]"          // for guard & alert & route
@@ -58,7 +48,7 @@ public class Logger {
     // column:      The same will happen for this parameter too.
     // funcName:    The default value of this parameter is the signature of the function from where the log function is getting called.
     public class func log(message: String, event: LogEvent, fileName: String = #file, line: Int = #line, column: Int = #column, funcName: String = #function) {
-        if appBuildConfig != .release {
+        if Config.isDebugMode {
             print("\(Date().toString()) \(event.rawValue)[\(sourceFileName(filePath: fileName))]:\(line) \(column) \(funcName) -> \(message)")
         }
     }
