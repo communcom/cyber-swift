@@ -198,7 +198,7 @@ public class WebSocketManager {
             case .setNotice(_):
                 return (responseAPI: try JSONDecoder().decode(ResponseAPISetOptionsNoticeResult.self, from: jsonData), errorAPI: nil)
 
-            case .markNotifiesAsRead(_):
+            case .markAsRead(_):
                 return (responseAPI: try JSONDecoder().decode(ResponseAPIMarkNotifiesAsReadResult.self, from: jsonData), errorAPI: nil)
                 
                 
