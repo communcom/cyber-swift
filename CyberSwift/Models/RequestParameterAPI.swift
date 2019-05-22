@@ -92,8 +92,8 @@ public struct RequestParameterAPI {
     // MARK: -
     public struct NoticeOptions: Encodable {
         // MARK: - Properties
-        public let upvote: Bool
-        public let downvote: Bool
+        public let vote: Bool
+        public let flag: Bool
         public let transfer: Bool
         public let reply: Bool
         public let subscribe: Bool
@@ -108,9 +108,9 @@ public struct RequestParameterAPI {
         
         
         // MARK: - Initialization
-        public init(upvote: Bool = true, downvote: Bool = true, transfer: Bool = true, reply: Bool = true, subscribe: Bool = true, unsubscribe: Bool = true, mention: Bool = true, repost: Bool = true, reward: Bool = true, curatorReward: Bool = true, message: Bool = true, witnessVote: Bool = true, witnessCancelVote: Bool = true) {
-            self.upvote             =   upvote
-            self.downvote           =   downvote
+        public init(vote: Bool = true, flag: Bool = true, transfer: Bool = true, reply: Bool = true, subscribe: Bool = true, unsubscribe: Bool = true, mention: Bool = true, repost: Bool = true, reward: Bool = true, curatorReward: Bool = true, message: Bool = true, witnessVote: Bool = true, witnessCancelVote: Bool = true) {
+            self.vote               =   vote
+            self.flag               =   flag
             self.transfer           =   transfer
             self.reply              =   reply
             self.subscribe          =   subscribe
@@ -127,7 +127,7 @@ public struct RequestParameterAPI {
         // MARK: - Functions
         // Template: "upvote": <upvote>, "downvote": <downvote>, "reply": <reply>, "transfer": <transfer>, "subscribe": <subscribe>, "unsubscribe": <unsibscribe>, "mention": <mention>, "repost": <repost>,  "message": <message>, "witnessVote": <witnessVote>, "witnessCancelVote": <witnessCancelVote>, "reward": <reward>, "curatorReward": <curatorReward>
         public func getNoticeOptionsValues() -> String {
-            return  String(format: "\"upvote\": %d, \"downvote\": %d, \"reply\": %d, \"transfer\": %d, \"subscribe\": %d, \"unsubscribe\": %d, \"mention\": %d, \"repost\": %d, \"message\": %d, \"witnessVote\": %d, \"witnessCancelVote\": %d, \"reward\": %d, \"curatorReward\": %d", self.upvote.intValue, self.downvote.intValue, self.reply.intValue, self.transfer.intValue, self.subscribe.intValue, self.unsubscribe.intValue, self.mention.intValue, self.repost.intValue, self.message.intValue, self.witnessVote.intValue, self.witnessCancelVote.intValue, self.reward.intValue, self.curatorReward.intValue)
+            return  String(format: "\"vote\": %d, \"flag\": %d, \"reply\": %d, \"transfer\": %d, \"subscribe\": %d, \"unsubscribe\": %d, \"mention\": %d, \"repost\": %d, \"message\": %d, \"witnessVote\": %d, \"witnessCancelVote\": %d, \"reward\": %d, \"curatorReward\": %d", self.vote.intValue, self.flag.intValue, self.reply.intValue, self.transfer.intValue, self.subscribe.intValue, self.unsubscribe.intValue, self.mention.intValue, self.repost.intValue, self.message.intValue, self.witnessVote.intValue, self.witnessCancelVote.intValue, self.reward.intValue, self.curatorReward.intValue)
         }
     }
 }

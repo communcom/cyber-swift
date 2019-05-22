@@ -44,6 +44,10 @@
 * 26.04.2019:
 - create API
 
+### API notify 'markAsRead'
+* 22.05.2019:
+- create API
+
 
 ## Registration-Service
 [Documentation](https://github.com/GolosChain/registration-service/tree/develop)

@@ -112,9 +112,6 @@ public indirect enum MethodAPIType {
     //  Receive user's fresh notifications count
     case getOnlineNotifyHistoryFresh
     
-    //  Mark all notifications as viewed
-    case notifyMarkAllAsViewed
-
     //  Request for user settings
     case getOptions
     
@@ -124,6 +121,12 @@ public indirect enum MethodAPIType {
     //  Set Push/Notify options
     case setNotice(options: RequestParameterAPI.NoticeOptions, type: NoticeType)
     
+    //  Mark specified notifications as read
+    case markNotifiesAsRead(options: RequestParameterAPI.NoticeOptions)
+
+    //  Mark all notifications as viewed
+    case notifyMarkAllAsViewed
+
     
     /// REGISTRATION-SERVICE
     //  Get current registration status for user
@@ -275,7 +278,7 @@ public indirect enum MethodAPIType {
                                             "basic":    String(format: "{\"language\": \"%@\", \"nsfwContent\": \"%@\"}", language, nsfw)
                                         ])
 
-        //  Template { "id": 13, "jsonrpc": "2.0", "method": "options.set", "params": { "profile": <userNickName-deviceUDID>, "push": { "lang": <languageValue>, "show": { "upvote": <upvoteValue>, "downvote": <downvoteValue>, "reply": <replyValue>, "transfer": <transferValue>, "subscribe": <subscribeValue>, "unsubscribe": <unsibscribeValue>, "mention": <mentionValue>, "repost": <repostValue>,  "message": <messageValue>, "witnessVote": <witnessVoteValue>, "witnessCancelVote": <witnessCancelVoteValue>, "reward": <rewardValue>, "curatorReward": <curatorRewardValue> }}}
+        //  Template { "id": 13, "jsonrpc": "2.0", "method": "options.set", "params": { "profile": <userNickName-deviceUDID>, "push": { "lang": <languageValue>, "show": { "vote": <voteValue>, "flag": <flagValue>, "reply": <replyValue>, "transfer": <transferValue>, "subscribe": <subscribeValue>, "unsubscribe": <unsibscribeValue>, "mention": <mentionValue>, "repost": <repostValue>,  "message": <messageValue>, "witnessVote": <witnessVoteValue>, "witnessCancelVote": <witnessCancelVoteValue>, "reward": <rewardValue>, "curatorReward": <curatorRewardValue> }}}
         case .setNotice(let options, let type):
             var parameters: [String: String] = [ "profile":  String(format: "%@-%@", Config.currentUser.nickName!, Config.currentDeviceType) ]
             
@@ -291,6 +294,13 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.options.rawValue,
                      methodName:        "set",
                      parameters:        parameters)
+
+        //  Template { "id": 14, "jsonrpc": "2.0", "method": "notify.markAsRead", "params": { "user": <userNickName>, "params": { "vote": <voteValue>, "flag": <flagValue>, "reply": <replyValue>, "transfer": <transferValue>, "subscribe": <subscribeValue>, "unsubscribe": <unsibscribeValue>, "mention": <mentionValue>, "repost": <repostValue>,  "message": <messageValue>, "witnessVote": <witnessVoteValue>, "witnessCancelVote": <witnessCancelVoteValue>, "reward": <rewardValue>, "curatorReward": <curatorRewardValue> }}}
+        case .markNotifiesAsRead(let options):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.notify.rawValue,
+                     methodName:        "markAsRead",
+                     parameters:        ["ids": options.getNoticeOptionsValues()])
 
             
         /// REGISTRATION-SERVICE

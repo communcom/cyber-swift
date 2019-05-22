@@ -960,3 +960,17 @@ public struct ResponseAPISetOptionsNotice: Decodable {
     public let status: String
 }
 
+
+// MARK: -
+public struct ResponseAPIMarkNotifiesAsReadResult: Decodable {
+    public let jsonrpc: String
+    public let id: UInt16
+    public let result: ResponseAPIMarkNotifiesAsRead?
+    public let error: ResponseAPIError?
+}
+
+
+// MARK: -
+public struct ResponseAPIMarkNotifiesAsRead: Decodable {
+    public let status: String
+}
