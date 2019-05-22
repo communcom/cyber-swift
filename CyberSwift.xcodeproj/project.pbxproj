@@ -26,6 +26,8 @@
 		B19A28D6226087EE001C9F43 /* UIDevice+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19A28D5226087EE001C9F43 /* UIDevice+Extensions.swift */; };
 		B1A74A642243892B009D68E7 /* EOSTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A74A632243892B009D68E7 /* EOSTransaction.swift */; };
 		B1A74A662243893A009D68E7 /* EOSManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A74A652243893A009D68E7 /* EOSManager.swift */; };
+		B1AA194322956E3C00AF5DF0 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = B1AA194222956E3C00AF5DF0 /* README.md */; };
+		B1AA194522956E4400AF5DF0 /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = B1AA194422956E4300AF5DF0 /* LICENSE.md */; };
 		B1C3F857223F98B1005711EF /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3F854223F98B1005711EF /* Date+Extensions.swift */; };
 		B1C3F858223F98B1005711EF /* ConstantsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3F855223F98B1005711EF /* ConstantsApp.swift */; };
 		B1C3F859223F98B1005711EF /* Encodable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3F856223F98B1005711EF /* Encodable+Extensions.swift */; };
@@ -66,10 +68,10 @@
 		B18EBB31223F8F8800F52D3C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B1902AD522706F1E00661211 /* RequestParameterAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestParameterAPI.swift; sourceTree = "<group>"; };
 		B19A28D5226087EE001C9F43 /* UIDevice+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIDevice+Extensions.swift"; sourceTree = "<group>"; };
-		B19D9637223F913900557F5A /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
-		B19D9639223F914100557F5A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		B1A74A632243892B009D68E7 /* EOSTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EOSTransaction.swift; sourceTree = "<group>"; };
 		B1A74A652243893A009D68E7 /* EOSManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EOSManager.swift; sourceTree = "<group>"; };
+		B1AA194222956E3C00AF5DF0 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		B1AA194422956E4300AF5DF0 /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
 		B1C3F854223F98B1005711EF /* Date+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		B1C3F855223F98B1005711EF /* ConstantsApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstantsApp.swift; sourceTree = "<group>"; };
 		B1C3F856223F98B1005711EF /* Encodable+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Encodable+Extensions.swift"; sourceTree = "<group>"; };
@@ -137,8 +139,8 @@
 		B18EBB23223F8F8800F52D3C = {
 			isa = PBXGroup;
 			children = (
-				B19D9637223F913900557F5A /* LICENSE.md */,
-				B19D9639223F914100557F5A /* README.md */,
+				B1AA194422956E4300AF5DF0 /* LICENSE.md */,
+				B1AA194222956E3C00AF5DF0 /* README.md */,
 				B1CE5CFB22677C0000731FD0 /* API.md */,
 				B18EBB2F223F8F8800F52D3C /* CyberSwift */,
 				B18EBB2E223F8F8800F52D3C /* Products */,
@@ -298,6 +300,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B1AA194522956E4400AF5DF0 /* LICENSE.md in Resources */,
+				B1AA194322956E3C00AF5DF0 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
