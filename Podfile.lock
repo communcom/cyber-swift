@@ -1,0 +1,84 @@
+PODS:
+  - BigInt (3.1.0):
+    - SipHash (~> 1.2)
+  - Checksum (1.0.0)
+  - CryptoSwift (1.0.0)
+  - eosswift (1.6.0):
+    - BigInt (~> 3.1.0)
+    - RxCocoa (~> 4.0)
+    - RxSwift (~> 4.0)
+  - GoloCrypto (1.0.6)
+  - Localize-Swift (2.0.0)
+  - Locksmith (4.0.0)
+  - RxBlocking (4.5.0):
+    - RxSwift (>= 4.4.2, ~> 4.4)
+  - RxCocoa (4.5.0):
+    - RxSwift (>= 4.4.2, ~> 4.4)
+  - RxStarscream (0.10):
+    - RxCocoa (~> 4.3)
+    - RxSwift (~> 4.3)
+    - Starscream (~> 3)
+  - RxSwift (4.5.0)
+  - secp256k1.swift (0.1.4)
+  - SipHash (1.2.2)
+  - Starscream (3.1.0)
+
+DEPENDENCIES:
+  - Checksum
+  - CryptoSwift
+  - eosswift (from `https://github.com/GolosChain/eos-swift`)
+  - GoloCrypto (from `https://github.com/Monserg/GoloGrypto.git`)
+  - Localize-Swift (~> 2.0)
+  - Locksmith
+  - RxBlocking (~> 4.0)
+  - RxStarscream
+  - secp256k1.swift
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - BigInt
+    - Checksum
+    - CryptoSwift
+    - Localize-Swift
+    - Locksmith
+    - RxBlocking
+    - RxCocoa
+    - RxStarscream
+    - RxSwift
+    - secp256k1.swift
+    - SipHash
+    - Starscream
+
+EXTERNAL SOURCES:
+  eosswift:
+    :git: https://github.com/GolosChain/eos-swift
+  GoloCrypto:
+    :git: https://github.com/Monserg/GoloGrypto.git
+
+CHECKOUT OPTIONS:
+  eosswift:
+    :commit: 81a804f1ef937091a3bb66dc183abe75c678cde7
+    :git: https://github.com/GolosChain/eos-swift
+  GoloCrypto:
+    :commit: c40a95682df32420b70d45e43590d9ef096de124
+    :git: https://github.com/Monserg/GoloGrypto.git
+
+SPEC CHECKSUMS:
+  BigInt: 76b5dfdfa3e2e478d4ffdf161aeede5502e2742f
+  Checksum: f1aa56a27dea5db4006c819e2e129ee6aeb1d9af
+  CryptoSwift: d81eeaa59dc5a8d03720fe919a6fd07b51f7439f
+  eosswift: 22bc931fd65bbd446c3f828233b8fd2916cec4a7
+  GoloCrypto: 3f60e824b57ca657be702fb2cf4bd1f7a379257a
+  Localize-Swift: c798ec9286494866f7068f85f7c71283ac5bdab4
+  Locksmith: e9bebbaaa4cee3c511bc358a44f843c3fe00e21f
+  RxBlocking: 79413e4d916f44bb3e113c5b2cc059e36fe58910
+  RxCocoa: cbf70265dc65a981d4ac982e513c10cf23df24a0
+  RxStarscream: aa79e742c87e9bcdff218a1ebb59638f5174589e
+  RxSwift: f172070dfd1a93d70a9ab97a5a01166206e1c575
+  secp256k1.swift: a7e7a214f6db6ce5db32cc6b2b45e5c4dd633634
+  SipHash: fad90a4683e420c52ef28063063dbbce248ea6d4
+  Starscream: 08172b481e145289c4930cb567230fb55897cfa4
+
+PODFILE CHECKSUM: 73d2a2176f030b15ad71a5ca6831c2b2031f9134
+
+COCOAPODS: 1.6.0.beta.2
