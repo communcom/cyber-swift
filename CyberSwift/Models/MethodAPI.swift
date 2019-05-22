@@ -122,10 +122,14 @@ public indirect enum MethodAPIType {
     case setNotice(options: RequestParameterAPI.NoticeOptions, type: NoticeType)
     
     //  Mark specified notifications as read
+    #warning("Not work version")
     case markAsRead(notifies: [String])
 
     //  Mark all notifications as viewed
     case notifyMarkAllAsViewed
+
+    //  Record the fact of viewing the post
+    case recordPostView(permlink: String)
 
     
     /// REGISTRATION-SERVICE
@@ -296,12 +300,20 @@ public indirect enum MethodAPIType {
                      parameters:        parameters)
 
         //  Template { "id": 14, "jsonrpc": "2.0", "method": "notify.markAsRead", "params": { "user": <userNickName>, "params": { "vote": <voteValue>, "flag": <flagValue>, "reply": <replyValue>, "transfer": <transferValue>, "subscribe": <subscribeValue>, "unsubscribe": <unsibscribeValue>, "mention": <mentionValue>, "repost": <repostValue>,  "message": <messageValue>, "witnessVote": <witnessVoteValue>, "witnessCancelVote": <witnessCancelVoteValue>, "reward": <rewardValue>, "curatorReward": <curatorRewardValue> }}}
+        #warning("Not work version")
         case .markAsRead(let notifies):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.notify.rawValue,
                      methodName:        "markAsRead",
                      parameters:        ["ids": notifies.description])
 
+        //  Template { "id": 15, "jsonrpc": "2.0", "method": "meta.recordPostView", "params": { "postLink": <author.permlink>, "fingerPrint": <deviceUDID> }}
+        case .recordPostView(let permlink):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.meta.rawValue,
+                     methodName:        "recordPostView",
+                     parameters:        ["postLink": permlink, "fingerPrint": Config.currentDeviceType])
+            
             
         /// REGISTRATION-SERVICE
         //  Template { "id": 1, "jsonrpc": "2.0", "method": "registration.getState", "params": { "phone": "+70000000000" }}

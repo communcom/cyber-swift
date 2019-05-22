@@ -200,7 +200,10 @@ public class WebSocketManager {
 
             case .markAsRead(_):
                 return (responseAPI: try JSONDecoder().decode(ResponseAPIMarkNotifiesAsReadResult.self, from: jsonData), errorAPI: nil)
-                
+
+            case .recordPostView(_):
+                return (responseAPI: try JSONDecoder().decode(ResponseAPIMetaRecordPostViewResult.self, from: jsonData), errorAPI: nil)
+
                 
             // REGISTRATION-SERVICE
             case .getState(_):

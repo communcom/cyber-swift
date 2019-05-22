@@ -974,3 +974,18 @@ public struct ResponseAPIMarkNotifiesAsReadResult: Decodable {
 public struct ResponseAPIMarkNotifiesAsRead: Decodable {
     public let status: String
 }
+
+
+// MARK: -
+public struct ResponseAPIMetaRecordPostViewResult: Decodable {
+    public let jsonrpc: String
+    public let id: UInt16
+    public let result: ResponseAPIMetaRecordPostView?
+    public let error: ResponseAPIError?
+}
+
+
+// MARK: -
+public struct ResponseAPIMetaRecordPostView: Decodable {
+    public let status: String
+}

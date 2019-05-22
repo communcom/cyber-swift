@@ -48,6 +48,10 @@
 * 22.05.2019:
 - create API
 
+### API 'meta.recordPostView'
+* 22.05.2019:
+- create API
+
 
 ## Registration-Service
 [Documentation](https://github.com/GolosChain/registration-service/tree/develop)
