@@ -44,7 +44,8 @@ public struct Config {
         get {
             // User data by phone
             if  let phone       =   UserDefaults.standard.value(forKey: Config.registrationUserPhoneKey) as? String,
-                let userData    =   KeychainManager.loadAllData(byUserPhone: phone) {
+                let userData    =   KeychainManager.loadAllData(byUserPhone: phone),
+                let step        =   userData[Config.registrationStepKey] as? String, step == "firstStep" {
                 let userNickName            =   userData[Config.registrationUserNameKey] as! String
                 let userPrivateActiveKey    =   userData[Config.currentUserPrivateActiveKey] as! String
                 Logger.log(message: "User data by phone: nickName = \(userNickName)", event: .debug)
