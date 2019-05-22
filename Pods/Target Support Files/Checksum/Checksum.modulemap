@@ -1,6 +1,0 @@
-framework module Checksum {
-  umbrella header "Checksum-umbrella.h"
-
-  export *
-  module * { export * }
-}
