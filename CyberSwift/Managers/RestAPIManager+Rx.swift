@@ -9,8 +9,8 @@
 import Foundation
 import RxSwift
 
-extension RestAPIManager {
-    static func rx_deleteMessage(author: String, permlink: String, refBlockNum: UInt64) -> Completable {
+extension Reactive where Base: RestAPIManager {
+    public func deleteMessage(author: String, permlink: String, refBlockNum: UInt64) -> Completable {
         // Offline mode
         if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
