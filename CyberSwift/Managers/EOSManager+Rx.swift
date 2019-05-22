@@ -10,8 +10,10 @@ import Foundation
 import RxSwift
 import eosswift
 
-extension EOSManager {
-    static func rx_delete(messageArgs: EOSTransaction.MessageDeleteArgs) -> Completable {
+extension EOSManager: ReactiveCompatible {}
+
+extension Reactive where Base: EOSManager {
+    static func delete(messageArgs: EOSTransaction.MessageDeleteArgs) -> Completable {
         guard let userNickName = Config.currentUser.nickName,
             let userActiveKey = Config.currentUser.activeKey else {
                 return .error(ErrorAPI.requestFailed(message: "Unauthorized"))

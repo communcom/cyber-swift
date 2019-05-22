@@ -9,6 +9,8 @@
 import Foundation
 import RxSwift
 
+extension RestAPIManager: ReactiveCompatible {}
+
 extension Reactive where Base: RestAPIManager {
     public func deleteMessage(author: String, permlink: String, refBlockNum: UInt64) -> Completable {
         // Offline mode
@@ -17,6 +19,6 @@ extension Reactive where Base: RestAPIManager {
         let messageDeleteArgs = EOSTransaction.MessageDeleteArgs(authorValue:           author,
                                                                  messagePermlink:       permlink,
                                                                  refBlockNumValue:      refBlockNum)
-        return EOSManager.rx_delete(messageArgs: messageDeleteArgs)
+        return EOSManager.rx.delete(messageArgs: messageDeleteArgs)
     }
 }
