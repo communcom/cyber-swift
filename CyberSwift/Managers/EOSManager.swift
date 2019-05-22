@@ -553,6 +553,8 @@ class EOSManager {
             if let response = try userProfileDeletemetaTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [userProfileDeleteActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                 if response.success {
                     completion(response, nil)
+                } else {
+                    throw ErrorAPI.requestFailed(message: response.errorBody!)
                 }
             }
         } catch {
