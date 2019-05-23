@@ -38,8 +38,6 @@ public class WebSocketManager {
     public func connect() {
         Logger.log(message: "Success", event: .severe)
         
-//        Config.isPublicTestnet = false
-        
         if webSocket.isConnected { return }
         
         webSocket.connect()
