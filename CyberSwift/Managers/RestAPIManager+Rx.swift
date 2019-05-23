@@ -30,20 +30,28 @@ extension Reactive where Base: RestAPIManager {
     }
     
     public func create(message:             String,
-                       headline:            String? = "",
+                       headline:            String? = nil,
                        parentData:          ParentData? = nil,
                        tags:                [String]?,
                        metaData:            String?) -> Single<ChainResponse<TransactionCommitted>> {
         // Offline mode
         if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
+        guard let userNickName = Config.currentUser.nickName, let _ = Config.currentUser.activeKey else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        }
+        
         let arrayTags = tags == nil ? [EOSTransaction.Tags()] : tags!.map({ EOSTransaction.Tags.init(tagValue: $0) })
         
-        return EOSManager.rx.create(
-            message:          message,
-            headline:         headline ?? String(format: "Test Post Title %i", arc4random_uniform(100)),
-            tags:             arrayTags,
-            jsonMetaData:     metaData)
+        let messageCreateArgs = EOSTransaction.MessageCreateArgs(
+            authorValue:        userNickName,
+            parentDataValue:    parentData,
+            headermssgValue:    headline ?? String(format: "Test Post Title %i", arc4random_uniform(100)),
+            bodymssgValue:      message,
+            tagsValues:         arrayTags,
+            jsonmetadataValue:  metaData)
+        
+        return EOSManager.rx.create(messageCreateArgs: messageCreateArgs)
     }
     
     public func deleteMessage(author: String, permlink: String, refBlockNum: UInt64) -> Completable {
@@ -65,7 +73,6 @@ extension Reactive where Base: RestAPIManager {
         let messageUpdateArgs = EOSTransaction.MessageUpdateArgs(authorValue:           author ?? Config.currentUser.nickName ?? "Cyberway",
                                                                  messagePermlink:       permlink,
                                                                  parentDataValue:       parentData,
-                                                                 refBlockNumValue:      refBlockNum,
                                                                  bodymssgValue:         message)
         return EOSManager.rx.update(messageArgs: messageUpdateArgs)
     }
@@ -79,7 +86,6 @@ extension Reactive where Base: RestAPIManager {
         
         let reblogArgs = EOSTransaction.ReblogArgs(authorValue:         author,
                                                    permlinkValue:       permlink,
-                                                   refBlockNumValue:    refBlockNum,
                                                    reblogerValue:       rebloger)
         
         return EOSManager.rx.reblog(args: reblogArgs)

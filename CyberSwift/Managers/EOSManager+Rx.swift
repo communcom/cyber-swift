@@ -63,13 +63,11 @@ extension Reactive where Base: EOSManager {
         let voteArgs: Encodable = (voteType == .unvote) ?
             EOSTransaction.UnvoteArgs.init(voterValue: userNickName,
                                            authorValue:         author,
-                                           permlinkValue:       permlink,
-                                           refBlockNumValue:    refBlockNum)
+                                           permlinkValue:       permlink)
             :
             EOSTransaction.UpvoteArgs.init(voterValue:          userNickName,
                                            authorValue:         author,
                                            permlinkValue:       permlink,
-                                           refBlockNumValue:    refBlockNum,
                                            weightValue:         weight)
         
         let voteArgsData = DataWriterValue(hex: voteArgs.toHex())
@@ -88,37 +86,13 @@ extension Reactive where Base: EOSManager {
             .flatMapToCompletable()
     }
     
-    static func create(message:         String,
-                       headline:        String = "",
-                       parentData:      ParentData? = nil,
-                       tags:            [EOSTransaction.Tags],
-                       jsonMetaData:    String?) -> Single<ChainResponse<TransactionCommitted>> {
-        // Check user authorize
-        guard let userNickName = Config.currentUser.nickName, let _ = Config.currentUser.activeKey else {
-            return .error(ErrorAPI.invalidData(message: "Unauthorized"))
-        }
+    static func create(messageCreateArgs: EOSTransaction.MessageCreateArgs) -> Single<ChainResponse<TransactionCommitted>> {
+        // Prepare arguments
+        Logger.log(message: messageCreateArgs.convertToJSON(), event: .debug)
+        let messageCreateArgsData = DataWriterValue(hex: messageCreateArgs.toHex())
         
-        return chainInfo
-            .flatMap({ (info) -> Single<ChainResponse<TransactionCommitted>> in
-                let refBlockNum: UInt64 = UInt64(info.head_block_num)
-                
-                // Prepare arguments
-                let messageCreateArgs = EOSTransaction.MessageCreateArgs(
-                    authorValue:        userNickName,
-                    parentDataValue:    parentData,
-                    refBlockNumValue:   refBlockNum,
-                    headermssgValue:    headline,
-                    bodymssgValue:      message,
-                    tagsValues:         tags,
-                    jsonmetadataValue:  jsonMetaData)
-                
-                // JSON
-                Logger.log(message: messageCreateArgs.convertToJSON(), event: .debug)
-                let messageCreateArgsData = DataWriterValue(hex: messageCreateArgs.toHex())
-                
-                // send transaction
-                return glsPublishPushTransaction(actionName: "createmssg", data: messageCreateArgsData)
-            })
+        // send transaction
+        return glsPublishPushTransaction(actionName: "createmssg", data: messageCreateArgsData)
     }
     
     
