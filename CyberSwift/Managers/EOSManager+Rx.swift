@@ -50,6 +50,10 @@ extension Reactive where Base: EOSManager {
         }
     }
     
+//    static func createNewAccount(nickName: String) -> Single<ChainResponse<TransactionCommitted>> {
+//
+//    }
+    
     static func vote(voteType: VoteType, author: String, permlink: String, weight: Int16, refBlockNum: UInt64) -> Completable {
         guard let userNickName = Config.currentUser.nickName, let _ = Config.currentUser.activeKey else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
@@ -128,11 +132,27 @@ extension Reactive where Base: EOSManager {
             .flatMapToCompletable()
     }
     
+    static func update(messageArgs: EOSTransaction.MessageUpdateArgs) -> Single<ChainResponse<TransactionCommitted>> {
+        // Prepare arguments
+        let messageUpdateArgsData = DataWriterValue(hex: messageArgs.toHex())
+        
+        // Send transaction
+        return glsPublishPushTransaction(actionName: "updatemssg", data: messageUpdateArgsData)
+    }
+    
     static func updateUserProfile(changereputArgs: EOSTransaction.UserProfileChangereputArgs) -> Single<ChainResponse<TransactionCommitted>> {
         // Prepare arguments
         let changereputArgsData = DataWriterValue(hex: changereputArgs.toHex())
         
         // Send transaction
         return glsPublishPushTransaction(actionName: "changereput", data: changereputArgsData)
+    }
+    
+    static func reblog(args: EOSTransaction.ReblogArgs) -> Single<ChainResponse<TransactionCommitted>> {
+        // Prepare arguments
+        let reblogArgsData = DataWriterValue(hex: args.toHex())
+        
+        // Send transaction
+        return glsPublishPushTransaction(actionName: "reblog", data: reblogArgsData)
     }
 }
