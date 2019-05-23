@@ -55,4 +55,35 @@ extension Reactive where Base: RestAPIManager {
                                                                  refBlockNumValue:      refBlockNum)
         return EOSManager.rx.delete(messageArgs: messageDeleteArgs)
     }
+    
+    public func updateMessage(author:       String?,
+                              permlink:     String,
+                              message:      String,
+                              parentData:   ParentData?,
+                              refBlockNum:  UInt64) -> Single<ChainResponse<TransactionCommitted>> {
+        // Offline mode
+        if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        let messageUpdateArgs = EOSTransaction.MessageUpdateArgs(authorValue:           author ?? Config.currentUser.nickName ?? "Cyberway",
+                                                                 messagePermlink:       permlink,
+                                                                 parentDataValue:       parentData,
+                                                                 refBlockNumValue:      refBlockNum,
+                                                                 bodymssgValue:         message)
+        return EOSManager.rx.update(messageArgs: messageUpdateArgs)
+    }
+    
+    public func reblog(author:              String,
+                       rebloger:            String,
+                       permlink:            String,
+                       refBlockNum:         UInt64) -> Single<ChainResponse<TransactionCommitted>> {
+        // Offline mode
+        if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        let reblogArgs = EOSTransaction.ReblogArgs(authorValue:         author,
+                                                   permlinkValue:       permlink,
+                                                   refBlockNumValue:    refBlockNum,
+                                                   reblogerValue:       rebloger)
+        
+        return EOSManager.rx.reblog(args: reblogArgs)
+    }
 }
