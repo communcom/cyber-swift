@@ -137,11 +137,6 @@ extension Reactive where Base: EOSManager {
     
     
     static func delete(messageArgs: EOSTransaction.MessageDeleteArgs) -> Completable {
-        // Check user authorize
-        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else {
-            return .error(ErrorAPI.invalidData(message: "Unauthorized"))
-        }
-        
         // Prepare arguments
         let messageDeleteArgsData = DataWriterValue(hex: messageArgs.toHex())
         
