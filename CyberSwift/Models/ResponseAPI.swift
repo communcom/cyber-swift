@@ -195,7 +195,7 @@ public struct ResponseAPIContentGetPostContent: Decodable {
     // MARK: - In work API `content.getFeed`
     public let body: ResponseAPIContentGetPostContentBody
     public let title: String
-    public let tags: [String]?
+    public let tags: [String?]?
     public let metadata: ResponseAPIContentGetPostContentMetadata?
     public let embeds: [ResponseAPIContentGetPostContentEmbed]
 }
@@ -316,7 +316,7 @@ public struct ResponseAPIContentGetPostContentId: Decodable {
     // MARK: - In work API `content.getFeed`
     public let userId: String
     public let permlink: String
-    public let refBlockNum: UInt64
+    public let refBlockNum: UInt64?
 }
 
 

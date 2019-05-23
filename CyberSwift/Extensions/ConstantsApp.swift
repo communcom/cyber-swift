@@ -30,9 +30,12 @@ public struct Config {
     static let blocksBehind: Int = 3
     public static let expireSeconds: Double = 30.0
     
-    public static var isPublicTestnet: Bool             =   true
+    public static var isPublicTestnet: Bool             =   false
+    static let blockchain_API_URL: String               =   isPublicTestnet ? "http://116.202.4.39:8888/"   :   "http://46.4.96.246:8888/"
+    static let gate_API_IP: String                      =   isPublicTestnet ? "ws://116.203.98.241:8080/"   :   "ws://159.69.33.136:8080/"
+    static let gate_API_URL: String                     =   isPublicTestnet ? "wss://cyber-gate.golos.io/"  :   "wss://gate.commun.com/"
+
     public static let testingPassword: String           =   "DpQad16yDlllEy6"
-    static let CHAIN_CYBERWAY_API_BASE_URL: String      =   isPublicTestnet ? "https://node-cyberway.golos.io/" : "http://159.69.85.233:8888/"
     static let imageHost: String                        =   "https://img.golos.io/upload"
     
     /// Websocket
@@ -69,8 +72,8 @@ public struct Config {
         }
     }
     
-    public static var currentVoter                      =   (nickName: Config.accountNickTest, activeKey: Config.activeKeyTest)
-    public static var currentAuthor                     =   (nickName: Config.accountNickTest, activeKey: Config.activeKeyTest)
+    public static var currentVoter                      =   (nickName: Config.testUserAccount.nickName, activeKey: Config.testUserAccount.activeKey)
+    public static var currentAuthor                     =   (nickName: Config.testUserAccount.nickName, activeKey: Config.testUserAccount.activeKey)
     
     // Accounts test values
     public static let accountNickDestroyer2k: String    =   "destroyer2k"
@@ -90,8 +93,15 @@ public struct Config {
     static let postingKeyJosephKalu: String             =   "5K6CfG8gzhTZNwHDxPmeQiPChx6FpgiVYN7USVp2aGC2WsDqH4h"
     
     // testnet: http://116.203.39.126:7777/get_users
-    public static let accountNickTest: String           =   "tst2jejxypdx"
-    public static let activeKeyTest: String             =   "5HrcdkjaCcXpemf5iXRN6rg4ZtXtDKBWg16gJmfWM7VXTSGWz33"
+    public static let testUserAccount                   =   (
+                                                                id: 0,
+                                                                nickName:       "tst2vteffdjg",
+                                                                alias:          "zieme-clarabelle-dvm",
+                                                                ownerKey:       "5KjkQMk2LxL6hqofx9hgh4AQGkDHBxiapfx1gi4yjbFNc6e2T7V",
+                                                                activeKey:      "5J4qUH3mtPAnR6U6ESamcedVfcrx2wu6EfjHbuXDqqrNorh7DCx",
+                                                                postingKey:     "5J4DHWmqF2ZQ5gqcjMX1bvqQ8kNEreRYZokfzAyCeDjLsD2TLiM"
+                                                            )
+
     
     
     /// Check network connection

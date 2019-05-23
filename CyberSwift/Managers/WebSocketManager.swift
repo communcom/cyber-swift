@@ -10,8 +10,7 @@ import RxSwift
 import Foundation
 import Starscream
 
-var webSocket = WebSocket(url: URL(string: "wss://cyber-gate.golos.io")!)
-//var webSocket = WebSocket(url: URL(string: "ws://116.203.98.241:8080")!)
+var webSocket = WebSocket(url: URL(string: Config.gate_API_URL)!)
 
 public class WebSocketManager {
     // MARK: - Properties
@@ -38,8 +37,6 @@ public class WebSocketManager {
     public func connect() {
         Logger.log(message: "Success", event: .severe)
         
-//        Config.isPublicTestnet = false
-        
         if webSocket.isConnected { return }
         
         webSocket.connect()
@@ -53,16 +50,15 @@ public class WebSocketManager {
             }
             
             guard (UserDefaults.standard.value(forKey: Config.isCurrentUserLoggedKey) as? Bool) == false else {
-                RestAPIManager.instance.authorize(userNickName: Config.currentUser.nickName!, userActiveKey: Config.currentUser.activeKey!, completion: { (authAuthorize, errorAPI) in
-                    guard errorAPI == nil else {
-                        Logger.log(message: errorAPI!.caseInfo.message.localized(), event: .error)
-                        return
-                    }
-                    
-                    Logger.log(message: authAuthorize!.permission, event: .debug)
-                    
-                    self.completed.onNext(true)
-                    self.completed.onCompleted()
+                RestAPIManager.instance.authorize(userNickName:         Config.currentUser.nickName!,
+                                                  userActiveKey:        Config.currentUser.activeKey!,
+                                                  responseHandling:     { response in
+                                                    Logger.log(message: "WebSocketManager API `auth.authorize` permission: \(response.permission)", event: .debug)
+                                                    self.completed.onNext(true)
+                                                    self.completed.onCompleted()
+                },
+                                                  errorHandling:        { errorAPI in
+                                                    Logger.log(message: errorAPI.caseInfo.message.localized(), event: .error)
                 })
                 
                 return
@@ -71,7 +67,7 @@ public class WebSocketManager {
             guard self.requestMethodsAPIStore.count > 0 else {
                 return
             }
-
+            
             
 //            for requestMethodAPIStore in self.requestMethodsAPIStore {
 //                self.sendMessage(requestMethodAPIStore.value)

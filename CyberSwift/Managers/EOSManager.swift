@@ -25,8 +25,8 @@ public enum VoteType: String {
 
 class EOSManager {
     // MARK: - Properties
-    static let chainApi = ChainApiFactory.create(rootUrl: Config.CHAIN_CYBERWAY_API_BASE_URL)
-    static let historyApi = HistoryApiFactory.create(rootUrl: Config.CHAIN_CYBERWAY_API_BASE_URL)
+    static let chainApi     =   ChainApiFactory.create(rootUrl: Config.blockchain_API_URL)
+    static let historyApi   =   HistoryApiFactory.create(rootUrl: Config.blockchain_API_URL)
     
     
     // MARK: - Class Functions
@@ -539,7 +539,7 @@ class EOSManager {
     static func delete(userProfileMetaArgs: EOSTransaction.UserProfileDeleteArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
         let userProfileDeletemetaTransaction = EOSTransaction.init(chainApi: EOSManager.chainApi)
         
-        let userProfileDeleteTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name: Config.accountNickTest),
+        let userProfileDeleteTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name: Config.testUserAccount.nickName),
                                                                                        permission:    AccountNameWriterValue(name: "active"))
         
         let userProfileDeletemetaArgsData = DataWriterValue(hex: userProfileMetaArgs.toHex())
@@ -550,7 +550,7 @@ class EOSManager {
                                                    data:            userProfileDeletemetaArgsData)
         
         do {
-            let privateKey = try EOSPrivateKey.init(base58: Config.activeKeyTest)
+            let privateKey = try EOSPrivateKey.init(base58: Config.testUserAccount.activeKey)
             
             if let response = try userProfileDeletemetaTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [userProfileDeleteActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                 if response.success {

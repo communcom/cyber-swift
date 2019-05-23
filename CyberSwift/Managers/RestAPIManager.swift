@@ -66,11 +66,12 @@ public class RestAPIManager {
     
     // MARK: - FACADE-SERVICE
     // API `auth.authorize`
-    public func authorize(userNickName:     String,
-                          userActiveKey:    String,
-                          completion:       @escaping (ResponseAPIAuthAuthorize?, ErrorAPI?) -> Void) {
+    public func authorize(userNickName:         String,
+                          userActiveKey:        String,
+                          responseHandling:     @escaping (ResponseAPIAuthAuthorize) -> Void,
+                          errorHandling:        @escaping (ErrorAPI) -> Void) {
         // Offline mode
-        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
+        if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         let methodAPIType = MethodAPIType.authorize(nickName: userNickName, activeKey: userActiveKey)
         
@@ -79,7 +80,7 @@ public class RestAPIManager {
                                                 guard let result = (responseAPIResult as! ResponseAPIAuthAuthorizeResult).result else {
                                                     let responseAPIError = (responseAPIResult as! ResponseAPIAuthAuthorizeResult).error
                                                     Logger.log(message: "\nAPI `auth.authorize` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
-                                                    return completion(nil, ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
+                                                    return errorHandling(ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
                                                 }
                                                 
                                                 DispatchQueue.main.async(execute: {
@@ -90,12 +91,12 @@ public class RestAPIManager {
                                                     _ = KeychainManager.save(data: [Config.currentUserPublicActiveKey: userActiveKey], userNickName: Config.currentUserPublicActiveKey)
                                                     
                                                     Logger.log(message: "\nAPI `auth.authorize` response result: \n\(responseAPIResult)\n", event: .debug)
-                                                    completion(result, nil)
+                                                    responseHandling(result)
                                                 })
         },
                                              onError:           { (errorAPI) in
                                                 Logger.log(message: "\nAPI `auth.authorize` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
-                                                completion(nil, errorAPI)
+                                                errorHandling(errorAPI)
         })
     }
     
