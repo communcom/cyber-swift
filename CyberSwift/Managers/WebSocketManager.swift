@@ -50,16 +50,15 @@ public class WebSocketManager {
             }
             
             guard (UserDefaults.standard.value(forKey: Config.isCurrentUserLoggedKey) as? Bool) == false else {
-                RestAPIManager.instance.authorize(userNickName: Config.currentUser.nickName!, userActiveKey: Config.currentUser.activeKey!, completion: { (authAuthorize, errorAPI) in
-                    guard errorAPI == nil else {
-                        Logger.log(message: errorAPI!.caseInfo.message.localized(), event: .error)
-                        return
-                    }
-                    
-                    Logger.log(message: authAuthorize!.permission, event: .debug)
-                    
-                    self.completed.onNext(true)
-                    self.completed.onCompleted()
+                RestAPIManager.instance.authorize(userNickName:         Config.currentUser.nickName!,
+                                                  userActiveKey:        Config.currentUser.activeKey!,
+                                                  responseHandling:     { response in
+                                                    Logger.log(message: response.permission, event: .debug)
+                                                    self.completed.onNext(true)
+                                                    self.completed.onCompleted()
+                },
+                                                  errorHandling:        { errorAPI in
+                                                    Logger.log(message: errorAPI.caseInfo.message.localized(), event: .error)
                 })
                 
                 return
@@ -68,7 +67,7 @@ public class WebSocketManager {
             guard self.requestMethodsAPIStore.count > 0 else {
                 return
             }
-
+            
             
 //            for requestMethodAPIStore in self.requestMethodsAPIStore {
 //                self.sendMessage(requestMethodAPIStore.value)
