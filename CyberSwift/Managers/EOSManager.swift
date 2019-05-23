@@ -193,7 +193,6 @@ class EOSManager {
                                                authorization:   [messageTransactionAuthorizationAbi],
                                                data:            messageCreateArgsData)
         
-//        DispatchQueue.main.async {
         do {
             let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
             
@@ -207,7 +206,6 @@ class EOSManager {
         } catch {
             responseError(ErrorAPI.responseUnsuccessful(message: "\(error.localizedDescription)"))
         }
-//        }
     }
 
 
@@ -243,7 +241,9 @@ class EOSManager {
     }
     
     /// Action `updatemssg`
-    static func update(messageArgs: EOSTransaction.MessageUpdateArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
+    static func update(messageArgs:     EOSTransaction.MessageUpdateArgs,
+                       responseResult:  @escaping (ChainResponse<TransactionCommitted>) -> Void,
+                       responseError:   @escaping (Error) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
         
         let messageUpdateTransaction = EOSTransaction.init(chainApi: chainApi)
@@ -263,11 +263,11 @@ class EOSManager {
             
             if let response = try messageUpdateTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [messageUpdateActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                 if response.success {
-                    completion(response, nil)
+                    responseResult(response)
                 }
             }
         } catch {
-            completion(nil, error)
+            responseError(error)
         }
     }
     

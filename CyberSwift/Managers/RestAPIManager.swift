@@ -875,28 +875,26 @@ public class RestAPIManager {
     }
     
     /// Action `updatemssg`
-    public func updateMessage(author:       String?,
-                              permlink:     String,
-                              message:      String,
-                              parentData:   ParentData?,
-                              refBlockNum:  UInt64,
-                              completion:   @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
+    public func updateMessage(author:               String?,
+                              permlink:             String,
+                              message:              String,
+                              parentData:           ParentData?,
+                              responseHandling:     @escaping (ChainResponse<TransactionCommitted>) -> Void,
+                              errorHandling:        @escaping (ErrorAPI) -> Void) {
         // Offline mode
-        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
+        if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         let messageUpdateArgs = EOSTransaction.MessageUpdateArgs(authorValue:           author ?? Config.currentUser.nickName ?? "Cyberway",
                                                                  messagePermlink:       permlink,
                                                                  parentDataValue:       parentData,
                                                                  bodymssgValue:         message)
         
-        EOSManager.update(messageArgs:  messageUpdateArgs,
-                          completion:   { (response, error) in
-                            guard error == nil else {
-                                completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
-                                return
-                            }
-                            
-                            completion(response, nil)
+        EOSManager.update(messageArgs:      messageUpdateArgs,
+                          responseResult:   { response in
+                            responseHandling(response)
+        },
+                          responseError:    { error in
+                            errorHandling(ErrorAPI.responseUnsuccessful(message: error.localizedDescription))
         })
     }
     
