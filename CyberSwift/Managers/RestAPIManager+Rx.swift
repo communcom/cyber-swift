@@ -50,9 +50,7 @@ extension Reactive where Base: RestAPIManager {
         // Offline mode
         if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
-        let messageDeleteArgs = EOSTransaction.MessageDeleteArgs(authorValue:           author,
-                                                                 messagePermlink:       permlink,
-                                                                 refBlockNumValue:      refBlockNum)
+        let messageDeleteArgs = EOSTransaction.MessageDeleteArgs(authorValue: author, messagePermlink: permlink)
         return EOSManager.rx.delete(messageArgs: messageDeleteArgs)
     }
 }

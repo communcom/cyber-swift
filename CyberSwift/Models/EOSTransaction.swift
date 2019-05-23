@@ -37,12 +37,9 @@ public class EOSTransaction: ChainTransaction {
         let rebloger: NameWriterValue
         let message_id: Mssgid
         
-        init(authorValue: String = "", permlinkValue: String = "", refBlockNumValue: UInt64 = 0, reblogerValue: String) {
+        init(authorValue: String = "", permlinkValue: String = "", reblogerValue: String) {
             self.rebloger   =   NameWriterValue(name: reblogerValue)
-            
-            self.message_id =   Mssgid(authorValue:         authorValue,
-                                       permlinkValue:       permlinkValue,
-                                       refBlockNumValue:    refBlockNumValue)
+            self.message_id =   Mssgid(authorValue: authorValue, permlinkValue: permlinkValue)
         }
     }
     
@@ -51,64 +48,47 @@ public class EOSTransaction: ChainTransaction {
     public struct Mssgid: Encodable {
         let author: NameWriterValue
         let permlink: String
-        let ref_block_num: UInt64
         
-        init(authorValue: String = "", permlinkValue: String = "", refBlockNumValue: UInt64 = 0) {
-            self.author             =   NameWriterValue(name: authorValue)
-            self.permlink           =   permlinkValue
-            self.ref_block_num      =   refBlockNumValue
+        init(authorValue: String = "", permlinkValue: String = "") {
+            self.author     =   NameWriterValue(name: authorValue)
+            self.permlink   =   permlinkValue
         }
     }
     
-    /// Action `createmssg`
+    /// Action `createmssg` (https://github.com/GolosChain/golos.contracts/blob/develop/golos.publication/golos.publication.abi#createmssg)
     public struct MessageCreateArgs: Encodable {
         let message_id: Mssgid
         let parent_id: Mssgid
-        let parent_recid: UInt64
         let beneficiaries: [Beneficiary?]
-        let tokenprop: Int64
+        let tokenprop: Int16
         let vestpayment: UInt64
         let headermssg: String
         let bodymssg: String
         let languagemssg: String
         let tags: [Tags]?
         let jsonmetadata: String?
-        let curators_prcnt: UInt16
         
         
         // MARK: - Initialization
-        init(authorValue: String, parentDataValue: ParentData? = nil, parentRecidValue: UInt64 = 0, refBlockNumValue: UInt64 = 0, beneficiariesValues: [Beneficiary?] = [], tokenpropValue: Int64 = 0, vestpaymentValue: UInt64 = 1, headermssgValue: String = "test", bodymssgValue: String = "test", languagemssgValue: String = "ru", tagsValues: [Tags]? = [Tags()], jsonmetadataValue: String? = "", curatorsPrcntValue: UInt16 = 900) {
+        init(authorValue: String, parentDataValue: ParentData? = nil, beneficiariesValues: [Beneficiary?] = [], tokenpropValue: Int16 = 0, vestpaymentValue: UInt64 = 1, headermssgValue: String = "test", bodymssgValue: String = "test", languagemssgValue: String = "ru", tagsValues: [Tags]? = [Tags()], jsonmetadataValue: String? = "") {
             let prefixTitle         =   parentDataValue == nil ? headermssgValue : "Comment"
             let messagePermlink     =   (prefixTitle + "-" + Date().convert(toStringFormat: .expirationDateType)).lowercased()
-                .replacingOccurrences(of: " ", with: "-")
-                .replacingOccurrences(of: ":", with: "-")
+                                            .replacingOccurrences(of: " ", with: "-")
+                                            .replacingOccurrences(of: ":", with: "-")
             
-//            self.message_id         =   Mssgid(authorValue:             "tst3fsptavsy",
-//                                               permlinkValue:           "test-post-title-10-2019-04-18t08-01-11",
-//                                               refBlockNumValue:        193143)
+            self.message_id         =   Mssgid(authorValue: authorValue, permlinkValue: messagePermlink)
+
+            self.parent_id          =   parentDataValue == nil ? Mssgid() : Mssgid(authorValue:     authorValue,
+                                                                                   permlinkValue:   parentDataValue == nil ? messagePermlink : parentDataValue!.permlink)
             
-            self.message_id         =   Mssgid(authorValue:             authorValue,
-                                               permlinkValue:           messagePermlink,
-                                               refBlockNumValue:        refBlockNumValue)
-            
-            self.parent_id          =   parentDataValue == nil ?        Mssgid() :
-                Mssgid(authorValue:         authorValue,
-                       permlinkValue:       parentDataValue == nil ? messagePermlink : parentDataValue!.permlink,
-                       refBlockNumValue:    parentDataValue == nil ? refBlockNumValue : parentDataValue!.refBlockNum)
-            
-            self.parent_recid       =   parentRecidValue
             self.beneficiaries      =   beneficiariesValues
             self.tokenprop          =   tokenpropValue
             self.vestpayment        =   vestpaymentValue
-//            self.headermssg         =   "Title1"
             self.headermssg         =   headermssgValue
-            
-//            self.bodymssg           =   "Jvhukijlk;mknbjvftg7lyijknbafgudyhkjbg adds #jfks #sfndkl https://vc.ru"
             self.bodymssg           =   bodymssgValue
             self.languagemssg       =   languagemssgValue
             self.tags               =   tagsValues
             self.jsonmetadata       =   jsonmetadataValue
-            self.curators_prcnt     =   curatorsPrcntValue
             
 /*
 //            self.parentprmlnk       =   parentprmlnkValue
@@ -139,16 +119,13 @@ public class EOSTransaction: ChainTransaction {
         
         
         // MARK: - Initialization
-        init(authorValue: String = "destroyer2k", messagePermlink: String, parentDataValue: ParentData? = nil, refBlockNumValue: UInt64 = 0, headermssgValue: String = "test", bodymssgValue: String = "test", languagemssgValue: String = "ru", tagsValues: [Tags] = [Tags()], jsonmetadataValue: String = "") {
-            self.message_id         =   Mssgid(authorValue:             authorValue,
-                                               permlinkValue:           messagePermlink,
-                                               refBlockNumValue:        refBlockNumValue)
-            
-            self.headermssg         =   headermssgValue
-            self.bodymssg           =   bodymssgValue
-            self.languagemssg       =   languagemssgValue
-            self.tags               =   tagsValues
-            self.jsonmetadata       =   jsonmetadataValue
+        init(authorValue: String = Config.testUserAccount.nickName, messagePermlink: String, parentDataValue: ParentData? = nil, headermssgValue: String = "test", bodymssgValue: String = "test", languagemssgValue: String = "ru", tagsValues: [Tags] = [Tags()], jsonmetadataValue: String = "") {
+            self.message_id     =   Mssgid(authorValue: authorValue, permlinkValue: messagePermlink)
+            self.headermssg     =   headermssgValue
+            self.bodymssg       =   bodymssgValue
+            self.languagemssg   =   languagemssgValue
+            self.tags           =   tagsValues
+            self.jsonmetadata   =   jsonmetadataValue
         }
     }
     
@@ -160,10 +137,8 @@ public class EOSTransaction: ChainTransaction {
         
         
         // MARK: - Initialization
-        init(authorValue: String = "destroyer2k", messagePermlink: String, refBlockNumValue: UInt64) {
-            self.message_id     =   Mssgid(authorValue:             authorValue,
-                                           permlinkValue:           messagePermlink,
-                                           refBlockNumValue:        refBlockNumValue)
+        init(authorValue: String = Config.testUserAccount.nickName, messagePermlink: String) {
+            self.message_id = Mssgid(authorValue: authorValue, permlinkValue: messagePermlink)
         }
     }
     
@@ -205,14 +180,11 @@ public class EOSTransaction: ChainTransaction {
         
         
         // MARK: - Initialization
-        init(voterValue: String, authorValue: String, permlinkValue: String, refBlockNumValue: UInt64, weightValue: Int16) {
+        init(voterValue: String, authorValue: String, permlinkValue: String, weightValue: Int16) {
             self.voter      =   NameWriterValue(name: voterValue)
             
-            self.message_id =   Mssgid(authorValue:         authorValue,
-                                       permlinkValue:       permlinkValue,
-                                       refBlockNumValue:    refBlockNumValue)
-            
             self.weight     =   weightValue
+            self.message_id =   Mssgid(authorValue: authorValue, permlinkValue: permlinkValue)
         }
     }
     
@@ -225,12 +197,9 @@ public class EOSTransaction: ChainTransaction {
         
         
         // MARK: - Initialization
-        init(voterValue: String, authorValue: String, permlinkValue: String, refBlockNumValue: UInt64) {
+        init(voterValue: String, authorValue: String, permlinkValue: String) {
             self.voter      =   NameWriterValue(name: voterValue)
-            
-            self.message_id =   Mssgid(authorValue:         authorValue,
-                                       permlinkValue:       permlinkValue,
-                                       refBlockNumValue:    refBlockNumValue)
+            self.message_id =   Mssgid(authorValue: authorValue, permlinkValue: permlinkValue)
         }
     }
     
