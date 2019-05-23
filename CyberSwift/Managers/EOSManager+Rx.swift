@@ -44,6 +44,7 @@ extension Reactive where Base: EOSManager {
         do {
             let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
             return transaction.push(expirationDate: expiration, actions: [action], authorizingPrivateKey: privateKey)
+                .mapCachedError()
         } catch {
             return .error(error)
         }
@@ -72,8 +73,6 @@ extension Reactive where Base: EOSManager {
         
         return glsPublishPushTransaction(actionName: voteType.rawValue, data: voteArgsData)
             .flatMap {response -> Single<ChainResponse<TransactionCommitted>> in
-                if !response.success {throw ErrorAPI.requestFailed(message: response.errorBody!)}
-                
                 if voteType == .unvote {
                     return .just(response)
                 }
@@ -115,10 +114,6 @@ extension Reactive where Base: EOSManager {
                 
                 // send transaction
                 return glsPublishPushTransaction(actionName: "createmssg", data: messageCreateArgsData)
-                    .map {response -> ChainResponse<TransactionCommitted> in
-                        if !response.success {throw ErrorAPI.blockchain(message: response.errorBody!)}
-                        return response
-                    }
             })
     }
     
@@ -129,19 +124,8 @@ extension Reactive where Base: EOSManager {
         
         
         // Send transaction
-        return Completable.create {completable in
-            return glsPublishPushTransaction(actionName: "deletemssg", data: messageDeleteArgsData)
-                .subscribe(onSuccess: { (response) in
-                    if response.success {
-                        completable(.completed)
-                        return
-                    }
-                    completable(.error(ErrorAPI.requestFailed(message: response.errorBody!)))
-                }, onError: { (error) in
-                    completable(.error(error))
-                })
-        }
-        
+        return glsPublishPushTransaction(actionName: "deletemssg", data: messageDeleteArgsData)
+            .flatMapToCompletable()
     }
     
     static func updateUserProfile(changereputArgs: EOSTransaction.UserProfileChangereputArgs) -> Single<ChainResponse<TransactionCommitted>> {
@@ -150,9 +134,5 @@ extension Reactive where Base: EOSManager {
         
         // Send transaction
         return glsPublishPushTransaction(actionName: "changereput", data: changereputArgsData)
-            .map {response -> ChainResponse<TransactionCommitted> in
-                if !response.success {throw ErrorAPI.blockchain(message: response.errorBody!)}
-                return response
-            }
     }
 }

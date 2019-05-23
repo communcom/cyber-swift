@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import eosswift
 
 extension PrimitiveSequenceType where Self.TraitType == RxSwift.SingleTrait {
     public func flatMapToCompletable() -> Completable {
@@ -17,6 +18,15 @@ extension PrimitiveSequenceType where Self.TraitType == RxSwift.SingleTrait {
             }, onError: { error in
                 completable(.error(error))
             })
+        }
+    }
+}
+
+extension PrimitiveSequenceType where Self.TraitType == RxSwift.SingleTrait, Self.ElementType == ChainResponse<TransactionCommitted> {
+    func mapCachedError() -> Single<ChainResponse<TransactionCommitted>> {
+        return map {response in
+            if !response.success {throw ErrorAPI.blockchain(message: response.errorBody!)}
+            return response
         }
     }
 }
