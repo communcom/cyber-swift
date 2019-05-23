@@ -70,32 +70,19 @@ extension Reactive where Base: EOSManager {
         let voteArgsData = DataWriterValue(hex: voteArgs.toHex())
 
         
-        return Completable.create {completable in
-            return glsPublishPushTransaction(actionName: voteType.rawValue, data: voteArgsData)
-                .subscribe(onSuccess: { (response) in
-                    if response.success {
-                        // Update user profile reputation
-                        if voteType == .unvote {
-                            completable(.completed)
-                            return
-                        }
-                        
-                        let changereputArgs = EOSTransaction.UserProfileChangereputArgs(voterValue: userNickName, authorValue: author, rsharesValue: voteType == .upvote ? 1 : -1)
-                        
-                        #warning("change to rx later")
-                        EOSManager.updateUserProfile(changereputArgs: changereputArgs) { (response, error) in
-                            guard error == nil else {
-                                completable(.error(error!))
-                                return
-                            }
-                            completable(.completed)
-                        }
-                    }
-                    completable(.error(ErrorAPI.requestFailed(message: response.errorBody!)))
-                }, onError: { (error) in
-                    completable(.error(error))
-                })
-        }
+        return glsPublishPushTransaction(actionName: voteType.rawValue, data: voteArgsData)
+            .flatMap {response -> Single<ChainResponse<TransactionCommitted>> in
+                if !response.success {throw ErrorAPI.requestFailed(message: response.errorBody!)}
+                
+                if voteType == .unvote {
+                    return .just(response)
+                }
+                
+                // Update user profile reputation
+                let changereputArgs = EOSTransaction.UserProfileChangereputArgs(voterValue: userNickName, authorValue: author, rsharesValue: voteType == .upvote ? 1 : -1)
+                return EOSManager.rx.updateUserProfile(changereputArgs: changereputArgs)
+            }
+            .flatMapToCompletable()
     }
     
     static func create(message:         String,
@@ -155,5 +142,17 @@ extension Reactive where Base: EOSManager {
                 })
         }
         
+    }
+    
+    static func updateUserProfile(changereputArgs: EOSTransaction.UserProfileChangereputArgs) -> Single<ChainResponse<TransactionCommitted>> {
+        // Prepare arguments
+        let changereputArgsData = DataWriterValue(hex: changereputArgs.toHex())
+        
+        // Send transaction
+        return glsPublishPushTransaction(actionName: "changereput", data: changereputArgsData)
+            .map {response -> ChainResponse<TransactionCommitted> in
+                if !response.success {throw ErrorAPI.blockchain(message: response.errorBody!)}
+                return response
+            }
     }
 }
