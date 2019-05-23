@@ -210,7 +210,9 @@ class EOSManager {
 
 
     /// Action `deletemssg`
-    static func delete(messageArgs: EOSTransaction.MessageDeleteArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
+    static func delete(messageArgs:     EOSTransaction.MessageDeleteArgs,
+                       responseResult:  @escaping (ChainResponse<TransactionCommitted>) -> Void,
+                       responseError:   @escaping (Error) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
         
         let messageTransaction = EOSTransaction.init(chainApi: chainApi)
@@ -230,13 +232,13 @@ class EOSManager {
             
             if let response = try messageTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [messageDeleteActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                 if response.success {
-                    completion(response, nil)
+                    responseResult(response)
                 } else {
                     throw ErrorAPI.requestFailed(message: response.errorBody!)
                 }
             }
         } catch {
-            completion(nil, error)
+            responseError(error)
         }
     }
     

@@ -899,23 +899,21 @@ public class RestAPIManager {
     }
     
     /// Action `deletemssg`
-    public func deleteMessage(author:       String,
-                              permlink:     String,
-                              refBlockNum:  UInt64,
-                              completion:   @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
+    public func deleteMessage(author:               String,
+                              permlink:             String,
+                              responseHandling:     @escaping (ChainResponse<TransactionCommitted>) -> Void,
+                              errorHandling:        @escaping (ErrorAPI) -> Void) {
         // Offline mode
-        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
+        if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         let messageDeleteArgs = EOSTransaction.MessageDeleteArgs(authorValue: author, messagePermlink: permlink)
         
-        EOSManager.delete(messageArgs:  messageDeleteArgs,
-                          completion:   { (response, error) in
-                            guard error == nil else {
-                                completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
-                                return
-                            }
-                            
-                            completion(response, nil)
+        EOSManager.delete(messageArgs:      messageDeleteArgs,
+                          responseResult:   { response in
+                            responseHandling(response)
+        },
+                          responseError:    { error in
+                            errorHandling(ErrorAPI.responseUnsuccessful(message: error.localizedDescription))
         })
     }
     
