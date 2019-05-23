@@ -23,26 +23,96 @@ extension Reactive where Base: EOSManager {
     }
     
     //  MARK: - Contract `gls.publish`
+    private static func glsPublishPushTransaction(actionName: String, data: DataWriterValue, expiration: Date = Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds)) -> Single<ChainResponse<TransactionCommitted>> {
+        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        }
+        
+        // Prepare action
+        let transactionAuthorizationAbi = TransactionAuthorizationAbi(
+                actor:        AccountNameWriterValue(name:    userNickName),
+                permission:   AccountNameWriterValue(name:    "active"))
+        
+        let action = ActionAbi(
+                account: AccountNameWriterValue(name: "gls.publish"),
+                name: AccountNameWriterValue(name: actionName),
+                authorization: [transactionAuthorizationAbi],
+                data: data)
+        
+        let transaction = EOSTransaction(chainApi: EOSManager.chainApi)
+        
+        do {
+            let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
+            return transaction.push(expirationDate: expiration, actions: [action], authorizingPrivateKey: privateKey)
+        } catch {
+            return .error(error)
+        }
+    }
+    
+    static func vote(voteType: VoteType, author: String, permlink: String, weight: Int16, refBlockNum: UInt64) -> Completable {
+        guard let userNickName = Config.currentUser.nickName, let _ = Config.currentUser.activeKey else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        }
+        
+        // Prepare data
+        let voteArgs: Encodable = (voteType == .unvote) ?
+            EOSTransaction.UnvoteArgs.init(voterValue: userNickName,
+                                           authorValue:         author,
+                                           permlinkValue:       permlink,
+                                           refBlockNumValue:    refBlockNum)
+            :
+            EOSTransaction.UpvoteArgs.init(voterValue:          userNickName,
+                                           authorValue:         author,
+                                           permlinkValue:       permlink,
+                                           refBlockNumValue:    refBlockNum,
+                                           weightValue:         weight)
+        
+        let voteArgsData = DataWriterValue(hex: voteArgs.toHex())
+
+        
+        return Completable.create {completable in
+            return glsPublishPushTransaction(actionName: voteType.rawValue, data: voteArgsData)
+                .subscribe(onSuccess: { (response) in
+                    if response.success {
+                        // Update user profile reputation
+                        if voteType == .unvote {
+                            completable(.completed)
+                            return
+                        }
+                        
+                        let changereputArgs = EOSTransaction.UserProfileChangereputArgs(voterValue: userNickName, authorValue: author, rsharesValue: voteType == .upvote ? 1 : -1)
+                        
+                        #warning("change to rx later")
+                        EOSManager.updateUserProfile(changereputArgs: changereputArgs) { (response, error) in
+                            guard error == nil else {
+                                completable(.error(error!))
+                                return
+                            }
+                            completable(.completed)
+                        }
+                    }
+                    completable(.error(ErrorAPI.requestFailed(message: response.errorBody!)))
+                }, onError: { (error) in
+                    completable(.error(error))
+                })
+        }
+    }
+    
     static func create(message:         String,
                        headline:        String = "",
                        parentData:      ParentData? = nil,
                        tags:            [EOSTransaction.Tags],
                        jsonMetaData:    String?) -> Single<ChainResponse<TransactionCommitted>> {
         // Check user authorize
-        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else {
+        guard let userNickName = Config.currentUser.nickName, let _ = Config.currentUser.activeKey else {
             return .error(ErrorAPI.invalidData(message: "Unauthorized"))
         }
         
         return chainInfo
             .flatMap({ (info) -> Single<ChainResponse<TransactionCommitted>> in
-                let messageTransaction = EOSTransaction(chainApi: EOSManager.chainApi)
-                
-                let messageTransactionAuthorizationAbi = TransactionAuthorizationAbi(
-                    actor: AccountNameWriterValue(name: userNickName),
-                    permission: AccountNameWriterValue(name: "active"))
-                
                 let refBlockNum: UInt64 = UInt64(info.head_block_num)
                 
+                // Prepare arguments
                 let messageCreateArgs = EOSTransaction.MessageCreateArgs(
                     authorValue:        userNickName,
                     parentDataValue:    parentData,
@@ -54,18 +124,10 @@ extension Reactive where Base: EOSManager {
                 
                 // JSON
                 Logger.log(message: messageCreateArgs.convertToJSON(), event: .debug)
-                
                 let messageCreateArgsData = DataWriterValue(hex: messageCreateArgs.toHex())
                 
-                let messageCreateActionAbi = ActionAbi(
-                    account:         AccountNameWriterValue(name:    "gls.publish"),
-                    name:            AccountNameWriterValue(name:    "createmssg"),
-                    authorization:   [messageTransactionAuthorizationAbi],
-                    data:            messageCreateArgsData)
-                
-                let privateKey = try EOSPrivateKey(base58: userActiveKey)
-                
-                return messageTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [messageCreateActionAbi], authorizingPrivateKey: privateKey)
+                // send transaction
+                return glsPublishPushTransaction(actionName: "createmssg", data: messageCreateArgsData)
                     .map {response -> ChainResponse<TransactionCommitted> in
                         if !response.success {throw ErrorAPI.blockchain(message: response.errorBody!)}
                         return response
@@ -75,40 +137,28 @@ extension Reactive where Base: EOSManager {
     
     
     static func delete(messageArgs: EOSTransaction.MessageDeleteArgs) -> Completable {
-        guard let userNickName = Config.currentUser.nickName,
-            let userActiveKey = Config.currentUser.activeKey else {
-                return .error(ErrorAPI.requestFailed(message: "Unauthorized"))
+        // Check user authorize
+        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else {
+            return .error(ErrorAPI.invalidData(message: "Unauthorized"))
         }
         
-        let messageTransaction = EOSTransaction(chainApi: EOSManager.chainApi)
-        
-        let messageTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name:    userNickName),
-                                                                             permission:    AccountNameWriterValue(name:    "active"))
-        
+        // Prepare arguments
         let messageDeleteArgsData = DataWriterValue(hex: messageArgs.toHex())
         
-        let messageDeleteActionAbi = ActionAbi(account:         AccountNameWriterValue(name:    "gls.publish"),
-                                               name:            AccountNameWriterValue(name:    "deletemssg"),
-                                               authorization:   [messageTransactionAuthorizationAbi],
-                                               data:            messageDeleteArgsData)
         
-        do {
-            let privateKey = try EOSPrivateKey(base58: userActiveKey)
-            
-            return Completable.create {completable in
-                return messageTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [messageDeleteActionAbi], authorizingPrivateKey: privateKey)
-                    .subscribe(onSuccess: { (response) in
-                        if response.success {
-                            completable(.completed)
-                            return
-                        }
-                        completable(.error(ErrorAPI.requestFailed(message: response.errorBody!)))
-                    }, onError: { (error) in
-                        completable(.error(error))
-                    })
-            }
-        } catch {
-            return .error(error)
+        // Send transaction
+        return Completable.create {completable in
+            return glsPublishPushTransaction(actionName: "deletemssg", data: messageDeleteArgsData)
+                .subscribe(onSuccess: { (response) in
+                    if response.success {
+                        completable(.completed)
+                        return
+                    }
+                    completable(.error(ErrorAPI.requestFailed(message: response.errorBody!)))
+                }, onError: { (error) in
+                    completable(.error(error))
+                })
         }
+        
     }
 }
