@@ -53,7 +53,7 @@ public class WebSocketManager {
                 RestAPIManager.instance.authorize(userNickName:         Config.currentUser.nickName!,
                                                   userActiveKey:        Config.currentUser.activeKey!,
                                                   responseHandling:     { response in
-                                                    Logger.log(message: response.permission, event: .debug)
+                                                    Logger.log(message: "WebSocketManager API `auth.authorize` permission: \(response.permission)", event: .debug)
                                                     self.completed.onNext(true)
                                                     self.completed.onCompleted()
                 },
