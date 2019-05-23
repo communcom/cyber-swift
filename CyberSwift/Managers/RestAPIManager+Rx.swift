@@ -14,19 +14,17 @@ extension RestAPIManager: ReactiveCompatible {}
 
 extension Reactive where Base: RestAPIManager {
     //  MARK: - Contract `gls.publish`
-    public func vote(voteType:       VoteType,
+    public func vote(voteType:       VoteActionType,
                      author:         String,
                      permlink:       String,
-                     weight:         Int16? = 0,
-                     refBlockNum:    UInt64 = 0) -> Completable {
+                     weight:         UInt16 = 0) -> Completable {
         // Offline mode
         if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
-        return EOSManager.rx.vote(voteType:        voteType,
-                                  author:          author,
-                                  permlink:        permlink,
-                                  weight:          voteType == .unvote ? 0 : 10_000,
-                                  refBlockNum:     refBlockNum)
+        return EOSManager.rx.vote(voteType:     voteType,
+                                  author:       author,
+                                  permlink:     permlink,
+                                  weight:       voteType == .unvote ? 0 : 10_000)
     }
     
     public func create(message:             String,

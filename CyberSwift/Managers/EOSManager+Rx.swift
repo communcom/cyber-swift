@@ -54,7 +54,7 @@ extension Reactive where Base: EOSManager {
 //
 //    }
     
-    static func vote(voteType: VoteType, author: String, permlink: String, weight: Int16, refBlockNum: UInt64) -> Completable {
+    static func vote(voteType: VoteActionType, author: String, permlink: String, weight: UInt16) -> Completable {
         guard let userNickName = Config.currentUser.nickName, let _ = Config.currentUser.activeKey else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }

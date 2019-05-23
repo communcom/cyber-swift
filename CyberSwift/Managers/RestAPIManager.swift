@@ -823,27 +823,24 @@ public class RestAPIManager {
     
     //  MARK: - Contract `gls.publish`
     /// Actions `upvote`, `downvote`, `unvote`
-    public func message(voteType:       VoteType,
-                        author:         String,
-                        permlink:       String,
-                        weight:         Int16? = 0,
-                        refBlockNum:    UInt64 = 0,
-                        completion:     @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
+    public func message(voteActionType:     VoteActionType,
+                        author:             String,
+                        permlink:           String,
+                        weight:             Int16? = 0,
+                        responseHandling:   @escaping (ChainResponse<TransactionCommitted>) -> Void,
+                        errorHandling:      @escaping (ErrorAPI) -> Void) {
         // Offline mode
-        guard Config.isNetworkAvailable else { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
+        guard Config.isNetworkAvailable else { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
-        EOSManager.message(voteType:        voteType,
+        EOSManager.message(voteActionType:  voteActionType,
                            author:          author,
                            permlink:        permlink,
-                           weight:          voteType == .unvote ? 0 : 10_000,
-                           refBlockNum:     refBlockNum,
-                           completion:      { (response, error) in
-                            guard error == nil else {
-                                completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
-                                return
-                            }
-                            
-                            completion(response, nil)
+                           weight:          voteActionType == .unvote ? 0 : 10_000,
+                           responseResult:  { response in
+                            responseHandling(response)
+        },
+                           responseError:   { error in
+                            errorHandling(ErrorAPI.responseUnsuccessful(message: error.localizedDescription))
         })
     }
     
