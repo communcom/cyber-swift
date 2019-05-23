@@ -887,7 +887,6 @@ public class RestAPIManager {
         let messageUpdateArgs = EOSTransaction.MessageUpdateArgs(authorValue:           author ?? Config.currentUser.nickName ?? "Cyberway",
                                                                  messagePermlink:       permlink,
                                                                  parentDataValue:       parentData,
-                                                                 refBlockNumValue:      refBlockNum,
                                                                  bodymssgValue:         message)
         
         EOSManager.update(messageArgs:  messageUpdateArgs,
@@ -909,9 +908,7 @@ public class RestAPIManager {
         // Offline mode
         if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
         
-        let messageDeleteArgs = EOSTransaction.MessageDeleteArgs(authorValue:           author,
-                                                                 messagePermlink:       permlink,
-                                                                 refBlockNumValue:      refBlockNum)
+        let messageDeleteArgs = EOSTransaction.MessageDeleteArgs(authorValue: author, messagePermlink: permlink)
         
         EOSManager.delete(messageArgs:  messageDeleteArgs,
                           completion:   { (response, error) in
@@ -928,16 +925,12 @@ public class RestAPIManager {
     public func reblog(author:              String,
                        rebloger:            String,
                        permlink:            String,
-                       refBlockNum:         UInt64,
                        responseHandling:    @escaping (ChainResponse<TransactionCommitted>) -> Void,
                        errorHandling:       @escaping (ErrorAPI) -> Void) {
         // Offline mode
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
-        let reblogArgs = EOSTransaction.ReblogArgs(authorValue:         author,
-                                                   permlinkValue:       permlink,
-                                                   refBlockNumValue:    refBlockNum,
-                                                   reblogerValue:       rebloger)
+        let reblogArgs = EOSTransaction.ReblogArgs(authorValue: author, permlinkValue: permlink, reblogerValue: rebloger)
         
         EOSManager.reblog(args:             reblogArgs,
                           responseResult:   { (responseAPIResult) in

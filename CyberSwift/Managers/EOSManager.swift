@@ -171,51 +171,43 @@ class EOSManager {
             return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
         }
     
-        EOSManager.getChainInfo(responseResult: { (info) in
-            let messageTransaction = EOSTransaction.init(chainApi: chainApi)
+        let messageTransaction = EOSTransaction.init(chainApi: chainApi)
+        
+        let messageTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name:    userNickName),
+                                                                             permission:    AccountNameWriterValue(name:    "active"))
+        
+        let messageCreateArgs = EOSTransaction.MessageCreateArgs(authorValue:               userNickName,
+                                                                 parentDataValue:           parentData,
+                                                                 headermssgValue:           headline,
+                                                                 bodymssgValue:             message,
+                                                                 tagsValues:                tags,
+                                                                 jsonmetadataValue:         jsonMetaData)
+        
+        // JSON
+        Logger.log(message: messageCreateArgs.convertToJSON(), event: .debug)
+        
+        let messageCreateArgsData = DataWriterValue(hex: messageCreateArgs.toHex())
+        
+        let messageCreateActionAbi = ActionAbi(account:         AccountNameWriterValue(name:    "gls.publish"),
+                                               name:            AccountNameWriterValue(name:    "createmssg"),
+                                               authorization:   [messageTransactionAuthorizationAbi],
+                                               data:            messageCreateArgsData)
+        
+//        DispatchQueue.main.async {
+        do {
+            let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
             
-            let messageTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name:    userNickName),
-                                                                                 permission:    AccountNameWriterValue(name:    "active"))
-            
-            let refBlockNum: UInt64 = UInt64(info.head_block_num)
-            
-            let messageCreateArgs = EOSTransaction.MessageCreateArgs(authorValue:               userNickName,
-                                                                     parentDataValue:           parentData,
-                                                                     refBlockNumValue:          refBlockNum,
-                                                                     headermssgValue:           headline,
-                                                                     bodymssgValue:             message,
-                                                                     tagsValues:                tags,
-                                                                     jsonmetadataValue:         jsonMetaData)
-            
-            // JSON
-            Logger.log(message: messageCreateArgs.convertToJSON(), event: .debug)
-            
-            let messageCreateArgsData = DataWriterValue(hex: messageCreateArgs.toHex())
-            
-            let messageCreateActionAbi = ActionAbi(account:         AccountNameWriterValue(name:    "gls.publish"),
-                                                   name:            AccountNameWriterValue(name:    "createmssg"),
-                                                   authorization:   [messageTransactionAuthorizationAbi],
-                                                   data:            messageCreateArgsData)
-            
-            DispatchQueue.main.async {
-                do {
-                    let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
-                    
-                    if let response = try messageTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [messageCreateActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
-                        if response.success {
-                            responseResult(response)
-                        } else {
-                            throw ErrorAPI.requestFailed(message: response.errorBody!)
-                        }
-                    }
-                } catch {
-                    responseError(ErrorAPI.responseUnsuccessful(message: "\(error.localizedDescription)"))
+            if let response = try messageTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [messageCreateActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
+                if response.success {
+                    responseResult(response)
+                } else {
+                    throw ErrorAPI.requestFailed(message: response.errorBody!)
                 }
             }
-        },
-                                responseError:  { (errorAPI) in
-                                    responseError(errorAPI)
-        })
+        } catch {
+            responseError(ErrorAPI.responseUnsuccessful(message: "\(error.localizedDescription)"))
+        }
+//        }
     }
 
 
@@ -322,13 +314,11 @@ class EOSManager {
         
         let voteArgs: Encodable = (voteType == .unvote) ?   EOSTransaction.UnvoteArgs.init(voterValue:          userNickName,
                                                                                            authorValue:         author,
+                                                                                           permlinkValue:       permlink)   :
+                                                            EOSTransaction.UpvoteArgs.init(voterValue:          userNickName,
+                                                                                           authorValue:         author,
                                                                                            permlinkValue:       permlink,
-                                                                                           refBlockNumValue:    refBlockNum) :
-            EOSTransaction.UpvoteArgs.init(voterValue:          userNickName,
-                                           authorValue:         author,
-                                           permlinkValue:       permlink,
-                                           refBlockNumValue:    refBlockNum,
-                                           weightValue:         weight)
+                                                                                           weightValue:         weight)
         
         let voteArgsData = DataWriterValue(hex: voteArgs.toHex())
         
