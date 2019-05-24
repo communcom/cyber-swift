@@ -161,7 +161,7 @@ class EOSManager {
     }
     
     /// Action `createmssg`
-    // https://github.com/GolosChain/golos.contracts/blob/master/golos.publication/golos.publication.abi#L238-L291
+    //  https://github.com/GolosChain/golos.contracts/blob/develop/golos.publication/golos.publication.abi
     static func create(message:         String,
                        headline:        String = "",
                        parentData:      ParentData? = nil,
@@ -375,7 +375,7 @@ class EOSManager {
     }
 
     /// Action `reblog`
-    static func reblog(args:            EOSTransaction.ReblogArgs,
+    static func message(reblogArgs:     EOSTransaction.ReblogArgs,
                        responseResult:  @escaping (ChainResponse<TransactionCommitted>) -> Void,
                        responseError:   @escaping (ErrorAPI) -> Void) {
         // Check user authorize
@@ -388,7 +388,7 @@ class EOSManager {
         let reblogTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name:     userNickName),
                                                                             permission:    AccountNameWriterValue(name:     "active"))
         
-        let reblogArgsData = DataWriterValue(hex: args.toHex())
+        let reblogArgsData = DataWriterValue(hex: reblogArgs.toHex())
         
         let reblogActionAbi = ActionAbi(account:         AccountNameWriterValue(name:    "gls.publish"),
                                         name:            AccountNameWriterValue(name:    "reblog"),

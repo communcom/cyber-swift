@@ -811,11 +811,11 @@ public class RestAPIManager {
         
         EOSManager.update(userProfileMetaArgs:  userProfileMetaArgs,
                           responseResult:       { result in
-                            Logger.log(message: "\nAPI `updatemeta` response result: \n\(result)\n", event: .debug)
+                            Logger.log(message: "\nAction `updatemeta` response result: \n\(result)\n", event: .debug)
                             responseHandling(result)
         },
                           responseError:        { errorAPI in
-                            Logger.log(message: "\nAPI `updatemeta` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
+                            Logger.log(message: "\nAction `updatemeta` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
                             errorHandling(errorAPI)
         })
     }
@@ -837,9 +837,11 @@ public class RestAPIManager {
                            permlink:        permlink,
                            weight:          voteActionType == .unvote ? 0 : 100,
                            responseResult:  { response in
+                            Logger.log(message: "\nAction `\(voteActionType.hashValue)` response result: \n\(response)\n", event: .debug)
                             responseHandling(response)
         },
                            responseError:   { error in
+                            Logger.log(message: "\nAction `\(voteActionType.hashValue)` response error: \n\(error.localizedDescription)\n", event: .error)
                             errorHandling(ErrorAPI.responseUnsuccessful(message: error.localizedDescription))
         })
     }
@@ -862,11 +864,11 @@ public class RestAPIManager {
                           tags:             arrayTags,
                           jsonMetaData:     metaData,
                           responseResult:   { (responseAPIResult) in
-                            Logger.log(message: "\nAPI `createmssg` response result: \n\(responseAPIResult)\n", event: .debug)
+                            Logger.log(message: "\nAction `createmssg` response result: \n\(responseAPIResult)\n", event: .debug)
                             responseHandling(responseAPIResult)
         },
                           responseError:    { (errorAPI) in
-                            Logger.log(message: "\nAPI `createmssg` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
+                            Logger.log(message: "\nAction `createmssg` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
                             errorHandling(ErrorAPI.responseUnsuccessful(message: errorAPI.localizedDescription))
         })
     }
@@ -888,9 +890,11 @@ public class RestAPIManager {
         
         EOSManager.update(messageArgs:      messageUpdateArgs,
                           responseResult:   { response in
+                            Logger.log(message: "\nAction `updatemssg` response result: \n\(response)\n", event: .debug)
                             responseHandling(response)
         },
                           responseError:    { error in
+                            Logger.log(message: "\nAction `updatemssg` response error: \n\(error.localizedDescription)\n", event: .error)
                             errorHandling(ErrorAPI.responseUnsuccessful(message: error.localizedDescription))
         })
     }
@@ -907,31 +911,33 @@ public class RestAPIManager {
         
         EOSManager.delete(messageArgs:      messageDeleteArgs,
                           responseResult:   { response in
+                            Logger.log(message: "\nAction `deletemssg` response result: \n\(response)\n", event: .debug)
                             responseHandling(response)
         },
                           responseError:    { error in
+                            Logger.log(message: "\nAction `deletemssg` response error: \n\(error.localizedDescription)\n", event: .error)
                             errorHandling(ErrorAPI.responseUnsuccessful(message: error.localizedDescription))
         })
     }
     
     /// Action `reblog`
-    public func reblog(author:              String,
-                       rebloger:            String,
-                       permlink:            String,
-                       responseHandling:    @escaping (ChainResponse<TransactionCommitted>) -> Void,
-                       errorHandling:       @escaping (ErrorAPI) -> Void) {
+    public func reblogMessage(author:               String,
+                              rebloger:             String,
+                              permlink:             String,
+                              responseHandling:     @escaping (ChainResponse<TransactionCommitted>) -> Void,
+                              errorHandling:        @escaping (ErrorAPI) -> Void) {
         // Offline mode
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         let reblogArgs = EOSTransaction.ReblogArgs(authorValue: author, permlinkValue: permlink, reblogerValue: rebloger)
         
-        EOSManager.reblog(args:             reblogArgs,
-                          responseResult:   { (responseAPIResult) in
-                            Logger.log(message: "\nAPI `reblog` response result: \n\(responseAPIResult)\n", event: .debug)
-                            responseHandling(responseAPIResult)
+        EOSManager.message(reblogArgs:              reblogArgs,
+                           responseResult:          { response in
+                            Logger.log(message: "\nAction `reblog` response result: \n\(response)\n", event: .debug)
+                            responseHandling(response)
         },
-                          responseError:    { (errorAPI) in
-                            Logger.log(message: "\nAPI `createmssg` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
+                          responseError:            { errorAPI in
+                            Logger.log(message: "\nAction `reblog` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
                             errorHandling(errorAPI)
         })
     }
@@ -950,9 +956,11 @@ public class RestAPIManager {
         
         EOSManager.reg(witnessArgs:     regwitnessArgs,
                        responseResult:  { response in
+                        Logger.log(message: "\nAction `regwitness` response result: \n\(response)\n", event: .debug)
                         responseHandling(response)
         },
                        responseError:   { error in
+                        Logger.log(message: "\nAction `regwitness` response error: \n\(error.localizedDescription)\n", event: .error)
                         errorHandling(ErrorAPI.responseUnsuccessful(message: error.localizedDescription))
         })
     }
@@ -968,10 +976,12 @@ public class RestAPIManager {
         let votewitnessArgs = EOSTransaction.VotewitnessArgs(voterValue: voter, witnessValue: witness)
         
         EOSManager.vote(witnessArgs:        votewitnessArgs,
-                        responseResult:     { response in
+                        responseResult:  { response in
+                            Logger.log(message: "\nAction `votewitness` response result: \n\(response)\n", event: .debug)
                             responseHandling(response)
         },
-                        responseError:      { error in
+                        responseError:   { error in
+                            Logger.log(message: "\nAction `votewitness` response error: \n\(error.localizedDescription)\n", event: .error)
                             errorHandling(ErrorAPI.responseUnsuccessful(message: error.localizedDescription))
         })
     }
@@ -987,10 +997,12 @@ public class RestAPIManager {
         let unvotewitnessArgs = EOSTransaction.UnvotewitnessArgs(voterValue: voter, witnessValue: witness)
         
         EOSManager.unvote(witnessArgs:      unvotewitnessArgs,
-                          responseResult:   { response in
+                          responseResult:  { response in
+                            Logger.log(message: "\nAction `unvotewitn` response result: \n\(response)\n", event: .debug)
                             responseHandling(response)
         },
-                          responseError:    { error in
+                          responseError:   { error in
+                            Logger.log(message: "\nAction `unvotewitn` response error: \n\(error.localizedDescription)\n", event: .error)
                             errorHandling(ErrorAPI.responseUnsuccessful(message: error.localizedDescription))
         })
     }
@@ -1005,10 +1017,12 @@ public class RestAPIManager {
         let unregwitnessArgs = EOSTransaction.UnregwitnessArgs(witnessValue: witness)
         
         EOSManager.unreg(witnessArgs:       unregwitnessArgs,
-                         responseResult:    { response in
+                         responseResult:  { response in
+                            Logger.log(message: "\nAction `unregwitness` response result: \n\(response)\n", event: .debug)
                             responseHandling(response)
         },
-                         responseError:     { error in
+                         responseError:   { error in
+                            Logger.log(message: "\nAction `unregwitness` response error: \n\(error.localizedDescription)\n", event: .error)
                             errorHandling(ErrorAPI.responseUnsuccessful(message: error.localizedDescription))
         })
     }
