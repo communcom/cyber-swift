@@ -25,7 +25,7 @@ public struct Config {
     public static let currentDeviceType: String         =   { return UIDevice.modelName.replacingOccurrences(of: " ", with: "-") }()
     
     /// Pagination
-    public static let paginationLimit: Int8 = 20
+    public static let paginationLimit: Int8 = 10
     
     static let blocksBehind: Int = 3
     public static let expireSeconds: Double = 30.0
