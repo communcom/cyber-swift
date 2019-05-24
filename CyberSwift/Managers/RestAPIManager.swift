@@ -826,7 +826,7 @@ public class RestAPIManager {
     public func message(voteActionType:     VoteActionType,
                         author:             String,
                         permlink:           String,
-                        weight:             Int16? = 0,
+                        weight:             UInt16,
                         responseHandling:   @escaping (ChainResponse<TransactionCommitted>) -> Void,
                         errorHandling:      @escaping (ErrorAPI) -> Void) {
         // Offline mode
@@ -835,7 +835,7 @@ public class RestAPIManager {
         EOSManager.message(voteActionType:  voteActionType,
                            author:          author,
                            permlink:        permlink,
-                           weight:          voteActionType == .unvote ? 0 : 10_000,
+                           weight:          voteActionType == .unvote ? 0 : 100,
                            responseResult:  { response in
                             responseHandling(response)
         },
