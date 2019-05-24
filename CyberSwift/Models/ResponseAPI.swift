@@ -224,7 +224,7 @@ public struct ResponseAPIContentGetPostContentMetadata: Decodable {
 public struct ResponseAPIContentGetPostContentEmbed: Decodable {
     // MARK: - In work API `content.getFeed`
     public let _id: String
-    public let id: String
+    public let id: String?
     public let type: String
     public let result: ResponseAPIContentGetPostContentEmbedResult
 }
