@@ -795,9 +795,9 @@ public class RestAPIManager {
     }
     
     /// Action `updatemeta`
-    public func update(userProfile:             [String: String],
-                       responseHandling:        @escaping (ChainResponse<TransactionCommitted>) -> Void,
-                       errorHandling:           @escaping (Error) -> Void) {
+    public func update(userProfile:         [String: String],
+                       responseHandling:    @escaping (ChainResponse<TransactionCommitted>) -> Void,
+                       errorHandling:       @escaping (Error) -> Void) {
         // Offline mode
         guard Config.isNetworkAvailable else { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
@@ -939,81 +939,77 @@ public class RestAPIManager {
     
     // MARK: - Contract `gls.ctrl`
     /// Action `regwitness` (1)
-    public func reg(witness:        String,
-                    url:            String,
-                    completion:     @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
+    public func reg(witness:                String,
+                    url:                    String,
+                    responseHandling:       @escaping (ChainResponse<TransactionCommitted>) -> Void,
+                    errorHandling:          @escaping (ErrorAPI) -> Void) {
         // Offline mode
-        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
+        if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         let regwitnessArgs = EOSTransaction.RegwitnessArgs(witnessValue: witness, urlValue: url)
         
         EOSManager.reg(witnessArgs:     regwitnessArgs,
-                       completion:      { (response, error) in
-                        guard error == nil else {
-                            completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
-                            return
-                        }
-                        
-                        completion(response, nil)
+                       responseResult:  { response in
+                        responseHandling(response)
+        },
+                       responseError:   { error in
+                        errorHandling(ErrorAPI.responseUnsuccessful(message: error.localizedDescription))
         })
     }
     
     /// Action `votewitness` (2)
-    public func vote(witness:       String,
-                     voter:         String,
-                     completion:    @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
+    public func vote(witness:               String,
+                     voter:                 String,
+                     responseHandling:      @escaping (ChainResponse<TransactionCommitted>) -> Void,
+                     errorHandling:         @escaping (ErrorAPI) -> Void) {
         // Offline mode
-        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
+        if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         let votewitnessArgs = EOSTransaction.VotewitnessArgs(voterValue: voter, witnessValue: witness)
         
-        EOSManager.vote(witnessArgs:    votewitnessArgs,
-                        completion:   { (response, error) in
-                            guard error == nil else {
-                                completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
-                                return
-                            }
-                            
-                            completion(response, nil)
+        EOSManager.vote(witnessArgs:        votewitnessArgs,
+                        responseResult:     { response in
+                            responseHandling(response)
+        },
+                        responseError:      { error in
+                            errorHandling(ErrorAPI.responseUnsuccessful(message: error.localizedDescription))
         })
     }
     
     /// Action `unvotewitn` (3)
-    public func unvote(witness:     String,
-                       voter:       String,
-                       completion:  @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
+    public func unvote(witness:             String,
+                       voter:               String,
+                       responseHandling:    @escaping (ChainResponse<TransactionCommitted>) -> Void,
+                       errorHandling:       @escaping (ErrorAPI) -> Void) {
         // Offline mode
-        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
+        if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         let unvotewitnessArgs = EOSTransaction.UnvotewitnessArgs(voterValue: voter, witnessValue: witness)
         
-        EOSManager.unvote(witnessArgs:  unvotewitnessArgs,
-                          completion:   { (response, error) in
-                            guard error == nil else {
-                                completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
-                                return
-                            }
-                            
-                            completion(response, nil)
+        EOSManager.unvote(witnessArgs:      unvotewitnessArgs,
+                          responseResult:   { response in
+                            responseHandling(response)
+        },
+                          responseError:    { error in
+                            errorHandling(ErrorAPI.responseUnsuccessful(message: error.localizedDescription))
         })
     }
     
     /// Action `unregwitness` (4)
-    public func unreg(witness:      String,
-                      completion:   @escaping (ChainResponse<TransactionCommitted>?, ErrorAPI?) -> Void) {
+    public func unreg(witness:              String,
+                      responseHandling:     @escaping (ChainResponse<TransactionCommitted>) -> Void,
+                      errorHandling:        @escaping (ErrorAPI) -> Void) {
         // Offline mode
-        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
+        if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         let unregwitnessArgs = EOSTransaction.UnregwitnessArgs(witnessValue: witness)
         
-        EOSManager.unreg(witnessArgs:     unregwitnessArgs,
-                         completion:      { (response, error) in
-                            guard error == nil else {
-                                completion(nil, ErrorAPI.responseUnsuccessful(message: error!.localizedDescription))
-                                return
-                            }
-                            
-                            completion(response, nil)
+        EOSManager.unreg(witnessArgs:       unregwitnessArgs,
+                         responseResult:    { response in
+                            responseHandling(response)
+        },
+                         responseError:     { error in
+                            errorHandling(ErrorAPI.responseUnsuccessful(message: error.localizedDescription))
         })
     }
 }

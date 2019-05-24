@@ -109,9 +109,12 @@ class EOSManager {
     
     //  MARK: - Contract `gls.publish`
     /// Action `newaccount`
-    static func createNewAccount(nickName:      String,
-                                 completion:    @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
-        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
+    static func createNewAccount(nickName:          String,
+                                 responseResult:    @escaping (ChainResponse<TransactionCommitted>) -> Void,
+                                 responseError:     @escaping (Error) -> Void) {
+        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else {
+            return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
+        }
         
         let createNewAccountTransaction = EOSTransaction.init(chainApi: chainApi)
         
@@ -146,14 +149,14 @@ class EOSManager {
                 
                 if let response = try createNewAccountTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [createNewAccountActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                     if response.success {
-                        completion(response, nil)
+                        responseResult(response)
                     }
                 }
             } catch {
-                completion(nil, error)
+                responseError(error)
             }
         } catch {
-            completion(nil, error)
+            responseError(error)
         }
     }
     
@@ -213,7 +216,9 @@ class EOSManager {
     static func delete(messageArgs:     EOSTransaction.MessageDeleteArgs,
                        responseResult:  @escaping (ChainResponse<TransactionCommitted>) -> Void,
                        responseError:   @escaping (Error) -> Void) {
-        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
+        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else {
+            return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
+        }
         
         let messageTransaction = EOSTransaction.init(chainApi: chainApi)
         
@@ -246,7 +251,9 @@ class EOSManager {
     static func update(messageArgs:     EOSTransaction.MessageUpdateArgs,
                        responseResult:  @escaping (ChainResponse<TransactionCommitted>) -> Void,
                        responseError:   @escaping (Error) -> Void) {
-        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
+        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else {
+            return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
+        }
         
         let messageUpdateTransaction = EOSTransaction.init(chainApi: chainApi)
         
@@ -274,8 +281,12 @@ class EOSManager {
     }
     
     /// Action `changereput`
-    static func updateUserProfile(changereputArgs: EOSTransaction.UserProfileChangereputArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
-        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
+    static func updateUserProfile(changereputArgs:  EOSTransaction.UserProfileChangereputArgs,
+                                  responseResult:   @escaping (ChainResponse<TransactionCommitted>) -> Void,
+                                  responseError:    @escaping (Error) -> Void) {
+        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else {
+            return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
+        }
         
         let userProfileChangereputTransaction = EOSTransaction.init(chainApi: EOSManager.chainApi)
         
@@ -294,11 +305,11 @@ class EOSManager {
             
             if let response = try userProfileChangereputTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [changereputActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                 if response.success {
-                    completion(response, nil)
+                    responseResult(response)
                 }
             }
         } catch {
-            completion(nil, error)
+            responseError(error)
         }
     }
 
@@ -310,8 +321,7 @@ class EOSManager {
                         responseResult:     @escaping (ChainResponse<TransactionCommitted>) -> Void,
                         responseError:      @escaping (Error) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else {
-            responseError(NSError(domain: "User is not authorized.", code: 401, userInfo: nil))
-            return
+            return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
         }
         
         let voteTransaction = EOSTransaction.init(chainApi: chainApi)
@@ -347,14 +357,13 @@ class EOSManager {
                     else {
                         let changereputArgs = EOSTransaction.UserProfileChangereputArgs(voterValue: userNickName, authorValue: author, rsharesValue: voteActionType == .upvote ? 1 : -1)
                         
-                        self.updateUserProfile(changereputArgs: changereputArgs) { (response, error) in
-                            guard error == nil else {
-                                responseError(error!)
-                                return
-                            }
-                            
-                            responseResult(response!)
-                        }
+                        self.updateUserProfile(changereputArgs: changereputArgs,
+                                               responseResult: { response in
+                                                responseResult(response)
+                        },
+                                               responseError: { error in
+                                                responseError(error)
+                        })
                     }
                 } else {
                     throw ErrorAPI.requestFailed(message: response.errorBody!)
@@ -402,8 +411,12 @@ class EOSManager {
     
     //  MARK: - Contract `gls.vesting`
     /// Action `transfer`
-    static func publish(transferArgs: EOSTransaction.TransferArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
-        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
+    static func publish(transferArgs:       EOSTransaction.TransferArgs,
+                        responseResult:     @escaping (ChainResponse<TransactionCommitted>) -> Void,
+                        responseError:      @escaping (Error) -> Void) {
+        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else {
+            return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
+        }
         
         let transferTransaction = EOSTransaction.init(chainApi: chainApi)
         
@@ -422,24 +435,23 @@ class EOSManager {
             
             if let response = try transferTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [transferActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                 if response.success {
-                    completion(response, nil)
+                    responseResult(response)
                 }
             }
         } catch {
-            completion(nil, error)
+            responseError(error)
         }
     }
     
     
     //  MARK: - Contract `gls.social`
     /// Actions `pin`, `unpin`
-    static func updateUserProfile(pinArgs:  EOSTransaction.UserProfilePinArgs,
-                                  isUnpin:  Bool,
+    static func updateUserProfile(pinArgs:          EOSTransaction.UserProfilePinArgs,
+                                  isUnpin:          Bool,
                                   responseResult:   @escaping (ChainResponse<TransactionCommitted>) -> Void,
                                   responseError:    @escaping (Error) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else {
-            responseError(ErrorAPI.invalidData(message: "Unauthorized"))
-            return
+            return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
         }
         
         let userProfilePinTransaction = EOSTransaction.init(chainApi: chainApi)
@@ -468,8 +480,13 @@ class EOSManager {
     }
     
     /// Actions `block`, `unblock`
-    static func updateUserProfile(blockArgs: EOSTransaction.UserProfileBlockArgs, isUnblock: Bool, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
-        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else { return }
+    static func updateUserProfile(blockArgs:        EOSTransaction.UserProfileBlockArgs,
+                                  isUnblock:        Bool,
+                                  responseResult:   @escaping (ChainResponse<TransactionCommitted>) -> Void,
+                                  responseError:    @escaping (Error) -> Void) {
+        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else {
+            return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
+        }
         
         let userProfileBlockTransaction = EOSTransaction.init(chainApi: chainApi)
         
@@ -488,18 +505,18 @@ class EOSManager {
             
             if let response = try userProfileBlockTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [blockActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                 if response.success {
-                    completion(response, nil)
+                    responseResult(response)
                 }
             }
         } catch {
-            completion(nil, error)
+            responseError(error)
         }
     }
     
     /// Action `updatemeta`
-    static func update(userProfileMetaArgs: EOSTransaction.UserProfileUpdatemetaArgs,
-                       responseResult:      @escaping (ChainResponse<TransactionCommitted>) -> Void,
-                       responseError:       @escaping (Error) -> Void) {
+    static func update(userProfileMetaArgs:     EOSTransaction.UserProfileUpdatemetaArgs,
+                       responseResult:          @escaping (ChainResponse<TransactionCommitted>) -> Void,
+                       responseError:           @escaping (Error) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else {
             return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
         }
@@ -533,10 +550,16 @@ class EOSManager {
     }
     
     // Action `deletemeta`
-    static func delete(userProfileMetaArgs: EOSTransaction.UserProfileDeleteArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
+    static func delete(userProfileMetaArgs:     EOSTransaction.UserProfileDeleteArgs,
+                       responseResult:          @escaping (ChainResponse<TransactionCommitted>) -> Void,
+                       responseError:           @escaping (Error) -> Void) {
+        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else {
+            return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
+        }
+
         let userProfileDeletemetaTransaction = EOSTransaction.init(chainApi: EOSManager.chainApi)
         
-        let userProfileDeleteTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name: Config.testUserAccount.nickName),
+        let userProfileDeleteTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name: userNickName),
                                                                                        permission:    AccountNameWriterValue(name: "active"))
         
         let userProfileDeletemetaArgsData = DataWriterValue(hex: userProfileMetaArgs.toHex())
@@ -547,32 +570,33 @@ class EOSManager {
                                                    data:            userProfileDeletemetaArgsData)
         
         do {
-            let privateKey = try EOSPrivateKey.init(base58: Config.testUserAccount.activeKey)
+            let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
             
             if let response = try userProfileDeletemetaTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [userProfileDeleteActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                 if response.success {
-                    completion(response, nil)
+                    responseResult(response)
                 } else {
                     throw ErrorAPI.requestFailed(message: response.errorBody!)
                 }
             }
         } catch {
-            completion(nil, error)
+            responseError(error)
         }
     }
 
     
     //  MARK: - Contract `gls.ctrl`
     /// Action `regwitness` (1)
-    static func reg(witnessArgs: EOSTransaction.RegwitnessArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
-        guard let currentUserNickName = Config.currentUser.nickName, let currentUserActiveKey = Config.currentUser.activeKey else {
-            completion(nil, NSError(domain: "Unauthorized".localized(), code: 401, userInfo: nil))
-            return
+    static func reg(witnessArgs:        EOSTransaction.RegwitnessArgs,
+                    responseResult:     @escaping (ChainResponse<TransactionCommitted>) -> Void,
+                    responseError:      @escaping (Error) -> Void) {
+        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else {
+            return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
         }
         
         let regwithessTransaction = EOSTransaction.init(chainApi: EOSManager.chainApi)
         
-        let regwithessTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name: currentUserNickName),
+        let regwithessTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name: userNickName),
                                                                                 permission:    AccountNameWriterValue(name: "active"))
         
         let regwithessArgsData = DataWriterValue(hex: witnessArgs.toHex())
@@ -583,28 +607,29 @@ class EOSManager {
                                             data:            regwithessArgsData)
         
         do {
-            let privateKey = try EOSPrivateKey.init(base58: currentUserActiveKey)
+            let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
             
             if let response = try regwithessTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [regwithessActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                 if response.success {
-                    completion(response, nil)
+                    responseResult(response)
                 }
             }
         } catch {
-            completion(nil, error)
+            responseError(error)
         }
     }
 
     // Action `votewitness` (2)
-    static func vote(witnessArgs: EOSTransaction.VotewitnessArgs, completion: @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
-        guard let currentUserNickName = Config.currentUser.nickName, let currentUserActiveKey = Config.currentUser.activeKey else {
-            completion(nil, NSError(domain: "Unauthorized".localized(), code: 401, userInfo: nil))
-            return
+    static func vote(witnessArgs:       EOSTransaction.VotewitnessArgs,
+                     responseResult:    @escaping (ChainResponse<TransactionCommitted>) -> Void,
+                     responseError:     @escaping (Error) -> Void) {
+        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else {
+            return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
         }
-        
+
         let votewithessTransaction = EOSTransaction.init(chainApi: EOSManager.chainApi)
         
-        let votewithessTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name: currentUserNickName),
+        let votewithessTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name: userNickName),
                                                                                  permission:    AccountNameWriterValue(name: "active"))
         
         let votewithessArgsData = DataWriterValue(hex: witnessArgs.toHex())
@@ -615,29 +640,29 @@ class EOSManager {
                                              data:            votewithessArgsData)
         
         do {
-            let privateKey = try EOSPrivateKey.init(base58: currentUserActiveKey)
+            let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
             
             if let response = try votewithessTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [votewithessActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                 if response.success {
-                    completion(response, nil)
+                    responseResult(response)
                 }
             }
         } catch {
-            completion(nil, error)
+            responseError(error)
         }
     }
 
     // Action `unvotewitn` (3)
-    static func unvote(witnessArgs:     EOSTransaction.UnvotewitnessArgs,
-                       completion:      @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
-        guard let currentUserNickName = Config.currentUser.nickName, let currentUserActiveKey = Config.currentUser.activeKey else {
-            completion(nil, NSError(domain: "Unauthorized".localized(), code: 401, userInfo: nil))
-            return
+    static func unvote(witnessArgs:         EOSTransaction.UnvotewitnessArgs,
+                       responseResult:      @escaping (ChainResponse<TransactionCommitted>) -> Void,
+                       responseError:       @escaping (Error) -> Void) {
+        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else {
+            return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
         }
         
         let unvotewithessTransaction = EOSTransaction.init(chainApi: EOSManager.chainApi)
         
-        let unvotewithessTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name: currentUserNickName),
+        let unvotewithessTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name: userNickName),
                                                                                    permission:    AccountNameWriterValue(name: "active"))
         
         let unvotewithessArgsData = DataWriterValue(hex: witnessArgs.toHex())
@@ -648,29 +673,29 @@ class EOSManager {
                                                data:            unvotewithessArgsData)
         
         do {
-            let privateKey = try EOSPrivateKey.init(base58: currentUserActiveKey)
+            let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
             
             if let response = try unvotewithessTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [unvotewithessActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                 if response.success {
-                    completion(response, nil)
+                    responseResult(response)
                 }
             }
         } catch {
-            completion(nil, error)
+            responseError(error)
         }
     }
     
     // Action `unregwitness` (4)
-    static func unreg(witnessArgs:  EOSTransaction.UnregwitnessArgs,
-                      completion:   @escaping (ChainResponse<TransactionCommitted>?, Error?) -> Void) {
-        guard let currentUserNickName = Config.currentUser.nickName, let currentUserActiveKey = Config.currentUser.activeKey else {
-            completion(nil, NSError(domain: "Unauthorized".localized(), code: 401, userInfo: nil))
-            return
+    static func unreg(witnessArgs:          EOSTransaction.UnregwitnessArgs,
+                      responseResult:       @escaping (ChainResponse<TransactionCommitted>) -> Void,
+                      responseError:        @escaping (Error) -> Void) {
+        guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else {
+            return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
         }
-        
+
         let unregwithessTransaction = EOSTransaction.init(chainApi: EOSManager.chainApi)
         
-        let unregwithessTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name: currentUserNickName),
+        let unregwithessTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor:         AccountNameWriterValue(name: userNickName),
                                                                                   permission:    AccountNameWriterValue(name: "active"))
         
         let unregwithessArgsData = DataWriterValue(hex: witnessArgs.toHex())
@@ -681,15 +706,15 @@ class EOSManager {
                                               data:            unregwithessArgsData)
         
         do {
-            let privateKey = try EOSPrivateKey.init(base58: currentUserActiveKey)
+            let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
             
             if let response = try unregwithessTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [unregwithessActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                 if response.success {
-                    completion(response, nil)
+                    responseResult(response)
                 }
             }
         } catch {
-            completion(nil, error)
+            responseError(error)
         }
     }
     
