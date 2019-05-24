@@ -317,7 +317,7 @@ class EOSManager {
     static func message(voteActionType:     VoteActionType,
                         author:             String,
                         permlink:           String,
-                        weight:             UInt16,
+                        weight:             Int16,
                         responseResult:     @escaping (ChainResponse<TransactionCommitted>) -> Void,
                         responseError:      @escaping (Error) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else {

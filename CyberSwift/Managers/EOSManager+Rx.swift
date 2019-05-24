@@ -54,14 +54,14 @@ extension Reactive where Base: EOSManager {
 //
 //    }
     
-    static func vote(voteType: VoteActionType, author: String, permlink: String, weight: UInt16) -> Completable {
+    static func vote(voteType: VoteActionType, author: String, permlink: String, weight: Int16) -> Completable {
         guard let userNickName = Config.currentUser.nickName, let _ = Config.currentUser.activeKey else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
         
         // Prepare data
         let voteArgs: Encodable = (voteType == .unvote) ?
-            EOSTransaction.UnvoteArgs.init(voterValue: userNickName,
+            EOSTransaction.UnvoteArgs.init(voterValue:          userNickName,
                                            authorValue:         author,
                                            permlinkValue:       permlink)
             :

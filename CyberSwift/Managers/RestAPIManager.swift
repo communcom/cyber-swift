@@ -826,7 +826,7 @@ public class RestAPIManager {
     public func message(voteActionType:     VoteActionType,
                         author:             String,
                         permlink:           String,
-                        weight:             UInt16 = 0,
+                        weight:             Int16 = 0,
                         responseHandling:   @escaping (ChainResponse<TransactionCommitted>) -> Void,
                         errorHandling:      @escaping (ErrorAPI) -> Void) {
         // Offline mode

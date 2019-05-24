@@ -176,11 +176,11 @@ public class EOSTransaction: ChainTransaction {
         // MARK: - Properties
         let voter: NameWriterValue
         let message_id: Mssgid
-        let weight: UInt16
+        let weight: Int16
         
         
         // MARK: - Initialization
-        init(voterValue: String, authorValue: String, permlinkValue: String, weightValue: UInt16) {
+        init(voterValue: String, authorValue: String, permlinkValue: String, weightValue: Int16) {
             self.voter      =   NameWriterValue(name: voterValue)
             self.message_id =   Mssgid(authorValue: authorValue, permlinkValue: permlinkValue)
             self.weight     =   weightValue
