@@ -461,7 +461,7 @@ public struct ResponseAPIContentGetCommentContentId: Decodable {
     // MARK: - In work API `content.getComments`
     public let userId: String
     public let permlink: String
-    public let refBlockNum: UInt64
+    public let refBlockNum: UInt64?
 }
 
 
@@ -502,7 +502,7 @@ public struct ResponseAPIContentGetCommentParentCommentContentId: Decodable {
     // MARK: - In work API `content.getComments`
     public let userId: String
     public let permlink: String
-    public let refBlockNum: UInt64
+    public let refBlockNum: UInt64?
 }
 
 
@@ -785,7 +785,7 @@ public struct ResponseAPIOnlineNotificationDataPost: Decodable {
 public struct ResponseAPIOnlineNotificationDataPostContentId: Decodable {
     public let userId: String
     public let permlink: String
-    public let refBlockNum: UInt64
+    public let refBlockNum: UInt64?
 }
 
 
@@ -800,7 +800,7 @@ public struct ResponseAPIOnlineNotificationDataComment: Decodable {
 public struct ResponseAPIOnlineNotificationDataCommentContentId: Decodable {
     public let userId: String
     public let permlink: String
-    public let refBlockNum: Int64
+    public let refBlockNum: Int64?
 }
 
 public struct ResponseAPIOnlineNotificationDataValue: Decodable {
