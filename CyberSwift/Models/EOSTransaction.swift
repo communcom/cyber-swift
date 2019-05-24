@@ -182,9 +182,8 @@ public class EOSTransaction: ChainTransaction {
         // MARK: - Initialization
         init(voterValue: String, authorValue: String, permlinkValue: String, weightValue: UInt16) {
             self.voter      =   NameWriterValue(name: voterValue)
-            
-            self.weight     =   weightValue
             self.message_id =   Mssgid(authorValue: authorValue, permlinkValue: permlinkValue)
+            self.weight     =   weightValue
         }
     }
     
