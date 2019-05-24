@@ -36,10 +36,14 @@ public class EOSTransaction: ChainTransaction {
     public struct ReblogArgs: Encodable {
         let rebloger: NameWriterValue
         let message_id: Mssgid
-        
-        init(authorValue: String = "", permlinkValue: String = "", reblogerValue: String) {
+        let headermssg: String
+        let bodymssg: String
+
+        init(authorValue: String = "", permlinkValue: String = "", reblogerValue: String, headermssgValue: String, bodymssgValue: String) {
             self.rebloger   =   NameWriterValue(name: reblogerValue)
             self.message_id =   Mssgid(authorValue: authorValue, permlinkValue: permlinkValue)
+            self.headermssg =   headermssgValue
+            self.bodymssg   =   bodymssgValue
         }
     }
     

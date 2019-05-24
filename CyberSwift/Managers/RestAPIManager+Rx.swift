@@ -78,13 +78,17 @@ extension Reactive where Base: RestAPIManager {
     public func reblog(author:              String,
                        rebloger:            String,
                        permlink:            String,
+                       headermssg:          String,
+                       bodymssg:            String,
                        refBlockNum:         UInt64) -> Single<ChainResponse<TransactionCommitted>> {
         // Offline mode
         if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
         let reblogArgs = EOSTransaction.ReblogArgs(authorValue:         author,
                                                    permlinkValue:       permlink,
-                                                   reblogerValue:       rebloger)
+                                                   reblogerValue:       rebloger,
+                                                   headermssgValue:     headermssg,
+                                                   bodymssgValue:       bodymssg)
         
         return EOSManager.rx.reblog(args: reblogArgs)
     }

@@ -924,12 +924,18 @@ public class RestAPIManager {
     public func reblogMessage(author:               String,
                               rebloger:             String,
                               permlink:             String,
+                              headermssg:           String,
+                              bodymssg:             String,
                               responseHandling:     @escaping (ChainResponse<TransactionCommitted>) -> Void,
                               errorHandling:        @escaping (ErrorAPI) -> Void) {
         // Offline mode
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
-        let reblogArgs = EOSTransaction.ReblogArgs(authorValue: author, permlinkValue: permlink, reblogerValue: rebloger)
+        let reblogArgs = EOSTransaction.ReblogArgs(authorValue:         author,
+                                                   permlinkValue:       permlink,
+                                                   reblogerValue:       rebloger,
+                                                   headermssgValue:     headermssg,
+                                                   bodymssgValue:       bodymssg)
         
         EOSManager.message(reblogArgs:              reblogArgs,
                            responseResult:          { response in
