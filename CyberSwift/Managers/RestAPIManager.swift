@@ -185,12 +185,11 @@ public class RestAPIManager {
     // API `content.getPost`
     public func loadPost(userID:        String = Config.currentUser.nickName ?? "Cyber",
                          permlink:      String,
-                         refBlockNum:   UInt64,
                          completion:    @escaping (ResponseAPIContentGetPost?, ErrorAPI?) -> Void) {
         // Offline mode
         if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
         
-        let methodAPIType = MethodAPIType.getPost(userID: userID, permlink: permlink, refBlockNum: refBlockNum)
+        let methodAPIType = MethodAPIType.getPost(userID: userID, permlink: permlink)
         
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                              onResult:          { (responseAPIResult) in

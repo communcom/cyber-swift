@@ -86,7 +86,7 @@ public indirect enum MethodAPIType {
     case getFeed(typeMode: FeedTypeMode, userID: String?, communityID: String?, timeFrameMode: FeedTimeFrameMode, sortMode: FeedSortMode, paginationSequenceKey: String?)
     
     //  Getting selected post
-    case getPost(userID: String, permlink: String, refBlockNum: UInt64)
+    case getPost(userID: String, permlink: String)
     
     //  Getting user comments feed
     case getUserComments(nickName: String, sortMode: CommentSortMode, paginationSequenceKey: String?)
@@ -185,11 +185,11 @@ public indirect enum MethodAPIType {
                      parameters:        parameters)
             
         //  Template { "id": 3, "jsonrpc": "2.0", "method": "content.getPost", "params": { "userId": "tst2nbduouxh", "permlink": "hephaestusfightswithantigoneagainststyx", "refBlockNum": 381607 }}
-        case .getPost(let userNickNameValue, let permlinkValue, let refBlockNumValue):
+        case .getPost(let userNickNameValue, let permlinkValue):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getPost",
-                     parameters:        ["userId": userNickNameValue, "permlink": permlinkValue, "refBlockNum": "_\(refBlockNumValue)_"])
+                     parameters:        ["userId": userNickNameValue, "permlink": permlinkValue])
             
         //  Template { "id": 4, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "user", "userId": "tst2nbduouxh", "sortBy": "time", "limit": 20 }}
         case .getUserComments(let userNickNameValue, let sortModeValue, let paginationSequenceKeyValue):
