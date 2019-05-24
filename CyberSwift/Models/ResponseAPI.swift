@@ -144,10 +144,10 @@ public struct ResponseAPIContentGetProfileSubscriber: Decodable {
 // MARK: -
 public struct ResponseAPIContentGetProfileContact: Decodable {
     // MARK: - In work API `content.getProfile`
-    public let facebook: String
-    public let telegram: String
-    public let whatsApp: String
-    public let weChat: String
+    public let facebook: String?
+    public let telegram: String?
+    public let whatsApp: String?
+    public let weChat: String?
 }
 
 
@@ -769,7 +769,7 @@ public struct ResponseAPIOnlineNotificationDataComunity: Decodable {
 
 // MARK: -
 public struct ResponseAPIOnlineNotificationDataActor: Decodable {
-    public let id: String
+    public let id: String?
     public let avatarUrl: String?
 }
 
