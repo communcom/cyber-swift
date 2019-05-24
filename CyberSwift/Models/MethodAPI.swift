@@ -92,7 +92,7 @@ public indirect enum MethodAPIType {
     case getUserComments(nickName: String, sortMode: CommentSortMode, paginationSequenceKey: String?)
     
     //  Getting post comments feed
-    case getPostComments(userNickName: String, permlink: String, refBlockNum: UInt64, sortMode: CommentSortMode, paginationSequenceKey: String?)
+    case getPostComments(userNickName: String, permlink: String, sortMode: CommentSortMode, paginationSequenceKey: String?)
     
     //  Log in
     case authorize(nickName: String, activeKey: String)
@@ -205,8 +205,8 @@ public indirect enum MethodAPIType {
                      parameters:        parameters)
             
         //  Template { "id": 5, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "post", "userId": "tst1xrhojmka", "sortBy": "time", "permlink":  "demeterfightswithandromedaagainstepimetheus", "refBlockNum": "520095", "limit": 20 }}
-        case .getPostComments(let userNickNameValue, let permlinkValue, let refBlockNumValue, let sortModeValue, let paginationSequenceKeyValue):
-            var parameters: [String: String] = ["type": "post", "userId": userNickNameValue, "permlink": permlinkValue, "refBlockNum": "_\(refBlockNumValue)_", "sortBy": sortModeValue.rawValue, "limit": "\(Config.paginationLimit)"]
+        case .getPostComments(let userNickNameValue, let permlinkValue, let sortModeValue, let paginationSequenceKeyValue):
+            var parameters: [String: String] = ["type": "post", "userId": userNickNameValue, "permlink": permlinkValue, "sortBy": sortModeValue.rawValue, "limit": "\(Config.paginationLimit)"]
             
             if let paginationSequenceKeyValue = paginationSequenceKeyValue {
                 parameters["sequenceKey"] = paginationSequenceKeyValue

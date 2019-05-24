@@ -239,7 +239,6 @@ public class RestAPIManager {
     // API `content.getComments` by post
     public func loadPostComments(nickName:                  String = Config.currentUser.nickName ?? "Cyber",
                                  permlink:                  String,
-                                 refBlockNum:               UInt64,
                                  sortMode:                  CommentSortMode = .time,
                                  paginationLimit:           Int8 = Config.paginationLimit,
                                  paginationSequenceKey:     String? = nil,
@@ -249,7 +248,6 @@ public class RestAPIManager {
         
         let methodAPIType = MethodAPIType.getPostComments(userNickName:             nickName,
                                                           permlink:                 permlink,
-                                                          refBlockNum:              refBlockNum,
                                                           sortMode:                 sortMode,
                                                           paginationSequenceKey:    paginationSequenceKey)
         
