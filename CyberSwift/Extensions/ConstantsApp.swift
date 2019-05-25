@@ -71,10 +71,7 @@ public struct Config {
             }
         }
     }
-    
-    public static var currentVoter                      =   (nickName: Config.testUserAccount.nickName, activeKey: Config.testUserAccount.activeKey)
-    public static var currentAuthor                     =   (nickName: Config.testUserAccount.nickName, activeKey: Config.testUserAccount.activeKey)
-    
+        
     // Accounts test values
     public static let accountNickDestroyer2k: String    =   "destroyer2k"
     public static let activeKeyDestroyer2k: String      =   "5JagnCwCrB2sWZw6zCvaBw51ifoQuNaKNsDovuGz96wU3tUw7hJ"
@@ -94,7 +91,6 @@ public struct Config {
     
     // testnet: http://116.203.39.126:7777/get_users
     public static let testUserAccount                   =   (
-                                                                id: 0,
                                                                 nickName:       "tst2vteffdjg",
                                                                 alias:          "zieme-clarabelle-dvm",
                                                                 ownerKey:       "5KjkQMk2LxL6hqofx9hgh4AQGkDHBxiapfx1gi4yjbFNc6e2T7V",
@@ -102,6 +98,13 @@ public struct Config {
                                                                 postingKey:     "5J4DHWmqF2ZQ5gqcjMX1bvqQ8kNEreRYZokfzAyCeDjLsD2TLiM"
                                                             )
 
+    public static let testUserAccount2                  =   (
+                                                                nickName:       "tst1kfzmmlqi",
+                                                                alias:          "lemke-grady-v",
+                                                                ownerKey:       "5J17gV8Sij2yZgWxLCX5us7x9r3sEPmSipPp4fEQdx8FKe7YvjM",
+                                                                activeKey:      "5JUzKBRhhsHBApah3N3JEs6b3skRGyTSvbCUkCsWa5C8yyksbxv",
+                                                                postingKey:     "5JWNf17VWYhchFcRtGdXMLgZeRtYSS72U2ZsLLnLj6MDjdqdEAU"
+                                                            )
     
     
     /// Check network connection
