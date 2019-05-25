@@ -225,8 +225,8 @@ public struct ResponseAPIContentGetPostContentEmbed: Decodable {
     // MARK: - In work API `content.getFeed`
     public let _id: String
     public let id: String?
-    public let type: String
-    public let result: ResponseAPIContentGetPostContentEmbedResult
+    public let type: String?
+    public let result: ResponseAPIContentGetPostContentEmbedResult?
 }
 
 
@@ -307,7 +307,7 @@ public struct ResponseAPIContentGetPostStatsWilson: Decodable {
 // MARK: -
 public struct ResponseAPIContentGetPostPayout: Decodable {
     // MARK: - In work API `content.getFeed`
-    public let rShares: Conflicted
+    public let rShares: Conflicted?
 }
 
 
@@ -452,7 +452,7 @@ public struct ResponseAPIContentGetCommentVotes: Decodable {
 // MARK: -
 public struct ResponseAPIContentGetCommentPayout: Decodable {
     // MARK: - In work API `content.getComments`
-    public let rShares: UInt64
+    public let rShares: UInt64?
 }
 
 
