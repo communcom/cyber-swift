@@ -869,7 +869,7 @@ public struct ResponseAPIGetOptionsResult: Decodable {
 
 // MARK: -
 public struct ResponseAPIGetOptions: Decodable {
-    public let basic: ResponseAPIGetOptionsBasic
+    public let basic: ResponseAPIGetOptionsBasic?
     public let notify: ResponseAPIGetOptionsNotify
     public let push: ResponseAPIGetOptionsNotifyPush
 }
@@ -877,8 +877,8 @@ public struct ResponseAPIGetOptions: Decodable {
 
 // MARK: -
 public struct ResponseAPIGetOptionsBasic: Decodable {
-    public let language: String
-    public let nsfwContent: String
+    public let language: String?
+    public let nsfwContent: String?
 }
 
 
