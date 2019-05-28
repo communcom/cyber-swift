@@ -44,4 +44,10 @@ extension String {
         
         return dateFormatter.date(from: self)!
     }
+    
+    public static func permlinkWith(string: String) -> String {
+        return (string + "-" + Date().convert(toStringFormat: .expirationDateType)).lowercased()
+            .replacingOccurrences(of: " ", with: "-")
+            .replacingOccurrences(of: ":", with: "-")
+    }
 }
