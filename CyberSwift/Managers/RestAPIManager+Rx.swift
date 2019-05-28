@@ -52,7 +52,7 @@ extension Reactive where Base: RestAPIManager {
         return EOSManager.rx.create(messageCreateArgs: messageCreateArgs)
     }
     
-    public func deleteMessage(author: String, permlink: String, refBlockNum: UInt64) -> Completable {
+    public func deleteMessage(author: String, permlink: String) -> Completable {
         // Offline mode
         if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
@@ -63,8 +63,7 @@ extension Reactive where Base: RestAPIManager {
     public func updateMessage(author:       String?,
                               permlink:     String,
                               message:      String,
-                              parentData:   ParentData?,
-                              refBlockNum:  UInt64) -> Single<ChainResponse<TransactionCommitted>> {
+                              parentData:   ParentData?) -> Single<ChainResponse<TransactionCommitted>> {
         // Offline mode
         if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
@@ -79,8 +78,7 @@ extension Reactive where Base: RestAPIManager {
                        rebloger:            String,
                        permlink:            String,
                        headermssg:          String,
-                       bodymssg:            String,
-                       refBlockNum:         UInt64) -> Single<ChainResponse<TransactionCommitted>> {
+                       bodymssg:            String) -> Single<ChainResponse<TransactionCommitted>> {
         // Offline mode
         if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
