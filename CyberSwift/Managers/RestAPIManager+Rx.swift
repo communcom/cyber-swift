@@ -29,7 +29,7 @@ extension Reactive where Base: RestAPIManager {
     
     public func create(message:             String,
                        headline:            String? = nil,
-                       parentData:          ParentData? = nil,
+                       parentPermlink:      String? = nil,
                        tags:                [String]?,
                        metaData:            String?) -> Single<ChainResponse<TransactionCommitted>> {
         // Offline mode
@@ -43,7 +43,7 @@ extension Reactive where Base: RestAPIManager {
         
         let messageCreateArgs = EOSTransaction.MessageCreateArgs(
             authorValue:        userNickName,
-            parentDataValue:    parentData,
+            parentPermlink:     parentPermlink,
             headermssgValue:    headline ?? String(format: "Test Post Title %i", arc4random_uniform(100)),
             bodymssgValue:      message,
             tagsValues:         arrayTags,
@@ -63,13 +63,13 @@ extension Reactive where Base: RestAPIManager {
     public func updateMessage(author:       String?,
                               permlink:     String,
                               message:      String,
-                              parentData:   ParentData?) -> Single<ChainResponse<TransactionCommitted>> {
+                              parentPermlink:   String?) -> Single<ChainResponse<TransactionCommitted>> {
         // Offline mode
         if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
         let messageUpdateArgs = EOSTransaction.MessageUpdateArgs(authorValue:           author ?? Config.currentUser.nickName ?? "Cyberway",
                                                                  messagePermlink:       permlink,
-                                                                 parentDataValue:       parentData,
+                                                                 parentPermlink:        parentPermlink,
                                                                  bodymssgValue:         message)
         return EOSManager.rx.update(messageArgs: messageUpdateArgs)
     }

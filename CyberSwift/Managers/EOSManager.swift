@@ -164,7 +164,7 @@ class EOSManager {
     //  https://github.com/GolosChain/golos.contracts/blob/develop/golos.publication/golos.publication.abi
     static func create(message:         String,
                        headline:        String = "",
-                       parentData:      ParentData? = nil,
+                       parentPermlink:  String? = nil,
                        tags:            [EOSTransaction.Tags],
                        jsonMetaData:    String?,
                        responseResult:  @escaping (ChainResponse<TransactionCommitted>) -> Void,
@@ -180,7 +180,7 @@ class EOSManager {
                                                                              permission:    AccountNameWriterValue(name:    "active"))
         
         let messageCreateArgs = EOSTransaction.MessageCreateArgs(authorValue:               userNickName,
-                                                                 parentDataValue:           parentData,
+                                                                 parentPermlink:            parentPermlink,
                                                                  headermssgValue:           headline,
                                                                  bodymssgValue:             message,
                                                                  tagsValues:                tags,

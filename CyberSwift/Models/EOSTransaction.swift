@@ -14,7 +14,6 @@ import Foundation
 
 public typealias Byte = UInt8
 public typealias BaseT = Int64
-public typealias ParentData = (refBlockNum: UInt64, permlink: String)
 
 public class EOSTransaction: ChainTransaction {
     // MARK: - Properties
@@ -74,16 +73,16 @@ public class EOSTransaction: ChainTransaction {
         
         
         // MARK: - Initialization
-        init(authorValue: String, parentDataValue: ParentData? = nil, beneficiariesValues: [Beneficiary?] = [], tokenpropValue: Int16 = 0, vestpaymentValue: UInt64 = 1, headermssgValue: String = "test", bodymssgValue: String = "test", languagemssgValue: String = "ru", tagsValues: [Tags]? = [Tags()], jsonmetadataValue: String? = "") {
-            let prefixTitle         =   parentDataValue == nil ? headermssgValue : "Comment"
+        init(authorValue: String, parentPermlink: String? = nil, beneficiariesValues: [Beneficiary?] = [], tokenpropValue: Int16 = 0, vestpaymentValue: UInt64 = 1, headermssgValue: String = "test", bodymssgValue: String = "test", languagemssgValue: String = "ru", tagsValues: [Tags]? = [Tags()], jsonmetadataValue: String? = "") {
+            let prefixTitle         =   parentPermlink == nil ? headermssgValue : "Comment"
             let messagePermlink     =   (prefixTitle + "-" + Date().convert(toStringFormat: .expirationDateType)).lowercased()
                                             .replacingOccurrences(of: " ", with: "-")
                                             .replacingOccurrences(of: ":", with: "-")
             
             self.message_id         =   Mssgid(authorValue: authorValue, permlinkValue: messagePermlink)
 
-            self.parent_id          =   parentDataValue == nil ? Mssgid() : Mssgid(authorValue:     authorValue,
-                                                                                   permlinkValue:   parentDataValue == nil ? messagePermlink : parentDataValue!.permlink)
+            self.parent_id          =   parentPermlink == nil ? Mssgid() : Mssgid(authorValue:     authorValue,
+                                                                                   permlinkValue:   parentPermlink == nil ? messagePermlink : parentPermlink!)
             
             self.beneficiaries      =   beneficiariesValues
             self.tokenprop          =   tokenpropValue
@@ -123,7 +122,7 @@ public class EOSTransaction: ChainTransaction {
         
         
         // MARK: - Initialization
-        init(authorValue: String = Config.testUserAccount.nickName, messagePermlink: String, parentDataValue: ParentData? = nil, headermssgValue: String = "test", bodymssgValue: String = "test", languagemssgValue: String = "ru", tagsValues: [Tags] = [Tags()], jsonmetadataValue: String = "") {
+        init(authorValue: String = Config.testUserAccount.nickName, messagePermlink: String, parentPermlink: String? = nil, headermssgValue: String = "test", bodymssgValue: String = "test", languagemssgValue: String = "ru", tagsValues: [Tags] = [Tags()], jsonmetadataValue: String = "") {
             self.message_id     =   Mssgid(authorValue: authorValue, permlinkValue: messagePermlink)
             self.headermssg     =   headermssgValue
             self.bodymssg       =   bodymssgValue

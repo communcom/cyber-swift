@@ -846,7 +846,7 @@ public class RestAPIManager {
     /// Action `createmssg`
     public func create(message:             String,
                        headline:            String? = "",
-                       parentData:          ParentData? = nil,
+                       parentPermlink:      String? = nil,
                        tags:                [String]?,
                        metaData:            String?,
                        responseHandling:    @escaping (ChainResponse<TransactionCommitted>) -> Void,
@@ -874,7 +874,7 @@ public class RestAPIManager {
     public func updateMessage(author:               String?,
                               permlink:             String,
                               message:              String,
-                              parentData:           ParentData?,
+                              parentPermlink:       String?,
                               responseHandling:     @escaping (ChainResponse<TransactionCommitted>) -> Void,
                               errorHandling:        @escaping (ErrorAPI) -> Void) {
         // Offline mode
@@ -882,7 +882,7 @@ public class RestAPIManager {
         
         let messageUpdateArgs = EOSTransaction.MessageUpdateArgs(authorValue:           author ?? Config.currentUser.nickName ?? "Cyberway",
                                                                  messagePermlink:       permlink,
-                                                                 parentDataValue:       parentData,
+                                                                 parentPermlink:       parentPermlink,
                                                                  bodymssgValue:         message)
         
         EOSManager.update(messageArgs:      messageUpdateArgs,
