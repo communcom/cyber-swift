@@ -1029,5 +1029,5 @@ public struct ResponseAPIAddFavoritesResult: Decodable {
 
 // MARK: -
 public struct ResponseAPIAddFavorites: Decodable {
-//    public let list: [String?]
+    public let status: String
 }
