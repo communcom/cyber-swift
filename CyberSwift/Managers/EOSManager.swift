@@ -612,6 +612,9 @@ class EOSManager {
             if let response = try regwithessTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [regwithessActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                 if response.success {
                     responseResult(response)
+                } else {
+                    Logger.log(message: "\nAction `regwitness` response error: \n\(response.errorBody!)\n", event: .error)
+                    throw ErrorAPI.requestFailed(message: response.errorBody!)
                 }
             }
         } catch {
@@ -645,6 +648,9 @@ class EOSManager {
             if let response = try votewithessTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [votewithessActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                 if response.success {
                     responseResult(response)
+                } else {
+                    Logger.log(message: "\nAction `votewitness` response error: \n\(response.errorBody!)\n", event: .error)
+                    throw ErrorAPI.requestFailed(message: response.errorBody!)
                 }
             }
         } catch {
@@ -678,6 +684,9 @@ class EOSManager {
             if let response = try unvotewithessTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [unvotewithessActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                 if response.success {
                     responseResult(response)
+                } else {
+                    Logger.log(message: "\nAction `unvotewitn` response error: \n\(response.errorBody!)\n", event: .error)
+                    throw ErrorAPI.requestFailed(message: response.errorBody!)
                 }
             }
         } catch {
@@ -711,6 +720,9 @@ class EOSManager {
             if let response = try unregwithessTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [unregwithessActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                 if response.success {
                     responseResult(response)
+                } else {
+                    Logger.log(message: "\nAction `unregwitness` response error: \n\(response.errorBody!)\n", event: .error)
+                    throw ErrorAPI.requestFailed(message: response.errorBody!)
                 }
             }
         } catch {
