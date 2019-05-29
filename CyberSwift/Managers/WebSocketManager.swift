@@ -203,7 +203,7 @@ public class WebSocketManager {
             case .recordPostView(_):
                 return (responseAPI: try JSONDecoder().decode(ResponseAPIMetaRecordPostViewResult.self, from: jsonData), errorAPI: nil)
 
-            case .getFavorites(_):
+            case .getFavorites:
                 return (responseAPI: try JSONDecoder().decode(ResponseAPIGetFavoritesResult.self, from: jsonData), errorAPI: nil)
 
                 

@@ -134,8 +134,8 @@ public indirect enum MethodAPIType {
     //  Record the fact of viewing the post
     case recordPostView(permlink: String)
 
-    //  Get selected user posts
-    case getFavorites(nickName: String)
+    //  Get current auth user posts
+    case getFavorites
 
     
     /// REGISTRATION-SERVICE
@@ -328,11 +328,11 @@ public indirect enum MethodAPIType {
                      parameters:        ["postLink": permlink, "fingerPrint": Config.currentDeviceType])
             
         //  Template { "id": 16, "jsonrpc": "2.0", "method": "favorites.get", "params": { "user": <userNickName> }}
-        case .getFavorites(let nickName):
+        case .getFavorites:
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.favorites.rawValue,
                      methodName:        "get",
-                     parameters:        ["user": nickName])
+                     parameters:        ["user": Config.currentUser.nickName!])
             
 
         /// REGISTRATION-SERVICE

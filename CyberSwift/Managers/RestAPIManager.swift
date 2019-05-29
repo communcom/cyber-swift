@@ -552,7 +552,7 @@ public class RestAPIManager {
         // Check user authorize
         guard Config.currentUser.nickName != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
         
-        let methodAPIType = MethodAPIType.getFavorites(nickName: nickName)
+        let methodAPIType = MethodAPIType.getFavorites
         
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                              onResult:          { responseAPIResult in
