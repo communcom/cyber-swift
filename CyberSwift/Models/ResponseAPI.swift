@@ -1002,5 +1002,6 @@ public struct ResponseAPIGetFavoritesResult: Decodable {
 
 // MARK: -
 public struct ResponseAPIGetFavorites: Decodable {
-    public let status: String
+    #warning("Add `list` structure")
+    public let list: [String?]
 }
