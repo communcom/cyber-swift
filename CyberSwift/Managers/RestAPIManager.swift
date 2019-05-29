@@ -599,6 +599,35 @@ public class RestAPIManager {
         })
     }
 
+    // API `favorites.remove`
+    public func removeFavorites(permlink:          String,
+                                responseHandling:  @escaping (ResponseAPIRemoveFavorites) -> Void,
+                                errorHandling:     @escaping (ErrorAPI) -> Void) {
+        // Offline mode
+        if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        // Check user authorize
+        guard Config.currentUser.nickName != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
+        
+        let methodAPIType = MethodAPIType.removeFavorites(permlink: permlink)
+        
+        Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                             onResult:          { responseAPIResult in
+                                                guard let result = (responseAPIResult as! ResponseAPIRemoveFavoritesResult).result else {
+                                                    let responseAPIError = (responseAPIResult as! ResponseAPIRemoveFavoritesResult).error
+                                                    Logger.log(message: "\nAPI `favorites.remove` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
+                                                    return errorHandling(ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
+                                                }
+                                                
+                                                Logger.log(message: "\nAPI `favorites.remove` response result: \n\(responseAPIResult)\n", event: .debug)
+                                                responseHandling(result)
+        },
+                                             onError:           { errorAPI in
+                                                Logger.log(message: "\nAPI `favorites.remove` response error: \n\(errorAPI.caseInfo.message)\n", event: .error)
+                                                errorHandling(errorAPI)
+        })
+    }
+
 
     // MARK: - REGISTRATION-SERVICE
     // API `registration.getState`

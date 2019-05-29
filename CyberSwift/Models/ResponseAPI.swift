@@ -1031,3 +1031,18 @@ public struct ResponseAPIAddFavoritesResult: Decodable {
 public struct ResponseAPIAddFavorites: Decodable {
     public let status: String
 }
+
+
+// MARK: -
+public struct ResponseAPIRemoveFavoritesResult: Decodable {
+    public let jsonrpc: String
+    public let id: UInt16
+    public let result: ResponseAPIRemoveFavorites?
+    public let error: ResponseAPIError?
+}
+
+
+// MARK: -
+public struct ResponseAPIRemoveFavorites: Decodable {
+    public let status: String
+}

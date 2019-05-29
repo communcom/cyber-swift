@@ -139,7 +139,10 @@ public indirect enum MethodAPIType {
 
     //  Add post to favorites
     case addFavorites(permlink: String)
-    
+
+    //  Remove post from favorites
+    case removeFavorites(permlink: String)
+
 
     /// REGISTRATION-SERVICE
     //  Get current registration status for user
@@ -342,6 +345,13 @@ public indirect enum MethodAPIType {
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.favorites.rawValue,
                      methodName:        "add",
+                     parameters:        ["permlink": permlink])
+
+        //  Template { "id": 18, "jsonrpc": "2.0", "method": "favorites.remove", "params": { "permlink": <selectedPostPermlink> }}
+        case .removeFavorites(let permlink):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.favorites.rawValue,
+                     methodName:        "remove",
                      parameters:        ["permlink": permlink])
 
 
