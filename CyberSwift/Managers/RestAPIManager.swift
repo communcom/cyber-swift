@@ -275,12 +275,14 @@ public class RestAPIManager {
         let methodAPIType = MethodAPIType.waitForTransaction(id: id)
         
         Broadcast.instance.executeGETRequest(byContentAPIType: methodAPIType, onResult: { (responseAPIResult) in
-            guard let result = (responseAPIResult as! ResponseAPIContentWaitForTransactionResult).status,
-                result == "OK"
+            guard let result = (responseAPIResult as! ResponseAPIContentWaitForTransactionResult).result,
+                result.status == "OK"
             else {
-                let responseAPIError = (responseAPIResult as! ResponseAPIContentWaitForTransactionResult).error
-                Logger.log(message: "\nAPI `content.waitForTransaction` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
-                return completion(ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
+                if let responseAPIError = (responseAPIResult as! ResponseAPIContentWaitForTransactionResult).error {
+                    Logger.log(message: "\nAPI `content.waitForTransaction` response mapping error: \n\(responseAPIError.message)\n", event: .error)
+                    return completion(ErrorAPI.jsonParsingFailure(message: "\(responseAPIError.message)"))
+                }
+                return completion(ErrorAPI.requestFailed(message: "Unknown error"))
             }
             
             Logger.log(message: "\nAPI `content.waitForTransaction` response result: \n\(result)\n", event: .debug)

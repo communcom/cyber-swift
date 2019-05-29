@@ -356,10 +356,15 @@ public struct ResponseAPIContentGetPostResult: Decodable {
 // MARK: -
 public struct ResponseAPIContentWaitForTransactionResult: Decodable {
     // MARK: - In work API `content.waitForTransaction`
-    public let status: String?
+    public let id: Int64
+    public let jsonrpc: String
+    public let result: ResponseAPIContentWaitForTransaction?
     public let error: ResponseAPIError?
 }
 
+public struct ResponseAPIContentWaitForTransaction: Decodable {
+    public let status: String
+}
 
 // MARK: -
 public struct ResponseAPIContentGetCommentsResult: Decodable {
