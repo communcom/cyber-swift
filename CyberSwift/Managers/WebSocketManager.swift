@@ -206,6 +206,9 @@ public class WebSocketManager {
             case .getFavorites:
                 return (responseAPI: try JSONDecoder().decode(ResponseAPIGetFavoritesResult.self, from: jsonData), errorAPI: nil)
 
+            case .addFavorites(_):
+                return (responseAPI: try JSONDecoder().decode(ResponseAPIAddFavoritesResult.self, from: jsonData), errorAPI: nil)
+
                 
             // REGISTRATION-SERVICE
             case .getState(_):

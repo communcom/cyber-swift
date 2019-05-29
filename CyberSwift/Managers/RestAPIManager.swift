@@ -543,8 +543,7 @@ public class RestAPIManager {
     }
     
     // API `favorites.get`
-    public func getFavorites(nickName:          String,
-                             responseHandling:  @escaping (ResponseAPIGetFavorites) -> Void,
+    public func getFavorites(responseHandling:  @escaping (ResponseAPIGetFavorites) -> Void,
                              errorHandling:     @escaping (ErrorAPI) -> Void) {
         // Offline mode
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
@@ -557,7 +556,7 @@ public class RestAPIManager {
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                              onResult:          { responseAPIResult in
                                                 guard let result = (responseAPIResult as! ResponseAPIGetFavoritesResult).result else {
-                                                    let responseAPIError = (responseAPIResult as! ResponseAPIMetaRecordPostViewResult).error
+                                                    let responseAPIError = (responseAPIResult as! ResponseAPIGetFavoritesResult).error
                                                     Logger.log(message: "\nAPI `favorites.get` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
                                                     return errorHandling(ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
                                                 }
@@ -565,12 +564,41 @@ public class RestAPIManager {
                                                 Logger.log(message: "\nAPI `favorites.get` response result: \n\(responseAPIResult)\n", event: .debug)
                                                 responseHandling(result)
         },
-                                             onError:           { (errorAPI) in
+                                             onError:           { errorAPI in
                                                 Logger.log(message: "\nAPI `favorites.get` response error: \n\(errorAPI.caseInfo.message)\n", event: .error)
                                                 errorHandling(errorAPI)
         })
     }
-    
+
+    // API `favorites.add`
+    public func addFavorites(permlink:          String,
+                             responseHandling:  @escaping (ResponseAPIAddFavorites) -> Void,
+                             errorHandling:     @escaping (ErrorAPI) -> Void) {
+        // Offline mode
+        if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        // Check user authorize
+        guard Config.currentUser.nickName != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
+        
+        let methodAPIType = MethodAPIType.addFavorites(permlink: permlink)
+        
+        Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                             onResult:          { responseAPIResult in
+                                                guard let result = (responseAPIResult as! ResponseAPIAddFavoritesResult).result else {
+                                                    let responseAPIError = (responseAPIResult as! ResponseAPIAddFavoritesResult).error
+                                                    Logger.log(message: "\nAPI `favorites.add` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
+                                                    return errorHandling(ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
+                                                }
+                                                
+                                                Logger.log(message: "\nAPI `favorites.add` response result: \n\(responseAPIResult)\n", event: .debug)
+                                                responseHandling(result)
+        },
+                                             onError:           { errorAPI in
+                                                Logger.log(message: "\nAPI `favorites.add` response error: \n\(errorAPI.caseInfo.message)\n", event: .error)
+                                                errorHandling(errorAPI)
+        })
+    }
+
 
     // MARK: - REGISTRATION-SERVICE
     // API `registration.getState`

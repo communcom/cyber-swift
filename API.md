@@ -56,6 +56,10 @@
 * 29.05.2019:
 - create API
 
+### API 'favorites.add'
+* 29.05.2019:
+- create API
+
 
 ## Registration-Service
 [Documentation](https://github.com/GolosChain/registration-service/tree/develop)

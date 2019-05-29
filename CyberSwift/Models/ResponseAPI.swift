@@ -1014,6 +1014,20 @@ public struct ResponseAPIGetFavoritesResult: Decodable {
 
 // MARK: -
 public struct ResponseAPIGetFavorites: Decodable {
-    #warning("Add `list` structure")
     public let list: [String?]
+}
+
+
+// MARK: -
+public struct ResponseAPIAddFavoritesResult: Decodable {
+    public let jsonrpc: String
+    public let id: UInt16
+    public let result: ResponseAPIAddFavorites?
+    public let error: ResponseAPIError?
+}
+
+
+// MARK: -
+public struct ResponseAPIAddFavorites: Decodable {
+//    public let list: [String?]
 }
