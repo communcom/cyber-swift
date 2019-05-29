@@ -88,6 +88,9 @@ public indirect enum MethodAPIType {
     //  Getting selected post
     case getPost(userID: String, permlink: String)
     
+    //  Waiting for transaction
+    case waitForTransaction(id: String)
+    
     //  Getting user comments feed
     case getUserComments(nickName: String, sortMode: CommentSortMode, paginationSequenceKey: String?)
     
@@ -193,6 +196,13 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getPost",
                      parameters:        ["userId": userNickNameValue, "permlink": permlinkValue])
+            
+        //  Template { "id": 1, "jsonrpc": "2.0", "method": "content.waitForTransaction", "params": { "transactionId": "OdklASkljlAQafdlkjEoljmasdfkD" } }
+        case .waitForTransaction(let id):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.content.rawValue,
+                     methodName:        "waitForTransaction",
+                     parameters:        ["transactionId": id])
             
         //  Template { "id": 4, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "user", "userId": "tst2nbduouxh", "sortBy": "time", "limit": 20 }}
         case .getUserComments(let userNickNameValue, let sortModeValue, let paginationSequenceKeyValue):

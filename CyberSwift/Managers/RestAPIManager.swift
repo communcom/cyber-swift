@@ -268,6 +268,30 @@ public class RestAPIManager {
         })
     }
     
+    // API `content.waitForTransaction`
+    public func waitForTransactionWith(id: String, completion: @escaping (ErrorAPI?) -> Void) {
+        // Offline mode
+        if (!Config.isNetworkAvailable) { return completion(ErrorAPI.disableInternetConnection(message: nil)) }
+        let methodAPIType = MethodAPIType.waitForTransaction(id: id)
+        
+        Broadcast.instance.executeGETRequest(byContentAPIType: methodAPIType, onResult: { (responseAPIResult) in
+            guard let result = (responseAPIResult as! ResponseAPIContentWaitForTransactionResult).status,
+                result == "OK"
+            else {
+                let responseAPIError = (responseAPIResult as! ResponseAPIContentWaitForTransactionResult).error
+                Logger.log(message: "\nAPI `content.waitForTransaction` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
+                return completion(ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
+            }
+            
+            Logger.log(message: "\nAPI `content.waitForTransaction` response result: \n\(result)\n", event: .debug)
+            return completion(nil)
+            
+        }, onError: {error in
+            Logger.log(message: "\nAPI `content.waitForTransaction` response error: \n\(error)\n", event: .error)
+            return completion(error)
+        })
+    }
+    
     // API `push.historyFresh`
     public func getPushHistoryFresh(nickName:       String = Config.currentUser.nickName ?? "Cyberway",
                                     completion:     @escaping (ResponseAPIPushHistoryFresh?, ErrorAPI?) -> Void) {

@@ -161,6 +161,9 @@ public class WebSocketManager {
             case .getPost(_):
                 return (responseAPI: try JSONDecoder().decode(ResponseAPIContentGetPostResult.self, from: jsonData), errorAPI: nil)
                 
+            case .waitForTransaction(id: _):
+                return (responseAPI: try JSONDecoder().decode(ResponseAPIContentWaitForTransactionResult.self, from: jsonData), errorAPI: nil)
+                
             case .getUserComments(_), .getPostComments(_):
                 return (responseAPI: try JSONDecoder().decode(ResponseAPIContentGetCommentsResult.self, from: jsonData), errorAPI: nil)
                 

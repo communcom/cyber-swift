@@ -353,6 +353,13 @@ public struct ResponseAPIContentGetPostResult: Decodable {
     public let error: ResponseAPIError?
 }
 
+// MARK: -
+public struct ResponseAPIContentWaitForTransactionResult: Decodable {
+    // MARK: - In work API `content.waitForTransaction`
+    public let status: String?
+    public let error: ResponseAPIError?
+}
+
 
 // MARK: -
 public struct ResponseAPIContentGetCommentsResult: Decodable {
