@@ -200,6 +200,9 @@ public class WebSocketManager {
             case .recordPostView(_):
                 return (responseAPI: try JSONDecoder().decode(ResponseAPIMetaRecordPostViewResult.self, from: jsonData), errorAPI: nil)
 
+            case .getFavorites(_):
+                return (responseAPI: try JSONDecoder().decode(ResponseAPIGetFavoritesResult.self, from: jsonData), errorAPI: nil)
+
                 
             // REGISTRATION-SERVICE
             case .getState(_):

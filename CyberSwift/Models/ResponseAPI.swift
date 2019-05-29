@@ -989,3 +989,18 @@ public struct ResponseAPIMetaRecordPostViewResult: Decodable {
 public struct ResponseAPIMetaRecordPostView: Decodable {
     public let status: String
 }
+
+
+// MARK: -
+public struct ResponseAPIGetFavoritesResult: Decodable {
+    public let jsonrpc: String
+    public let id: UInt16
+    public let result: ResponseAPIGetFavorites?
+    public let error: ResponseAPIError?
+}
+
+
+// MARK: -
+public struct ResponseAPIGetFavorites: Decodable {
+    public let status: String
+}
