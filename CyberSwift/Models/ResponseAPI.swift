@@ -789,7 +789,7 @@ public struct ResponseAPIOnlineNotificationDataActor: Decodable {
 // MARK: -
 public struct ResponseAPIOnlineNotificationDataPost: Decodable {
     public let contentId: ResponseAPIOnlineNotificationDataPostContentId
-    public let title: String
+    public let title: String?
 }
 
 
