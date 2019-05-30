@@ -164,6 +164,8 @@ extension Reactive where Base: EOSManager {
     }
     
     static func update(userProfileMetaArgs: EOSTransaction.GolosUserProfileUpdatemetaArgs) -> Single<ChainResponse<TransactionCommitted>> {
+        Logger.log(message: "\nuserProfileMetaArgs: \n\(userProfileMetaArgs.convertToJSON())\n", event: .debug)
+        
         // Prepare data
         let userProfileUpdatemetaArgsData = DataWriterValue(hex: userProfileMetaArgs.toHex())
         
