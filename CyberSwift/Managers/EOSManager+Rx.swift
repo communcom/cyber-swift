@@ -14,7 +14,9 @@ extension EOSManager: ReactiveCompatible {}
 
 enum TransactionAccountType: String {
     case glsPublish = "gls.publish"
+    case glsVesting = "gls.vesting"
     case glsSocial = "gls.social"
+    case glsCtrl = "gls.ctrl"
 }
 
 extension Reactive where Base: EOSManager {
@@ -92,7 +94,7 @@ extension Reactive where Base: EOSManager {
     }
     
     static func create(messageCreateArgs: EOSTransaction.MessageCreateArgs) -> Single<ChainResponse<TransactionCommitted>> {
-        // Prepare arguments
+        // Prepare data
         Logger.log(message: messageCreateArgs.convertToJSON(), event: .debug)
         let messageCreateArgsData = DataWriterValue(hex: messageCreateArgs.toHex())
         
@@ -102,7 +104,7 @@ extension Reactive where Base: EOSManager {
     
     
     static func delete(messageArgs: EOSTransaction.MessageDeleteArgs) -> Completable {
-        // Prepare arguments
+        // Prepare data
         let messageDeleteArgsData = DataWriterValue(hex: messageArgs.toHex())
         
         
@@ -112,7 +114,7 @@ extension Reactive where Base: EOSManager {
     }
     
     static func update(messageArgs: EOSTransaction.MessageUpdateArgs) -> Single<ChainResponse<TransactionCommitted>> {
-        // Prepare arguments
+        // Prepare data
         let messageUpdateArgsData = DataWriterValue(hex: messageArgs.toHex())
         
         // Send transaction
@@ -120,7 +122,7 @@ extension Reactive where Base: EOSManager {
     }
     
     static func updateUserProfile(changereputArgs: EOSTransaction.UserProfileChangereputArgs) -> Single<ChainResponse<TransactionCommitted>> {
-        // Prepare arguments
+        // Prepare data
         let changereputArgsData = DataWriterValue(hex: changereputArgs.toHex())
         
         // Send transaction
@@ -128,16 +130,25 @@ extension Reactive where Base: EOSManager {
     }
     
     static func reblog(args: EOSTransaction.ReblogArgs) -> Single<ChainResponse<TransactionCommitted>> {
-        // Prepare arguments
+        // Prepare data
         let reblogArgsData = DataWriterValue(hex: args.toHex())
         
         // Send transaction
         return pushAuthorized(account: .glsPublish, name: "reblog", data: reblogArgsData)
     }
     
+    // MARK: - Contract `gls.vesting`
+    static func publish(transferArgs: EOSTransaction.TransferArgs) -> Single<ChainResponse<TransactionCommitted>> {
+        // Prepare data
+        let transferArgsData = DataWriterValue(hex: transferArgs.toHex())
+        
+        // Send transaction
+        return pushAuthorized(account: .glsVesting, name: "transfer", data: transferArgsData)
+    }
+    
     // MARK: - Contract `gls.social`
     static func updateUserProfile(pinArgs: EOSTransaction.UserProfilePinArgs, isUnpin: Bool) -> Single<ChainResponse<TransactionCommitted>> {
-        // Prepare arguments
+        // Prepare data
         let pinArgsData = DataWriterValue(hex: pinArgs.toHex())
         
         // Send transaction
@@ -145,7 +156,7 @@ extension Reactive where Base: EOSManager {
     }
     
     static func updateUserProfile(blockArgs: EOSTransaction.UserProfileBlockArgs, isUnblock: Bool) -> Single<ChainResponse<TransactionCommitted>> {
-        // Prepare arguments
+        // Prepare data
         let blockArgsData = DataWriterValue(hex: blockArgs.toHex())
         
         // Send transaction
@@ -153,7 +164,7 @@ extension Reactive where Base: EOSManager {
     }
     
     static func update(userProfileMetaArgs: EOSTransaction.UserProfileUpdatemetaArgs) -> Single<ChainResponse<TransactionCommitted>> {
-        // Prepare arguments
+        // Prepare data
         let userProfileUpdatemetaArgsData = DataWriterValue(hex: userProfileMetaArgs.toHex())
         
         // Send transaction
@@ -161,10 +172,43 @@ extension Reactive where Base: EOSManager {
     }
     
     static func delete(userProfileMetaArgs: EOSTransaction.UserProfileDeleteArgs) -> Single<ChainResponse<TransactionCommitted>> {
-        // Prepare arguments
+        // Prepare data
         let userProfileDeletemetaArgsData = DataWriterValue(hex: userProfileMetaArgs.toHex())
         
         // Send transaction
         return pushAuthorized(account: .glsSocial, name: "deletemeta", data: userProfileDeletemetaArgsData)
+    }
+    
+    // MARK: - Contract `gls.ctrl`
+    static func reg(witnessArgs: EOSTransaction.RegwitnessArgs) -> Single<ChainResponse<TransactionCommitted>> {
+        // Prepare data
+        let regwithessArgsData = DataWriterValue(hex: witnessArgs.toHex())
+        
+        // Send transaction
+        return pushAuthorized(account: .glsCtrl, name: "regwitness", data: regwithessArgsData)
+    }
+    
+    static func vote(witnessArgs: EOSTransaction.VotewitnessArgs) -> Single<ChainResponse<TransactionCommitted>> {
+        // Prepare data
+        let votewithessArgsData = DataWriterValue(hex: witnessArgs.toHex())
+        
+        // Send transaction
+        return pushAuthorized(account: .glsCtrl, name: "votewitness", data: votewithessArgsData)
+    }
+    
+    static func unvote(witnessArgs: EOSTransaction.UnvotewitnessArgs) -> Single<ChainResponse<TransactionCommitted>> {
+        // Prepare data
+        let unvotewithessArgsData = DataWriterValue(hex: witnessArgs.toHex())
+        
+        // Send transaction
+        return pushAuthorized(account: .glsCtrl, name: "unvotewitn", data: unvotewithessArgsData)
+    }
+    
+    static func unreg(witnessArgs: EOSTransaction.UnregwitnessArgs) -> Single<ChainResponse<TransactionCommitted>> {
+        // Prepare data
+        let unregwithessArgsData = DataWriterValue(hex: witnessArgs.toHex())
+        
+        // Send transaction
+        return pushAuthorized(account: .glsCtrl, name: "unregwitness", data: unregwithessArgsData)
     }
 }

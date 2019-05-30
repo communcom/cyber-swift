@@ -162,6 +162,7 @@ class EOSManager {
     
     /// Action `createmssg`
     //  https://github.com/GolosChain/golos.contracts/blob/develop/golos.publication/golos.publication.abi
+    @available(*, deprecated, message: "Use alternative rx method instead")
     static func create(message:         String,
                        headline:        String = "",
                        parentPermlink:  String? = nil,
@@ -213,6 +214,7 @@ class EOSManager {
 
 
     /// Action `deletemssg`
+    @available(*, deprecated, message: "Use alternative rx method instead")
     static func delete(messageArgs:     EOSTransaction.MessageDeleteArgs,
                        responseResult:  @escaping (ChainResponse<TransactionCommitted>) -> Void,
                        responseError:   @escaping (Error) -> Void) {
@@ -248,6 +250,7 @@ class EOSManager {
     }
     
     /// Action `updatemssg`
+    @available(*, deprecated, message: "Use alternative rx method instead")
     static func update(messageArgs:     EOSTransaction.MessageUpdateArgs,
                        responseResult:  @escaping (ChainResponse<TransactionCommitted>) -> Void,
                        responseError:   @escaping (Error) -> Void) {
@@ -281,6 +284,7 @@ class EOSManager {
     }
     
     /// Action `changereput`
+    @available(*, deprecated, message: "Use alternative rx method instead")
     static func updateUserProfile(changereputArgs:  EOSTransaction.UserProfileChangereputArgs,
                                   responseResult:   @escaping (ChainResponse<TransactionCommitted>) -> Void,
                                   responseError:    @escaping (Error) -> Void) {
@@ -314,6 +318,7 @@ class EOSManager {
     }
 
     /// Actions `upvote`, `downvote`, `unvote`
+    @available(*, deprecated, message: "Use alternative rx method instead")
     static func message(voteActionType:     VoteActionType,
                         author:             String,
                         permlink:           String,
@@ -375,6 +380,7 @@ class EOSManager {
     }
 
     /// Action `reblog`
+    @available(*, deprecated, message: "Use alternative rx method instead")
     static func message(reblogArgs:     EOSTransaction.ReblogArgs,
                        responseResult:  @escaping (ChainResponse<TransactionCommitted>) -> Void,
                        responseError:   @escaping (ErrorAPI) -> Void) {
@@ -411,6 +417,7 @@ class EOSManager {
     
     //  MARK: - Contract `gls.vesting`
     /// Action `transfer`
+    @available(*, deprecated, message: "Use alternative rx method instead")
     static func publish(transferArgs:       EOSTransaction.TransferArgs,
                         responseResult:     @escaping (ChainResponse<TransactionCommitted>) -> Void,
                         responseError:      @escaping (Error) -> Void) {
@@ -446,6 +453,7 @@ class EOSManager {
     
     //  MARK: - Contract `gls.social`
     /// Actions `pin`, `unpin`
+    @available(*, deprecated, message: "Use alternative rx method instead")
     static func updateUserProfile(pinArgs:          EOSTransaction.UserProfilePinArgs,
                                   isUnpin:          Bool,
                                   responseResult:   @escaping (ChainResponse<TransactionCommitted>) -> Void,
@@ -480,6 +488,7 @@ class EOSManager {
     }
     
     /// Actions `block`, `unblock`
+    @available(*, deprecated, message: "Use alternative rx method instead")
     static func updateUserProfile(blockArgs:        EOSTransaction.UserProfileBlockArgs,
                                   isUnblock:        Bool,
                                   responseResult:   @escaping (ChainResponse<TransactionCommitted>) -> Void,
@@ -514,6 +523,7 @@ class EOSManager {
     }
     
     /// Action `updatemeta`
+    @available(*, deprecated, message: "Use alternative rx method instead")
     static func update(userProfileMetaArgs:     EOSTransaction.UserProfileUpdatemetaArgs,
                        responseResult:          @escaping (ChainResponse<TransactionCommitted>) -> Void,
                        responseError:           @escaping (Error) -> Void) {
@@ -550,6 +560,7 @@ class EOSManager {
     }
     
     // Action `deletemeta`
+    @available(*, deprecated, message: "Use alternative rx method instead")
     static func delete(userProfileMetaArgs:     EOSTransaction.UserProfileDeleteArgs,
                        responseResult:          @escaping (ChainResponse<TransactionCommitted>) -> Void,
                        responseError:           @escaping (Error) -> Void) {
@@ -587,6 +598,7 @@ class EOSManager {
     
     //  MARK: - Contract `gls.ctrl`
     /// Action `regwitness` (1)
+    @available(*, deprecated, message: "Use alternative rx method instead")
     static func reg(witnessArgs:        EOSTransaction.RegwitnessArgs,
                     responseResult:     @escaping (ChainResponse<TransactionCommitted>) -> Void,
                     responseError:      @escaping (Error) -> Void) {
@@ -623,6 +635,7 @@ class EOSManager {
     }
 
     // Action `votewitness` (2)
+    @available(*, deprecated, message: "Use alternative rx method instead")
     static func vote(witnessArgs:       EOSTransaction.VotewitnessArgs,
                      responseResult:    @escaping (ChainResponse<TransactionCommitted>) -> Void,
                      responseError:     @escaping (Error) -> Void) {
@@ -659,6 +672,7 @@ class EOSManager {
     }
 
     // Action `unvotewitn` (3)
+    @available(*, deprecated, message: "Use alternative rx method instead")
     static func unvote(witnessArgs:         EOSTransaction.UnvotewitnessArgs,
                        responseResult:      @escaping (ChainResponse<TransactionCommitted>) -> Void,
                        responseError:       @escaping (Error) -> Void) {
@@ -695,6 +709,7 @@ class EOSManager {
     }
     
     // Action `unregwitness` (4)
+    @available(*, deprecated, message: "Use alternative rx method instead")
     static func unreg(witnessArgs:          EOSTransaction.UnregwitnessArgs,
                       responseResult:       @escaping (ChainResponse<TransactionCommitted>) -> Void,
                       responseError:        @escaping (Error) -> Void) {
