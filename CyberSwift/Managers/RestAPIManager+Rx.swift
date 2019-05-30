@@ -90,4 +90,22 @@ extension Reactive where Base: RestAPIManager {
         
         return EOSManager.rx.reblog(args: reblogArgs)
     }
+    
+    // MARK: - Contract `gls.social`
+    public func update(userProfile: [String: String]) -> Single<ChainResponse<TransactionCommitted>> {
+        // Offline mode
+        guard Config.isNetworkAvailable else { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        // Check user authorize
+        guard let nickName = Config.currentUser.nickName, let _ = Config.currentUser.activeKey else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        }
+        
+        let userProfileAccountmetaArgs = EOSTransaction.UserProfileAccountmetaArgs(json: userProfile)
+        
+        let userProfileMetaArgs = EOSTransaction.UserProfileUpdatemetaArgs(accountValue:    nickName,
+                                                                           metaValue:       userProfileAccountmetaArgs)
+        
+        return EOSManager.rx.update(userProfileMetaArgs: userProfileMetaArgs)
+    }
 }
