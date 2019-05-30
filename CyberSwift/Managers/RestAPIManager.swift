@@ -850,7 +850,7 @@ public class RestAPIManager {
         // Offline mode
         guard Config.isNetworkAvailable else { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
-        guard let resizedImage = image.resize(to: 1.5) else { return errorHandling(ErrorAPI.invalidData(message: "Invalid Data")) }
+        guard let resizedImage = image.resize(to: 2) else { return errorHandling(ErrorAPI.invalidData(message: "Invalid Data")) }
         
         guard let imageData = resizedImage.jpegData(compressionQuality: 1.0) ?? resizedImage.pngData() else { return errorHandling(ErrorAPI.invalidData(message: "Invalid Data")) }
 
