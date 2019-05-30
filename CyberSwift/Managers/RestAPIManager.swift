@@ -850,8 +850,10 @@ public class RestAPIManager {
         // Offline mode
         guard Config.isNetworkAvailable else { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
-        guard let imageData = image.jpegData(compressionQuality: 1.0) else { return errorHandling(ErrorAPI.invalidData(message: "Invalid Data")) }
+        guard let resizedImage = image.resize(to: 1.5) else { return errorHandling(ErrorAPI.invalidData(message: "Invalid Data")) }
         
+        guard let imageData = resizedImage.jpegData(compressionQuality: 1.0) ?? resizedImage.pngData() else { return errorHandling(ErrorAPI.invalidData(message: "Invalid Data")) }
+
         let session             =   URLSession(configuration: .default)
         let requestURL          =   URL(string: Config.imageHost)!
         
@@ -891,11 +893,11 @@ public class RestAPIManager {
                     Logger.log(message: "\nAPI `posting image` response result: \n\(imageURL)\n", event: .debug)
                     responseHandling(imageURL)
                 } else {
-                    Logger.log(message: "\nAPI `registration.toBlockChain` response error: \n\"JSON Parsing Failure\"\n", event: .error)
+                    Logger.log(message: "\nAPI `posting image` response error: \n\"JSON Parsing Failure\"\n", event: .error)
                     errorHandling(ErrorAPI.jsonParsingFailure(message: "JSON Parsing Failure"))
                 }
             } catch {
-                Logger.log(message: "\nAPI `registration.toBlockChain` response error: \n\"JSON Conversion Failure\"\n", event: .error)
+                Logger.log(message: "\nAPI `posting image` response error: \n\"JSON Conversion Failure\"\n", event: .error)
                 errorHandling(ErrorAPI.jsonConversionFailure(message: "JSON Conversion Failure"))
             }
         })

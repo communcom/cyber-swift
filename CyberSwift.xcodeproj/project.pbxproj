@@ -47,6 +47,7 @@
 		B1EA02D02289626D00835244 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EA02CF2289626D00835244 /* UIColor+Extensions.swift */; };
 		B1EA02F62289D3B400835244 /* UITextField+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EA02F52289D3B400835244 /* UITextField+Extensions.swift */; };
 		B1EA0319228A985400835244 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EA0318228A985400835244 /* UIView+Extensions.swift */; };
+		B1F7B44A229FB5A4005492DD /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F7B449229FB5A4005492DD /* UIImage+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -97,6 +98,7 @@
 		B1EA02CF2289626D00835244 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		B1EA02F52289D3B400835244 /* UITextField+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+Extensions.swift"; sourceTree = "<group>"; };
 		B1EA0318228A985400835244 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
+		B1F7B449229FB5A4005492DD /* UIImage+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		F6ED672114DF191DC66860EA /* Pods_CyberSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CyberSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -194,14 +196,15 @@
 				B179916D2269B3EA0014CB44 /* Data+Extensions.swift */,
 				B1C3F854223F98B1005711EF /* Date+Extensions.swift */,
 				B1C3F856223F98B1005711EF /* Encodable+Extensions.swift */,
+				3BBBE2992296A8A10029C9C9 /* RxSwift.swift */,
 				B17991712269B4280014CB44 /* String+Extensions.swift */,
 				B1EA02CC22895EB400835244 /* UIButton+Extensions.swift */,
 				B1EA02CF2289626D00835244 /* UIColor+Extensions.swift */,
 				B19A28D5226087EE001C9F43 /* UIDevice+Extensions.swift */,
+				B1F7B449229FB5A4005492DD /* UIImage+Extensions.swift */,
 				B1EA02CB22895EB300835244 /* UILabel+Extensions.swift */,
 				B1EA02F52289D3B400835244 /* UITextField+Extensions.swift */,
 				B1EA0318228A985400835244 /* UIView+Extensions.swift */,
-				3BBBE2992296A8A10029C9C9 /* RxSwift.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -346,6 +349,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B1F7B44A229FB5A4005492DD /* UIImage+Extensions.swift in Sources */,
 				B179917A2269B4560014CB44 /* Secp256k1.swift in Sources */,
 				B1C3F85F223F98DC005711EF /* ReachabilityManager.swift in Sources */,
 				B1C3F869223F9907005711EF /* ErrorAPI.swift in Sources */,
