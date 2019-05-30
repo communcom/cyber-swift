@@ -101,9 +101,9 @@ extension Reactive where Base: RestAPIManager {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
         
-        let userProfileAccountmetaArgs = EOSTransaction.UserProfileAccountmetaArgs(json: userProfile)
+        let userProfileAccountmetaArgs = EOSTransaction.GolosUserProfileAccountmetaArgs(json: userProfile)
         
-        let userProfileMetaArgs = EOSTransaction.UserProfileUpdatemetaArgs(accountValue:    nickName,
+        let userProfileMetaArgs = EOSTransaction.GolosUserProfileUpdatemetaArgs(accountValue:    nickName,
                                                                            metaValue:       userProfileAccountmetaArgs)
         
         return EOSManager.rx.update(userProfileMetaArgs: userProfileMetaArgs)

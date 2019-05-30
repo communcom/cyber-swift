@@ -163,7 +163,7 @@ extension Reactive where Base: EOSManager {
         return pushAuthorized(account: .glsSocial, name: isUnblock ? "unblock": "block", data: blockArgsData)
     }
     
-    static func update(userProfileMetaArgs: EOSTransaction.UserProfileUpdatemetaArgs) -> Single<ChainResponse<TransactionCommitted>> {
+    static func update(userProfileMetaArgs: EOSTransaction.GolosUserProfileUpdatemetaArgs) -> Single<ChainResponse<TransactionCommitted>> {
         // Prepare data
         let userProfileUpdatemetaArgsData = DataWriterValue(hex: userProfileMetaArgs.toHex())
         

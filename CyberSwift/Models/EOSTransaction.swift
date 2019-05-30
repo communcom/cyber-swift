@@ -265,7 +265,21 @@ public class EOSTransaction: ChainTransaction {
     }
     
     /// User profile: Updatemeta
-    public struct UserProfileAccountmetaArgs: Encodable {
+    public struct GolosUserProfileUpdatemetaArgs: Encodable {
+        // MARK: - Properties
+        let account: NameWriterValue
+        let meta: GolosUserProfileAccountmetaArgs
+        
+        
+        // MARK: - Initialization
+        init(accountValue: String, metaValue: GolosUserProfileAccountmetaArgs) {
+            self.account    =   NameWriterValue(name: accountValue)
+            self.meta       =   metaValue
+        }
+    }
+    
+    /// User profile: Updatemeta
+    public struct GolosUserProfileAccountmetaArgs: Encodable {
         // MARK: - Properties
         let type: String?
         let app: String?
@@ -334,20 +348,6 @@ public class EOSTransaction: ChainTransaction {
         }
     }
     
-    /// User profile: Updatemeta
-    public struct UserProfileUpdatemetaArgs: Encodable {
-        // MARK: - Properties
-        let account: NameWriterValue
-        let meta: UserProfileAccountmetaArgs
-        
-        
-        // MARK: - Initialization
-        init(accountValue: String, metaValue: UserProfileAccountmetaArgs) {
-            self.account    =   NameWriterValue(name: accountValue)
-            self.meta       =   metaValue
-        }
-    }
-    
     /// User profile: Deletemeta
     public struct UserProfileDeleteArgs: Encodable {
         // MARK: - Properties
@@ -360,7 +360,31 @@ public class EOSTransaction: ChainTransaction {
         }
     }
     
+    /// User profile: Updatemeta
+    public struct CyberUserProfileAccountmetaArgs: Encodable {
+        // MARK: - Properties
+        let avatar_url: String
+        let cover_url: String
+        let biography: String
+        let facebook: String
+        let telegram: String
+        let whatsapp: String
+        let wechat: String
+
+        
+        // MARK: - Initialization
+        init(json: [String: String]) {
+            self.avatar_url     =   json["avatar_url"] ?? ""
+            self.cover_url      =   json["cover_url"] ?? ""
+            self.biography      =   json["biography"] ?? ""
+            self.facebook       =   json["facebook"] ?? ""
+            self.telegram       =   json["telegram"] ?? ""
+            self.whatsapp       =   json["whatsapp"] ?? ""
+            self.wechat         =   json["wechat"] ?? "" 
+        }
+    }
     
+
     //  MARK: - Contract `gls.ctrl`
     /// Action `regwitness` (1)
     public struct RegwitnessArgs: Encodable {

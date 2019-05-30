@@ -524,7 +524,7 @@ class EOSManager {
     
     /// Action `updatemeta`
     @available(*, deprecated, message: "Use alternative rx method instead")
-    static func update(userProfileMetaArgs:     EOSTransaction.UserProfileUpdatemetaArgs,
+    static func update(userProfileMetaArgs:     Encodable,
                        responseResult:          @escaping (ChainResponse<TransactionCommitted>) -> Void,
                        responseError:           @escaping (Error) -> Void) {
         guard let userNickName = Config.currentUser.nickName, let userActiveKey = Config.currentUser.activeKey else {
@@ -552,6 +552,8 @@ class EOSManager {
             if let response = try userProfileUpdatemetaTransaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [userProfileUpdateActionAbi], authorizingPrivateKey: privateKey).asObservable().toBlocking().first() {
                 if response.success {
                     responseResult(response)
+                } else {
+                    throw ErrorAPI.requestFailed(message: response.errorBody!)
                 }
             }
         } catch {

@@ -126,13 +126,13 @@ public class RestAPIManager {
     }
     
     // API `content.getProfile`
-    public func getProfile(nickName:    String,
-                           type:        ProfileType = .cyber,
-                           completion:  @escaping (ResponseAPIContentGetProfile?, ErrorAPI?) -> Void) {
+    public func getProfile(nickName:        String,
+                           appProfileType:  AppProfileType = .cyber,
+                           completion:      @escaping (ResponseAPIContentGetProfile?, ErrorAPI?) -> Void) {
         // Offline mode
         if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
         
-        let methodAPIType = MethodAPIType.getProfile(nickName: nickName, type: type)
+        let methodAPIType = MethodAPIType.getProfile(nickName: nickName, appProfileType: appProfileType)
         
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                              onResult:          { (responseAPIResult) in
@@ -907,6 +907,7 @@ public class RestAPIManager {
     
     /// Action `updatemeta`
     public func update(userProfile:         [String: String],
+                       appProfileType:      AppProfileType = .cyber,
                        responseHandling:    @escaping (ChainResponse<TransactionCommitted>) -> Void,
                        errorHandling:       @escaping (Error) -> Void) {
         // Offline mode
@@ -915,10 +916,12 @@ public class RestAPIManager {
         // Check user authorize
         guard let nickName = Config.currentUser.nickName else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
         
-        let userProfileAccountmetaArgs = EOSTransaction.UserProfileAccountmetaArgs(json: userProfile)
+        let userProfileAccountmetaArgs: Encodable = appProfileType == .cyber ?  EOSTransaction.CyberUserProfileAccountmetaArgs(json: userProfile) :
+                                                                                EOSTransaction.GolosUserProfileAccountmetaArgs(json: userProfile)
         
-        let userProfileMetaArgs = EOSTransaction.UserProfileUpdatemetaArgs(accountValue:    nickName,
-                                                                           metaValue:       userProfileAccountmetaArgs)
+        let userProfileMetaArgs: Encodable = appProfileType == .cyber ? userProfileAccountmetaArgs :
+                                                                        EOSTransaction.GolosUserProfileUpdatemetaArgs(accountValue:    nickName,
+                                                                                                                       metaValue:       userProfileAccountmetaArgs as! EOSTransaction.GolosUserProfileAccountmetaArgs)
         
         EOSManager.update(userProfileMetaArgs:  userProfileMetaArgs,
                           responseResult:       { result in
