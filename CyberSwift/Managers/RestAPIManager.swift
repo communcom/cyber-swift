@@ -916,7 +916,7 @@ public class RestAPIManager {
         // Check user authorize
         guard let nickName = Config.currentUser.nickName else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
 
-        let userProfileAccountmetaArgs = EOSTransaction.GolosUserProfileAccountmetaArgs(json: userProfile)
+        let userProfileAccountmetaArgs = EOSTransaction.UserProfileAccountmetaArgs(json: userProfile)
         
         let userProfileMetaArgs = EOSTransaction.GolosUserProfileUpdatemetaArgs(accountValue:    nickName,
                                                                                 metaValue:       userProfileAccountmetaArgs)

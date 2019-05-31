@@ -268,18 +268,18 @@ public class EOSTransaction: ChainTransaction {
     public struct GolosUserProfileUpdatemetaArgs: Encodable {
         // MARK: - Properties
         let account: NameWriterValue
-        let meta: GolosUserProfileAccountmetaArgs
+        let meta: UserProfileAccountmetaArgs
         
         
         // MARK: - Initialization
-        init(accountValue: String, metaValue: GolosUserProfileAccountmetaArgs) {
+        init(accountValue: String, metaValue: UserProfileAccountmetaArgs) {
             self.account    =   NameWriterValue(name: accountValue)
             self.meta       =   metaValue
         }
     }
     
     /// User profile: Updatemeta
-    public struct GolosUserProfileAccountmetaArgs: Encodable {
+    public struct UserProfileAccountmetaArgs: Encodable {
         // MARK: - Properties
         let type: String?
         let app: String?
