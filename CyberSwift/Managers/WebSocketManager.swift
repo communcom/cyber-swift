@@ -151,7 +151,7 @@ public class WebSocketManager {
      */
     func decode(from jsonData: Data, byMethodAPIType methodAPIType: MethodAPIType) throws -> ResponseAPIType {
         do {
-            Logger.log(message: "jsonData = \n\t\(String(describing: try JSONSerialization.jsonObject(with: jsonData, options : .allowFragments) as? [String: AnyObject]))", event: .debug)
+//            Logger.log(message: "jsonData = \n\t\(String(describing: try JSONSerialization.jsonObject(with: jsonData, options : .allowFragments) as? [String: AnyObject]))", event: .debug)
             
             switch methodAPIType {
             // FACADE-SERVICE
@@ -273,7 +273,7 @@ extension WebSocketManager: WebSocketDelegate {
                         return requestMethodAPIStore.completion((responseAPI: nil, errorAPI: strongSelf.errorAPI))
                     }
                     
-                    Logger.log(message: "\nresponseAPIResult model:\n\t\(responseAPIResult)", event: .debug)
+//                    Logger.log(message: "\nresponseAPIResult model:\n\t\(responseAPIResult)", event: .debug)
                     
                     requestMethodAPIStore.completion((responseAPI: responseAPIResult, errorAPI: nil))
                 } catch {
