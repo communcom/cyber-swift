@@ -123,7 +123,7 @@ public class WebSocketManager {
      
      */
     private func validate(json: [String: Any], completion: @escaping (_ codeID: Int, _ hasError: Bool) -> Void) {
-        Logger.log(message: json.description, event: .debug)
+//        Logger.log(message: json.description, event: .debug)
         
         guard let id = json["id"] as? Int else {
             if let params = json["params"] as? Dictionary<String, String>, let paramsSecret = params["secret"] {
