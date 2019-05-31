@@ -915,13 +915,18 @@ public class RestAPIManager {
         
         // Check user authorize
         guard let nickName = Config.currentUser.nickName else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
+
+        let userProfileAccountmetaArgs = EOSTransaction.GolosUserProfileAccountmetaArgs(json: userProfile)
         
-        let userProfileAccountmetaArgs: Encodable = appProfileType == .cyber ?  EOSTransaction.CyberUserProfileAccountmetaArgs(json: userProfile) :
-                                                                                EOSTransaction.GolosUserProfileAccountmetaArgs(json: userProfile)
-        
-        let userProfileMetaArgs: Encodable = appProfileType == .cyber ? userProfileAccountmetaArgs :
-                                                                        EOSTransaction.GolosUserProfileUpdatemetaArgs(accountValue:    nickName,
-                                                                                                                       metaValue:       userProfileAccountmetaArgs as! EOSTransaction.GolosUserProfileAccountmetaArgs)
+        let userProfileMetaArgs = EOSTransaction.GolosUserProfileUpdatemetaArgs(accountValue:    nickName,
+                                                                                metaValue:       userProfileAccountmetaArgs)
+
+//        let userProfileAccountmetaArgs: Encodable = appProfileType == .cyber ?  EOSTransaction.CyberUserProfileAccountmetaArgs(json: userProfile) :
+//                                                                                EOSTransaction.GolosUserProfileAccountmetaArgs(json: userProfile)
+//
+//        let userProfileMetaArgs: Encodable = appProfileType == .cyber ? userProfileAccountmetaArgs :
+//                                                                        EOSTransaction.GolosUserProfileUpdatemetaArgs(accountValue:    nickName,
+//                                                                                                                       metaValue:       userProfileAccountmetaArgs as! EOSTransaction.GolosUserProfileAccountmetaArgs)
         
         EOSManager.update(userProfileMetaArgs:  userProfileMetaArgs,
                           responseResult:       { result in
