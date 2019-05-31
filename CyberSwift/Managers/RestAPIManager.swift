@@ -173,7 +173,6 @@ public class RestAPIManager {
                                                     return completion(nil, ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
                                                 }
                                                 
-                                                Logger.log(message: "\nAPI `content.getFeed` response result: \n\(responseAPIResult)\n", event: .debug)
                                                 completion(result, nil)
         },
                                              onError:           { (errorAPI) in
@@ -227,7 +226,6 @@ public class RestAPIManager {
                                                     return completion(nil, ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
                                                 }
                                                 
-                                                Logger.log(message: "\nAPI `content.getComments` by user response result: \n\(responseAPIResult)\n", event: .debug)
                                                 completion(result, nil)
         },
                                              onError:           { (errorAPI) in
@@ -259,7 +257,6 @@ public class RestAPIManager {
                                                     return completion(nil, ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
                                                 }
                                                 
-                                                Logger.log(message: "\nAPI `content.getComments` by post response result: \n\(responseAPIResult)\n", event: .debug)
                                                 completion(result, nil)
         },
                                              onError:           { (errorAPI) in
