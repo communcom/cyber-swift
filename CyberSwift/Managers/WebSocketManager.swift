@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import RxCocoa
 import Foundation
 import Starscream
 
@@ -15,7 +16,7 @@ var webSocket = WebSocket(url: URL(string: Config.gate_API_URL)!)
 public class WebSocketManager {
     // MARK: - Properties
     public static let instance = WebSocketManager()
-    public let completed = BehaviorSubject<Bool>(value: false)
+    public let authorized = BehaviorRelay<Bool>(value: false)
 
     private var errorAPI: ErrorAPI?
     
@@ -44,8 +45,7 @@ public class WebSocketManager {
         
         WebSocketManager.instance.completionIsConnected = {
             guard UserDefaults.standard.value(forKey: Config.isCurrentUserLoggedKey) != nil else {
-                self.completed.onNext(true)
-                self.completed.onCompleted()
+                self.authorized.accept(true)
                 return
             }
             
@@ -54,12 +54,11 @@ public class WebSocketManager {
                                                   userActiveKey:        Config.currentUser.activeKey!,
                                                   responseHandling:     { response in
                                                     Logger.log(message: "WebSocketManager API `auth.authorize` permission: \(response.permission)", event: .debug)
-                                                    self.completed.onNext(true)
-                                                    self.completed.onCompleted()
+                                                    self.authorized.accept(true)
                 },
                                                   errorHandling:        { errorAPI in
                                                     Logger.log(message: errorAPI.caseInfo.message.localized(), event: .error)
-                                                    self.completed.onError(errorAPI)
+                                                    self.authorized.accept(false)
                 })
                 
                 return
