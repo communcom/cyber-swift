@@ -27,14 +27,14 @@ class RxWebSocketDelegateProxy: DelegateProxy<WebSocket, WebSocketDelegate>, Del
         self.register {RxWebSocketDelegateProxy(webSocket: $0)}
     }
     
-    fileprivate lazy var connect = PublishSubject<Bool>()
+    fileprivate lazy var connect = BehaviorRelay<Bool>(value: false)
     func websocketDidConnect(socket: WebSocketClient) {
-        connect.onNext(true)
+        connect.accept(true)
         self.forwardToDelegate()?.websocketDidConnect(socket: socket)
     }
     
     func websocketDidDisconnect(socket: WebSocketClient, error: Error?) {
-        connect.onNext(false)
+        connect.accept(false)
         self.forwardToDelegate()?.websocketDidDisconnect(socket: socket, error: error)
     }
     
@@ -51,7 +51,6 @@ class RxWebSocketDelegateProxy: DelegateProxy<WebSocket, WebSocketDelegate>, Del
     }
     
     deinit {
-        connect.onCompleted()
         data.onCompleted()
         message.onCompleted()
     }
@@ -62,7 +61,7 @@ extension Reactive where Base: WebSocket {
         return RxWebSocketDelegateProxy.proxy(for: base)
     }
     
-    var connected: Observable<Bool> {
+    var connected: BehaviorRelay<Bool> {
         return (delegate as! RxWebSocketDelegateProxy).connect
     }
     
