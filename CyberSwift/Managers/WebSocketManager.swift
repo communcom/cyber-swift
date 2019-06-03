@@ -59,6 +59,7 @@ public class WebSocketManager {
                 },
                                                   errorHandling:        { errorAPI in
                                                     Logger.log(message: errorAPI.caseInfo.message.localized(), event: .error)
+                                                    self.completed.onError(errorAPI)
                 })
                 
                 return
