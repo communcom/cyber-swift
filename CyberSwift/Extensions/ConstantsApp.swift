@@ -99,11 +99,11 @@ public struct Config {
                                                             )
 
     public static let testUserAccount2                  =   (
-                                                                nickName:       "tst1kfzmmlqi",
-                                                                alias:          "lemke-grady-v",
-                                                                ownerKey:       "5J17gV8Sij2yZgWxLCX5us7x9r3sEPmSipPp4fEQdx8FKe7YvjM",
-                                                                activeKey:      "5JUzKBRhhsHBApah3N3JEs6b3skRGyTSvbCUkCsWa5C8yyksbxv",
-                                                                postingKey:     "5JWNf17VWYhchFcRtGdXMLgZeRtYSS72U2ZsLLnLj6MDjdqdEAU"
+                                                                nickName:       "tst1avlgsfzd",
+                                                                alias:          "brown-ozzie-sr",
+                                                                ownerKey:       "5JLfW6uf4AaECSDTGFUrX7B8LJKCgUhqLT6SaHfKc9XymUv24up",
+                                                                activeKey:      "5JBpmEhC5A2AGuyZAc8ifMFP762rRTVgUBBZkL3oWGRSAa24NSN",
+                                                                postingKey:     "5KDiGkLTb1oXhhbxay2ppFgmkqmUkVHNEZe4AUnZo1C2hZvAuci"
                                                             )
 
     public static let testUserAccount3                  =   (
