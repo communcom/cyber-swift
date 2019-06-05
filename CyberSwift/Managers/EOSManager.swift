@@ -546,6 +546,8 @@ class EOSManager {
                                                    authorization:   [userProfileUpdateTransactionAuthorizationAbi],
                                                    data:            userProfileUpdatemetaArgsData)
         
+        Logger.log(message: userProfileUpdateActionAbi.convertToJSON(), event: .debug)
+
         do {
             let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
             

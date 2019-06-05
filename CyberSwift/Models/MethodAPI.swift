@@ -81,7 +81,7 @@ public indirect enum MethodAPIType {
     /// FACADE-SERVICE
     //  Getting a user profile
     case getProfile(nickName: String, appProfileType: AppProfileType)
-    
+
     //  Getting tape posts
     case getFeed(typeMode: FeedTypeMode, userID: String?, communityID: String?, timeFrameMode: FeedTimeFrameMode, sortMode: FeedSortMode, paginationSequenceKey: String?)
     
@@ -174,7 +174,7 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getProfile",
                      parameters:        ["userId": nickNameValue, "app": appProfileType.rawValue])
-            
+
         //  Template { "id": 2, "jsonrpc": "2.0", "method": "content.getFeed", "params": { "type": "community", "timeframe": "day", "sortBy": "popular", "limit": 20, "userId": "tst3uuqzetwf", "communityId": "gls" }}
         case .getFeed(let typeModeValue, let userNickNameValue, let communityIDValue, let timeFrameModeValue, let sortModeValue, let paginationSequenceKeyValue):
             var parameters: [String: String] = ["type": typeModeValue.rawValue, "timeframe": timeFrameModeValue.rawValue, "sortBy": sortModeValue.rawValue, "limit": "\(Config.paginationLimit)"]

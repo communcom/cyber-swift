@@ -103,7 +103,7 @@ extension Reactive where Base: RestAPIManager {
         
         let userProfileAccountmetaArgs = EOSTransaction.UserProfileAccountmetaArgs(json: userProfile)
         
-        let userProfileMetaArgs = EOSTransaction.GolosUserProfileUpdatemetaArgs(accountValue:    nickName,
+        let userProfileMetaArgs = EOSTransaction.UserProfileUpdatemetaArgs(accountValue:    nickName,
                                                                            metaValue:       userProfileAccountmetaArgs)
         
         return EOSManager.rx.update(userProfileMetaArgs: userProfileMetaArgs)

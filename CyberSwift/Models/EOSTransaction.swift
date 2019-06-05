@@ -265,7 +265,7 @@ public class EOSTransaction: ChainTransaction {
     }
     
     /// User profile: Updatemeta
-    public struct GolosUserProfileUpdatemetaArgs: Encodable {
+    public struct UserProfileUpdatemetaArgs: Encodable {
         // MARK: - Properties
         let account: NameWriterValue
         let meta: UserProfileAccountmetaArgs
@@ -314,37 +314,37 @@ public class EOSTransaction: ChainTransaction {
         
         
         // MARK: - Initialization
-        init(json: [String: String]) {
-            self.type               =   json["type"]
-            self.app                =   json["app"]
-            self.email              =   json["email"]
-            self.phone              =   json["phone"]
-            self.facebook           =   json["facebook"]
-            self.instagram          =   json["instagram"]
-            self.telegram           =   json["telegram"]
-            self.vk                 =   json["vk"]
-            self.website            =   json["website"]
-            self.first_name         =   json["first_name"]
-            self.last_name          =   json["last_name"]
-            self.name               =   json["name"]
-            self.birth_date         =   json["birth_date"]
-            self.gender             =   json["gender"]
-            self.location           =   json["location"]
-            self.city               =   json["city"]
-            self.about              =   json["about"]
-            self.occupation         =   json["occupation"]
-            self.i_can              =   json["i_can"]
-            self.looking_for        =   json["looking_for"]
-            self.business_category  =   json["business_category"]
-            self.background_image   =   json["background_image"]
-            self.cover_image        =   json["cover_image"]
-            self.profile_image      =   json["profile_image"]
-            self.user_image         =   json["user_image"]
-            self.ico_address        =   json["ico_address"]
-            self.target_date        =   json["target_date"]
-            self.target_plan        =   json["target_plan"]
-            self.target_point_a     =   json["target_point_a"]
-            self.target_point_b     =   json["target_point_b"]
+        init(json: [String: String?]) {
+            self.type               =   json["type"] ?? nil
+            self.app                =   json["app"] ?? nil
+            self.email              =   json["email"] ?? nil
+            self.phone              =   json["phone"] ?? nil
+            self.facebook           =   json["facebook"] ?? nil
+            self.instagram          =   json["instagram"] ?? nil
+            self.telegram           =   json["telegram"] ?? nil
+            self.vk                 =   json["vk"] ?? nil
+            self.website            =   json["website"] ?? nil
+            self.first_name         =   json["first_name"] ?? nil
+            self.last_name          =   json["last_name"] ?? nil
+            self.name               =   json["name"] ?? nil
+            self.birth_date         =   json["birth_date"] ?? nil
+            self.gender             =   json["gender"] ?? nil
+            self.location           =   json["location"] ?? nil
+            self.city               =   json["city"] ?? nil
+            self.about              =   json["about"] ?? nil
+            self.occupation         =   json["occupation"] ?? nil
+            self.i_can              =   json["i_can"] ?? nil
+            self.looking_for        =   json["looking_for"] ?? nil
+            self.business_category  =   json["business_category"] ?? nil
+            self.background_image   =   json["background_image"] ?? nil
+            self.cover_image        =   json["cover_image"] ?? nil
+            self.profile_image      =   json["profile_image"] ?? nil
+            self.user_image         =   json["user_image"] ?? nil
+            self.ico_address        =   json["ico_address"] ?? nil
+            self.target_date        =   json["target_date"] ?? nil
+            self.target_plan        =   json["target_plan"] ?? nil
+            self.target_point_a     =   json["target_point_a"] ?? nil
+            self.target_point_b     =   json["target_point_b"] ?? nil
         }
     }
     
@@ -357,30 +357,6 @@ public class EOSTransaction: ChainTransaction {
         // MARK: - Initialization
         init(accountValue: String) {
             self.account    =   NameWriterValue(name: accountValue)
-        }
-    }
-    
-    /// User profile: Updatemeta
-    public struct CyberUserProfileAccountmetaArgs: Encodable {
-        // MARK: - Properties
-        let avatar_url: String
-        let cover_url: String
-        let biography: String
-        let facebook: String
-        let telegram: String
-        let whatsapp: String
-        let wechat: String
-
-        
-        // MARK: - Initialization
-        init(json: [String: String]) {
-            self.avatar_url     =   json["avatar_url"] ?? ""
-            self.cover_url      =   json["cover_url"] ?? ""
-            self.biography      =   json["biography"] ?? ""
-            self.facebook       =   json["facebook"] ?? ""
-            self.telegram       =   json["telegram"] ?? ""
-            self.whatsapp       =   json["whatsapp"] ?? ""
-            self.wechat         =   json["wechat"] ?? "" 
         }
     }
     

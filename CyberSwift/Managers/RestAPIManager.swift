@@ -150,7 +150,7 @@ public class RestAPIManager {
                                                 completion(nil, errorAPI)
         })
     }
-    
+
     // API `content.getFeed`
     public func loadFeed(typeMode:                  FeedTypeMode = .community,
                          userID:                    String? = nil,
@@ -850,7 +850,7 @@ public class RestAPIManager {
         guard let resizedImage = image.resize(to: 2) else { return errorHandling(ErrorAPI.invalidData(message: "Invalid Data")) }
         
         guard let imageData = resizedImage.jpegData(compressionQuality: 1.0) ?? resizedImage.pngData() else { return errorHandling(ErrorAPI.invalidData(message: "Invalid Data")) }
-
+        
         let session             =   URLSession(configuration: .default)
         let requestURL          =   URL(string: Config.imageHost)!
         
@@ -901,9 +901,9 @@ public class RestAPIManager {
         
         task.resume()
     }
-    
+
     /// Action `updatemeta`
-    public func update(userProfile:         [String: String],
+    public func update(userProfile:         [String: String?],
                        appProfileType:      AppProfileType = .cyber,
                        responseHandling:    @escaping (ChainResponse<TransactionCommitted>) -> Void,
                        errorHandling:       @escaping (Error) -> Void) {
@@ -912,18 +912,16 @@ public class RestAPIManager {
         
         // Check user authorize
         guard let nickName = Config.currentUser.nickName else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
-
+        
         let userProfileAccountmetaArgs = EOSTransaction.UserProfileAccountmetaArgs(json: userProfile)
         
-        let userProfileMetaArgs = EOSTransaction.GolosUserProfileUpdatemetaArgs(accountValue:    nickName,
-                                                                                metaValue:       userProfileAccountmetaArgs)
-
+        let userProfileMetaArgs = EOSTransaction.UserProfileUpdatemetaArgs(accountValue:    nickName,
+                                                                           metaValue:       userProfileAccountmetaArgs)
+        
 //        let userProfileAccountmetaArgs: Encodable = appProfileType == .cyber ?  EOSTransaction.CyberUserProfileAccountmetaArgs(json: userProfile) :
 //                                                                                EOSTransaction.GolosUserProfileAccountmetaArgs(json: userProfile)
 //
-//        let userProfileMetaArgs: Encodable = appProfileType == .cyber ? userProfileAccountmetaArgs :
-//                                                                        EOSTransaction.GolosUserProfileUpdatemetaArgs(accountValue:    nickName,
-//                                                                                                                       metaValue:       userProfileAccountmetaArgs as! EOSTransaction.GolosUserProfileAccountmetaArgs)
+//        let userProfileMetaArgs = EOSTransaction.CyberUserProfileAccountmetaArgs(json: userProfile)
         
         EOSManager.update(userProfileMetaArgs:  userProfileMetaArgs,
                           responseResult:       { result in
@@ -935,7 +933,7 @@ public class RestAPIManager {
                             errorHandling(errorAPI)
         })
     }
-    
+
     
     //  MARK: - Contract `gls.publish`
     /// Actions `upvote`, `downvote`, `unvote`
