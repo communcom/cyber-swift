@@ -91,21 +91,21 @@ public struct Config {
     
     // testnet: http://116.203.39.126:7777/get_users
     public static let testUserAccount                   =   (
-                                                                nickName:       "tst3ipyjvdfr",
-                                                                alias:          "west-ayden-iv",
-                                                                ownerKey:       "5K5tHvjEVqWAoybuVzU3RuDF7v2Ap5yMuiT15aN52FFuBK8Kd2m",
-                                                                activeKey:      "5HwSb7jA8z5dEKMpBp1cj5snA7nrQCGjKqakjDmWVYXMHMc3Dcc",
-                                                                postingKey:     "5JKmzB9pFMELrdfivKzPJMoMEosn8zRqiEUADzGJdUmq5HAar23"
+                                                                nickName:       "tst2swusuzeb",
+                                                                alias:          "swaniawski-kariane-md",
+                                                                ownerKey:       "5JVhQ4PyaoUpvfGXc7LpQcj3Yacc7xJvXAbNdXqu6aCkDUUVAh6",
+                                                                activeKey:      "5HzXZAEHnC1RJ9BdDzRhmAZYJcS4SPqv9uCvbTzuQjTqhSaNkPJ",
+                                                                postingKey:     "5Jqp2V6scSbXCvcbTh8SkjASjM2mjdkGSCsCvWTHn1EfWFveT5c"
                                                             )
     
     public static let testUserAccount2                  =   (
-                                                                nickName:       "tst1kfzmmlqi",
-                                                                alias:          "lemke-grady-v",
-                                                                ownerKey:       "5J17gV8Sij2yZgWxLCX5us7x9r3sEPmSipPp4fEQdx8FKe7YvjM",
-                                                                activeKey:      "5JUzKBRhhsHBApah3N3JEs6b3skRGyTSvbCUkCsWa5C8yyksbxv",
-                                                                postingKey:     "5JWNf17VWYhchFcRtGdXMLgZeRtYSS72U2ZsLLnLj6MDjdqdEAU"
+                                                                nickName:       "tst5vhhqbxno",
+                                                                alias:          "moen-walter-dvm",
+                                                                ownerKey:       "5Jc5Rxh4vNvpAzjuN5SMPQRHdkqNLCxFQq2czuved5KCiSMpBQg",
+                                                                activeKey:      "5KGJ4JEcH1KoN5eAXaGCnB8WFBxetkVifjJFvFMKqahQw9BdB8R",
+                                                                postingKey:     "5KFkDW7eJ8wKpToYrYLNGdhiAUM3bFrJg6VFEE1sBrt1TJpDBdh"
                                                             )
-    
+
     public static let testUserAccount3                  =   (
                                                                 nickName:       "tst5rheippil",
                                                                 alias:          "gutmann-juliet-sr",
