@@ -167,7 +167,7 @@ class EOSManager {
                        headline:        String = "",
                        parentPermlink:  String? = nil,
                        tags:            [EOSTransaction.Tags],
-                       jsonMetaData:    String?,
+                       jsonMetaData:    String,
                        responseResult:  @escaping (ChainResponse<TransactionCommitted>) -> Void,
                        responseError:   @escaping (ErrorAPI) -> Void) {
         // Check user authorize

@@ -31,7 +31,7 @@ extension Reactive where Base: RestAPIManager {
                        headline:            String? = nil,
                        parentPermlink:      String? = nil,
                        tags:                [String]?,
-                       metaData:            String?) -> Single<ChainResponse<TransactionCommitted>> {
+                       metaData:            String) -> Single<ChainResponse<TransactionCommitted>> {
         // Offline mode
         if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         

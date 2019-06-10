@@ -31,4 +31,8 @@ extension Date {
         guard let seconds = Calendar.current.dateComponents([.second], from: self, to: date).second, seconds > 0 else { return 0 }
         return seconds
     }
+    
+    public func generateCurrentTimeStamp() -> String {
+        return String(describing: UInt64(Date().timeIntervalSince1970))
+    }
 }

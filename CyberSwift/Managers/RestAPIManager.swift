@@ -965,7 +965,7 @@ public class RestAPIManager {
                        headline:            String? = "",
                        parentPermlink:      String? = nil,
                        tags:                [String]?,
-                       metaData:            String?,
+                       metaData:            String,
                        responseHandling:    @escaping (ChainResponse<TransactionCommitted>) -> Void,
                        errorHandling:       @escaping (ErrorAPI) -> Void) {
         // Offline mode
