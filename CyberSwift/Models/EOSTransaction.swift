@@ -74,7 +74,7 @@ public class EOSTransaction: ChainTransaction {
         
         
         // MARK: - Initialization
-        init(authorValue: String, parentPermlink: String? = nil, beneficiariesValues: [Beneficiary?] = [], tokenpropValue: Int16 = 0, vestpaymentValue: UInt64 = 1, headermssgValue: String = "test", bodymssgValue: String = "test", languagemssgValue: String = "ru", tagsValues: [Tags]? = [Tags()], jsonmetadataValue: String, curatorsPrcntValue: UInt16 = 0) {
+        init(authorValue: String, parentPermlink: String? = nil, beneficiariesValues: [Beneficiary?] = [], tokenpropValue: Int16 = 0, vestpaymentValue: UInt64 = 1, headermssgValue: String = "test", bodymssgValue: String = "test", languagemssgValue: String = "ru", tagsValues: [Tags]? = [Tags()], jsonmetadataValue: String = "{\"embeds\": []}", curatorsPrcntValue: UInt16 = 0) {
             let prefixTitle         =   parentPermlink == nil ? headermssgValue : "Comment"
             let messagePermlink     =   String.permlinkWith(string: prefixTitle)
             
