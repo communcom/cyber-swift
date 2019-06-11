@@ -291,6 +291,8 @@ public class EOSTransaction: ChainTransaction {
         let instagram: String?
         let telegram: String?
         let vk: String?
+        let whatsapp: String?
+        let wechat: String?
         let website: String?
         let first_name: String?
         let last_name: String?
@@ -325,6 +327,8 @@ public class EOSTransaction: ChainTransaction {
             self.instagram          =   json["instagram"] ?? nil
             self.telegram           =   json["telegram"] ?? nil
             self.vk                 =   json["vk"] ?? nil
+            self.whatsapp           =   json["whatsapp"] ?? nil
+            self.wechat             =   json["wechat"] ?? nil
             self.website            =   json["website"] ?? nil
             self.first_name         =   json["first_name"] ?? nil
             self.last_name          =   json["last_name"] ?? nil

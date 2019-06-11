@@ -90,7 +90,7 @@
 
 
 ## golos.social.abi
-[Documentation](https://github.com/GolosChain/golos.contracts/blob/master/golos.social/golos.social.abi)
+[Documentation](https://github.com/GolosChain/golos.contracts/blob/develop/golos.social/golos.social.abi)
 
 ### API 'social.block', 'social.unblock'
 
