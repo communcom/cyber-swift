@@ -717,7 +717,8 @@ public struct ResponseAPIRegistrationToBlockChainResult: Decodable {
 // MARK: -
 public struct ResponseAPIRegistrationToBlockChain: Decodable {
     // MARK: - In work API `registration.toBlockChain`
-    public let status: String
+    public let userId: String
+    public let username: String
 }
 
 

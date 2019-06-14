@@ -143,3 +143,9 @@
 ### Action 'unvotewitn'
 
 ### Action 'unregwitness'
+
+
+
+## Note
+[узнать поднят ли 46 б/ч](http://116.203.39.126:7777/bc_status)
+[рестарт newtesterbot in Slack](http://116.203.39.126:7777/slack_bot_restart)

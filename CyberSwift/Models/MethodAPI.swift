@@ -152,10 +152,10 @@ public indirect enum MethodAPIType {
     case firstStep(phone: String, isDebugMode: Bool)
     
     //  Second registration step, account verification
-    case verify(phone: String, code: String, isDebugMode: Bool)
+    case verify(phone: String, code: String)
     
     //  The third step of registration, account verification
-    case setUser(name: String, phone: String, isDebugMode: Bool)
+    case setUser(name: String, phone: String)
     
     //  Re-send of the confirmation code (for the smsToUser strategy)
     case resendSmsCode(phone: String, isDebugMode: Bool)
@@ -387,33 +387,19 @@ public indirect enum MethodAPIType {
                      methodName:        "firstStep",
                      parameters:        parameters)
 
-        //  Debug template      { "id": 3, "jsonrpc": "2.0", "method": "registration.verify", "params": { "phone": "+70000000000", "code": "1563", "testingPass": "DpQad16yDlllEy6" }}
-        //  Release template    { "id": 3, "jsonrpc": "2.0", "method": "registration.verify", "params": { "phone": "+70000000000", "code": "1563" }}
-        case .verify(let phoneValue, let codeValue, let isDebugMode):
-            var parameters = ["phone": phoneValue, "code": codeValue]
-            
-            if isDebugMode {
-                parameters["testingPass"] = Config.testingPassword
-            }
-
+        //  { "id": 3, "jsonrpc": "2.0", "method": "registration.verify", "params": { "phone": "+70000000000", "code": "1563" }}
+        case .verify(let phoneValue, let codeValue):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.registration.rawValue,
                      methodName:        "verify",
-                     parameters:        parameters)
+                     parameters:        ["phone": phoneValue, "code": codeValue])
             
-        //  Debug template      { "id": 4, "jsonrpc": "2.0", "method": "registration.setUsername", "params": { "user": "tester", "phone": "+70000000000", "testingPass": "DpQad16yDlllEy6" }}
-        //  Release template    { "id": 4, "jsonrpc": "2.0", "method": "registration.setUsername", "params": { "user": "tester", "phone": "+70000000000" }}
-        case .setUser(let nameValue, let phoneValue, let isDebugMode):
-            var parameters = ["phone": phoneValue, "user": nameValue]
-            
-            if isDebugMode {
-                parameters["testingPass"] = Config.testingPassword
-            }
-            
+        //  { "id": 4, "jsonrpc": "2.0", "method": "registration.setUsername", "params": { "user": "tester", "phone": "+70000000000" }}
+        case .setUser(let nameValue, let phoneValue):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.registration.rawValue,
                      methodName:        "setUsername",
-                     parameters:        parameters)
+                     parameters:        ["phone": phoneValue, "user": nameValue])
 
         //  Debug template      { "id": 5, "jsonrpc": "2.0", "method": "registration.resendSmsCode", "params": { "phone": "+70000000000", "testingPass": "DpQad16yDlllEy6" }}
         //  Release template    { "id": 5, "jsonrpc": "2.0", "method": "registration.resendSmsCode", "params": { "phone": "+70000000000" }}

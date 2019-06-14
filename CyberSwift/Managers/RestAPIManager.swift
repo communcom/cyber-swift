@@ -695,7 +695,7 @@ public class RestAPIManager {
         // Offline mode
         if (!Config.isNetworkAvailable) { return errorHandling(ResponseAPIError(code: 503, message: "No Internet Connection", currentState: nil)) }
 
-        let methodAPIType = MethodAPIType.verify(phone: phone, code: code, isDebugMode: isDebugMode)
+        let methodAPIType = MethodAPIType.verify(phone: phone, code: code)
         
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                              onResult:          { responseAPIResult in
@@ -759,13 +759,12 @@ public class RestAPIManager {
     // API `registration.setUsername`
     public func setUser(nickName:               String,
                         phone:                  String,
-                        isDebugMode:            Bool = true,
                         responseHandling:       @escaping (ResponseAPIRegistrationSetUsername) -> Void,
                         errorHandling:          @escaping (ErrorAPI) -> Void) {
         // Offline mode
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
-        let methodAPIType = MethodAPIType.setUser(name: nickName, phone: phone, isDebugMode: isDebugMode)
+        let methodAPIType = MethodAPIType.setUser(name: nickName, phone: phone)
         
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                              onResult:          { responseAPIResult in

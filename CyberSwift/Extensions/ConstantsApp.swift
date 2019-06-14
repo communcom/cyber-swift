@@ -91,11 +91,11 @@ public struct Config {
     
     // testnet: http://116.203.39.126:7777/get_users
     public static let testUserAccount                   =   (
-                                                                nickName:       "tst1nrlilegv",
-                                                                alias:          "bailey-scotty-i",
-                                                                ownerKey:       "5HrsHWLSBczArzmE1KZnrMeWyy5CeGjU1MxAdK7NuPedi9k2uh5",
-                                                                activeKey:      "5Hvhp5Xjn5JNeCQkWdrV2erXwDXnbBqjcN3jTffNrLFJzeEiX3X",
-                                                                postingKey:     "5JB5AUPRwrPPTUjdjRSLRR7v3ACNik9yZzwRyDEaQHo2EKK6Qqw"
+                                                                nickName:       "tst1xobdmypl",
+                                                                alias:          "franecki-mohammad-iv",
+                                                                ownerKey:       "5JXUNWQMMW7nHozsDNNnJaEcLKDqUaihdhpawyrFzRGA8aYo3nj",
+                                                                activeKey:      "5Jg7s3Ntyg6hfiSNYDgiM6WfTa4KC677waKDvxSGLrjsZ2EHgFE",
+                                                                postingKey:     "5Jvy6FRAB61AoS78cR2RJdoWovLiFe46y7QNMEvpuBdsn8kGcHN"
                                                             )
     
     public static let testUserAccount2                  =   (

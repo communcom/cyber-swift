@@ -108,6 +108,12 @@ extension Broadcast {
                                 .replacingOccurrences(of: "}\"}}", with: "}}}")
                                 .replacingOccurrences(of: "}\"", with: "}")
             
+            if jsonString.contains("registration.verify") {
+                jsonString = jsonString
+                                .replacingOccurrences(of: "code\":\"", with: "code\":")
+                                .replacingOccurrences(of: "\"}}", with: "}}")
+            }
+
             Logger.log(message: "\nEncoded JSON -> String:\n\t " + jsonString, event: .debug)
             
             // Template: { "id": 2, "jsonrpc": "2.0", "method": "content.getProfile", "params": { "userId": "tst3uuqzetwf" }}
