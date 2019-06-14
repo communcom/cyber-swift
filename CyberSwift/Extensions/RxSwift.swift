@@ -25,7 +25,11 @@ extension PrimitiveSequenceType where Self.TraitType == RxSwift.SingleTrait {
 extension PrimitiveSequenceType where Self.TraitType == RxSwift.SingleTrait, Self.ElementType == ChainResponse<TransactionCommitted> {
     func mapCachedError() -> Single<ChainResponse<TransactionCommitted>> {
         return map {response in
-            if !response.success {throw ErrorAPI.blockchain(message: response.errorBody!)}
+            if !response.success {
+                Logger.log(message: response.errorBody!, event: .error)
+                let errorJSON = try? JSONDecoder().decode(ChainResponseErrorBody.self, from: response.errorBody!.data(using: .utf8)!)
+                throw ErrorAPI.blockchain(message: errorJSON?.error.details.first?.message ?? response.errorBody!)
+            }
             return response
         }
     }
