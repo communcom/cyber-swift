@@ -28,4 +28,5 @@ Pod::Spec.new do |spec|
     spec.dependency 'Starscream', '~> 3.0'
     spec.dependency 'Localize-Swift', '~> 2.0'
 
+    spec.dependency 'SwiftyJSON', '~> 4.0'
 end
