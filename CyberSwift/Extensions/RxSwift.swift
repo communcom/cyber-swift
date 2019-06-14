@@ -27,8 +27,18 @@ extension PrimitiveSequenceType where Self.TraitType == RxSwift.SingleTrait, Sel
         return map {response in
             if !response.success {
                 Logger.log(message: response.errorBody!, event: .error)
-                let errorJSON = try? JSONDecoder().decode(ChainResponseErrorBody.self, from: response.errorBody!.data(using: .utf8)!)
-                throw ErrorAPI.blockchain(message: errorJSON?.error.details.first?.message ?? response.errorBody!)
+                
+                let object = try? JSONSerialization.jsonObject(with: response.errorBody!.data(using: .utf8)!, options: .allowFragments) as? [String: Any]
+                
+                let bcError = object?["error"] as? [String: Any]
+                let details = bcError?["details"] as? [[String: Any]]
+                
+                let firstDetail = details?.first
+                
+                let messsage = firstDetail?["message"] as? String
+                
+                
+                throw ErrorAPI.blockchain(message: messsage ?? response.errorBody!)
             }
             return response
         }

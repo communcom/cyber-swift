@@ -1048,20 +1048,3 @@ public struct ResponseAPIRemoveFavoritesResult: Decodable {
 public struct ResponseAPIRemoveFavorites: Decodable {
     public let status: String
 }
-
-
-// MARK: - Blockchain
-public struct ChainResponseErrorBody: Decodable {
-    public let code: Int
-    public let error: ChainResponseError
-}
-
-public struct ChainResponseError: Decodable {
-    public let name: String
-    public let details: [ChainResponseErrorDetail]
-}
-
-public struct ChainResponseErrorDetail: Decodable {
-    public let message: String
-    public let method: String
-}
