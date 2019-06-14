@@ -21,6 +21,7 @@ target 'CyberSwift' do
   # Websockets in swift for iOS and OSX
   #  pod 'Starscream', '~> 3.0'
   pod 'RxStarscream'
+  pod 'SwiftyJSON', '~> 4.0'
   
   # GoloCrypto
   pod 'GoloCrypto', :git => "https://github.com/Monserg/GoloGrypto.git"
