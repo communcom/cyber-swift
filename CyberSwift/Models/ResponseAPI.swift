@@ -197,7 +197,7 @@ public struct ResponseAPIContentGetPostContent: Decodable {
     public let title: String
     public let tags: [String?]?
     public let metadata: ResponseAPIContentGetPostContentMetadata?
-    public let embeds: [ResponseAPIContentGetPostContentEmbed]
+    public let embeds: [ResponseAPIContentEmbed]
 }
 
 
@@ -221,17 +221,17 @@ public struct ResponseAPIContentGetPostContentMetadata: Decodable {
 
 
 // MARK: -
-public struct ResponseAPIContentGetPostContentEmbed: Decodable {
+public struct ResponseAPIContentEmbed: Decodable {
     // MARK: - In work API `content.getFeed`
     public let _id: String
     public let id: String?
     public let type: String?
-    public let result: ResponseAPIContentGetPostContentEmbedResult?
+    public let result: ResponseAPIContentEmbedResult?
 }
 
 
 // MARK: -
-public struct ResponseAPIContentGetPostContentEmbedResult: Decodable {
+public struct ResponseAPIContentEmbedResult: Decodable {
     // MARK: - In work API `content.getFeed`
     public let type: String
     public let version: String
@@ -403,7 +403,8 @@ public struct ResponseAPIContentGetCommentContent: Decodable {
     // MARK: - In work API `content.getComments`
     public let body: ResponseAPIContentGetCommentContentBody
     public let metadata: ResponseAPIContentGetCommentContentMetadata?
-    public let embeds: [ResponseAPIContentGetCommentContentEmbed]}
+    public let embeds: [ResponseAPIContentEmbed]
+}
 
 
 // MARK: -
@@ -422,33 +423,6 @@ public struct ResponseAPIContentGetCommentContentMetadata: Decodable {
     public let tags: [String]
 }
 
-
-// MARK: -
-public struct ResponseAPIContentGetCommentContentEmbed: Decodable {
-    // MARK: - In work API `content.getComments`
-    public let _id: String
-    public let id: String
-    public let type: String
-    public let result: ResponseAPIContentGetCommentContentEmbedResult
-}
-
-
-// MARK: -
-public struct ResponseAPIContentGetCommentContentEmbedResult: Decodable {
-    // MARK: - In work API `content.getComments`
-    public let type: String
-    public let version: String
-    public let title: String
-    public let url: String
-    public let author: String
-    public let author_url: String
-    public let provider_name: String
-    public let description: String
-    public let thumbnail_url: String
-    public let thumbnail_width: UInt64
-    public let thumbnail_height: UInt64
-    public let html: String
-}
 
 
 // MARK: -
