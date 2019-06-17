@@ -54,5 +54,5 @@ extension String {
 
 extension StringTransform {
     static let toLowercaseASCIINoSpaces =
-        StringTransform(rawValue: "Latin-ASCII; Lower; [:Separator:] Remove; [:^Letter:] Remove")
+        StringTransform(rawValue: "Any-Latin; Latin-ASCII; Lower; [:Separator:] Remove; [:^Letter:] Remove")
 }
