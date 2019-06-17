@@ -46,8 +46,13 @@ extension String {
     }
     
     public static func permlinkWith(string: String) -> String {
-        return (string + "-" + Date().convert(toStringFormat: .expirationDateType)).lowercased()
+        return (string.applyingTransform(.toLowercaseASCIINoSpaces, reverse: false)! + "-" + Date().convert(toStringFormat: .expirationDateType)).lowercased()
             .replacingOccurrences(of: " ", with: "-")
             .replacingOccurrences(of: ":", with: "-")
     }
+}
+
+extension StringTransform {
+    static let toLowercaseASCIINoSpaces =
+        StringTransform(rawValue: "Latin-ASCII; Lower; [:Separator:] Remove; [:^Letter:] Remove")
 }
