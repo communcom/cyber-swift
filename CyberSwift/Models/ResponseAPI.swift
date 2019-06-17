@@ -180,7 +180,7 @@ public struct ResponseAPIContentGetFeed: Decodable {
 public struct ResponseAPIContentGetPost: Decodable {
     // MARK: - In work API `content.getFeed`
     public let content: ResponseAPIContentGetPostContent
-    public var votes: ResponseAPIContentGetPostVotes
+    public var votes: ResponseAPIContentVotes
     public let stats: ResponseAPIContentGetPostStats
     public let payout: ResponseAPIContentGetPostPayout
     public let contentId: ResponseAPIContentGetPostContentId
@@ -279,10 +279,10 @@ public struct ResponseAPIContentGetPostContentMetadataEmbedResult: Decodable {
 
 
 // MARK: -
-public struct ResponseAPIContentGetPostVotes: Decodable {
+public struct ResponseAPIContentVotes: Decodable {
     // MARK: - In work API `content.getFeed`
-    public let upCount: UInt64?
-    public let downCount: UInt64?
+    public let upCount: Int64?
+    public let downCount: Int64?
     public var hasUpVote: Bool
     public var hasDownVote: Bool
 }
@@ -388,7 +388,7 @@ public struct ResponseAPIContentGetComments: Decodable {
 public struct ResponseAPIContentGetComment: Decodable {
     // MARK: - In work API `content.getComments`
     public let content: ResponseAPIContentGetCommentContent
-    public let votes: ResponseAPIContentGetCommentVotes
+    public let votes: ResponseAPIContentVotes
     public let payout: ResponseAPIContentGetCommentPayout
     public let contentId: ResponseAPIContentGetCommentContentId
     public let meta: ResponseAPIContentGetCommentMeta
@@ -421,17 +421,6 @@ public struct ResponseAPIContentGetCommentContentMetadata: Decodable {
     public let app: String
     public let format: String
     public let tags: [String]
-}
-
-
-
-// MARK: -
-public struct ResponseAPIContentGetCommentVotes: Decodable {
-    // MARK: - In work API `content.getComments`
-    public let upCount: UInt64?
-    public let downCount: UInt64?
-    public let hasUpVote: Bool
-    public let hasDownVote: Bool
 }
 
 
