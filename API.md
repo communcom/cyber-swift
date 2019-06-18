@@ -8,23 +8,28 @@
 
 ### API 'auth.authorize'
 * 17.04.2019:
- - add 'displayName' in ResponseAPI
+ - add `displayName` in ResponseAPI
 
 ### API 'auth.generateSecret'
 
 ### API 'content.getProfile'
 
 ### API 'content.getFeed'
+* 18.06.2019:
+- change `downCount` type: `UInt64?` -> `Int64?` 
 
 ### API 'content.getPost'
 
 ### API 'content.getComments' by user
 * 17.04.2019:
-- add 'embeds' in ResponseAPI
+- add `embeds` in ResponseAPI
+
+* 18.06.2019:
+- change `downCount` type: `UInt64?` -> `Int64?` 
 
 ### API 'content.getComments' by post
 * 18.04.2019:
-- change 'refBlockNum' type: String -> UInt64
+- change `refBlockNum` type: `String` -> `UInt64`
 
 ### API 'push.historyFresh'
 
@@ -116,6 +121,8 @@
 
 
 ### Actions 'upvote', 'downvote', 'unvote'
+* 18.06.2019:
+- change `weight` type: `Int16` -> `UInt16`
 
 ### Action 'createmssg'
 
