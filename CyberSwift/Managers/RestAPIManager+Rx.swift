@@ -35,14 +35,14 @@ extension Reactive where Base: RestAPIManager {
         // Offline mode
         if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
-        guard let userNickName = Config.currentUser.nickName, let _ = Config.currentUser.activeKey else {
+        guard let userID = Config.currentUser.id, let _ = Config.currentUser.activeKey else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
         
         let arrayTags = tags == nil ? [EOSTransaction.Tags()] : tags!.map({ EOSTransaction.Tags.init(tagValue: $0) })
         
         let messageCreateArgs = EOSTransaction.MessageCreateArgs(
-            authorValue:        userNickName,
+            authorValue:        userID,
             parentPermlink:     parentPermlink,
             headermssgValue:    headline ?? String(format: "Test Post Title %i", arc4random_uniform(100)),
             bodymssgValue:      message,
@@ -67,7 +67,7 @@ extension Reactive where Base: RestAPIManager {
         // Offline mode
         if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
-        let messageUpdateArgs = EOSTransaction.MessageUpdateArgs(authorValue:           author ?? Config.currentUser.nickName ?? "Cyberway",
+        let messageUpdateArgs = EOSTransaction.MessageUpdateArgs(authorValue:           author ?? Config.currentUser.id ?? "Cyberway",
                                                                  messagePermlink:       permlink,
                                                                  parentPermlink:        parentPermlink,
                                                                  bodymssgValue:         message)
@@ -97,15 +97,16 @@ extension Reactive where Base: RestAPIManager {
         guard Config.isNetworkAvailable else { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
         // Check user authorize
-        guard let nickName = Config.currentUser.nickName, let _ = Config.currentUser.activeKey else {
+        guard let userID = Config.currentUser.id, let _ = Config.currentUser.activeKey else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
         
         let userProfileAccountmetaArgs = EOSTransaction.UserProfileAccountmetaArgs(json: userProfile)
         
-        let userProfileMetaArgs = EOSTransaction.UserProfileUpdatemetaArgs(accountValue:    nickName,
+        let userProfileMetaArgs = EOSTransaction.UserProfileUpdatemetaArgs(accountValue:    userID,
                                                                            metaValue:       userProfileAccountmetaArgs)
         
         return EOSManager.rx.update(userProfileMetaArgs: userProfileMetaArgs)
     }
 }
+

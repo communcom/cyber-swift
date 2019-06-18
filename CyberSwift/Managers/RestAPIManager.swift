@@ -39,12 +39,12 @@ public class RestAPIManager {
     
     // MARK: - Class Functions
     private func generate(keyTypes:     [UserKeyType],
-                          nickName:     String,
+                          userID:       String,
                           password:     String) -> [UserKeys] {
         var userKeys: [UserKeys] = [UserKeys]()
         
         for keyType in keyTypes {
-            let seed                =   nickName + keyType.rawValue + password
+            let seed                =   userID + keyType.rawValue + password
             let brainKey            =   seed.removeWhitespaceCharacters()
             let brainKeyBytes       =   brainKey.bytes
             
@@ -66,15 +66,15 @@ public class RestAPIManager {
     
     // MARK: - FACADE-SERVICE
     // API `auth.authorize`
-    public func authorize(userNickName:         String,
+    public func authorize(userID:               String,
                           userActiveKey:        String,
                           responseHandling:     @escaping (ResponseAPIAuthAuthorize) -> Void,
                           errorHandling:        @escaping (ErrorAPI) -> Void) {
         // Offline mode
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
-        let methodAPIType = MethodAPIType.authorize(nickName: userNickName, activeKey: userActiveKey)
-        
+        let methodAPIType = MethodAPIType.authorize(userID: userID, activeKey: userActiveKey)
+
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                              onResult:          { responseAPIResult in
                                                 guard let result = (responseAPIResult as! ResponseAPIAuthAuthorizeResult).result else {
@@ -87,9 +87,10 @@ public class RestAPIManager {
                                                     UserDefaults.standard.set(true, forKey: Config.isCurrentUserLoggedKey)
                                                     
                                                     // Save in Keychain
-                                                    _ = KeychainManager.save(data: [Config.currentUserNickNameKey: userNickName], userNickName: Config.currentUserNickNameKey)
-                                                    _ = KeychainManager.save(data: [Config.currentUserPublicActiveKey: userActiveKey], userNickName: Config.currentUserPublicActiveKey)
-                                                    
+                                                    _ = KeychainManager.save(data: [Config.currentUserIDKey: userID], userID: Config.currentUserIDKey)
+                                                    _ = KeychainManager.save(data: [Config.currentUserNameKey: result.displayName], userID: Config.currentUserNameKey)
+                                                    _ = KeychainManager.save(data: [Config.currentUserPublicActiveKey: userActiveKey], userID: Config.currentUserPublicActiveKey)
+
                                                     Logger.log(message: "\nAPI `auth.authorize` response result: \n\(responseAPIResult)\n", event: .debug)
                                                     responseHandling(result)
                                                 })
@@ -126,14 +127,14 @@ public class RestAPIManager {
     }
     
     // API `content.getProfile`
-    public func getProfile(nickName:        String,
+    public func getProfile(userID:          String,
                            appProfileType:  AppProfileType = .cyber,
                            completion:      @escaping (ResponseAPIContentGetProfile?, ErrorAPI?) -> Void) {
         // Offline mode
         if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
         
-        let methodAPIType = MethodAPIType.getProfile(nickName: nickName, appProfileType: appProfileType)
-        
+        let methodAPIType = MethodAPIType.getProfile(userID: userID, appProfileType: appProfileType)
+
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                              onResult:          { (responseAPIResult) in
                                                 guard let profileResult = responseAPIResult as? ResponseAPIContentGetProfileResult, let result = profileResult.result else {
@@ -182,7 +183,7 @@ public class RestAPIManager {
     }
     
     // API `content.getPost`
-    public func loadPost(userID:        String = Config.currentUser.nickName ?? "Cyber",
+    public func loadPost(userID:        String = Config.currentUser.id ?? "Cyber",
                          permlink:      String,
                          completion:    @escaping (ResponseAPIContentGetPost?, ErrorAPI?) -> Void) {
         // Offline mode
@@ -208,7 +209,7 @@ public class RestAPIManager {
     }
     
     // API `content.getComments` by user
-    public func loadUserComments(nickName:                  String = Config.currentUser.nickName ?? "Cyber",
+    public func loadUserComments(nickName:                  String = Config.currentUser.id ?? "Cyber",
                                  sortMode:                  CommentSortMode = .time,
                                  paginationLimit:           Int8 = Config.paginationLimit,
                                  paginationSequenceKey:     String? = nil,
@@ -235,7 +236,7 @@ public class RestAPIManager {
     }
     
     // API `content.getComments` by post
-    public func loadPostComments(nickName:                  String = Config.currentUser.nickName ?? "Cyber",
+    public func loadPostComments(nickName:                  String = Config.currentUser.id ?? "Cyber",
                                  permlink:                  String,
                                  sortMode:                  CommentSortMode = .time,
                                  paginationLimit:           Int8 = Config.paginationLimit,
@@ -292,7 +293,7 @@ public class RestAPIManager {
     }
     
     // API `push.historyFresh`
-    public func getPushHistoryFresh(nickName:       String = Config.currentUser.nickName ?? "Cyberway",
+    public func getPushHistoryFresh(nickName:       String = Config.currentUser.id ?? "Cyberway",
                                     completion:     @escaping (ResponseAPIPushHistoryFresh?, ErrorAPI?) -> Void) {
         // Offline mode
         if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
@@ -401,8 +402,8 @@ public class RestAPIManager {
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         // Check user authorize
-        guard Config.currentUser.nickName != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
-        
+        guard Config.currentUser.id != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
+
         let methodAPIType = MethodAPIType.markAsRead(notifies: notifies)
 
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
@@ -429,8 +430,8 @@ public class RestAPIManager {
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         // Check user authorize
-        guard Config.currentUser.nickName != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
-        
+        guard Config.currentUser.id != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
+
         let methodAPIType = MethodAPIType.getOptions
         
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
@@ -459,8 +460,8 @@ public class RestAPIManager {
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         // Check user authorize
-        guard Config.currentUser.nickName != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
-        
+        guard Config.currentUser.id != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
+
         let methodAPIType = MethodAPIType.setBasicOptions(nsfw: nsfwContent.rawValue, language: language)
         
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
@@ -489,7 +490,7 @@ public class RestAPIManager {
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         // Check user authorize
-        guard (Config.currentUser.nickName != nil) else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
+        guard (Config.currentUser.id != nil) else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
         
         let methodAPIType = MethodAPIType.setNotice(options: options, type: type)
         
@@ -518,8 +519,8 @@ public class RestAPIManager {
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         // Check user authorize
-        guard Config.currentUser.nickName != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
-        
+        guard Config.currentUser.id != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
+
         let methodAPIType = MethodAPIType.recordPostView(permlink: permlink)
         
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
@@ -546,8 +547,8 @@ public class RestAPIManager {
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         // Check user authorize
-        guard Config.currentUser.nickName != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
-        
+        guard Config.currentUser.id != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
+
         let methodAPIType = MethodAPIType.getFavorites
         
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
@@ -575,8 +576,8 @@ public class RestAPIManager {
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         // Check user authorize
-        guard Config.currentUser.nickName != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
-        
+        guard Config.currentUser.id != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
+
         let methodAPIType = MethodAPIType.addFavorites(permlink: permlink)
         
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
@@ -604,7 +605,7 @@ public class RestAPIManager {
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         // Check user authorize
-        guard Config.currentUser.nickName != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
+        guard Config.currentUser.id != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
         
         let methodAPIType = MethodAPIType.removeFavorites(permlink: permlink)
         
@@ -628,15 +629,15 @@ public class RestAPIManager {
 
     // MARK: - REGISTRATION-SERVICE
     // API `registration.getState`
-    public func getState(nickName:          String? = Config.currentUser.nickName,
+    public func getState(id:                String? = Config.currentUser.id,
                          phone:             String?,
                          responseHandling:  @escaping (ResponseAPIRegistrationGetState) -> Void,
                          errorHandling:     @escaping (ErrorAPI) -> Void) {
         // Offline mode
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
-        let methodAPIType = MethodAPIType.getState(nickName: nickName, phone: phone)
-        
+        let methodAPIType = MethodAPIType.getState(id: id, phone: phone)
+
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                              onResult:          { responseAPIResult in
                                                 guard let result = (responseAPIResult as! ResponseAPIRegistrationGetStateResult).result else {
@@ -757,15 +758,15 @@ public class RestAPIManager {
     }
     
     // API `registration.setUsername`
-    public func setUser(nickName:               String,
+    public func setUser(id:                     String,
                         phone:                  String,
                         responseHandling:       @escaping (ResponseAPIRegistrationSetUsername) -> Void,
                         errorHandling:          @escaping (ErrorAPI) -> Void) {
         // Offline mode
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
-        let methodAPIType = MethodAPIType.setUser(name: nickName, phone: phone)
-        
+        let methodAPIType = MethodAPIType.setUser(id: id, phone: phone)
+
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                              onResult:          { responseAPIResult in
                                                 guard let result = (responseAPIResult as! ResponseAPIRegistrationSetUsernameResult).result else {
@@ -776,7 +777,7 @@ public class RestAPIManager {
                                                 
                                                 Logger.log(message: "\nAPI `registration.setUsername` response result: \n\(responseAPIResult)\n", event: .debug)
                                                 
-                                                if KeychainManager.save(data: [Config.registrationStepKey: "toBlockChain", Config.registrationUserPhoneKey: phone, Config.registrationUserNameKey: nickName], userPhone: phone) {
+                                                if KeychainManager.save(data: [Config.registrationStepKey: "toBlockChain", Config.registrationUserPhoneKey: phone, Config.registrationUserIDKey: id], userPhone: phone) {
                                                     responseHandling(result)
                                                 }
 
@@ -791,7 +792,7 @@ public class RestAPIManager {
     }
     
     // API `registration.toBlockChain`
-    public func toBlockChain(nickName:              String,
+    public func toBlockChain(id:                    String,
                              phone:                 String,
                              responseHandling:      @escaping (Bool) -> Void,
                              errorHandling:         @escaping (ErrorAPI) -> Void) {
@@ -799,14 +800,14 @@ public class RestAPIManager {
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         let userkeys = RestAPIManager.instance.generate(keyTypes:   [.owner, .active, .posting, .memo],
-                                                        nickName:   nickName,
+                                                        userID:     id,
                                                         password:   String.randomString(length: 12))
         
-        let methodAPIType = MethodAPIType.toBlockChain(nickName: nickName, keys: userkeys)
+        let methodAPIType = MethodAPIType.toBlockChain(userID: id, keys: userkeys)
         
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                              onResult:          { responseAPIResult in
-                                                guard (responseAPIResult as! ResponseAPIRegistrationToBlockChainResult).result != nil else {
+                                                guard let chainResult = (responseAPIResult as? ResponseAPIRegistrationToBlockChainResult)?.result else {
                                                     let responseAPIError = (responseAPIResult as! ResponseAPIRegistrationToBlockChainResult).error
                                                     Logger.log(message: "\nAPI `registration.toBlockChain` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
                                                     return errorHandling(ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
@@ -814,19 +815,21 @@ public class RestAPIManager {
                                                 
                                                 // Save in Keychain
                                                 Logger.log(message: "\nAPI `registration.toBlockChain` response result: \n\(responseAPIResult)\n", event: .debug)
-                                                let result: Bool = KeychainManager.save(keys: userkeys, nickName: nickName)
-
-                                                if KeychainManager.save(data:       [Config.registrationStepKey: "firstStep",
-                                                                                     Config.registrationUserNameKey: nickName,
-                                                                                     Config.currentUserPublicOwnerKey: userkeys.first(where: { $0.type == "owner" })!.publicKey,
-                                                                                     Config.currentUserPrivateOwnerKey: userkeys.first(where: { $0.type == "owner" })!.privateKey,
-                                                                                     Config.currentUserPublicActiveKey: userkeys.first(where: { $0.type == "active" })!.publicKey,
-                                                                                     Config.currentUserPrivateActiveKey: userkeys.first(where: { $0.type == "active" })!.privateKey,
-                                                                                     Config.currentUserPublicPostingKey: userkeys.first(where: { $0.type == "posting" })!.publicKey,
-                                                                                     Config.currentUserPrivatePostingKey: userkeys.first(where: { $0.type == "posting" })!.privateKey,
-                                                                                     Config.currentUserPublickMemoKey: userkeys.first(where: { $0.type == "memo" })!.publicKey,
-                                                                                     Config.currentUserPrivateMemoKey: userkeys.first(where: { $0.type == "memo" })!.privateKey
-                                                                                    ],
+                                                let result: Bool = KeychainManager.save(keys: userkeys, userID: chainResult.userId, userName: chainResult.username)
+                                                
+                                                if KeychainManager.save(data:   [
+                                                                                    Config.registrationStepKey:            "firstStep",
+                                                                                    Config.registrationUserNameKey:        chainResult.username,
+                                                                                    Config.registrationUserIDKey:          chainResult.userId,
+                                                                                    Config.currentUserPublicOwnerKey:      userkeys.first(where: { $0.type == "owner" })!.publicKey,
+                                                                                    Config.currentUserPrivateOwnerKey:     userkeys.first(where: { $0.type == "owner" })!.privateKey,
+                                                                                    Config.currentUserPublicActiveKey:     userkeys.first(where: { $0.type == "active" })!.publicKey,
+                                                                                    Config.currentUserPrivateActiveKey:    userkeys.first(where: { $0.type == "active" })!.privateKey,
+                                                                                    Config.currentUserPublicPostingKey:    userkeys.first(where: { $0.type == "posting" })!.publicKey,
+                                                                                    Config.currentUserPrivatePostingKey:   userkeys.first(where: { $0.type == "posting" })!.privateKey,
+                                                                                    Config.currentUserPublickMemoKey:      userkeys.first(where: { $0.type == "memo" })!.publicKey,
+                                                                                    Config.currentUserPrivateMemoKey:      userkeys.first(where: { $0.type == "memo" })!.privateKey
+                                                                            ],
                                                                         userPhone:  phone) {
                                                     responseHandling(result)
                                                 }
@@ -910,11 +913,11 @@ public class RestAPIManager {
         guard Config.isNetworkAvailable else { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         // Check user authorize
-        guard let nickName = Config.currentUser.nickName else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
+        guard let userID = Config.currentUser.id else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
         
         let userProfileAccountmetaArgs = EOSTransaction.UserProfileAccountmetaArgs(json: userProfile)
         
-        let userProfileMetaArgs = EOSTransaction.UserProfileUpdatemetaArgs(accountValue:    nickName,
+        let userProfileMetaArgs = EOSTransaction.UserProfileUpdatemetaArgs(accountValue:    userID,
                                                                            metaValue:       userProfileAccountmetaArgs)
         
 //        let userProfileAccountmetaArgs: Encodable = appProfileType == .cyber ?  EOSTransaction.CyberUserProfileAccountmetaArgs(json: userProfile) :
@@ -939,7 +942,7 @@ public class RestAPIManager {
     public func message(voteActionType:     VoteActionType,
                         author:             String,
                         permlink:           String,
-                        weight:             Int16 = 0,
+                        weight:             UInt16 = 0,
                         responseHandling:   @escaping (ChainResponse<TransactionCommitted>) -> Void,
                         errorHandling:      @escaping (ErrorAPI) -> Void) {
         // Offline mode
@@ -948,7 +951,7 @@ public class RestAPIManager {
         EOSManager.message(voteActionType:  voteActionType,
                            author:          author,
                            permlink:        permlink,
-                           weight:          voteActionType == .unvote ? 0 : 100,
+                           weight:          voteActionType == .unvote ? 0 : 1,
                            responseResult:  { response in
                             Logger.log(message: "\nAction `\(voteActionType.hashValue)` response result: \n\(response)\n", event: .debug)
                             responseHandling(response)
@@ -996,7 +999,7 @@ public class RestAPIManager {
         // Offline mode
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
-        let messageUpdateArgs = EOSTransaction.MessageUpdateArgs(authorValue:           author ?? Config.currentUser.nickName ?? "Cyberway",
+        let messageUpdateArgs = EOSTransaction.MessageUpdateArgs(authorValue:           author ?? Config.currentUser.id ?? "Cyberway",
                                                                  messagePermlink:       permlink,
                                                                  parentPermlink:       parentPermlink,
                                                                  bodymssgValue:         message)

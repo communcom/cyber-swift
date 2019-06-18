@@ -50,7 +50,7 @@ public class WebSocketManager {
             }
             
             guard (UserDefaults.standard.value(forKey: Config.isCurrentUserLoggedKey) as? Bool) == false else {
-                RestAPIManager.instance.authorize(userNickName:         Config.currentUser.nickName!,
+                RestAPIManager.instance.authorize(userID:               Config.currentUser.id!,
                                                   userActiveKey:        Config.currentUser.activeKey!,
                                                   responseHandling:     { response in
                                                     Logger.log(message: "WebSocketManager API `auth.authorize` permission: \(response.permission)", event: .debug)

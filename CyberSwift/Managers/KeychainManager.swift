@@ -45,12 +45,12 @@ public class KeychainManager {
         return resultKey
     }
     
-    public static func loadData(forUserNickName userNickName: String, withKey key: String) -> [String: Any]? {
-        return Locksmith.loadDataForUserAccount(userAccount: userNickName, inService: key)
+    public static func loadData(byUserID userID: String, withKey key: String) -> [String: Any]? {
+        return Locksmith.loadDataForUserAccount(userAccount: userID, inService: key)
     }
     
-    public static func loadAllData(forUserNickName userNickName: String) -> [String: Any]? {
-        return Locksmith.loadDataForUserAccount(userAccount: userNickName)
+    public static func loadAllData(byUserID userID: String) -> [String: Any]? {
+        return Locksmith.loadDataForUserAccount(userAccount: userID)
     }
     
     public static func loadAllData(byUserPhone userPhone: String) -> [String: Any]? {
@@ -60,7 +60,7 @@ public class KeychainManager {
     
     
     /// Save login data to Keychain
-    public static func save(keys: [UserKeys], nickName: String) -> Bool {
+    public static func save(keys: [UserKeys], userID: String, userName: String) -> Bool {
         var result: Bool = true
         
         let ownerUserKeys   =   keys.first(where: { $0.type == "owner" })
@@ -68,33 +68,33 @@ public class KeychainManager {
         let postingUserKeys =   keys.first(where: { $0.type == "posting" })
         let memoUserKeys    =   keys.first(where: { $0.type == "memo" })
         
-        Config.currentUser  =   (nickName: nickName, activeKey: activeUserKeys!.privateKey)
+        Config.currentUser  =   (id: userID, name: userName, activeKey: activeUserKeys!.privateKey)
         
-        result = result && self.save(data: [Config.currentUserPrivateMemoKey: memoUserKeys!.privateKey], userNickName: nickName)
-        result = result && self.save(data: [Config.currentUserPublickMemoKey: memoUserKeys!.publicKey], userNickName: nickName)
+        result = result && self.save(data: [Config.currentUserPrivateMemoKey: memoUserKeys!.privateKey], userID: userID)
+        result = result && self.save(data: [Config.currentUserPublickMemoKey: memoUserKeys!.publicKey], userID: userID)
         
-        result = result && self.save(data: [Config.currentUserPrivateOwnerKey: ownerUserKeys!.privateKey], userNickName: nickName)
-        result = result && self.save(data: [Config.currentUserPublickMemoKey: ownerUserKeys!.publicKey], userNickName: nickName)
+        result = result && self.save(data: [Config.currentUserPrivateOwnerKey: ownerUserKeys!.privateKey], userID: userID)
+        result = result && self.save(data: [Config.currentUserPublickMemoKey: ownerUserKeys!.publicKey], userID: userID)
         
-        result = result && self.save(data: [Config.currentUserPrivateActiveKey: activeUserKeys!.privateKey], userNickName: nickName)
-        result = result && self.save(data: [Config.currentUserPublicActiveKey: activeUserKeys!.publicKey], userNickName: nickName)
+        result = result && self.save(data: [Config.currentUserPrivateActiveKey: activeUserKeys!.privateKey], userID: userID)
+        result = result && self.save(data: [Config.currentUserPublicActiveKey: activeUserKeys!.publicKey], userID: userID)
         
-        result = result && self.save(data: [Config.currentUserPrivatePostingKey: postingUserKeys!.privateKey], userNickName: nickName)
-        result = result && self.save(data: [Config.currentUserPublicPostingKey: postingUserKeys!.publicKey], userNickName: nickName)
+        result = result && self.save(data: [Config.currentUserPrivatePostingKey: postingUserKeys!.privateKey], userID: userID)
+        result = result && self.save(data: [Config.currentUserPublicPostingKey: postingUserKeys!.publicKey], userID: userID)
         
         return result
     }
     
-    public static func save(data: [String: Any], userNickName: String) -> Bool {
+    public static func save(data: [String: Any], userID: String) -> Bool {
         let keyData = data.keys.first ?? "XXX"
         
         do {
-            if Locksmith.loadDataForUserAccount(userAccount: userNickName, inService: keyData) == nil {
-                try Locksmith.saveData(data: data, forUserAccount: userNickName, inService: keyData)
+            if Locksmith.loadDataForUserAccount(userAccount: userID, inService: keyData) == nil {
+                try Locksmith.saveData(data: data, forUserAccount: userID, inService: keyData)
             }
                 
             else {
-                try Locksmith.updateData(data: data, forUserAccount: userNickName, inService: keyData)
+                try Locksmith.updateData(data: data, forUserAccount: userID, inService: keyData)
             }
             
             Logger.log(message: "Successfully save User data to Keychain.", event: .severe)

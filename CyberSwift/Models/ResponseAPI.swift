@@ -455,7 +455,7 @@ public struct ResponseAPIContentGetCommentContentEmbedResult: Decodable {
 // MARK: -
 public struct ResponseAPIContentGetCommentVotes: Decodable {
     // MARK: - In work API `content.getComments`
-    public let upCount: UInt64?
+    public let upCount: Int64?
     public let downCount: Int64?
     public let hasUpVote: Bool
     public let hasDownVote: Bool
