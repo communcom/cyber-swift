@@ -58,18 +58,16 @@ public struct Config {
                 return (id: userID, name: userName, activeKey: userPrivateActiveKey)
             }
                 
-                // User data by userID
-            else if let userIDKey           =   KeychainManager.loadData(byUserID:      Config.currentUserIDKey,
-                                                                         withKey:       Config.currentUserIDKey)?[Config.currentUserIDKey] as? String,
-                let userNameKey             =   KeychainManager.loadData(byUserID:      Config.currentUserNameKey,
-                                                                         withKey:       Config.currentUserNameKey)?[Config.currentUserNameKey] as? String,
-                let userActiveKey           =   KeychainManager.loadData(byUserID:      Config.currentUserPublicActiveKey,
-                                                                         withKey:       Config.currentUserPublicActiveKey)?[Config.currentUserPublicActiveKey] as? String {
-                Logger.log(message: "User data by userID: userID = \(userIDKey)", event: .debug)
+            // User data by userID
+            else if     let userData        =   KeychainManager.loadAllData(byUserID: Config.currentUserIDKey) as? [String: Any],
+                let userID          =   userData[Config.currentUserIDKey] as? String,
+                let userName        =   userData[Config.currentUserNameKey] as? String,
+                let userActiveKey   =   userData[currentUserPublicActiveKey] as? String {
+                Logger.log(message: "User data by userID: userID = \(userID)", event: .debug)
                 
-                return (id: userIDKey, name: userNameKey, activeKey: userActiveKey)
+                return (id: userID, name: userName, activeKey: userActiveKey)
             }
-                
+
             else {
                 Logger.log(message: "User nickName is empty", event: .debug)
                 
