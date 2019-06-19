@@ -95,7 +95,6 @@ public class RestAPIManager {
                                                                                             Config.currentUserPublicActiveKey:  userActiveKey
                                                                                         ],
                                                                             userID:     Config.currentUserIDKey) {
-                                                        
                                                         Logger.log(message: "\nAPI `auth.authorize` response result: \n\(responseAPIResult)\n", event: .debug)
                                                         responseHandling(result)
                                                     }

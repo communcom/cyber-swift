@@ -61,14 +61,17 @@ public class KeychainManager {
     
     /// Save login data to Keychain
     public static func save(keys: [UserKeys], userID: String, userName: String) -> Bool {
-        var result: Bool = true
-        
         let ownerUserKeys   =   keys.first(where: { $0.type == "owner" })
         let activeUserKeys  =   keys.first(where: { $0.type == "active" })
         let postingUserKeys =   keys.first(where: { $0.type == "posting" })
         let memoUserKeys    =   keys.first(where: { $0.type == "memo" })
         
-        Config.currentUser  =   (id: userID, name: userName, activeKey: activeUserKeys!.privateKey)
+        var result: Bool    =   self.save(data:     [
+                                                        Config.currentUserIDKey:            userID,
+                                                        Config.currentUserNameKey:          userName,
+                                                        Config.currentUserPublicActiveKey:  activeUserKeys!.privateKey
+                                                    ],
+                                          userID:   Config.currentUserIDKey)
         
         result = result && self.save(data: [Config.currentUserPrivateMemoKey: memoUserKeys!.privateKey], userID: userID)
         result = result && self.save(data: [Config.currentUserPublickMemoKey: memoUserKeys!.publicKey], userID: userID)
