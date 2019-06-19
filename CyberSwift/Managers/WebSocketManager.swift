@@ -38,8 +38,6 @@ public class WebSocketManager {
     public func connect() {
         Logger.log(message: "Success", event: .severe)
         
-        if webSocket.isConnected { return }
-        
         webSocket.connect()
         webSocket.delegate = WebSocketManager.instance
         
@@ -67,11 +65,6 @@ public class WebSocketManager {
             guard self.requestMethodsAPIStore.count > 0 else {
                 return
             }
-            
-            
-//            for requestMethodAPIStore in self.requestMethodsAPIStore {
-//                self.sendMessage(requestMethodAPIStore.value)
-//            }
         }
     }
     

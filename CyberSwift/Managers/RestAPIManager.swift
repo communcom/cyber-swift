@@ -87,12 +87,18 @@ public class RestAPIManager {
                                                     UserDefaults.standard.set(true, forKey: Config.isCurrentUserLoggedKey)
                                                     
                                                     // Save in Keychain
-                                                    _ = KeychainManager.save(data: [Config.currentUserIDKey: userID], userID: Config.currentUserIDKey)
-                                                    _ = KeychainManager.save(data: [Config.currentUserNameKey: result.displayName], userID: Config.currentUserNameKey)
-                                                    _ = KeychainManager.save(data: [Config.currentUserPublicActiveKey: userActiveKey], userID: Config.currentUserPublicActiveKey)
-
-                                                    Logger.log(message: "\nAPI `auth.authorize` response result: \n\(responseAPIResult)\n", event: .debug)
-                                                    responseHandling(result)
+                                                    _ = KeychainManager.deleteAllData(forUserNickName: Config.currentUserIDKey)
+                                                    
+                                                    if KeychainManager.save(data:       [
+                                                                                            Config.currentUserIDKey:            userID,
+                                                                                            Config.currentUserNameKey:          result.displayName,
+                                                                                            Config.currentUserPublicActiveKey:  userActiveKey
+                                                                                        ],
+                                                                            userID:     Config.currentUserIDKey) {
+                                                        
+                                                        Logger.log(message: "\nAPI `auth.authorize` response result: \n\(responseAPIResult)\n", event: .debug)
+                                                        responseHandling(result)
+                                                    }
                                                 })
         },
                                              onError:           { (errorAPI) in

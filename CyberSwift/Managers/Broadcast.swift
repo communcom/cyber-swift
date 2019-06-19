@@ -135,18 +135,17 @@ extension Broadcast {
             onError(ErrorAPI.requestFailed(message: "Broadcast, line \(#line): \(requestMethodAPIType.errorAPI!)"))
             return
         }
-        
+
         Logger.log(message: "\nrequestMethodAPIType:\n\t\(requestMethodAPIType.requestMessage!)\n", event: .debug)
         
         // Send content request messages to `FACADE-SERVICE`
         WebSocketManager.instance.sendRequest(methodAPIType: requestMethodAPIType, completion: { responseAPIType in
-            if let responseAPI = responseAPIType.responseAPI {
-                onResult(responseAPI)
+            guard let responseAPI = responseAPIType.responseAPI else {
+                onError(responseAPIType.errorAPI!)
+                return
             }
-                
-            else {
-                onError(ErrorAPI.responseUnsuccessful(message: "Broadcast, line \(#line): \(responseAPIType.errorAPI!)"))
-            }
+            
+            onResult(responseAPI)
         })
     }
 }

@@ -11,7 +11,7 @@ import Foundation
 
 public class KeychainManager {
     /// Delete stored data from Keychain
-    public static func deleteData(forUserNickName userNickName: String, withKey key: String) -> Bool {
+    public static func deleteData(forUserNickName userNickName: String, withKey key: String = LocksmithDefaultService) -> Bool {
         do {
             try Locksmith.deleteDataForUserAccount(userAccount: userNickName, inService: key)
             Logger.log(message: "Successfully delete User data by key from Keychain.", event: .severe)
@@ -86,15 +86,13 @@ public class KeychainManager {
     }
     
     public static func save(data: [String: Any], userID: String) -> Bool {
-        let keyData = data.keys.first ?? "XXX"
-        
         do {
-            if Locksmith.loadDataForUserAccount(userAccount: userID, inService: keyData) == nil {
-                try Locksmith.saveData(data: data, forUserAccount: userID, inService: keyData)
+            if Locksmith.loadDataForUserAccount(userAccount: userID, inService: LocksmithDefaultService) == nil {
+                try Locksmith.saveData(data: data, forUserAccount: userID, inService: LocksmithDefaultService)
             }
                 
             else {
-                try Locksmith.updateData(data: data, forUserAccount: userID, inService: keyData)
+                try Locksmith.updateData(data: data, forUserAccount: userID, inService: LocksmithDefaultService)
             }
             
             Logger.log(message: "Successfully save User data to Keychain.", event: .severe)
