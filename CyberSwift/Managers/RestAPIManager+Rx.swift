@@ -17,14 +17,14 @@ extension Reactive where Base: RestAPIManager {
     public func vote(voteType:       VoteActionType,
                      author:         String,
                      permlink:       String,
-                     weight:         UInt16 = 0) -> Completable {
+                     weight:         Int16 = 0) -> Completable {
         // Offline mode
         if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
         return EOSManager.rx.vote(voteType:     voteType,
                                   author:       author,
                                   permlink:     permlink,
-                                  weight:       voteType == .unvote ? 0 : 10_000)
+                                  weight:       voteType == .unvote ? 0 : 1)
     }
     
     public func create(message:             String,
@@ -41,13 +41,12 @@ extension Reactive where Base: RestAPIManager {
         
         let arrayTags = tags == nil ? [EOSTransaction.Tags()] : tags!.map({ EOSTransaction.Tags.init(tagValue: $0) })
         
-        let messageCreateArgs = EOSTransaction.MessageCreateArgs(
-            authorValue:        userID,
-            parentPermlink:     parentPermlink,
-            headermssgValue:    headline ?? String(format: "Test Post Title %i", arc4random_uniform(100)),
-            bodymssgValue:      message,
-            tagsValues:         arrayTags,
-            jsonmetadataValue:  metaData)
+        let messageCreateArgs = EOSTransaction.MessageCreateArgs(authorValue:        userID,
+                                                                 parentPermlink:     parentPermlink,
+                                                                 headermssgValue:    headline ?? String(format: "Test Post Title %i", arc4random_uniform(100)),
+                                                                 bodymssgValue:      message,
+                                                                 tagsValues:         arrayTags,
+                                                                 jsonmetadataValue:  metaData)
         
         return EOSManager.rx.create(messageCreateArgs: messageCreateArgs)
     }
@@ -109,4 +108,3 @@ extension Reactive where Base: RestAPIManager {
         return EOSManager.rx.update(userProfileMetaArgs: userProfileMetaArgs)
     }
 }
-
