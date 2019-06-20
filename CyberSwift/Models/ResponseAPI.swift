@@ -418,9 +418,9 @@ public struct ResponseAPIContentGetCommentContentBody: Decodable {
 // MARK: -
 public struct ResponseAPIContentGetCommentContentMetadata: Decodable {
     // MARK: - In work API `content.getComments`
-    public let app: String
-    public let format: String
-    public let tags: [String]
+    public let app: String?
+    public let format: String?
+    public let tags: [String]?
 }
 
 
