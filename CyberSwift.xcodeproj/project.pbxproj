@@ -12,7 +12,6 @@
 		3BBBE2982295AAE90029C9C9 /* RestAPIManager+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBBE2972295AAE90029C9C9 /* RestAPIManager+Rx.swift */; };
 		3BBBE29A2296A8A10029C9C9 /* RxSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBBE2992296A8A10029C9C9 /* RxSwift.swift */; };
 		3BCDB40B2260E9C300739F7E /* Bool+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCDB40A2260E9C300739F7E /* Bool+Extensions.swift */; };
-		3BF37BDA22A1895000A72FFE /* WebSocket+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF37BD922A1895000A72FFE /* WebSocket+Rx.swift */; };
 		B111B5BB224E1B5A00F84AD9 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B111B5BA224E1B5A00F84AD9 /* KeychainManager.swift */; };
 		B1677C66223F9BD7005FB286 /* RestAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1677C65223F9BD7005FB286 /* RestAPIManager.swift */; };
 		B179916E2269B3EB0014CB44 /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B179916D2269B3EA0014CB44 /* Data+Extensions.swift */; };
@@ -57,7 +56,6 @@
 		3BBBE2972295AAE90029C9C9 /* RestAPIManager+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RestAPIManager+Rx.swift"; sourceTree = "<group>"; };
 		3BBBE2992296A8A10029C9C9 /* RxSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxSwift.swift; sourceTree = "<group>"; };
 		3BCDB40A2260E9C300739F7E /* Bool+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+Extensions.swift"; sourceTree = "<group>"; };
-		3BF37BD922A1895000A72FFE /* WebSocket+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WebSocket+Rx.swift"; sourceTree = "<group>"; };
 		4837076B0145B925ED946333 /* Pods-CyberSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CyberSwift.release.xcconfig"; path = "Target Support Files/Pods-CyberSwift/Pods-CyberSwift.release.xcconfig"; sourceTree = "<group>"; };
 		B111B5BA224E1B5A00F84AD9 /* KeychainManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		B1677C65223F9BD7005FB286 /* RestAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestAPIManager.swift; sourceTree = "<group>"; };
@@ -207,7 +205,6 @@
 				B1EA02CB22895EB300835244 /* UILabel+Extensions.swift */,
 				B1EA02F52289D3B400835244 /* UITextField+Extensions.swift */,
 				B1EA0318228A985400835244 /* UIView+Extensions.swift */,
-				3BF37BD922A1895000A72FFE /* WebSocket+Rx.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -373,7 +370,6 @@
 				B1A74A662243893A009D68E7 /* EOSManager.swift in Sources */,
 				3BA4D2302295A0E10022A69D /* EOSManager+Rx.swift in Sources */,
 				B17991792269B4560014CB44 /* Random.swift in Sources */,
-				3BF37BDA22A1895000A72FFE /* WebSocket+Rx.swift in Sources */,
 				B179916E2269B3EB0014CB44 /* Data+Extensions.swift in Sources */,
 				B17991722269B4290014CB44 /* String+Extensions.swift in Sources */,
 				3BBBE2982295AAE90029C9C9 /* RestAPIManager+Rx.swift in Sources */,

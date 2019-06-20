@@ -15,6 +15,10 @@ var webSocket = WebSocket(url: URL(string: Config.gate_API_URL)!)
 
 public class WebSocketManager {
     // MARK: - Properties
+    public var isConnected: Bool {
+        return webSocket.isConnected
+    }
+    
     public static let instance = WebSocketManager()
     public let authorized = BehaviorRelay<Bool>(value: false)
 
