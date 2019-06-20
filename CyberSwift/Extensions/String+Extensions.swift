@@ -13,6 +13,10 @@ extension String {
         return String(prefix(1))
     }
 
+    public func addFirstZero() -> String {
+        return self.count == 1 ? "0" + self : self
+    }
+
     public var uppercaseFirst: String {
         return first.uppercased() + String(dropFirst())
     }
