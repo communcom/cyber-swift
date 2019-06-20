@@ -425,34 +425,6 @@ public struct ResponseAPIContentGetCommentContentMetadata: Decodable {
 
 
 // MARK: -
-public struct ResponseAPIContentGetCommentContentEmbed: Decodable {
-    // MARK: - In work API `content.getComments`
-    public let _id: String
-    public let id: String
-    public let type: String
-    public let result: ResponseAPIContentGetCommentContentEmbedResult
-}
-
-
-// MARK: -
-public struct ResponseAPIContentGetCommentContentEmbedResult: Decodable {
-    // MARK: - In work API `content.getComments`
-    public let type: String
-    public let version: String
-    public let title: String
-    public let url: String
-    public let author: String
-    public let author_url: String
-    public let provider_name: String
-    public let description: String
-    public let thumbnail_url: String
-    public let thumbnail_width: UInt64
-    public let thumbnail_height: UInt64
-    public let html: String
-}
-
-
-// MARK: -
 public struct ResponseAPIContentGetCommentVotes: Decodable {
     // MARK: - In work API `content.getComments`
     public let upCount: Int64?
