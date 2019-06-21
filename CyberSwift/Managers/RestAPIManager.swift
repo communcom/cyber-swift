@@ -214,7 +214,7 @@ public class RestAPIManager {
     }
     
     // API `content.getComments` by user
-    public func loadUserComments(nickName:                  String = Config.currentUser.id ?? "Cyber",
+    public func loadUserComments(nickName:                  String? = Config.currentUser.id,
                                  sortMode:                  CommentSortMode = .time,
                                  paginationLimit:           Int8 = Config.paginationLimit,
                                  paginationSequenceKey:     String? = nil,
@@ -222,7 +222,7 @@ public class RestAPIManager {
         // Offline mode
         if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
         
-        let methodAPIType = MethodAPIType.getUserComments(nickName: nickName, sortMode: sortMode, paginationSequenceKey: paginationSequenceKey)
+        let methodAPIType = MethodAPIType.getUserComments(nickName: nickName ?? "Cyber", sortMode: sortMode, paginationSequenceKey: paginationSequenceKey)
         
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                              onResult:          { (responseAPIResult) in
