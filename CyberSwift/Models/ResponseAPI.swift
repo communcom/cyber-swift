@@ -86,6 +86,8 @@ public struct ResponseAPIContentGetProfile: Decodable {
 // MARK: -
 public struct ResponseAPIContentGetProfileSubscription: Decodable {
     // MARK: - In work API `content.getProfile`
+    public let usersCount: UInt64?
+    public let communitiesCount: UInt64?
     public let userIds: [ResponseAPIContentGetProfileSubscriptionUserID?]?
     public let communities: [ResponseAPIContentGetProfileSubscriptionCommunity?]?
 }
