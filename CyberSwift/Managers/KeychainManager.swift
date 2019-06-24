@@ -167,10 +167,27 @@ public class KeychainManager {
         UIGraphicsEndPDFContext()
     }
     
-    public static func loadPDFFile() -> PDFDocument {
+    public static func loadPDFDocument() -> PDFDocument? {
         let documentsDirectory  =   NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         let filePath            =   (documentsDirectory as NSString).appendingPathComponent("userKeys.pdf") as String
         
-        return PDFDocument(url: URL(fileURLWithPath: filePath))!
+        return PDFDocument(url: URL(fileURLWithPath: filePath))
+    }
+    
+    public static func deletePDFDocument() {
+        let documentsDirectory  =   NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+        let filePath            =   (documentsDirectory as NSString).appendingPathComponent("userKeys.pdf") as String
+        
+        do {
+            try FileManager.default.removeItem(atPath: filePath)
+            
+            if let pdfDocument = KeychainManager.loadPDFDocument() {
+                Logger.log(message: pdfDocument.fileName, event: .debug)
+            } else {
+                Logger.log(message: "PDF-file deleted!!!", event: .severe)
+            }
+        } catch {
+            Logger.log(message: error.localizedDescription, event: .error)
+        }
     }
 }
