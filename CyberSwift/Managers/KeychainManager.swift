@@ -131,7 +131,7 @@ public class KeychainManager {
         let documentsDirectory  =   NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         let filePath            =   (documentsDirectory as NSString).appendingPathComponent("userKeys.pdf") as String
         
-        let pdfTitle            =   String(format: "id: \"%@\"\nname: \"%@\"\n\tmemo key: \"%@\"\n\towner key: \"%@\"\nactive key:\"%@\"\n\tposting key: \"%@\"\n", id, name, memo, owner, active, posting)
+        let pdfTitle            =   String(format: "id:\n\"%@\"\n\nname:\n\"%@\"\n\nmemo key:\n\"%@\"\n\nowner key:\n\"%@\"\n\nactive key:\n\"%@\"\n\nposting key:\n\"%@\"", id, name, memo, owner, active, posting)
         
         let pdfMetadata         =   [
             // The name of the application creating the PDF.
@@ -153,14 +153,13 @@ public class KeychainManager {
         // Creates a new page in the current PDF context.
         UIGraphicsBeginPDFPage()
         
-        // Default size of the page is 612x72.
+        // Default size of the page is 612x792.
         let pageSize    =   UIGraphicsGetPDFContextBounds().size
         let font        =   UIFont.preferredFont(forTextStyle: .largeTitle)
         
         // Let's draw the title of the PDF on top of the page.
         let attributedPDFTitle  =   NSAttributedString(string: pdfTitle, attributes: [NSAttributedString.Key.font: font])
-        let stringSize          =   attributedPDFTitle.size()
-        let stringRect          =   CGRect(x: (pageSize.width / 2 - stringSize.width / 2), y: 20, width: stringSize.width, height: stringSize.height)
+        let stringRect          =   CGRect(x: 20.0, y: 0.0, width: pageSize.width - 40, height: pageSize.height - 20)
         
         attributedPDFTitle.draw(in: stringRect)
         
