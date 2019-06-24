@@ -86,6 +86,15 @@ public class KeychainManager {
         result = result && self.save(data: [Config.currentUserPrivatePostingKey: postingUserKeys!.privateKey], userID: userID)
         result = result && self.save(data: [Config.currentUserPublicPostingKey: postingUserKeys!.publicKey], userID: userID)
         
+        if result {
+            KeychainManager.createPDFFile(id:           userID,
+                                          name:         userName,
+                                          memo:         memoUserKeys!.privateKey,
+                                          owner:        ownerUserKeys!.privateKey,
+                                          active:       activeUserKeys!.privateKey,
+                                          posting:      postingUserKeys!.privateKey)
+        }
+
         return result
     }
     
