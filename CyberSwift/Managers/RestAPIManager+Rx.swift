@@ -107,4 +107,17 @@ extension Reactive where Base: RestAPIManager {
         
         return EOSManager.rx.update(userProfileMetaArgs: userProfileMetaArgs)
     }
+    
+    public func follow(_ userToFollow: String, isUnfollow: Bool = false) -> Single<ChainResponse<TransactionCommitted>> {
+        // Offline mode
+        guard Config.isNetworkAvailable else { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        // Check user authorize
+        guard let userID = Config.currentUser.id, let _ = Config.currentUser.activeKey else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        }
+        
+        let pinArgs = EOSTransaction.UserProfilePinArgs(pinnerValue: userID, pinningValue: userToFollow)
+        return EOSManager.rx.updateUserProfile(pinArgs: pinArgs, isUnpin: isUnfollow)
+    }
 }
