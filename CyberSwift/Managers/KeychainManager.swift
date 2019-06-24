@@ -6,6 +6,7 @@
 //  Copyright © 2018 golos. All rights reserved.
 //
 
+import PDFKit
 import Locksmith
 import Foundation
 
@@ -122,5 +123,55 @@ public class KeychainManager {
             Logger.log(message: "Error save User data to Keychain.", event: .error)
             return false
         }
+    }
+
+    
+    // MASK: - PDFKit
+    public static func createPDFFile(id: String, name: String, memo: String, owner: String, active: String, posting: String) {
+        let documentsDirectory  =   NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+        let filePath            =   (documentsDirectory as NSString).appendingPathComponent("userKeys.pdf") as String
+        
+        let pdfTitle            =   String(format: "id: \"%@\"\nname: \"%@\"\n\tmemo key: \"%@\"\n\towner key: \"%@\"\nactive key:\"%@\"\n\tposting key: \"%@\"\n", id, name, memo, owner, active, posting)
+        
+        let pdfMetadata         =   [
+            // The name of the application creating the PDF.
+            kCGPDFContextCreator: "Commun iOS App",
+            
+            // The name of the PDF's author.
+            kCGPDFContextAuthor: "CyberSwift",
+            
+            // The title of the PDF.
+            kCGPDFContextTitle: "User keys",
+            
+            // Encrypts the document with the value as the owner password. Used to enable/disable different permissions.
+            // kCGPDFContextOwnerPassword: "myPassword123"
+        ]
+        
+        // Creates a new PDF file at the specified path.
+        UIGraphicsBeginPDFContextToFile(filePath, CGRect.zero, pdfMetadata)
+        
+        // Creates a new page in the current PDF context.
+        UIGraphicsBeginPDFPage()
+        
+        // Default size of the page is 612x72.
+        let pageSize    =   UIGraphicsGetPDFContextBounds().size
+        let font        =   UIFont.preferredFont(forTextStyle: .largeTitle)
+        
+        // Let's draw the title of the PDF on top of the page.
+        let attributedPDFTitle  =   NSAttributedString(string: pdfTitle, attributes: [NSAttributedString.Key.font: font])
+        let stringSize          =   attributedPDFTitle.size()
+        let stringRect          =   CGRect(x: (pageSize.width / 2 - stringSize.width / 2), y: 20, width: stringSize.width, height: stringSize.height)
+        
+        attributedPDFTitle.draw(in: stringRect)
+        
+        // Closes the current PDF context and ends writing to the file.
+        UIGraphicsEndPDFContext()
+    }
+    
+    public static func loadPDFFile() -> PDFDocument {
+        let documentsDirectory  =   NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+        let filePath            =   (documentsDirectory as NSString).appendingPathComponent("userKeys.pdf") as String
+        
+        return PDFDocument(url: URL(fileURLWithPath: filePath))!
     }
 }

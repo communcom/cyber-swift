@@ -12,12 +12,13 @@ target 'CyberSwift' do
   pod 'RxBlocking'
 
   pod 'Checksum'
+  pod 'PDFReader'
   pod 'Locksmith'
   pod 'SwiftTheme'
   pod 'CryptoSwift'
   pod 'secp256k1.swift'
   pod 'Localize-Swift', '~> 2.0'
-
+  
   # Websockets in swift for iOS and OSX
   #  pod 'Starscream', '~> 3.0'
   pod 'RxStarscream'

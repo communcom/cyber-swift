@@ -10,6 +10,7 @@ PODS:
   - GoloCrypto (1.0.6)
   - Localize-Swift (2.0.0)
   - Locksmith (4.0.0)
+  - PDFReader (2.5.1)
   - RxBlocking (4.5.0):
     - RxSwift (>= 4.4.2, ~> 4.4)
   - RxCocoa (4.5.0):
@@ -32,6 +33,7 @@ DEPENDENCIES:
   - GoloCrypto (from `https://github.com/Monserg/GoloGrypto.git`)
   - Localize-Swift (~> 2.0)
   - Locksmith
+  - PDFReader
   - RxBlocking
   - RxCocoa
   - RxStarscream
@@ -48,6 +50,7 @@ SPEC REPOS:
     - eosswift
     - Localize-Swift
     - Locksmith
+    - PDFReader
     - RxBlocking
     - RxCocoa
     - RxStarscream
@@ -72,9 +75,10 @@ SPEC CHECKSUMS:
   Checksum: f1aa56a27dea5db4006c819e2e129ee6aeb1d9af
   CryptoSwift: d81eeaa59dc5a8d03720fe919a6fd07b51f7439f
   eosswift: 22bc931fd65bbd446c3f828233b8fd2916cec4a7
-  GoloCrypto: 518f2b7d16a9b048280e7107337e42634d3d47f4
+  GoloCrypto: 30495d770515d57bd7b8e8a35098a9cdefc44578
   Localize-Swift: c798ec9286494866f7068f85f7c71283ac5bdab4
   Locksmith: e9bebbaaa4cee3c511bc358a44f843c3fe00e21f
+  PDFReader: 2c4a845d0560f33221cf911516e3b700967680f6
   RxBlocking: 79413e4d916f44bb3e113c5b2cc059e36fe58910
   RxCocoa: cbf70265dc65a981d4ac982e513c10cf23df24a0
   RxStarscream: aa79e742c87e9bcdff218a1ebb59638f5174589e
@@ -85,6 +89,6 @@ SPEC CHECKSUMS:
   SwiftTheme: a381f983da92153908b7a9eeb961b18b6d94d614
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
 
-PODFILE CHECKSUM: 33900a33b49e786317e3e532b580added13850bc
+PODFILE CHECKSUM: 98681abf765d9d0338c4b6a4a0d561f03e8215a0
 
 COCOAPODS: 1.7.2

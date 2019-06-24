@@ -10,11 +10,12 @@ Pod::Spec.new do |spec|
     spec.author             =   "msm72"
     spec.source_files       =   "CyberSwift", "CyberSwift/**/*.{h,m,swift}"
 
-    spec.version            =   "1.0.8"
+    spec.version            =   "1.0.9"
     spec.source             =   { :git => "https://github.com/GolosChain/cyber-ios.git", :tag => "#{spec.version}" }
 
     # Cocoapods
     spec.dependency 'Checksum'
+    spec.dependency 'PDFReader'
     spec.dependency 'Locksmith'
     spec.dependency 'RxSwift'
     spec.dependency 'RxCocoa'
