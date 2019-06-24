@@ -6,8 +6,8 @@
 //  Copyright © 2018 golos. All rights reserved.
 //
 
-import PDFKit
 import Locksmith
+import PDFReader
 import Foundation
 
 public class KeychainManager {
