@@ -293,8 +293,11 @@ public struct ResponseAPIContentGetPostStats: Decodable {
     // MARK: - In work API `content.getFeed`
     public let wilson: ResponseAPIContentGetPostStatsWilson?
     public let commentsCount: UInt64
+    public let rShares: Conflicted?
+    public let hot: Double
+    public let trending: Double
+    public let viewCount: UInt64
 }
-
 
 // MARK: -
 public struct ResponseAPIContentGetPostStatsWilson: Decodable {
