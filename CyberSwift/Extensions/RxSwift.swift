@@ -33,11 +33,16 @@ extension PrimitiveSequenceType where Self.TraitType == RxSwift.SingleTrait, Sel
                     message = String(message.dropLast())
                 }
                 
+                
                 Logger.log(message: message, event: .error)
                 
                 let json = try JSON(data: message.data(using: .utf8)!, options: .allowFragments)
                 
-                throw ErrorAPI.blockchain(message: json?["error"]["details"][0]["message"].string ?? response.errorBody!)
+                print(json.stringValue)
+                
+                let result = try JSONDecoder().decode(BCResponseAPIErrorResult.self, from: json.stringValue.data(using: .utf8)!)
+                
+                throw ErrorAPI.blockchain(message: result.error.details.first?.message ?? json.stringValue)
             }
             return response
         }

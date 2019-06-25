@@ -25,6 +25,6 @@ public struct BCResponseAPIError: Decodable {
 public struct BCResponseAPIErrorDetail: Decodable {
     public let message: String
     public let file: String
-    public let line_number: String
+    public let line_number: Int64
     public let method: String
 }
