@@ -71,10 +71,11 @@ public class EOSTransaction: ChainTransaction {
         let tags: [Tags]?
         let jsonmetadata: String
         let curators_prcnt: UInt16
+        let max_payout: String?
         
         
         // MARK: - Initialization
-        init(authorValue: String, parentPermlink: String? = nil, beneficiariesValues: [Beneficiary?] = [], tokenpropValue: Int16 = 0, vestpaymentValue: UInt64 = 1, headermssgValue: String = "test", bodymssgValue: String = "test", languagemssgValue: String = "ru", tagsValues: [Tags]? = [Tags()], jsonmetadataValue: String = "{\"embeds\": []}", curatorsPrcntValue: UInt16 = 0) {
+        init(authorValue: String, parentPermlink: String? = nil, beneficiariesValues: [Beneficiary?] = [], tokenpropValue: Int16 = 0, vestpaymentValue: UInt64 = 1, headermssgValue: String = "test", bodymssgValue: String = "test", languagemssgValue: String = "ru", tagsValues: [Tags]? = [Tags()], jsonmetadataValue: String = "{\"embeds\": []}", curatorsPrcntValue: UInt16 = 0, maxPayout: String? = nil) {
             let prefixTitle         =   parentPermlink == nil ? headermssgValue : "Comment"
             let messagePermlink     =   String.permlinkWith(string: prefixTitle)
             
@@ -89,7 +90,7 @@ public class EOSTransaction: ChainTransaction {
             self.tags               =   tagsValues
             self.jsonmetadata       =   jsonmetadataValue
             self.curators_prcnt     =   curatorsPrcntValue
-            
+            self.max_payout         =   maxPayout
 /*
 //            self.parentprmlnk       =   parentprmlnkValue
 //            self.parentacc          =   NameWriterValue(name: parentprmlnkValue.isEmpty ? parentaccValue : accountValue)
