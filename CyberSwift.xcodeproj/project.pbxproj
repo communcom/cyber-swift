@@ -12,6 +12,7 @@
 		3BBBE2982295AAE90029C9C9 /* RestAPIManager+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBBE2972295AAE90029C9C9 /* RestAPIManager+Rx.swift */; };
 		3BBBE29A2296A8A10029C9C9 /* RxSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBBE2992296A8A10029C9C9 /* RxSwift.swift */; };
 		3BCDB40B2260E9C300739F7E /* Bool+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCDB40A2260E9C300739F7E /* Bool+Extensions.swift */; };
+		3BDF4FAA22C229440029D616 /* BCResponseAPIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDF4FA922C229440029D616 /* BCResponseAPIError.swift */; };
 		B111B5BB224E1B5A00F84AD9 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B111B5BA224E1B5A00F84AD9 /* KeychainManager.swift */; };
 		B1677C66223F9BD7005FB286 /* RestAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1677C65223F9BD7005FB286 /* RestAPIManager.swift */; };
 		B179916E2269B3EB0014CB44 /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B179916D2269B3EA0014CB44 /* Data+Extensions.swift */; };
@@ -56,6 +57,7 @@
 		3BBBE2972295AAE90029C9C9 /* RestAPIManager+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RestAPIManager+Rx.swift"; sourceTree = "<group>"; };
 		3BBBE2992296A8A10029C9C9 /* RxSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxSwift.swift; sourceTree = "<group>"; };
 		3BCDB40A2260E9C300739F7E /* Bool+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+Extensions.swift"; sourceTree = "<group>"; };
+		3BDF4FA922C229440029D616 /* BCResponseAPIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BCResponseAPIError.swift; sourceTree = "<group>"; };
 		4837076B0145B925ED946333 /* Pods-CyberSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CyberSwift.release.xcconfig"; path = "Target Support Files/Pods-CyberSwift/Pods-CyberSwift.release.xcconfig"; sourceTree = "<group>"; };
 		B111B5BA224E1B5A00F84AD9 /* KeychainManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		B1677C65223F9BD7005FB286 /* RestAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestAPIManager.swift; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 				B1C3F864223F9906005711EF /* RequestAPI.swift */,
 				B1902AD522706F1E00661211 /* RequestParameterAPI.swift */,
 				B1C3F866223F9906005711EF /* ResponseAPI.swift */,
+				3BDF4FA922C229440029D616 /* BCResponseAPIError.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -360,6 +363,7 @@
 				B179917E2269B4560014CB44 /* PublicKey.swift in Sources */,
 				B111B5BB224E1B5A00F84AD9 /* KeychainManager.swift in Sources */,
 				B1C3F86B223F9907005711EF /* MethodAPI.swift in Sources */,
+				3BDF4FAA22C229440029D616 /* BCResponseAPIError.swift in Sources */,
 				B179917C2269B4560014CB44 /* PrivateKey.swift in Sources */,
 				B1C3F857223F98B1005711EF /* Date+Extensions.swift in Sources */,
 				B1EA02D02289626D00835244 /* UIColor+Extensions.swift in Sources */,
