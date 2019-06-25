@@ -900,3 +900,15 @@ public struct ResponseAPIRemoveFavoritesResult: Decodable {
 public struct ResponseAPIRemoveFavorites: Decodable {
     public let status: String
 }
+
+
+// MARK: - Generate new testnet accounts
+public struct ResponseAPICreateNewAccount: Decodable {
+    public let active_key: String
+    public let alias: String
+    public let comment_id: UInt16
+    public let owner_key: String
+    public let posting_key: String
+    public let user_db_id: UInt64
+    public let username: String
+}

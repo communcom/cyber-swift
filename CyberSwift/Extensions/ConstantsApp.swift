@@ -46,9 +46,9 @@ public struct Config {
         
         get {
             // User data by phone
-            if  let phone       =   UserDefaults.standard.value(forKey: Config.registrationUserPhoneKey) as? String,
-                let userData    =   KeychainManager.loadAllData(byUserPhone: phone),
-                let step        =   userData[Config.registrationStepKey] as? String, step == "firstStep" {
+            if  let phone                   =   UserDefaults.standard.value(forKey: Config.registrationUserPhoneKey) as? String,
+                let userData                =   KeychainManager.loadAllData(byUserPhone: phone),
+                let step                    =   userData[Config.registrationStepKey] as? String, step == "firstStep" {
                 let userID                  =   userData[Config.registrationUserIDKey] as! String
                 let userName                =   userData[Config.registrationUserNameKey] as! String
                 let userPrivateActiveKey    =   userData[Config.currentUserPrivateActiveKey] as! String
@@ -59,10 +59,10 @@ public struct Config {
             }
                 
             // User data by userID
-            else if     let userData        =   KeychainManager.loadAllData(byUserID: Config.currentUserIDKey) as? [String: Any],
-                let userID          =   userData[Config.currentUserIDKey] as? String,
-                let userName        =   userData[Config.currentUserNameKey] as? String,
-                let userActiveKey   =   userData[currentUserPublicActiveKey] as? String {
+            else if     let userData        =   KeychainManager.loadAllData(byUserID: Config.currentUserIDKey),
+                        let userID          =   userData[Config.currentUserIDKey] as? String,
+                        let userName        =   userData[Config.currentUserNameKey] as? String,
+                        let userActiveKey   =   userData[currentUserPublicActiveKey] as? String {
                 Logger.log(message: "User data by userID: userID = \(userID)", event: .debug)
                 
                 return (id: userID, name: userName, activeKey: userActiveKey)
