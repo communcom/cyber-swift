@@ -57,7 +57,7 @@ public class Broadcast {
     
 
     /// Generate array of new accounts
-    public func generateNewAccount() {
+    public func generateNewTestUser(success: @escaping (Bool) -> Void) {
         //  1. Set up the HTTP request with URLSession
         let session = URLSession.shared
         
@@ -65,7 +65,7 @@ public class Broadcast {
             let task = session.dataTask(with: url, completionHandler: { data, response, error in
                 guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
                     Logger.log(message: "Error create new acounts: \(error!.localizedDescription)", event: .error)
-                    return
+                    return success(false)
                 }
                 
                 do {
@@ -80,16 +80,19 @@ public class Broadcast {
                                                                 Config.testUserPublicActiveKey:  newAccount.active_key
                                                             ],
                                                  userID:    Config.testUserIDKey)
+                        
+                        return success(true)
                     }
                 } catch {
                     Logger.log(message: error.localizedDescription, event: .error)
+                    return success(false)
                 }
             })
             
             task.resume()
         }
     }
-
+    
 
     /// Generating a unique ID
     //  for content:                < 100
