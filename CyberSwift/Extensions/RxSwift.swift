@@ -33,12 +33,11 @@ extension PrimitiveSequenceType where Self.TraitType == RxSwift.SingleTrait, Sel
                     message = String(message.dropLast())
                 }
                 
+                message = message.replacingOccurrences(of: "\\'", with: "'")
                 
                 Logger.log(message: message, event: .error)
                 
                 let json = try JSON(data: message.data(using: .utf8)!, options: .allowFragments)
-                
-                print(json.stringValue)
                 
                 let result = try JSONDecoder().decode(BCResponseAPIErrorResult.self, from: json.stringValue.data(using: .utf8)!)
                 
