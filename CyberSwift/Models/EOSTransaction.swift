@@ -120,7 +120,7 @@ public class EOSTransaction: ChainTransaction {
         
         
         // MARK: - Initialization
-        init(authorValue: String = Config.testUserAccount.id, messagePermlink: String, parentPermlink: String? = nil, headermssgValue: String = "test", bodymssgValue: String = "test", languagemssgValue: String = "ru", tagsValues: [Tags] = [Tags()], jsonmetadataValue: String = "") {
+        init(authorValue: String = Config.testUser.id ?? "CyberSwift", messagePermlink: String, parentPermlink: String? = nil, headermssgValue: String = "test", bodymssgValue: String = "test", languagemssgValue: String = "ru", tagsValues: [Tags] = [Tags()], jsonmetadataValue: String = "") {
             self.message_id     =   Mssgid(authorValue: authorValue, permlinkValue: messagePermlink)
             self.headermssg     =   headermssgValue
             self.bodymssg       =   bodymssgValue
@@ -138,7 +138,7 @@ public class EOSTransaction: ChainTransaction {
         
         
         // MARK: - Initialization
-        init(authorValue: String = Config.testUserAccount.id, messagePermlink: String) {
+        init(authorValue: String = Config.testUser.id ?? "CyberSwift", messagePermlink: String) {
             self.message_id = Mssgid(authorValue: authorValue, permlinkValue: messagePermlink)
         }
     }

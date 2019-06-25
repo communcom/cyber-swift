@@ -76,6 +76,27 @@ public struct Config {
         }
     }
     
+    public static var testUser: (id: String?, name: String?, activeKey: String?) {
+        set { }
+        
+        get {
+            if  let userData        =   KeychainManager.loadAllData(byUserID: Config.testUserIDKey),
+                let userID          =   userData[Config.testUserIDKey] as? String,
+                let userName        =   userData[Config.testUserNameKey] as? String,
+                let userActiveKey   =   userData[testUserPublicActiveKey] as? String {
+                Logger.log(message: "Test User data by userID: userID = \(userID)", event: .debug)
+                
+                return (id: userID, name: userName, activeKey: userActiveKey)
+            }
+                
+            else {
+                Logger.log(message: "Test User nickName is empty", event: .debug)
+                
+                return (id: nil, name: nil, activeKey: nil)
+            }
+        }
+    }
+
     // Accounts test values
     public static let accountNickDestroyer2k: String    =   "destroyer2k"
     public static let activeKeyDestroyer2k: String      =   "5JagnCwCrB2sWZw6zCvaBw51ifoQuNaKNsDovuGz96wU3tUw7hJ"
@@ -93,32 +114,6 @@ public struct Config {
     static let accountNickJosephKalu: String            =   "joseph.kalu"
     static let postingKeyJosephKalu: String             =   "5K6CfG8gzhTZNwHDxPmeQiPChx6FpgiVYN7USVp2aGC2WsDqH4h"
     
-    // testnet: http://116.203.39.126:7777/get_users
-    public static let testUserAccount                   =   (
-                                                                id:             "tst2waqpylkg",
-                                                                alias:          "kuphal-kariane-v",
-                                                                activeKey:      "5HtsQ2TEHeCRA3MkYLtX4E2d74ZH4RrvprNeFrK5LjguxEW7MfK",
-                                                                ownerKey:       "5Khb6mHXVD1TRa5yvtr6V6oo4eyLAMXnwdMpfJc3vjqwLMqDt1w",
-                                                                postingKey:     "5KA4U254wmxxkA7WjReeX5dPw5oAF4qbmG2yPG1gfrRtfd1KVuQ"
-                                                            )
-    
-    public static let testUserAccount2                  =   (
-                                                                id:             "tst42gcsapqn",
-                                                                alias:          "testuserr1",
-                                                                activeKey:      "GLS6HcE3y7oBF6u7Bzg2EB2KyqP3Vn9UwtECHt4PBzcGuKebCcRZ6",
-                                                                ownerKey:       "GLS7HQMn7Ab7ccmxGG4ykRqqNM26Xhkk8acTTgqaC8oVY7McZFmur",
-                                                                postingKey:     "GLS5ZtKHAPHHpviCjUxb2ec5EdQpuworC6JwoUJXxGkdMyCzswdcy"
-                                                            )
-    
-    public static let testUserAccount3                  =   (
-                                                                id:             "tst5rheippil",
-                                                                alias:          "gutmann-juliet-sr",
-                                                                activeKey:      "5KZkYtJZLt8DFo7D7VG8EDtRsurNpwsCieD1J8dxcfivRY2QAPV",
-                                                                ownerKey:       "5KUQAaBNzTbXFnyfovXhxe8LWuwCdx9yR8cjH25Lsw6v6bmdt6Z",
-                                                                postingKey:     "5JSvQq5e1SatkaMBtQP4DED1Xc4qLgssy5KHZrwyhFhqMn4RKvJ"
-                                                            )
-    
-    
     /// Check network connection
     public static var isNetworkAvailable: Bool {
         set { }
@@ -134,6 +129,9 @@ public struct Config {
     public static let currentUserNameKey: String            =   "currentUserNameKey"
     public static let currentUserIDKey: String              =   "currentUserIDKey"
     public static let currentUserAvatarUrlKey: String       =   "currentUserAvatarUrlKey"
+    public static let testUserIDKey: String                 =   "testUserIDKey"
+    public static let testUserNameKey: String               =   "testUserNameKey"
+    public static let testUserPublicActiveKey: String       =   "testUserPublicActiveKey"
     public static let isCurrentUserLoggedKey: String        =   "isCurrentUserLoggedKey"
     public static let currentUserPrivateOwnerKey: String    =   "currentUserPrivateOwnerKey"
     public static let currentUserPublicOwnerKey: String     =   "currentUserPublicOwnerKey"

@@ -75,11 +75,11 @@ public class Broadcast {
                         Logger.log(message: "newAccount: \(String(describing: newAccount))", event: .debug)
                         
                         _ = KeychainManager.save(data:      [
-                            Config.currentUserIDKey:            newAccount.username,
-                            Config.currentUserNameKey:          newAccount.alias,
-                            Config.currentUserPublicActiveKey:  newAccount.active_key
-                            ],
-                                                 userID:    Config.currentUserIDKey)
+                                                                Config.testUserIDKey:            newAccount.username,
+                                                                Config.testUserNameKey:          newAccount.alias,
+                                                                Config.testUserPublicActiveKey:  newAccount.active_key
+                                                            ],
+                                                 userID:    Config.testUserIDKey)
                     }
                 } catch {
                     Logger.log(message: error.localizedDescription, event: .error)
