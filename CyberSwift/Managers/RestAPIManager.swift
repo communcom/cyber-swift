@@ -96,6 +96,18 @@ public class RestAPIManager {
                                                                                         ],
                                                                             userID:     Config.currentUserIDKey) {
                                                         Logger.log(message: "\nAPI `auth.authorize` response result: \n\(responseAPIResult)\n", event: .debug)
+                                                        
+                                                        // API `push.notifyOn`
+                                                        if let fcmToken = UserDefaults.standard.value(forKey: "fcmToken") as? String {
+                                                            RestAPIManager.instance.pushNotifyOn(fcmToken:          fcmToken,
+                                                                                                 responseHandling:  { response in
+                                                                                                    Logger.log(message: response.status, event: .severe)
+                                                            },
+                                                                                                 errorHandling:     { errorAPI in
+                                                                                                    Logger.log(message: errorAPI.caseInfo.message, event: .error)
+                                                            })
+                                                        }
+                                                        
                                                         responseHandling(result)
                                                     }
                                                 })
