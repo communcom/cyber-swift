@@ -31,7 +31,7 @@ extension PrimitiveSequenceType where Self.TraitType == RxSwift.SingleTrait, Sel
                 let jsonDecoder = JSONDecoder()
                 let data = response.errorBody!.data(using: .utf8)!
                 
-                let result = try jsonDecoder.decode(BCResponseAPIErrorResult, from: data)
+                let result = try jsonDecoder.decode(BCResponseAPIErrorResult.self, from: data)
                 
                 throw ErrorAPI.blockchain(message: result.error.details.first?.message ?? response.errorBody!)
             }

@@ -79,7 +79,7 @@ public struct ResponseAPIContentGetProfile: Decodable {
     public let registration: ResponseAPIContentGetProfileRegistration
     public let createdAt: String
     public let personal: ResponseAPIContentGetProfilePersonal
-    public let subscribers: ResponseAPIContentGetProfileSubscriber?
+    public var subscribers: ResponseAPIContentGetProfileSubscriber?
     public var isSubscribed: Bool?
 }
 
