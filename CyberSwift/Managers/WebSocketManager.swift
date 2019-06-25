@@ -173,9 +173,12 @@ public class WebSocketManager {
             case .generateSecret:
                 return (responseAPI: try JSONDecoder().decode(ResponseAPIAuthGenerateSecretResult.self, from: jsonData), errorAPI: nil)
 
-            case .getPushHistoryFresh(_):
+            case .getPushHistoryFresh:
                 return (responseAPI: try JSONDecoder().decode(ResponseAPIPushHistoryFreshResult.self, from: jsonData), errorAPI: nil)
                 
+            case .notifyPushOn(_):
+                return (responseAPI: try JSONDecoder().decode(ResponseAPINotifyPushOnResult.self, from: jsonData), errorAPI: nil)
+
             case .getOnlineNotifyHistory(_):
                 return (responseAPI: try JSONDecoder().decode(ResponseAPIOnlineNotifyHistoryResult.self, from: jsonData), errorAPI: nil)
                 

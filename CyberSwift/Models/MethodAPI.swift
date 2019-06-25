@@ -103,11 +103,14 @@ public indirect enum MethodAPIType {
     //  Get the secret authorization to sign
     case generateSecret
 
+    // Subscribe to push notifications
+    case notifyPushOn(fcmToken: String)
+    
 //    //  Receiving the number of unread notifications
 //    case getPushHistory(nickName: String)
 
     //  Receiving the number of unread notifications according to user settings
-    case getPushHistoryFresh(profile: String)
+    case getPushHistoryFresh
     
     //  Receive user's notifications
     case getOnlineNotifyHistory(fromId: String?, paginationLimit: Int8, markAsViewed: Bool, freshOnly: Bool)
@@ -250,12 +253,22 @@ public indirect enum MethodAPIType {
                      methodName:        "generateSecret",
                      parameters:        ["": ""])
 
-        //  Template { "id": 8, "jsonrpc": "2.0", "method": "push.historyFresh", "params": { "": "" }}
-        case .getPushHistoryFresh(let profileValue):
+        //  Template { "id": 71, "jsonrpc": "2.0", "method": "push.notifyOn", "params": { "key": <fcm_token>, "profile": <userNickName-deviceUDID> }}
+        case .notifyPushOn(let fcmTokenValue):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.push.rawValue,
+                     methodName:        "notifyOn",
+                     parameters:        [
+                                            "key":      fcmTokenValue,
+                                            "profile":  String(format: "%@-%@", Config.currentUser.id!, Config.currentDeviceType)
+                                        ])
+            
+        //  Template { "id": 8, "jsonrpc": "2.0", "method": "push.historyFresh", "params": { "profile": <userNickName-deviceUDID> }}
+        case .getPushHistoryFresh:
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.push.rawValue,
                      methodName:        "historyFresh",
-                     parameters:        ["profile": profileValue])
+                     parameters:        ["profile": String(format: "%@-%@", Config.currentUser.id!, Config.currentDeviceType)])
             
         //  Template { "id": 9, "jsonrpc": "2.0", "method": "onlineNotify.history", "params": { "freshOnly": true, "fromId": "3123", markAsViewed}}
         case .getOnlineNotifyHistory(let fromId, _, let markAsViewed, let freshOnly):

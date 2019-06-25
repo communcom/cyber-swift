@@ -213,28 +213,19 @@ public struct ResponseAPIContentGetPostContentBody: Decodable {
 }
 
 
-// MARK: -
+// MARK: - API `content.getFeed`
 public struct ResponseAPIContentGetPostContentMetadata: Decodable {
-    // MARK: - In work API `content.getFeed`
     public let embeds: [ResponseAPIContentGetPostContentMetadataEmbed]?
-    
-    // MARK: - In work API `content.getPost`
 }
 
-
-// MARK: -
 public struct ResponseAPIContentEmbed: Decodable {
-    // MARK: - In work API `content.getFeed`
     public let _id: String
     public let id: String?
     public let type: String?
     public let result: ResponseAPIContentEmbedResult?
 }
 
-
-// MARK: -
 public struct ResponseAPIContentEmbedResult: Decodable {
-    // MARK: - In work API `content.getFeed`
     public let type: String
     public let version: String
     public let title: String?
@@ -250,10 +241,7 @@ public struct ResponseAPIContentEmbedResult: Decodable {
     public let content_length: UInt64?
 }
 
-
-// MARK: -
 public struct ResponseAPIContentGetPostContentMetadataEmbed: Decodable {
-    // MARK: - In work API `content.getFeed`
     public let url: String?
     public let result: ResponseAPIContentGetPostContentMetadataEmbedResult?
     public let id: Conflicted
@@ -261,10 +249,7 @@ public struct ResponseAPIContentGetPostContentMetadataEmbed: Decodable {
     public let type: String?
 }
 
-
-// MARK: -
 public struct ResponseAPIContentGetPostContentMetadataEmbedResult: Decodable {
-    // MARK: - In work API `content.getFeed`
     public let type: String
     public let version: String
     public let title: String
@@ -279,20 +264,14 @@ public struct ResponseAPIContentGetPostContentMetadataEmbedResult: Decodable {
     public let html: String
 }
 
-
-// MARK: -
 public struct ResponseAPIContentVotes: Decodable {
-    // MARK: - In work API `content.getFeed`
     public let upCount: Int64?
     public let downCount: Int64?
     public var hasUpVote: Bool
     public var hasDownVote: Bool
 }
 
-
-// MARK: -
 public struct ResponseAPIContentGetPostStats: Decodable {
-    // MARK: - In work API `content.getFeed`
     public let wilson: ResponseAPIContentGetPostStatsWilson?
     public let commentsCount: UInt64
     public let rShares: Conflicted?
@@ -301,66 +280,48 @@ public struct ResponseAPIContentGetPostStats: Decodable {
     public let viewCount: UInt64
 }
 
-// MARK: -
 public struct ResponseAPIContentGetPostStatsWilson: Decodable {
-    // MARK: - In work API `content.getFeed`
     public let hot: Double
     public let trending: Double
 }
 
-
-// MARK: -
 public struct ResponseAPIContentGetPostPayout: Decodable {
-    // MARK: - In work API `content.getFeed`
     public let rShares: Conflicted?
 }
 
-
-// MARK: -
 public struct ResponseAPIContentGetPostContentId: Decodable {
-    // MARK: - In work API `content.getFeed`
     public let userId: String
     public let permlink: String
     public let refBlockNum: UInt64?
 }
 
-
-// MARK: -
 public struct ResponseAPIContentGetPostMeta: Decodable {
-    // MARK: - In work API `content.getFeed`
     public let time: String
 }
 
-
-// MARK: -
 public struct ResponseAPIContentGetPostAuthor: Decodable {
-    // MARK: - In work API `content.getFeed`
     public let userId: String
     public let username: String?
 }
 
-
-// MARK: -
 public struct ResponseAPIContentGetPostCommunity: Decodable {
-    // MARK: - In work API `content.getFeed`
     public let id: String
     public let name: String
     public let avatarUrl: String?
 }
 
 
-// MARK: -
+// MARK: - API `content.getPost`
 public struct ResponseAPIContentGetPostResult: Decodable {
-    // MARK: - In work API `content.getPost`
     public let id: Int64
     public let jsonrpc: String
     public let result: ResponseAPIContentGetPost?
     public let error: ResponseAPIError?
 }
 
-// MARK: -
+
+// MARK: - API `content.waitForTransaction`
 public struct ResponseAPIContentWaitForTransactionResult: Decodable {
-    // MARK: - In work API `content.waitForTransaction`
     public let id: Int64
     public let jsonrpc: String
     public let result: ResponseAPIContentWaitForTransaction?
@@ -371,27 +332,21 @@ public struct ResponseAPIContentWaitForTransaction: Decodable {
     public let status: String
 }
 
-// MARK: -
+
+// MARK: - API `content.getComments`
 public struct ResponseAPIContentGetCommentsResult: Decodable {
-    // MARK: - In work API `content.getComments`
     public let id: Int64
     public let jsonrpc: String
     public let result: ResponseAPIContentGetComments?
     public let error: ResponseAPIError?
 }
 
-
-// MARK: -
 public struct ResponseAPIContentGetComments: Decodable {
-    // MARK: - In work API `content.getComments`
     public let items: [ResponseAPIContentGetComment]?
     public let sequenceKey: String?
 }
 
-
-// MARK: -
 public struct ResponseAPIContentGetComment: Decodable {
-    // MARK: - In work API `content.getComments`
     public let content: ResponseAPIContentGetCommentContent
     public let votes: ResponseAPIContentVotes
     public let payout: ResponseAPIContentGetCommentPayout
@@ -402,222 +357,152 @@ public struct ResponseAPIContentGetComment: Decodable {
     public let parentComment: ResponseAPIContentGetCommentParentComment?
 }
 
-
-// MARK: -
 public struct ResponseAPIContentGetCommentContent: Decodable {
-    // MARK: - In work API `content.getComments`
     public let body: ResponseAPIContentGetCommentContentBody
     public let metadata: ResponseAPIContentGetCommentContentMetadata?
     public let embeds: [ResponseAPIContentEmbed]
 }
 
-
-// MARK: -
 public struct ResponseAPIContentGetCommentContentBody: Decodable {
-    // MARK: - In work API `content.getComments`
     public let preview: String?
     public let full: String?
 }
 
-
-// MARK: -
 public struct ResponseAPIContentGetCommentContentMetadata: Decodable {
-    // MARK: - In work API `content.getComments`
     public let app: String?
     public let format: String?
     public let tags: [String]?
 }
 
-
-// MARK: -
 public struct ResponseAPIContentGetCommentVotes: Decodable {
-    // MARK: - In work API `content.getComments`
     public let upCount: Int64?
     public let downCount: Int64?
     public let hasUpVote: Bool
     public let hasDownVote: Bool
 }
 
-
-// MARK: -
 public struct ResponseAPIContentGetCommentPayout: Decodable {
-    // MARK: - In work API `content.getComments`
     public let rShares: UInt64?
 }
 
-
-// MARK: -
 public struct ResponseAPIContentGetCommentContentId: Decodable {
-    // MARK: - In work API `content.getComments`
     public let userId: String
     public let permlink: String
     public let refBlockNum: UInt64?
 }
 
-
-// MARK: -
 public struct ResponseAPIContentGetCommentMeta: Decodable {
-    // MARK: - In work API `content.getComments`
     public let time: String
 }
 
-
-// MARK: -
 public struct ResponseAPIContentGetCommentAuthor: Decodable {
-    // MARK: - In work API `content.getComments`
     public let userId: String
     public let username: String?
 }
 
-
-// MARK: -
 public struct ResponseAPIContentGetCommentParent: Decodable {
-    // MARK: - In work API `content.getComments`
     public let post: ResponseAPIContentGetCommentParentPost?
     public let comment: ResponseAPIContentGetCommentParentComment?
 }
 
-
-// MARK: -
 public struct ResponseAPIContentGetCommentParentComment: Decodable {
-    // MARK: - In work API `content.getComments`
     public let contentId: ResponseAPIContentGetCommentParentCommentContentId?
     public let content: ResponseAPIContentGetCommentParentCommentContent?
     public let author: ResponseAPIContentGetCommentParentCommentAuthor?
 }
 
-
-// MARK: -
 public struct ResponseAPIContentGetCommentParentCommentContentId: Decodable {
-    // MARK: - In work API `content.getComments`
     public let userId: String
     public let permlink: String
     public let refBlockNum: UInt64?
 }
 
-
-// MARK: -
 public struct ResponseAPIContentGetCommentParentCommentContent: Decodable {
-    // MARK: - In work API `content.getComments`
     public let body: ResponseAPIContentGetCommentParentCommentContentBody?
 }
 
-
-// MARK: -
 public struct ResponseAPIContentGetCommentParentCommentContentBody: Decodable {
-    // MARK: - In work API `content.getComments`
     public let preview: String?
 }
 
-
-// MARK: -
 public struct ResponseAPIContentGetCommentParentCommentAuthor: Decodable {
-    // MARK: - In work API `content.getComments`
     public let userId: String
 }
 
 
-// MARK: -
+// MARK: - API `content.getComments` by user
 public struct ResponseAPIContentGetCommentParentPost: Decodable {
-    // MARK: - In work API `content.getComments` by user
     public let content: ResponseAPIContentGetCommentParentPostContent?
     public let community: ResponseAPIContentGetCommentParentPostCommunity?
     
-    // MARK: - In work API `content.getComments` by post
+    // API `content.getComments` by post
     public let contentId: ResponseAPIContentGetCommentContentId?
 }
 
-
-// MARK: -
 public struct ResponseAPIContentGetCommentParentPostContent: Decodable {
-    // MARK: - In work API `content.getComments`
     public let title: String
 }
 
-
-// MARK: -
 public struct ResponseAPIContentGetCommentParentPostCommunity: Decodable {
-    // MARK: - In work API `content.getComments`
     public let id: String
     public let name: String
     public let avatarUrl: String?
 }
 
 
-// MARK: -
+// MARK: - API `auth.authorize`
 public struct ResponseAPIAuthAuthorizeResult: Decodable {
-    // MARK: - In work API `auth.authorize`
     public let id: Int64
     public let jsonrpc: String
     public let result: ResponseAPIAuthAuthorize?
     public let error: ResponseAPIError?
 }
 
-
-// MARK: -
 public struct ResponseAPIAuthAuthorize: Decodable {
-    // MARK: - In work API `auth.authorize`
     public let user: String
     public let displayName: String
     public let roles: [ResponseAPIAuthAuthorizeRole]?
     public let permission: String
 }
 
-
-// MARK: -
 public struct ResponseAPIAuthAuthorizeRole: Decodable {
-    // MARK: - In work API `auth.authorize`
     //    public let title: String?
 }
 
-
-// MARK: -
 public struct ResponseAPIAuthGenerateSecretResult: Decodable {
-    // MARK: - In work API `auth.authorize`
     public let id: Int64
     public let jsonrpc: String
     public let result: ResponseAPIAuthGenerateSecret?
     public let error: ResponseAPIError?
 }
 
-
-// MARK: -
 public struct ResponseAPIAuthGenerateSecret: Decodable {
-    // MARK: - In work API `auth.authorize`
     public let secret: String
 }
 
 
-// MARK: -
+// MARK: - API `registration.getState`
 public struct ResponseAPIRegistrationGetStateResult: Decodable {
-    // MARK: - In work API `registration.getState`
     public let id: Int64
     public let jsonrpc: String
     public let result: ResponseAPIRegistrationGetState?
     public let error: ResponseAPIError?
 }
 
-
-// MARK: -
 public struct ResponseAPIRegistrationGetState: Decodable {
-    // MARK: - In work API `registration.getState`
     public let currentState: String
 }
 
 
-// MARK: -
+// MARK: - API `registration.firstStep`
 public struct ResponseAPIRegistrationFirstStepResult: Decodable {
-    // MARK: - In work API `registration.firstStep`
     public let id: Int64
     public let jsonrpc: String
     public let result: ResponseAPIRegistrationFirstStep?
     public let error: ResponseAPIError?
 }
 
-
-// MARK: -
 public struct ResponseAPIRegistrationFirstStep: Decodable {
-    // MARK: - In work API `registration.firstStep`
     public let code: UInt64
     public let strategy: String
     public let nextSmsRetry: String
@@ -630,105 +515,94 @@ public struct ResponseAPIRegistrationFirstStep: Decodable {
 }
 
 
-// MARK: -
+// MARK: - API `registration.verify`
 public struct ResponseAPIRegistrationVerifyResult: Decodable {
-    // MARK: - In work API `registration.verify`
     public let id: Int64
     public let jsonrpc: String
     public let result: ResponseAPIRegistrationVerify?
     public let error: ResponseAPIError?
 }
 
-
-// MARK: -
 public struct ResponseAPIRegistrationVerify: Decodable {
-    // MARK: - In work API `registration.verify`
     public let status: String
 }
 
 
-// MARK: -
+// MARK: - API `registration.setUsername`
 public struct ResponseAPIRegistrationSetUsernameResult: Decodable {
-    // MARK: - In work API `registration.setUsername`
     public let id: Int64
     public let jsonrpc: String
     public let result: ResponseAPIRegistrationSetUsername?
     public let error: ResponseAPIError?
 }
 
-
-// MARK: -
 public struct ResponseAPIRegistrationSetUsername: Decodable {
-    // MARK: - In work API `registration.setUsername`
     public let status: String
 }
 
 
-// MARK: -
+// MARK: - API `registration.resendSmsCode`
 public struct ResponseAPIResendSmsCodeResult: Decodable {
-    // MARK: - In work API `registration.resendSmsCode`
     public let id: Int64
     public let jsonrpc: String
     public let result: ResponseAPIResendSmsCode?
     public let error: ResponseAPIError?
 }
 
-
-// MARK: -
 public struct ResponseAPIResendSmsCode: Decodable {
-    // MARK: - In work API `registration.resendSmsCode`
     public let nextSmsRetry: String
     public let code: UInt64
 }
 
 
-// MARK: -
+// MARK: - API `registration.toBlockChain`
 public struct ResponseAPIRegistrationToBlockChainResult: Decodable {
-    // MARK: - In work API `registration.toBlockChain`
     public let id: Int64
     public let jsonrpc: String
     public let result: ResponseAPIRegistrationToBlockChain?
     public let error: ResponseAPIError?
 }
 
-
-// MARK: -
 public struct ResponseAPIRegistrationToBlockChain: Decodable {
-    // MARK: - In work API `registration.toBlockChain`
     public let userId: String
     public let username: String
 }
 
 
-// MARK: -
+// MARK: - API `push.notifyOn`
+public struct ResponseAPINotifyPushOnResult: Decodable {
+    public let id: Int64
+    public let jsonrpc: String
+    public let result: ResponseAPINotifyPushOn?
+    public let error: ResponseAPIError?
+}
+
+public struct ResponseAPINotifyPushOn: Decodable {
+    public let status: String
+}
+
+
+// MARK: - API `push.historyFresh`
 public struct ResponseAPIPushHistoryFreshResult: Decodable {
-    // MARK: - In work API `push.historyFresh`
     public let id: Int64
     public let jsonrpc: String
     public let result: ResponseAPIPushHistoryFresh?
     public let error: ResponseAPIError?
 }
 
-
-// MARK: -
 public struct ResponseAPIPushHistoryFresh: Decodable {
-    // MARK: - In work API `push.historyFresh`
     //    public let status: String
 }
 
 
-// MARK: -
+// MARK: - API `onlineNotify.history`
 public struct ResponseAPIOnlineNotifyHistoryResult: Decodable {
-    // MARK: - In work API `onlineNotify.history`
     public let jsonrpc: String
     public let result: ResponseAPIOnlineNotifyHistory?
     public let error: ResponseAPIError?
 }
 
-
-// MARK: -
 public struct ResponseAPIOnlineNotifyHistory: Decodable {
-    // MARK: - In work API `onlineNotify.history`
     public let total: Int64
     public let data: [ResponseAPIOnlineNotificationData]
 }

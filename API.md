@@ -31,6 +31,11 @@
 * 18.04.2019:
 - change `refBlockNum` type: `String` -> `UInt64`
 
+### API 'push.notifyOn'
+* 25.06.2019:
+- create API
+- 
+
 ### API 'push.historyFresh'
 
 ### API 'options.get'

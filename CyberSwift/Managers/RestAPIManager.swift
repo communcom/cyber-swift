@@ -297,13 +297,38 @@ public class RestAPIManager {
         })
     }
     
+    // API `push.notifyOn`
+    public func pushNotifyOn(fcmToken:              String,
+                             responseHandling:      @escaping (ResponseAPINotifyPushOn) -> Void,
+                             errorHandling:         @escaping (ErrorAPI) -> Void) {
+        // Offline mode
+        if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        let methodAPIType = MethodAPIType.notifyPushOn(fcmToken: fcmToken)
+        
+        Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                             onResult:          { responseAPIResult in
+                                                guard let result = (responseAPIResult as! ResponseAPINotifyPushOnResult).result else {
+                                                    let responseAPIError = (responseAPIResult as! ResponseAPINotifyPushOnResult).error
+                                                    Logger.log(message: "\nAPI `push.notifyOn` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
+                                                    return errorHandling(ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
+                                                }
+                                                
+                                                Logger.log(message: "\nAPI `push.notifyOn` response result: \n\(responseAPIResult)\n", event: .debug)
+                                                responseHandling(result)
+        },
+                                             onError:           { errorAPI in
+                                                Logger.log(message: "\nAPI `push.historyFresh` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
+                                                errorHandling(errorAPI)
+        })
+    }
+    
     // API `push.historyFresh`
-    public func getPushHistoryFresh(nickName:       String = Config.currentUser.id ?? "Cyberway",
-                                    completion:     @escaping (ResponseAPIPushHistoryFresh?, ErrorAPI?) -> Void) {
+    public func getPushHistoryFresh(completion: @escaping (ResponseAPIPushHistoryFresh?, ErrorAPI?) -> Void) {
         // Offline mode
         if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
         
-        let methodAPIType = MethodAPIType.getPushHistoryFresh(profile: String(format: "%@%@", nickName, Config.currentDeviceType))
+        let methodAPIType = MethodAPIType.getPushHistoryFresh
         
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                              onResult:          { (responseAPIResult) in
