@@ -614,7 +614,7 @@ public struct ResponseAPIOnlineNotificationData: Decodable {
     public let timestamp: String
     public let eventType: String
     public let fresh: Bool
-    public let unread: Bool
+    public var unread: Bool
     
     public let community: ResponseAPIOnlineNotificationDataComunity?
     public let actor: ResponseAPIOnlineNotificationDataActor?
