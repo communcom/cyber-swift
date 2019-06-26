@@ -105,7 +105,10 @@ public indirect enum MethodAPIType {
 
     // Subscribe to push notifications
     case notifyPushOn(fcmToken: String)
-    
+
+    // Unsubscribe of push notifications
+    case notifyPushOff(fcmToken: String)
+
 //    //  Receiving the number of unread notifications
 //    case getPushHistory(nickName: String)
 
@@ -258,6 +261,16 @@ public indirect enum MethodAPIType {
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.push.rawValue,
                      methodName:        "notifyOn",
+                     parameters:        [
+                                            "key":      fcmTokenValue,
+                                            "profile":  String(format: "%@-%@", Config.currentUser.id!, Config.currentDeviceType)
+                                        ])
+            
+        //  Template { "id": 72, "jsonrpc": "2.0", "method": "push.notifyOff", "params": { "key": <fcm_token>, "profile": <userNickName-deviceUDID> }}
+        case .notifyPushOff(let fcmTokenValue):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.push.rawValue,
+                     methodName:        "notifyOff",
                      parameters:        [
                                             "key":      fcmTokenValue,
                                             "profile":  String(format: "%@-%@", Config.currentUser.id!, Config.currentDeviceType)

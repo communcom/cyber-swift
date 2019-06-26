@@ -582,6 +582,19 @@ public struct ResponseAPINotifyPushOn: Decodable {
 }
 
 
+// MARK: - API `push.notifyOff`
+public struct ResponseAPINotifyPushOffResult: Decodable {
+    public let id: Int64
+    public let jsonrpc: String
+    public let result: ResponseAPINotifyPushOff?
+    public let error: ResponseAPIError?
+}
+
+public struct ResponseAPINotifyPushOff: Decodable {
+    public let status: String
+}
+
+
 // MARK: - API `push.historyFresh`
 public struct ResponseAPIPushHistoryFreshResult: Decodable {
     public let id: Int64

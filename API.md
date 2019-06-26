@@ -34,7 +34,10 @@
 ### API 'push.notifyOn'
 * 25.06.2019:
 - create API
-- 
+
+### API 'push.notifyOff'
+* 26.06.2019:
+- create API
 
 ### API 'push.historyFresh'
 

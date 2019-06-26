@@ -179,6 +179,9 @@ public class WebSocketManager {
             case .notifyPushOn(_):
                 return (responseAPI: try JSONDecoder().decode(ResponseAPINotifyPushOnResult.self, from: jsonData), errorAPI: nil)
 
+            case .notifyPushOff(_):
+                return (responseAPI: try JSONDecoder().decode(ResponseAPINotifyPushOffResult.self, from: jsonData), errorAPI: nil)
+
             case .getOnlineNotifyHistory(_):
                 return (responseAPI: try JSONDecoder().decode(ResponseAPIOnlineNotifyHistoryResult.self, from: jsonData), errorAPI: nil)
                 

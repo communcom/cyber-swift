@@ -330,7 +330,33 @@ public class RestAPIManager {
                                                 responseHandling(result)
         },
                                              onError:           { errorAPI in
-                                                Logger.log(message: "\nAPI `push.historyFresh` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
+                                                Logger.log(message: "\nAPI `push.notifyOn` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
+                                                errorHandling(errorAPI)
+        })
+    }
+    
+    // API `push.notifyOff`
+    public func pushNotifyOff(fcmToken:             String,
+                              responseHandling:     @escaping (ResponseAPINotifyPushOff) -> Void,
+                              errorHandling:        @escaping (ErrorAPI) -> Void) {
+        // Offline mode
+        if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        let methodAPIType = MethodAPIType.notifyPushOff(fcmToken: fcmToken)
+        
+        Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
+                                             onResult:          { responseAPIResult in
+                                                guard let result = (responseAPIResult as! ResponseAPINotifyPushOffResult).result else {
+                                                    let responseAPIError = (responseAPIResult as! ResponseAPINotifyPushOffResult).error
+                                                    Logger.log(message: "\nAPI `push.notifyOff` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
+                                                    return errorHandling(ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
+                                                }
+                                                
+                                                Logger.log(message: "\nAPI `push.notifyOff` response result: \n\(responseAPIResult)\n", event: .debug)
+                                                responseHandling(result)
+        },
+                                             onError:           { errorAPI in
+                                                Logger.log(message: "\nAPI `push.notifyOff` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
                                                 errorHandling(errorAPI)
         })
     }
