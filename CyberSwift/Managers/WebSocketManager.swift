@@ -46,14 +46,15 @@ public class WebSocketManager {
         webSocket.delegate = WebSocketManager.instance
         
         WebSocketManager.instance.completionIsConnected = {
-            guard UserDefaults.standard.value(forKey: Config.isCurrentUserLoggedKey) != nil else {
+            if UserDefaults.standard.bool(forKey: Config.isCurrentUserLoggedKey) {
                 self.authorized.accept(true)
                 return
             }
             
-            guard (UserDefaults.standard.value(forKey: Config.isCurrentUserLoggedKey) as? Bool) == false else {
-                RestAPIManager.instance.authorize(userID:               Config.currentUser.id!,
-                                                  userActiveKey:        Config.currentUser.activeKey!,
+            if let userId = Config.currentUser.id ?? NSUbiquitousKeyValueStore().string(forKey: Config.currentUserIDKey),
+                let activeKey = Config.currentUser.activeKey ?? NSUbiquitousKeyValueStore().string(forKey: Config.currentUserPublicActiveKey) {
+                RestAPIManager.instance.authorize(userID:               userId,
+                                                  userActiveKey:        activeKey,
                                                   responseHandling:     { response in
                                                     Logger.log(message: "WebSocketManager API `auth.authorize` permission: \(response.permission)", event: .debug)
                                                     self.authorized.accept(true)
@@ -62,13 +63,10 @@ public class WebSocketManager {
                                                     Logger.log(message: errorAPI.caseInfo.message.localized(), event: .error)
                                                     self.authorized.accept(false)
                 })
-                
                 return
             }
             
-            guard self.requestMethodsAPIStore.count > 0 else {
-                return
-            }
+            self.authorized.accept(false)
         }
     }
     
