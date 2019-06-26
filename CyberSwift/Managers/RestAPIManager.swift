@@ -310,9 +310,9 @@ public class RestAPIManager {
     }
     
     // API `push.notifyOn`
-    public func pushNotifyOn(fcmToken:              String,
-                             responseHandling:      @escaping (ResponseAPINotifyPushOn) -> Void,
-                             errorHandling:         @escaping (ErrorAPI) -> Void) {
+    private func pushNotifyOn(fcmToken:             String,
+                              responseHandling:     @escaping (ResponseAPINotifyPushOn) -> Void,
+                              errorHandling:        @escaping (ErrorAPI) -> Void) {
         // Offline mode
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
@@ -336,11 +336,14 @@ public class RestAPIManager {
     }
     
     // API `push.notifyOff`
-    public func pushNotifyOff(fcmToken:             String,
-                              responseHandling:     @escaping (ResponseAPINotifyPushOff) -> Void,
+    public func pushNotifyOff(responseHandling:     @escaping (ResponseAPINotifyPushOff) -> Void,
                               errorHandling:        @escaping (ErrorAPI) -> Void) {
         // Offline mode
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        guard let fcmToken = UserDefaults.standard.value(forKey: "fcmToken") as? String else {
+            return errorHandling(ErrorAPI.invalidData(message: "FCM token key don't found".localized()))
+        }
         
         let methodAPIType = MethodAPIType.notifyPushOff(fcmToken: fcmToken)
         
