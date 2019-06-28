@@ -51,8 +51,8 @@ public class WebSocketManager {
                 return
             }
             
-            if let userId = Config.currentUser.id ?? NSUbiquitousKeyValueStore().string(forKey: Config.currentUserIDKey),
-                let activeKey = Config.currentUser.activeKey ?? NSUbiquitousKeyValueStore().string(forKey: Config.currentUserPublicActiveKey) {
+            if let userId = Config.currentUser.id,
+                let activeKey = Config.currentUser.activeKey {
                 RestAPIManager.instance.authorize(userID:               userId,
                                                   userActiveKey:        activeKey,
                                                   responseHandling:     { response in
