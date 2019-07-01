@@ -27,7 +27,7 @@ public class KeychainManager {
         do {
             try Locksmith.deleteDataForUserAccount(userAccount: userNickName)
             if let phone = UserDefaults.standard.string(forKey: Config.registrationUserPhoneKey) {
-                try Locksmith.deleteDataForUserAccount(userAccount: phone, inService: phone)
+                try? Locksmith.deleteDataForUserAccount(userAccount: phone, inService: phone)
             }
             Logger.log(message: "Successfully delete all User data from Keychain.", event: .severe)
             return true
