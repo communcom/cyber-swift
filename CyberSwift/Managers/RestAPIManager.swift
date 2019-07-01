@@ -97,14 +97,6 @@ public class RestAPIManager {
                                                                             userID:     Config.currentUserIDKey) {
                                                         Logger.log(message: "\nAPI `auth.authorize` response result: \n\(responseAPIResult)\n", event: .debug)
                                                         
-                                                        // Save in iCloud key-value
-                                                        let keyStore = NSUbiquitousKeyValueStore()
-                                                        keyStore.set(userID, forKey: Config.currentUserIDKey)
-                                                        keyStore.set(result.displayName, forKey: Config.currentUserNameKey)
-                                                        keyStore.set(userActiveKey, forKey: Config.currentUserPublicActiveKey)
-                                                        keyStore.synchronize()
-                                                        
-                                                        
                                                         // API `push.notifyOn`
                                                         if let fcmToken = UserDefaults.standard.value(forKey: "fcmToken") as? String {
                                                             RestAPIManager.instance.pushNotifyOn(fcmToken:          fcmToken,
