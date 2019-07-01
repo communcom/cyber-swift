@@ -15,6 +15,9 @@ public class KeychainManager {
     public static func deleteData(forUserNickName userNickName: String, withKey key: String = LocksmithDefaultService) -> Bool {
         do {
             try Locksmith.deleteDataForUserAccount(userAccount: userNickName, inService: key)
+            if let phone = UserDefaults.standard.string(forKey: Config.registrationUserPhoneKey) {
+                try Locksmith.deleteDataForUserAccount(userAccount: phone, inService: phone)
+            }
             Logger.log(message: "Successfully delete User data by key from Keychain.", event: .severe)
             return true
         } catch {
