@@ -49,17 +49,17 @@ extension PrimitiveSequenceType where Self.TraitType == RxSwift.SingleTrait, Sel
 }
 
 extension PrimitiveSequenceType where Self.TraitType == RxSwift.SingleTrait, Self.ElementType == Decodable {
-    func log() -> Single<Decodable> {
+    func log(method: String) -> Single<Decodable> {
         return self.do(
             onSuccess: { responseAPIResult in
-                Logger.log(message: "\nAPI `registration.getState` response result: \n\(responseAPIResult)\n", event: .debug)
+                Logger.log(message: "\nAPI `\(method)` response result: \n\(responseAPIResult)\n", event: .debug)
             },
             onError: { error in
                 if let error = error as? ErrorAPI {
-                    Logger.log(message: "\nAPI `registration.getState` response error: \n\(error.caseInfo.message)\n", event: .error)
+                    Logger.log(message: "\nAPI `\(method)` response error: \n\(error.caseInfo.message)\n", event: .error)
                     return
                 }
-                Logger.log(message: "\nAPI `registration.getState` response error: \n\(error.localizedDescription)\n", event: .error)
+                Logger.log(message: "\nAPI `\(method)` response error: \n\(error.localizedDescription)\n", event: .error)
             }
         )
     }

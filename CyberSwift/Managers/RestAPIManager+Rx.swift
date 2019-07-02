@@ -27,9 +27,8 @@ extension Reactive where Base: RestAPIManager {
         let methodAPIType = MethodAPIType.getState(id: id, phone: phone)
         
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+            .log(method: "registration.getState")
             .map { result in
-                Logger.log(message: "\nAPI `registration.getState` response result: \n\(result)\n", event: .debug)
-                
                 guard let result = (result as? ResponseAPIRegistrationGetStateResult)?.result else {
                     throw ErrorAPI.other(message: "Unknown error")
                 }
