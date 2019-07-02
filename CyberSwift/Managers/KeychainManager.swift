@@ -73,6 +73,6 @@ public class KeychainManager {
     // MARK: - Saving
     /// Save login data to Keychain
     public static func save(data: [String: Any]) throws {
-        try Locksmith.saveData(data: data, forUserAccount: Config.currentUserIDKey)
+        try Locksmith.updateData(data: data, forUserAccount: Config.currentUserIDKey)
     }
 }
