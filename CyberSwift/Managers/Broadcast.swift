@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxSwift
 
 /// Array of request unique IDs
 public var requestIDs   =   [Int]()
@@ -185,5 +186,17 @@ extension Broadcast {
             
             onResult(responseAPI)
         })
+    }
+    
+    /// Rx method to deal with executeGetRequest
+    public func executeGetRequest(methodAPIType: MethodAPIType) -> Single<Decodable> {
+        return .create {single in
+            self.executeGETRequest(byContentAPIType: methodAPIType, onResult: { (result) in
+                single(.success(result))
+            }, onError: { (error) in
+                single(.error(error))
+            })
+            return Disposables.create()
+        }
     }
 }

@@ -67,60 +67,64 @@ public class RestAPIManager {
         
         let methodAPIType = MethodAPIType.authorize(userID: userID, activeKey: userActiveKey)
 
-        Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
-                                             onResult:          { responseAPIResult in
-                                                guard let result = (responseAPIResult as! ResponseAPIAuthAuthorizeResult).result else {
-                                                    let responseAPIError = (responseAPIResult as! ResponseAPIAuthAuthorizeResult).error
-                                                    Logger.log(message: "\nAPI `auth.authorize` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
-                                                    return errorHandling(ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
-                                                }
-                                                
-                                                DispatchQueue.main.async(execute: {
-                                                    UserDefaults.standard.set(true, forKey: Config.isCurrentUserLoggedKey)
-                                                    
-                                                    // Save in Keychain
-                                                    do {
-                                                        try KeychainManager.deleteUserWithId(userID)
-                                                        
-                                                    } catch {
-                                                        errorHandling(error)
-                                                        return
-                                                    }
-                                                    
-                                                    if KeychainManager.save(data:       [
-                                                                                            Config.currentUserIDKey:            userID,
-                                                                                            Config.currentUserNameKey:          result.displayName,
-                                                                                            Config.currentUserPublicActiveKey:  userActiveKey
-                                                                                        ],
-                                                                            userID:     Config.currentUserIDKey) {
-                                                        Logger.log(message: "\nAPI `auth.authorize` response result: \n\(responseAPIResult)\n", event: .debug)
-                                                        
-                                                        // Save in iCloud key-value
-                                                        let keyStore = NSUbiquitousKeyValueStore()
-                                                        keyStore.set(userID, forKey: Config.currentUserIDKey)
-                                                        keyStore.set(result.displayName, forKey: Config.currentUserNameKey)
-                                                        keyStore.set(userActiveKey, forKey: Config.currentUserPublicActiveKey)
-                                                        keyStore.synchronize()
-                                                        
-                                                        
-                                                        // API `push.notifyOn`
-                                                        if let fcmToken = UserDefaults.standard.value(forKey: "fcmToken") as? String {
-                                                            RestAPIManager.instance.pushNotifyOn(fcmToken:          fcmToken,
-                                                                                                 responseHandling:  { response in
-                                                                                                    Logger.log(message: response.status, event: .severe)
-                                                            },
-                                                                                                 errorHandling:     { errorAPI in
-                                                                                                    Logger.log(message: errorAPI.caseInfo.message, event: .error)
-                                                            })
-                                                        }
-                                                        
-                                                        responseHandling(result)
-                                                    }
-                                                })
+        Broadcast.instance.executeGETRequest(
+            byContentAPIType: methodAPIType,
+            onResult: { responseAPIResult in
+                guard let result = (responseAPIResult as! ResponseAPIAuthAuthorizeResult).result
+                else {
+                    let responseAPIError = (responseAPIResult as! ResponseAPIAuthAuthorizeResult).error
+                    
+                    Logger.log(message: "\nAPI `auth.authorize` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
+                    
+                    return errorHandling(ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
+                }
+                
+                DispatchQueue.main.async(execute: {
+                    // Log result
+                    Logger.log(message: "\nAPI `auth.authorize` response result: \n\(responseAPIResult)\n", event: .debug)
+                    
+                    // Save to UserDefault
+                    UserDefaults.standard.set(true, forKey: Config.isCurrentUserLoggedKey)
+                    
+                    // Save in Keychain
+                    do {
+                        try KeychainManager.deleteUser()
+                        try KeychainManager.save(data: [
+                            Config.currentUserIDKey:            userID,
+                            Config.currentUserNameKey:          result.displayName,
+                            Config.currentUserPublicActiveKey:  userActiveKey
+                        ])
+                        
+                        // Save in iCloud key-value
+                        let keyStore = NSUbiquitousKeyValueStore()
+                        keyStore.set(userID, forKey: Config.currentUserIDKey)
+                        keyStore.set(result.displayName, forKey: Config.currentUserNameKey)
+                        keyStore.set(userActiveKey, forKey: Config.currentUserPublicActiveKey)
+                        keyStore.synchronize()
+                        
+                        // API `push.notifyOn`
+                        if let fcmToken = UserDefaults.standard.value(forKey: "fcmToken") as? String {
+                            RestAPIManager.instance.pushNotifyOn(
+                                fcmToken:          fcmToken,
+                                responseHandling:  { response in
+                                    Logger.log(message: response.status, event: .severe)
+                            },
+                                errorHandling:     { errorAPI in
+                                    Logger.log(message: errorAPI.caseInfo.message, event: .error)
+                            })
+                        }
+                        
+                        responseHandling(result)
+                        
+                    } catch {
+                        errorHandling(error)
+                        return
+                    }
+                })
         },
-                                             onError:           { (errorAPI) in
-                                                Logger.log(message: "\nAPI `auth.authorize` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
-                                                errorHandling(errorAPI)
+            onError:           { (errorAPI) in
+                Logger.log(message: "\nAPI `auth.authorize` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
+                errorHandling(errorAPI)
         })
     }
     
