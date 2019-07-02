@@ -17,7 +17,7 @@ public struct CurrentUser {
     // Registration keys
     public var registrationStep: String?
     public var phoneNumber: String?
-    public var smsCode: String?
+    public var smsCode: UInt64?
     public var smsNextRetry: String?
     
     // UsersKey

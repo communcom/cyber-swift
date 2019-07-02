@@ -9,7 +9,7 @@
 import Foundation
 import PDFReader
 
-struct PDFManager {
+public struct PDFManager {
     public static func createPDFFile() {
         guard let user = KeychainManager.currentUser() else {
             return

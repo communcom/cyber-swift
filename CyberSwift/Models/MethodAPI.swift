@@ -158,7 +158,7 @@ public indirect enum MethodAPIType {
     case firstStep(phone: String, isDebugMode: Bool)
     
     //  Second registration step, account verification
-    case verify(phone: String, code: String)
+    case verify(phone: String, code: UInt64)
     
     //  The third step of registration, account verification
     case setUser(id: String, phone: String)
@@ -418,7 +418,7 @@ public indirect enum MethodAPIType {
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.registration.rawValue,
                      methodName:        "verify",
-                     parameters:        ["phone": phoneValue, "code": codeValue])
+                     parameters:        ["phone": phoneValue, "code": "\(codeValue)"])
             
         //  { "id": 4, "jsonrpc": "2.0", "method": "registration.setUsername", "params": { "user": "tester", "phone": "+70000000000" }}
         case .setUser(let idValue, let phoneValue):

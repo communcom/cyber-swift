@@ -33,7 +33,7 @@ public class KeychainManager {
         let name = data[Config.currentUserNameKey] as? String
         let registrationStep = data[Config.registrationStepKey] as? String
         let phone = data[Config.registrationUserPhoneKey] as? String
-        let smsCode = data[Config.registrationSmsCodeKey] as? String
+        let smsCode = data[Config.registrationSmsCodeKey] as? UInt64
         let smsRetryCode = data[Config.registrationSmsNextRetryKey] as? String
         
         let memoKeys = UserKeys(

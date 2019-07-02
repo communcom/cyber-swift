@@ -780,7 +780,7 @@ public class RestAPIManager {
 
     // API `registration.verify`
     public func verify(phone:               String,
-                       code:                String,
+                       code:                UInt64,
                        isDebugMode:         Bool = true,
                        responseHandling:    @escaping (ResponseAPIRegistrationVerify) -> Void,
                        errorHandling:       @escaping (ResponseAPIError) -> Void) {
