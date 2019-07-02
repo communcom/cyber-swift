@@ -924,29 +924,26 @@ public class RestAPIManager {
                                                         Config.currentUserPrivateMemoKey:      userkeys["memo"]!.privateKey
                                                         ])
                                                     
-                                                    responseHandling(true)
+                                                    PDFManager.createPDFFile()
+                                                    
+                                                    // Auth new account
+                                                    DispatchQueue.main.async {
+                                                        RestAPIManager.instance.authorize(
+                                                            userID: Config.currentUser!.id,
+                                                            userActiveKey: Config.currentUser!.activeKey,
+                                                            responseHandling: { response in
+                                                                responseHandling(true)
+                                                            },
+                                                            errorHandling: { error in
+                                                                errorHandling(error.toErrorAPI())
+                                                            })
+                                                    }
+                                                    
+                                                    
                                                 } catch {
                                                     Logger.log(message: error.localizedDescription, event: .error)
                                                     errorHandling(ErrorAPI.responseUnsuccessful(message: error.localizedDescription))
                                                 }
-                                                
-                                                
-                                                    #warning("Save pdf")
-//                                                    KeychainManager.createPDFFile(id:           userID,
-//                                                                                  name:         userName,
-//                                                                                  memo:         memoUserKeys!.privateKey,
-//                                                                                  owner:        ownerUserKeys!.privateKey,
-//                                                                                  active:       activeUserKeys!.privateKey,
-//                                                                                  posting:      postingUserKeys!.privateKey)
-//
-//                                                    // Auth new account
-//                                                    DispatchQueue.main.async {
-//                                                        RestAPIManager.instance.authorize(userID:               Config.currentUser.id!,
-//                                                                                          userActiveKey:        Config.currentUser.activeKey!,
-//                                                                                          responseHandling:     { response in
-//                                                        },
-//                                                                                          errorHandling:        { errorAPI in
-//                                                        })
                                                 
         },
                                              onError: { errorAPI in

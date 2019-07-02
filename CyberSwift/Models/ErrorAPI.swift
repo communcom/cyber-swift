@@ -18,7 +18,8 @@ public enum ErrorAPI: Error {
     case responseUnsuccessful(message: String)
     case jsonConversionFailure(message: String)
     case signingECCKeychainPostingKeyFailure(message: String)
-    case savingKeysError(message: String)
+    case savingKeys(message: String)
+    case other(message: String)
     
     public var caseInfo: (title: String, message: String, code: Int) {
         switch self {
@@ -45,8 +46,18 @@ public enum ErrorAPI: Error {
             
         case .signingECCKeychainPostingKeyFailure(let message):
             return (title: "Keychain Posting Key Failure".localized(), message: message, code: 100)
-        case .savingKeysError(let message):
+            
+        case .savingKeys(let message):
             return (title: "Keychain Saving Failure".localized(), message: message, code: 100)
+            
+        case .other(let message):
+            return (title: "Other error".localized(), message: message, code: 100)
         }
+    }
+}
+
+extension Error {
+    public func toErrorAPI() -> ErrorAPI {
+        return ErrorAPI.other(message: self.localizedDescription)
     }
 }
