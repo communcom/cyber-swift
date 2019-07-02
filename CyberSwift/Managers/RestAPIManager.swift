@@ -10,15 +10,6 @@
 import eosswift
 import Foundation
 
-public typealias UserKeys = (type: String, privateKey: String, publicKey: String)
-
-public enum UserKeyType: String {
-    case memo       =   "memo"
-    case owner      =   "owner"
-    case active     =   "active"
-    case posting    =   "posting"
-}
-
 public enum NoticeType {
     case push
     case notify

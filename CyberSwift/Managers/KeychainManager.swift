@@ -10,22 +10,6 @@ import Locksmith
 import PDFReader
 import Foundation
 
-public struct CurrentUser {
-    // Main properties
-    public let id: String
-    public var name: String?
-    public let activeKey: String
-    
-    // Registration keys
-    public var registrationStep: String?
-    public var phoneNumber: String?
-    public var smsCode: String?
-    public var smsNextRetry: String?
-    
-    // UsersKey
-    
-}
-
 public class KeychainManager {
     private static let communService = LocksmithDefaultService
     
@@ -41,6 +25,7 @@ public class KeychainManager {
     // MARK: - Retrieving
     /// Load data from loggedInUser
     public static func currentUser() -> CurrentUser? {
+        // Non-optional properties
         guard let data = Locksmith.loadDataForUserAccount(userAccount: Config.currentUserIDKey),
             let id = data[Config.currentUserIDKey] as? String,
             let activeKey = data[Config.currentUserPublicActiveKey] as? String
@@ -48,6 +33,7 @@ public class KeychainManager {
             return nil
         }
         
+        // Optional properties
         let name = data[Config.currentUserNameKey] as? String
         let registrationStep = data[Config.registrationStepKey] as? String
         let phone = data[Config.registrationUserPhoneKey] as? String
