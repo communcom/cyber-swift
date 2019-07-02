@@ -908,6 +908,22 @@ public class RestAPIManager {
                                                                             ],
                                                                         userPhone:  phone) {
                                                     responseHandling(result)
+                                                    #warning("Save pdf")
+//                                                    KeychainManager.createPDFFile(id:           userID,
+//                                                                                  name:         userName,
+//                                                                                  memo:         memoUserKeys!.privateKey,
+//                                                                                  owner:        ownerUserKeys!.privateKey,
+//                                                                                  active:       activeUserKeys!.privateKey,
+//                                                                                  posting:      postingUserKeys!.privateKey)
+//                                                    
+//                                                    // Auth new account
+//                                                    DispatchQueue.main.async {
+//                                                        RestAPIManager.instance.authorize(userID:               Config.currentUser.id!,
+//                                                                                          userActiveKey:        Config.currentUser.activeKey!,
+//                                                                                          responseHandling:     { response in
+//                                                        },
+//                                                                                          errorHandling:        { errorAPI in
+//                                                        })
                                                 }
         },
                                              onError: { errorAPI in

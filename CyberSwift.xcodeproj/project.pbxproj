@@ -10,6 +10,7 @@
 		03329A709F0DA60180F91DBB /* Pods_CyberSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6ED672114DF191DC66860EA /* Pods_CyberSwift.framework */; };
 		3BA4D2302295A0E10022A69D /* EOSManager+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA4D22F2295A0E10022A69D /* EOSManager+Rx.swift */; };
 		3BB342B622CB7591009546B2 /* CurrentUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB342B522CB7591009546B2 /* CurrentUser.swift */; };
+		3BB342B822CB823C009546B2 /* PDFManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB342B722CB823C009546B2 /* PDFManager.swift */; };
 		3BBBE2982295AAE90029C9C9 /* RestAPIManager+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBBE2972295AAE90029C9C9 /* RestAPIManager+Rx.swift */; };
 		3BBBE29A2296A8A10029C9C9 /* RxSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBBE2992296A8A10029C9C9 /* RxSwift.swift */; };
 		3BCDB40B2260E9C300739F7E /* Bool+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCDB40A2260E9C300739F7E /* Bool+Extensions.swift */; };
@@ -56,6 +57,7 @@
 		34491307AF58D97E2E29C420 /* Pods-CyberSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CyberSwift.debug.xcconfig"; path = "Target Support Files/Pods-CyberSwift/Pods-CyberSwift.debug.xcconfig"; sourceTree = "<group>"; };
 		3BA4D22F2295A0E10022A69D /* EOSManager+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EOSManager+Rx.swift"; sourceTree = "<group>"; };
 		3BB342B522CB7591009546B2 /* CurrentUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUser.swift; sourceTree = "<group>"; };
+		3BB342B722CB823C009546B2 /* PDFManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFManager.swift; sourceTree = "<group>"; };
 		3BBBE2972295AAE90029C9C9 /* RestAPIManager+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RestAPIManager+Rx.swift"; sourceTree = "<group>"; };
 		3BBBE2992296A8A10029C9C9 /* RxSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxSwift.swift; sourceTree = "<group>"; };
 		3BCDB40A2260E9C300739F7E /* Bool+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+Extensions.swift"; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 				B1677C65223F9BD7005FB286 /* RestAPIManager.swift */,
 				3BBBE2972295AAE90029C9C9 /* RestAPIManager+Rx.swift */,
 				B1C3F85E223F98DC005711EF /* WebSocketManager.swift */,
+				3BB342B722CB823C009546B2 /* PDFManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -387,6 +390,7 @@
 				B1C3F860223F98DC005711EF /* Broadcast.swift in Sources */,
 				B1EA02CD22895EB400835244 /* UILabel+Extensions.swift in Sources */,
 				B1A74A642243892B009D68E7 /* EOSTransaction.swift in Sources */,
+				3BB342B822CB823C009546B2 /* PDFManager.swift in Sources */,
 				B1EA02F62289D3B400835244 /* UITextField+Extensions.swift in Sources */,
 				3BCDB40B2260E9C300739F7E /* Bool+Extensions.swift in Sources */,
 				B17991702269B4070014CB44 /* Array+Extensions.swift in Sources */,
