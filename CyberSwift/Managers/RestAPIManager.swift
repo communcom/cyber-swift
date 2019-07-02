@@ -927,8 +927,8 @@ public class RestAPIManager {
                                                     // Auth new account
                                                     DispatchQueue.main.async {
                                                         RestAPIManager.instance.authorize(
-                                                            userID: Config.currentUser!.id,
-                                                            userActiveKey: Config.currentUser!.activeKey,
+                                                            userID: Config.currentUser!.id!,
+                                                            userActiveKey: Config.currentUser!.activeKey!,
                                                             responseHandling: { response in
                                                                 responseHandling(true)
                                                             },

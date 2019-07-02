@@ -18,7 +18,7 @@ public struct PDFManager {
         let documentsDirectory  =   NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         let filePath            =   (documentsDirectory as NSString).appendingPathComponent("userKeys.pdf") as String
         
-        let pdfTitle            =   String(format: "id:\n\"%@\"\n\nname:\n\"%@\"\n\nmemo key:\n\"%@\"\n\nowner key:\n\"%@\"\n\nactive key:\n\"%@\"\n\nposting key:\n\"%@\"", user.id, user.name ?? "", user.memoKeys?.privateKey ?? "", user.ownerKeys?.privateKey ?? "", user.activeKeys?.privateKey ?? "", user.postingKeys?.privateKey ?? "")
+        let pdfTitle            =   String(format: "id:\n\"%@\"\n\nname:\n\"%@\"\n\nmemo key:\n\"%@\"\n\nowner key:\n\"%@\"\n\nactive key:\n\"%@\"\n\nposting key:\n\"%@\"", user.id ?? "", user.name ?? "", user.memoKeys?.privateKey ?? "", user.ownerKeys?.privateKey ?? "", user.activeKeys?.privateKey ?? "", user.postingKeys?.privateKey ?? "")
         let pdfMetadata         =   [
             // The name of the application creating the PDF.
             kCGPDFContextCreator: "Commun iOS App",

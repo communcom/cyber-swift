@@ -22,15 +22,16 @@ public class KeychainManager {
     /// Load data user's data
     public static func currentUser() -> CurrentUser? {
         // Non-optional properties
-        guard let data = Locksmith.loadDataForUserAccount(userAccount: Config.currentUserIDKey),
-            let id = data[Config.currentUserIDKey] as? String,
-            let activeKey = data[Config.currentUserPublicActiveKey] as? String
+        guard let data = Locksmith.loadDataForUserAccount(userAccount: Config.currentUserIDKey)
         else {
             return nil
         }
         
         // Optional properties
+        let id = data[Config.currentUserIDKey] as? String
         let name = data[Config.currentUserNameKey] as? String
+        let activeKey = data[Config.currentUserPublicActiveKey] as? String
+        
         let registrationStep = data[Config.registrationStepKey] as? String
         let phone = data[Config.registrationUserPhoneKey] as? String
         let smsCode = data[Config.registrationSmsCodeKey] as? UInt64
