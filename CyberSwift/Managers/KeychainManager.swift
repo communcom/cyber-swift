@@ -103,7 +103,6 @@ public class KeychainManager {
                                                   userActiveKey:        Config.currentUser.activeKey!,
                                                   responseHandling:     { response in
                                                     Logger.log(message: "WebSocketManager API `auth.authorize` permission: \(response.permission)", event: .debug)
-                                                    UserDefaults.standard.set(true, forKey: Config.isCurrentUserLoggedKey)
                 },
                                                   errorHandling:        { errorAPI in
                                                     Logger.log(message: errorAPI.caseInfo.message.localized(), event: .error)

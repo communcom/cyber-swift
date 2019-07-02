@@ -46,8 +46,8 @@ public class WebSocketManager {
         webSocket.delegate = WebSocketManager.instance
         
         WebSocketManager.instance.completionIsConnected = {
-            if UserDefaults.standard.bool(forKey: Config.isCurrentUserLoggedKey) {
-                self.authorized.accept(true)
+            if !UserDefaults.standard.bool(forKey: Config.isCurrentUserLoggedKey) {
+                self.authorized.accept(false)
                 return
             }
             
