@@ -28,15 +28,6 @@ class EOSManager {
     static let chainApi     =   ChainApiFactory.create(rootUrl: Config.blockchain_API_URL)
     static let historyApi   =   HistoryApiFactory.create(rootUrl: Config.blockchain_API_URL)
     
-    
-    // MARK: - Class Functions
-    static func createPairKeys() {
-        // Private key from encoded string
-        let privateKey = try! EOSPrivateKey(base58: Config.postingKeyDestroyer2k)
-        Logger.log(message: "\nprivateKey: \n\(privateKey.base58)\n", event: .debug)
-    }
-    
-    
     /// MARK: - CHAIN
     static func getChainInfo(responseResult:    @escaping (Info) -> Void,
                              responseError:     @escaping (ErrorAPI) -> Void) {

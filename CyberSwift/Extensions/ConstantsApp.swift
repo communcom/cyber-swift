@@ -44,59 +44,7 @@ public struct Config {
     
     public static var currentUser: CurrentUser? {
         return KeychainManager.currentUser()
-//        set { }
-//
-//        get {
-//
-//
-//            // User data by phone
-//            if  let phone                   =   UserDefaults.standard.value(forKey: Config.registrationUserPhoneKey) as? String,
-//                let userData                =   KeychainManager.loadAllData(byUserPhone: phone),
-//                let step                    =   userData[Config.registrationStepKey] as? String, step == "firstStep"
-//            {
-//                let userID                  =   userData[Config.registrationUserIDKey] as! String
-//                let userName                =   userData[Config.registrationUserNameKey] as! String
-//                let userPrivateActiveKey    =   userData[Config.currentUserPrivateActiveKey] as! String
-//
-//                Logger.log(message: "User data by phone: userID = \(userID)", event: .debug)
-//
-//                return (id: userID, name: userName, activeKey: userPrivateActiveKey)
-//            }
-//
-//            // User data by userID
-//            else if     let userData        =   KeychainManager.loadAllData(byUserID: Config.currentUserIDKey),
-//                        let userID          =   userData[Config.currentUserIDKey] as? String,
-//                        let userName        =   userData[Config.currentUserNameKey] as? String,
-//                        let userActiveKey   =   userData[currentUserPublicActiveKey] as? String {
-//                Logger.log(message: "User data by userID: userID = \(userID)", event: .debug)
-//
-//                return (id: userID, name: userName, activeKey: userActiveKey)
-//            }
-//
-//            else {
-//                Logger.log(message: "User nickName is empty", event: .debug)
-//
-//                return (id: nil, name: nil, activeKey: nil)
-//            }
-//        }
     }
-
-    // Accounts test values
-    public static let accountNickDestroyer2k: String    =   "destroyer2k"
-    public static let activeKeyDestroyer2k: String      =   "5JagnCwCrB2sWZw6zCvaBw51ifoQuNaKNsDovuGz96wU3tUw7hJ"
-    public static let postingKeyDestroyer2k: String     =   "5JjQWZmWj36xbVdcX96gjMs5BRip7TPPCNFFnm19TPEviqnG5Ke"
-    
-    static let accountNickMsm72: String                 =   "msm72"
-    static let postingKeyMsm72: String                  =   "5Jj6qFdJLGKFFFQbfTwv6JNQmXzCidnjgSFNYKhrgqhzigH4sFp"
-    
-    static let accountNickNickLick: String              =   "nick.lick"
-    static let postingKeyNickLick: String               =   "5HuxaRnfHNTS4HA5EA5SQPqAZogP2GoCuZR2yuL1jdfoqjLZAFD"
-    
-    static let accountNickYoyoyoyo: String              =   "yoyoyoyo"
-    static let postingKeyYoyoyoyo: String               =   "5KUk2QMqYqpFM54YSaNoYLVDTznM3fyA8J8qDUQQNgBnqvVyscC"
-    
-    static let accountNickJosephKalu: String            =   "joseph.kalu"
-    static let postingKeyJosephKalu: String             =   "5K6CfG8gzhTZNwHDxPmeQiPChx6FpgiVYN7USVp2aGC2WsDqH4h"
     
     /// Check network connection
     public static var isNetworkAvailable: Bool {
