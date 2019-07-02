@@ -29,13 +29,14 @@ public class RestAPIManager {
     
     
     // MARK: - Class Functions
-    private func generate(keyTypes:     [UserKeyType],
-                          userID:       String,
-                          password:     String) -> [UserKeys] {
-        var userKeys: [UserKeys] = [UserKeys]()
+    private func generateKeys(userID: String, password: String) -> [String: UserKeys] {
+        var userKeys = [String: UserKeys]()
         
-        for keyType in keyTypes {
-            let seed                =   userID + keyType.rawValue + password
+        // type
+        let types = ["owner", "active", "posting", "memo"]
+        
+        for keyType in types {
+            let seed                =   userID + keyType + password
             let brainKey            =   seed.removeWhitespaceCharacters()
             let brainKeyBytes       =   brainKey.bytes
             
@@ -47,7 +48,7 @@ public class RestAPIManager {
             
             if let privateKey = PrivateKey(brainKeyBytesSha256.base58EncodedString) {
                 let publicKey = privateKey.createPublic(prefix: PublicKey.AddressPrefix.mainNet)
-                userKeys.append((type: keyType.rawValue, privateKey: privateKey.description, publicKey: publicKey.description))
+                userKeys[keyType] = UserKeys(privateKey: privateKey.description, publicKey: publicKey.description)
             }
         }
         
@@ -875,9 +876,7 @@ public class RestAPIManager {
         // Offline mode
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
-        let userkeys = RestAPIManager.instance.generate(keyTypes:   [.owner, .active, .posting, .memo],
-                                                        userID:     id,
-                                                        password:   String.randomString(length: 12))
+        let userkeys = generateKeys(userID: id, password: String.randomString(length: 12))
         
         let methodAPIType = MethodAPIType.toBlockChain(userID: id, keys: userkeys)
         
