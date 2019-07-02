@@ -897,7 +897,7 @@ public class RestAPIManager {
                                                 let result: Bool = KeychainManager.save(keys: userkeys, userID: chainResult.userId, userName: chainResult.username)
                                                 
                                                 if KeychainManager.save(data:   [
-                                                                                    Config.registrationStepKey:            "pickAvatar",
+                                                                                    Config.registrationStepKey:            "firstStep",
                                                                                     Config.registrationUserNameKey:        chainResult.username,
                                                                                     Config.registrationUserIDKey:          chainResult.userId,
                                                                                     Config.currentUserPublicOwnerKey:      userkeys.first(where: { $0.type == "owner" })!.publicKey,
