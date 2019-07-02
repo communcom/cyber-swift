@@ -10,59 +10,63 @@ import Locksmith
 import PDFReader
 import Foundation
 
+public struct CurrentUser {
+    // Main properties
+    public let id: String
+    public var name: String?
+    public let activeKey: String
+    
+    // Registration keys
+    public var registrationStep: String?
+    public var phoneNumber: String?
+    public var smsCode: String?
+    public var smsNextRetry: String?
+    
+    // UsersKey
+    
+}
+
 public class KeychainManager {
+    private static let communService = LocksmithDefaultService
+    
+    // MARK: - Deleting
     /// Delete stored data from Keychain
-    public static func deleteData(forUserNickName userNickName: String, withKey key: String = LocksmithDefaultService) -> Bool {
-        do {
-            try Locksmith.deleteDataForUserAccount(userAccount: userNickName, inService: key)
-            Logger.log(message: "Successfully delete User data by key from Keychain.", event: .severe)
-            return true
-        } catch {
-            Logger.log(message: "Error delete User data by key from Keychain.", event: .error)
-            return false
+    public static func deleteUser() throws {
+        try Locksmith.deleteDataForUserAccount(userAccount: Config.currentUserIDKey)
+        if let phone = UserDefaults.standard.string(forKey: Config.registrationUserPhoneKey) {
+            try? Locksmith.deleteDataForUserAccount(userAccount: phone, inService: phone)
         }
     }
     
-    public static func deleteAllData(forUserNickName userNickName: String) -> Bool {
-        do {
-            try Locksmith.deleteDataForUserAccount(userAccount: userNickName)
-            if let phone = UserDefaults.standard.string(forKey: Config.registrationUserPhoneKey) {
-                try? Locksmith.deleteDataForUserAccount(userAccount: phone, inService: phone)
-            }
-            Logger.log(message: "Successfully delete all User data from Keychain.", event: .severe)
-            return true
-        } catch {
-            Logger.log(message: "Delete error all User data from Keychain.", event: .error)
-            return false
-        }
-    }
-    
-    
-    /// Load data from Keychain
-    public static func loadKey(type: String, forUserNickName userNickName: String) -> String? {
-        var resultKey: String?
-        
-        if let data = Locksmith.loadDataForUserAccount(userAccount: userNickName, inService: type) {
-            resultKey = data[Config.currentUserPublicActiveKey] as? String
+    // MARK: - Retrieving
+    /// Load data from loggedInUser
+    public static func currentUser() -> CurrentUser? {
+        guard let data = Locksmith.loadDataForUserAccount(userAccount: Config.currentUserIDKey),
+            let id = data[Config.currentUserIDKey] as? String,
+            let activeKey = data[Config.currentUserPublicActiveKey] as? String
+        else {
+            return nil
         }
         
-        return resultKey
-    }
-    
-    public static func loadData(byUserID userID: String, withKey key: String) -> [String: Any]? {
-        return Locksmith.loadDataForUserAccount(userAccount: userID, inService: key)
-    }
-    
-    public static func loadAllData(byUserID userID: String) -> [String: Any]? {
-        return Locksmith.loadDataForUserAccount(userAccount: userID)
-    }
-    
-    public static func loadAllData(byUserPhone userPhone: String) -> [String: Any]? {
-        return Locksmith.loadDataForUserAccount(userAccount: userPhone, inService: userPhone)
+        let name = data[Config.currentUserNameKey] as? String
+        let registrationStep = data[Config.registrationStepKey] as? String
+        let phone = data[Config.registrationUserPhoneKey] as? String
+        let smsCode = data[Config.registrationSmsCodeKey] as? String
+        let smsRetryCode = data[Config.registrationSmsNextRetryKey] as? String
         
+        return CurrentUser(
+            id: id,
+            name: name,
+            activeKey: activeKey,
+            
+            registrationStep: registrationStep,
+            phoneNumber: phone,
+            smsCode: smsCode,
+            smsNextRetry: smsRetryCode
+        )
     }
     
-    
+    // MARK: - Saving
     /// Save login data to Keychain
     public static func save(keys: [UserKeys], userID: String, userName: String) -> Bool {
         let ownerUserKeys   =   keys.first(where: { $0.type == "owner" })
@@ -102,10 +106,8 @@ public class KeychainManager {
                 RestAPIManager.instance.authorize(userID:               Config.currentUser.id!,
                                                   userActiveKey:        Config.currentUser.activeKey!,
                                                   responseHandling:     { response in
-                                                    Logger.log(message: "WebSocketManager API `auth.authorize` permission: \(response.permission)", event: .debug)
                 },
                                                   errorHandling:        { errorAPI in
-                                                    Logger.log(message: errorAPI.caseInfo.message.localized(), event: .error)
                 })
             }
         }

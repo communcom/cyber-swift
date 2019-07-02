@@ -69,7 +69,7 @@ public class RestAPIManager {
     public func authorize(userID:               String,
                           userActiveKey:        String,
                           responseHandling:     @escaping (ResponseAPIAuthAuthorize) -> Void,
-                          errorHandling:        @escaping (ErrorAPI) -> Void) {
+                          errorHandling:        @escaping (Error) -> Void) {
         // Offline mode
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
@@ -87,7 +87,13 @@ public class RestAPIManager {
                                                     UserDefaults.standard.set(true, forKey: Config.isCurrentUserLoggedKey)
                                                     
                                                     // Save in Keychain
-                                                    _ = KeychainManager.deleteAllData(forUserNickName: Config.currentUserIDKey)
+                                                    do {
+                                                        try KeychainManager.deleteUserWithId(userID)
+                                                        
+                                                    } catch {
+                                                        errorHandling(error)
+                                                        return
+                                                    }
                                                     
                                                     if KeychainManager.save(data:       [
                                                                                             Config.currentUserIDKey:            userID,

@@ -56,11 +56,9 @@ public class WebSocketManager {
                 RestAPIManager.instance.authorize(userID:               userId,
                                                   userActiveKey:        activeKey,
                                                   responseHandling:     { response in
-                                                    Logger.log(message: "WebSocketManager API `auth.authorize` permission: \(response.permission)", event: .debug)
                                                     self.authorized.accept(true)
                 },
                                                   errorHandling:        { errorAPI in
-                                                    Logger.log(message: errorAPI.caseInfo.message.localized(), event: .error)
                                                     self.authorized.accept(false)
                 })
                 return

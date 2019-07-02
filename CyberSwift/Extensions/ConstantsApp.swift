@@ -9,6 +9,7 @@
 import Starscream
 import Foundation
 
+
 public struct Config {
     // iPhone X as design template
     public static let heightRatio: CGFloat              =   UIScreen.main.bounds.height / (UIApplication.shared.statusBarOrientation.isPortrait ? 812 : 375)
@@ -18,7 +19,7 @@ public struct Config {
         set { }
         
         get {
-            return KeychainManager.loadData(byUserID: Config.currentUserIDKey, withKey: Config.currentUserThemeKey)?[Config.currentUserThemeKey] as? Bool ?? false
+            return UserDefaults.standard.bool(forKey: Config.currentUserThemeKey)
         }
     }
     
@@ -41,14 +42,15 @@ public struct Config {
     /// Websocket
     public static var webSocketSecretKey: String        =   "Cyberway"
     
-    public static var currentUser: (id: String?, name: String?, activeKey: String?) {
+    public static var currentUser: CurrentUser {
         set { }
         
         get {
             // User data by phone
             if  let phone                   =   UserDefaults.standard.value(forKey: Config.registrationUserPhoneKey) as? String,
                 let userData                =   KeychainManager.loadAllData(byUserPhone: phone),
-                let step                    =   userData[Config.registrationStepKey] as? String, step == "firstStep" {
+                let step                    =   userData[Config.registrationStepKey] as? String, step == "firstStep"
+            {
                 let userID                  =   userData[Config.registrationUserIDKey] as! String
                 let userName                =   userData[Config.registrationUserNameKey] as! String
                 let userPrivateActiveKey    =   userData[Config.currentUserPrivateActiveKey] as! String
