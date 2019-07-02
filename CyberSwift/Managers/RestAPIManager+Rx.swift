@@ -13,6 +13,32 @@ import eosswift
 extension RestAPIManager: ReactiveCompatible {}
 
 extension Reactive where Base: RestAPIManager {
+    //  MARK: - Registration
+    public func getState() -> Single<ResponseAPIRegistrationGetState> {
+        // Offline mode
+        if (!Config.isNetworkAvailable) {
+            return .error(ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        guard let id = Config.currentUser?.id,
+            let phone = Config.currentUser?.phoneNumber else {
+                return .error(ErrorAPI.requestFailed(message: "Unauthorized"))
+        }
+        
+        let methodAPIType = MethodAPIType.getState(id: id, phone: phone)
+        
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+            .map { result in
+                Logger.log(message: "\nAPI `registration.getState` response result: \n\(result)\n", event: .debug)
+                
+                guard let result = (result as? ResponseAPIRegistrationGetStateResult)?.result else {
+                    throw ErrorAPI.other(message: "Unknown error")
+                }
+                
+                return result
+            }
+    }
+    
+    
     //  MARK: - Contract `gls.publish`
     public func vote(voteType:       VoteActionType,
                      author:         String,

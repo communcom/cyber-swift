@@ -154,6 +154,11 @@ extension Broadcast {
     public func executeGetRequest(methodAPIType: MethodAPIType) -> Single<Decodable> {
         return .create {single in
             self.executeGETRequest(byContentAPIType: methodAPIType, onResult: { (result) in
+                if let result = result as? ResponseAPIHasError,
+                    let error = result.error{
+                    single(.error(ErrorAPI.requestFailed(message: error.message)))
+                    return
+                }
                 single(.success(result))
             }, onError: { (error) in
                 single(.error(error))
