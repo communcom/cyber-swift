@@ -167,7 +167,7 @@ public indirect enum MethodAPIType {
     case resendSmsCode(phone: String, isDebugMode: Bool)
     
     //  The last step of registration, entry in the blockchain
-    case toBlockChain(userID: String, keys: [UserKeys])
+    case toBlockChain(userID: String, keys: [String: UserKeys])
 
     
     /// This method return request parameters from selected enum case.
@@ -445,19 +445,19 @@ public indirect enum MethodAPIType {
         case .toBlockChain(let userIDValue, let keysValues):
             var parameters = ["user": userIDValue]
 
-            if let ownerUserKey = keysValues.first(where: { $0.type == "owner" }) {
+            if let ownerUserKey = keysValues["owner"] {
                 parameters["owner"] = ownerUserKey.publicKey
             }
 
-            if let activeUserKey = keysValues.first(where: { $0.type == "active" }) {
+            if let activeUserKey = keysValues["active"] {
                 parameters["active"] = activeUserKey.publicKey
             }
 
-            if let postingUserKey = keysValues.first(where: { $0.type == "posting" }) {
+            if let postingUserKey = keysValues["posting"] {
                 parameters["posting"] = postingUserKey.publicKey
             }
 
-            if let memoUserKey = keysValues.first(where: { $0.type == "memo" }) {
+            if let memoUserKey = keysValues["memo"] {
                 parameters["memo"] = memoUserKey.publicKey
             }
             

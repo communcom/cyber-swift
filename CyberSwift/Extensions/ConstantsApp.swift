@@ -80,27 +80,6 @@ public struct Config {
 //            }
 //        }
     }
-    
-    public static var testUser: (id: String?, name: String?, activeKey: String?) {
-        set { }
-        
-        get {
-            if  let userData        =   KeychainManager.loadAllData(byUserID: Config.testUserIDKey),
-                let userID          =   userData[Config.testUserIDKey] as? String,
-                let userName        =   userData[Config.testUserNameKey] as? String,
-                let userActiveKey   =   userData[testUserPublicActiveKey] as? String {
-                Logger.log(message: "Test User data by userID: userID = \(userID)", event: .debug)
-                
-                return (id: userID, name: userName, activeKey: userActiveKey)
-            }
-                
-            else {
-                Logger.log(message: "Test User nickName is empty", event: .debug)
-                
-                return (id: nil, name: nil, activeKey: nil)
-            }
-        }
-    }
 
     // Accounts test values
     public static let accountNickDestroyer2k: String    =   "destroyer2k"

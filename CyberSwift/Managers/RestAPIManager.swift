@@ -758,8 +758,18 @@ public class RestAPIManager {
                                                 
                                                 Logger.log(message: "\nAPI `registration.firstStep` response result: \n\(responseAPIResult)\n", event: .debug)
                                                 
-                                                if KeychainManager.save(data: [Config.registrationStepKey: "verify", Config.registrationUserPhoneKey: phone, Config.registrationSmsCodeKey: result.code, Config.registrationSmsNextRetryKey: result.nextSmsRetry], userPhone: phone) {
+                                                do {
+                                                    try KeychainManager.save(data: [
+                                                        Config.registrationStepKey: "verify",
+                                                        Config.registrationUserPhoneKey: phone,
+                                                        Config.registrationSmsCodeKey: result.code,
+                                                        Config.registrationSmsNextRetryKey: result.nextSmsRetry
+                                                    ])
+                                                    
                                                     responseHandling(result)
+                                                } catch {
+                                                    Logger.log(message: error.localizedDescription, event: .error)
+                                                    errorHandling(ResponseAPIError(code: 404, message: error.localizedDescription, currentState: nil))
                                                 }
         },
                                              onError: { errorAPI in
@@ -789,12 +799,14 @@ public class RestAPIManager {
                                                 
                                                 Logger.log(message: "\nAPI `registration.verify` response result: \n\(responseAPIResult)\n", event: .debug)
                                                 
-                                                if KeychainManager.save(data: [Config.registrationStepKey: "setUsername", Config.registrationUserPhoneKey: phone, Config.registrationSmsCodeKey: code], userPhone: phone) {
+                                                do {
+                                                    try KeychainManager.save(data: [Config.registrationStepKey: "setUsername", Config.registrationUserPhoneKey: phone, Config.registrationSmsCodeKey: code])
+                                                    
                                                     responseHandling(result)
+                                                } catch {
+                                                    Logger.log(message: error.localizedDescription, event: .error)
+                                                    errorHandling(ResponseAPIError(code: 404, message: error.localizedDescription, currentState: nil))
                                                 }
-
-//                                                UserDefaults.standard.set("setUsername", forKey: Config.registrationStepKey)
-//                                                responseHandling(result)
         },
                                              onError:           { errorAPI in
                                                 Logger.log(message: "\nAPI `registration.verify` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
@@ -824,13 +836,14 @@ public class RestAPIManager {
                                                 
                                                 Logger.log(message: "\nAPI `registration.resendSmsCode` response result: \n\(responseAPIResult)\n", event: .debug)
                                                 
-                                                if KeychainManager.save(data: [Config.registrationStepKey: "verify", Config.registrationUserPhoneKey: phone, Config.registrationSmsCodeKey: result.code, Config.registrationSmsNextRetryKey: result.nextSmsRetry], userPhone: phone) {
+                                                do {
+                                                    try KeychainManager.save(data: [Config.registrationStepKey: "verify", Config.registrationUserPhoneKey: phone, Config.registrationSmsCodeKey: result.code, Config.registrationSmsNextRetryKey: result.nextSmsRetry])
+                                                    
                                                     responseHandling(result)
+                                                } catch {
+                                                    Logger.log(message: error.localizedDescription, event: .error)
+                                                    errorHandling(ErrorAPI.responseUnsuccessful(message: error.localizedDescription))
                                                 }
-
-//                                                UserDefaults.standard.set("verify", forKey: Config.registrationStepKey)
-//                                                UserDefaults.standard.set(result.nextSmsRetry, forKey: Config.registrationSmsNextRetryKey)
-//                                                responseHandling(result)
         },
                                              onError:           { errorAPI in
                                                 Logger.log(message: "\nAPI `registration.resendSmsCode` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
@@ -858,13 +871,14 @@ public class RestAPIManager {
                                                 
                                                 Logger.log(message: "\nAPI `registration.setUsername` response result: \n\(responseAPIResult)\n", event: .debug)
                                                 
-                                                if KeychainManager.save(data: [Config.registrationStepKey: "toBlockChain", Config.registrationUserPhoneKey: phone, Config.registrationUserIDKey: id], userPhone: phone) {
+                                                do {
+                                                    try KeychainManager.save(data: [Config.registrationStepKey: "toBlockChain", Config.registrationUserPhoneKey: phone, Config.registrationUserIDKey: id])
+                                                    
                                                     responseHandling(result)
+                                                } catch {
+                                                    Logger.log(message: error.localizedDescription, event: .error)
+                                                    errorHandling(ErrorAPI.responseUnsuccessful(message: error.localizedDescription))
                                                 }
-
-//                                                UserDefaults.standard.set("toBlockChain", forKey: Config.registrationStepKey)
-//                                                UserDefaults.standard.set(name, forKey: Config.registrationUserNameKey)
-//                                                responseHandling(result)
         },
                                              onError:           { errorAPI in
                                                 Logger.log(message: "\nAPI `registration.setUsername` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
@@ -894,23 +908,29 @@ public class RestAPIManager {
                                                 
                                                 // Save in Keychain
                                                 Logger.log(message: "\nAPI `registration.toBlockChain` response result: \n\(responseAPIResult)\n", event: .debug)
-                                                let result: Bool = KeychainManager.save(keys: userkeys, userID: chainResult.userId, userName: chainResult.username)
                                                 
-                                                if KeychainManager.save(data:   [
-                                                                                    Config.registrationStepKey:            "firstStep",
-                                                                                    Config.registrationUserNameKey:        chainResult.username,
-                                                                                    Config.registrationUserIDKey:          chainResult.userId,
-                                                                                    Config.currentUserPublicOwnerKey:      userkeys.first(where: { $0.type == "owner" })!.publicKey,
-                                                                                    Config.currentUserPrivateOwnerKey:     userkeys.first(where: { $0.type == "owner" })!.privateKey,
-                                                                                    Config.currentUserPublicActiveKey:     userkeys.first(where: { $0.type == "active" })!.publicKey,
-                                                                                    Config.currentUserPrivateActiveKey:    userkeys.first(where: { $0.type == "active" })!.privateKey,
-                                                                                    Config.currentUserPublicPostingKey:    userkeys.first(where: { $0.type == "posting" })!.publicKey,
-                                                                                    Config.currentUserPrivatePostingKey:   userkeys.first(where: { $0.type == "posting" })!.privateKey,
-                                                                                    Config.currentUserPublickMemoKey:      userkeys.first(where: { $0.type == "memo" })!.publicKey,
-                                                                                    Config.currentUserPrivateMemoKey:      userkeys.first(where: { $0.type == "memo" })!.privateKey
-                                                                            ],
-                                                                        userPhone:  phone) {
-                                                    responseHandling(result)
+                                                do {
+                                                    try KeychainManager.save(data: [
+                                                        Config.registrationStepKey:            "firstStep",
+                                                        Config.registrationUserNameKey:        chainResult.username,
+                                                        Config.registrationUserIDKey:          chainResult.userId,
+                                                        Config.currentUserPublicOwnerKey:      userkeys["owner"]!.publicKey,
+                                                        Config.currentUserPrivateOwnerKey:     userkeys["owner"]!.privateKey,
+                                                        Config.currentUserPublicActiveKey:     userkeys["active"]!.publicKey,
+                                                        Config.currentUserPrivateActiveKey:    userkeys["active"]!.privateKey,
+                                                        Config.currentUserPublicPostingKey:    userkeys["posting"]!.publicKey,
+                                                        Config.currentUserPrivatePostingKey:   userkeys["posting"]!.privateKey,
+                                                        Config.currentUserPublickMemoKey:      userkeys["memo"]!.publicKey,
+                                                        Config.currentUserPrivateMemoKey:      userkeys["memo"]!.privateKey
+                                                        ])
+                                                    
+                                                    responseHandling(true)
+                                                } catch {
+                                                    Logger.log(message: error.localizedDescription, event: .error)
+                                                    errorHandling(ErrorAPI.responseUnsuccessful(message: error.localizedDescription))
+                                                }
+                                                
+                                                
                                                     #warning("Save pdf")
 //                                                    KeychainManager.createPDFFile(id:           userID,
 //                                                                                  name:         userName,
@@ -927,7 +947,7 @@ public class RestAPIManager {
 //                                                        },
 //                                                                                          errorHandling:        { errorAPI in
 //                                                        })
-                                                }
+                                                
         },
                                              onError: { errorAPI in
                                                 Logger.log(message: "\nAPI `registration.toBlockChain` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
