@@ -67,7 +67,7 @@ struct PDFManager {
         do {
             try FileManager.default.removeItem(atPath: filePath)
             
-            if let pdfDocument = KeychainManager.loadPDFDocument() {
+            if let pdfDocument = loadPDFDocument() {
                 Logger.log(message: pdfDocument.fileName, event: .debug)
             } else {
                 Logger.log(message: "PDF-file deleted!!!", event: .severe)

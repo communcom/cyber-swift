@@ -112,7 +112,7 @@ class EOSManager {
     static func createNewAccount(nickName:          String,
                                  responseResult:    @escaping (ChainResponse<TransactionCommitted>) -> Void,
                                  responseError:     @escaping (Error) -> Void) {
-        guard let userID = Config.currentUser.id, let userActiveKey = Config.currentUser.activeKey else {
+        guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKey else {
             return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
         }
         
@@ -171,7 +171,7 @@ class EOSManager {
                        responseResult:  @escaping (ChainResponse<TransactionCommitted>) -> Void,
                        responseError:   @escaping (ErrorAPI) -> Void) {
         // Check user authorize
-        guard let userID = Config.currentUser.id, let userActiveKey = Config.currentUser.activeKey else {
+        guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKey else {
             return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
         }
         
@@ -218,7 +218,7 @@ class EOSManager {
     static func delete(messageArgs:     EOSTransaction.MessageDeleteArgs,
                        responseResult:  @escaping (ChainResponse<TransactionCommitted>) -> Void,
                        responseError:   @escaping (Error) -> Void) {
-        guard let userID = Config.currentUser.id, let userActiveKey = Config.currentUser.activeKey else {
+        guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKey else {
             return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
         }
         
@@ -254,7 +254,7 @@ class EOSManager {
     static func update(messageArgs:     EOSTransaction.MessageUpdateArgs,
                        responseResult:  @escaping (ChainResponse<TransactionCommitted>) -> Void,
                        responseError:   @escaping (Error) -> Void) {
-        guard let userID = Config.currentUser.id, let userActiveKey = Config.currentUser.activeKey else {
+        guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKey else {
             return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
         }
         
@@ -288,7 +288,7 @@ class EOSManager {
     static func updateUserProfile(changereputArgs:  EOSTransaction.UserProfileChangereputArgs,
                                   responseResult:   @escaping (ChainResponse<TransactionCommitted>) -> Void,
                                   responseError:    @escaping (Error) -> Void) {
-        guard let userID = Config.currentUser.id, let userActiveKey = Config.currentUser.activeKey else {
+        guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKey else {
             return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
         }
         
@@ -325,7 +325,7 @@ class EOSManager {
                         weight:             Int16,
                         responseResult:     @escaping (ChainResponse<TransactionCommitted>) -> Void,
                         responseError:      @escaping (Error) -> Void) {
-        guard let userID = Config.currentUser.id, let userActiveKey = Config.currentUser.activeKey else {
+        guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKey else {
             return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
         }
         
@@ -385,7 +385,7 @@ class EOSManager {
                        responseResult:  @escaping (ChainResponse<TransactionCommitted>) -> Void,
                        responseError:   @escaping (ErrorAPI) -> Void) {
         // Check user authorize
-        guard let userID = Config.currentUser.id, let userActiveKey = Config.currentUser.activeKey else {
+        guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKey else {
             return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
         }
         
@@ -421,7 +421,7 @@ class EOSManager {
     static func publish(transferArgs:       EOSTransaction.TransferArgs,
                         responseResult:     @escaping (ChainResponse<TransactionCommitted>) -> Void,
                         responseError:      @escaping (Error) -> Void) {
-        guard let userID = Config.currentUser.id, let userActiveKey = Config.currentUser.activeKey else {
+        guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKey else {
             return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
         }
         
@@ -458,7 +458,7 @@ class EOSManager {
                                   isUnpin:          Bool,
                                   responseResult:   @escaping (ChainResponse<TransactionCommitted>) -> Void,
                                   responseError:    @escaping (Error) -> Void) {
-        guard let userID = Config.currentUser.id, let userActiveKey = Config.currentUser.activeKey else {
+        guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKey else {
             return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
         }
         
@@ -493,7 +493,7 @@ class EOSManager {
                                   isUnblock:        Bool,
                                   responseResult:   @escaping (ChainResponse<TransactionCommitted>) -> Void,
                                   responseError:    @escaping (Error) -> Void) {
-        guard let userID = Config.currentUser.id, let userActiveKey = Config.currentUser.activeKey else {
+        guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKey else {
             return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
         }
         
@@ -527,7 +527,7 @@ class EOSManager {
     static func update(userProfileMetaArgs:     Encodable,
                        responseResult:          @escaping (ChainResponse<TransactionCommitted>) -> Void,
                        responseError:           @escaping (Error) -> Void) {
-        guard let userID = Config.currentUser.id, let userActiveKey = Config.currentUser.activeKey else {
+        guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKey else {
             return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
         }
         
@@ -568,7 +568,7 @@ class EOSManager {
     static func delete(userProfileMetaArgs:     EOSTransaction.UserProfileDeleteArgs,
                        responseResult:          @escaping (ChainResponse<TransactionCommitted>) -> Void,
                        responseError:           @escaping (Error) -> Void) {
-        guard let userID = Config.currentUser.id, let userActiveKey = Config.currentUser.activeKey else {
+        guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKey else {
             return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
         }
         
@@ -606,7 +606,7 @@ class EOSManager {
     static func reg(witnessArgs:        EOSTransaction.RegwitnessArgs,
                     responseResult:     @escaping (ChainResponse<TransactionCommitted>) -> Void,
                     responseError:      @escaping (Error) -> Void) {
-        guard let userID = Config.currentUser.id, let userActiveKey = Config.currentUser.activeKey else {
+        guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKey else {
             return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
         }
         
@@ -643,7 +643,7 @@ class EOSManager {
     static func vote(witnessArgs:       EOSTransaction.VotewitnessArgs,
                      responseResult:    @escaping (ChainResponse<TransactionCommitted>) -> Void,
                      responseError:     @escaping (Error) -> Void) {
-        guard let userID = Config.currentUser.id, let userActiveKey = Config.currentUser.activeKey else {
+        guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKey else {
             return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
         }
         
@@ -680,7 +680,7 @@ class EOSManager {
     static func unvote(witnessArgs:         EOSTransaction.UnvotewitnessArgs,
                        responseResult:      @escaping (ChainResponse<TransactionCommitted>) -> Void,
                        responseError:       @escaping (Error) -> Void) {
-        guard let userID = Config.currentUser.id, let userActiveKey = Config.currentUser.activeKey else {
+        guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKey else {
             return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
         }
         
@@ -717,7 +717,7 @@ class EOSManager {
     static func unreg(witnessArgs:          EOSTransaction.UnregwitnessArgs,
                       responseResult:       @escaping (ChainResponse<TransactionCommitted>) -> Void,
                       responseError:        @escaping (Error) -> Void) {
-        guard let userID = Config.currentUser.id, let userActiveKey = Config.currentUser.activeKey else {
+        guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKey else {
             return responseError(ErrorAPI.invalidData(message: "Unauthorized"))
         }
         

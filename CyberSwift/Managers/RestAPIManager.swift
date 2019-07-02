@@ -205,7 +205,7 @@ public class RestAPIManager {
     }
     
     // API `content.getPost`
-    public func loadPost(userID:        String = Config.currentUser.id ?? "Cyber",
+    public func loadPost(userID:        String = Config.currentUser?.id ?? "Cyber",
                          permlink:      String,
                          completion:    @escaping (ResponseAPIContentGetPost?, ErrorAPI?) -> Void) {
         // Offline mode
@@ -231,7 +231,7 @@ public class RestAPIManager {
     }
     
     // API `content.getComments` by user
-    public func loadUserComments(nickName:                  String? = Config.currentUser.id,
+    public func loadUserComments(nickName:                  String? = Config.currentUser?.id,
                                  sortMode:                  CommentSortMode = .time,
                                  paginationLimit:           Int8 = Config.paginationLimit,
                                  paginationSequenceKey:     String? = nil,
@@ -258,7 +258,7 @@ public class RestAPIManager {
     }
     
     // API `content.getComments` by post
-    public func loadPostComments(nickName:                  String = Config.currentUser.id ?? "Cyber",
+    public func loadPostComments(nickName:                  String = Config.currentUser?.id ?? "Cyber",
                                  permlink:                  String,
                                  sortMode:                  CommentSortMode = .time,
                                  paginationLimit:           Int8 = Config.paginationLimit,
@@ -478,7 +478,7 @@ public class RestAPIManager {
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         // Check user authorize
-        guard Config.currentUser.id != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
+        guard Config.currentUser?.id != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
 
         let methodAPIType = MethodAPIType.markAsRead(notifies: notifies)
 
@@ -506,7 +506,7 @@ public class RestAPIManager {
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         // Check user authorize
-        guard Config.currentUser.id != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
+        guard Config.currentUser?.id != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
 
         let methodAPIType = MethodAPIType.getOptions
         
@@ -536,7 +536,7 @@ public class RestAPIManager {
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         // Check user authorize
-        guard Config.currentUser.id != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
+        guard Config.currentUser?.id != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
 
         let methodAPIType = MethodAPIType.setBasicOptions(nsfw: nsfwContent.rawValue, language: language)
         
@@ -566,7 +566,7 @@ public class RestAPIManager {
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         // Check user authorize
-        guard (Config.currentUser.id != nil) else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
+        guard (Config.currentUser?.id != nil) else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
         
         let methodAPIType = MethodAPIType.setNotice(options: options, type: type)
         
@@ -595,7 +595,7 @@ public class RestAPIManager {
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         // Check user authorize
-        guard Config.currentUser.id != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
+        guard Config.currentUser?.id != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
 
         let methodAPIType = MethodAPIType.recordPostView(permlink: permlink)
         
@@ -623,7 +623,7 @@ public class RestAPIManager {
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         // Check user authorize
-        guard Config.currentUser.id != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
+        guard Config.currentUser?.id != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
 
         let methodAPIType = MethodAPIType.getFavorites
         
@@ -652,7 +652,7 @@ public class RestAPIManager {
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         // Check user authorize
-        guard Config.currentUser.id != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
+        guard Config.currentUser?.id != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
 
         let methodAPIType = MethodAPIType.addFavorites(permlink: permlink)
         
@@ -681,7 +681,7 @@ public class RestAPIManager {
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         // Check user authorize
-        guard Config.currentUser.id != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
+        guard Config.currentUser?.id != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
         
         let methodAPIType = MethodAPIType.removeFavorites(permlink: permlink)
         
@@ -705,7 +705,7 @@ public class RestAPIManager {
 
     // MARK: - REGISTRATION-SERVICE
     // API `registration.getState`
-    public func getState(id:                String? = Config.currentUser.id,
+    public func getState(id:                String? = Config.currentUser?.id,
                          phone:             String?,
                          responseHandling:  @escaping (ResponseAPIRegistrationGetState) -> Void,
                          errorHandling:     @escaping (ErrorAPI) -> Void) {
@@ -915,7 +915,7 @@ public class RestAPIManager {
 //                                                                                  owner:        ownerUserKeys!.privateKey,
 //                                                                                  active:       activeUserKeys!.privateKey,
 //                                                                                  posting:      postingUserKeys!.privateKey)
-//                                                    
+//
 //                                                    // Auth new account
 //                                                    DispatchQueue.main.async {
 //                                                        RestAPIManager.instance.authorize(userID:               Config.currentUser.id!,
@@ -1005,7 +1005,7 @@ public class RestAPIManager {
         guard Config.isNetworkAvailable else { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
         // Check user authorize
-        guard let userID = Config.currentUser.id else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
+        guard let userID = Config.currentUser?.id else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
         
         let userProfileAccountmetaArgs = EOSTransaction.UserProfileAccountmetaArgs(json: userProfile)
         
@@ -1091,7 +1091,7 @@ public class RestAPIManager {
         // Offline mode
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
-        let messageUpdateArgs = EOSTransaction.MessageUpdateArgs(authorValue:           author ?? Config.currentUser.id ?? "Cyberway",
+        let messageUpdateArgs = EOSTransaction.MessageUpdateArgs(authorValue:           author ?? Config.currentUser?.id ?? "Cyberway",
                                                                  messagePermlink:       permlink,
                                                                  parentPermlink:       parentPermlink,
                                                                  bodymssgValue:         message)
