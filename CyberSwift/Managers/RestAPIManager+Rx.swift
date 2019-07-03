@@ -21,7 +21,7 @@ extension Reactive where Base: RestAPIManager {
         
         guard let id = Config.currentUser?.id,
             let phone = Config.currentUser?.phoneNumber else {
-                return .error(ErrorAPI.requestFailed(message: "Unauthorized"))
+                return .error(ErrorAPI.unauthorized)
         }
         
         let methodAPIType = MethodAPIType.getState(id: id, phone: phone)
@@ -30,8 +30,91 @@ extension Reactive where Base: RestAPIManager {
             .log(method: "registration.getState")
             .map { result in
                 guard let result = (result as? ResponseAPIRegistrationGetStateResult)?.result else {
-                    throw ErrorAPI.other(message: "Unknown error")
+                    throw ErrorAPI.unknown
                 }
+                
+                return result
+            }
+    }
+    
+    public func firstStep(phone: String) -> Single<ResponseAPIRegistrationFirstStep> {
+        // Offline mode
+        if (!Config.isNetworkAvailable) {
+            return .error(ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        let methodAPIType = MethodAPIType.firstStep(phone: phone, isDebugMode: base.isDebugMode)
+        
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+            .log(method: "registration.firstStep")
+            .map {result in
+                guard let result = (result as? ResponseAPIRegistrationFirstStepResult)?.result else {
+                    throw ErrorAPI.unknown
+                }
+                
+                try KeychainManager.save(data: [
+                    Config.registrationStepKey: "verify",
+                    Config.registrationUserPhoneKey: phone,
+                    Config.registrationSmsCodeKey: result.code,
+                    Config.registrationSmsNextRetryKey: result.nextSmsRetry
+                ])
+                
+                return result
+            }
+    }
+    
+    public func verify() -> Single<ResponseAPIRegistrationVerify> {
+        // Offline mode
+        if (!Config.isNetworkAvailable) {
+            return .error(ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        guard let phone = Config.currentUser?.phoneNumber,
+            let code = Config.currentUser?.smsCode else {
+                return .error(ErrorAPI.requestFailed(message: "Phone and smsCode missing"))
+        }
+        
+        let methodAPIType = MethodAPIType.verify(phone: phone, code: code)
+        
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+            .log(method: "registration.verify")
+            .map {result in
+                guard let result = (result as? ResponseAPIRegistrationVerifyResult)?.result else {
+                    throw ErrorAPI.unknown
+                }
+                
+                try KeychainManager.save(data: [
+                    Config.registrationStepKey: "setUsername",
+                    Config.registrationUserPhoneKey: phone,
+                    Config.registrationSmsCodeKey: code
+                ])
+                
+                return result
+            }
+    }
+    
+    public func resendSmsCode() -> Single<ResponseAPIResendSmsCode> {
+        // Offline mode
+        if (!Config.isNetworkAvailable) {
+            return .error(ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        guard let phone = Config.currentUser?.phoneNumber else {
+            return .error(ErrorAPI.requestFailed(message: "Phone missing"))
+        }
+        
+        let methodAPIType = MethodAPIType.resendSmsCode(phone: phone, isDebugMode: base.isDebugMode)
+        
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+            .log(method: "registration.resendSmsCode")
+            .map {result in
+                guard let result = (result as? ResponseAPIResendSmsCodeResult)?.result else {
+                    throw ErrorAPI.unknown
+                }
+                
+                try KeychainManager.save(data: [
+                    Config.registrationStepKey: "verify",
+                    Config.registrationUserPhoneKey: phone,
+                    Config.registrationSmsCodeKey: result.code,
+                    Config.registrationSmsNextRetryKey: result.nextSmsRetry
+                ])
                 
                 return result
             }

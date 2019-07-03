@@ -30,7 +30,6 @@ public class KeychainManager {
         // Optional properties
         let id = data[Config.currentUserIDKey] as? String
         let name = data[Config.currentUserNameKey] as? String
-        let activeKey = data[Config.currentUserPublicActiveKey] as? String
         
         let registrationStep = data[Config.registrationStepKey] as? String
         let phone = data[Config.registrationUserPhoneKey] as? String
@@ -57,7 +56,6 @@ public class KeychainManager {
         return CurrentUser(
             id: id,
             name: name,
-            activeKey: activeKey,
             
             registrationStep: registrationStep,
             phoneNumber: phone,

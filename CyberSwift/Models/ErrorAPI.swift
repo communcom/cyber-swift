@@ -54,10 +54,19 @@ public enum ErrorAPI: Error {
             return (title: "Other error".localized(), message: message, code: 100)
         }
     }
+    
+    public static var unknown: ErrorAPI {
+        return ErrorAPI.other(message: "Unknown error")
+    }
+    
+    public static var unauthorized: ErrorAPI {
+        return ErrorAPI.requestFailed(message: "Unauthorized")
+    }
 }
 
 extension Error {
     public func toErrorAPI() -> ErrorAPI {
+        if let error = self as? ErrorAPI {return error}
         return ErrorAPI.other(message: self.localizedDescription)
     }
 }

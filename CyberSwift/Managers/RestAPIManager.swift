@@ -16,6 +16,9 @@ public enum NoticeType {
 }
 
 public class RestAPIManager {
+    #warning("remove debug mode")
+    let isDebugMode = true
+    
     // MARK: - Properties
     public static let instance = RestAPIManager()
     
@@ -738,7 +741,6 @@ public class RestAPIManager {
     
     // API `registration.firstStep`
     public func firstStep(phone:                String,
-                          isDebugMode:          Bool = true,
                           responseHandling:     @escaping (ResponseAPIRegistrationFirstStep) -> Void,
                           errorHandling:        @escaping (ResponseAPIError) -> Void) {
         // Offline mode
@@ -779,7 +781,6 @@ public class RestAPIManager {
     // API `registration.verify`
     public func verify(phone:               String,
                        code:                UInt64,
-                       isDebugMode:         Bool = true,
                        responseHandling:    @escaping (ResponseAPIRegistrationVerify) -> Void,
                        errorHandling:       @escaping (ResponseAPIError) -> Void) {
         // Offline mode
@@ -814,7 +815,6 @@ public class RestAPIManager {
     
     // API `registration.resendSmsCode`
     public func resendSmsCode(phone:                String,
-                              isDebugMode:          Bool = true,
                               responseHandling:     @escaping (ResponseAPIResendSmsCode) -> Void,
                               errorHandling:        @escaping (ErrorAPI) -> Void) {
         // Offline mode
