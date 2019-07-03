@@ -32,7 +32,7 @@ public class RestAPIManager {
     
     
     // MARK: - Class Functions
-    private func generateKeys(userID: String, password: String) -> [String: UserKeys] {
+    public func generateKeys(userID: String, password: String) -> [String: UserKeys] {
         var userKeys = [String: UserKeys]()
         
         // type
