@@ -14,6 +14,7 @@ extension RestAPIManager: ReactiveCompatible {}
 
 extension Reactive where Base: RestAPIManager {
     //  MARK: - Registration
+    /// Get registration state
     public func getState() -> Single<ResponseAPIRegistrationGetState> {
         // Offline mode
         if (!Config.isNetworkAvailable) {
@@ -37,6 +38,7 @@ extension Reactive where Base: RestAPIManager {
             }
     }
     
+    /// First step of registration
     public func firstStep(phone: String) -> Single<ResponseAPIRegistrationFirstStep> {
         // Offline mode
         if (!Config.isNetworkAvailable) {
@@ -62,14 +64,14 @@ extension Reactive where Base: RestAPIManager {
             }
     }
     
-    public func verify() -> Single<ResponseAPIRegistrationVerify> {
+    /// Verify code
+    public func verify(code: UInt64) -> Single<ResponseAPIRegistrationVerify> {
         // Offline mode
         if (!Config.isNetworkAvailable) {
             return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
-        guard let phone = Config.currentUser?.phoneNumber,
-            let code = Config.currentUser?.smsCode else {
-                return .error(ErrorAPI.requestFailed(message: "Phone and smsCode missing"))
+        guard let phone = Config.currentUser?.phoneNumber else {
+            return .error(ErrorAPI.requestFailed(message: "Phone and smsCode missing"))
         }
         
         let methodAPIType = MethodAPIType.verify(phone: phone, code: code)
@@ -83,7 +85,6 @@ extension Reactive where Base: RestAPIManager {
                 
                 try KeychainManager.save(data: [
                     Config.registrationStepKey: "setUsername",
-                    Config.registrationUserPhoneKey: phone,
                     Config.registrationSmsCodeKey: code
                 ])
                 
@@ -91,6 +92,8 @@ extension Reactive where Base: RestAPIManager {
             }
     }
     
+    
+    /// Resend sms code
     public func resendSmsCode() -> Single<ResponseAPIResendSmsCode> {
         // Offline mode
         if (!Config.isNetworkAvailable) {
@@ -111,7 +114,6 @@ extension Reactive where Base: RestAPIManager {
                 
                 try KeychainManager.save(data: [
                     Config.registrationStepKey: "verify",
-                    Config.registrationUserPhoneKey: phone,
                     Config.registrationSmsCodeKey: result.code,
                     Config.registrationSmsNextRetryKey: result.nextSmsRetry
                 ])
@@ -120,6 +122,89 @@ extension Reactive where Base: RestAPIManager {
             }
     }
     
+    /// set userId
+    public func setUser(id: String) -> Single<ResponseAPIRegistrationSetUsername> {
+        // Offline mode
+        if (!Config.isNetworkAvailable) {
+            return .error(ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        guard let phone = Config.currentUser?.phoneNumber else {
+            return .error(ErrorAPI.requestFailed(message: "Phone missing"))
+        }
+        
+        let methodAPIType = MethodAPIType.setUser(id: id, phone: phone)
+        
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+            .log(method: "registration.setUsername")
+            .map {result in
+                guard let result = (result as? ResponseAPIRegistrationSetUsernameResult)?.result else {
+                    throw ErrorAPI.unknown
+                }
+                
+                try KeychainManager.save(data: [
+                    Config.registrationStepKey: "toBlockChain",
+                    Config.registrationUserIDKey: id
+                ])
+                
+                return result
+            }
+    }
+    
+    /// Save user to blockchain
+    public func toBlockChain() -> Completable {
+        // Offline mode
+        if (!Config.isNetworkAvailable) {
+            return .error(ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        guard let id = Config.currentUser?.id else {
+            return .error(ErrorAPI.requestFailed(message: "Phone missing"))
+        }
+        
+        let userkeys = base.generateKeys(userID: id, password: String.randomString(length: 12))
+        
+        let methodAPIType = MethodAPIType.toBlockChain(userID: id, keys: userkeys)
+        
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+            .log(method: "registration.toBlockChain")
+            .map {result -> ResponseAPIRegistrationToBlockChain in
+                guard let result = (result as? ResponseAPIRegistrationToBlockChainResult)?.result else {
+                    throw ErrorAPI.unknown
+                }
+                
+                #warning("remove step later")
+                try KeychainManager.save(data: [
+                    Config.registrationStepKey: "firstStep",
+                    Config.registrationUserNameKey: result.username,
+                    Config.registrationUserIDKey: result.userId,
+                    Config.currentUserPublicOwnerKey: userkeys["owner"]!.publicKey,
+                    Config.currentUserPrivateOwnerKey: userkeys["owner"]!.privateKey,
+                    Config.currentUserPublicActiveKey: userkeys["active"]!.publicKey,
+                    Config.currentUserPrivateActiveKey: userkeys["active"]!.privateKey,
+                    Config.currentUserPublicPostingKey: userkeys["posting"]!.publicKey,
+                    Config.currentUserPrivatePostingKey: userkeys["posting"]!.privateKey,
+                    Config.currentUserPublickMemoKey: userkeys["memo"]!.publicKey,
+                    Config.currentUserPrivateMemoKey: userkeys["memo"]!.privateKey
+                ])
+            
+                return result
+            }
+            .flatMapToCompletable()
+            .do(onCompleted: {
+                PDFManager.createPDFFile()
+                // Auth new account
+                DispatchQueue.main.async {
+                    RestAPIManager.instance.authorize(
+                        userID: Config.currentUser!.id!,
+                        userActiveKey: Config.currentUser!.activeKey!,
+                        responseHandling: { response in
+                            responseHandling(true)
+                    },
+                        errorHandling: { error in
+                            errorHandling(error.toErrorAPI())
+                    })
+                }
+            })
+    }
     
     //  MARK: - Contract `gls.publish`
     public func vote(voteType:       VoteActionType,
