@@ -186,7 +186,7 @@ extension Reactive where Base: RestAPIManager {
                     Config.currentUserPrivatePostingKey: userkeys["posting"]!.privateKey,
                     Config.currentUserPublickMemoKey: userkeys["memo"]!.publicKey,
                     Config.currentUserPrivateMemoKey: userkeys["memo"]!.privateKey
-                    ])
+                ])
                 
                 return result
             }

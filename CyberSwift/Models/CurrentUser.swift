@@ -27,6 +27,11 @@ public struct CurrentUser {
     public var ownerKeys: UserKeys?
     public var activeKeys: UserKeys?
     public var postingKeys: UserKeys?
+    
+    // Methods
+    public static var loggedIn: Bool {
+        return UserDefaults.standard.bool(forKey: Config.isCurrentUserLoggedKey)
+    }
 }
 
 public struct UserKeys {

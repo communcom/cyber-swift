@@ -19,6 +19,7 @@ public enum ErrorAPI: Error {
     case jsonConversionFailure(message: String)
     case signingECCKeychainPostingKeyFailure(message: String)
     case savingKeys(message: String)
+    case socketDisconnected
     case other(message: String)
     
     public var caseInfo: (title: String, message: String, code: Int) {
@@ -49,6 +50,9 @@ public enum ErrorAPI: Error {
             
         case .savingKeys(let message):
             return (title: "Keychain Saving Failure".localized(), message: message, code: 100)
+            
+        case .socketDisconnected:
+            return (title: "Socket Is Disconnected".localized(), message: "Socket is not connected", code: 100)
             
         case .other(let message):
             return (title: "Other error".localized(), message: message, code: 100)
