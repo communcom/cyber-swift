@@ -57,7 +57,7 @@ public class KeychainManager {
             id: id,
             name: name,
             
-            registrationStep: registrationStep,
+            registrationStep: registrationStep != nil ? CurrentUserRegistrationStep(rawValue: registrationStep!) : nil,
             phoneNumber: phone,
             smsCode: smsCode,
             smsNextRetry: smsRetryCode,

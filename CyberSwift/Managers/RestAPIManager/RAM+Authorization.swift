@@ -52,7 +52,7 @@ extension Reactive where Base: RestAPIManager {
                 }
                 
                 try KeychainManager.save(data: [
-                    Config.registrationStepKey: "verify",
+                    Config.registrationStepKey: CurrentUserRegistrationStep.verify.rawValue,
                     Config.registrationUserPhoneKey: phone,
                     Config.registrationSmsCodeKey: result.code,
                     Config.registrationSmsNextRetryKey: result.nextSmsRetry
@@ -83,7 +83,7 @@ extension Reactive where Base: RestAPIManager {
                 }
                 
                 try KeychainManager.save(data: [
-                    Config.registrationStepKey: "setUsername",
+                    Config.registrationStepKey: CurrentUserRegistrationStep.setUserName.rawValue,
                     Config.registrationSmsCodeKey: code
                 ])
                 
@@ -113,10 +113,10 @@ extension Reactive where Base: RestAPIManager {
                 }
                 
                 try KeychainManager.save(data: [
-                    Config.registrationStepKey: "verify",
+                    Config.registrationStepKey: CurrentUserRegistrationStep.verify.rawValue,
                     Config.registrationSmsCodeKey: result.code,
                     Config.registrationSmsNextRetryKey: result.nextSmsRetry
-                    ])
+                ])
                 
                 return result
         }
@@ -143,9 +143,9 @@ extension Reactive where Base: RestAPIManager {
                 }
                 
                 try KeychainManager.save(data: [
-                    Config.registrationStepKey: "toBlockChain",
+                    Config.registrationStepKey: CurrentUserRegistrationStep.toBlockChain.rawValue,
                     Config.currentUserIDKey: id
-                    ])
+                ])
                 
                 return result
         }
@@ -173,9 +173,8 @@ extension Reactive where Base: RestAPIManager {
                     throw ErrorAPI.unknown
                 }
                 
-                #warning("remove step later")
                 try KeychainManager.save(data: [
-                    Config.registrationStepKey: "firstStep",
+                    Config.registrationStepKey: CurrentUserRegistrationStep.setAvatar.rawValue,
                     Config.currentUserNameKey: result.username,
                     Config.currentUserIDKey: result.userId,
                     Config.currentUserPublicOwnerKey: userkeys["owner"]!.publicKey,

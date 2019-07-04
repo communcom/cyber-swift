@@ -17,7 +17,7 @@ public struct CurrentUser {
     }
     
     // Registration keys
-    public var registrationStep: String?
+    public var registrationStep: CurrentUserRegistrationStep?
     public var phoneNumber: String?
     public var smsCode: UInt64?
     public var smsNextRetry: String?
@@ -46,4 +46,13 @@ public struct UserKeys {
         self.privateKey = privateKey
         self.publicKey = publicKey
     }
+}
+
+public enum CurrentUserRegistrationStep: String {
+    case firstStep      = "firstStep"
+    case verify         = "verify"
+    case setUserName    = "setUsername"
+    case toBlockChain   = "toBlockChain"
+    case setAvatar      = "setAvatar"
+    case setBio         = "setBio"
 }
