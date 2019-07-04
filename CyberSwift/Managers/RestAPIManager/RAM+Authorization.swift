@@ -12,18 +12,12 @@ import RxSwift
 extension Reactive where Base: RestAPIManager {
     // MARK: - Public function
     /// Get registration state
-    public func getState() -> Single<ResponseAPIRegistrationGetState> {
+    public func getState(userId: String? = Config.currentUser?.id, phone: String? = Config.currentUser?.phoneNumber) -> Single<ResponseAPIRegistrationGetState> {
         // Offline mode
         if (!Config.isNetworkAvailable) {
             return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
-        guard let id = Config.currentUser?.id,
-            let phone = Config.currentUser?.phoneNumber else {
-                Logger.log(message: "userId or phoneNumber missing for user: \(String(describing: Config.currentUser))", event: .error)
-                return .error(ErrorAPI.unauthorized)
-        }
-        
-        let methodAPIType = MethodAPIType.getState(id: id, phone: phone)
+        let methodAPIType = MethodAPIType.getState(id: userId, phone: phone)
         
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
             .log(method: "registration.getState")
