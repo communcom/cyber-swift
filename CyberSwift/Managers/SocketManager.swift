@@ -30,7 +30,7 @@ public class SocketManager {
         socket.rx.connected
             .filter {$0}
             .take(1)
-            .subscribe(onNext: {self.socketConnectionHandler(connected: $0)})
+            .subscribe(onNext: {_ in self.socketConnectedHandler()})
             .dispose()
     }
     
@@ -51,7 +51,7 @@ public class SocketManager {
                 .subscribe(onNext: {_ in
                     self.socket.write(string: methodAPIType.requestMessage!)
                 })
-                .dispose()
+                .disposed(by: bag)
             
         } else {
             // Send message
@@ -69,19 +69,14 @@ public class SocketManager {
                 }, onError: { (error) in
                     single(.error(error))
                 })
-                .dispose()
+                .disposed(by: self.bag)
             
             return Disposables.create()
         }
     }
     
     // MARK: - Handlers
-    func socketConnectionHandler(connected: Bool) {
-        guard connected else {
-            // TODO: handle disconnected
-            return
-        }
-        
+    func socketConnectedHandler() {
         if !CurrentUser.loggedIn {
             authorized.accept(false)
             return
