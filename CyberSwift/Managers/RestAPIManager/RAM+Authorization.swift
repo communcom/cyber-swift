@@ -144,7 +144,7 @@ extension Reactive where Base: RestAPIManager {
                 
                 try KeychainManager.save(data: [
                     Config.registrationStepKey: "toBlockChain",
-                    Config.registrationUserIDKey: id
+                    Config.currentUserIDKey: id
                     ])
                 
                 return result
@@ -176,8 +176,8 @@ extension Reactive where Base: RestAPIManager {
                 #warning("remove step later")
                 try KeychainManager.save(data: [
                     Config.registrationStepKey: "firstStep",
-                    Config.registrationUserNameKey: result.username,
-                    Config.registrationUserIDKey: result.userId,
+                    Config.currentUserNameKey: result.username,
+                    Config.currentUserIDKey: result.userId,
                     Config.currentUserPublicOwnerKey: userkeys["owner"]!.publicKey,
                     Config.currentUserPrivateOwnerKey: userkeys["owner"]!.privateKey,
                     Config.currentUserPublicActiveKey: userkeys["active"]!.publicKey,

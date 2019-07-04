@@ -58,13 +58,15 @@ public struct Config {
     
     /// Keys
     static let userSecretKey: String                        =   "userSecretKey"
-    public static let currentUserNameKey: String            =   "currentUserNameKey"
+    
+    // CurrentUser keys
     public static let currentUserIDKey: String              =   "currentUserIDKey"
-    public static let currentUserAvatarUrlKey: String       =   "currentUserAvatarUrlKey"
-    public static let testUserIDKey: String                 =   "testUserIDKey"
-    public static let testUserNameKey: String               =   "testUserNameKey"
-    public static let testUserPublicActiveKey: String       =   "testUserPublicActiveKey"
-    public static let isCurrentUserLoggedKey: String        =   "isCurrentUserLoggedKey"
+    public static let currentUserNameKey: String            =   "currentUserNameKey"
+    public static let registrationStepKey: String           =   "registrationStepKey"
+    public static let registrationSmsCodeKey: String        =   "registrationSmsCodeKey"
+    public static let registrationUserPhoneKey: String      =   "registrationUserPhoneKey"
+    
+    public static let registrationSmsNextRetryKey: String   =   "registrationSmsNextRetryKey"
     public static let currentUserPrivateOwnerKey: String    =   "currentUserPrivateOwnerKey"
     public static let currentUserPublicOwnerKey: String     =   "currentUserPublicOwnerKey"
     public static let currentUserPrivateActiveKey: String   =   "currentUserPrivateActiveKey"
@@ -73,11 +75,9 @@ public struct Config {
     public static let currentUserPublicPostingKey: String   =   "currentUserPublicPostingKey"
     public static let currentUserPrivateMemoKey: String     =   "currentUserPrivateMemoKey"
     public static let currentUserPublickMemoKey: String     =   "currentUserPublickMemoKey"
-    public static let registrationStepKey: String           =   "registrationStepKey"
-    public static let registrationSmsCodeKey: String        =   "registrationSmsCodeKey"
-    public static let registrationUserPhoneKey: String      =   "registrationUserPhoneKey"
-    public static let registrationUserIDKey: String         =   "registrationUserIDKey"
-    public static let registrationUserNameKey: String       =   "registrationUserNameKey"
-    public static let registrationSmsNextRetryKey: String   =   "registrationSmsNextRetryKey"
+    
+    public static let currentUserAvatarUrlKey: String       =   "currentUserAvatarUrlKey"
+    public static let isCurrentUserLoggedKey: String        =   "isCurrentUserLoggedKey"
+    
     public static let currentUserThemeKey: String           =   "currentUserThemeKey"
 }
