@@ -152,17 +152,32 @@ extension Broadcast {
     
     /// Rx method to deal with executeGetRequest
     public func executeGetRequest(methodAPIType: MethodAPIType) -> Single<Decodable> {
+        // Prepare content request
+        let requestMethodAPIType = self.prepareGETRequest(methodAPIType: methodAPIType)
+        
+        guard requestMethodAPIType.errorAPI == nil else {
+            return .error(ErrorAPI.requestFailed(message: "Broadcast, line \(#line): \(requestMethodAPIType.errorAPI!)"))
+        }
+        
+        Logger.log(message: "\nrequestMethodAPIType:\n\t\(requestMethodAPIType.requestMessage!)\n", event: .debug)
+        
         return .create {single in
-            self.executeGETRequest(byContentAPIType: methodAPIType, onResult: { (result) in
-                if let result = result as? ResponseAPIHasError,
+            // Send content request messages to `FACADE-SERVICE`
+            WebSocketManager.instance.sendRequest(methodAPIType: requestMethodAPIType, completion: { responseAPIType in
+                guard let responseAPI = responseAPIType.responseAPI else {
+                    single(.error(responseAPIType.errorAPI!))
+                    return
+                }
+                
+                if let result = responseAPI as? ResponseAPIHasError,
                     let error = result.error{
                     single(.error(ErrorAPI.requestFailed(message: error.message)))
                     return
                 }
-                single(.success(result))
-            }, onError: { (error) in
-                single(.error(error))
+                
+                single(.success(responseAPI))
             })
+            
             return Disposables.create()
         }
     }
