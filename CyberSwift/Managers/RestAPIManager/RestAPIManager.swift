@@ -23,6 +23,75 @@ public class RestAPIManager {
     public static let instance = RestAPIManager()
     
     // MARK: - FACADE-SERVICE
+    // API `auth.authorize`
+    public func authorize(userID:               String,
+                          userActiveKey:        String,
+                          responseHandling:     @escaping (ResponseAPIAuthAuthorize) -> Void,
+                          errorHandling:        @escaping (Error) -> Void) {
+        // Offline mode
+        if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        let methodAPIType = MethodAPIType.authorize(userID: userID, activeKey: userActiveKey)
+        
+        Broadcast.instance.executeGETRequest(
+            byContentAPIType: methodAPIType,
+            onResult: { responseAPIResult in
+                guard let result = (responseAPIResult as! ResponseAPIAuthAuthorizeResult).result
+                    else {
+                        let responseAPIError = (responseAPIResult as! ResponseAPIAuthAuthorizeResult).error
+                        
+                        Logger.log(message: "\nAPI `auth.authorize` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
+                        
+                        return errorHandling(ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
+                }
+                
+                DispatchQueue.main.async(execute: {
+                    // Log result
+                    Logger.log(message: "\nAPI `auth.authorize` response result: \n\(responseAPIResult)\n", event: .debug)
+                    
+                    // Save to UserDefault
+                    UserDefaults.standard.set(true, forKey: Config.isCurrentUserLoggedKey)
+                    
+                    // Save in Keychain
+                    do {
+                        try KeychainManager.deleteUser()
+                        try KeychainManager.save(data: [
+                            Config.currentUserIDKey:            userID,
+                            Config.currentUserNameKey:          result.displayName,
+                            Config.currentUserPublicActiveKey:  userActiveKey
+                            ])
+                        
+                        // Save in iCloud key-value
+                        iCloudManager.saveUser()
+                        
+                        // API `push.notifyOn`
+                        if let fcmToken = UserDefaults.standard.value(forKey: "fcmToken") as? String {
+                            RestAPIManager.instance.pushNotifyOn(
+                                fcmToken:          fcmToken,
+                                responseHandling:  { response in
+                                    Logger.log(message: response.status, event: .severe)
+                            },
+                                errorHandling:     { errorAPI in
+                                    Logger.log(message: errorAPI.caseInfo.message, event: .error)
+                            })
+                        }
+                        
+                        responseHandling(result)
+                        
+                    } catch {
+                        errorHandling(error)
+                        return
+                    }
+                })
+        },
+            onError:           { (errorAPI) in
+                Logger.log(message: "\nAPI `auth.authorize` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
+                errorHandling(errorAPI)
+        })
+    }
+
+    
+    
     // API `auth.generateSecret`
     private func generateSecret(completion: @escaping (ResponseAPIAuthGenerateSecret?, ErrorAPI?) -> Void) {
         // Offline mode

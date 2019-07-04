@@ -35,9 +35,9 @@ public class WebSocketManager {
         Logger.log(message: "Success", event: .severe)
         
         webSocket.connect()
-        webSocket.delegate = WebSocketManager.instance
+        webSocket.delegate = self
         
-        WebSocketManager.instance.completionIsConnected = {
+        completionIsConnected = {
             if !UserDefaults.standard.bool(forKey: Config.isCurrentUserLoggedKey) {
                 self.authorized.accept(false)
                 return
