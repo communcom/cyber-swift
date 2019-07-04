@@ -56,7 +56,7 @@ extension Reactive where Base: RestAPIManager {
                     Config.registrationUserPhoneKey: phone,
                     Config.registrationSmsCodeKey: result.code,
                     Config.registrationSmsNextRetryKey: result.nextSmsRetry
-                    ])
+                ])
                 
                 return result
         }
@@ -85,7 +85,7 @@ extension Reactive where Base: RestAPIManager {
                 try KeychainManager.save(data: [
                     Config.registrationStepKey: "setUsername",
                     Config.registrationSmsCodeKey: code
-                    ])
+                ])
                 
                 return result
         }
