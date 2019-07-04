@@ -55,5 +55,5 @@ public enum CurrentUserRegistrationStep: String {
     case toBlockChain   = "toBlockChain"
     case setAvatar      = "setAvatar"
     case setBio         = "setBio"
-    case done           = "done"
+    case registered     = "registered"
 }
