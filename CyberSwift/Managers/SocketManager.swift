@@ -25,7 +25,7 @@ public class SocketManager {
     public let authorized = BehaviorRelay<Bool>(value: false)
     
     // MARK: - Methods
-    func connect() {
+    public func connect() {
         socket.connect()
         socket.rx.connected
             .filter {$0}
@@ -34,7 +34,7 @@ public class SocketManager {
             .dispose()
     }
     
-    func disconnect() {
+    public func disconnect() {
         guard socket.isConnected else {return}
         socket.disconnect()
     }
