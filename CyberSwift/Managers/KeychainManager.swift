@@ -10,19 +10,19 @@ import Locksmith
 import Foundation
 
 public class KeychainManager {
-    private static let communService = LocksmithDefaultService
+    private static let communService = "io.commun.eos.ios"
     
     // MARK: - Deleting
     /// Delete stored data from Keychain
     public static func deleteUser() throws {
-        try Locksmith.deleteDataForUserAccount(userAccount: Config.currentUserIDKey)
+        try Locksmith.deleteDataForUserAccount(userAccount: Config.currentUserIDKey, inService: communService)
     }
     
     // MARK: - Retrieving
     /// Load data user's data
     public static func currentUser() -> CurrentUser? {
         // Non-optional properties
-        guard let data = Locksmith.loadDataForUserAccount(userAccount: Config.currentUserIDKey)
+        guard let data = Locksmith.loadDataForUserAccount(userAccount: Config.currentUserIDKey, inService: communService)
         else {
             return nil
         }
@@ -72,6 +72,6 @@ public class KeychainManager {
     // MARK: - Saving
     /// Save login data to Keychain
     public static func save(data: [String: Any]) throws {
-        try Locksmith.updateData(data: data, forUserAccount: Config.currentUserIDKey)
+        try Locksmith.updateData(data: data, forUserAccount: Config.currentUserIDKey, inService: communService)
     }
 }
