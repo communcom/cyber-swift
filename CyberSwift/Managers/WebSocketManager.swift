@@ -30,14 +30,6 @@ public class WebSocketManager {
     public var completionIsConnected: (() -> Void)?
     
     
-    // MARK: - Class Initialization
-    private init() {}
-    
-    deinit {
-        Logger.log(message: "Success", event: .severe)
-    }
-    
-    
     // MARK: - Custom Functions
     public func connect() {
         Logger.log(message: "Success", event: .severe)

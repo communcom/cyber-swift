@@ -1,19 +1,16 @@
 //
-//  RestAPIManager+Rx.swift
+//  Registration+Rx.swift
 //  CyberSwift
 //
-//  Created by Chung Tran on 22/05/2019.
+//  Created by Chung Tran on 04/07/2019.
 //  Copyright © 2019 golos.io. All rights reserved.
 //
 
 import Foundation
 import RxSwift
-import eosswift
-
-extension RestAPIManager: ReactiveCompatible {}
 
 extension Reactive where Base: RestAPIManager {
-    //  MARK: - Registration
+    // MARK: - Public function
     /// Get registration state
     public func getState() -> Single<ResponseAPIRegistrationGetState> {
         // Offline mode
@@ -22,6 +19,7 @@ extension Reactive where Base: RestAPIManager {
         
         guard let id = Config.currentUser?.id,
             let phone = Config.currentUser?.phoneNumber else {
+                Logger.log(message: "userId or phoneNumber missing for user: \(String(describing: Config.currentUser))", event: .error)
                 return .error(ErrorAPI.unauthorized)
         }
         
@@ -35,7 +33,7 @@ extension Reactive where Base: RestAPIManager {
                 }
                 
                 return result
-            }
+        }
     }
     
     /// First step of registration
@@ -58,10 +56,10 @@ extension Reactive where Base: RestAPIManager {
                     Config.registrationUserPhoneKey: phone,
                     Config.registrationSmsCodeKey: result.code,
                     Config.registrationSmsNextRetryKey: result.nextSmsRetry
-                ])
+                    ])
                 
                 return result
-            }
+        }
     }
     
     /// Verify code
@@ -71,7 +69,8 @@ extension Reactive where Base: RestAPIManager {
             return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
         guard let phone = Config.currentUser?.phoneNumber else {
-            return .error(ErrorAPI.requestFailed(message: "Phone and smsCode missing"))
+            Logger.log(message: "Phone missing for user: \(String(describing: Config.currentUser))", event: .error)
+            return .error(ErrorAPI.requestFailed(message: "Phone missing"))
         }
         
         let methodAPIType = MethodAPIType.verify(phone: phone, code: code)
@@ -86,10 +85,10 @@ extension Reactive where Base: RestAPIManager {
                 try KeychainManager.save(data: [
                     Config.registrationStepKey: "setUsername",
                     Config.registrationSmsCodeKey: code
-                ])
+                    ])
                 
                 return result
-            }
+        }
     }
     
     
@@ -100,6 +99,7 @@ extension Reactive where Base: RestAPIManager {
             return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
         guard let phone = Config.currentUser?.phoneNumber else {
+            Logger.log(message: "Phone missing for user: \(String(describing: Config.currentUser))", event: .error)
             return .error(ErrorAPI.requestFailed(message: "Phone missing"))
         }
         
@@ -116,10 +116,10 @@ extension Reactive where Base: RestAPIManager {
                     Config.registrationStepKey: "verify",
                     Config.registrationSmsCodeKey: result.code,
                     Config.registrationSmsNextRetryKey: result.nextSmsRetry
-                ])
+                    ])
                 
                 return result
-            }
+        }
     }
     
     /// set userId
@@ -129,6 +129,7 @@ extension Reactive where Base: RestAPIManager {
             return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
         guard let phone = Config.currentUser?.phoneNumber else {
+            Logger.log(message: "Phone missing for user: \(String(describing: Config.currentUser))", event: .error)
             return .error(ErrorAPI.requestFailed(message: "Phone missing"))
         }
         
@@ -144,10 +145,10 @@ extension Reactive where Base: RestAPIManager {
                 try KeychainManager.save(data: [
                     Config.registrationStepKey: "toBlockChain",
                     Config.registrationUserIDKey: id
-                ])
+                    ])
                 
                 return result
-            }
+        }
     }
     
     /// Save user to blockchain
@@ -157,10 +158,11 @@ extension Reactive where Base: RestAPIManager {
             return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
         guard let id = Config.currentUser?.id else {
-            return .error(ErrorAPI.requestFailed(message: "Phone missing"))
+            Logger.log(message: "userId missing for user: \(String(describing: Config.currentUser))", event: .error)
+            return .error(ErrorAPI.requestFailed(message: "userId missing"))
         }
         
-        let userkeys = base.generateKeys(userID: id, password: String.randomString(length: 12))
+        let userkeys = generateKeys(userID: id, password: String.randomString(length: 12))
         
         let methodAPIType = MethodAPIType.toBlockChain(userID: id, keys: userkeys)
         
@@ -184,133 +186,90 @@ extension Reactive where Base: RestAPIManager {
                     Config.currentUserPrivatePostingKey: userkeys["posting"]!.privateKey,
                     Config.currentUserPublickMemoKey: userkeys["memo"]!.publicKey,
                     Config.currentUserPrivateMemoKey: userkeys["memo"]!.privateKey
-                ])
-            
+                    ])
+                
                 return result
             }
             .flatMapToCompletable()
             .do(onCompleted: {
+                // Save pdf
                 PDFManager.createPDFFile()
-                // Auth new account
-                DispatchQueue.main.async {
-                    RestAPIManager.instance.authorize(
-                        userID: Config.currentUser!.id!,
-                        userActiveKey: Config.currentUser!.activeKey!,
-                        responseHandling: { response in
-                            responseHandling(true)
+                
+                // Save in iCloud keyvalue
+                iCloudManager.saveUser()
+            })
+    }
+    
+    /// Authorize registration user
+    public func authorize() -> Single<ResponseAPIAuthAuthorize> {
+        // Offline mode
+        if (!Config.isNetworkAvailable) {
+            return .error(ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        guard let userId = Config.currentUser?.id,
+            let activeKey = Config.currentUser?.activeKey
+        else {
+            Logger.log(message: "userId or activeKey missing for user: \(String(describing: Config.currentUser))", event: .error)
+            return .error(ErrorAPI.requestFailed(message: "userId or activeKey missing"))
+        }
+        
+        let methodAPIType = MethodAPIType.authorize(userID: userId, activeKey: activeKey)
+        
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+            .log(method: "auth.authorize")
+            .map {result in
+                guard let result = (result as? ResponseAPIAuthAuthorizeResult)?.result else {
+                    throw ErrorAPI.unknown
+                }
+                
+                try KeychainManager.save(data: [
+                    Config.currentUserNameKey: result.displayName
+                ])
+                
+                return result
+            }
+            .do(onSuccess: {result in
+                // Save to UserDefault
+                UserDefaults.standard.set(true, forKey: Config.isCurrentUserLoggedKey)
+                
+                // API `push.notifyOn`
+                if let fcmToken = UserDefaults.standard.value(forKey: "fcmToken") as? String {
+                    RestAPIManager.instance.pushNotifyOn(
+                        fcmToken:          fcmToken,
+                        responseHandling:  { response in
+                            Logger.log(message: response.status, event: .severe)
                     },
-                        errorHandling: { error in
-                            errorHandling(error.toErrorAPI())
+                        errorHandling:     { errorAPI in
+                            Logger.log(message: errorAPI.caseInfo.message, event: .error)
                     })
                 }
             })
     }
     
-    //  MARK: - Contract `gls.publish`
-    public func vote(voteType:       VoteActionType,
-                     author:         String,
-                     permlink:       String,
-                     weight:         Int16 = 0) -> Completable {
-        // Offline mode
-        if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
+    // MARK: - Private functions
+    private func generateKeys(userID: String, password: String) -> [String: UserKeys] {
+        var userKeys = [String: UserKeys]()
         
-        return EOSManager.rx.vote(voteType:     voteType,
-                                  author:       author,
-                                  permlink:     permlink,
-                                  weight:       voteType == .unvote ? 0 : 1)
-    }
-    
-    public func create(message:             String,
-                       headline:            String? = nil,
-                       parentPermlink:      String? = nil,
-                       tags:                [String]?,
-                       metaData:            String) -> Single<ChainResponse<TransactionCommitted>> {
-        // Offline mode
-        if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
+        // type
+        let types = ["owner", "active", "posting", "memo"]
         
-        guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKey else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        for keyType in types {
+            let seed                =   userID + keyType + password
+            let brainKey            =   seed.removeWhitespaceCharacters()
+            let brainKeyBytes       =   brainKey.bytes
+            
+            var brainKeyBytesSha256 =   brainKeyBytes.sha256()
+            brainKeyBytesSha256.insert(0x80, at: 0)
+            
+            let checksumSha256Bytes =   brainKeyBytesSha256.generateChecksumSha256()
+            brainKeyBytesSha256     +=  checksumSha256Bytes
+            
+            if let privateKey = PrivateKey(brainKeyBytesSha256.base58EncodedString) {
+                let publicKey = privateKey.createPublic(prefix: PublicKey.AddressPrefix.mainNet)
+                userKeys[keyType] = UserKeys(privateKey: privateKey.description, publicKey: publicKey.description)
+            }
         }
         
-        let arrayTags = tags == nil ? [EOSTransaction.Tags()] : tags!.map({ EOSTransaction.Tags.init(tagValue: $0) })
-        
-        let messageCreateArgs = EOSTransaction.MessageCreateArgs(authorValue:        userID,
-                                                                 parentPermlink:     parentPermlink,
-                                                                 headermssgValue:    headline ?? String(format: "Test Post Title %i", arc4random_uniform(100)),
-                                                                 bodymssgValue:      message,
-                                                                 tagsValues:         arrayTags,
-                                                                 jsonmetadataValue:  metaData)
-        
-        return EOSManager.rx.create(messageCreateArgs: messageCreateArgs)
-    }
-    
-    public func deleteMessage(author: String, permlink: String) -> Completable {
-        // Offline mode
-        if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
-        
-        let messageDeleteArgs = EOSTransaction.MessageDeleteArgs(authorValue: author, messagePermlink: permlink)
-        return EOSManager.rx.delete(messageArgs: messageDeleteArgs)
-    }
-    
-    public func updateMessage(author:       String?,
-                              permlink:     String,
-                              message:      String,
-                              parentPermlink:   String?) -> Single<ChainResponse<TransactionCommitted>> {
-        // Offline mode
-        if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
-        
-        let messageUpdateArgs = EOSTransaction.MessageUpdateArgs(authorValue:           author ?? Config.currentUser?.id ?? "Cyberway",
-                                                                 messagePermlink:       permlink,
-                                                                 parentPermlink:        parentPermlink,
-                                                                 bodymssgValue:         message)
-        return EOSManager.rx.update(messageArgs: messageUpdateArgs)
-    }
-    
-    public func reblog(author:              String,
-                       rebloger:            String,
-                       permlink:            String,
-                       headermssg:          String,
-                       bodymssg:            String) -> Single<ChainResponse<TransactionCommitted>> {
-        // Offline mode
-        if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
-        
-        let reblogArgs = EOSTransaction.ReblogArgs(authorValue:         author,
-                                                   permlinkValue:       permlink,
-                                                   reblogerValue:       rebloger,
-                                                   headermssgValue:     headermssg,
-                                                   bodymssgValue:       bodymssg)
-        
-        return EOSManager.rx.reblog(args: reblogArgs)
-    }
-    
-    // MARK: - Contract `gls.social`
-    public func update(userProfile: [String: String]) -> Single<ChainResponse<TransactionCommitted>> {
-        // Offline mode
-        guard Config.isNetworkAvailable else { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
-        
-        // Check user authorize
-        guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKey else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
-        }
-        
-        let userProfileAccountmetaArgs = EOSTransaction.UserProfileAccountmetaArgs(json: userProfile)
-        
-        let userProfileMetaArgs = EOSTransaction.UserProfileUpdatemetaArgs(accountValue:    userID,
-                                                                           metaValue:       userProfileAccountmetaArgs)
-        
-        return EOSManager.rx.update(userProfileMetaArgs: userProfileMetaArgs)
-    }
-    
-    public func follow(_ userToFollow: String, isUnfollow: Bool = false) -> Single<ChainResponse<TransactionCommitted>> {
-        // Offline mode
-        guard Config.isNetworkAvailable else { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
-        
-        // Check user authorize
-        guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKey else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
-        }
-        
-        let pinArgs = EOSTransaction.UserProfilePinArgs(pinnerValue: userID, pinningValue: userToFollow)
-        return EOSManager.rx.updateUserProfile(pinArgs: pinArgs, isUnpin: isUnfollow)
+        return userKeys
     }
 }
