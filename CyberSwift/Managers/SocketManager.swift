@@ -96,30 +96,6 @@ public class SocketManager {
             }
             .disposed(by: bag)
     }
-    
-    func transformMessage(_ text: String, to type: MethodAPIType) throws -> Decodable {
-        Logger.log(message: "websocketDidReceiveMessage: \n\t\(text)", event: .severe)
-        
-        guard let jsonData = text.data(using: .utf8) else {
-            throw ErrorAPI.invalidData(message: "Response Unsuccessful")
-        }
-        
-        // Get messageId
-        try validate(jsonData: jsonData)
-        
-        // Decode json
-        let response = try type.decode(from: jsonData)
-        
-        // get result
-        guard let result = response.responseAPI else {
-            if let error = response.errorAPI {
-                throw error
-            }
-            throw ErrorAPI.unknown
-        }
-        
-        return result
-    }
 }
 
 extension SocketManager {
@@ -160,5 +136,30 @@ extension SocketManager {
         }
         
         return
+    }
+    
+    /// Transform text message to object
+    func transformMessage(_ text: String, to type: MethodAPIType) throws -> Decodable {
+        Logger.log(message: "websocketDidReceiveMessage: \n\t\(text)", event: .severe)
+        
+        guard let jsonData = text.data(using: .utf8) else {
+            throw ErrorAPI.invalidData(message: "Response Unsuccessful")
+        }
+        
+        // Get messageId
+        try validate(jsonData: jsonData)
+        
+        // Decode json
+        let response = try type.decode(from: jsonData)
+        
+        // get result
+        guard let result = response.responseAPI else {
+            if let error = response.errorAPI {
+                throw error
+            }
+            throw ErrorAPI.unknown
+        }
+        
+        return result
     }
 }
