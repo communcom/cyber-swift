@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxSwift
 
 /// Array of request unique IDs
 public var requestIDs   =   [Int]()
@@ -52,44 +53,6 @@ public class Broadcast {
             else {
                 onError(ErrorAPI.requestFailed(message: "Result not found"))
             }
-        }
-    }
-    
-
-    /// Generate array of new accounts
-    public func generateNewTestUser(success: @escaping (Bool) -> Void) {
-        //  1. Set up the HTTP request with URLSession
-        let session = URLSession.shared
-        
-        if let url = URL(string: "http://116.203.39.126:7777/get_users") {
-            let task = session.dataTask(with: url, completionHandler: { data, response, error in
-                guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
-                    Logger.log(message: "Error create new acounts: \(error!.localizedDescription)", event: .error)
-                    return success(false)
-                }
-                
-                do {
-                    let jsonArray = try JSONDecoder().decode([ResponseAPICreateNewAccount].self, from: data!)
-                    
-                    if let newAccount = jsonArray.first {
-                        Logger.log(message: "newAccount: \(String(describing: newAccount))", event: .debug)
-                        
-                        _ = KeychainManager.save(data:      [
-                                                                Config.testUserIDKey:            newAccount.username,
-                                                                Config.testUserNameKey:          newAccount.alias,
-                                                                Config.testUserPublicActiveKey:  newAccount.active_key
-                                                            ],
-                                                 userID:    Config.testUserIDKey)
-                        
-                        return success(true)
-                    }
-                } catch {
-                    Logger.log(message: error.localizedDescription, event: .error)
-                    return success(false)
-                }
-            })
-            
-            task.resume()
         }
     }
     
@@ -185,5 +148,37 @@ extension Broadcast {
             
             onResult(responseAPI)
         })
+    }
+    
+    /// Rx method to deal with executeGetRequest
+    public func executeGetRequest(methodAPIType: MethodAPIType) -> Single<Decodable> {
+        // Prepare content request
+        let requestMethodAPIType = self.prepareGETRequest(methodAPIType: methodAPIType)
+        
+        guard requestMethodAPIType.errorAPI == nil else {
+            return .error(ErrorAPI.requestFailed(message: "Broadcast, line \(#line): \(requestMethodAPIType.errorAPI!)"))
+        }
+        
+        Logger.log(message: "\nrequestMethodAPIType:\n\t\(requestMethodAPIType.requestMessage!)\n", event: .debug)
+        
+        return .create {single in
+            // Send content request messages to `FACADE-SERVICE`
+            WebSocketManager.instance.sendRequest(methodAPIType: requestMethodAPIType, completion: { responseAPIType in
+                guard let responseAPI = responseAPIType.responseAPI else {
+                    single(.error(responseAPIType.errorAPI!))
+                    return
+                }
+                
+                if let result = responseAPI as? ResponseAPIHasError,
+                    let error = result.error{
+                    single(.error(ErrorAPI.requestFailed(message: error.message)))
+                    return
+                }
+                
+                single(.success(responseAPI))
+            })
+            
+            return Disposables.create()
+        }
     }
 }

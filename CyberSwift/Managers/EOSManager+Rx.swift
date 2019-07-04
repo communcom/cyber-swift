@@ -30,7 +30,7 @@ extension Reactive where Base: EOSManager {
     }
     
     static func pushAuthorized(account: TransactionAccountType, name: String, data: DataWriterValue, expiration: Date = Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds)) -> Single<ChainResponse<TransactionCommitted>> {
-        guard let userID = Config.currentUser.id, let userActiveKey = Config.currentUser.activeKey else {
+        guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKey else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
         
@@ -66,7 +66,7 @@ extension Reactive where Base: EOSManager {
                      author:    String,
                      permlink:  String,
                      weight:    Int16) -> Completable {
-        guard let userID = Config.currentUser.id, let _ = Config.currentUser.activeKey else {
+        guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKey else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
         

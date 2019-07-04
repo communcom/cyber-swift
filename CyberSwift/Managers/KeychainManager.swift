@@ -7,211 +7,80 @@
 //
 
 import Locksmith
-import PDFReader
 import Foundation
 
 public class KeychainManager {
+    private static let communService = "io.commun.eos.ios"
+    
+    // MARK: - Deleting
     /// Delete stored data from Keychain
-    public static func deleteData(forUserNickName userNickName: String, withKey key: String = LocksmithDefaultService) -> Bool {
-        do {
-            try Locksmith.deleteDataForUserAccount(userAccount: userNickName, inService: key)
-            Logger.log(message: "Successfully delete User data by key from Keychain.", event: .severe)
-            return true
-        } catch {
-            Logger.log(message: "Error delete User data by key from Keychain.", event: .error)
-            return false
-        }
+    public static func deleteUser() throws {
+        try Locksmith.deleteDataForUserAccount(userAccount: Config.currentUserIDKey, inService: communService)
     }
     
-    public static func deleteAllData(forUserNickName userNickName: String) -> Bool {
-        do {
-            try Locksmith.deleteDataForUserAccount(userAccount: userNickName)
-            if let phone = UserDefaults.standard.string(forKey: Config.registrationUserPhoneKey) {
-                try? Locksmith.deleteDataForUserAccount(userAccount: phone, inService: phone)
-            }
-            Logger.log(message: "Successfully delete all User data from Keychain.", event: .severe)
-            return true
-        } catch {
-            Logger.log(message: "Delete error all User data from Keychain.", event: .error)
-            return false
-        }
-    }
-    
-    
-    /// Load data from Keychain
-    public static func loadKey(type: String, forUserNickName userNickName: String) -> String? {
-        var resultKey: String?
-        
-        if let data = Locksmith.loadDataForUserAccount(userAccount: userNickName, inService: type) {
-            resultKey = data[Config.currentUserPublicActiveKey] as? String
+    // MARK: - Retrieving
+    /// Load data user's data
+    public static func currentUser() -> CurrentUser? {
+        // Non-optional properties
+        guard let data = Locksmith.loadDataForUserAccount(userAccount: Config.currentUserIDKey, inService: communService)
+        else {
+            return nil
         }
         
-        return resultKey
-    }
-    
-    public static func loadData(byUserID userID: String, withKey key: String) -> [String: Any]? {
-        return Locksmith.loadDataForUserAccount(userAccount: userID, inService: key)
-    }
-    
-    public static func loadAllData(byUserID userID: String) -> [String: Any]? {
-        return Locksmith.loadDataForUserAccount(userAccount: userID)
-    }
-    
-    public static func loadAllData(byUserPhone userPhone: String) -> [String: Any]? {
-        return Locksmith.loadDataForUserAccount(userAccount: userPhone, inService: userPhone)
+        // Optional properties
+        let id = data[Config.currentUserIDKey] as? String
+        let name = data[Config.currentUserNameKey] as? String
         
+        let registrationStep = data[Config.registrationStepKey] as? String
+        let phone = data[Config.registrationUserPhoneKey] as? String
+        let smsCode = data[Config.registrationSmsCodeKey] as? UInt64
+        let smsRetryCode = data[Config.registrationSmsNextRetryKey] as? String
+        
+        let memoKeys = UserKeys(
+            privateKey: data[Config.currentUserPrivateMemoKey] as? String,
+            publicKey: data[Config.currentUserPublickMemoKey] as? String)
+        
+        let ownerKeys = UserKeys(
+            privateKey: data[Config.currentUserPrivateOwnerKey] as? String,
+            publicKey: data[Config.currentUserPublicOwnerKey] as? String)
+        
+        let postingKeys = UserKeys(
+            privateKey: data[Config.currentUserPrivatePostingKey] as? String,
+            publicKey: data[Config.currentUserPublicPostingKey] as? String)
+        
+        let activeKeys = UserKeys(
+            privateKey: data[Config.currentUserPrivateActiveKey] as? String,
+            publicKey: data[Config.currentUserPublicActiveKey] as? String)
+        
+        
+        return CurrentUser(
+            id: id,
+            name: name,
+            
+            registrationStep: registrationStep != nil ? CurrentUserRegistrationStep(rawValue: registrationStep!) : nil,
+            phoneNumber: phone,
+            smsCode: smsCode,
+            smsNextRetry: smsRetryCode,
+            
+            memoKeys: memoKeys,
+            ownerKeys: ownerKeys,
+            activeKeys: activeKeys,
+            postingKeys: postingKeys
+        )
     }
     
-    
+    // MARK: - Saving
     /// Save login data to Keychain
-    public static func save(keys: [UserKeys], userID: String, userName: String) -> Bool {
-        let ownerUserKeys   =   keys.first(where: { $0.type == "owner" })
-        let activeUserKeys  =   keys.first(where: { $0.type == "active" })
-        let postingUserKeys =   keys.first(where: { $0.type == "posting" })
-        let memoUserKeys    =   keys.first(where: { $0.type == "memo" })
-        
-        var result: Bool    =   self.save(data:     [
-                                                        Config.currentUserIDKey:            userID,
-                                                        Config.currentUserNameKey:          userName,
-                                                        Config.currentUserPublicActiveKey:  activeUserKeys!.privateKey
-                                                    ],
-                                          userID:   Config.currentUserIDKey)
-        
-        result = result && self.save(data: [Config.currentUserPrivateMemoKey: memoUserKeys!.privateKey], userID: userID)
-        result = result && self.save(data: [Config.currentUserPublickMemoKey: memoUserKeys!.publicKey], userID: userID)
-        
-        result = result && self.save(data: [Config.currentUserPrivateOwnerKey: ownerUserKeys!.privateKey], userID: userID)
-        result = result && self.save(data: [Config.currentUserPublickMemoKey: ownerUserKeys!.publicKey], userID: userID)
-        
-        result = result && self.save(data: [Config.currentUserPrivateActiveKey: activeUserKeys!.privateKey], userID: userID)
-        result = result && self.save(data: [Config.currentUserPublicActiveKey: activeUserKeys!.publicKey], userID: userID)
-        
-        result = result && self.save(data: [Config.currentUserPrivatePostingKey: postingUserKeys!.privateKey], userID: userID)
-        result = result && self.save(data: [Config.currentUserPublicPostingKey: postingUserKeys!.publicKey], userID: userID)
-        
-        if result {
-            KeychainManager.createPDFFile(id:           userID,
-                                          name:         userName,
-                                          memo:         memoUserKeys!.privateKey,
-                                          owner:        ownerUserKeys!.privateKey,
-                                          active:       activeUserKeys!.privateKey,
-                                          posting:      postingUserKeys!.privateKey)
-            
-            // Auth new account
-            DispatchQueue.main.async {
-                RestAPIManager.instance.authorize(userID:               Config.currentUser.id!,
-                                                  userActiveKey:        Config.currentUser.activeKey!,
-                                                  responseHandling:     { response in
-                                                    Logger.log(message: "WebSocketManager API `auth.authorize` permission: \(response.permission)", event: .debug)
-                },
-                                                  errorHandling:        { errorAPI in
-                                                    Logger.log(message: errorAPI.caseInfo.message.localized(), event: .error)
-                })
-            }
+    public static func save(data: [String: Any]) throws {
+        var dataToSave = [String: Any]()
+        if let currentData = Locksmith.loadDataForUserAccount(userAccount: Config.currentUserIDKey, inService: communService) {
+            dataToSave = currentData
         }
-
-        return result
-    }
-    
-    public static func save(data: [String: Any], userID: String) -> Bool {
-        do {
-            if Locksmith.loadDataForUserAccount(userAccount: userID, inService: LocksmithDefaultService) == nil {
-                try Locksmith.saveData(data: data, forUserAccount: userID, inService: LocksmithDefaultService)
-            }
-                
-            else {
-                try Locksmith.updateData(data: data, forUserAccount: userID, inService: LocksmithDefaultService)
-            }
-            
-            Logger.log(message: "Successfully save User data to Keychain.", event: .severe)
-            return true
-        } catch {
-            Logger.log(message: "Error save User data to Keychain.", event: .error)
-            return false
+        
+        for (key, value) in data {
+            dataToSave[key] = value
         }
-    }
-    
-    public static func save(data: [String: Any], userPhone: String) -> Bool {
-        do {
-            if Locksmith.loadDataForUserAccount(userAccount: userPhone, inService: userPhone) == nil {
-                try Locksmith.saveData(data: data, forUserAccount: userPhone, inService: userPhone)
-            }
-                
-            else {
-                try Locksmith.updateData(data: data, forUserAccount: userPhone, inService: userPhone)
-            }
-            
-            Logger.log(message: "Successfully save User data to Keychain.", event: .severe)
-            return true
-        } catch {
-            Logger.log(message: "Error save User data to Keychain.", event: .error)
-            return false
-        }
-    }
-
-    
-    // MASK: - PDFKit
-    public static func createPDFFile(id: String, name: String, memo: String, owner: String, active: String, posting: String) {
-        let documentsDirectory  =   NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-        let filePath            =   (documentsDirectory as NSString).appendingPathComponent("userKeys.pdf") as String
         
-        let pdfTitle            =   String(format: "id:\n\"%@\"\n\nname:\n\"%@\"\n\nmemo key:\n\"%@\"\n\nowner key:\n\"%@\"\n\nactive key:\n\"%@\"\n\nposting key:\n\"%@\"", id, name, memo, owner, active, posting)
-        
-        let pdfMetadata         =   [
-            // The name of the application creating the PDF.
-            kCGPDFContextCreator: "Commun iOS App",
-            
-            // The name of the PDF's author.
-            kCGPDFContextAuthor: "CyberSwift",
-            
-            // The title of the PDF.
-            kCGPDFContextTitle: "User keys",
-            
-            // Encrypts the document with the value as the owner password. Used to enable/disable different permissions.
-            // kCGPDFContextOwnerPassword: "myPassword123"
-        ]
-        
-        // Creates a new PDF file at the specified path.
-        UIGraphicsBeginPDFContextToFile(filePath, CGRect.zero, pdfMetadata)
-        
-        // Creates a new page in the current PDF context.
-        UIGraphicsBeginPDFPage()
-        
-        // Default size of the page is 612x792.
-        let pageSize    =   UIGraphicsGetPDFContextBounds().size
-        let font        =   UIFont.preferredFont(forTextStyle: .largeTitle)
-        
-        // Let's draw the title of the PDF on top of the page.
-        let attributedPDFTitle  =   NSAttributedString(string: pdfTitle, attributes: [NSAttributedString.Key.font: font])
-        let stringRect          =   CGRect(x: 20.0, y: 0.0, width: pageSize.width - 40, height: pageSize.height - 20)
-        
-        attributedPDFTitle.draw(in: stringRect)
-        
-        // Closes the current PDF context and ends writing to the file.
-        UIGraphicsEndPDFContext()
-    }
-    
-    public static func loadPDFDocument() -> PDFDocument? {
-        let documentsDirectory  =   NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-        let filePath            =   (documentsDirectory as NSString).appendingPathComponent("userKeys.pdf") as String
-        
-        return PDFDocument(url: URL(fileURLWithPath: filePath))
-    }
-    
-    public static func deletePDFDocument() {
-        let documentsDirectory  =   NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-        let filePath            =   (documentsDirectory as NSString).appendingPathComponent("userKeys.pdf") as String
-        
-        do {
-            try FileManager.default.removeItem(atPath: filePath)
-            
-            if let pdfDocument = KeychainManager.loadPDFDocument() {
-                Logger.log(message: pdfDocument.fileName, event: .debug)
-            } else {
-                Logger.log(message: "PDF-file deleted!!!", event: .severe)
-            }
-        } catch {
-            Logger.log(message: error.localizedDescription, event: .error)
-        }
+        try Locksmith.updateData(data: dataToSave, forUserAccount: Config.currentUserIDKey, inService: communService)
     }
 }

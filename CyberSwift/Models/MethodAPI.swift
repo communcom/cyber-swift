@@ -158,7 +158,7 @@ public indirect enum MethodAPIType {
     case firstStep(phone: String, isDebugMode: Bool)
     
     //  Second registration step, account verification
-    case verify(phone: String, code: String)
+    case verify(phone: String, code: UInt64)
     
     //  The third step of registration, account verification
     case setUser(id: String, phone: String)
@@ -167,7 +167,7 @@ public indirect enum MethodAPIType {
     case resendSmsCode(phone: String, isDebugMode: Bool)
     
     //  The last step of registration, entry in the blockchain
-    case toBlockChain(userID: String, keys: [UserKeys])
+    case toBlockChain(userID: String, keys: [String: UserKeys])
 
     
     /// This method return request parameters from selected enum case.
@@ -263,7 +263,7 @@ public indirect enum MethodAPIType {
                      methodName:        "notifyOn",
                      parameters:        [
                                             "key":      fcmTokenValue,
-                                            "profile":  String(format: "%@-%@", Config.currentUser.id!, Config.currentDeviceType)
+                                            "profile":  String(format: "%@-%@", Config.currentUser?.id ?? "", Config.currentDeviceType)
                                         ])
             
         //  Template { "id": 72, "jsonrpc": "2.0", "method": "push.notifyOff", "params": { "key": <fcm_token>, "profile": <userNickName-deviceUDID> }}
@@ -273,7 +273,7 @@ public indirect enum MethodAPIType {
                      methodName:        "notifyOff",
                      parameters:        [
                                             "key":      fcmTokenValue,
-                                            "profile":  String(format: "%@-%@", Config.currentUser.id!, Config.currentDeviceType)
+                                            "profile":  String(format: "%@-%@", Config.currentUser?.id ?? "", Config.currentDeviceType)
                                         ])
             
         //  Template { "id": 8, "jsonrpc": "2.0", "method": "push.historyFresh", "params": { "profile": <userNickName-deviceUDID> }}
@@ -281,7 +281,7 @@ public indirect enum MethodAPIType {
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.push.rawValue,
                      methodName:        "historyFresh",
-                     parameters:        ["profile": String(format: "%@-%@", Config.currentUser.id!, Config.currentDeviceType)])
+                     parameters:        ["profile": String(format: "%@-%@", Config.currentUser?.id ?? "", Config.currentDeviceType)])
             
         //  Template { "id": 9, "jsonrpc": "2.0", "method": "onlineNotify.history", "params": { "freshOnly": true, "fromId": "3123", markAsViewed}}
         case .getOnlineNotifyHistory(let fromId, _, let markAsViewed, let freshOnly):
@@ -315,7 +315,7 @@ public indirect enum MethodAPIType {
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.options.rawValue,
                      methodName:        "get",
-                     parameters:        ["profile": String(format: "%@-%@", Config.currentUser.id!, Config.currentDeviceType)])
+                     parameters:        ["profile": String(format: "%@-%@", Config.currentUser?.id ?? "", Config.currentDeviceType)])
 
         //  Template { "id": 12, "jsonrpc": "2.0", "method": "options.set", "params": { "profile": <userNickName-deviceUDID>, "basic": { "language": "ru", "nsfwContent": "Always alert" }}}
         case .setBasicOptions(let nsfw, let language):
@@ -323,13 +323,13 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.options.rawValue,
                      methodName:        "set",
                      parameters:        [
-                                            "profile":  String(format: "%@-%@", Config.currentUser.id!, Config.currentDeviceType),
+                                            "profile":  String(format: "%@-%@", Config.currentUser?.id ?? "", Config.currentDeviceType),
                                             "basic":    String(format: "{\"language\": \"%@\", \"nsfwContent\": \"%@\"}", language, nsfw)
                                         ])
 
         //  Template { "id": 13, "jsonrpc": "2.0", "method": "options.set", "params": { "profile": <userNickName-deviceUDID>, "push": { "lang": <languageValue>, "show": { "vote": <voteValue>, "flag": <flagValue>, "reply": <replyValue>, "transfer": <transferValue>, "subscribe": <subscribeValue>, "unsubscribe": <unsibscribeValue>, "mention": <mentionValue>, "repost": <repostValue>,  "message": <messageValue>, "witnessVote": <witnessVoteValue>, "witnessCancelVote": <witnessCancelVoteValue>, "reward": <rewardValue>, "curatorReward": <curatorRewardValue> }}}
         case .setNotice(let options, let type):
-            var parameters: [String: String] = [ "profile":  String(format: "%@-%@", Config.currentUser.id!, Config.currentDeviceType) ]
+            var parameters: [String: String] = [ "profile":  String(format: "%@-%@", Config.currentUser?.id ?? "", Config.currentDeviceType) ]
 
             if type == .push {
                 parameters["push"]      =   String(format: "{\"lang\": \"%@\", \"show\": {%@}}", "ru", options.getNoticeOptionsValues())
@@ -364,7 +364,7 @@ public indirect enum MethodAPIType {
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.favorites.rawValue,
                      methodName:        "get",
-                     parameters:        ["user": Config.currentUser.id!])
+                     parameters:        ["user": Config.currentUser?.id ?? ""])
 
         //  Template { "id": 17, "jsonrpc": "2.0", "method": "favorites.add", "params": { "permlink": <selectedPostPermlink> }}
         case .addFavorites(let permlink):
@@ -418,7 +418,7 @@ public indirect enum MethodAPIType {
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.registration.rawValue,
                      methodName:        "verify",
-                     parameters:        ["phone": phoneValue, "code": codeValue])
+                     parameters:        ["phone": phoneValue, "code": "\(codeValue)"])
             
         //  { "id": 4, "jsonrpc": "2.0", "method": "registration.setUsername", "params": { "user": "tester", "phone": "+70000000000" }}
         case .setUser(let idValue, let phoneValue):
@@ -445,19 +445,19 @@ public indirect enum MethodAPIType {
         case .toBlockChain(let userIDValue, let keysValues):
             var parameters = ["user": userIDValue]
 
-            if let ownerUserKey = keysValues.first(where: { $0.type == "owner" }) {
+            if let ownerUserKey = keysValues["owner"] {
                 parameters["owner"] = ownerUserKey.publicKey
             }
 
-            if let activeUserKey = keysValues.first(where: { $0.type == "active" }) {
+            if let activeUserKey = keysValues["active"] {
                 parameters["active"] = activeUserKey.publicKey
             }
 
-            if let postingUserKey = keysValues.first(where: { $0.type == "posting" }) {
+            if let postingUserKey = keysValues["posting"] {
                 parameters["posting"] = postingUserKey.publicKey
             }
 
-            if let memoUserKey = keysValues.first(where: { $0.type == "memo" }) {
+            if let memoUserKey = keysValues["memo"] {
                 parameters["memo"] = memoUserKey.publicKey
             }
             

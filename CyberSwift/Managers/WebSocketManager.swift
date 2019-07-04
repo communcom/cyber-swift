@@ -30,14 +30,6 @@ public class WebSocketManager {
     public var completionIsConnected: (() -> Void)?
     
     
-    // MARK: - Class Initialization
-    private init() {}
-    
-    deinit {
-        Logger.log(message: "Success", event: .severe)
-    }
-    
-    
     // MARK: - Custom Functions
     public func connect() {
         Logger.log(message: "Success", event: .severe)
@@ -51,16 +43,14 @@ public class WebSocketManager {
                 return
             }
             
-            if let userId = Config.currentUser.id,
-                let activeKey = Config.currentUser.activeKey {
+            if let userId = Config.currentUser?.id,
+                let activeKey = Config.currentUser?.activeKey {
                 RestAPIManager.instance.authorize(userID:               userId,
                                                   userActiveKey:        activeKey,
                                                   responseHandling:     { response in
-                                                    Logger.log(message: "WebSocketManager API `auth.authorize` permission: \(response.permission)", event: .debug)
                                                     self.authorized.accept(true)
                 },
                                                   errorHandling:        { errorAPI in
-                                                    Logger.log(message: errorAPI.caseInfo.message.localized(), event: .error)
                                                     self.authorized.accept(false)
                 })
                 return

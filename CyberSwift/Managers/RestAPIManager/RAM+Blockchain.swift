@@ -35,7 +35,7 @@ extension Reactive where Base: RestAPIManager {
         // Offline mode
         if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
-        guard let userID = Config.currentUser.id, let _ = Config.currentUser.activeKey else {
+        guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKey else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
         
@@ -66,7 +66,7 @@ extension Reactive where Base: RestAPIManager {
         // Offline mode
         if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
-        let messageUpdateArgs = EOSTransaction.MessageUpdateArgs(authorValue:           author ?? Config.currentUser.id ?? "Cyberway",
+        let messageUpdateArgs = EOSTransaction.MessageUpdateArgs(authorValue:           author ?? Config.currentUser?.id ?? "Cyberway",
                                                                  messagePermlink:       permlink,
                                                                  parentPermlink:        parentPermlink,
                                                                  bodymssgValue:         message)
@@ -96,7 +96,7 @@ extension Reactive where Base: RestAPIManager {
         guard Config.isNetworkAvailable else { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
         // Check user authorize
-        guard let userID = Config.currentUser.id, let _ = Config.currentUser.activeKey else {
+        guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKey else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
         
@@ -113,7 +113,7 @@ extension Reactive where Base: RestAPIManager {
         guard Config.isNetworkAvailable else { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
         // Check user authorize
-        guard let userID = Config.currentUser.id, let _ = Config.currentUser.activeKey else {
+        guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKey else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
         

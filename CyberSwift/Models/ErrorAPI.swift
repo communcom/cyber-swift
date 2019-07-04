@@ -18,6 +18,9 @@ public enum ErrorAPI: Error {
     case responseUnsuccessful(message: String)
     case jsonConversionFailure(message: String)
     case signingECCKeychainPostingKeyFailure(message: String)
+    case savingKeys(message: String)
+    case socketDisconnected
+    case other(message: String)
     
     public var caseInfo: (title: String, message: String, code: Int) {
         switch self {
@@ -44,6 +47,30 @@ public enum ErrorAPI: Error {
             
         case .signingECCKeychainPostingKeyFailure(let message):
             return (title: "Keychain Posting Key Failure".localized(), message: message, code: 100)
+            
+        case .savingKeys(let message):
+            return (title: "Keychain Saving Failure".localized(), message: message, code: 100)
+            
+        case .socketDisconnected:
+            return (title: "Socket Is Disconnected".localized(), message: "Socket is not connected", code: 100)
+            
+        case .other(let message):
+            return (title: "Other error".localized(), message: message, code: 100)
         }
+    }
+    
+    public static var unknown: ErrorAPI {
+        return ErrorAPI.other(message: "Unknown error")
+    }
+    
+    public static var unauthorized: ErrorAPI {
+        return ErrorAPI.requestFailed(message: "Unauthorized")
+    }
+}
+
+extension Error {
+    public func toErrorAPI() -> ErrorAPI {
+        if let error = self as? ErrorAPI {return error}
+        return ErrorAPI.other(message: self.localizedDescription)
     }
 }

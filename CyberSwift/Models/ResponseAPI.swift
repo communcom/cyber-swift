@@ -8,6 +8,11 @@
 
 import Foundation
 
+/// Result type
+public protocol ResponseAPIHasError {
+    var error: ResponseAPIError? {get}
+}
+
 /// [Multiple types](https://stackoverflow.com/questions/46759044/swift-structures-handling-multiple-types-for-a-single-property)
 public struct Conflicted: Codable {
     public let stringValue: String?
@@ -60,7 +65,7 @@ public struct ResponseAPIError: Decodable {
 
 
 // MARK: -
-public struct ResponseAPIContentGetProfileResult: Decodable {
+public struct ResponseAPIContentGetProfileResult: Decodable, ResponseAPIHasError {
     // MARK: - In work API `content.getProfile`
     public let id: Int64
     public let jsonrpc: String
@@ -161,7 +166,7 @@ public struct ResponseAPIContentGetProfileSubscribers: Decodable {
 
 
 // MARK: -
-public struct ResponseAPIContentGetFeedResult: Decodable {
+public struct ResponseAPIContentGetFeedResult: Decodable, ResponseAPIHasError {
     // MARK: - In work API `content.getFeed`
     public let id: Int64
     public let jsonrpc: String
@@ -312,7 +317,7 @@ public struct ResponseAPIContentGetPostCommunity: Decodable {
 
 
 // MARK: - API `content.getPost`
-public struct ResponseAPIContentGetPostResult: Decodable {
+public struct ResponseAPIContentGetPostResult: Decodable, ResponseAPIHasError {
     public let id: Int64
     public let jsonrpc: String
     public let result: ResponseAPIContentGetPost?
@@ -321,7 +326,7 @@ public struct ResponseAPIContentGetPostResult: Decodable {
 
 
 // MARK: - API `content.waitForTransaction`
-public struct ResponseAPIContentWaitForTransactionResult: Decodable {
+public struct ResponseAPIContentWaitForTransactionResult: Decodable, ResponseAPIHasError {
     public let id: Int64
     public let jsonrpc: String
     public let result: ResponseAPIContentWaitForTransaction?
@@ -334,7 +339,7 @@ public struct ResponseAPIContentWaitForTransaction: Decodable {
 
 
 // MARK: - API `content.getComments`
-public struct ResponseAPIContentGetCommentsResult: Decodable {
+public struct ResponseAPIContentGetCommentsResult: Decodable, ResponseAPIHasError {
     public let id: Int64
     public let jsonrpc: String
     public let result: ResponseAPIContentGetComments?
@@ -451,7 +456,7 @@ public struct ResponseAPIContentGetCommentParentPostCommunity: Decodable {
 
 
 // MARK: - API `auth.authorize`
-public struct ResponseAPIAuthAuthorizeResult: Decodable {
+public struct ResponseAPIAuthAuthorizeResult: Decodable, ResponseAPIHasError {
     public let id: Int64
     public let jsonrpc: String
     public let result: ResponseAPIAuthAuthorize?
@@ -469,7 +474,7 @@ public struct ResponseAPIAuthAuthorizeRole: Decodable {
     //    public let title: String?
 }
 
-public struct ResponseAPIAuthGenerateSecretResult: Decodable {
+public struct ResponseAPIAuthGenerateSecretResult: Decodable, ResponseAPIHasError {
     public let id: Int64
     public let jsonrpc: String
     public let result: ResponseAPIAuthGenerateSecret?
@@ -482,7 +487,7 @@ public struct ResponseAPIAuthGenerateSecret: Decodable {
 
 
 // MARK: - API `registration.getState`
-public struct ResponseAPIRegistrationGetStateResult: Decodable {
+public struct ResponseAPIRegistrationGetStateResult: Decodable, ResponseAPIHasError {
     public let id: Int64
     public let jsonrpc: String
     public let result: ResponseAPIRegistrationGetState?
@@ -495,7 +500,7 @@ public struct ResponseAPIRegistrationGetState: Decodable {
 
 
 // MARK: - API `registration.firstStep`
-public struct ResponseAPIRegistrationFirstStepResult: Decodable {
+public struct ResponseAPIRegistrationFirstStepResult: Decodable, ResponseAPIHasError {
     public let id: Int64
     public let jsonrpc: String
     public let result: ResponseAPIRegistrationFirstStep?
@@ -516,7 +521,7 @@ public struct ResponseAPIRegistrationFirstStep: Decodable {
 
 
 // MARK: - API `registration.verify`
-public struct ResponseAPIRegistrationVerifyResult: Decodable {
+public struct ResponseAPIRegistrationVerifyResult: Decodable, ResponseAPIHasError {
     public let id: Int64
     public let jsonrpc: String
     public let result: ResponseAPIRegistrationVerify?
@@ -529,7 +534,7 @@ public struct ResponseAPIRegistrationVerify: Decodable {
 
 
 // MARK: - API `registration.setUsername`
-public struct ResponseAPIRegistrationSetUsernameResult: Decodable {
+public struct ResponseAPIRegistrationSetUsernameResult: Decodable, ResponseAPIHasError {
     public let id: Int64
     public let jsonrpc: String
     public let result: ResponseAPIRegistrationSetUsername?
@@ -542,7 +547,7 @@ public struct ResponseAPIRegistrationSetUsername: Decodable {
 
 
 // MARK: - API `registration.resendSmsCode`
-public struct ResponseAPIResendSmsCodeResult: Decodable {
+public struct ResponseAPIResendSmsCodeResult: Decodable, ResponseAPIHasError {
     public let id: Int64
     public let jsonrpc: String
     public let result: ResponseAPIResendSmsCode?
@@ -556,7 +561,7 @@ public struct ResponseAPIResendSmsCode: Decodable {
 
 
 // MARK: - API `registration.toBlockChain`
-public struct ResponseAPIRegistrationToBlockChainResult: Decodable {
+public struct ResponseAPIRegistrationToBlockChainResult: Decodable, ResponseAPIHasError {
     public let id: Int64
     public let jsonrpc: String
     public let result: ResponseAPIRegistrationToBlockChain?
@@ -570,7 +575,7 @@ public struct ResponseAPIRegistrationToBlockChain: Decodable {
 
 
 // MARK: - API `push.notifyOn`
-public struct ResponseAPINotifyPushOnResult: Decodable {
+public struct ResponseAPINotifyPushOnResult: Decodable, ResponseAPIHasError {
     public let id: Int64
     public let jsonrpc: String
     public let result: ResponseAPINotifyPushOn?
@@ -583,7 +588,7 @@ public struct ResponseAPINotifyPushOn: Decodable {
 
 
 // MARK: - API `push.notifyOff`
-public struct ResponseAPINotifyPushOffResult: Decodable {
+public struct ResponseAPINotifyPushOffResult: Decodable, ResponseAPIHasError {
     public let id: Int64
     public let jsonrpc: String
     public let result: ResponseAPINotifyPushOff?
@@ -596,7 +601,7 @@ public struct ResponseAPINotifyPushOff: Decodable {
 
 
 // MARK: - API `push.historyFresh`
-public struct ResponseAPIPushHistoryFreshResult: Decodable {
+public struct ResponseAPIPushHistoryFreshResult: Decodable, ResponseAPIHasError {
     public let id: Int64
     public let jsonrpc: String
     public let result: ResponseAPIPushHistoryFresh?
@@ -609,7 +614,7 @@ public struct ResponseAPIPushHistoryFresh: Decodable {
 
 
 // MARK: - API `onlineNotify.history`
-public struct ResponseAPIOnlineNotifyHistoryResult: Decodable {
+public struct ResponseAPIOnlineNotifyHistoryResult: Decodable, ResponseAPIHasError {
     public let jsonrpc: String
     public let result: ResponseAPIOnlineNotifyHistory?
     public let error: ResponseAPIError?
@@ -688,7 +693,7 @@ public struct ResponseAPIOnlineNotificationDataValue: Decodable {
 }
 
 // MARK: -
-public struct ResponseAPIOnlineNotifyHistoryFreshResult: Decodable {
+public struct ResponseAPIOnlineNotifyHistoryFreshResult: Decodable, ResponseAPIHasError {
     public let jsonrpc: String
     public let id: UInt64
     public let result: ResponseAPIOnlineNotifyHistoryFresh?
@@ -723,7 +728,7 @@ public struct ResponseAPIOnlineNotifyHistoryFreshFreshByTypes: Decodable {
 
 
 // MARK: -
-public struct ResponseAPINotifyMarkAllAsViewedResult: Decodable {
+public struct ResponseAPINotifyMarkAllAsViewedResult: Decodable, ResponseAPIHasError {
     public let jsonrpc: String
     public let id: UInt16
     public let result: ResponseAPINotifyMarkAllAsViewed?
@@ -738,7 +743,7 @@ public struct ResponseAPINotifyMarkAllAsViewed: Decodable {
 
 
 // MARK: -
-public struct ResponseAPIGetOptionsResult: Decodable {
+public struct ResponseAPIGetOptionsResult: Decodable, ResponseAPIHasError {
     public let jsonrpc: String
     public let id: UInt16
     public let result: ResponseAPIGetOptions?
@@ -811,7 +816,7 @@ public struct ResponseAPIGetOptionsNotifyPushShow: Decodable {
 
 
 // MARK: -
-public struct ResponseAPISetOptionsBasicResult: Decodable {
+public struct ResponseAPISetOptionsBasicResult: Decodable, ResponseAPIHasError {
     public let jsonrpc: String
     public let id: UInt16
     public let result: ResponseAPISetOptionsBasic?
@@ -826,7 +831,7 @@ public struct ResponseAPISetOptionsBasic: Decodable {
 
 
 // MARK: -
-public struct ResponseAPISetOptionsNoticeResult: Decodable {
+public struct ResponseAPISetOptionsNoticeResult: Decodable, ResponseAPIHasError {
     public let jsonrpc: String
     public let id: UInt16
     public let result: ResponseAPISetOptionsNotice?
@@ -841,7 +846,7 @@ public struct ResponseAPISetOptionsNotice: Decodable {
 
 
 // MARK: -
-public struct ResponseAPIMarkNotifiesAsReadResult: Decodable {
+public struct ResponseAPIMarkNotifiesAsReadResult: Decodable, ResponseAPIHasError {
     public let jsonrpc: String
     public let id: UInt16
     public let result: ResponseAPIMarkNotifiesAsRead?
@@ -856,7 +861,7 @@ public struct ResponseAPIMarkNotifiesAsRead: Decodable {
 
 
 // MARK: -
-public struct ResponseAPIMetaRecordPostViewResult: Decodable {
+public struct ResponseAPIMetaRecordPostViewResult: Decodable, ResponseAPIHasError {
     public let jsonrpc: String
     public let id: UInt16
     public let result: ResponseAPIMetaRecordPostView?
@@ -871,7 +876,7 @@ public struct ResponseAPIMetaRecordPostView: Decodable {
 
 
 // MARK: -
-public struct ResponseAPIGetFavoritesResult: Decodable {
+public struct ResponseAPIGetFavoritesResult: Decodable, ResponseAPIHasError {
     public let jsonrpc: String
     public let id: UInt16
     public let result: ResponseAPIGetFavorites?
@@ -886,7 +891,7 @@ public struct ResponseAPIGetFavorites: Decodable {
 
 
 // MARK: -
-public struct ResponseAPIAddFavoritesResult: Decodable {
+public struct ResponseAPIAddFavoritesResult: Decodable, ResponseAPIHasError {
     public let jsonrpc: String
     public let id: UInt16
     public let result: ResponseAPIAddFavorites?
@@ -901,7 +906,7 @@ public struct ResponseAPIAddFavorites: Decodable {
 
 
 // MARK: -
-public struct ResponseAPIRemoveFavoritesResult: Decodable {
+public struct ResponseAPIRemoveFavoritesResult: Decodable, ResponseAPIHasError {
     public let jsonrpc: String
     public let id: UInt16
     public let result: ResponseAPIRemoveFavorites?
