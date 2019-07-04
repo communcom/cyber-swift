@@ -496,6 +496,7 @@ public struct ResponseAPIRegistrationGetStateResult: Decodable, ResponseAPIHasEr
 
 public struct ResponseAPIRegistrationGetState: Decodable {
     public let currentState: String
+    public let user: String?
 }
 
 
