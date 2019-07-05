@@ -17,7 +17,7 @@ extension Reactive where Base: RestAPIManager {
         if (!Config.isNetworkAvailable) {
             return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
-        let methodAPIType = MethodAPIType.getState(id: userId, phone: phone)
+        let methodAPIType = MethodAPIType.getState(id: userId, phone: userId == nil ? phone: nil)
         
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
             .log(method: "registration.getState")
