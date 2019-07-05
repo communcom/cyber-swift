@@ -26,6 +26,18 @@ extension Reactive where Base: RestAPIManager {
                     throw ErrorAPI.unknown
                 }
                 
+                // save state
+                var dataToSave = [String: Any]()
+                if let id = userId ?? result.user {
+                    dataToSave[Config.currentUserIDKey] = id
+                }
+                if let phone = phone {
+                    dataToSave[Config.registrationUserPhoneKey] = phone
+                }
+                dataToSave[Config.registrationStepKey] = result.currentState
+                
+                try KeychainManager.save(data: dataToSave)
+                
                 return result
         }
     }
