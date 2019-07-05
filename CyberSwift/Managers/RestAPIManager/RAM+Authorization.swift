@@ -196,6 +196,9 @@ extension Reactive where Base: RestAPIManager {
                 
                 return result
             }
+            .flatMap {_ in
+                return self.authorize()
+            }
             .flatMapToCompletable()
             .do(onCompleted: {
                 // Save pdf
