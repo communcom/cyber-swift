@@ -13,7 +13,7 @@ public struct CurrentUser {
     public let id: String?
     public var name: String?
     public var activeKey: String? {
-        return activeKeys?.publicKey
+        return activeKeys?.privateKey
     }
     
     // Registration keys
