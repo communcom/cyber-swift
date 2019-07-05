@@ -54,7 +54,6 @@ public class RestAPIManager {
                     
                     // Save in Keychain
                     do {
-                        try KeychainManager.deleteUser()
                         try KeychainManager.save(data: [
                             Config.currentUserIDKey:            userID,
                             Config.currentUserNameKey:          result.displayName,
