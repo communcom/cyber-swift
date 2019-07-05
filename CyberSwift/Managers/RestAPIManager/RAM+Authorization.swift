@@ -30,8 +30,7 @@ extension Reactive where Base: RestAPIManager {
                 var dataToSave = [String: Any]()
                 if let id = userId ?? result.user {
                     dataToSave[Config.currentUserIDKey] = id
-                }
-                if let phone = phone {
+                } else if let phone = phone {
                     dataToSave[Config.registrationUserPhoneKey] = phone
                 }
                 dataToSave[Config.registrationStepKey] = result.currentState
