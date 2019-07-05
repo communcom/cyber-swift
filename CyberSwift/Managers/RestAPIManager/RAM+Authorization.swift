@@ -68,12 +68,14 @@ extension Reactive where Base: RestAPIManager {
     }
     
     /// Verify code
-    public func verify(code: UInt64) -> Single<ResponseAPIRegistrationVerify> {
+    public func verify() -> Single<ResponseAPIRegistrationVerify> {
         // Offline mode
         if (!Config.isNetworkAvailable) {
             return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
-        guard let phone = Config.currentUser?.phoneNumber else {
+        guard let phone = Config.currentUser?.phoneNumber,
+            let code = Config.currentUser?.smsCode
+        else {
             Logger.log(message: "Phone missing for user: \(String(describing: Config.currentUser))", event: .error)
             return .error(ErrorAPI.requestFailed(message: "Phone missing"))
         }
