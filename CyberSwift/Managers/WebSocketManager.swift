@@ -43,16 +43,16 @@ public class WebSocketManager {
                 return
             }
             
-            if let userId = Config.currentUser?.id,
-                let activeKey = Config.currentUser?.activeKey {
-                RestAPIManager.instance.authorize(userID:               userId,
-                                                  userActiveKey:        activeKey,
-                                                  responseHandling:     { response in
-                                                    self.authorized.accept(true)
-                },
-                                                  errorHandling:        { errorAPI in
-                                                    self.authorized.accept(false)
-                })
+            if let _ = Config.currentUser?.id,
+                let _ = Config.currentUser?.activeKey {
+                
+                _ = RestAPIManager.instance.rx.authorize()
+                    .subscribe(onSuccess: { (response) in
+                        self.authorized.accept(true)
+                    }, onError: { (error) in
+                        self.authorized.accept(false)
+                    })
+                
                 return
             }
             

@@ -209,14 +209,14 @@ extension Reactive where Base: RestAPIManager {
             })
     }
     
-    /// Authorize registration user
-    public func authorize() -> Single<ResponseAPIAuthAuthorize> {
+    /// Authorize registration user or login
+    public func authorize(login: String? = nil, key: String? = nil) -> Single<ResponseAPIAuthAuthorize> {
         // Offline mode
         if (!Config.isNetworkAvailable) {
             return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
-        guard let userId = Config.currentUser?.id,
-            let activeKey = Config.currentUser?.activeKey
+        guard let userId = login ?? Config.currentUser?.id,
+            let activeKey = key ?? Config.currentUser?.activeKey
         else {
             Logger.log(message: "userId or activeKey missing for user: \(String(describing: Config.currentUser))", event: .error)
             return .error(ErrorAPI.requestFailed(message: "userId or activeKey missing"))
@@ -231,9 +231,14 @@ extension Reactive where Base: RestAPIManager {
                     throw ErrorAPI.unknown
                 }
                 
-                try KeychainManager.save(data: [
+                var dataToSave: [String: Any] = [
                     Config.currentUserNameKey: result.displayName
-                ])
+                ]
+                
+                if let login = login {dataToSave[Config.currentUserIDKey] = login}
+                if let key = key {dataToSave[Config.currentUserPrivateActiveKey] = key}
+                
+                try KeychainManager.save(data: dataToSave)
                 
                 return result
             }
