@@ -17,73 +17,12 @@ import eosswift
 import Foundation
 import RxBlocking
 
-public enum VoteActionType: String {
-    case unvote     =   "unvote"
-    case upvote     =   "upvote"
-    case downvote   =   "downvote"
-}
-
 class EOSManager {
     // MARK: - Properties
     static let chainApi     =   ChainApiFactory.create(rootUrl: Config.blockchain_API_URL)
     static let historyApi   =   HistoryApiFactory.create(rootUrl: Config.blockchain_API_URL)
     
-    /// MARK: - CHAIN
-    static func getChainInfo(responseResult:    @escaping (Info) -> Void,
-                             responseError:     @escaping (ErrorAPI) -> Void) {
-        _ = self.chainApi.getInfo().subscribe(onSuccess: { response in
-            if let info = response.body {
-                responseResult(info)
-            }
-        },
-                                              onError: { error in
-                                                responseError(ErrorAPI.invalidData(message: "\(error.localizedDescription)"))
-        })
-    }
-    
-    ///
-    static func getChainInfo() {
-        _ = self.chainApi.getInfo().subscribe(onSuccess: { response in
-            if let info = response.body {
-                self.getChain(blockNumberID: info.head_block_id)
-            }
-        }, onError: { error in
-            if let httpErrorResponse = error as? HttpErrorResponse<ChainError> {
-                Logger.log(message: "\(String(describing: httpErrorResponse.bodyString))", event: .error)
-            }
-        })
-    }
-    
-    ///
-    static func getChain(blockNumberID: String) {
-        _ = self.chainApi.getBlock(body: BlockNumOrId(block_num_or_id: blockNumberID)).subscribe(onSuccess: { response in
-            if let info = response.body {
-                Logger.log(message: "info = \(info)", event: .debug)
-            }
-        }, onError: { error in
-            if let httpErrorResponse = error as? HttpErrorResponse<ChainError> {
-                Logger.log(message: "\(String(describing: httpErrorResponse.bodyString))", event: .error)
-            }
-        })
-    }
-    
-    ///
-    static func getAccount(nickName:    String,
-                           completion:  @escaping (HttpResponse<Account>?, Error?) -> Void) {
-        _ = self.chainApi.getAccount(body: AccountName(account_name: nickName)).subscribe(onSuccess: { response in
-            if let info = response.body {
-                Logger.log(message: "info = \(info)", event: .debug)
-                completion(response, nil)
-            }
-        }, onError: { error in
-            if let httpErrorResponse = error as? HttpErrorResponse<ChainError> {
-                Logger.log(message: "\(String(describing: httpErrorResponse.bodyString))", event: .error)
-                completion(nil, error)
-            }
-        })
-    }
-    
-    /// Receive secret key
+    //  MARK: - Helpers
     static func signWebSocketSecretKey(userActiveKey: String) -> String? {
         do {
             let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
@@ -149,18 +88,5 @@ class EOSManager {
         } catch {
             responseError(error)
         }
-    }
-    
-    // MARK: - HISTORY
-    static func getTransaction(blockNumberHint: String) {
-        _ = self.historyApi.getTransaction(body: GetTransaction(id: blockNumberHint)).subscribe(onSuccess: { response in
-            if let info = response.body {
-                Logger.log(message: "info = \(info)", event: .debug)
-            }
-        }, onError: { error in
-            if let httpErrorResponse = error as? HttpErrorResponse<ChainError> {
-                Logger.log(message: "\(String(describing: httpErrorResponse.bodyString))", event: .error)
-            }
-        })
     }
 }

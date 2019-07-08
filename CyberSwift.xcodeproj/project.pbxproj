@@ -144,6 +144,15 @@
 			path = RestAPIManager;
 			sourceTree = "<group>";
 		};
+		3BF2E09622D34AFB003B37AE /* EOSManager */ = {
+			isa = PBXGroup;
+			children = (
+				B1A74A652243893A009D68E7 /* EOSManager.swift */,
+				3BA4D22F2295A0E10022A69D /* EOSManager+Rx.swift */,
+			);
+			path = EOSManager;
+			sourceTree = "<group>";
+		};
 		75F3EB65C5A22587C3A36A98 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -237,8 +246,7 @@
 			isa = PBXGroup;
 			children = (
 				B1C3F85C223F98DC005711EF /* Broadcast.swift */,
-				B1A74A652243893A009D68E7 /* EOSManager.swift */,
-				3BA4D22F2295A0E10022A69D /* EOSManager+Rx.swift */,
+				3BF2E09622D34AFB003B37AE /* EOSManager */,
 				B1C3F85B223F98DC005711EF /* ReachabilityManager.swift */,
 				B1C3F85E223F98DC005711EF /* WebSocketManager.swift */,
 				3B1E901422CDEC2F00D7A0C1 /* RestAPIManager */,

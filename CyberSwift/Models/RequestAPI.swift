@@ -14,3 +14,9 @@ public struct RequestAPI: Codable {
     public let jsonrpc: String
     public let params: [String: String]
 }
+
+public enum VoteActionType: String {
+    case unvote     =   "unvote"
+    case upvote     =   "upvote"
+    case downvote   =   "downvote"
+}

@@ -20,15 +20,52 @@ enum TransactionAccountType: String {
 }
 
 extension Reactive where Base: EOSManager {
-    // MARK: - Helpers
+    // MARK: - BC Info
     static var chainInfo: Single<Info> {
         return EOSManager.chainApi.getInfo()
-            .flatMap({ (response) -> Single<Info> in
+            .map { response -> Info in
                 guard let body = response.body else {throw ErrorAPI.blockchain(message: "Can not retrieve chain info")}
-                return .just(body)
-            })
+                return body
+            }
+            .log(method: "getChainInfo")
+            .map {$0 as! Info}
     }
     
+    static var headBlock: Single<Block> {
+        return chainInfo
+            .flatMap {info in
+                let blockId = info.head_block_id
+                return EOSManager.chainApi.getBlock(body: BlockNumOrId(block_num_or_id: blockId))
+                    .map {block in
+                        guard let body = block.body else {throw ErrorAPI.blockchain(message: "Can not retrieve headBlock")}
+                        return body
+                    }
+            }
+            .log(method: "getChainHeadBlock")
+            .map {$0 as! Block}
+    }
+    
+    static func getAccount(nickName: String) -> Single<Account> {
+        return EOSManager.chainApi.getAccount(body: AccountName(account_name: nickName))
+            .map {account in
+                guard let body = account.body else {throw ErrorAPI.blockchain(message: "Can not retrieve account")}
+                return body
+            }
+            .log(method: "getChainAccount")
+            .map {$0 as! Account}
+    }
+    
+    static func getTransaction(_ blockNumberHint: String) -> Single<HistoricTransaction> {
+        return EOSManager.historyApi.getTransaction(body: GetTransaction(id: blockNumberHint))
+            .map {transaction in
+                guard let body = transaction.body else {throw ErrorAPI.blockchain(message: "Can not retrieve transaction")}
+                return body
+            }
+            .log(method: "getHistoricTransaction")
+            .map {$0 as! HistoricTransaction}
+    }
+    
+    // MARK: - Helpers
     static func pushAuthorized(account: TransactionAccountType, name: String, data: DataWriterValue, expiration: Date = Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds)) -> Single<ChainResponse<TransactionCommitted>> {
         guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKey else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
