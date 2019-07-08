@@ -57,8 +57,8 @@ public class RestAPIManager {
                         try KeychainManager.save(data: [
                             Config.currentUserIDKey:            userID,
                             Config.currentUserNameKey:          result.displayName,
-                            Config.currentUserPublicActiveKey:  userActiveKey
-                            ])
+                            Config.currentUserPrivateActiveKey: userActiveKey
+                        ])
                         
                         // Save in iCloud key-value
                         iCloudManager.saveUser()
