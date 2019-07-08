@@ -50,7 +50,18 @@ public class WebSocketManager {
                     .subscribe(onSuccess: { (response) in
                         self.authorized.accept(true)
                     }, onError: { (error) in
-                        self.authorized.accept(false)
+                        if let error = error as? ErrorAPI {
+                            switch error.caseInfo.message {
+                            case "Secret verification failed - access denied",
+                                 "Public key verification failed - access denied",
+                                 "Sign is not a valid signature",
+                                 "Cannot get such account from BC":
+                                self.authorized.accept(false)
+                            default:
+                                return
+                            }
+                        }
+                        
                     })
                 
                 return
