@@ -21,7 +21,7 @@ extension Reactive where Base: RestAPIManager {
         // Offline mode
         if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
-        return EOSManager.rx.vote(voteType:     voteType,
+        return EOSManager.vote(voteType:     voteType,
                                   author:       author,
                                   permlink:     permlink,
                                   weight:       voteType == .unvote ? 0 : 1)
@@ -48,7 +48,7 @@ extension Reactive where Base: RestAPIManager {
                                                                  tagsValues:         arrayTags,
                                                                  jsonmetadataValue:  metaData)
         
-        return EOSManager.rx.create(messageCreateArgs: messageCreateArgs)
+        return EOSManager.create(messageCreateArgs: messageCreateArgs)
     }
     
     public func deleteMessage(author: String, permlink: String) -> Completable {
@@ -56,7 +56,7 @@ extension Reactive where Base: RestAPIManager {
         if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
         let messageDeleteArgs = EOSTransaction.MessageDeleteArgs(authorValue: author, messagePermlink: permlink)
-        return EOSManager.rx.delete(messageArgs: messageDeleteArgs)
+        return EOSManager.delete(messageArgs: messageDeleteArgs)
     }
     
     public func updateMessage(author:       String?,
@@ -70,7 +70,7 @@ extension Reactive where Base: RestAPIManager {
                                                                  messagePermlink:       permlink,
                                                                  parentPermlink:        parentPermlink,
                                                                  bodymssgValue:         message)
-        return EOSManager.rx.update(messageArgs: messageUpdateArgs)
+        return EOSManager.update(messageArgs: messageUpdateArgs)
     }
     
     public func reblog(author:              String,
@@ -87,7 +87,7 @@ extension Reactive where Base: RestAPIManager {
                                                    headermssgValue:     headermssg,
                                                    bodymssgValue:       bodymssg)
         
-        return EOSManager.rx.reblog(args: reblogArgs)
+        return EOSManager.reblog(args: reblogArgs)
     }
     
     // MARK: - Contract `gls.social`
@@ -105,7 +105,7 @@ extension Reactive where Base: RestAPIManager {
         let userProfileMetaArgs = EOSTransaction.UserProfileUpdatemetaArgs(accountValue:    userID,
                                                                            metaValue:       userProfileAccountmetaArgs)
         
-        return EOSManager.rx.update(userProfileMetaArgs: userProfileMetaArgs)
+        return EOSManager.update(userProfileMetaArgs: userProfileMetaArgs)
     }
     
     public func follow(_ userToFollow: String, isUnfollow: Bool = false) -> Single<ChainResponse<TransactionCommitted>> {
@@ -118,6 +118,6 @@ extension Reactive where Base: RestAPIManager {
         }
         
         let pinArgs = EOSTransaction.UserProfilePinArgs(pinnerValue: userID, pinningValue: userToFollow)
-        return EOSManager.rx.updateUserProfile(pinArgs: pinArgs, isUnpin: isUnfollow)
+        return EOSManager.updateUserProfile(pinArgs: pinArgs, isUnpin: isUnfollow)
     }
 }

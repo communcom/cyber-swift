@@ -11,7 +11,6 @@
 		3B1E901622CDEC6A00D7A0C1 /* RAM+Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1E901522CDEC6A00D7A0C1 /* RAM+Authorization.swift */; };
 		3B1E901822CDF16B00D7A0C1 /* iCloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1E901722CDF16B00D7A0C1 /* iCloudManager.swift */; };
 		3B5D91C622CE14E100BB7DCC /* MethodAPIType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5D91C522CE14E100BB7DCC /* MethodAPIType.swift */; };
-		3BA4D2302295A0E10022A69D /* EOSManager+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BA4D22F2295A0E10022A69D /* EOSManager+Rx.swift */; };
 		3BB342B622CB7591009546B2 /* CurrentUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB342B522CB7591009546B2 /* CurrentUser.swift */; };
 		3BB342B822CB823C009546B2 /* PDFManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB342B722CB823C009546B2 /* PDFManager.swift */; };
 		3BBBE2982295AAE90029C9C9 /* RAM+Blockchain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBBE2972295AAE90029C9C9 /* RAM+Blockchain.swift */; };
@@ -61,7 +60,6 @@
 		3B1E901522CDEC6A00D7A0C1 /* RAM+Authorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Authorization.swift"; sourceTree = "<group>"; };
 		3B1E901722CDF16B00D7A0C1 /* iCloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iCloudManager.swift; sourceTree = "<group>"; };
 		3B5D91C522CE14E100BB7DCC /* MethodAPIType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MethodAPIType.swift; sourceTree = "<group>"; };
-		3BA4D22F2295A0E10022A69D /* EOSManager+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EOSManager+Rx.swift"; sourceTree = "<group>"; };
 		3BB342B522CB7591009546B2 /* CurrentUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUser.swift; sourceTree = "<group>"; };
 		3BB342B722CB823C009546B2 /* PDFManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFManager.swift; sourceTree = "<group>"; };
 		3BBBE2972295AAE90029C9C9 /* RAM+Blockchain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Blockchain.swift"; sourceTree = "<group>"; };
@@ -142,15 +140,6 @@
 				3BBBE2972295AAE90029C9C9 /* RAM+Blockchain.swift */,
 			);
 			path = RestAPIManager;
-			sourceTree = "<group>";
-		};
-		3BF2E09622D34AFB003B37AE /* EOSManager */ = {
-			isa = PBXGroup;
-			children = (
-				B1A74A652243893A009D68E7 /* EOSManager.swift */,
-				3BA4D22F2295A0E10022A69D /* EOSManager+Rx.swift */,
-			);
-			path = EOSManager;
 			sourceTree = "<group>";
 		};
 		75F3EB65C5A22587C3A36A98 /* Pods */ = {
@@ -246,7 +235,7 @@
 			isa = PBXGroup;
 			children = (
 				B1C3F85C223F98DC005711EF /* Broadcast.swift */,
-				3BF2E09622D34AFB003B37AE /* EOSManager */,
+				B1A74A652243893A009D68E7 /* EOSManager.swift */,
 				B1C3F85B223F98DC005711EF /* ReachabilityManager.swift */,
 				B1C3F85E223F98DC005711EF /* WebSocketManager.swift */,
 				3B1E901422CDEC2F00D7A0C1 /* RestAPIManager */,
@@ -403,7 +392,6 @@
 				3BBBE29A2296A8A10029C9C9 /* RxSwift.swift in Sources */,
 				B1C3F859223F98B1005711EF /* Encodable+Extensions.swift in Sources */,
 				B1A74A662243893A009D68E7 /* EOSManager.swift in Sources */,
-				3BA4D2302295A0E10022A69D /* EOSManager+Rx.swift in Sources */,
 				B17991792269B4560014CB44 /* Random.swift in Sources */,
 				3B1E901622CDEC6A00D7A0C1 /* RAM+Authorization.swift in Sources */,
 				B179916E2269B3EB0014CB44 /* Data+Extensions.swift in Sources */,

@@ -19,7 +19,6 @@ Pod::Spec.new do |spec|
     spec.dependency 'Locksmith'
     spec.dependency 'RxSwift'
     spec.dependency 'RxCocoa'
-    spec.dependency 'RxBlocking'
     spec.dependency 'GoloCrypto'
     spec.dependency 'SwiftTheme'
     spec.dependency 'CryptoSwift'

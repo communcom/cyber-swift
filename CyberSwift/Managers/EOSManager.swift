@@ -1,16 +1,21 @@
 //
-//  EOSManager+Rx.swift
+//  Tester.swift
 //  CyberSwift
 //
-//  Created by Chung Tran on 22/05/2019.
+//  Created by msm72 on 1/28/19.
 //  Copyright © 2019 golos.io. All rights reserved.
 //
+//  https://github.com/GolosChain/golos.contracts
+//  https://github.com/GolosChain/cyberway.contracts/blob/38a15c23ea8e0538df52b3e36aeb77d6f3e98fbf/cyber.token/abi/cyber.token.abi
+//  https://docs.google.com/document/d/1caNVBva1EDB9c9fA7K8Wutn1xlAimp23YCfKm_inx9E/edit
+//  https://github.com/GolosChain/golos.contracts/blob/master/golos.publication/golos.publication.abi#L297-L326
+//  https://developers.eos.io/eosio-nodeos/reference#get_info
+//  https://github.com/GolosChain/golos.contracts/blob/master/golos.ctrl/abi/golos.ctrl.abi
+//
 
+import eosswift
 import Foundation
 import RxSwift
-import eosswift
-
-extension EOSManager: ReactiveCompatible {}
 
 enum TransactionAccountType: String {
     case glsPublish = "gls.publish"
@@ -19,7 +24,11 @@ enum TransactionAccountType: String {
     case glsCtrl = "gls.ctrl"
 }
 
-extension Reactive where Base: EOSManager {
+class EOSManager {
+    // MARK: - Properties
+    static let chainApi     =   ChainApiFactory.create(rootUrl: Config.blockchain_API_URL)
+    static let historyApi   =   HistoryApiFactory.create(rootUrl: Config.blockchain_API_URL)
+    
     // MARK: - BC Info
     static var chainInfo: Single<Info> {
         return EOSManager.chainApi.getInfo()
@@ -39,7 +48,7 @@ extension Reactive where Base: EOSManager {
                     .map {block in
                         guard let body = block.body else {throw ErrorAPI.blockchain(message: "Can not retrieve headBlock")}
                         return body
-                    }
+                }
             }
             .log(method: "getChainHeadBlock")
             .map {$0 as! Block}
@@ -66,6 +75,19 @@ extension Reactive where Base: EOSManager {
     }
     
     // MARK: - Helpers
+    static func signWebSocketSecretKey(userActiveKey: String) -> String? {
+        do {
+            let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
+            
+            let signature = PrivateKeySigning().sign(digest:            Config.webSocketSecretKey.data(using: .utf8)!,
+                                                     eosPrivateKey:     privateKey)
+            
+            return signature
+        } catch {
+            return nil
+        }
+    }
+    
     static func pushAuthorized(account: TransactionAccountType, name: String, data: DataWriterValue, expiration: Date = Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds)) -> Single<ChainResponse<TransactionCommitted>> {
         guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKey else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
@@ -95,9 +117,38 @@ extension Reactive where Base: EOSManager {
     
     //  MARK: - Contract `gls.publish`
     
-    //    static func createNewAccount(nickName: String) -> Single<ChainResponse<TransactionCommitted>> {
-    //
-    //    }
+    static func createNewAccount(nickName: String) -> Single<ChainResponse<TransactionCommitted>> {
+        guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKey else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        }
+        
+        guard let currentUserPublicKey = try? EOSPublicKey(base58: userActiveKey) else {
+            return .error(ErrorAPI.blockchain(message: "Can not create public key"))
+        }
+        
+        let owner = AccountRequiredAuthAbi(
+            threshold: 1,
+            keys: [
+                AccountKeyAbi(
+                    key: PublicKeyWriterValue(
+                        publicKey: currentUserPublicKey,
+                        isCurveParamK1: true
+                    ),
+                    weight:  1)
+            ],
+            accounts:    StringCollectionWriterValue(value: []),
+            waits:       StringCollectionWriterValue(value: []))
+        
+        let createNewAccountArgs = NewAccountArgs(
+            creator:      AccountNameWriterValue(name:    userID),
+            name:         AccountNameWriterValue(name:    userID),
+            owner:        owner,
+            active:       owner)
+        
+        let createNewAccountArgsData = DataWriterValue(hex: createNewAccountArgs.toHex())
+        
+        return pushAuthorized(account: .glsPublish, name: "newaccount", data: createNewAccountArgsData)
+    }
     
     static func vote(voteType:  VoteActionType,
                      author:    String,
@@ -111,10 +162,10 @@ extension Reactive where Base: EOSManager {
         let voteArgs: Encodable = (voteType == .unvote) ?   EOSTransaction.UnvoteArgs.init(voterValue:          userID,
                                                                                            authorValue:         author,
                                                                                            permlinkValue:       permlink) :
-                                                            EOSTransaction.UpvoteArgs.init(voterValue:          userID,
-                                                                                           authorValue:         author,
-                                                                                           permlinkValue:       permlink,
-                                                                                           weightValue:         weight)
+            EOSTransaction.UpvoteArgs.init(voterValue:          userID,
+                                           authorValue:         author,
+                                           permlinkValue:       permlink,
+                                           weightValue:         weight)
         
         let voteArgsData = DataWriterValue(hex: voteArgs.toHex())
         
@@ -126,7 +177,7 @@ extension Reactive where Base: EOSManager {
                 
                 // Update user profile reputation
                 let changereputArgs = EOSTransaction.UserProfileChangereputArgs(voterValue: userID, authorValue: author, rsharesValue: voteType == .upvote ? 1 : -1)
-                return EOSManager.rx.updateUserProfile(changereputArgs: changereputArgs)
+                return EOSManager.updateUserProfile(changereputArgs: changereputArgs)
             }
             .flatMapToCompletable()
     }
