@@ -9,7 +9,6 @@ target 'CyberSwift' do
 
   pod 'RxSwift'
   pod 'RxCocoa'
-  pod 'RxBlocking'
 
   pod 'Checksum'
   pod 'PDFReader'

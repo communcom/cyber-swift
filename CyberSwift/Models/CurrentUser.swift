@@ -35,17 +35,8 @@ public struct CurrentUser {
 }
 
 public struct UserKeys {
-    public let privateKey: String
-    public let publicKey: String
-    
-    init?(privateKey: String?, publicKey: String?){
-        guard let privateKey = privateKey,
-            let publicKey = publicKey else {
-                return nil
-        }
-        self.privateKey = privateKey
-        self.publicKey = publicKey
-    }
+    public let privateKey: String?
+    public let publicKey: String?
 }
 
 public enum CurrentUserRegistrationStep: String {
