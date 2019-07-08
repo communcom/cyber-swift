@@ -184,14 +184,14 @@ extension Reactive where Base: RestAPIManager {
                     Config.registrationStepKey: CurrentUserRegistrationStep.setAvatar.rawValue,
                     Config.currentUserNameKey: result.username,
                     Config.currentUserIDKey: result.userId,
-                    Config.currentUserPublicOwnerKey: userkeys["owner"]!.publicKey,
-                    Config.currentUserPrivateOwnerKey: userkeys["owner"]!.privateKey,
-                    Config.currentUserPublicActiveKey: userkeys["active"]!.publicKey,
-                    Config.currentUserPrivateActiveKey: userkeys["active"]!.privateKey,
-                    Config.currentUserPublicPostingKey: userkeys["posting"]!.publicKey,
-                    Config.currentUserPrivatePostingKey: userkeys["posting"]!.privateKey,
-                    Config.currentUserPublickMemoKey: userkeys["memo"]!.publicKey,
-                    Config.currentUserPrivateMemoKey: userkeys["memo"]!.privateKey
+                    Config.currentUserPublicOwnerKey: userkeys["owner"]!.publicKey!,
+                    Config.currentUserPrivateOwnerKey: userkeys["owner"]!.privateKey!,
+                    Config.currentUserPublicActiveKey: userkeys["active"]!.publicKey!,
+                    Config.currentUserPrivateActiveKey: userkeys["active"]!.privateKey!,
+                    Config.currentUserPublicPostingKey: userkeys["posting"]!.publicKey!,
+                    Config.currentUserPrivatePostingKey: userkeys["posting"]!.privateKey!,
+                    Config.currentUserPublickMemoKey: userkeys["memo"]!.publicKey!,
+                    Config.currentUserPrivateMemoKey: userkeys["memo"]!.privateKey!
                 ])
                 
                 return result
