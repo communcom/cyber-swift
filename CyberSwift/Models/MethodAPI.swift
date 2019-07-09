@@ -262,6 +262,7 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.push.rawValue,
                      methodName:        "notifyOn",
                      parameters:        [
+                                            "app":      "gls",
                                             "key":      fcmTokenValue,
                                             "profile":  String(format: "%@-%@", Config.currentUser?.id ?? "", Config.currentDeviceType)
                                         ])
@@ -272,6 +273,7 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.push.rawValue,
                      methodName:        "notifyOff",
                      parameters:        [
+                                            "app":      "gls",
                                             "key":      fcmTokenValue,
                                             "profile":  String(format: "%@-%@", Config.currentUser?.id ?? "", Config.currentDeviceType)
                                         ])
