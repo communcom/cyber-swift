@@ -57,6 +57,36 @@ public class Broadcast {
     }
     
 
+    /// Generate array of new accounts
+    public func generateNewTestUser(success: @escaping (ResponseAPICreateNewAccount?) -> Void) {
+        //  1. Set up the HTTP request with URLSession
+        let session = URLSession.shared
+        
+        if let url = URL(string: "http://116.203.39.126:7777/get_users") {
+            let task = session.dataTask(with: url, completionHandler: { data, response, error in
+                guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
+                    Logger.log(message: "Error create new acounts: \(error!.localizedDescription)", event: .error)
+                    return success(nil)
+                }
+                
+                do {
+                    let jsonArray = try JSONDecoder().decode([ResponseAPICreateNewAccount].self, from: data!)
+                    
+                    if let newAccount = jsonArray.first {
+                        Logger.log(message: "newAccount: \(String(describing: newAccount))", event: .debug)                        
+                        return success(newAccount)
+                    }
+                } catch {
+                    Logger.log(message: error.localizedDescription, event: .error)
+                    return success(nil)
+                }
+            })
+            
+            task.resume()
+        }
+    }
+    
+    
     /// Generating a unique ID
     //  for content:                < 100
     private func generateUniqueId(forType type: Any) -> Int {
