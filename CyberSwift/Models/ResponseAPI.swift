@@ -190,7 +190,7 @@ public struct ResponseAPIContentGetPost: Decodable {
     public var votes: ResponseAPIContentVotes
     public let stats: ResponseAPIContentGetPostStats
     public let payout: ResponseAPIContentGetPostPayout
-    public let contentId: ResponseAPIContentGetPostContentId
+    public let contentId: ResponseAPIContentId
     public let meta: ResponseAPIContentGetPostMeta
     public let author: ResponseAPIAuthor?
     public let community: ResponseAPIContentGetPostCommunity
@@ -294,7 +294,7 @@ public struct ResponseAPIContentGetPostPayout: Decodable {
     public let rShares: Conflicted?
 }
 
-public struct ResponseAPIContentGetPostContentId: Decodable {
+public struct ResponseAPIContentId: Decodable {
     public let userId: String
     public let permlink: String
     public let refBlockNum: UInt64?
@@ -350,7 +350,7 @@ public struct ResponseAPIContentGetComment: Decodable {
     public let content: ResponseAPIContentGetCommentContent
     public var votes: ResponseAPIContentVotes
     public let payout: ResponseAPIContentGetCommentPayout
-    public let contentId: ResponseAPIContentGetCommentContentId
+    public let contentId: ResponseAPIContentId
     public let meta: ResponseAPIContentGetCommentMeta
     public let author: ResponseAPIAuthor?
     public let parent: ResponseAPIContentGetCommentParent
@@ -385,12 +385,6 @@ public struct ResponseAPIContentGetCommentPayout: Decodable {
     public let rShares: UInt64?
 }
 
-public struct ResponseAPIContentGetCommentContentId: Decodable {
-    public let userId: String
-    public let permlink: String
-    public let refBlockNum: UInt64?
-}
-
 public struct ResponseAPIContentGetCommentMeta: Decodable {
     public let time: String
 }
@@ -412,15 +406,9 @@ public struct ResponseAPIContentGetCommentParent: Decodable {
 }
 
 public struct ResponseAPIContentGetCommentParentComment: Decodable {
-    public let contentId: ResponseAPIContentGetCommentParentCommentContentId?
+    public let contentId: ResponseAPIContentId?
     public let content: ResponseAPIContentGetCommentParentCommentContent?
     public let author: ResponseAPIAuthor?
-}
-
-public struct ResponseAPIContentGetCommentParentCommentContentId: Decodable {
-    public let userId: String
-    public let permlink: String
-    public let refBlockNum: UInt64?
 }
 
 public struct ResponseAPIContentGetCommentParentCommentContent: Decodable {
@@ -438,7 +426,7 @@ public struct ResponseAPIContentGetCommentParentPost: Decodable {
     public let community: ResponseAPIContentGetCommentParentPostCommunity?
     
     // API `content.getComments` by post
-    public let contentId: ResponseAPIContentGetCommentContentId?
+    public let contentId: ResponseAPIContentId?
 }
 
 public struct ResponseAPIContentGetCommentParentPostContent: Decodable {
@@ -658,31 +646,14 @@ public struct ResponseAPIOnlineNotificationDataActor: Decodable {
 
 // MARK: -
 public struct ResponseAPIOnlineNotificationDataPost: Decodable {
-    public let contentId: ResponseAPIOnlineNotificationDataPostContentId
+    public let contentId: ResponseAPIContentId
     public let title: String?
 }
 
-
-// MARK: -
-public struct ResponseAPIOnlineNotificationDataPostContentId: Decodable {
-    public let userId: String
-    public let permlink: String
-    public let refBlockNum: UInt64?
-}
-
-
 // MARK: -
 public struct ResponseAPIOnlineNotificationDataComment: Decodable {
-    public let contentId: ResponseAPIOnlineNotificationDataCommentContentId
+    public let contentId: ResponseAPIContentId
     public let body: String
-}
-
-
-// MARK: -
-public struct ResponseAPIOnlineNotificationDataCommentContentId: Decodable {
-    public let userId: String
-    public let permlink: String
-    public let refBlockNum: Int64?
 }
 
 public struct ResponseAPIOnlineNotificationDataValue: Decodable {
