@@ -414,7 +414,7 @@ public struct ResponseAPIContentGetCommentParent: Decodable {
 public struct ResponseAPIContentGetCommentParentComment: Decodable {
     public let contentId: ResponseAPIContentGetCommentParentCommentContentId?
     public let content: ResponseAPIContentGetCommentParentCommentContent?
-    public let author: ResponseAPIContentGetCommentParentCommentAuthor?
+    public let author: ResponseAPIAuthor?
 }
 
 public struct ResponseAPIContentGetCommentParentCommentContentId: Decodable {
@@ -429,10 +429,6 @@ public struct ResponseAPIContentGetCommentParentCommentContent: Decodable {
 
 public struct ResponseAPIContentGetCommentParentCommentContentBody: Decodable {
     public let preview: String?
-}
-
-public struct ResponseAPIContentGetCommentParentCommentAuthor: Decodable {
-    public let userId: String
 }
 
 
