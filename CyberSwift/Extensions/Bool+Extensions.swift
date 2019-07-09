@@ -14,6 +14,6 @@ extension Bool {
     }
 
     var toParam: String {
-        return self ? "true" : ""
+        return self ? "true" : "false"
     }
 }
