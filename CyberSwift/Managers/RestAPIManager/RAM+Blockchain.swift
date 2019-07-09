@@ -51,25 +51,42 @@ extension Reactive where Base: RestAPIManager {
         return EOSManager.create(messageCreateArgs: messageCreateArgs)
     }
     
-    public func deleteMessage(author: String, permlink: String) -> Completable {
+    public func deleteMessage(permlink: String) -> Completable {
         // Offline mode
         if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        guard let author = Config.currentUser?.id else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        }
         
         let messageDeleteArgs = EOSTransaction.MessageDeleteArgs(authorValue: author, messagePermlink: permlink)
         return EOSManager.delete(messageArgs: messageDeleteArgs)
     }
     
-    public func updateMessage(author:       String?,
-                              permlink:     String,
-                              message:      String,
-                              parentPermlink:   String?) -> Single<ChainResponse<TransactionCommitted>> {
+    public func updateMessage(permlink:         String,
+                              parentPermlink:   String?,
+                              headline:         String,
+                              message:          String,
+                              tags:             [String]?,
+                              metaData:         String
+                              ) -> Single<ChainResponse<TransactionCommitted>> {
         // Offline mode
         if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
-        let messageUpdateArgs = EOSTransaction.MessageUpdateArgs(authorValue:           author ?? Config.currentUser?.id ?? "Cyberway",
-                                                                 messagePermlink:       permlink,
-                                                                 parentPermlink:        parentPermlink,
-                                                                 bodymssgValue:         message)
+        guard let author = Config.currentUser?.id else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        }
+        
+        let arrayTags = tags == nil ? [EOSTransaction.Tags()] : tags!.map({ EOSTransaction.Tags.init(tagValue: $0) })
+        
+        let messageUpdateArgs = EOSTransaction.MessageUpdateArgs(
+            authorValue:           author,
+            messagePermlink:       permlink,
+            parentPermlink:        parentPermlink,
+            headermssgValue:       headline,
+            bodymssgValue:         message,
+            tagsValues:            arrayTags,
+            jsonmetadataValue:     metaData)
         return EOSManager.update(messageArgs: messageUpdateArgs)
     }
     
