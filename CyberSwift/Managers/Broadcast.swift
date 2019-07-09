@@ -138,7 +138,9 @@ extension Broadcast {
                                 .replacingOccurrences(of: "\"{", with: "{")
                                 .replacingOccurrences(of: "}\"}}", with: "}}}")
                                 .replacingOccurrences(of: "}\"", with: "}")
-            
+                                .replacingOccurrences(of: "\"true\"", with: "true")
+                                .replacingOccurrences(of: "\"false\"", with: "false")
+
             if jsonString.contains("registration.verify") {
                 jsonString = jsonString
                                 .replacingOccurrences(of: "code\":\"", with: "code\":")
