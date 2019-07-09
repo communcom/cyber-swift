@@ -103,14 +103,14 @@ public indirect enum MethodAPIType {
     //  Get the secret authorization to sign
     case generateSecret
 
-    // Subscribe to push notifications
+    //  Subscribe to push notifications
     case notifyPushOn(fcmToken: String)
 
     // Unsubscribe of push notifications
     case notifyPushOff(fcmToken: String)
 
-//    //  Receiving the number of unread notifications
-//    case getPushHistory(nickName: String)
+    //  Receiving notifications history
+//    case getPushHistory(afterId: String?, limit: UInt, markAsViewed: Bool, freshOnly: Bool, types: String?)
 
     //  Receiving the number of unread notifications according to user settings
     case getPushHistoryFresh
