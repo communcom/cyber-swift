@@ -104,10 +104,10 @@ public indirect enum MethodAPIType {
     case generateSecret
 
     //  Subscribe to push notifications
-    case notifyPushOn(fcmToken: String)
+    case notifyPushOn(fcmToken: String, appProfileType: AppProfileType)
 
     // Unsubscribe of push notifications
-    case notifyPushOff(fcmToken: String)
+    case notifyPushOff(fcmToken: String, appProfileType: AppProfileType)
 
     //  Receiving notifications history
 //    case getPushHistory(afterId: String?, limit: UInt, markAsViewed: Bool, freshOnly: Bool, types: String?)
@@ -256,24 +256,24 @@ public indirect enum MethodAPIType {
                      methodName:        "generateSecret",
                      parameters:        ["": ""])
 
-        //  Template { "id": 71, "jsonrpc": "2.0", "method": "push.notifyOn", "params": { "key": <fcm_token>, "profile": <userNickName-deviceUDID> }}
-        case .notifyPushOn(let fcmTokenValue):
+        //  Template { "id": 71, "jsonrpc": "2.0", "method": "push.notifyOn", "params": { "key": <fcm_token>, "profile": <userNickName-deviceUDID>, "app": <gls> }}
+        case .notifyPushOn(let fcmTokenValue, let appProfileType):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.push.rawValue,
                      methodName:        "notifyOn",
                      parameters:        [
-                                            "app":      "gls",
+                                            "app":      appProfileType.rawValue,
                                             "key":      fcmTokenValue,
                                             "profile":  String(format: "%@-%@", Config.currentUser?.id ?? "", Config.currentDeviceType)
                                         ])
             
-        //  Template { "id": 72, "jsonrpc": "2.0", "method": "push.notifyOff", "params": { "key": <fcm_token>, "profile": <userNickName-deviceUDID> }}
-        case .notifyPushOff(let fcmTokenValue):
+        //  Template { "id": 72, "jsonrpc": "2.0", "method": "push.notifyOff", "params": { "key": <fcm_token>, "profile": <userNickName-deviceUDID>, "app": <gls> }}
+        case .notifyPushOff(let fcmTokenValue, let appProfileType):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.push.rawValue,
                      methodName:        "notifyOff",
                      parameters:        [
-                                            "app":      "gls",
+                                            "app":      appProfileType.rawValue,
                                             "key":      fcmTokenValue,
                                             "profile":  String(format: "%@-%@", Config.currentUser?.id ?? "", Config.currentDeviceType)
                                         ])

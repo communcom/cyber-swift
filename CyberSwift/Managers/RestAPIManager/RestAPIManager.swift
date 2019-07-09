@@ -215,13 +215,14 @@ public class RestAPIManager {
     }
     
     // API `push.notifyOn`
-    public func pushNotifyOn(fcmToken:             String,
-                              responseHandling:     @escaping (ResponseAPINotifyPushOn) -> Void,
-                              errorHandling:        @escaping (ErrorAPI) -> Void) {
+    public func pushNotifyOn(fcmToken:              String,
+                             appProfileType:        AppProfileType = AppProfileType.golos,
+                             responseHandling:      @escaping (ResponseAPINotifyPushOn) -> Void,
+                             errorHandling:         @escaping (ErrorAPI) -> Void) {
         // Offline mode
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
-        let methodAPIType = MethodAPIType.notifyPushOn(fcmToken: fcmToken)
+        let methodAPIType = MethodAPIType.notifyPushOn(fcmToken: fcmToken, appProfileType: appProfileType)
         
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                              onResult:          { responseAPIResult in
@@ -241,7 +242,8 @@ public class RestAPIManager {
     }
     
     // API `push.notifyOff`
-    public func pushNotifyOff(responseHandling:     @escaping (ResponseAPINotifyPushOff) -> Void,
+    public func pushNotifyOff(appProfileType:       AppProfileType = AppProfileType.golos,
+                              responseHandling:     @escaping (ResponseAPINotifyPushOff) -> Void,
                               errorHandling:        @escaping (ErrorAPI) -> Void) {
         // Offline mode
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
@@ -250,7 +252,7 @@ public class RestAPIManager {
             return errorHandling(ErrorAPI.invalidData(message: "FCM token key don't found".localized()))
         }
         
-        let methodAPIType = MethodAPIType.notifyPushOff(fcmToken: fcmToken)
+        let methodAPIType = MethodAPIType.notifyPushOff(fcmToken: fcmToken, appProfileType: appProfileType)
         
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                              onResult:          { responseAPIResult in
