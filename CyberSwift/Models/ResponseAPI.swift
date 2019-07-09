@@ -192,7 +192,7 @@ public struct ResponseAPIContentGetPost: Decodable {
     public let payout: ResponseAPIContentGetPostPayout
     public let contentId: ResponseAPIContentGetPostContentId
     public let meta: ResponseAPIContentGetPostMeta
-    public let author: ResponseAPIContentGetPostAuthor?
+    public let author: ResponseAPIAuthor?
     public let community: ResponseAPIContentGetPostCommunity
 }
 
@@ -304,11 +304,6 @@ public struct ResponseAPIContentGetPostMeta: Decodable {
     public let time: String
 }
 
-public struct ResponseAPIContentGetPostAuthor: Decodable {
-    public let userId: String
-    public let username: String?
-}
-
 public struct ResponseAPIContentGetPostCommunity: Decodable {
     public let id: String
     public let name: String
@@ -357,7 +352,7 @@ public struct ResponseAPIContentGetComment: Decodable {
     public let payout: ResponseAPIContentGetCommentPayout
     public let contentId: ResponseAPIContentGetCommentContentId
     public let meta: ResponseAPIContentGetCommentMeta
-    public let author: ResponseAPIContentGetCommentAuthor?
+    public let author: ResponseAPIAuthor?
     public let parent: ResponseAPIContentGetCommentParent
     public let parentComment: ResponseAPIContentGetCommentParentComment?
 }
@@ -400,9 +395,15 @@ public struct ResponseAPIContentGetCommentMeta: Decodable {
     public let time: String
 }
 
-public struct ResponseAPIContentGetCommentAuthor: Decodable {
+public struct ResponseAPIAuthor: Decodable {
     public let userId: String
     public let username: String?
+    public let avatarUrl: String?
+    public let stats: ResponseAPIAuthorStats?
+}
+
+public struct ResponseAPIAuthorStats: Decodable {
+    public let reputation: UInt64?
 }
 
 public struct ResponseAPIContentGetCommentParent: Decodable {
