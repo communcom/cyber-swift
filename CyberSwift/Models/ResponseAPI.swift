@@ -353,7 +353,7 @@ public struct ResponseAPIContentGetComments: Decodable {
 
 public struct ResponseAPIContentGetComment: Decodable {
     public let content: ResponseAPIContentGetCommentContent
-    public let votes: ResponseAPIContentVotes
+    public var votes: ResponseAPIContentVotes
     public let payout: ResponseAPIContentGetCommentPayout
     public let contentId: ResponseAPIContentGetCommentContentId
     public let meta: ResponseAPIContentGetCommentMeta
