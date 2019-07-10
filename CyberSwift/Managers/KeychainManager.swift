@@ -8,9 +8,11 @@
 
 import Locksmith
 import Foundation
+import RxCocoa
 
 public class KeychainManager {
     private static let communService = "io.commun.eos.ios"
+    public static let registrationStep = BehaviorRelay<CurrentUserRegistrationStep>(value: .firstStep)
     
     // MARK: - Deleting
     /// Delete stored data from Keychain
@@ -31,7 +33,10 @@ public class KeychainManager {
         let id = data[Config.currentUserIDKey] as? String
         let name = data[Config.currentUserNameKey] as? String
         
-        let registrationStep = data[Config.registrationStepKey] as? String ?? "firstStep"
+        let registrationStep = CurrentUserRegistrationStep(rawValue:
+            data[Config.registrationStepKey] as? String ?? "firstStep")!
+        self.registrationStep.accept(registrationStep)
+        
         let phone = data[Config.registrationUserPhoneKey] as? String
         let smsCode = data[Config.registrationSmsCodeKey] as? UInt64
         let smsRetryCode = data[Config.registrationSmsNextRetryKey] as? String
@@ -58,7 +63,7 @@ public class KeychainManager {
         return CurrentUser(
             id: id,
             name: name,
-            registrationStep: CurrentUserRegistrationStep(rawValue: registrationStep)!,
+            registrationStep: registrationStep,
             phoneNumber: phone,
             smsCode: smsCode,
             smsNextRetry: smsRetryCode,
@@ -80,6 +85,10 @@ public class KeychainManager {
         
         for (key, value) in data {
             dataToSave[key] = value
+        }
+        
+        if let step = data[Config.registrationStepKey] as? String {
+            registrationStep.accept(CurrentUserRegistrationStep(rawValue: step)!)
         }
         
         try Locksmith.updateData(data: dataToSave, forUserAccount: Config.currentUserIDKey, inService: communService)
