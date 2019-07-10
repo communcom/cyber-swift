@@ -31,11 +31,12 @@ public class KeychainManager {
         let id = data[Config.currentUserIDKey] as? String
         let name = data[Config.currentUserNameKey] as? String
         
-        let registrationStep = data[Config.registrationStepKey] as? String
+        let registrationStep = data[Config.registrationStepKey] as? String ?? "firstStep"
         let phone = data[Config.registrationUserPhoneKey] as? String
         let smsCode = data[Config.registrationSmsCodeKey] as? UInt64
         let smsRetryCode = data[Config.registrationSmsNextRetryKey] as? String
         
+        let settingStep = data[Config.settingStepKey] as? String
         let passcode = data[Config.currentUserPasscodeKey] as? String
         
         let memoKeys = UserKeys(
@@ -54,22 +55,19 @@ public class KeychainManager {
             privateKey: data[Config.currentUserPrivateActiveKey] as? String,
             publicKey: data[Config.currentUserPublicActiveKey] as? String)
         
-        
         return CurrentUser(
             id: id,
             name: name,
-            passcode: passcode,
-            
-            registrationStep: registrationStep != nil ? CurrentUserRegistrationStep(rawValue: registrationStep!) : nil,
+            registrationStep: CurrentUserRegistrationStep(rawValue: registrationStep)!,
             phoneNumber: phone,
             smsCode: smsCode,
             smsNextRetry: smsRetryCode,
-            
+            settingStep: settingStep != nil ? CurrentUserSettingStep(rawValue: settingStep!) : nil,
+            passcode: passcode,
             memoKeys: memoKeys,
             ownerKeys: ownerKeys,
             activeKeys: activeKeys,
-            postingKeys: postingKeys
-        )
+            postingKeys: postingKeys)
     }
     
     // MARK: - Saving

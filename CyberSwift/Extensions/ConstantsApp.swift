@@ -65,6 +65,7 @@ public struct Config {
     public static let currentUserIDKey: String              =   "currentUserIDKey"
     public static let currentUserNameKey: String            =   "currentUserNameKey"
     public static let registrationStepKey: String           =   "registrationStepKey"
+    public static let settingStepKey: String                =   "settingStepKey"
     public static let registrationSmsCodeKey: String        =   "registrationSmsCodeKey"
     public static let registrationUserPhoneKey: String      =   "registrationUserPhoneKey"
     
@@ -81,7 +82,6 @@ public struct Config {
     public static let currentUserPublickMemoKey: String     =   "currentUserPublickMemoKey"
     
     public static let currentUserAvatarUrlKey: String       =   "currentUserAvatarUrlKey"
-    public static let isCurrentUserLoggedKey: String        =   "isCurrentUserLoggedKey"
     
     public static let currentUserThemeKey: String           =   "currentUserThemeKey"
 }

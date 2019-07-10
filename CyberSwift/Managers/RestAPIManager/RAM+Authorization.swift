@@ -181,7 +181,7 @@ extension Reactive where Base: RestAPIManager {
                 }
                 
                 try KeychainManager.save(data: [
-                    Config.registrationStepKey: CurrentUserRegistrationStep.setPasscode.rawValue,
+                    Config.registrationStepKey: CurrentUserRegistrationStep.registered.rawValue,
                     Config.currentUserNameKey: result.username,
                     Config.currentUserIDKey: result.userId,
                     Config.currentUserPublicOwnerKey: userkeys["owner"]!.publicKey!,
@@ -196,9 +196,9 @@ extension Reactive where Base: RestAPIManager {
                 
                 return result
             }
-            .flatMap {_ in
-                return self.authorize()
-            }
+//            .flatMap {_ in
+//                return self.authorize()
+//            }
             .flatMapToCompletable()
     }
     
@@ -206,7 +206,7 @@ extension Reactive where Base: RestAPIManager {
     public func setPasscode(_ passcode: String) throws {
         guard passcode.count == 4, Int(passcode) != nil else {return}
         try KeychainManager.save(data: [
-            Config.registrationStepKey: CurrentUserRegistrationStep.setFaceId.rawValue,
+            Config.settingStepKey: CurrentUserSettingStep.setFaceId.rawValue,
             Config.currentUserPasscodeKey: passcode
         ])
     }
@@ -215,7 +215,7 @@ extension Reactive where Base: RestAPIManager {
     public func backUpICloud() throws {
         iCloudManager.saveUser()
         try KeychainManager.save(data: [
-            Config.registrationStepKey: CurrentUserRegistrationStep.setAvatar.rawValue
+            Config.settingStepKey: CurrentUserSettingStep.setAvatar.rawValue
         ])
     }
     
@@ -242,7 +242,8 @@ extension Reactive where Base: RestAPIManager {
                 }
                 
                 var dataToSave: [String: Any] = [
-                    Config.currentUserNameKey: result.displayName
+                    Config.currentUserNameKey: result.displayName,
+                    Config.registrationStepKey: CurrentUserRegistrationStep.registered.rawValue
                 ]
                 
                 if let login = login {dataToSave[Config.currentUserIDKey] = login}
@@ -253,9 +254,6 @@ extension Reactive where Base: RestAPIManager {
                 return result
             }
             .do(onSuccess: {result in
-                // Save to UserDefault
-                UserDefaults.standard.set(true, forKey: Config.isCurrentUserLoggedKey)
-                
                 // API `push.notifyOn`
                 if let fcmToken = UserDefaults.standard.value(forKey: "fcmToken") as? String {
                     RestAPIManager.instance.pushNotifyOn(

@@ -23,7 +23,6 @@ public class WebSocketManager {
     }
     
     public static let instance = WebSocketManager()
-    public let authorized = BehaviorRelay<Bool>(value: false)
 
     private var errorAPI: ErrorAPI?
     
@@ -39,39 +38,6 @@ public class WebSocketManager {
         
         webSocket.connect()
         webSocket.delegate = WebSocketManager.instance
-        
-        WebSocketManager.instance.completionIsConnected = {
-            if !UserDefaults.standard.bool(forKey: Config.isCurrentUserLoggedKey) {
-                self.authorized.accept(false)
-                return
-            }
-            
-            if let _ = Config.currentUser?.id,
-                let _ = Config.currentUser?.activeKey {
-                
-                _ = RestAPIManager.instance.rx.authorize()
-                    .subscribe(onSuccess: { (response) in
-                        self.authorized.accept(true)
-                    }, onError: { (error) in
-                        if let error = error as? ErrorAPI {
-                            switch error.caseInfo.message {
-                            case "Secret verification failed - access denied",
-                                 "Public key verification failed - access denied",
-                                 "Sign is not a valid signature",
-                                 "Cannot get such account from BC":
-                                self.authorized.accept(false)
-                            default:
-                                return
-                            }
-                        }
-                        
-                    })
-                
-                return
-            }
-            
-            self.authorized.accept(false)
-        }
     }
     
     public func disconnect() {
