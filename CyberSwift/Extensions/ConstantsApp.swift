@@ -34,6 +34,8 @@ public struct Config {
     public static var isPublicTestnet: Bool             =   false
     static let blockchain_API_URL: String               =   isPublicTestnet ? "http://116.202.4.39:8888/"   :   "http://46.4.96.246:8888/"
     static let gate_API_IP: String                      =   isPublicTestnet ? "ws://116.203.98.241:8080/"   :   "ws://159.69.33.136:8080/"
+    
+    // Don't use!!!
     static let gate_API_URL: String                     =   isPublicTestnet ? "wss://cyber-gate.golos.io/"  :   "wss://gate.commun.com/"
     
     public static let testingPassword: String           =   "machtfrei"

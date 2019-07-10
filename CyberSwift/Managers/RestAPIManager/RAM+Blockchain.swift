@@ -21,27 +21,24 @@ extension Reactive where Base: RestAPIManager {
         // Offline mode
         if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
-        return EOSManager.vote(voteType:     voteType,
-                                  author:       author,
-                                  permlink:     permlink,
-                                  weight:       voteType == .unvote ? 0 : 1)
+        return EOSManager.vote(voteType:    voteType,
+                               author:      author,
+                               permlink:    permlink,
+                               weight:      voteType == .unvote ? 0 : 1)
     }
     
     public func create(message:             String,
                        headline:            String? = nil,
                        parentPermlink:      String? = nil,
+                       author:              String,
                        tags:                [String]?,
                        metaData:            String) -> Single<ChainResponse<TransactionCommitted>> {
         // Offline mode
         if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
-        
-        guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKey else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
-        }
-        
+
         let arrayTags = tags == nil ? [EOSTransaction.Tags()] : tags!.map({ EOSTransaction.Tags.init(tagValue: $0) })
         
-        let messageCreateArgs = EOSTransaction.MessageCreateArgs(authorValue:        userID,
+        let messageCreateArgs = EOSTransaction.MessageCreateArgs(authorValue:        author,
                                                                  parentPermlink:     parentPermlink,
                                                                  headermssgValue:    headline ?? String(format: "Test Post Title %i", arc4random_uniform(100)),
                                                                  bodymssgValue:      message,

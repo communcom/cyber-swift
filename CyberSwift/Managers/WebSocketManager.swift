@@ -11,7 +11,10 @@ import RxCocoa
 import Foundation
 import Starscream
 
-var webSocket = WebSocket(url: URL(string: Config.gate_API_URL)!)
+var webSocket = WebSocket(url: URL(string: Config.gate_API_IP)!)
+
+#warning("Remove after test")
+//var webSocket = WebSocket(url: URL(string: Config.gate_API_URL)!)
 
 public class WebSocketManager {
     // MARK: - Properties

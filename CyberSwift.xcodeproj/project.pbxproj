@@ -135,9 +135,9 @@
 		3B1E901422CDEC2F00D7A0C1 /* RestAPIManager */ = {
 			isa = PBXGroup;
 			children = (
-				B1677C65223F9BD7005FB286 /* RestAPIManager.swift */,
 				3B1E901522CDEC6A00D7A0C1 /* RAM+Authorization.swift */,
 				3BBBE2972295AAE90029C9C9 /* RAM+Blockchain.swift */,
+				B1677C65223F9BD7005FB286 /* RestAPIManager.swift */,
 			);
 			path = RestAPIManager;
 			sourceTree = "<group>";
@@ -210,13 +210,14 @@
 		B1C3F853223F98A6005711EF /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				B1C3F85D223F98DC005711EF /* Logger.swift */,
 				B179916F2269B4060014CB44 /* Array+Extensions.swift */,
 				3BCDB40A2260E9C300739F7E /* Bool+Extensions.swift */,
 				B1C3F855223F98B1005711EF /* ConstantsApp.swift */,
 				B179916D2269B3EA0014CB44 /* Data+Extensions.swift */,
 				B1C3F854223F98B1005711EF /* Date+Extensions.swift */,
 				B1C3F856223F98B1005711EF /* Encodable+Extensions.swift */,
+				B1C3F85D223F98DC005711EF /* Logger.swift */,
+				3B5D91C522CE14E100BB7DCC /* MethodAPIType.swift */,
 				3BBBE2992296A8A10029C9C9 /* RxSwift.swift */,
 				B17991712269B4280014CB44 /* String+Extensions.swift */,
 				B1EA02CC22895EB400835244 /* UIButton+Extensions.swift */,
@@ -226,7 +227,6 @@
 				B1EA02CB22895EB300835244 /* UILabel+Extensions.swift */,
 				B1EA02F52289D3B400835244 /* UITextField+Extensions.swift */,
 				B1EA0318228A985400835244 /* UIView+Extensions.swift */,
-				3B5D91C522CE14E100BB7DCC /* MethodAPIType.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
