@@ -79,7 +79,7 @@ public class EOSTransaction: ChainTransaction {
             let prefixTitle         =   parentPermlink == nil ? headermssgValue : "Comment"
             let messagePermlink     =   String.permlinkWith(string: prefixTitle)
             
-            self.message_id         =   Mssgid(authorValue: authorValue, permlinkValue: messagePermlink)
+            self.message_id         =   Mssgid(authorValue: parentPermlink == nil ? authorValue : (Config.currentUser?.id)!, permlinkValue: messagePermlink)
             self.parent_id          =   parentPermlink == nil ? Mssgid() : Mssgid(authorValue: authorValue, permlinkValue: parentPermlink ?? messagePermlink)
             self.beneficiaries      =   beneficiariesValues
             self.tokenprop          =   tokenpropValue
