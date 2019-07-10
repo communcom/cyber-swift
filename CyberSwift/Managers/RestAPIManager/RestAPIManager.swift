@@ -248,11 +248,7 @@ public class RestAPIManager {
         // Offline mode
         if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
         
-        guard let fcmToken = UserDefaults.standard.value(forKey: "fcmToken") as? String else {
-            return errorHandling(ErrorAPI.invalidData(message: "FCM token key don't found".localized()))
-        }
-        
-        let methodAPIType = MethodAPIType.notifyPushOff(fcmToken: fcmToken, appProfileType: appProfileType)
+        let methodAPIType = MethodAPIType.notifyPushOff(appProfileType: appProfileType)
         
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                              onResult:          { responseAPIResult in
