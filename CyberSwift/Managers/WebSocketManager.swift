@@ -97,6 +97,7 @@ public class WebSocketManager {
             
             if let method = json["method"] as? String, method == "sign" {
                 self.completionIsConnected!()
+                self.completionIsConnected = nil
             }
             
             return
