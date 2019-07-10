@@ -31,6 +31,12 @@ public struct CurrentUser {
     public let ownerKeys: UserKeys?
     public let activeKeys: UserKeys?
     public let postingKeys: UserKeys?
+    
+    public static func logout() throws {
+        try KeychainManager.deleteUser()
+        PDFManager.deletePDFDocument()
+        KeychainManager.registrationStep.accept(.firstStep)
+    }
 }
 
 public struct UserKeys {
