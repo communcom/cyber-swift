@@ -16,6 +16,9 @@ public struct CurrentUser {
         return activeKeys?.privateKey
     }
     
+    // Passcode
+    public var passcode: String?
+    
     // Registration keys
     public var registrationStep: CurrentUserRegistrationStep?
     public var phoneNumber: String?
@@ -44,6 +47,10 @@ public enum CurrentUserRegistrationStep: String {
     case verify         = "verify"
     case setUserName    = "setUsername"
     case toBlockChain   = "toBlockChain"
+    case setPasscode    = "setPasscode"
+    // FaceId = FaceId or TouchId (optional)
+    case setFaceId      = "setFaceId"
+    case backUpICloud   = "backUpICloud"
     case setAvatar      = "setAvatar"
     case setBio         = "setBio"
     case registered     = "registered"

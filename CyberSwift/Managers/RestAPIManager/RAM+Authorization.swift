@@ -181,7 +181,7 @@ extension Reactive where Base: RestAPIManager {
                 }
                 
                 try KeychainManager.save(data: [
-                    Config.registrationStepKey: CurrentUserRegistrationStep.setAvatar.rawValue,
+                    Config.registrationStepKey: CurrentUserRegistrationStep.setPasscode.rawValue,
                     Config.currentUserNameKey: result.username,
                     Config.currentUserIDKey: result.userId,
                     Config.currentUserPublicOwnerKey: userkeys["owner"]!.publicKey!,
@@ -200,13 +200,23 @@ extension Reactive where Base: RestAPIManager {
                 return self.authorize()
             }
             .flatMapToCompletable()
-            .do(onCompleted: {
-                // Save pdf
-                PDFManager.createPDFFile()
-                
-                // Save in iCloud keyvalue
-                iCloudManager.saveUser()
-            })
+    }
+    
+    /// Set passcode
+    public func setPasscode(_ passcode: String) throws {
+        guard passcode.count == 4, Int(passcode) != nil else {return}
+        try KeychainManager.save(data: [
+            Config.registrationStepKey: CurrentUserRegistrationStep.setFaceId.rawValue,
+            Config.currentUserPasscodeKey: passcode
+        ])
+    }
+    
+    /// backupIcloud
+    public func backUpICloud() throws {
+        iCloudManager.saveUser()
+        try KeychainManager.save(data: [
+            Config.registrationStepKey: CurrentUserRegistrationStep.setAvatar.rawValue
+        ])
     }
     
     /// Authorize registration user or login

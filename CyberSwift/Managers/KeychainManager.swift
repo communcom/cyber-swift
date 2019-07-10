@@ -36,6 +36,8 @@ public class KeychainManager {
         let smsCode = data[Config.registrationSmsCodeKey] as? UInt64
         let smsRetryCode = data[Config.registrationSmsNextRetryKey] as? String
         
+        let passcode = data[Config.currentUserPasscodeKey] as? String
+        
         let memoKeys = UserKeys(
             privateKey: data[Config.currentUserPrivateMemoKey] as? String,
             publicKey: data[Config.currentUserPublickMemoKey] as? String)
@@ -56,6 +58,7 @@ public class KeychainManager {
         return CurrentUser(
             id: id,
             name: name,
+            passcode: passcode,
             
             registrationStep: registrationStep != nil ? CurrentUserRegistrationStep(rawValue: registrationStep!) : nil,
             phoneNumber: phone,

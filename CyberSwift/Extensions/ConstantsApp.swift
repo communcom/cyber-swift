@@ -68,6 +68,8 @@ public struct Config {
     public static let registrationSmsCodeKey: String        =   "registrationSmsCodeKey"
     public static let registrationUserPhoneKey: String      =   "registrationUserPhoneKey"
     
+    public static let currentUserPasscodeKey: String        =   "currentUserPasscodeKey"
+    
     public static let registrationSmsNextRetryKey: String   =   "registrationSmsNextRetryKey"
     public static let currentUserPrivateOwnerKey: String    =   "currentUserPrivateOwnerKey"
     public static let currentUserPublicOwnerKey: String     =   "currentUserPublicOwnerKey"
