@@ -335,8 +335,8 @@ public indirect enum MethodAPIType {
                                                     "profile":  String(format: "%@-%@", Config.currentUser?.id ?? "", Config.currentDeviceType)
                                                 ]
 
-            if type == .push {
-                parameters["push"]      =   String(format: "{\"lang\": \"%@\", \"show\": {%@}}", "ru", options.getNoticeOptionsValues())
+            if type == .push, let pushLanguage = UserDefaults.standard.value(forKey: Config.currentUserAppLanguageKey) as? String {
+                parameters["push"]      =   String(format: "{\"lang\": \"%@\", \"show\": {%@}}", pushLanguage, options.getNoticeOptionsValues())
             }
             
             if type == .notify {

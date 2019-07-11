@@ -82,4 +82,5 @@ public struct Config {
     public static let isCurrentUserLoggedKey: String        =   "isCurrentUserLoggedKey"
     
     public static let currentUserThemeKey: String           =   "currentUserThemeKey"
+    public static let currentUserAppLanguageKey: String     =   "currentUserAppLanguageKey"
 }
