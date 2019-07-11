@@ -258,7 +258,7 @@ extension Reactive where Base: RestAPIManager {
                 if let error = error as? ErrorAPI {
                     let message = error.caseInfo.message
                     
-                    if message == "There is no secret stored for this channelId. Probably, client's already authorized",
+                    if message == "There is no secret stored for this channelId. Probably, client's already authorized" ||
                         message == "Secret verification failed - access denied"{
                         // retrieve secret
                         return self.generateSecret()
