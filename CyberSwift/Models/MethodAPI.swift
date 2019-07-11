@@ -128,7 +128,7 @@ public indirect enum MethodAPIType {
     case setBasicOptions(nsfw: String, language: String)
     
     //  Set Push/Notify options
-    case setNotice(options: RequestParameterAPI.NoticeOptions, type: NoticeType)
+    case setNotice(options: RequestParameterAPI.NoticeOptions, type: NoticeType, appProfileType: AppProfileType)
     
     //  Mark specified notifications as read
     #warning("Not work version")
@@ -329,8 +329,11 @@ public indirect enum MethodAPIType {
                                         ])
 
         //  Template { "id": 13, "jsonrpc": "2.0", "method": "options.set", "params": { "profile": <userNickName-deviceUDID>, "push": { "lang": <languageValue>, "show": { "vote": <voteValue>, "flag": <flagValue>, "reply": <replyValue>, "transfer": <transferValue>, "subscribe": <subscribeValue>, "unsubscribe": <unsibscribeValue>, "mention": <mentionValue>, "repost": <repostValue>,  "message": <messageValue>, "witnessVote": <witnessVoteValue>, "witnessCancelVote": <witnessCancelVoteValue>, "reward": <rewardValue>, "curatorReward": <curatorRewardValue> }}}
-        case .setNotice(let options, let type):
-            var parameters: [String: String] = [ "profile":  String(format: "%@-%@", Config.currentUser?.id ?? "", Config.currentDeviceType) ]
+        case .setNotice(let options, let type, let appProfileType):
+            var parameters: [String: String] =  [
+                                                    "app":      appProfileType.rawValue,
+                                                    "profile":  String(format: "%@-%@", Config.currentUser?.id ?? "", Config.currentDeviceType)
+                                                ]
 
             if type == .push {
                 parameters["push"]      =   String(format: "{\"lang\": \"%@\", \"show\": {%@}}", "ru", options.getNoticeOptionsValues())

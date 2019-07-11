@@ -458,6 +458,7 @@ public class RestAPIManager {
     // API notify/push `options.set`
     public func set(options:            RequestParameterAPI.NoticeOptions,
                     type:               NoticeType,
+                    appProfileType:     AppProfileType = .cyber,
                     responseHandling:   @escaping (ResponseAPISetOptionsNotice) -> Void,
                     errorHandling:      @escaping (ErrorAPI) -> Void) {
         // Offline mode
@@ -466,7 +467,7 @@ public class RestAPIManager {
         // Check user authorize
         guard (Config.currentUser?.id != nil) else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
         
-        let methodAPIType = MethodAPIType.setNotice(options: options, type: type)
+        let methodAPIType = MethodAPIType.setNotice(options: options, type: type, appProfileType: appProfileType)
         
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                              onResult:          { (responseAPIResult) in
