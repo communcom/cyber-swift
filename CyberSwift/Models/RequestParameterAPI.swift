@@ -92,8 +92,8 @@ public struct RequestParameterAPI {
     // MARK: -
     public struct NoticeOptions: Encodable {
         // MARK: - Properties
-        public let vote: Bool
-        public let flag: Bool
+        public let upvote: Bool
+        public let downvote: Bool
         public let transfer: Bool
         public let reply: Bool
         public let subscribe: Bool
@@ -102,15 +102,14 @@ public struct RequestParameterAPI {
         public let repost: Bool
         public let reward: Bool
         public let curatorReward: Bool
-        public let message: Bool
         public let witnessVote: Bool
         public let witnessCancelVote: Bool
         
         
         // MARK: - Initialization
-        public init(vote: Bool = true, flag: Bool = true, transfer: Bool = true, reply: Bool = true, subscribe: Bool = true, unsubscribe: Bool = true, mention: Bool = true, repost: Bool = true, reward: Bool = true, curatorReward: Bool = true, message: Bool = true, witnessVote: Bool = true, witnessCancelVote: Bool = true) {
-            self.vote               =   vote
-            self.flag               =   flag
+        public init(upvote: Bool = true, downvote: Bool = true, transfer: Bool = true, reply: Bool = true, subscribe: Bool = true, unsubscribe: Bool = true, mention: Bool = true, repost: Bool = true, reward: Bool = true, curatorReward: Bool = true, message: Bool = true, witnessVote: Bool = true, witnessCancelVote: Bool = true) {
+            self.upvote             =   upvote
+            self.downvote           =   downvote
             self.transfer           =   transfer
             self.reply              =   reply
             self.subscribe          =   subscribe
@@ -119,15 +118,14 @@ public struct RequestParameterAPI {
             self.repost             =   repost
             self.reward             =   reward
             self.curatorReward      =   curatorReward
-            self.message            =   message
             self.witnessVote        =   witnessVote
             self.witnessCancelVote  =   witnessCancelVote
         }
         
         // MARK: - Functions
-        // Template: "upvote": <upvote>, "downvote": <downvote>, "reply": <reply>, "transfer": <transfer>, "subscribe": <subscribe>, "unsubscribe": <unsibscribe>, "mention": <mention>, "repost": <repost>,  "message": <message>, "witnessVote": <witnessVote>, "witnessCancelVote": <witnessCancelVote>, "reward": <reward>, "curatorReward": <curatorReward>
+        // Template: "upvote": <upvote>, "downvote": <downvote>, "transfer": <transfer>, "reply": <reply>, "subscribe": <subscribe>, "unsubscribe": <unsibscribe>, "mention": <mention>, "repost": <repost>, "reward": <reward>, "curatorReward": <curatorReward>, "witnessVote": <witnessVote>, "witnessCancelVote": <witnessCancelVote>,
         public func getNoticeOptionsValues() -> String {
-            return  String(format: "\"vote\": %d, \"flag\": %d, \"reply\": %d, \"transfer\": %d, \"subscribe\": %d, \"unsubscribe\": %d, \"mention\": %d, \"repost\": %d, \"message\": %d, \"witnessVote\": %d, \"witnessCancelVote\": %d, \"reward\": %d, \"curatorReward\": %d", self.vote.intValue, self.flag.intValue, self.reply.intValue, self.transfer.intValue, self.subscribe.intValue, self.unsubscribe.intValue, self.mention.intValue, self.repost.intValue, self.message.intValue, self.witnessVote.intValue, self.witnessCancelVote.intValue, self.reward.intValue, self.curatorReward.intValue)
+            return  String(format: "\"upvote\": \"%@\", \"downvote\": \"%@\", \"transfer\": \"%@\", \"reply\": \"%@\", \"subscribe\": \"%@\", \"unsubscribe\": \"%@\", \"mention\": \"%@\", \"repost\": \"%@\", \"reward\": \"%@\", \"curatorReward\": \"%@\", \"witnessVote\": \"%@\", \"witnessCancelVote\": \"%@\"", self.upvote, self.downvote, self.transfer, self.reply, self.subscribe, self.unsubscribe, self.mention, self.repost, self.reward, self.curatorReward, self.witnessVote, self.witnessCancelVote)
         }
     }
 }
