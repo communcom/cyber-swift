@@ -220,7 +220,7 @@ extension Reactive where Base: RestAPIManager {
     }
     
     /// Authorize registration user or login
-    public func authorize(login: String? = nil, key: String? = nil) -> Single<ResponseAPIAuthAuthorize> {
+    public func authorize(login: String? = nil, key: String? = nil, secret: String? = nil) -> Single<ResponseAPIAuthAuthorize> {
         // Offline mode
         if (!Config.isNetworkAvailable) {
             return .error(ErrorAPI.disableInternetConnection(message: nil)) }
@@ -232,7 +232,7 @@ extension Reactive where Base: RestAPIManager {
             return .error(ErrorAPI.requestFailed(message: "userId or activeKey missing"))
         }
         
-        let methodAPIType = MethodAPIType.authorize(userID: userId, activeKey: activeKey)
+        let methodAPIType = MethodAPIType.authorize(userID: userId, activeKey: activeKey, secret: secret)
         
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
             .log(method: "auth.authorize")
@@ -254,6 +254,18 @@ extension Reactive where Base: RestAPIManager {
                 
                 return result
             }
+            .catchError({ (error) -> Single<ResponseAPIAuthAuthorize> in
+                if let error = error as? ErrorAPI {
+                    if error.caseInfo.message == "There is no secret stored for this channelId. Probably, client's already authorized" {
+                        // retrieve secret
+                        return self.generateSecret()
+                            .flatMap {
+                                return self.authorize(login: login, key: key, secret: $0)
+                            }
+                    }
+                }
+                throw error
+            })
             .do(onSuccess: {result in
                 // API `push.notifyOn`
                 if let fcmToken = UserDefaults.standard.value(forKey: "fcmToken") as? String {
@@ -279,6 +291,25 @@ extension Reactive where Base: RestAPIManager {
                     }
                 }
             })
+    }
+    
+    /// Generate secret
+    private func generateSecret() -> Single<String> {
+        // Offline mode
+        if (!Config.isNetworkAvailable) {
+            return .error(ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        let methodAPIType = MethodAPIType.generateSecret
+        
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+            .log(method: "auth.generateSecret")
+            .map {result in
+                guard let result = (result as? ResponseAPIAuthGenerateSecretResult)?.result else {
+                    throw ErrorAPI.unknown
+                }
+                return result.secret
+            }
+        
     }
     
     // MARK: - Private functions

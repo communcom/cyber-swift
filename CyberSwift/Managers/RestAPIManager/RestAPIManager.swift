@@ -23,31 +23,6 @@ public class RestAPIManager {
     public static let instance = RestAPIManager()
     
     // MARK: - FACADE-SERVICE
-    // API `auth.generateSecret`
-    private func generateSecret(completion: @escaping (ResponseAPIAuthGenerateSecret?, ErrorAPI?) -> Void) {
-        // Offline mode
-        if (!Config.isNetworkAvailable) { return completion(nil, ErrorAPI.disableInternetConnection(message: nil)) }
-        
-        let methodAPIType = MethodAPIType.generateSecret
-        
-        Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
-                                             onResult:          { (responseAPIResult) in
-                                                guard let result = (responseAPIResult as! ResponseAPIAuthGenerateSecretResult).result else {
-                                                    let responseAPIError = (responseAPIResult as! ResponseAPIAuthGenerateSecretResult).error
-                                                    Logger.log(message: "\nAPI `auth.generateSecret` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
-                                                    return completion(nil, ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
-                                                }
-                                                
-                                                Logger.log(message: "\nAPI `auth.generateSecret` response result: \n\(responseAPIResult)\n", event: .debug)
-                                                completion(result, nil)
-        },
-                                             onError:           { (errorAPI) in
-                                                Logger.log(message: "\nAPI `auth.generateSecret` response error: \n\(errorAPI.localizedDescription)\n", event: .debug)
-                                                
-                                                completion(nil, errorAPI)
-        })
-    }
-    
     // API `content.getProfile`
     public func getProfile(userID:          String,
                            appProfileType:  AppProfileType = .cyber,
