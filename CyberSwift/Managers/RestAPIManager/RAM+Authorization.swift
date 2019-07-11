@@ -256,12 +256,13 @@ extension Reactive where Base: RestAPIManager {
             }
             .catchError({ (error) -> Single<ResponseAPIAuthAuthorize> in
                 if let error = error as? ErrorAPI {
-                    if error.caseInfo.message == "There is no secret stored for this channelId. Probably, client's already authorized" {
+                    let message = error.caseInfo.message
+                    
+                    if message == "There is no secret stored for this channelId. Probably, client's already authorized",
+                        message == "Secret verification failed - access denied"{
                         // retrieve secret
                         return self.generateSecret()
-                            .flatMap { newSecret in
-                                return self.authorize(login: login, key: key)
-                            }
+                            .andThen(self.authorize(login: login, key: key))
                     }
                 }
                 throw error
@@ -294,7 +295,7 @@ extension Reactive where Base: RestAPIManager {
     }
     
     /// Generate secret
-    private func generateSecret() -> Single<String> {
+    private func generateSecret() -> Completable {
         // Offline mode
         if (!Config.isNetworkAvailable) {
             return .error(ErrorAPI.disableInternetConnection(message: nil)) }
@@ -303,14 +304,13 @@ extension Reactive where Base: RestAPIManager {
         
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
             .log(method: "auth.generateSecret")
-            .map {result in
+            .flatMapCompletable {result in
                 guard let result = (result as? ResponseAPIAuthGenerateSecretResult)?.result else {
                     throw ErrorAPI.unknown
                 }
                 Config.webSocketSecretKey = result.secret
-                return result.secret
+                return .empty()
             }
-        
     }
     
     // MARK: - Private functions
