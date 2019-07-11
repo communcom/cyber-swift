@@ -426,8 +426,7 @@ public class RestAPIManager {
     }
     
     // API basic `options.set`
-    public func setBasicOptions(language:           String,
-                                nsfwContent:        NsfwContentMode,
+    public func setBasicOptions(nsfwContent:        NsfwContentMode,
                                 responseHandling:   @escaping (ResponseAPISetOptionsBasic) -> Void,
                                 errorHandling:      @escaping (ErrorAPI) -> Void) {
         // Offline mode
@@ -436,7 +435,7 @@ public class RestAPIManager {
         // Check user authorize
         guard Config.currentUser?.id != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
 
-        let methodAPIType = MethodAPIType.setBasicOptions(nsfw: nsfwContent.rawValue, language: language)
+        let methodAPIType = MethodAPIType.setBasicOptions(nsfw: nsfwContent.rawValue)
         
         Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
                                              onResult:          { (responseAPIResult) in

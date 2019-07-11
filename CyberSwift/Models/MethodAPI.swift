@@ -125,7 +125,7 @@ public indirect enum MethodAPIType {
     case getOptions
     
     //  Set Basic options
-    case setBasicOptions(nsfw: String, language: String)
+    case setBasicOptions(nsfw: String)
     
     //  Set Push/Notify options
     case setNotice(options: RequestParameterAPI.NoticeOptions, type: NoticeType, appProfileType: AppProfileType)
@@ -319,13 +319,15 @@ public indirect enum MethodAPIType {
                      parameters:        ["profile": String(format: "%@-%@", Config.currentUser?.id ?? "", Config.currentDeviceType)])
 
         //  Template { "id": 12, "jsonrpc": "2.0", "method": "options.set", "params": { "profile": <userNickName-deviceUDID>, "basic": { "language": "ru", "nsfwContent": "Always alert" }}}
-        case .setBasicOptions(let nsfw, let language):
+        case .setBasicOptions(let nsfw):
+            let appLanguage = UserDefaults.standard.value(forKey: Config.currentUserAppLanguageKey) as? String ?? "en"
+            
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.options.rawValue,
                      methodName:        "set",
                      parameters:        [
                                             "profile":  String(format: "%@-%@", Config.currentUser?.id ?? "", Config.currentDeviceType),
-                                            "basic":    String(format: "{\"language\": \"%@\", \"nsfwContent\": \"%@\"}", language, nsfw)
+                                            "basic":    String(format: "{\"language\": \"%@\", \"nsfwContent\": \"%@\"}", appLanguage, nsfw)
                                         ])
 
         //  Template { "id": 13, "jsonrpc": "2.0", "method": "options.set", "params": { "profile": <userNickName-deviceUDID>, "push": { "lang": <languageValue>, "show": { "vote": <voteValue>, "flag": <flagValue>, "reply": <replyValue>, "transfer": <transferValue>, "subscribe": <subscribeValue>, "unsubscribe": <unsibscribeValue>, "mention": <mentionValue>, "repost": <repostValue>,  "message": <messageValue>, "witnessVote": <witnessVoteValue>, "witnessCancelVote": <witnessCancelVoteValue>, "reward": <rewardValue>, "curatorReward": <curatorRewardValue> }}}
