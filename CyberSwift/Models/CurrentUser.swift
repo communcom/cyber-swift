@@ -34,8 +34,6 @@ public struct CurrentUser {
     
     public static func logout() throws {
         try KeychainManager.deleteUser()
-        PDFManager.deletePDFDocument()
-        KeychainManager.userRegistered.accept(false)
     }
 }
 
