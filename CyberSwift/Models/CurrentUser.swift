@@ -11,26 +11,29 @@ import Foundation
 public struct CurrentUser {
     // Main properties
     public let id: String?
-    public var name: String?
+    public let name: String?
     public var activeKey: String? {
         return activeKeys?.privateKey
     }
     
     // Registration keys
-    public var registrationStep: CurrentUserRegistrationStep?
-    public var phoneNumber: String?
-    public var smsCode: UInt64?
-    public var smsNextRetry: String?
+    public let registrationStep: CurrentUserRegistrationStep
+    public let phoneNumber: String?
+    public let smsCode: UInt64?
+    public let smsNextRetry: String?
+    
+    // Settings step
+    public let settingStep: CurrentUserSettingStep?
+    public let passcode: String?
     
     // UsersKey
-    public var memoKeys: UserKeys?
-    public var ownerKeys: UserKeys?
-    public var activeKeys: UserKeys?
-    public var postingKeys: UserKeys?
+    public let memoKeys: UserKeys?
+    public let ownerKeys: UserKeys?
+    public let activeKeys: UserKeys?
+    public let postingKeys: UserKeys?
     
-    // Methods
-    public static var loggedIn: Bool {
-        return UserDefaults.standard.bool(forKey: Config.isCurrentUserLoggedKey)
+    public static func logout() throws {
+        try KeychainManager.deleteUser()
     }
 }
 
@@ -44,7 +47,15 @@ public enum CurrentUserRegistrationStep: String {
     case verify         = "verify"
     case setUserName    = "setUsername"
     case toBlockChain   = "toBlockChain"
+    case registered     = "registered"
+}
+
+public enum CurrentUserSettingStep: String {
+    case setPasscode    = "setPasscode"
+    // FaceId = FaceId or TouchId (optional)
+    case setFaceId      = "setFaceId"
+    case backUpICloud   = "backUpICloud"
     case setAvatar      = "setAvatar"
     case setBio         = "setBio"
-    case registered     = "registered"
+    case completed      = "completed"
 }

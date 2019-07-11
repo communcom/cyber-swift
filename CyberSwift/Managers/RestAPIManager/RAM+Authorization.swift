@@ -181,7 +181,7 @@ extension Reactive where Base: RestAPIManager {
                 }
                 
                 try KeychainManager.save(data: [
-                    Config.registrationStepKey: CurrentUserRegistrationStep.setAvatar.rawValue,
+                    Config.registrationStepKey: CurrentUserRegistrationStep.registered.rawValue,
                     Config.currentUserNameKey: result.username,
                     Config.currentUserIDKey: result.userId,
                     Config.currentUserPublicOwnerKey: userkeys["owner"]!.publicKey!,
@@ -196,17 +196,27 @@ extension Reactive where Base: RestAPIManager {
                 
                 return result
             }
-            .flatMap {_ in
-                return self.authorize()
-            }
+//            .flatMap {_ in
+//                return self.authorize()
+//            }
             .flatMapToCompletable()
-            .do(onCompleted: {
-                // Save pdf
-                PDFManager.createPDFFile()
-                
-                // Save in iCloud keyvalue
-                iCloudManager.saveUser()
-            })
+    }
+    
+    /// Set passcode
+    public func setPasscode(_ passcode: String) throws {
+        guard passcode.count == 4, Int(passcode) != nil else {return}
+        try KeychainManager.save(data: [
+            Config.settingStepKey: CurrentUserSettingStep.setFaceId.rawValue,
+            Config.currentUserPasscodeKey: passcode
+        ])
+    }
+    
+    /// backupIcloud
+    public func backUpICloud() throws {
+        iCloudManager.saveUser()
+        try KeychainManager.save(data: [
+            Config.settingStepKey: CurrentUserSettingStep.setAvatar.rawValue
+        ])
     }
     
     /// Authorize registration user or login
@@ -232,7 +242,8 @@ extension Reactive where Base: RestAPIManager {
                 }
                 
                 var dataToSave: [String: Any] = [
-                    Config.currentUserNameKey: result.displayName
+                    Config.currentUserNameKey: result.displayName,
+                    Config.registrationStepKey: CurrentUserRegistrationStep.registered.rawValue
                 ]
                 
                 if let login = login {dataToSave[Config.currentUserIDKey] = login}
@@ -243,9 +254,6 @@ extension Reactive where Base: RestAPIManager {
                 return result
             }
             .do(onSuccess: {result in
-                // Save to UserDefault
-                UserDefaults.standard.set(true, forKey: Config.isCurrentUserLoggedKey)
-                
                 // API `push.notifyOn`
                 if let fcmToken = UserDefaults.standard.value(forKey: "fcmToken") as? String {
                     RestAPIManager.instance.pushNotifyOn(
@@ -256,6 +264,18 @@ extension Reactive where Base: RestAPIManager {
                         errorHandling:     { errorAPI in
                             Logger.log(message: errorAPI.caseInfo.message, event: .error)
                     })
+                }
+            }, onError: {error in
+                if let error = error as? ErrorAPI {
+                    switch error.caseInfo.message {
+                    case "Secret verification failed - access denied",
+                         "Public key verification failed - access denied",
+                         "Sign is not a valid signature",
+                         "Cannot get such account from BC":
+                        try? CurrentUser.logout()
+                    default:
+                        break
+                    }
                 }
             })
     }
