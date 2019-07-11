@@ -54,7 +54,7 @@ public class WebSocketManager {
     }
     
     public func sendMessage(_ message: String) {
-        Logger.log(message: "\nrequestMessage = \n\t\(message)", event: .debug)
+        Logger.log(message: "\nrequestMessage = \n\t\(message)", event: .info)
         
         webSocket.write(string: message)
     }
