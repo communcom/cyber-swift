@@ -243,7 +243,8 @@ extension Reactive where Base: RestAPIManager {
                 
                 var dataToSave: [String: Any] = [
                     Config.currentUserNameKey: result.displayName,
-                    Config.registrationStepKey: CurrentUserRegistrationStep.registered.rawValue
+                    Config.registrationStepKey: CurrentUserRegistrationStep.registered.rawValue,
+                    Config.settingStepKey: CurrentUserSettingStep.completed.rawValue
                 ]
                 
                 if let login = login {dataToSave[Config.currentUserIDKey] = login}
