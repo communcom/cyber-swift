@@ -222,8 +222,8 @@ public struct ResponseAPIContentGetPostContentMetadataEmbedResult: Decodable {
 }
 
 public struct ResponseAPIContentVotes: Decodable {
-    public let upCount: Int64?
-    public let downCount: Int64?
+    public var upCount: Int64?
+    public var downCount: Int64?
     public var hasUpVote: Bool
     public var hasDownVote: Bool
 }
