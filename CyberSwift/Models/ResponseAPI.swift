@@ -672,40 +672,24 @@ public struct ResponseAPIGetOptionsNotify: Decodable {
 }
 
 public struct ResponseAPIGetOptionsNotifyShow: Decodable {
-    public let upvote: Bool
-    public let downvote: Bool
-    public let transfer: Bool
-    public let reply: Bool
-    public let subscribe: Bool
-    public let unsubscribe: Bool
-    public let mention: Bool
-    public let repost: Bool
-    public let reward: Bool
-    public let curatorReward: Bool
-    public let witnessVote: Bool
-    public let witnessCancelVote: Bool
+    public var upvote: Bool
+    public var downvote: Bool
+    public var transfer: Bool
+    public var reply: Bool
+    public var subscribe: Bool
+    public var unsubscribe: Bool
+    public var mention: Bool
+    public var repost: Bool
+    public var reward: Bool
+    public var curatorReward: Bool
+    public var witnessVote: Bool
+    public var witnessCancelVote: Bool
 }
 
 public struct ResponseAPIGetOptionsNotifyPush: Decodable {
     public let lang: String
-    public let show: ResponseAPIGetOptionsNotifyPushShow
+    public let show: ResponseAPIGetOptionsNotifyShow
 }
-
-public struct ResponseAPIGetOptionsNotifyPushShow: Decodable {
-    public let upvote: Bool
-    public let downvote: Bool
-    public let transfer: Bool
-    public let reply: Bool
-    public let subscribe: Bool
-    public let unsubscribe: Bool
-    public let mention: Bool
-    public let repost: Bool
-    public let reward: Bool
-    public let curatorReward: Bool
-    public let witnessVote: Bool
-    public let witnessCancelVote: Bool
-}
-
 
 // MARK: - API `options.set` basic
 public struct ResponseAPISetOptionsBasicResult: Decodable, ResponseAPIHasError {
