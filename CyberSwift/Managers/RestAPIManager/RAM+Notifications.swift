@@ -63,7 +63,30 @@ extension Reactive where Base: RestAPIManager {
             .flatMapToCompletable()
     }
     
-    /// Turn specific notification types on of off
+    /// Get options of push notify
+    public func getPushNotify() -> Single<ResponseAPIGetOptions> {
+        // Offline mode
+        if (!Config.isNetworkAvailable) {
+            return .error(ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        guard Config.currentUser?.id != nil else {
+            return .error(ErrorAPI.unauthorized)
+        }
+        
+        let methodAPIType = MethodAPIType.getOptions
+        
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+            .log(method: "options.get")
+            .map {result in
+                guard let result = (result as? ResponseAPIGetOptionsResult)?.result else {
+                    throw ErrorAPI.unknown
+                }
+                return result
+            }
+            
+    }
+    
+    /// Turn specific notification types on or off
     public func setPushNotify(
         options: RequestParameterAPI.NoticeOptions,
         type: NoticeType = .push,

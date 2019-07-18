@@ -314,34 +314,6 @@ public class RestAPIManager {
         })
     }
     
-    // API `options.get`
-    public func getOptions(responseHandling:    @escaping (ResponseAPIGetOptions) -> Void,
-                           errorHandling:       @escaping (ErrorAPI) -> Void) {
-        // Offline mode
-        if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
-        
-        // Check user authorize
-        guard Config.currentUser?.id != nil else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
-
-        let methodAPIType = MethodAPIType.getOptions
-        
-        Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
-                                             onResult:          { (responseAPIResult) in
-                                                guard let result = (responseAPIResult as! ResponseAPIGetOptionsResult).result else {
-                                                    let responseAPIError = (responseAPIResult as! ResponseAPIGetOptionsResult).error
-                                                    Logger.log(message: "\nAPI `options.get` response mapping error: \n\(responseAPIError!.message)\n", event: .error)
-                                                    return errorHandling(ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
-                                                }
-                                                
-                                                Logger.log(message: "\nAPI `options.get` response result: \n\(responseAPIResult)\n", event: .debug)
-                                                responseHandling(result)
-        },
-                                             onError:           { (errorAPI) in
-                                                Logger.log(message: "\nAPI `options.get` response error: \n\(errorAPI.caseInfo.message)\n", event: .error)
-                                                errorHandling(errorAPI)
-        })
-    }
-    
     // API basic `options.set`
     public func setBasicOptions(nsfwContent:        NsfwContentMode,
                                 responseHandling:   @escaping (ResponseAPISetOptionsBasic) -> Void,
