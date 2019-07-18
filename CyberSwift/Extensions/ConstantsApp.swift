@@ -85,4 +85,6 @@ public struct Config {
     
     public static let currentUserThemeKey: String           =   "currentUserThemeKey"
     public static let currentUserAppLanguageKey: String     =   "currentUserAppLanguageKey"
+    
+    public static let currentUserPushNotificationOn: String =   "currentUserPushNotificationOn"
 }
