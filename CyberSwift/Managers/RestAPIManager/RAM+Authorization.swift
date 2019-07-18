@@ -267,21 +267,7 @@ extension Reactive where Base: RestAPIManager {
                 }
                 throw error
             })
-            .do(onSuccess: {result in
-                // API `push.notifyOn`
-                if let fcmToken = UserDefaults.standard.value(forKey: "fcmToken") as? String,
-                    UserDefaults.standard.value(forKey: Config.currentUserPushNotificationOn) == nil {
-                    RestAPIManager.instance.pushNotifyOn(
-                        fcmToken:          fcmToken,
-                        responseHandling:  { response in
-                            Logger.log(message: response.status, event: .severe)
-                            UserDefaults.standard.set(true, forKey: Config.currentUserPushNotificationOn)
-                    },
-                        errorHandling:     { errorAPI in
-                            Logger.log(message: errorAPI.caseInfo.message, event: .error)
-                    })
-                }
-            }, onError: {error in
+            .do(onError: {error in
                 if let error = error as? ErrorAPI {
                     switch error.caseInfo.message {
                     case "Secret verification failed - access denied",
@@ -294,6 +280,36 @@ extension Reactive where Base: RestAPIManager {
                     }
                 }
             })
+    }
+    
+    /// Turn on push notification
+    func pushNotifyOn() -> Completable {
+        // Offline mode
+        if (!Config.isNetworkAvailable) {
+            return .error(ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        guard let token = UserDefaults.standard.value(forKey: "fcmToken") as? String else {
+            return .error(ErrorAPI.requestFailed(message: "Token not found"))
+        }
+        
+        let methodAPIType = MethodAPIType.notifyPushOn(fcmToken: token, appProfileType: AppProfileType.golos)
+        
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+            .log(method: "push.notifyOn")
+            .flatMapToCompletable()
+    }
+    
+    /// Turn off push notification
+    func pushNotifyOff() -> Completable {
+        // Offline mode
+        if (!Config.isNetworkAvailable) {
+            return .error(ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        let methodAPIType = MethodAPIType.notifyPushOff(appProfileType: AppProfileType.golos)
+        
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+            .log(method: "push.notifyOff")
+            .flatMapToCompletable()
     }
     
     /// Generate secret
