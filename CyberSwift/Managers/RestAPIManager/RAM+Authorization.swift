@@ -269,11 +269,13 @@ extension Reactive where Base: RestAPIManager {
             })
             .do(onSuccess: {result in
                 // API `push.notifyOn`
-                if let fcmToken = UserDefaults.standard.value(forKey: "fcmToken") as? String {
+                if let fcmToken = UserDefaults.standard.value(forKey: "fcmToken") as? String,
+                    UserDefaults.standard.value(forKey: Config.currentUserPushNotificationOn) == nil {
                     RestAPIManager.instance.pushNotifyOn(
                         fcmToken:          fcmToken,
                         responseHandling:  { response in
                             Logger.log(message: response.status, event: .severe)
+                            UserDefaults.standard.set(true, forKey: Config.currentUserPushNotificationOn)
                     },
                         errorHandling:     { errorAPI in
                             Logger.log(message: errorAPI.caseInfo.message, event: .error)
