@@ -283,7 +283,7 @@ extension Reactive where Base: RestAPIManager {
     }
     
     /// Turn on push notification
-    func pushNotifyOn() -> Completable {
+    public func pushNotifyOn() -> Completable {
         // Offline mode
         if (!Config.isNetworkAvailable) {
             return .error(ErrorAPI.disableInternetConnection(message: nil)) }
@@ -300,7 +300,7 @@ extension Reactive where Base: RestAPIManager {
     }
     
     /// Turn off push notification
-    func pushNotifyOff() -> Completable {
+    public func pushNotifyOff() -> Completable {
         // Offline mode
         if (!Config.isNetworkAvailable) {
             return .error(ErrorAPI.disableInternetConnection(message: nil)) }
