@@ -10,11 +10,6 @@
 import eosswift
 import Foundation
 
-public enum NoticeType {
-    case push
-    case notify
-}
-
 public class RestAPIManager {
     #warning("remove debug mode")
     let isDebugMode = true
@@ -372,37 +367,6 @@ public class RestAPIManager {
         },
                                              onError:           { (errorAPI) in
                                                 Logger.log(message: "\nAPI basic `options.set` response error: \n\(errorAPI.caseInfo.message)\n", event: .error)
-                                                errorHandling(errorAPI)
-        })
-    }
-    
-    // API notify/push `options.set`
-    public func set(options:            RequestParameterAPI.NoticeOptions,
-                    type:               NoticeType,
-                    appProfileType:     AppProfileType = .cyber,
-                    responseHandling:   @escaping (ResponseAPISetOptionsNotice) -> Void,
-                    errorHandling:      @escaping (ErrorAPI) -> Void) {
-        // Offline mode
-        if (!Config.isNetworkAvailable) { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
-        
-        // Check user authorize
-        guard (Config.currentUser?.id != nil) else { return errorHandling(ErrorAPI.invalidData(message: "Unauthorized")) }
-        
-        let methodAPIType = MethodAPIType.setNotice(options: options, type: type, appProfileType: appProfileType)
-        
-        Broadcast.instance.executeGETRequest(byContentAPIType:  methodAPIType,
-                                             onResult:          { (responseAPIResult) in
-                                                guard let result = (responseAPIResult as! ResponseAPISetOptionsNoticeResult).result else {
-                                                    let responseAPIError = (responseAPIResult as! ResponseAPISetOptionsNoticeResult).error
-                                                    Logger.log(message: "\nAPI \(type.hashValue == 0 ? "push" : "notify") \'options.set\' response mapping error: \n\(responseAPIError!.message)\n", event: .error)
-                                                    return errorHandling(ErrorAPI.jsonParsingFailure(message: "\(responseAPIError!.message)"))
-                                                }
-                                                
-                                                Logger.log(message: "\nAPI \(type.hashValue == 0 ? "push" : "notify") `options.set` response result: \n\(responseAPIResult)\n", event: .debug)
-                                                responseHandling(result)
-        },
-                                             onError:           { (errorAPI) in
-                                                Logger.log(message: "\nAPI \(type.hashValue == 0 ? "push" : "notify") `options.set` response error: \n\(errorAPI.localizedDescription)\n", event: .error)
                                                 errorHandling(errorAPI)
         })
     }

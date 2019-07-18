@@ -282,54 +282,6 @@ extension Reactive where Base: RestAPIManager {
             })
     }
     
-    /// Turn on push notification
-    public func pushNotifyOn() -> Completable {
-        // Offline mode
-        if (!Config.isNetworkAvailable) {
-            return .error(ErrorAPI.disableInternetConnection(message: nil)) }
-        
-        guard let token = UserDefaults.standard.value(forKey: "fcmToken") as? String else {
-            return .error(ErrorAPI.requestFailed(message: "Token not found"))
-        }
-        
-        let methodAPIType = MethodAPIType.notifyPushOn(fcmToken: token, appProfileType: AppProfileType.golos)
-        
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
-            .map {result in
-                guard let result = (result as? ResponseAPINotifyPushOnResult)?.result else {
-                    throw ErrorAPI.unknown
-                }
-                return result
-            }
-            .log(method: "push.notifyOn")
-            .do(onSuccess: { _ in
-                UserDefaults.standard.set(true, forKey: Config.currentUserPushNotificationOn)
-            })
-            .flatMapToCompletable()
-    }
-    
-    /// Turn off push notification
-    public func pushNotifyOff() -> Completable {
-        // Offline mode
-        if (!Config.isNetworkAvailable) {
-            return .error(ErrorAPI.disableInternetConnection(message: nil)) }
-        
-        let methodAPIType = MethodAPIType.notifyPushOff(appProfileType: AppProfileType.golos)
-        
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
-            .map {result in
-                guard let result = (result as? ResponseAPINotifyPushOffResult)?.result else {
-                    throw ErrorAPI.unknown
-                }
-                return result
-            }
-            .log(method: "push.notifyOff")
-            .do(onSuccess: { _ in
-                UserDefaults.standard.set(false, forKey: Config.currentUserPushNotificationOn)
-            })
-            .flatMapToCompletable()
-    }
-    
     /// Generate secret
     private func generateSecret() -> Completable {
         // Offline mode
