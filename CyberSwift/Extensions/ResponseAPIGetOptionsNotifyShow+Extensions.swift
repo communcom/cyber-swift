@@ -9,7 +9,7 @@
 import Foundation
 
 extension ResponseAPIGetOptionsNotifyShow {
-    func toParam() -> RequestParameterAPI.NoticeOptions {
+    public func toParam() -> RequestParameterAPI.NoticeOptions {
         #warning("types unsubscribe, witnessVote, witnessCancelVote missing")
         return RequestParameterAPI.NoticeOptions(
             upvote: upvote,
