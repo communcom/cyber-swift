@@ -128,7 +128,7 @@ public indirect enum MethodAPIType {
     case setBasicOptions(nsfw: String)
     
     //  Set Push/Notify options
-    case setNotice(options: RequestParameterAPI.NoticeOptions, type: NoticeType, appProfileType: AppProfileType)
+    case setNotice(options: RequestParameterAPI.NoticeOptions, type: NoticeType, appProfileType: AppProfileType, lang: String)
     
     //  Mark specified notifications as read
     #warning("Not work version")
@@ -331,14 +331,14 @@ public indirect enum MethodAPIType {
                                         ])
 
         //  Template { "id": 13, "jsonrpc": "2.0", "method": "options.set", "params": { "profile": <userNickName-deviceUDID>, "push": { "lang": <languageValue>, "show": { "vote": <voteValue>, "flag": <flagValue>, "reply": <replyValue>, "transfer": <transferValue>, "subscribe": <subscribeValue>, "unsubscribe": <unsibscribeValue>, "mention": <mentionValue>, "repost": <repostValue>,  "message": <messageValue>, "witnessVote": <witnessVoteValue>, "witnessCancelVote": <witnessCancelVoteValue>, "reward": <rewardValue>, "curatorReward": <curatorRewardValue> }}}
-        case .setNotice(let options, let type, let appProfileType):
+        case .setNotice(let options, let type, let appProfileType, let lang):
             var parameters: [String: String] =  [
                                                     "app":      appProfileType.rawValue,
                                                     "profile":  String(format: "%@-%@", Config.currentUser?.id ?? "", Config.currentDeviceType)
                                                 ]
 
-            if type == .push, let pushLanguage = UserDefaults.standard.value(forKey: Config.currentUserAppLanguageKey) as? String {
-                parameters["push"]      =   String(format: "{\"lang\": \"%@\", \"show\": {%@}}", pushLanguage, options.getNoticeOptionsValues())
+            if type == .push {
+                parameters["push"]      =   String(format: "{\"lang\": \"%@\", \"show\": {%@}}", lang, options.getNoticeOptionsValues())
             }
             
             if type == .notify {

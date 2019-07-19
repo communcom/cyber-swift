@@ -90,7 +90,8 @@ extension Reactive where Base: RestAPIManager {
     public func setPushNotify(
         options: RequestParameterAPI.NoticeOptions,
         type: NoticeType = .push,
-        appProfileType: AppProfileType = .cyber) -> Completable {
+        appProfileType: AppProfileType = .cyber,
+        language: String = "en") -> Completable {
         // Offline mode
         if (!Config.isNetworkAvailable) {
             return .error(ErrorAPI.disableInternetConnection(message: nil)) }
@@ -99,7 +100,7 @@ extension Reactive where Base: RestAPIManager {
             return .error(ErrorAPI.unauthorized)
         }
         
-        let methodAPIType = MethodAPIType.setNotice(options: options, type: type, appProfileType: appProfileType)
+        let methodAPIType = MethodAPIType.setNotice(options: options, type: type, appProfileType: appProfileType, lang: language)
         
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
             .map {result in
