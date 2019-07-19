@@ -13,6 +13,7 @@
 //
 
 import Foundation
+import Localize_Swift
 
 /// Type of request parameters
 typealias RequestMethodParameters   =   (methodAPIType: MethodAPIType, methodGroup: String, methodName: String, parameters: [String: String])
@@ -337,7 +338,8 @@ public indirect enum MethodAPIType {
                                                     "profile":  String(format: "%@-%@", Config.currentUser?.id ?? "", Config.currentDeviceType)
                                                 ]
 
-            if type == .push, let pushLanguage = UserDefaults.standard.value(forKey: Config.currentUserAppLanguageKey) as? String {
+            if type == .push {
+                let pushLanguage = Localize.currentLanguage()
                 parameters["push"]      =   String(format: "{\"lang\": \"%@\", \"show\": {%@}}", pushLanguage, options.getNoticeOptionsValues())
             }
             
