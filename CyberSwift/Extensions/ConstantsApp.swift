@@ -87,4 +87,5 @@ public struct Config {
     public static let currentUserAppLanguageKey: String     =   "currentUserAppLanguageKey"
     
     public static let currentUserPushNotificationOn: String =   "currentUserPushNotificationOn"
+    public static let currentUserBiometryAuthEnabled:String =   "currentUserBiometryAuthEnabled"
 }
