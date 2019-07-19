@@ -38,7 +38,11 @@ extension Reactive where Base: RestAPIManager {
             .do(onSuccess: { _ in
                 UserDefaults.standard.set(true, forKey: Config.currentUserPushNotificationOn)
             })
-            .flatMapToCompletable()
+            .flatMapCompletable({ (_) -> Completable in
+                // Turn on all options
+                let value = ResponseAPIGetOptionsNotifyShow(upvote: true, downvote: true, transfer: true, reply: true, subscribe: true, unsubscribe: true, mention: true, repost: true, reward: true, curatorReward: true, witnessVote: true, witnessCancelVote: true)
+                return self.setPushNotify(options: value.toParam())
+            })
     }
     
     /// Turn off push notification
@@ -90,7 +94,7 @@ extension Reactive where Base: RestAPIManager {
     public func setPushNotify(
         options: RequestParameterAPI.NoticeOptions,
         type: NoticeType = .push,
-        appProfileType: AppProfileType = .cyber) -> Completable {
+        appProfileType: AppProfileType = .golos) -> Completable {
         // Offline mode
         if (!Config.isNetworkAvailable) {
             return .error(ErrorAPI.disableInternetConnection(message: nil)) }
