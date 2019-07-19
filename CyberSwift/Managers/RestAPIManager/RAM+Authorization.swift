@@ -203,20 +203,23 @@ extension Reactive where Base: RestAPIManager {
     }
     
     /// Set passcode
-    public func setPasscode(_ passcode: String) throws {
+    public func setPasscode(_ passcode: String, onBoarding: Bool = true) throws {
         guard passcode.count == 4, Int(passcode) != nil else {return}
-        try KeychainManager.save(data: [
-            Config.settingStepKey: CurrentUserSettingStep.setFaceId.rawValue,
-            Config.currentUserPasscodeKey: passcode
-        ])
+        var data = [Config.currentUserPasscodeKey: passcode]
+        if onBoarding {
+            data[Config.settingStepKey] = CurrentUserSettingStep.setFaceId.rawValue
+        }
+        try KeychainManager.save(data: data)
     }
     
     /// backupIcloud
-    public func backUpICloud() throws {
+    public func backUpICloud(onBoarding: Bool = true) throws {
         iCloudManager.saveUser()
-        try KeychainManager.save(data: [
-            Config.settingStepKey: CurrentUserSettingStep.setAvatar.rawValue
-        ])
+        if onBoarding {
+            try KeychainManager.save(data: [
+                Config.settingStepKey: CurrentUserSettingStep.setAvatar.rawValue
+            ])
+        }
     }
     
     /// Authorize registration user or login
