@@ -23,6 +23,7 @@ Pod::Spec.new do |spec|
     spec.dependency 'SwiftTheme'
     spec.dependency 'CryptoSwift'
     spec.dependency 'RxStarscream'
+    spec.dependency 'Starscream'
     spec.dependency 'secp256k1.swift'
     spec.dependency 'eosswift', '~> 1.5'
     spec.dependency 'SwiftSocket'

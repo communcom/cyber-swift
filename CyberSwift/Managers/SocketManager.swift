@@ -2,53 +2,54 @@
 //  SocketManager.swift
 //  CyberSwift
 //
-//  Created by Chung Tran on 22/07/2019.
+//  Created by Chung Tran on 04/07/2019.
 //  Copyright © 2019 golos.io. All rights reserved.
 //
 
 import Foundation
-import SwiftSocket
 import RxSwift
+import RxCocoa
+import Starscream
+import RxStarscream
 
 public class SocketManager {
     // MARK: - Singleton
     private init() {}
-    public static var shared = SocketManager()
+    public static let shared = SocketManager()
     
     // MARK: - Properties
-    private let client = TCPClient(address: Config.gate_API_IP_Address, port: Config.gate_API_IP_Port)
+    public let socket = WebSocket(url: URL(string: Config.gate_API_URL)!)
     
     // MARK: - Methods
-    public func connect() -> Completable {
-        switch client.connect(timeout: 10) {
-        case .success:
-            // Sign
-            return .empty()
-        case .failure(let error):
-            return .error(error)
-        }
+    public func connect() {
+        socket.connect()
     }
     
     public func disconnect() {
-        client.close()
+        guard socket.isConnected else {return}
+        socket.disconnect()
     }
     
-    public func sendRequest(methodAPIType: RequestMethodAPIType) -> Single<ResponseAPIType> {
-        let message = methodAPIType.requestMessage!
-        Logger.log(message: "\nrequestMessage = \n\t\(message)", event: .info)
-        
-        switch client.send(string: message) {
-        case .success:
-            guard let data = client.read(1024*10) else {return .error(ErrorAPI.responseUnsuccessful(message: "Can not retrieve data"))}
-            if let response = String(bytes: data, encoding: .utf8) {
-                return Single<String>.just(response)
-                    .map {_ in try self.transformMessage(response, to: methodAPIType.methodAPIType)}
-            } else {
-                return .error(ErrorAPI.responseUnsuccessful(message: "Can not transform response to string"))
-            }
-        case .failure(let error):
-            return .error(error)
+    func sendRequest(methodAPIType: RequestMethodAPIType) -> Single<ResponseAPIType> {
+        return self.socket.rx.text
+            .filter {self.compareMessageFromResponseText($0, to: methodAPIType.id)}
+            .asSingle()
+            .map {try self.transformMessage($0, to: methodAPIType.methodAPIType)}
+    }
+}
+
+extension SocketManager {
+    // MARK: - Helpers
+    /// Filter message
+    fileprivate func compareMessageFromResponseText(_ text: String, to requestId: Int) -> Bool {
+        guard let jsonData = text.data(using: .utf8),
+            let json = (try? JSONSerialization.jsonObject(with: jsonData, options: .mutableLeaves)) as? [String: Any],
+            let id = json["id"] as? Int
+            else {
+                return false
         }
+        
+        return requestId == id
     }
     
     /// validate message
@@ -76,7 +77,6 @@ public class SocketManager {
         
         return
     }
-
     
     /// Transform text message to object
     func transformMessage(_ text: String, to type: MethodAPIType) throws -> ResponseAPIType {
@@ -94,5 +94,5 @@ public class SocketManager {
         
         return response
     }
-
 }
+
