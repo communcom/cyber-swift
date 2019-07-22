@@ -19,7 +19,7 @@
 		3BBBE29A2296A8A10029C9C9 /* RxSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBBE2992296A8A10029C9C9 /* RxSwift.swift */; };
 		3BCDB40B2260E9C300739F7E /* Bool+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCDB40A2260E9C300739F7E /* Bool+Extensions.swift */; };
 		3BDF4FAA22C229440029D616 /* BCResponseAPIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDF4FA922C229440029D616 /* BCResponseAPIError.swift */; };
-		3BE08B9522E65B2700BE6FCB /* StarScream+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE08B9422E65B2700BE6FCB /* StarScream+Rx.swift */; };
+		3BE08B9722E6609D00BE6FCB /* SocketManager+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE08B9622E6609D00BE6FCB /* SocketManager+Rx.swift */; };
 		3BE3666722E5CE7C00F84A04 /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE3666622E5CE7C00F84A04 /* SocketManager.swift */; };
 		B111B5BB224E1B5A00F84AD9 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B111B5BA224E1B5A00F84AD9 /* KeychainManager.swift */; };
 		B1677C66223F9BD7005FB286 /* RestAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1677C65223F9BD7005FB286 /* RestAPIManager.swift */; };
@@ -71,7 +71,7 @@
 		3BBBE2992296A8A10029C9C9 /* RxSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxSwift.swift; sourceTree = "<group>"; };
 		3BCDB40A2260E9C300739F7E /* Bool+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+Extensions.swift"; sourceTree = "<group>"; };
 		3BDF4FA922C229440029D616 /* BCResponseAPIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BCResponseAPIError.swift; sourceTree = "<group>"; };
-		3BE08B9422E65B2700BE6FCB /* StarScream+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StarScream+Rx.swift"; sourceTree = "<group>"; };
+		3BE08B9622E6609D00BE6FCB /* SocketManager+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SocketManager+Rx.swift"; sourceTree = "<group>"; };
 		3BE3666622E5CE7C00F84A04 /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
 		4837076B0145B925ED946333 /* Pods-CyberSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CyberSwift.release.xcconfig"; path = "Target Support Files/Pods-CyberSwift/Pods-CyberSwift.release.xcconfig"; sourceTree = "<group>"; };
 		B111B5BA224E1B5A00F84AD9 /* KeychainManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
@@ -235,7 +235,6 @@
 				B1EA02F52289D3B400835244 /* UITextField+Extensions.swift */,
 				B1EA0318228A985400835244 /* UIView+Extensions.swift */,
 				3B61AC3122E1C5CD00F608AF /* ResponseAPIGetOptionsNotifyShow+Extensions.swift */,
-				3BE08B9422E65B2700BE6FCB /* StarScream+Rx.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -247,6 +246,7 @@
 				B1A74A652243893A009D68E7 /* EOSManager.swift */,
 				B1C3F85B223F98DC005711EF /* ReachabilityManager.swift */,
 				3BE3666622E5CE7C00F84A04 /* SocketManager.swift */,
+				3BE08B9622E6609D00BE6FCB /* SocketManager+Rx.swift */,
 				3B1E901422CDEC2F00D7A0C1 /* RestAPIManager */,
 				B111B5BA224E1B5A00F84AD9 /* KeychainManager.swift */,
 				3BB342B722CB823C009546B2 /* PDFManager.swift */,
@@ -386,9 +386,9 @@
 				B1C3F85F223F98DC005711EF /* ReachabilityManager.swift in Sources */,
 				B1C3F869223F9907005711EF /* ErrorAPI.swift in Sources */,
 				B179917B2269B4560014CB44 /* SteemEncoder.swift in Sources */,
-				3BE08B9522E65B2700BE6FCB /* StarScream+Rx.swift in Sources */,
 				B19A28D6226087EE001C9F43 /* UIDevice+Extensions.swift in Sources */,
 				B1C3F861223F98DC005711EF /* Logger.swift in Sources */,
+				3BE08B9722E6609D00BE6FCB /* SocketManager+Rx.swift in Sources */,
 				B1C3F86A223F9907005711EF /* ResponseAPI.swift in Sources */,
 				B179917E2269B4560014CB44 /* PublicKey.swift in Sources */,
 				B111B5BB224E1B5A00F84AD9 /* KeychainManager.swift in Sources */,

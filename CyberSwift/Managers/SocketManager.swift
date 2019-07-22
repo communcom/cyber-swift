@@ -10,19 +10,28 @@ import Foundation
 import RxSwift
 import RxCocoa
 import Starscream
-import RxStarscream
 import SwiftyJSON
+
+public enum WebSocketEvent {
+    case connected
+    case disconnected(Error?)
+    case message(String)
+    case data(Data)
+    case pong
+}
 
 public class SocketManager {
     // MARK: - Singleton
     public static let shared = SocketManager()
     private init() {
+        socket.delegate = self
         retrieveSecret()
     }
     
     // MARK: - Properties
     let socket = WebSocket(url: URL(string: Config.gate_API_URL)!)
     
+    let subject = PublishSubject<WebSocketEvent>()
     public let connected = BehaviorRelay<Bool>(value: false)
     let bag = DisposeBag()
     
@@ -37,7 +46,7 @@ public class SocketManager {
     
     func sendRequest(methodAPIType: RequestMethodAPIType) -> Single<ResponseAPIType> {
         socket.write(string: methodAPIType.requestMessage!)
-        return self.socket.rx.text
+        return text
             .filter {self.compareMessageFromResponseText($0, to: methodAPIType.id)}
             .take(1)
             .asSingle()
@@ -45,7 +54,7 @@ public class SocketManager {
     }
     
     func retrieveSecret() {
-        socket.rx.text
+        text
             .subscribe(onNext: { (text) in
                 if let data = text.data(using: .utf8),
                     let json = try? JSON(data: data)
