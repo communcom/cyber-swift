@@ -25,7 +25,7 @@ Pod::Spec.new do |spec|
     spec.dependency 'RxStarscream'
     spec.dependency 'secp256k1.swift'
     spec.dependency 'eosswift', '~> 1.5'
-    spec.dependency 'Starscream', '~> 3.0'
+    spec.dependency 'SwiftSocket'
     spec.dependency 'Localize-Swift', '~> 2.0'
 
     spec.dependency 'SwiftyJSON', '~> 4.0'
