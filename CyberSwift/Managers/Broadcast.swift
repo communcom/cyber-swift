@@ -111,7 +111,6 @@ public class Broadcast {
 extension Broadcast {
     /// Prepare method request
     private func prepareGETRequest(methodAPIType: MethodAPIType) -> RequestMethodAPIType {
-        Logger.log(message: "Success", event: .severe)
         
         let codeID              =   generateUniqueId(forType: methodAPIType)
         let requestParamsType   =   methodAPIType.introduced()
@@ -148,8 +147,6 @@ extension Broadcast {
                                 .replacingOccurrences(of: "code\":\"", with: "code\":")
                                 .replacingOccurrences(of: "\"}}", with: "}}")
             }
-
-            Logger.log(message: "\nEncoded JSON -> String:\n\t " + jsonString, event: .debug)
             
             // Template: { "id": 2, "jsonrpc": "2.0", "method": "content.getProfile", "params": { "userId": "tst3uuqzetwf" }}
             return (id: codeID, requestMessage: jsonString, methodAPIType: requestParamsType.methodAPIType, errorAPI: nil)
