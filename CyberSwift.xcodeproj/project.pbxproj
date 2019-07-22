@@ -13,6 +13,7 @@
 		3B5D91C622CE14E100BB7DCC /* MethodAPIType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5D91C522CE14E100BB7DCC /* MethodAPIType.swift */; };
 		3B5EDE3F22E0F10900897BF3 /* RAM+Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5EDE3E22E0F10900897BF3 /* RAM+Notifications.swift */; };
 		3B61AC3222E1C5CD00F608AF /* ResponseAPIGetOptionsNotifyShow+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B61AC3122E1C5CD00F608AF /* ResponseAPIGetOptionsNotifyShow+Extensions.swift */; };
+		3B61AC3622E5A95400F608AF /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B61AC3522E5A95400F608AF /* SocketManager.swift */; };
 		3BB342B622CB7591009546B2 /* CurrentUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB342B522CB7591009546B2 /* CurrentUser.swift */; };
 		3BB342B822CB823C009546B2 /* PDFManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB342B722CB823C009546B2 /* PDFManager.swift */; };
 		3BBBE2982295AAE90029C9C9 /* RAM+Blockchain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBBE2972295AAE90029C9C9 /* RAM+Blockchain.swift */; };
@@ -44,7 +45,6 @@
 		B1C3F85F223F98DC005711EF /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3F85B223F98DC005711EF /* ReachabilityManager.swift */; };
 		B1C3F860223F98DC005711EF /* Broadcast.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3F85C223F98DC005711EF /* Broadcast.swift */; };
 		B1C3F861223F98DC005711EF /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3F85D223F98DC005711EF /* Logger.swift */; };
-		B1C3F862223F98DC005711EF /* WebSocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3F85E223F98DC005711EF /* WebSocketManager.swift */; };
 		B1C3F868223F9907005711EF /* RequestAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3F864223F9906005711EF /* RequestAPI.swift */; };
 		B1C3F869223F9907005711EF /* ErrorAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3F865223F9906005711EF /* ErrorAPI.swift */; };
 		B1C3F86A223F9907005711EF /* ResponseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3F866223F9906005711EF /* ResponseAPI.swift */; };
@@ -64,6 +64,7 @@
 		3B5D91C522CE14E100BB7DCC /* MethodAPIType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MethodAPIType.swift; sourceTree = "<group>"; };
 		3B5EDE3E22E0F10900897BF3 /* RAM+Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Notifications.swift"; sourceTree = "<group>"; };
 		3B61AC3122E1C5CD00F608AF /* ResponseAPIGetOptionsNotifyShow+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPIGetOptionsNotifyShow+Extensions.swift"; sourceTree = "<group>"; };
+		3B61AC3522E5A95400F608AF /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
 		3BB342B522CB7591009546B2 /* CurrentUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUser.swift; sourceTree = "<group>"; };
 		3BB342B722CB823C009546B2 /* PDFManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFManager.swift; sourceTree = "<group>"; };
 		3BBBE2972295AAE90029C9C9 /* RAM+Blockchain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Blockchain.swift"; sourceTree = "<group>"; };
@@ -99,7 +100,6 @@
 		B1C3F85B223F98DC005711EF /* ReachabilityManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReachabilityManager.swift; sourceTree = "<group>"; };
 		B1C3F85C223F98DC005711EF /* Broadcast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Broadcast.swift; sourceTree = "<group>"; };
 		B1C3F85D223F98DC005711EF /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
-		B1C3F85E223F98DC005711EF /* WebSocketManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSocketManager.swift; sourceTree = "<group>"; };
 		B1C3F864223F9906005711EF /* RequestAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestAPI.swift; sourceTree = "<group>"; };
 		B1C3F865223F9906005711EF /* ErrorAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorAPI.swift; sourceTree = "<group>"; };
 		B1C3F866223F9906005711EF /* ResponseAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseAPI.swift; sourceTree = "<group>"; };
@@ -243,7 +243,7 @@
 				B1C3F85C223F98DC005711EF /* Broadcast.swift */,
 				B1A74A652243893A009D68E7 /* EOSManager.swift */,
 				B1C3F85B223F98DC005711EF /* ReachabilityManager.swift */,
-				B1C3F85E223F98DC005711EF /* WebSocketManager.swift */,
+				3B61AC3522E5A95400F608AF /* SocketManager.swift */,
 				3B1E901422CDEC2F00D7A0C1 /* RestAPIManager */,
 				B111B5BA224E1B5A00F84AD9 /* KeychainManager.swift */,
 				3BB342B722CB823C009546B2 /* PDFManager.swift */,
@@ -412,6 +412,7 @@
 				3B1E901822CDF16B00D7A0C1 /* iCloudManager.swift in Sources */,
 				B1EA02CD22895EB400835244 /* UILabel+Extensions.swift in Sources */,
 				B1A74A642243892B009D68E7 /* EOSTransaction.swift in Sources */,
+				3B61AC3622E5A95400F608AF /* SocketManager.swift in Sources */,
 				3BB342B822CB823C009546B2 /* PDFManager.swift in Sources */,
 				B1EA02F62289D3B400835244 /* UITextField+Extensions.swift in Sources */,
 				3B5D91C622CE14E100BB7DCC /* MethodAPIType.swift in Sources */,
@@ -421,7 +422,6 @@
 				B1677C66223F9BD7005FB286 /* RestAPIManager.swift in Sources */,
 				3B61AC3222E1C5CD00F608AF /* ResponseAPIGetOptionsNotifyShow+Extensions.swift in Sources */,
 				B1804BA9225DCF9B00260A32 /* PhoneCode.swift in Sources */,
-				B1C3F862223F98DC005711EF /* WebSocketManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

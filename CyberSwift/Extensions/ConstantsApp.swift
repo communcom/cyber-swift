@@ -32,8 +32,18 @@ public struct Config {
     public static let expireSeconds: Double = 30.0
     
     public static var isPublicTestnet: Bool             =   false
-    static let blockchain_API_URL: String               =   isPublicTestnet ? "http://116.202.4.39:8888/"   :   "http://46.4.96.246:8888/"
-    static let gate_API_IP: String                      =   isPublicTestnet ? "ws://116.203.98.241:8080/"   :   "ws://159.69.33.136:8080/"
+    
+    static let blockchain_API_Address: String               =   isPublicTestnet ? "http://116.202.4.39"   :   "http://46.4.96.246"
+    static let blockchain_API_Port: Int32                   =   8888
+    static let blockchain_API_URL: String               =   "\(Config.blockchain_API_Address):\(Config.blockchain_API_Port)/"
+    
+    static let gate_API_IP_Address: String                      =   isPublicTestnet ? "ws://116.203.98.241"   :   "ws://159.69.33.136"
+    static let gate_API_IP_Port: Int32                  =   8080
+    
+    static let gate_API_IP: String                      =   "\(Config.gate_API_IP_Address):\(Config.gate_API_IP_Port)/"
+    
+    
+    // For SwiftSocket
     
     // Don't use!!!
     static let gate_API_URL: String                     =   isPublicTestnet ? "wss://cyber-gate.golos.io/"  :   "wss://gate.commun.com/"

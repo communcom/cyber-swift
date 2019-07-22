@@ -28,6 +28,8 @@ public class Broadcast {
     // MARK: - Properties
     public static let instance = Broadcast()
     
+    #warning("Remove later")
+    let bag = DisposeBag()
     
     // MARK: - Class Initialization
     private init() {}
@@ -159,7 +161,9 @@ extension Broadcast {
     }
     
 
+    
     /// Execute content request
+    @available(*, deprecated, message: "Use alternative rx method instead")
     public func executeGETRequest(byContentAPIType methodAPIType: MethodAPIType, onResult: @escaping (Decodable) -> Void, onError: @escaping (ErrorAPI) -> Void) {
         // Prepare content request
         let requestMethodAPIType = self.prepareGETRequest(methodAPIType: methodAPIType)
@@ -172,14 +176,22 @@ extension Broadcast {
         Logger.log(message: "\nrequestMethodAPIType:\n\t\(requestMethodAPIType.requestMessage!)\n", event: .debug)
         
         // Send content request messages to `FACADE-SERVICE`
-        WebSocketManager.instance.sendRequest(methodAPIType: requestMethodAPIType, completion: { responseAPIType in
-            guard let responseAPI = responseAPIType.responseAPI else {
-                onError(responseAPIType.errorAPI!)
-                return
+        SocketManager.shared.sendRequest(methodAPIType: requestMethodAPIType)
+            .subscribe(onSuccess: { (responseAPIType) in
+                guard let responseAPI = responseAPIType.responseAPI else {
+                    onError(responseAPIType.errorAPI!)
+                    return
+                }
+                
+                onResult(responseAPI)
+            }) { (error) in
+                if let error = error as? ErrorAPI {
+                    onError(error)
+                    return
+                }
+                onError(ErrorAPI.requestFailed(message: error.localizedDescription))
             }
-            
-            onResult(responseAPI)
-        })
+            .disposed(by: bag)
     }
     
     /// Rx method to deal with executeGetRequest
@@ -193,24 +205,12 @@ extension Broadcast {
         
         Logger.log(message: "\nrequestMethodAPIType:\n\t\(requestMethodAPIType.requestMessage!)\n", event: .debug)
         
-        return .create {single in
-            // Send content request messages to `FACADE-SERVICE`
-            WebSocketManager.instance.sendRequest(methodAPIType: requestMethodAPIType, completion: { responseAPIType in
+        return SocketManager.shared.sendRequest(methodAPIType: requestMethodAPIType)
+            .map { responseAPIType in
                 guard let responseAPI = responseAPIType.responseAPI else {
-                    single(.error(responseAPIType.errorAPI!))
-                    return
+                    throw responseAPIType.errorAPI!
                 }
-                
-                if let result = responseAPI as? ResponseAPIHasError,
-                    let error = result.error{
-                    single(.error(ErrorAPI.requestFailed(message: error.message)))
-                    return
-                }
-                
-                single(.success(responseAPI))
-            })
-            
-            return Disposables.create()
-        }
+                return responseAPI
+            }
     }
 }
