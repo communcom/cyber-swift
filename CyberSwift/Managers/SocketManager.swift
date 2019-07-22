@@ -15,34 +15,37 @@ import SwiftyJSON
 
 public class SocketManager {
     // MARK: - Singleton
-    private init() {}
-    public static let shared = SocketManager()
-    
-    // MARK: - Properties
-    public let socket = WebSocket(url: URL(string: Config.gate_API_URL)!)
-    let bag = DisposeBag()
-    
-    // MARK: - Methods
-    public func connect() {
-        guard !socket.isConnected else {return}
-        socket.connect()
-        
+    private init() {
         socket.rx.text
             .subscribe(onNext: { (text) in
                 if let data = text.data(using: .utf8),
-                    let json = try? JSON(data: data){
+                    let json = try? JSON(data: data)
+                {
                     
                     // Retrieve secret
                     if let secret = json["params"]["secret"].string {
                         Config.webSocketSecretKey = secret
+                        self.connected.accept(true)
                     }
                 }
             })
             .disposed(by: bag)
     }
     
+    public static let shared = SocketManager()
+    
+    // MARK: - Properties
+    let socket = WebSocket(url: URL(string: Config.gate_API_URL)!)
+    
+    let connected = BehaviorRelay<Bool>(value: false)
+    let bag = DisposeBag()
+    
+    // MARK: - Methods
+    public func connect() {
+        socket.connect()
+    }
+    
     public func disconnect() {
-        guard socket.isConnected else {return}
         socket.disconnect()
     }
     
