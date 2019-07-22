@@ -11,6 +11,7 @@ import RxSwift
 import RxCocoa
 import Starscream
 import RxStarscream
+import SwiftyJSON
 
 public class SocketManager {
     // MARK: - Singleton
@@ -19,11 +20,25 @@ public class SocketManager {
     
     // MARK: - Properties
     public let socket = WebSocket(url: URL(string: Config.gate_API_URL)!)
+    let bag = DisposeBag()
     
     // MARK: - Methods
     public func connect() {
         guard !socket.isConnected else {return}
         socket.connect()
+        
+        socket.rx.text
+            .subscribe(onNext: { (text) in
+                if let data = text.data(using: .utf8),
+                    let json = try? JSON(data: data){
+                    
+                    // Retrieve secret
+                    if let secret = json["params"]["secret"].string {
+                        Config.webSocketSecretKey = secret
+                    }
+                }
+            })
+            .disposed(by: bag)
     }
     
     public func disconnect() {
@@ -62,10 +77,6 @@ extension SocketManager {
         }
         
         guard let _ = json["id"] as? Int else {
-            if let params = json["params"] as? Dictionary<String, String>, let paramsSecret = params["secret"] {
-                Config.webSocketSecretKey = paramsSecret
-            }
-            
             // Get error
             let jsonDecoder = JSONDecoder()
             
