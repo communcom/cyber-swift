@@ -22,7 +22,6 @@ target 'CyberSwift' do
   #  pod 'Starscream', '~> 3.0'
   pod 'SwiftyJSON', '~> 4.0'
   pod 'Starscream'
-  pod 'RxStarscream'
   
   # GoloCrypto
   pod 'GoloCrypto', :git => "https://github.com/Monserg/GoloGrypto.git"

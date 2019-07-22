@@ -13,10 +13,6 @@ PODS:
   - PDFReader (2.5.1)
   - RxCocoa (4.5.0):
     - RxSwift (>= 4.4.2, ~> 4.4)
-  - RxStarscream (0.10):
-    - RxCocoa (~> 4.3)
-    - RxSwift (~> 4.3)
-    - Starscream (~> 3)
   - RxSwift (4.5.0)
   - secp256k1.swift (0.1.4)
   - SipHash (1.2.2)
@@ -33,7 +29,6 @@ DEPENDENCIES:
   - Locksmith
   - PDFReader
   - RxCocoa
-  - RxStarscream
   - RxSwift
   - secp256k1.swift
   - Starscream
@@ -50,7 +45,6 @@ SPEC REPOS:
     - Locksmith
     - PDFReader
     - RxCocoa
-    - RxStarscream
     - RxSwift
     - secp256k1.swift
     - SipHash
@@ -72,12 +66,11 @@ SPEC CHECKSUMS:
   Checksum: f1aa56a27dea5db4006c819e2e129ee6aeb1d9af
   CryptoSwift: d81eeaa59dc5a8d03720fe919a6fd07b51f7439f
   eosswift: 22bc931fd65bbd446c3f828233b8fd2916cec4a7
-  GoloCrypto: 518f2b7d16a9b048280e7107337e42634d3d47f4
+  GoloCrypto: 30495d770515d57bd7b8e8a35098a9cdefc44578
   Localize-Swift: c798ec9286494866f7068f85f7c71283ac5bdab4
   Locksmith: e9bebbaaa4cee3c511bc358a44f843c3fe00e21f
   PDFReader: 2c4a845d0560f33221cf911516e3b700967680f6
   RxCocoa: cbf70265dc65a981d4ac982e513c10cf23df24a0
-  RxStarscream: aa79e742c87e9bcdff218a1ebb59638f5174589e
   RxSwift: f172070dfd1a93d70a9ab97a5a01166206e1c575
   secp256k1.swift: a7e7a214f6db6ce5db32cc6b2b45e5c4dd633634
   SipHash: fad90a4683e420c52ef28063063dbbce248ea6d4
@@ -85,6 +78,6 @@ SPEC CHECKSUMS:
   SwiftTheme: a381f983da92153908b7a9eeb961b18b6d94d614
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
 
-PODFILE CHECKSUM: e70df46277e11176de61bd6029ab25f1b739396b
+PODFILE CHECKSUM: 644f7ddea0c5bf5d82c7dd65df82d74d615dbcaa
 
 COCOAPODS: 1.7.2
