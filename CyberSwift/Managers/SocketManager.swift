@@ -22,6 +22,7 @@ public class SocketManager {
     
     // MARK: - Methods
     public func connect() {
+        guard !socket.isConnected else {return}
         socket.connect()
     }
     
@@ -31,6 +32,7 @@ public class SocketManager {
     }
     
     func sendRequest(methodAPIType: RequestMethodAPIType) -> Single<ResponseAPIType> {
+        socket.write(string: methodAPIType.requestMessage!)
         return self.socket.rx.text
             .filter {self.compareMessageFromResponseText($0, to: methodAPIType.id)}
             .take(1)
