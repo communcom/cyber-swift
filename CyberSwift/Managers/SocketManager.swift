@@ -33,6 +33,7 @@ public class SocketManager {
     func sendRequest(methodAPIType: RequestMethodAPIType) -> Single<ResponseAPIType> {
         return self.socket.rx.text
             .filter {self.compareMessageFromResponseText($0, to: methodAPIType.id)}
+            .take(1)
             .asSingle()
             .map {try self.transformMessage($0, to: methodAPIType.methodAPIType)}
     }
