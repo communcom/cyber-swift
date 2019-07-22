@@ -349,7 +349,7 @@ public struct ResponseAPIAuthor: Decodable {
 }
 
 public struct ResponseAPIAuthorStats: Decodable {
-    public let reputation: UInt64?
+    public let reputation: Int64?
 }
 
 public struct ResponseAPIContentGetCommentParent: Decodable {
