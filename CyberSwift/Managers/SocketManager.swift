@@ -37,7 +37,7 @@ public class SocketManager {
     // MARK: - Properties
     let socket = WebSocket(url: URL(string: Config.gate_API_URL)!)
     
-    let connected = BehaviorRelay<Bool>(value: false)
+    public let connected = BehaviorRelay<Bool>(value: false)
     let bag = DisposeBag()
     
     // MARK: - Methods
