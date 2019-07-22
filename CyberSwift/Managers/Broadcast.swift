@@ -160,42 +160,12 @@ extension Broadcast {
         }
     }
     
-
-    
-    /// Execute content request
-    @available(*, deprecated, message: "Use alternative rx method instead")
-    public func executeGETRequest(byContentAPIType methodAPIType: MethodAPIType, onResult: @escaping (Decodable) -> Void, onError: @escaping (ErrorAPI) -> Void) {
-        // Prepare content request
-        let requestMethodAPIType = self.prepareGETRequest(methodAPIType: methodAPIType)
-        
-        guard requestMethodAPIType.errorAPI == nil else {
-            onError(ErrorAPI.requestFailed(message: "Broadcast, line \(#line): \(requestMethodAPIType.errorAPI!)"))
-            return
-        }
-
-        Logger.log(message: "\nrequestMethodAPIType:\n\t\(requestMethodAPIType.requestMessage!)\n", event: .debug)
-        
-        // Send content request messages to `FACADE-SERVICE`
-        SocketManager.shared.sendRequest(methodAPIType: requestMethodAPIType)
-            .subscribe(onSuccess: { (responseAPIType) in
-                guard let responseAPI = responseAPIType.responseAPI else {
-                    onError(responseAPIType.errorAPI!)
-                    return
-                }
-                
-                onResult(responseAPI)
-            }) { (error) in
-                if let error = error as? ErrorAPI {
-                    onError(error)
-                    return
-                }
-                onError(ErrorAPI.requestFailed(message: error.localizedDescription))
-            }
-            .disposed(by: bag)
-    }
-    
     /// Rx method to deal with executeGetRequest
     public func executeGetRequest(methodAPIType: MethodAPIType) -> Single<Decodable> {
+        // Offline mode
+        if (!Config.isNetworkAvailable) {
+            return .error(ErrorAPI.disableInternetConnection(message: nil)) }
+        
         // Prepare content request
         let requestMethodAPIType = self.prepareGETRequest(methodAPIType: methodAPIType)
         
@@ -210,6 +180,12 @@ extension Broadcast {
                 guard let responseAPI = responseAPIType.responseAPI else {
                     throw responseAPIType.errorAPI!
                 }
+                
+                if let result = responseAPI as? ResponseAPIHasError,
+                    let error = result.error{
+                    throw ErrorAPI.requestFailed(message: error.message)
+                }
+                
                 return responseAPI
             }
     }
