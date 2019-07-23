@@ -69,6 +69,10 @@ public class SocketManager {
             })
             .disposed(by: bag)
     }
+    
+    deinit {
+        subject.onCompleted()
+    }
 }
 
 extension SocketManager {
