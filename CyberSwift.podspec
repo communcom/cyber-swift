@@ -15,7 +15,6 @@ Pod::Spec.new do |spec|
 
     # Cocoapods
     spec.dependency 'Checksum'
-    spec.dependency 'PDFReader'
     spec.dependency 'Locksmith'
     spec.dependency 'RxSwift'
     spec.dependency 'RxCocoa'

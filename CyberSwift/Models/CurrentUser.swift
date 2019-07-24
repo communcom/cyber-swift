@@ -34,6 +34,12 @@ public struct CurrentUser {
     
     public static func logout() throws {
         try KeychainManager.deleteUser()
+        UserDefaults.standard.set(nil, forKey: Config.currentUserPushNotificationOn)
+        UserDefaults.standard.set(nil, forKey: Config.currentUserAppLanguageKey)
+        UserDefaults.standard.set(nil, forKey: Config.currentUserThemeKey)
+        UserDefaults.standard.set(nil, forKey: Config.currentUserAvatarUrlKey)
+        UserDefaults.standard.set(nil, forKey: Config.currentUserBiometryAuthEnabled)
+        
     }
 }
 

@@ -11,7 +11,6 @@ target 'CyberSwift' do
   pod 'RxCocoa'
 
   pod 'Checksum'
-  pod 'PDFReader'
   pod 'Locksmith'
   pod 'SwiftTheme'
   pod 'CryptoSwift'
@@ -25,15 +24,5 @@ target 'CyberSwift' do
   
   # GoloCrypto
   pod 'GoloCrypto', :git => "https://github.com/Monserg/GoloGrypto.git"
-  
-  post_install do |installer|
-    installer.pods_project.targets.each do |target|
-      if ['PDFReader'].include? target.name
-        target.build_configurations.each do |config|
-          config.build_settings['SWIFT_VERSION'] = '4'
-        end
-      end
-    end
-  end
 
 end
