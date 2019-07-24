@@ -285,6 +285,26 @@ extension Reactive where Base: RestAPIManager {
             })
     }
     
+    /// Logout user
+    public func logout() -> Completable {
+        return pushNotifyOff()
+            .andThen(Completable.create {completable in
+                do {
+                    try KeychainManager.deleteUser()
+                    UserDefaults.standard.set(nil, forKey: Config.currentUserPushNotificationOn)
+                    UserDefaults.standard.set(nil, forKey: Config.currentUserAppLanguageKey)
+                    UserDefaults.standard.set(nil, forKey: Config.currentUserThemeKey)
+                    UserDefaults.standard.set(nil, forKey: Config.currentUserAvatarUrlKey)
+                    UserDefaults.standard.set(nil, forKey: Config.currentUserBiometryAuthEnabled)
+                    
+                    completable(.completed)
+                } catch {
+                    completable(.error(error))
+                }
+                return Disposables.create()
+            })
+    }
+    
     /// Generate secret
     private func generateSecret() -> Completable {
         // Offline mode
