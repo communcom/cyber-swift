@@ -110,7 +110,7 @@ extension Reactive where Base: RestAPIManager {
         guard Config.isNetworkAvailable else { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
         // Check user authorize
-        guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKey else {
+        guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKeys?.privateKey else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
         
@@ -127,7 +127,7 @@ extension Reactive where Base: RestAPIManager {
         guard Config.isNetworkAvailable else { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
         // Check user authorize
-        guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKey else {
+        guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKeys?.privateKey else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
         

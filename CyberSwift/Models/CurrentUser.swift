@@ -12,9 +12,7 @@ public struct CurrentUser {
     // Main properties
     public let id: String?
     public let name: String?
-    public var activeKey: String? {
-        return activeKeys?.privateKey
-    }
+    public let masterKey: String?
     
     // Registration keys
     public let registrationStep: CurrentUserRegistrationStep

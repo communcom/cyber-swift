@@ -32,6 +32,8 @@ public class KeychainManager {
         let id = data[Config.currentUserIDKey] as? String
         let name = data[Config.currentUserNameKey] as? String
         
+        let masterKey = data[Config.currentUserMasterKey] as? String
+        
         let registrationStep = CurrentUserRegistrationStep(rawValue:
             data[Config.registrationStepKey] as? String ?? "firstStep")!
         
@@ -61,6 +63,7 @@ public class KeychainManager {
         return CurrentUser(
             id: id,
             name: name,
+            masterKey: masterKey,
             registrationStep: registrationStep,
             phoneNumber: phone,
             smsCode: smsCode,
@@ -86,5 +89,18 @@ public class KeychainManager {
         }
         
         try Locksmith.updateData(data: dataToSave, forUserAccount: Config.currentUserIDKey, inService: communService)
+    }
+    
+    static func save(userkeys: [String: UserKeys]) throws {
+        try save(data: [
+            Config.currentUserPublicOwnerKey: userkeys["owner"]!.publicKey!,
+            Config.currentUserPrivateOwnerKey: userkeys["owner"]!.privateKey!,
+            Config.currentUserPublicActiveKey: userkeys["active"]!.publicKey!,
+            Config.currentUserPrivateActiveKey: userkeys["active"]!.privateKey!,
+            Config.currentUserPublicPostingKey: userkeys["posting"]!.publicKey!,
+            Config.currentUserPrivatePostingKey: userkeys["posting"]!.privateKey!,
+            Config.currentUserPublickMemoKey: userkeys["memo"]!.publicKey!,
+            Config.currentUserPrivateMemoKey: userkeys["memo"]!.privateKey!
+        ])
     }
 }

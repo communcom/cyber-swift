@@ -151,7 +151,8 @@ extension Reactive where Base: RestAPIManager {
             return .error(ErrorAPI.requestFailed(message: "userId missing"))
         }
         
-        let userkeys = generateKeys(userID: id, password: String.randomString(length: 12))
+        let masterKey = String.randomString(length: 20)
+        let userkeys = generateKeys(masterKey: masterKey)
         
         let methodAPIType = MethodAPIType.toBlockChain(userID: id, keys: userkeys)
         
@@ -166,15 +167,10 @@ extension Reactive where Base: RestAPIManager {
                     Config.registrationStepKey: CurrentUserRegistrationStep.registered.rawValue,
                     Config.currentUserNameKey: result.username,
                     Config.currentUserIDKey: result.userId,
-                    Config.currentUserPublicOwnerKey: userkeys["owner"]!.publicKey!,
-                    Config.currentUserPrivateOwnerKey: userkeys["owner"]!.privateKey!,
-                    Config.currentUserPublicActiveKey: userkeys["active"]!.publicKey!,
-                    Config.currentUserPrivateActiveKey: userkeys["active"]!.privateKey!,
-                    Config.currentUserPublicPostingKey: userkeys["posting"]!.publicKey!,
-                    Config.currentUserPrivatePostingKey: userkeys["posting"]!.privateKey!,
-                    Config.currentUserPublickMemoKey: userkeys["memo"]!.publicKey!,
-                    Config.currentUserPrivateMemoKey: userkeys["memo"]!.privateKey!
+                    Config.currentUserMasterKey: masterKey
                 ])
+                
+                try KeychainManager.save(userkeys: userkeys)
                 
                 return result
             }
@@ -204,11 +200,54 @@ extension Reactive where Base: RestAPIManager {
         }
     }
     
-    /// Authorize registration user or login
-    public func authorize(login: String? = nil, key: String? = nil) -> Single<ResponseAPIAuthAuthorize> {
+    /// Login user
+    public func login(login: String, masterKey: String, retried: Bool = false) -> Single<ResponseAPIAuthAuthorize> {
+        // Create 4 pairs of keys
+        let userKeys = generateKeys(masterKey: masterKey)
         
-        guard let userId = login ?? Config.currentUser?.id,
-            let activeKey = key ?? Config.currentUser?.activeKey
+        // Send authorize request with 1 of 4 keys
+        let methodAPIType = MethodAPIType.authorize(userID: login, activeKey: userKeys["active"]!.privateKey!)
+        
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+            .log(method: "auth.authorize (login)")
+            .map {result in
+                guard let result = (result as? ResponseAPIAuthAuthorizeResult)?.result else {
+                    throw ErrorAPI.unknown
+                }
+                
+                try KeychainManager.save(userkeys: userKeys)
+                
+                try KeychainManager.save(data: [
+                    Config.currentUserIDKey: result.user,
+                    Config.currentUserNameKey: result.displayName,
+                    Config.registrationStepKey: CurrentUserRegistrationStep.registered.rawValue
+                ])
+                
+                return result
+            }
+            .catchError({ (error) -> Single<ResponseAPIAuthAuthorize> in
+                if retried {throw error}
+                
+                if let error = error as? ErrorAPI {
+                    let message = error.caseInfo.message
+                    
+                    if message == "There is no secret stored for this channelId. Probably, client's already authorized" ||
+                        message == "Secret verification failed - access denied"{
+                        // retrieve secret
+                        return self.generateSecret()
+                            .andThen(self.login(login: login, masterKey: masterKey, retried: true))
+                    }
+                }
+                throw error
+            })
+        
+    }
+    
+    /// Authorize registered user
+    public func authorize(retried: Bool = false) -> Single<ResponseAPIAuthAuthorize> {
+        
+        guard let userId = Config.currentUser?.id,
+            let activeKey = Config.currentUser?.activeKeys?.privateKey
         else {
             Logger.log(message: "userId or activeKey missing for user: \(String(describing: Config.currentUser))", event: .error)
             return .error(ErrorAPI.requestFailed(message: "userId or activeKey missing"))
@@ -223,20 +262,11 @@ extension Reactive where Base: RestAPIManager {
                     throw ErrorAPI.unknown
                 }
                 
-                var dataToSave: [String: Any] = [
-                    Config.currentUserNameKey: result.displayName,
-                    Config.registrationStepKey: CurrentUserRegistrationStep.registered.rawValue,
-                    Config.settingStepKey: CurrentUserSettingStep.completed.rawValue
-                ]
-                
-                if let login = login {dataToSave[Config.currentUserIDKey] = login}
-                if let key = key {dataToSave[Config.currentUserPrivateActiveKey] = key}
-                
-                try KeychainManager.save(data: dataToSave)
-                
                 return result
             }
             .catchError({ (error) -> Single<ResponseAPIAuthAuthorize> in
+                if retried {throw error}
+                
                 if let error = error as? ErrorAPI {
                     let message = error.caseInfo.message
                     
@@ -244,7 +274,7 @@ extension Reactive where Base: RestAPIManager {
                         message == "Secret verification failed - access denied"{
                         // retrieve secret
                         return self.generateSecret()
-                            .andThen(self.authorize(login: login, key: key))
+                            .andThen(self.authorize(retried: true))
                     }
                 }
                 throw error
@@ -301,14 +331,14 @@ extension Reactive where Base: RestAPIManager {
     }
     
     // MARK: - Private functions
-    private func generateKeys(userID: String, password: String) -> [String: UserKeys] {
+    public func generateKeys(masterKey: String) -> [String: UserKeys] {
         var userKeys = [String: UserKeys]()
         
         // type
         let types = ["owner", "active", "posting", "memo"]
         
         for keyType in types {
-            let seed                =   userID + keyType + password
+            let seed                =   keyType + masterKey
             let brainKey            =   seed.removeWhitespaceCharacters()
             let brainKeyBytes       =   brainKey.bytes
             

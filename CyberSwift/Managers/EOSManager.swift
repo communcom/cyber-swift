@@ -89,7 +89,7 @@ class EOSManager {
     }
     
     static func pushAuthorized(account: TransactionAccountType, name: String, data: DataWriterValue, expiration: Date = Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds)) -> Single<ChainResponse<TransactionCommitted>> {
-        guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKey else {
+        guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKeys?.privateKey else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
         
@@ -118,7 +118,7 @@ class EOSManager {
     //  MARK: - Contract `gls.publish`
     
     static func createNewAccount(nickName: String) -> Single<ChainResponse<TransactionCommitted>> {
-        guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKey else {
+        guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKeys?.privateKey else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
         
@@ -154,7 +154,7 @@ class EOSManager {
                      author:    String,
                      permlink:  String,
                      weight:    Int16) -> Completable {
-        guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKey else {
+        guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKeys?.privateKey else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
         

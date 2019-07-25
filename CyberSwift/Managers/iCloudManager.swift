@@ -17,6 +17,7 @@ public struct iCloudManager {
         let keyStore = NSUbiquitousKeyValueStore()
         keyStore.set(user.id, forKey: Config.currentUserIDKey)
         keyStore.set(user.name, forKey: Config.currentUserNameKey)
+        keyStore.set(user.masterKey, forKey: Config.currentUserMasterKey)
         
         keyStore.set(user.registrationStep, forKey: Config.registrationStepKey)
         keyStore.set(user.phoneNumber, forKey: Config.registrationUserPhoneKey)
