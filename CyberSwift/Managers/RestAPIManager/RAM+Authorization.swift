@@ -13,9 +13,6 @@ extension Reactive where Base: RestAPIManager {
     // MARK: - Public function
     /// Get registration state
     public func getState(userId: String? = Config.currentUser?.id, phone: String? = Config.currentUser?.phoneNumber) -> Single<ResponseAPIRegistrationGetState> {
-        // Offline mode
-        if (!Config.isNetworkAvailable) {
-            return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
         let methodAPIType = MethodAPIType.getState(id: userId, phone: userId == nil ? phone: nil)
         
@@ -43,9 +40,6 @@ extension Reactive where Base: RestAPIManager {
     
     /// First step of registration
     public func firstStep(phone: String) -> Single<ResponseAPIRegistrationFirstStep> {
-        // Offline mode
-        if (!Config.isNetworkAvailable) {
-            return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
         let methodAPIType = MethodAPIType.firstStep(phone: phone, isDebugMode: base.isDebugMode)
         
@@ -69,9 +63,6 @@ extension Reactive where Base: RestAPIManager {
     
     /// Verify code
     public func verify() -> Single<ResponseAPIRegistrationVerify> {
-        // Offline mode
-        if (!Config.isNetworkAvailable) {
-            return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
         guard let phone = Config.currentUser?.phoneNumber,
             let code = Config.currentUser?.smsCode
@@ -101,9 +92,6 @@ extension Reactive where Base: RestAPIManager {
     
     /// Resend sms code
     public func resendSmsCode() -> Single<ResponseAPIResendSmsCode> {
-        // Offline mode
-        if (!Config.isNetworkAvailable) {
-            return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
         guard let phone = Config.currentUser?.phoneNumber else {
             Logger.log(message: "Phone missing for user: \(String(describing: Config.currentUser))", event: .error)
@@ -131,9 +119,6 @@ extension Reactive where Base: RestAPIManager {
     
     /// set userId
     public func setUser(id: String) -> Single<ResponseAPIRegistrationSetUsername> {
-        // Offline mode
-        if (!Config.isNetworkAvailable) {
-            return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
         guard let phone = Config.currentUser?.phoneNumber else {
             Logger.log(message: "Phone missing for user: \(String(describing: Config.currentUser))", event: .error)
@@ -160,9 +145,6 @@ extension Reactive where Base: RestAPIManager {
     
     /// Save user to blockchain
     public func toBlockChain() -> Completable {
-        // Offline mode
-        if (!Config.isNetworkAvailable) {
-            return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
         guard let id = Config.currentUser?.id else {
             Logger.log(message: "userId missing for user: \(String(describing: Config.currentUser))", event: .error)
@@ -224,9 +206,6 @@ extension Reactive where Base: RestAPIManager {
     
     /// Authorize registration user or login
     public func authorize(login: String? = nil, key: String? = nil) -> Single<ResponseAPIAuthAuthorize> {
-        // Offline mode
-        if (!Config.isNetworkAvailable) {
-            return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
         guard let userId = login ?? Config.currentUser?.id,
             let activeKey = key ?? Config.currentUser?.activeKey
@@ -307,9 +286,6 @@ extension Reactive where Base: RestAPIManager {
     
     /// Generate secret
     private func generateSecret() -> Completable {
-        // Offline mode
-        if (!Config.isNetworkAvailable) {
-            return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
         let methodAPIType = MethodAPIType.generateSecret
         
