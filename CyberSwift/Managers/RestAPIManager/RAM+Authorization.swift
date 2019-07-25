@@ -270,19 +270,19 @@ extension Reactive where Base: RestAPIManager {
                 }
                 throw error
             })
-            .do(onError: {error in
-                if let error = error as? ErrorAPI {
-                    switch error.caseInfo.message {
-                    case "Secret verification failed - access denied",
-                         "Public key verification failed - access denied",
-                         "Sign is not a valid signature",
-                         "Cannot get such account from BC":
-                        try? CurrentUser.logout()
-                    default:
-                        break
-                    }
-                }
-            })
+//            .do(onError: {error in
+//                if let error = error as? ErrorAPI {
+//                    switch error.caseInfo.message {
+//                    case "Secret verification failed - access denied",
+//                         "Public key verification failed - access denied",
+//                         "Sign is not a valid signature",
+//                         "Cannot get such account from BC":
+//                        try? CurrentUser.logout()
+//                    default:
+//                        break
+//                    }
+//                }
+//            })
     }
     
     /// Logout user
