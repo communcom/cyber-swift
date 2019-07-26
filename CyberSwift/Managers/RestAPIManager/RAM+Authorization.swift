@@ -53,7 +53,6 @@ extension Reactive where Base: RestAPIManager {
                 try KeychainManager.save(data: [
                     Config.registrationStepKey: CurrentUserRegistrationStep.verify.rawValue,
                     Config.registrationUserPhoneKey: phone,
-                    Config.registrationSmsCodeKey: result.code,
                     Config.registrationSmsNextRetryKey: result.nextSmsRetry
                 ])
                 
@@ -62,10 +61,9 @@ extension Reactive where Base: RestAPIManager {
     }
     
     /// Verify code
-    public func verify() -> Single<ResponseAPIRegistrationVerify> {
+    public func verify(code: UInt64) -> Single<ResponseAPIRegistrationVerify> {
         
-        guard let phone = Config.currentUser?.phoneNumber,
-            let code = Config.currentUser?.smsCode
+        guard let phone = Config.currentUser?.phoneNumber
         else {
             Logger.log(message: "Phone missing for user: \(String(describing: Config.currentUser))", event: .error)
             return .error(ErrorAPI.requestFailed(message: "Phone missing"))
