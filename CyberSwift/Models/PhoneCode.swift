@@ -33,6 +33,16 @@ public class Country: Encodable {
         self.verificationPhone = verificationPhoneValue
         self.verificationOverrides = verificationOverridesValue
     }
+    
+    public var localizedName: String {
+        if let name = (Locale.current as NSLocale).displayName(forKey: .countryCode, value: shortCode) {
+            // Country name was found
+            return name
+        } else {
+            // Country name cannot be found
+            return label
+        }
+    }
 }
 
 public struct Override: Encodable {
