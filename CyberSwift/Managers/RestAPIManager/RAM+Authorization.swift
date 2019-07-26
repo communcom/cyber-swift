@@ -149,7 +149,7 @@ extension Reactive where Base: RestAPIManager {
             return .error(ErrorAPI.requestFailed(message: "userId missing"))
         }
         
-        let masterKey = String.randomString(length: 20)
+        let masterKey = String.randomString(length: 51)
         let userkeys = generateKeys(masterKey: masterKey)
         
         let methodAPIType = MethodAPIType.toBlockChain(userID: id, keys: userkeys)
