@@ -49,7 +49,7 @@ public class SocketManager {
         socket.write(string: methodAPIType.requestMessage!)
         return text
             .filter {self.compareMessageFromResponseText($0, to: methodAPIType.id)}
-            .timeout(5, scheduler: MainScheduler.instance)
+            .timeout(10, scheduler: MainScheduler.instance)
             .take(1)
             .asSingle()
             .map {try self.transformMessage($0, to: methodAPIType.methodAPIType)}
