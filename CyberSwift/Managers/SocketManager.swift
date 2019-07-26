@@ -45,6 +45,7 @@ public class SocketManager {
     }
     
     func sendRequest(methodAPIType: RequestMethodAPIType) -> Single<ResponseAPIType> {
+        if !socket.isConnected {connect()}
         socket.write(string: methodAPIType.requestMessage!)
         return text
             .filter {self.compareMessageFromResponseText($0, to: methodAPIType.id)}
