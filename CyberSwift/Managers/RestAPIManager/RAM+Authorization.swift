@@ -263,7 +263,7 @@ extension Reactive where Base: RestAPIManager {
                 return result
             }
             .catchError({ (error) -> Single<ResponseAPIAuthAuthorize> in
-                if retried {throw error}
+//                if retried {throw error}
                 
                 if let error = error as? ErrorAPI {
                     let message = error.caseInfo.message
