@@ -45,8 +45,17 @@ public class SocketManager {
     }
     
     func sendRequest(methodAPIType: RequestMethodAPIType) -> Single<ResponseAPIType> {
-        if !socket.isConnected {connect()}
-        socket.write(string: methodAPIType.requestMessage!)
+        if !socket.isConnected {
+            connect()
+            connected
+                .filter {$0}
+                .subscribe(onNext: {[weak self] _ in
+                    self?.socket.write(string: methodAPIType.requestMessage!)
+                })
+                .disposed(by: bag)
+        } else {
+            socket.write(string: methodAPIType.requestMessage!)
+        }
         return text
             .filter {self.compareMessageFromResponseText($0, to: methodAPIType.id)}
             .timeout(10, scheduler: MainScheduler.instance)
