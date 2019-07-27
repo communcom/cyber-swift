@@ -9,9 +9,6 @@
 import Foundation
 import RxSwift
 
-/// Array of request unique IDs
-public var requestIDs   =   [Int]()
-
 /// Type of request API
 public typealias RequestMethodAPIType   =   (id: Int, requestMessage: String?, methodAPIType: MethodAPIType, errorAPI: ErrorAPI?)
 
@@ -89,20 +86,15 @@ public class Broadcast {
     }
     
     
+    var currentId = 0
     /// Generating a unique ID
     //  for content:                < 100
     private func generateUniqueId(forType type: Any) -> Int {
-        var generatedID = 0
-        
-        repeat {
-            if type is MethodAPIType {
-                generatedID = Int(arc4random_uniform(100))
-            }
-        } while requestIDs.contains(generatedID)
-        
-        requestIDs.append(generatedID)
-        
-        return generatedID
+        currentId += 1
+        if currentId == 100 {
+            currentId = 0
+        }
+        return currentId
     }
 }
 
