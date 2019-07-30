@@ -206,7 +206,8 @@ extension Reactive where Base: RestAPIManager {
         // Send authorize request with 1 of 4 keys
         let methodAPIType = MethodAPIType.authorize(userID: login, activeKey: userKeys["active"]!.privateKey!)
         
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return self.generateSecret()
+            .andThen(Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType))
             .log(method: "auth.authorize (login)")
             .map {result in
                 guard let result = (result as? ResponseAPIAuthAuthorizeResult)?.result else {
@@ -264,7 +265,7 @@ extension Reactive where Base: RestAPIManager {
                 return result
             }
             .catchError({ (error) -> Single<ResponseAPIAuthAuthorize> in
-//                if retried {throw error}
+                if retried {throw error}
                 
                 if let error = error as? ErrorAPI {
                     let message = error.caseInfo.message
