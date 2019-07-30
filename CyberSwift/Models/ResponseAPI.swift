@@ -148,7 +148,7 @@ public struct ResponseAPIContentGetFeed: Decodable {
 }
 
 public struct ResponseAPIContentGetPost: Decodable {
-    public let content: ResponseAPIContentGetPostContent
+    public var content: ResponseAPIContentGetPostContent
     public var votes: ResponseAPIContentVotes
     public let stats: ResponseAPIContentGetPostStats
     public let payout: ResponseAPIContentGetPostPayout
@@ -159,16 +159,16 @@ public struct ResponseAPIContentGetPost: Decodable {
 }
 
 public struct ResponseAPIContentGetPostContent: Decodable {
-    public let body: ResponseAPIContentGetPostContentBody
-    public let title: String
+    public var body: ResponseAPIContentGetPostContentBody
+    public var title: String
     public let tags: [String?]?
     public let metadata: ResponseAPIContentGetPostContentMetadata?
-    public let embeds: [ResponseAPIContentEmbed]
+    public var embeds: [ResponseAPIContentEmbed]
 }
 
 public struct ResponseAPIContentGetPostContentBody: Decodable {
     public let preview: String?
-    public let full: String?
+    public var full: String?
 }
 
 public struct ResponseAPIContentGetPostContentMetadata: Decodable {
@@ -179,22 +179,22 @@ public struct ResponseAPIContentEmbed: Decodable {
     public let _id: String
     public let id: String?
     public let type: String?
-    public let result: ResponseAPIContentEmbedResult?
+    public var result: ResponseAPIContentEmbedResult?
 }
 
 public struct ResponseAPIContentEmbedResult: Decodable {
     public let type: String
     public let version: String
     public let title: String?
-    public let url: String
+    public var url: String
     public let author: String?
     public let author_url: String?
     public let provider_name: String?
     public let description: String?
-    public let thumbnail_url: String?
+    public var thumbnail_url: String?
     public let thumbnail_width: UInt64?
     public let thumbnail_height: UInt64?
-    public let html: String?
+    public var html: String?
     public let content_length: UInt64?
 }
 
