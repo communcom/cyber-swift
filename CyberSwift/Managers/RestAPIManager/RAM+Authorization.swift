@@ -244,7 +244,7 @@ extension Reactive where Base: RestAPIManager {
     }
     
     /// Authorize registered user
-    public func authorize(retried: Bool = false) -> Single<ResponseAPIAuthAuthorize> {
+    public func authorize() -> Single<ResponseAPIAuthAuthorize> {
         
         guard let userId = Config.currentUser?.id,
             let activeKey = Config.currentUser?.activeKeys?.privateKey
@@ -265,8 +265,6 @@ extension Reactive where Base: RestAPIManager {
                 return result
             }
             .catchError({ (error) -> Single<ResponseAPIAuthAuthorize> in
-                if retried {throw error}
-                
                 if let error = error as? ErrorAPI {
                     let message = error.caseInfo.message
                     
@@ -274,7 +272,7 @@ extension Reactive where Base: RestAPIManager {
                         message == "Secret verification failed - access denied"{
                         // retrieve secret
                         return self.generateSecret()
-                            .andThen(self.authorize(retried: true))
+                            .andThen(self.authorize())
                     }
                 }
                 throw error
