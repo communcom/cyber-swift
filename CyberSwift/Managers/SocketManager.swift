@@ -11,6 +11,7 @@ import RxSwift
 import RxCocoa
 import Starscream
 import SwiftyJSON
+import Reachability
 
 public enum WebSocketEvent {
     case connected
@@ -21,19 +22,25 @@ public enum WebSocketEvent {
 }
 
 public class SocketManager {
-    // MARK: - Singleton
-    public static let shared = SocketManager()
-    private init() {
-        socket.delegate = self
-        retrieveSecret()
-    }
-    
     // MARK: - Properties
     let socket = WebSocket(url: URL(string: Config.gate_API_URL)!)
     
     let subject = PublishSubject<WebSocketEvent>()
     public let connected = BehaviorRelay<Bool>(value: false)
     let bag = DisposeBag()
+    var reachability: Reachability!
+    
+    // MARK: - Singleton
+    public static let shared = SocketManager()
+    private init() {
+        socket.delegate = self
+        
+        // sign when socket is connected
+        observeConnection()
+        
+        // network monitoring
+        monitorNetwork()
+    }
     
     // MARK: - Methods
     public func connect() {
@@ -64,7 +71,7 @@ public class SocketManager {
             .map {try self.transformMessage($0, to: methodAPIType.methodAPIType)}
     }
     
-    func retrieveSecret() {
+    func observeConnection() {
         text
             .subscribe(onNext: { (text) in
                 if let data = text.data(using: .utf8),
@@ -79,6 +86,14 @@ public class SocketManager {
                 }
             })
             .disposed(by: bag)
+    }
+    
+    func monitorNetwork() {
+        reachability = Reachability()
+        reachability.whenReachable = { _ in
+            self.connect()
+        }
+        try? reachability.startNotifier()
     }
     
     deinit {

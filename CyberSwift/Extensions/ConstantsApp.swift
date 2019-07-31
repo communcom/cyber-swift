@@ -61,11 +61,7 @@ public struct Config {
     
     /// Check network connection
     public static var isNetworkAvailable: Bool {
-        set { }
-        
-        get {
-            return ReachabilityManager.connection()
-        }
+        return SocketManager.shared.reachability.isReachable
     }
     
     
