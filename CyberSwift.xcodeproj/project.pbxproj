@@ -10,6 +10,7 @@
 		03329A709F0DA60180F91DBB /* Pods_CyberSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6ED672114DF191DC66860EA /* Pods_CyberSwift.framework */; };
 		3B1E901622CDEC6A00D7A0C1 /* RAM+Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1E901522CDEC6A00D7A0C1 /* RAM+Authorization.swift */; };
 		3B1E901822CDF16B00D7A0C1 /* iCloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1E901722CDF16B00D7A0C1 /* iCloudManager.swift */; };
+		3B3016B922F1FDAA003CD1BD /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3016B822F1FDAA003CD1BD /* ReachabilityManager.swift */; };
 		3B5D91C622CE14E100BB7DCC /* MethodAPIType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5D91C522CE14E100BB7DCC /* MethodAPIType.swift */; };
 		3B5EDE3F22E0F10900897BF3 /* RAM+Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5EDE3E22E0F10900897BF3 /* RAM+Notifications.swift */; };
 		3B61AC3222E1C5CD00F608AF /* ResponseAPIGetOptionsNotifyShow+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B61AC3122E1C5CD00F608AF /* ResponseAPIGetOptionsNotifyShow+Extensions.swift */; };
@@ -60,6 +61,7 @@
 		34491307AF58D97E2E29C420 /* Pods-CyberSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CyberSwift.debug.xcconfig"; path = "Target Support Files/Pods-CyberSwift/Pods-CyberSwift.debug.xcconfig"; sourceTree = "<group>"; };
 		3B1E901522CDEC6A00D7A0C1 /* RAM+Authorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Authorization.swift"; sourceTree = "<group>"; };
 		3B1E901722CDF16B00D7A0C1 /* iCloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iCloudManager.swift; sourceTree = "<group>"; };
+		3B3016B822F1FDAA003CD1BD /* ReachabilityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityManager.swift; sourceTree = "<group>"; };
 		3B5D91C522CE14E100BB7DCC /* MethodAPIType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MethodAPIType.swift; sourceTree = "<group>"; };
 		3B5EDE3E22E0F10900897BF3 /* RAM+Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Notifications.swift"; sourceTree = "<group>"; };
 		3B61AC3122E1C5CD00F608AF /* ResponseAPIGetOptionsNotifyShow+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPIGetOptionsNotifyShow+Extensions.swift"; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 		B1C3F85A223F98C7005711EF /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				3B3016B822F1FDAA003CD1BD /* ReachabilityManager.swift */,
 				B1C3F85C223F98DC005711EF /* Broadcast.swift */,
 				B1A74A652243893A009D68E7 /* EOSManager.swift */,
 				3BE3666622E5CE7C00F84A04 /* SocketManager.swift */,
@@ -409,6 +412,7 @@
 				B1C3F860223F98DC005711EF /* Broadcast.swift in Sources */,
 				3B1E901822CDF16B00D7A0C1 /* iCloudManager.swift in Sources */,
 				B1EA02CD22895EB400835244 /* UILabel+Extensions.swift in Sources */,
+				3B3016B922F1FDAA003CD1BD /* ReachabilityManager.swift in Sources */,
 				B1A74A642243892B009D68E7 /* EOSTransaction.swift in Sources */,
 				B1EA02F62289D3B400835244 /* UITextField+Extensions.swift in Sources */,
 				3B5D91C622CE14E100BB7DCC /* MethodAPIType.swift in Sources */,
