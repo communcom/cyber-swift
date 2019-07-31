@@ -24,6 +24,11 @@ enum TransactionAccountType: String {
     case glsCtrl = "gls.ctrl"
 }
 
+public struct ProviderArgs: Encodable {
+    public let provider: String
+    public let account: String
+}
+
 class EOSManager {
     // MARK: - Properties
     static let chainApi     =   ChainApiFactory.create(rootUrl: Config.blockchain_API_URL)
@@ -93,7 +98,7 @@ class EOSManager {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
         
-        // Prepare action
+        // Prepare actions
         let transactionAuthorizationAbi = TransactionAuthorizationAbi(
             actor:        AccountNameWriterValue(name:    userID),
             permission:   AccountNameWriterValue(name:    "active"))
@@ -104,11 +109,15 @@ class EOSManager {
             authorization: [transactionAuthorizationAbi],
             data: data)
         
+        let secondTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor: AccountNameWriterValue(name: "gls"), permission: AccountNameWriterValue(name: "providebw"))
+        let providerArgs = ProviderArgs(provider: "gls", account: userID)
+        let action2 = ActionAbi(account: AccountNameWriterValue(name: "cyber"), name: AccountNameWriterValue(name: "providebw"), authorization: [secondTransactionAuthorizationAbi], data: DataWriterValue(hex: providerArgs.toHex()))
+        
         let transaction = EOSTransaction(chainApi: EOSManager.chainApi)
         
         do {
             let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
-            return transaction.push(expirationDate: expiration, actions: [action], authorizingPrivateKey: privateKey)
+            return transaction.push(expirationDate: expiration, actions: [action, action2], authorizingPrivateKey: privateKey)
         } catch {
             return .error(error)
         }
