@@ -88,7 +88,7 @@ class EOSManager {
         }
     }
     
-    static func pushAuthorized(account: TransactionAccountType, name: String, data: DataWriterValue, expiration: Date = Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds)) -> Single<ChainResponse<TransactionCommitted>> {
+    static func pushAuthorized(account: TransactionAccountType, name: String, data: DataWriterValue, expiration: Date = Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds)) -> Single<String> {
         guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKeys?.privateKey else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
@@ -109,7 +109,6 @@ class EOSManager {
         do {
             let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
             return transaction.push(expirationDate: expiration, actions: [action], authorizingPrivateKey: privateKey)
-                .mapCachedError()
         } catch {
             return .error(error)
         }
@@ -117,7 +116,7 @@ class EOSManager {
     
     //  MARK: - Contract `gls.publish`
     
-    static func createNewAccount(nickName: String) -> Single<ChainResponse<TransactionCommitted>> {
+    static func createNewAccount(nickName: String) -> Single<String> {
         guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKeys?.privateKey else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
@@ -170,7 +169,7 @@ class EOSManager {
         let voteArgsData = DataWriterValue(hex: voteArgs.toHex())
         
         return pushAuthorized(account: .glsPublish, name: voteType.rawValue, data: voteArgsData)
-            .flatMap {response -> Single<ChainResponse<TransactionCommitted>> in
+            .flatMap {response -> Single<String> in
                 if voteType == .unvote {
                     return .just(response)
                 }
@@ -182,7 +181,7 @@ class EOSManager {
             .flatMapToCompletable()
     }
     
-    static func create(messageCreateArgs: EOSTransaction.MessageCreateArgs) -> Single<ChainResponse<TransactionCommitted>> {
+    static func create(messageCreateArgs: EOSTransaction.MessageCreateArgs) -> Single<String> {
         // Prepare data
         Logger.log(message: messageCreateArgs.convertToJSON(), event: .debug)
         let messageCreateArgsData = DataWriterValue(hex: messageCreateArgs.toHex())
@@ -202,7 +201,7 @@ class EOSManager {
             .flatMapToCompletable()
     }
     
-    static func update(messageArgs: EOSTransaction.MessageUpdateArgs) -> Single<ChainResponse<TransactionCommitted>> {
+    static func update(messageArgs: EOSTransaction.MessageUpdateArgs) -> Single<String> {
         // Prepare data
         let messageUpdateArgsData = DataWriterValue(hex: messageArgs.toHex())
         
@@ -210,7 +209,7 @@ class EOSManager {
         return pushAuthorized(account: .glsPublish, name: "updatemssg", data: messageUpdateArgsData)
     }
     
-    static func updateUserProfile(changereputArgs: EOSTransaction.UserProfileChangereputArgs) -> Single<ChainResponse<TransactionCommitted>> {
+    static func updateUserProfile(changereputArgs: EOSTransaction.UserProfileChangereputArgs) -> Single<String> {
         // Prepare data
         let changereputArgsData = DataWriterValue(hex: changereputArgs.toHex())
         
@@ -218,7 +217,7 @@ class EOSManager {
         return pushAuthorized(account: .glsPublish, name: "changereput", data: changereputArgsData)
     }
     
-    static func reblog(args: EOSTransaction.ReblogArgs) -> Single<ChainResponse<TransactionCommitted>> {
+    static func reblog(args: EOSTransaction.ReblogArgs) -> Single<String> {
         // Prepare data
         let reblogArgsData = DataWriterValue(hex: args.toHex())
         
@@ -227,7 +226,7 @@ class EOSManager {
     }
     
     // MARK: - Contract `gls.vesting`
-    static func publish(transferArgs: EOSTransaction.TransferArgs) -> Single<ChainResponse<TransactionCommitted>> {
+    static func publish(transferArgs: EOSTransaction.TransferArgs) -> Single<String> {
         // Prepare data
         let transferArgsData = DataWriterValue(hex: transferArgs.toHex())
         
@@ -236,7 +235,7 @@ class EOSManager {
     }
     
     // MARK: - Contract `gls.social`
-    static func updateUserProfile(pinArgs: EOSTransaction.UserProfilePinArgs, isUnpin: Bool) -> Single<ChainResponse<TransactionCommitted>> {
+    static func updateUserProfile(pinArgs: EOSTransaction.UserProfilePinArgs, isUnpin: Bool) -> Single<String> {
         // Prepare data
         let pinArgsData = DataWriterValue(hex: pinArgs.toHex())
         
@@ -244,7 +243,7 @@ class EOSManager {
         return pushAuthorized(account: .glsSocial, name: isUnpin ? "unpin": "pin", data: pinArgsData)
     }
     
-    static func updateUserProfile(blockArgs: EOSTransaction.UserProfileBlockArgs, isUnblock: Bool) -> Single<ChainResponse<TransactionCommitted>> {
+    static func updateUserProfile(blockArgs: EOSTransaction.UserProfileBlockArgs, isUnblock: Bool) -> Single<String> {
         // Prepare data
         let blockArgsData = DataWriterValue(hex: blockArgs.toHex())
         
@@ -252,7 +251,7 @@ class EOSManager {
         return pushAuthorized(account: .glsSocial, name: isUnblock ? "unblock": "block", data: blockArgsData)
     }
     
-    static func update(userProfileMetaArgs: EOSTransaction.UserProfileUpdatemetaArgs) -> Single<ChainResponse<TransactionCommitted>> {
+    static func update(userProfileMetaArgs: EOSTransaction.UserProfileUpdatemetaArgs) -> Single<String> {
         Logger.log(message: "\nuserProfileMetaArgs: \n\(userProfileMetaArgs.convertToJSON())\n", event: .debug)
         
         // Prepare data
@@ -262,7 +261,7 @@ class EOSManager {
         return pushAuthorized(account: .glsSocial, name: "updatemeta", data: userProfileUpdatemetaArgsData)
     }
     
-    static func delete(userProfileMetaArgs: EOSTransaction.UserProfileDeleteArgs) -> Single<ChainResponse<TransactionCommitted>> {
+    static func delete(userProfileMetaArgs: EOSTransaction.UserProfileDeleteArgs) -> Single<String> {
         // Prepare data
         let userProfileDeletemetaArgsData = DataWriterValue(hex: userProfileMetaArgs.toHex())
         
@@ -271,7 +270,7 @@ class EOSManager {
     }
     
     // MARK: - Contract `gls.ctrl`
-    static func reg(witnessArgs: EOSTransaction.RegwitnessArgs) -> Single<ChainResponse<TransactionCommitted>> {
+    static func reg(witnessArgs: EOSTransaction.RegwitnessArgs) -> Single<String> {
         // Prepare data
         let regwithessArgsData = DataWriterValue(hex: witnessArgs.toHex())
         
@@ -279,7 +278,7 @@ class EOSManager {
         return pushAuthorized(account: .glsCtrl, name: "regwitness", data: regwithessArgsData)
     }
     
-    static func vote(witnessArgs: EOSTransaction.VotewitnessArgs) -> Single<ChainResponse<TransactionCommitted>> {
+    static func vote(witnessArgs: EOSTransaction.VotewitnessArgs) -> Single<String> {
         // Prepare data
         let votewithessArgsData = DataWriterValue(hex: witnessArgs.toHex())
         
@@ -287,7 +286,7 @@ class EOSManager {
         return pushAuthorized(account: .glsCtrl, name: "votewitness", data: votewithessArgsData)
     }
     
-    static func unvote(witnessArgs: EOSTransaction.UnvotewitnessArgs) -> Single<ChainResponse<TransactionCommitted>> {
+    static func unvote(witnessArgs: EOSTransaction.UnvotewitnessArgs) -> Single<String> {
         // Prepare data
         let unvotewithessArgsData = DataWriterValue(hex: witnessArgs.toHex())
         
@@ -295,7 +294,7 @@ class EOSManager {
         return pushAuthorized(account: .glsCtrl, name: "unvotewitn", data: unvotewithessArgsData)
     }
     
-    static func unreg(witnessArgs: EOSTransaction.UnregwitnessArgs) -> Single<ChainResponse<TransactionCommitted>> {
+    static func unreg(witnessArgs: EOSTransaction.UnregwitnessArgs) -> Single<String> {
         // Prepare data
         let unregwithessArgsData = DataWriterValue(hex: witnessArgs.toHex())
         

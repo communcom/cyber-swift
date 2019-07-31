@@ -66,6 +66,10 @@ public enum ErrorAPI: Error {
     public static var unauthorized: ErrorAPI {
         return ErrorAPI.requestFailed(message: "Unauthorized")
     }
+    
+    public static var couldNotRetrieveChainInfo: ErrorAPI {
+        return ErrorAPI.blockchain(message: "Could not retrieve chain info")
+    }
 }
 
 extension Error {

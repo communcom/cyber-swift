@@ -32,7 +32,7 @@ extension Reactive where Base: RestAPIManager {
                        parentPermlink:      String? = nil,
                        author:              String,
                        tags:                [String]?,
-                       metaData:            String) -> Single<ChainResponse<TransactionCommitted>> {
+                       metaData:            String) -> Single<String> {
         // Offline mode
         if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
 
@@ -66,7 +66,7 @@ extension Reactive where Base: RestAPIManager {
                               message:          String,
                               tags:             [String]?,
                               metaData:         String
-                              ) -> Single<ChainResponse<TransactionCommitted>> {
+                              ) -> Single<String> {
         // Offline mode
         if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
@@ -91,7 +91,7 @@ extension Reactive where Base: RestAPIManager {
                        rebloger:            String,
                        permlink:            String,
                        headermssg:          String,
-                       bodymssg:            String) -> Single<ChainResponse<TransactionCommitted>> {
+                       bodymssg:            String) -> Single<String> {
         // Offline mode
         if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
@@ -105,7 +105,7 @@ extension Reactive where Base: RestAPIManager {
     }
     
     // MARK: - Contract `gls.social`
-    public func update(userProfile: [String: String]) -> Single<ChainResponse<TransactionCommitted>> {
+    public func update(userProfile: [String: String]) -> Single<String> {
         // Offline mode
         guard Config.isNetworkAvailable else { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
@@ -122,7 +122,7 @@ extension Reactive where Base: RestAPIManager {
         return EOSManager.update(userProfileMetaArgs: userProfileMetaArgs)
     }
     
-    public func follow(_ userToFollow: String, isUnfollow: Bool = false) -> Single<ChainResponse<TransactionCommitted>> {
+    public func follow(_ userToFollow: String, isUnfollow: Bool = false) -> Single<String> {
         // Offline mode
         guard Config.isNetworkAvailable else { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         

@@ -10,6 +10,7 @@
 		03329A709F0DA60180F91DBB /* Pods_CyberSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6ED672114DF191DC66860EA /* Pods_CyberSwift.framework */; };
 		3B1E901622CDEC6A00D7A0C1 /* RAM+Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1E901522CDEC6A00D7A0C1 /* RAM+Authorization.swift */; };
 		3B1E901822CDF16B00D7A0C1 /* iCloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1E901722CDF16B00D7A0C1 /* iCloudManager.swift */; };
+		3B3016B722F1E4D3003CD1BD /* RequestAPITransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3016B622F1E4D3003CD1BD /* RequestAPITransaction.swift */; };
 		3B5D91C622CE14E100BB7DCC /* MethodAPIType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5D91C522CE14E100BB7DCC /* MethodAPIType.swift */; };
 		3B5EDE3F22E0F10900897BF3 /* RAM+Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5EDE3E22E0F10900897BF3 /* RAM+Notifications.swift */; };
 		3B61AC3222E1C5CD00F608AF /* ResponseAPIGetOptionsNotifyShow+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B61AC3122E1C5CD00F608AF /* ResponseAPIGetOptionsNotifyShow+Extensions.swift */; };
@@ -20,6 +21,7 @@
 		3BDF4FAA22C229440029D616 /* BCResponseAPIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDF4FA922C229440029D616 /* BCResponseAPIError.swift */; };
 		3BE08B9722E6609D00BE6FCB /* SocketManager+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE08B9622E6609D00BE6FCB /* SocketManager+Rx.swift */; };
 		3BE3666722E5CE7C00F84A04 /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE3666622E5CE7C00F84A04 /* SocketManager.swift */; };
+		3BF3A6B822F1D48E00A6916E /* EOSTransaction+Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF3A6B722F1D48E00A6916E /* EOSTransaction+Actions.swift */; };
 		B111B5BB224E1B5A00F84AD9 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B111B5BA224E1B5A00F84AD9 /* KeychainManager.swift */; };
 		B1677C66223F9BD7005FB286 /* RestAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1677C65223F9BD7005FB286 /* RestAPIManager.swift */; };
 		B179916E2269B3EB0014CB44 /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B179916D2269B3EA0014CB44 /* Data+Extensions.swift */; };
@@ -60,6 +62,7 @@
 		34491307AF58D97E2E29C420 /* Pods-CyberSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CyberSwift.debug.xcconfig"; path = "Target Support Files/Pods-CyberSwift/Pods-CyberSwift.debug.xcconfig"; sourceTree = "<group>"; };
 		3B1E901522CDEC6A00D7A0C1 /* RAM+Authorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Authorization.swift"; sourceTree = "<group>"; };
 		3B1E901722CDF16B00D7A0C1 /* iCloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iCloudManager.swift; sourceTree = "<group>"; };
+		3B3016B622F1E4D3003CD1BD /* RequestAPITransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestAPITransaction.swift; sourceTree = "<group>"; };
 		3B5D91C522CE14E100BB7DCC /* MethodAPIType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MethodAPIType.swift; sourceTree = "<group>"; };
 		3B5EDE3E22E0F10900897BF3 /* RAM+Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Notifications.swift"; sourceTree = "<group>"; };
 		3B61AC3122E1C5CD00F608AF /* ResponseAPIGetOptionsNotifyShow+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPIGetOptionsNotifyShow+Extensions.swift"; sourceTree = "<group>"; };
@@ -70,6 +73,7 @@
 		3BDF4FA922C229440029D616 /* BCResponseAPIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BCResponseAPIError.swift; sourceTree = "<group>"; };
 		3BE08B9622E6609D00BE6FCB /* SocketManager+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SocketManager+Rx.swift"; sourceTree = "<group>"; };
 		3BE3666622E5CE7C00F84A04 /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
+		3BF3A6B722F1D48E00A6916E /* EOSTransaction+Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EOSTransaction+Actions.swift"; sourceTree = "<group>"; };
 		4837076B0145B925ED946333 /* Pods-CyberSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CyberSwift.release.xcconfig"; path = "Target Support Files/Pods-CyberSwift/Pods-CyberSwift.release.xcconfig"; sourceTree = "<group>"; };
 		B111B5BA224E1B5A00F84AD9 /* KeychainManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		B1677C65223F9BD7005FB286 /* RestAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestAPIManager.swift; sourceTree = "<group>"; };
@@ -143,6 +147,25 @@
 				B1677C65223F9BD7005FB286 /* RestAPIManager.swift */,
 			);
 			path = RestAPIManager;
+			sourceTree = "<group>";
+		};
+		3BF3A6B622F1D47700A6916E /* EOSTransaction */ = {
+			isa = PBXGroup;
+			children = (
+				B1A74A632243892B009D68E7 /* EOSTransaction.swift */,
+				3BF3A6B722F1D48E00A6916E /* EOSTransaction+Actions.swift */,
+				3B3016B622F1E4D3003CD1BD /* RequestAPITransaction.swift */,
+			);
+			path = EOSTransaction;
+			sourceTree = "<group>";
+		};
+		3BF3A6BB22F1D82900A6916E /* SocketManager */ = {
+			isa = PBXGroup;
+			children = (
+				3BE3666622E5CE7C00F84A04 /* SocketManager.swift */,
+				3BE08B9622E6609D00BE6FCB /* SocketManager+Rx.swift */,
+			);
+			path = SocketManager;
 			sourceTree = "<group>";
 		};
 		75F3EB65C5A22587C3A36A98 /* Pods */ = {
@@ -240,8 +263,7 @@
 			children = (
 				B1C3F85C223F98DC005711EF /* Broadcast.swift */,
 				B1A74A652243893A009D68E7 /* EOSManager.swift */,
-				3BE3666622E5CE7C00F84A04 /* SocketManager.swift */,
-				3BE08B9622E6609D00BE6FCB /* SocketManager+Rx.swift */,
+				3BF3A6BB22F1D82900A6916E /* SocketManager */,
 				3B1E901422CDEC2F00D7A0C1 /* RestAPIManager */,
 				B111B5BA224E1B5A00F84AD9 /* KeychainManager.swift */,
 				3B1E901722CDF16B00D7A0C1 /* iCloudManager.swift */,
@@ -254,7 +276,7 @@
 			children = (
 				B179916C2269A4B70014CB44 /* Golos */,
 				3BB342B522CB7591009546B2 /* CurrentUser.swift */,
-				B1A74A632243892B009D68E7 /* EOSTransaction.swift */,
+				3BF3A6B622F1D47700A6916E /* EOSTransaction */,
 				B1C3F865223F9906005711EF /* ErrorAPI.swift */,
 				B1C3F867223F9907005711EF /* MethodAPI.swift */,
 				B1804BA8225DCF9B00260A32 /* PhoneCode.swift */,
@@ -375,6 +397,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3BF3A6B822F1D48E00A6916E /* EOSTransaction+Actions.swift in Sources */,
 				B1F7B44A229FB5A4005492DD /* UIImage+Extensions.swift in Sources */,
 				B179917A2269B4560014CB44 /* Secp256k1.swift in Sources */,
 				B1C3F869223F9907005711EF /* ErrorAPI.swift in Sources */,
@@ -400,6 +423,7 @@
 				3B1E901622CDEC6A00D7A0C1 /* RAM+Authorization.swift in Sources */,
 				B179916E2269B3EB0014CB44 /* Data+Extensions.swift in Sources */,
 				B17991722269B4290014CB44 /* String+Extensions.swift in Sources */,
+				3B3016B722F1E4D3003CD1BD /* RequestAPITransaction.swift in Sources */,
 				3BBBE2982295AAE90029C9C9 /* RAM+Blockchain.swift in Sources */,
 				3BE3666722E5CE7C00F84A04 /* SocketManager.swift in Sources */,
 				3BB342B622CB7591009546B2 /* CurrentUser.swift in Sources */,

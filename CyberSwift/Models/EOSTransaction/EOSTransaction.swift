@@ -15,7 +15,7 @@ import Foundation
 public typealias Byte = UInt8
 public typealias BaseT = Int64
 
-public class EOSTransaction: ChainTransaction {
+public class EOSTransaction {
     // MARK: - Properties
     private let _chainApi: ChainApi
     

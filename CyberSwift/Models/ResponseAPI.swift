@@ -786,3 +786,15 @@ public struct ResponseAPICreateNewAccount: Decodable {
     public let user_db_id: UInt64
     public let username: String
 }
+
+// MARK: - API `bandwidth.provide`
+public struct ResponseAPIBandwidthProvideResult: Decodable {
+    public let jsonrpc: String
+    public let id: UInt16
+    public let result: ResponseAPIBandwidthProvide?
+    public let error: ResponseAPIError?
+}
+
+public struct ResponseAPIBandwidthProvide: Decodable {
+    public let transaction_id: String
+}

@@ -31,6 +31,7 @@ public enum MethodAPIGroup: String {
     case rates              =   "rates"
     case content            =   "content"
     case auth               =   "auth"
+    case bandwidth          =   "bandwidth"
 }
 
 public enum FeedTypeMode: String {
@@ -170,6 +171,8 @@ public indirect enum MethodAPIType {
     //  The last step of registration, entry in the blockchain
     case toBlockChain(userID: String, keys: [String: UserKeys])
 
+    /// CHAIN-SERVICE
+    case bandwidthProvide(chainID: String, transaction: String)
     
     /// This method return request parameters from selected enum case.
     func introduced() -> RequestMethodParameters {
@@ -476,6 +479,18 @@ public indirect enum MethodAPIType {
                      methodName:        "toBlockChain",
                      parameters:        parameters)
             
+            
+        // Template: missing
+        case .bandwidthProvide(let chainID, let transaction):
+            var parameters = ["chainId": chainID]
+            parameters["transaction"] = transaction
+            
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.bandwidth.rawValue,
+                     methodName:        "provide",
+                     parameters:        parameters)
         } // switch
+        
+        
     }
 }

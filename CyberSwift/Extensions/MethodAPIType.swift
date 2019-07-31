@@ -94,6 +94,10 @@ extension MethodAPIType {
             
         case .toBlockChain(_):
             return (responseAPI: try JSONDecoder().decode(ResponseAPIRegistrationToBlockChainResult.self, from: jsonData), errorAPI: nil)
+        
+        /// CHAIN-SERVICE
+        case .bandwidthProvide(_):
+            return (responseAPI: try JSONDecoder().decode(ResponseAPIBandwidthProvideResult.self, from: jsonData), errorAPI: nil)
         }
     }
 }
