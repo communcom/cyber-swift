@@ -32,7 +32,7 @@ public struct Config {
     public static let expireSeconds: Double = 30.0
     
     #warning("Which blockchain?")
-    public static var isPublicTestnet: Bool             =   true
+    public static var isPublicTestnet: Bool             =   false
     
     static let blockchain_API_Address: String               =   isPublicTestnet ? "http://116.202.4.39"   :   "http://46.4.96.246"
     static let blockchain_API_Port: Int32                   =   8888
