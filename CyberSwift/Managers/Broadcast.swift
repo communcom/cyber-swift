@@ -172,7 +172,11 @@ extension Broadcast {
                 
                 if let result = responseAPI as? ResponseAPIHasError,
                     let error = result.error{
-                    throw ErrorAPI.requestFailed(message: error.message)
+                    var message = error.message
+                    if let errorDetail = error.error {
+                        message = errorDetail.what
+                    }
+                    throw ErrorAPI.requestFailed(message: message)
                 }
                 
                 return responseAPI

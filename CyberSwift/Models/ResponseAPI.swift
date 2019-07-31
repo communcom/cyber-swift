@@ -59,6 +59,13 @@ public struct ResponseAPIError: Decodable {
     public let code: Int64
     public let message: String
     public let currentState: String?
+    public let error: ResponseAPIErrorDetail?
+}
+
+public struct ResponseAPIErrorDetail: Decodable {
+    public let code: Int64
+    public let name: String
+    public let what: String
 }
 
 
