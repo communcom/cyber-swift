@@ -788,7 +788,7 @@ public struct ResponseAPICreateNewAccount: Decodable {
 }
 
 // MARK: - API `bandwidth.provide`
-public struct ResponseAPIBandwidthProvideResult: Decodable {
+public struct ResponseAPIBandwidthProvideResult: Decodable, ResponseAPIHasError {
     public let jsonrpc: String
     public let id: UInt16
     public let result: ResponseAPIBandwidthProvide?
