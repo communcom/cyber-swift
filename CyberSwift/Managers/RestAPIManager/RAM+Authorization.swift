@@ -225,22 +225,6 @@ extension Reactive where Base: RestAPIManager {
                 
                 return result
             }
-            .catchError({ (error) -> Single<ResponseAPIAuthAuthorize> in
-                if retried {throw error}
-                
-                if let error = error as? ErrorAPI {
-                    let message = error.caseInfo.message
-                    
-                    if message == "There is no secret stored for this channelId. Probably, client's already authorized" ||
-                        message == "Secret verification failed - access denied"{
-                        // retrieve secret
-                        return self.generateSecret()
-                            .andThen(self.login(login: login, masterKey: masterKey, retried: true))
-                    }
-                }
-                throw error
-            })
-        
     }
     
     /// Authorize registered user
@@ -264,32 +248,6 @@ extension Reactive where Base: RestAPIManager {
                 
                 return result
             }
-            .catchError({ (error) -> Single<ResponseAPIAuthAuthorize> in
-                if let error = error as? ErrorAPI {
-                    let message = error.caseInfo.message
-                    
-                    if message == "There is no secret stored for this channelId. Probably, client's already authorized" ||
-                        message == "Secret verification failed - access denied"{
-                        // retrieve secret
-                        return self.generateSecret()
-                            .andThen(self.authorize())
-                    }
-                }
-                throw error
-            })
-//            .do(onError: {error in
-//                if let error = error as? ErrorAPI {
-//                    switch error.caseInfo.message {
-//                    case "Secret verification failed - access denied",
-//                         "Public key verification failed - access denied",
-//                         "Sign is not a valid signature",
-//                         "Cannot get such account from BC":
-//                        try? CurrentUser.logout()
-//                    default:
-//                        break
-//                    }
-//                }
-//            })
     }
     
     /// Logout user
@@ -313,7 +271,7 @@ extension Reactive where Base: RestAPIManager {
     }
     
     /// Generate secret
-    private func generateSecret() -> Completable {
+    public func generateSecret() -> Completable {
         
         let methodAPIType = MethodAPIType.generateSecret
         

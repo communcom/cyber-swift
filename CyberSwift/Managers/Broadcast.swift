@@ -177,5 +177,22 @@ extension Broadcast {
                 
                 return responseAPI
             }
+            .catchError({ (error) -> Single<Decodable> in
+                if let error = error as? ErrorAPI {
+                    let message = error.caseInfo.message
+                    if message == "Unauthorized request: access denied" {
+                        return RestAPIManager.instance.rx.authorize()
+                            .flatMap {_ in self.executeGetRequest(methodAPIType: methodAPIType)}
+                    }
+                    
+                    if message == "There is no secret stored for this channelId. Probably, client's already authorized" ||
+                        message == "Secret verification failed - access denied"{
+                        // retrieve secret
+                        return RestAPIManager.instance.rx.generateSecret()
+                            .andThen(self.executeGetRequest(methodAPIType: methodAPIType))
+                    }
+                }
+                throw error
+            })
     }
 }
