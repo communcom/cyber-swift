@@ -25,8 +25,8 @@ enum TransactionAccountType: String {
 }
 
 public struct ProviderArgs: Encodable {
-    public let provider: String
-    public let account: String
+    public let provider: AccountNameWriterValue
+    public let account: AccountNameWriterValue
 }
 
 class EOSManager {
@@ -109,8 +109,12 @@ class EOSManager {
             authorization: [transactionAuthorizationAbi],
             data: data)
         
-        let secondTransactionAuthorizationAbi = TransactionAuthorizationAbi(actor: AccountNameWriterValue(name: "gls"), permission: AccountNameWriterValue(name: "providebw"))
-        let providerArgs = ProviderArgs(provider: "gls", account: userID)
+        let secondTransactionAuthorizationAbi = TransactionAuthorizationAbi(
+            actor: AccountNameWriterValue(name: "gls"),
+            permission: AccountNameWriterValue(name: "providebw"))
+        let providerArgs = ProviderArgs(
+            provider: AccountNameWriterValue(name: "gls"),
+            account: AccountNameWriterValue(name: userID))
         let action2 = ActionAbi(account: AccountNameWriterValue(name: "cyber"), name: AccountNameWriterValue(name: "providebw"), authorization: [secondTransactionAuthorizationAbi], data: DataWriterValue(hex: providerArgs.toHex()))
         
         let transaction = EOSTransaction(chainApi: EOSManager.chainApi)
