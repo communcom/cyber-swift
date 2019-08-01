@@ -186,15 +186,6 @@ class EOSManager {
         let voteArgsData = DataWriterValue(hex: voteArgs.toHex())
         
         return pushAuthorized(account: .glsPublish, name: voteType.rawValue, data: voteArgsData)
-            .flatMap {response -> Single<String> in
-                if voteType == .unvote {
-                    return .just(response)
-                }
-                
-                // Update user profile reputation
-                let changereputArgs = EOSTransaction.UserProfileChangereputArgs(voterValue: userID, authorValue: author, rsharesValue: voteType == .upvote ? 1 : -1)
-                return EOSManager.updateUserProfile(changereputArgs: changereputArgs)
-            }
             .flatMapToCompletable()
     }
     
