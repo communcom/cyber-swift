@@ -12,6 +12,8 @@ import eosswift
 
 extension RestAPIManager: ReactiveCompatible {}
 
+public typealias SendPostCompletion = (transactionId: String?, userId: String?, permlink: String?)
+
 extension Reactive where Base: RestAPIManager {
     //  MARK: - Contract `gls.publish`
     public func vote(voteType:       VoteActionType,
@@ -25,8 +27,7 @@ extension Reactive where Base: RestAPIManager {
                                permlink:    permlink,
                                weight:      voteType == .unvote ? 0 : 1)
     }
-    
-    public typealias SendPostCompletion = (transactionId: String?, userId: String?, permlink: String?)
+
     public func create(message:             String,
                        headline:            String? = nil,
                        parentPermlink:      String? = nil,
