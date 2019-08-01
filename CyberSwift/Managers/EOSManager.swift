@@ -94,6 +94,10 @@ class EOSManager {
     }
     
     static func pushAuthorized(account: TransactionAccountType, name: String, data: DataWriterValue, expiration: Date = Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds)) -> Single<String> {
+        
+        // Offline mode
+        if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
+
         guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKeys?.privateKey else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }

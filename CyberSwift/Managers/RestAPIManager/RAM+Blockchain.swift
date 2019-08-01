@@ -18,8 +18,7 @@ extension Reactive where Base: RestAPIManager {
                      author:         String,
                      permlink:       String,
                      weight:         Int16 = 0) -> Completable {
-        // Offline mode
-        if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
+       
         
         return EOSManager.vote(voteType:    voteType,
                                author:      author,
@@ -27,30 +26,51 @@ extension Reactive where Base: RestAPIManager {
                                weight:      voteType == .unvote ? 0 : 1)
     }
     
+    public typealias SendPostCompletion = (transactionId: String?, userId: String?, permlink: String?)
     public func create(message:             String,
                        headline:            String? = nil,
                        parentPermlink:      String? = nil,
                        author:              String,
                        tags:                [String]?,
-                       metaData:            String) -> Single<String> {
-        // Offline mode
-        if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
+                       metaData:            String) -> Single<SendPostCompletion> {
+        // Check for authorization
+        guard let userId = Config.currentUser?.id else {
+            return .error(ErrorAPI.unauthorized)
+        }
 
+        // Prepare array
         let arrayTags = tags == nil ? [EOSTransaction.Tags()] : tags!.map({ EOSTransaction.Tags.init(tagValue: $0) })
         
-        let messageCreateArgs = EOSTransaction.MessageCreateArgs(authorValue:        author,
-                                                                 parentPermlink:     parentPermlink,
-                                                                 headermssgValue:    headline ?? String(format: "Test Post Title %i", arc4random_uniform(100)),
-                                                                 bodymssgValue:      message,
-                                                                 tagsValues:         arrayTags,
-                                                                 jsonmetadataValue:  metaData)
+        // Construct message create Args
+        
+        let headermssgValue     =   headline ?? String(format: "Test Post Title %i", arc4random_uniform(100))
+        let prefixTitle         =   parentPermlink == nil ? headermssgValue : "Comment"
+        let messagePermlink     =   String.permlinkWith(string: prefixTitle)
+
+        let message_id         =   EOSTransaction.Mssgid(authorValue: parentPermlink == nil ? author : userId, permlinkValue: messagePermlink)
+        
+        let parent_id          =   parentPermlink == nil ? EOSTransaction.Mssgid() : EOSTransaction.Mssgid(authorValue: author, permlinkValue: parentPermlink ?? messagePermlink)
+        
+        let messageCreateArgs = EOSTransaction.MessageCreateArgs(
+            message_id: message_id,
+            parent_id: parent_id,
+            beneficiaries: [],
+            tokenprop: 0,
+            vestpayment: 1,
+            headermssg: headermssgValue,
+            bodymssg: message,
+            languagemssg: "ru",
+            tags: arrayTags,
+            jsonmetadata: metaData,
+            curators_prcnt: 0,
+            max_payout: nil)
         
         return EOSManager.create(messageCreateArgs: messageCreateArgs)
+            .map {(transactionId: $0, userId: userId, permlink: messagePermlink)}
     }
     
     public func deleteMessage(permlink: String) -> Completable {
-        // Offline mode
-        if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
+       
         
         guard let author = Config.currentUser?.id else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
@@ -66,12 +86,10 @@ extension Reactive where Base: RestAPIManager {
                               message:          String,
                               tags:             [String]?,
                               metaData:         String
-                              ) -> Single<String> {
-        // Offline mode
-        if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
-        
+                              ) -> Single<SendPostCompletion> {
+       
         guard let author = Config.currentUser?.id else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+            return .error(ErrorAPI.unauthorized)
         }
         
         let arrayTags = tags == nil ? [EOSTransaction.Tags()] : tags!.map({ EOSTransaction.Tags.init(tagValue: $0) })
@@ -85,6 +103,7 @@ extension Reactive where Base: RestAPIManager {
             tagsValues:            arrayTags,
             jsonmetadataValue:     metaData)
         return EOSManager.update(messageArgs: messageUpdateArgs)
+            .map {(transactionId: $0, userId: author, permlink: permlink)}
     }
     
     public func reblog(author:              String,
@@ -92,8 +111,6 @@ extension Reactive where Base: RestAPIManager {
                        permlink:            String,
                        headermssg:          String,
                        bodymssg:            String) -> Single<String> {
-        // Offline mode
-        if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
         let reblogArgs = EOSTransaction.ReblogArgs(authorValue:         author,
                                                    permlinkValue:       permlink,
@@ -106,9 +123,6 @@ extension Reactive where Base: RestAPIManager {
     
     // MARK: - Contract `gls.social`
     public func update(userProfile: [String: String]) -> Single<String> {
-        // Offline mode
-        guard Config.isNetworkAvailable else { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
-        
         // Check user authorize
         guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKeys?.privateKey else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
@@ -123,8 +137,6 @@ extension Reactive where Base: RestAPIManager {
     }
     
     public func follow(_ userToFollow: String, isUnfollow: Bool = false) -> Single<String> {
-        // Offline mode
-        guard Config.isNetworkAvailable else { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
         // Check user authorize
         guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKeys?.privateKey else {
