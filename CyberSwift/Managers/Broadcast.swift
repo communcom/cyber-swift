@@ -172,10 +172,11 @@ extension Broadcast {
                 
                 if let result = responseAPI as? ResponseAPIHasError,
                     let error = result.error{
-                    var message = error.message
-                    if let errorDetail = error.error {
-                        message = errorDetail.what
-                    }
+                    let message =
+                        error.error?.details?.first?.message.replacingOccurrences(of: "assertion failure with message: ", with: "")
+                            ?? error.error?.what
+                            ?? error.message
+                    
                     throw ErrorAPI.requestFailed(message: message)
                 }
                 
