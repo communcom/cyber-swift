@@ -116,7 +116,7 @@ extension Reactive where Base: RestAPIManager {
     }
     
     /// set userName
-    public func setUserName(_ name: String) -> Completable {
+    public func setUserName(_ name: String) -> Single<ResponseAPIRegistrationSetUsername> {
         
         guard let phone = Config.currentUser?.phoneNumber else {
             Logger.log(message: "Phone missing for user: \(String(describing: Config.currentUser))", event: .error)
@@ -127,8 +127,8 @@ extension Reactive where Base: RestAPIManager {
         
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
             .log(method: "registration.setUsername")
-            .flatMapCompletable({ (result) -> Completable in
-                guard ((result as? ResponseAPIRegistrationSetUsernameResult)?.result) != nil else {
+            .map {result in
+                guard let result = (result as? ResponseAPIRegistrationSetUsernameResult)?.result else {
                     throw ErrorAPI.unknown
                 }
                 
@@ -137,8 +137,8 @@ extension Reactive where Base: RestAPIManager {
                     Config.currentUserNameKey: name
                 ])
                 
-                return .empty()
-            })
+                return result
+        }
     }
     
     /// Save user to blockchain
