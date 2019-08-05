@@ -56,7 +56,9 @@ public class SocketManager {
             connect()
             connected
                 .filter {$0}
-                .subscribe(onNext: {[weak self] _ in
+                .take(1)
+                .asSingle()
+                .subscribe(onSuccess: {[weak self] _ in
                     self?.socket.write(string: methodAPIType.requestMessage!)
                 })
                 .disposed(by: bag)
