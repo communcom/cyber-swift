@@ -163,13 +163,13 @@ public indirect enum MethodAPIType {
     case verify(phone: String, code: UInt64)
     
     //  The third step of registration, account verification
-    case setUser(id: String, phone: String)
+    case setUser(name: String, phone: String)
 
     //  Re-send of the confirmation code (for the smsToUser strategy)
     case resendSmsCode(phone: String, isDebugMode: Bool)
     
     //  The last step of registration, entry in the blockchain
-    case toBlockChain(userID: String, keys: [String: UserKeys])
+    case toBlockChain(user: String, keys: [String: UserKeys])
 
     /// CHAIN-SERVICE
     case bandwidthProvide(chainID: String, transaction: String)
@@ -434,11 +434,11 @@ public indirect enum MethodAPIType {
                      parameters:        ["phone": phoneValue, "code": "\(codeValue)"])
             
         //  { "id": 4, "jsonrpc": "2.0", "method": "registration.setUsername", "params": { "user": "tester", "phone": "+70000000000" }}
-        case .setUser(let idValue, let phoneValue):
+        case .setUser(let name, let phoneValue):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.registration.rawValue,
                      methodName:        "setUsername",
-                     parameters:        ["phone": phoneValue, "user": idValue])
+                     parameters:        ["phone": phoneValue, "user": name])
 
         //  Debug template      { "id": 5, "jsonrpc": "2.0", "method": "registration.resendSmsCode", "params": { "phone": "+70000000000", "testingPass": "DpQad16yDlllEy6" }}
         //  Release template    { "id": 5, "jsonrpc": "2.0", "method": "registration.resendSmsCode", "params": { "phone": "+70000000000" }}
@@ -455,8 +455,8 @@ public indirect enum MethodAPIType {
                      parameters:        parameters)
 
             //  Template    { "id": 6, "jsonrpc": "2.0", "method": "registration.toBlockChain", "params": { "user": "tester", "owber": "5HtBPHEhgRmZpAR7EtF3NwG5wVzotNGHBBFo8CF6kucwqeiatpw", "active": "5K4bqcDKtveY8JA3saNkqmCsv18JQsxKf7LGU27nLPzigCmCK69", "posting": "5KPcWDsxka9MEZYBspFqFJueq2L7hgFxWTNkhxoqf1iFYJwZXYD", "memo": "5Kgn17ZFaJVzYVY3Mc8H99MuwqhECA7EWwkbDC7EZgFAjHAEtvS" }}
-        case .toBlockChain(let userIDValue, let keysValues):
-            var parameters = ["user": userIDValue]
+        case .toBlockChain(let user, let keysValues):
+            var parameters = ["user": user]
 
             if let ownerUserKey = keysValues["owner"] {
                 parameters["owner"] = ownerUserKey.publicKey

@@ -115,15 +115,15 @@ extension Reactive where Base: RestAPIManager {
         }
     }
     
-    /// set userId
-    public func setUser(id: String) -> Single<ResponseAPIRegistrationSetUsername> {
+    /// set userName
+    public func setUserName(_ name: String) -> Single<ResponseAPIRegistrationSetUsername> {
         
         guard let phone = Config.currentUser?.phoneNumber else {
             Logger.log(message: "Phone missing for user: \(String(describing: Config.currentUser))", event: .error)
             return .error(ErrorAPI.requestFailed(message: "Phone missing"))
         }
         
-        let methodAPIType = MethodAPIType.setUser(id: id, phone: phone)
+        let methodAPIType = MethodAPIType.setUser(name: name, phone: phone)
         
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
             .log(method: "registration.setUsername")
@@ -134,7 +134,7 @@ extension Reactive where Base: RestAPIManager {
                 
                 try KeychainManager.save([
                     Config.registrationStepKey: CurrentUserRegistrationStep.toBlockChain.rawValue,
-                    Config.currentUserIDKey: id
+                    Config.currentUserNameKey: name
                 ])
                 
                 return result
@@ -144,15 +144,15 @@ extension Reactive where Base: RestAPIManager {
     /// Save user to blockchain
     public func toBlockChain() -> Completable {
         
-        guard let id = Config.currentUser?.id else {
-            Logger.log(message: "userId missing for user: \(String(describing: Config.currentUser))", event: .error)
+        guard let name = Config.currentUser?.name else {
+            Logger.log(message: "username missing for user: \(String(describing: Config.currentUser))", event: .error)
             return .error(ErrorAPI.requestFailed(message: "userId missing"))
         }
         
         let masterKey = String.randomString(length: 51)
-        let userkeys = generateKeys(masterKey: masterKey)
+        let userkeys = generateKeys(login: name, masterKey: masterKey)
         
-        let methodAPIType = MethodAPIType.toBlockChain(userID: id, keys: userkeys)
+        let methodAPIType = MethodAPIType.toBlockChain(user: name, keys: userkeys)
         
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
             .log(method: "registration.toBlockChain")
@@ -201,7 +201,7 @@ extension Reactive where Base: RestAPIManager {
     /// Login user
     public func login(login: String, masterKey: String, retried: Bool = false) -> Single<ResponseAPIAuthAuthorize> {
         // Create 4 pairs of keys
-        let userKeys = generateKeys(masterKey: masterKey)
+        let userKeys = generateKeys(login: login, masterKey: masterKey)
         
         // Send authorize request with 1 of 4 keys
         let methodAPIType = MethodAPIType.authorize(userID: login, activeKey: userKeys["active"]!.privateKey!)
@@ -287,14 +287,14 @@ extension Reactive where Base: RestAPIManager {
     }
     
     // MARK: - Private functions
-    public func generateKeys(masterKey: String) -> [String: UserKeys] {
+    public func generateKeys(login: String, masterKey: String) -> [String: UserKeys] {
         var userKeys = [String: UserKeys]()
         
         // type
-        let types = ["owner", "active", "posting", "memo"]
+        let types = ["OWNER", "ACTIVE", "POSTING", "MEMO"]
         
         for keyType in types {
-            let seed                =   keyType + masterKey
+            let seed                =   login + keyType + masterKey
             let brainKey            =   seed.removeWhitespaceCharacters()
             let brainKeyBytes       =   brainKey.bytes
             
