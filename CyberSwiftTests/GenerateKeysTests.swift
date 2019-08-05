@@ -38,6 +38,26 @@ class GenerateKeysTests: XCTestCase {
         XCTAssertEqual(keys["memo"]?.publicKey, "GLS6pGUjrECqEYS6xqFBxAMTmcJwwuKozofvmjBguRYb9ChoVqKbv")
         XCTAssertEqual(keys["memo"]?.privateKey, "5J68Y8KNfhTYS9gHisRGgYh9ZLFQrY6zRmYxbcJ9svvHj5HYbvn")
     }
+    
+    func testGenerateKeys2() {
+        let login = "asdfghjklrh"
+        let masterKey = "08b16023da8543d69f09bbfa2a6e3ed4131bfa837bfd4c98a62"
+        
+        let ram = RestAPIManager.instance
+        let keys = ram.rx.generateKeys(login: login, masterKey: masterKey)
+        
+        XCTAssertEqual(keys["owner"]?.publicKey, "GLS7NdnpF38MHFRG8jC1sAU2P7PL3gobuhkcRzCPqT81hNwvAkMA4")
+        XCTAssertEqual(keys["owner"]?.privateKey, "5Jp6LaVXQf94w48LZ5xMGaaWzKuQBaUs2JhyzoSGPSu3G5V2to4")
+        
+        XCTAssertEqual(keys["active"]?.publicKey, "GLS69C1454MxjiApZp1SDUfjSYuJRfHXG63GdPgtDdhjrto2Hf21B")
+        XCTAssertEqual(keys["active"]?.privateKey, "5JuR2yzvMvFGgYUPmqkW4o6eBmGqavSWhdrcKCLn9MSpKWRe8g3")
+        
+        XCTAssertEqual(keys["posting"]?.publicKey, "GLS7b2fk39yWn88vrWYa7f7mkrbstjXB1Prsimb3kGVpXbaoigoRv")
+        XCTAssertEqual(keys["posting"]?.privateKey, "5JqtE74wWqLWJ5ZRyoJ4LwFfD7KPdmv2G5KysG6qnwohFKDt35W")
+        
+        XCTAssertEqual(keys["memo"]?.publicKey, "GLS8D15cYRvoRe1DaYeBoCkZuyFk35Ytwp9PCLiAgr1kmFY2x42WG")
+        XCTAssertEqual(keys["memo"]?.privateKey, "5JaSC8r1ihnaFqzsWxLfefJ21R2i6qybXk3J88HMBVwXpnDrDk1")
+    }
 
     func testPerformanceExample() {
         // This is an example of a performance test case.
