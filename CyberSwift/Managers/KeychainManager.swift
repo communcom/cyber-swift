@@ -93,14 +93,14 @@ public class KeychainManager {
     
     static func save(userkeys: [String: UserKeys]) throws {
         try save([
-            Config.currentUserPublicOwnerKey: userkeys["owner"]!.publicKey!,
-            Config.currentUserPrivateOwnerKey: userkeys["owner"]!.privateKey!,
-            Config.currentUserPublicActiveKey: userkeys["active"]!.publicKey!,
-            Config.currentUserPrivateActiveKey: userkeys["active"]!.privateKey!,
-            Config.currentUserPublicPostingKey: userkeys["posting"]!.publicKey!,
-            Config.currentUserPrivatePostingKey: userkeys["posting"]!.privateKey!,
-            Config.currentUserPublickMemoKey: userkeys["memo"]!.publicKey!,
-            Config.currentUserPrivateMemoKey: userkeys["memo"]!.privateKey!
+            Config.currentUserPublicOwnerKey: userkeys[UserKeys.KeyType.OWNER.rawValue]!.publicKey!,
+            Config.currentUserPrivateOwnerKey: userkeys[UserKeys.KeyType.OWNER.rawValue]!.privateKey!,
+            Config.currentUserPublicActiveKey: userkeys[UserKeys.KeyType.ACTIVE.rawValue]!.publicKey!,
+            Config.currentUserPrivateActiveKey: userkeys[UserKeys.KeyType.ACTIVE.rawValue]!.privateKey!,
+            Config.currentUserPublicPostingKey: userkeys[UserKeys.KeyType.POSTING.rawValue]!.publicKey!,
+            Config.currentUserPrivatePostingKey: userkeys[UserKeys.KeyType.POSTING.rawValue]!.privateKey!,
+            Config.currentUserPublickMemoKey: userkeys[UserKeys.KeyType.MEMO.rawValue]!.publicKey!,
+            Config.currentUserPrivateMemoKey: userkeys[UserKeys.KeyType.MEMO.rawValue]!.privateKey!
         ])
     }
 }

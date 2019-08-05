@@ -32,6 +32,12 @@ public struct CurrentUser {
 }
 
 public struct UserKeys {
+    public enum KeyType: String {
+        case MEMO       = "MEMO"
+        case POSTING    = "POSTING"
+        case ACTIVE     = "ACTIVE"
+        case OWNER      = "OWNER"
+    }
     public let privateKey: String?
     public let publicKey: String?
 }

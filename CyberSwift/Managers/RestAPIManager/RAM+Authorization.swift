@@ -204,7 +204,7 @@ extension Reactive where Base: RestAPIManager {
         let userKeys = generateKeys(login: login, masterKey: masterKey)
         
         // Send authorize request with 1 of 4 keys
-        let methodAPIType = MethodAPIType.authorize(userID: login, activeKey: userKeys["active"]!.privateKey!)
+        let methodAPIType = MethodAPIType.authorize(userID: login, activeKey: userKeys[UserKeys.KeyType.ACTIVE.rawValue]!.privateKey!)
         
         return self.generateSecret()
             .andThen(Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType))
