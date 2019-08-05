@@ -26,17 +26,17 @@ class GenerateKeysTests: XCTestCase {
         let ram = RestAPIManager.instance
         let keys = ram.rx.generateKeys(login: login, masterKey: masterKey)
         
-        XCTAssertEqual(keys[UserKeys.KeyType.OWNER.rawValue]?.publicKey, "GLS8cRo2ojy2XYTKxHhrbu3WxDHv4YAk3Zc8nuaeygEQYoFRTcpD8")
-        XCTAssertEqual(keys[UserKeys.KeyType.OWNER.rawValue]?.privateKey, "5JbWmTCRoTKdPDotGDYtSG7TKYFrFAswGek3dgKMmF6cNYNkSH2")
+        XCTAssertEqual(keys["owner"]?.publicKey, "GLS8cRo2ojy2XYTKxHhrbu3WxDHv4YAk3Zc8nuaeygEQYoFRTcpD8")
+        XCTAssertEqual(keys["owner"]?.privateKey, "5JbWmTCRoTKdPDotGDYtSG7TKYFrFAswGek3dgKMmF6cNYNkSH2")
         
-        XCTAssertEqual(keys[UserKeys.KeyType.ACTIVE.rawValue]?.publicKey, "GLS7dWXDpua9Kkr15zK7DJUMgrMpHCbBAUdEwsS6ZnGYU61hEoQ5o")
-        XCTAssertEqual(keys[UserKeys.KeyType.ACTIVE.rawValue]?.privateKey, "5KE6Eqo1heMWsUgvHEVsbnPdtBt4CrrcM2ykRLNmVgGB2dkZa6X")
+        XCTAssertEqual(keys["active"]?.publicKey, "GLS7dWXDpua9Kkr15zK7DJUMgrMpHCbBAUdEwsS6ZnGYU61hEoQ5o")
+        XCTAssertEqual(keys["active"]?.privateKey, "5KE6Eqo1heMWsUgvHEVsbnPdtBt4CrrcM2ykRLNmVgGB2dkZa6X")
         
-        XCTAssertEqual(keys[UserKeys.KeyType.POSTING.rawValue]?.publicKey, "GLS7cmswh3CiXHRKHo2sJgarGmU7Sx6RY6fNjhXwN6HER6mZZm5ap")
-        XCTAssertEqual(keys[UserKeys.KeyType.POSTING.rawValue]?.privateKey, "5JJt94RyUAAcysHk5fb3UrzD3EnYDPKrFpwCxhUfB7Mnv2nBLk6")
+        XCTAssertEqual(keys["posting"]?.publicKey, "GLS7cmswh3CiXHRKHo2sJgarGmU7Sx6RY6fNjhXwN6HER6mZZm5ap")
+        XCTAssertEqual(keys["posting"]?.privateKey, "5JJt94RyUAAcysHk5fb3UrzD3EnYDPKrFpwCxhUfB7Mnv2nBLk6")
         
-        XCTAssertEqual(keys[UserKeys.KeyType.MEMO.rawValue]?.publicKey, "GLS6pGUjrECqEYS6xqFBxAMTmcJwwuKozofvmjBguRYb9ChoVqKbv")
-        XCTAssertEqual(keys[UserKeys.KeyType.MEMO.rawValue]?.privateKey, "5J68Y8KNfhTYS9gHisRGgYh9ZLFQrY6zRmYxbcJ9svvHj5HYbvn")
+        XCTAssertEqual(keys["memo"]?.publicKey, "GLS6pGUjrECqEYS6xqFBxAMTmcJwwuKozofvmjBguRYb9ChoVqKbv")
+        XCTAssertEqual(keys["memo"]?.privateKey, "5J68Y8KNfhTYS9gHisRGgYh9ZLFQrY6zRmYxbcJ9svvHj5HYbvn")
     }
 
     func testPerformanceExample() {

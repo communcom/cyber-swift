@@ -204,7 +204,7 @@ extension Reactive where Base: RestAPIManager {
         let userKeys = generateKeys(login: login, masterKey: masterKey)
         
         // Send authorize request with 1 of 4 keys
-        let methodAPIType = MethodAPIType.authorize(userID: login, activeKey: userKeys[UserKeys.KeyType.ACTIVE.rawValue]!.privateKey!)
+        let methodAPIType = MethodAPIType.authorize(userID: login, activeKey: userKeys["active"]!.privateKey!)
         
         return self.generateSecret()
             .andThen(Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType))
@@ -291,7 +291,7 @@ extension Reactive where Base: RestAPIManager {
         var userKeys = [String: UserKeys]()
         
         // type
-        let types = ["OWNER", "ACTIVE", "POSTING", "MEMO"]
+        let types = ["owner", "active", "posting", "memo"]
         
         for keyType in types {
             let seed                =   login + keyType + masterKey

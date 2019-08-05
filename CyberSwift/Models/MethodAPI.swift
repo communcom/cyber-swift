@@ -458,19 +458,19 @@ public indirect enum MethodAPIType {
         case .toBlockChain(let user, let keysValues):
             var parameters = ["user": user]
 
-            if let ownerUserKey = keysValues[UserKeys.KeyType.OWNER.rawValue] {
+            if let ownerUserKey = keysValues["owner"] {
                 parameters["owner"] = ownerUserKey.publicKey
             }
 
-            if let activeUserKey = keysValues[UserKeys.KeyType.ACTIVE.rawValue] {
+            if let activeUserKey = keysValues["active"] {
                 parameters["active"] = activeUserKey.publicKey
             }
 
-            if let postingUserKey = keysValues[UserKeys.KeyType.POSTING.rawValue] {
+            if let postingUserKey = keysValues["posting"] {
                 parameters["posting"] = postingUserKey.publicKey
             }
 
-            if let memoUserKey = keysValues[UserKeys.KeyType.MEMO.rawValue] {
+            if let memoUserKey = keysValues["memo"] {
                 parameters["memo"] = memoUserKey.publicKey
             }
             
