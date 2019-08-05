@@ -32,7 +32,7 @@ extension Reactive where Base: RestAPIManager {
                 }
                 dataToSave[Config.registrationStepKey] = result.currentState
                 
-                try KeychainManager.save(data: dataToSave)
+                try KeychainManager.save(dataToSave)
                 
                 return result
         }
@@ -50,7 +50,7 @@ extension Reactive where Base: RestAPIManager {
                     throw ErrorAPI.unknown
                 }
                 
-                try KeychainManager.save(data: [
+                try KeychainManager.save([
                     Config.registrationStepKey: CurrentUserRegistrationStep.verify.rawValue,
                     Config.registrationUserPhoneKey: phone,
                     Config.registrationSmsNextRetryKey: result.nextSmsRetry
@@ -78,7 +78,7 @@ extension Reactive where Base: RestAPIManager {
                     throw ErrorAPI.unknown
                 }
                 
-                try KeychainManager.save(data: [
+                try KeychainManager.save([
                     Config.registrationStepKey: CurrentUserRegistrationStep.setUserName.rawValue,
                     Config.registrationSmsCodeKey: code
                 ])
@@ -105,7 +105,7 @@ extension Reactive where Base: RestAPIManager {
                     throw ErrorAPI.unknown
                 }
                 
-                try KeychainManager.save(data: [
+                try KeychainManager.save([
                     Config.registrationStepKey: CurrentUserRegistrationStep.verify.rawValue,
                     Config.registrationSmsCodeKey: result.code,
                     Config.registrationSmsNextRetryKey: result.nextSmsRetry
@@ -132,7 +132,7 @@ extension Reactive where Base: RestAPIManager {
                     throw ErrorAPI.unknown
                 }
                 
-                try KeychainManager.save(data: [
+                try KeychainManager.save([
                     Config.registrationStepKey: CurrentUserRegistrationStep.toBlockChain.rawValue,
                     Config.currentUserIDKey: id
                 ])
@@ -161,7 +161,7 @@ extension Reactive where Base: RestAPIManager {
                     throw ErrorAPI.unknown
                 }
                 
-                try KeychainManager.save(data: [
+                try KeychainManager.save([
                     Config.registrationStepKey: CurrentUserRegistrationStep.registered.rawValue,
                     Config.currentUserNameKey: result.username,
                     Config.currentUserIDKey: result.userId,
@@ -185,14 +185,14 @@ extension Reactive where Base: RestAPIManager {
         if onBoarding {
             data[Config.settingStepKey] = CurrentUserSettingStep.setFaceId.rawValue
         }
-        try KeychainManager.save(data: data)
+        try KeychainManager.save(data)
     }
     
     /// backupIcloud
     public func backUpICloud(onBoarding: Bool = true) throws {
         iCloudManager.saveUser()
         if onBoarding {
-            try KeychainManager.save(data: [
+            try KeychainManager.save([
                 Config.settingStepKey: CurrentUserSettingStep.setAvatar.rawValue
             ])
         }
@@ -216,7 +216,7 @@ extension Reactive where Base: RestAPIManager {
                 
                 try KeychainManager.save(userkeys: userKeys)
                 
-                try KeychainManager.save(data: [
+                try KeychainManager.save([
                     Config.currentUserIDKey: result.user,
                     Config.currentUserNameKey: result.displayName,
                     Config.currentUserMasterKey: masterKey,

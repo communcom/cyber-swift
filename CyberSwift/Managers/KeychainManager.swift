@@ -78,7 +78,7 @@ public class KeychainManager {
     
     // MARK: - Saving
     /// Save login data to Keychain
-    public static func save(data: [String: Any]) throws {
+    public static func save(_ data: [String: Any]) throws {
         var dataToSave = [String: Any]()
         if let currentData = Locksmith.loadDataForUserAccount(userAccount: Config.currentUserIDKey, inService: communService) {
             dataToSave = currentData
@@ -92,7 +92,7 @@ public class KeychainManager {
     }
     
     static func save(userkeys: [String: UserKeys]) throws {
-        try save(data: [
+        try save([
             Config.currentUserPublicOwnerKey: userkeys["owner"]!.publicKey!,
             Config.currentUserPrivateOwnerKey: userkeys["owner"]!.privateKey!,
             Config.currentUserPublicActiveKey: userkeys["active"]!.publicKey!,
