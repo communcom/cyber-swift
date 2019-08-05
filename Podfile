@@ -3,13 +3,13 @@ platform :ios, '11.0'
 use_frameworks!
 source 'https://github.com/CocoaPods/Specs.git'
 
-target 'CyberSwift' do
+def common_pods
   # EOS framework
   pod 'eosswift', '~> 1.5'
-
+  
   pod 'RxSwift'
   pod 'RxCocoa'
-
+  
   pod 'Checksum'
   pod 'Locksmith'
   pod 'SwiftTheme'
@@ -25,5 +25,12 @@ target 'CyberSwift' do
   
   # GoloCrypto
   pod 'GoloCrypto', :git => "https://github.com/Monserg/GoloGrypto.git"
+end
 
+target 'CyberSwift' do
+  common_pods
+end
+
+target 'CyberSwiftTests' do
+  common_pods
 end

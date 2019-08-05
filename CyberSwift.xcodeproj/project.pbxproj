@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -19,10 +19,13 @@
 		3BBBE2982295AAE90029C9C9 /* RAM+Blockchain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBBE2972295AAE90029C9C9 /* RAM+Blockchain.swift */; };
 		3BBBE29A2296A8A10029C9C9 /* RxSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBBE2992296A8A10029C9C9 /* RxSwift.swift */; };
 		3BCDB40B2260E9C300739F7E /* Bool+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCDB40A2260E9C300739F7E /* Bool+Extensions.swift */; };
+		3BD1331422F850770006C70F /* GenerateKeysTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD1331322F850770006C70F /* GenerateKeysTests.swift */; };
+		3BD1331622F850770006C70F /* CyberSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B18EBB2D223F8F8800F52D3C /* CyberSwift.framework */; };
 		3BDF4FAA22C229440029D616 /* BCResponseAPIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BDF4FA922C229440029D616 /* BCResponseAPIError.swift */; };
 		3BE08B9722E6609D00BE6FCB /* SocketManager+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE08B9622E6609D00BE6FCB /* SocketManager+Rx.swift */; };
 		3BE3666722E5CE7C00F84A04 /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE3666622E5CE7C00F84A04 /* SocketManager.swift */; };
 		3BF3A6B822F1D48E00A6916E /* EOSTransaction+Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF3A6B722F1D48E00A6916E /* EOSTransaction+Actions.swift */; };
+		7EF06C95D4BFFC91A593F720 /* Pods_CyberSwiftTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72FB95E5419699B77BD2F429 /* Pods_CyberSwiftTests.framework */; };
 		B111B5BB224E1B5A00F84AD9 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B111B5BA224E1B5A00F84AD9 /* KeychainManager.swift */; };
 		B1677C66223F9BD7005FB286 /* RestAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1677C65223F9BD7005FB286 /* RestAPIManager.swift */; };
 		B179916E2269B3EB0014CB44 /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B179916D2269B3EA0014CB44 /* Data+Extensions.swift */; };
@@ -59,6 +62,16 @@
 		B1F7B44A229FB5A4005492DD /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F7B449229FB5A4005492DD /* UIImage+Extensions.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		3BD1331722F850770006C70F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B18EBB24223F8F8800F52D3C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B18EBB2C223F8F8800F52D3C;
+			remoteInfo = CyberSwift;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		34491307AF58D97E2E29C420 /* Pods-CyberSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CyberSwift.debug.xcconfig"; path = "Target Support Files/Pods-CyberSwift/Pods-CyberSwift.debug.xcconfig"; sourceTree = "<group>"; };
 		3B1E901522CDEC6A00D7A0C1 /* RAM+Authorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Authorization.swift"; sourceTree = "<group>"; };
@@ -72,11 +85,17 @@
 		3BBBE2972295AAE90029C9C9 /* RAM+Blockchain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Blockchain.swift"; sourceTree = "<group>"; };
 		3BBBE2992296A8A10029C9C9 /* RxSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxSwift.swift; sourceTree = "<group>"; };
 		3BCDB40A2260E9C300739F7E /* Bool+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+Extensions.swift"; sourceTree = "<group>"; };
+		3BD1331122F850770006C70F /* CyberSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CyberSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3BD1331322F850770006C70F /* GenerateKeysTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateKeysTests.swift; sourceTree = "<group>"; };
+		3BD1331522F850770006C70F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3BDF4FA922C229440029D616 /* BCResponseAPIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BCResponseAPIError.swift; sourceTree = "<group>"; };
 		3BE08B9622E6609D00BE6FCB /* SocketManager+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SocketManager+Rx.swift"; sourceTree = "<group>"; };
 		3BE3666622E5CE7C00F84A04 /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
 		3BF3A6B722F1D48E00A6916E /* EOSTransaction+Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EOSTransaction+Actions.swift"; sourceTree = "<group>"; };
 		4837076B0145B925ED946333 /* Pods-CyberSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CyberSwift.release.xcconfig"; path = "Target Support Files/Pods-CyberSwift/Pods-CyberSwift.release.xcconfig"; sourceTree = "<group>"; };
+		6573AA23182BFAECEBF635F1 /* Pods-CyberSwiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CyberSwiftTests.release.xcconfig"; path = "Target Support Files/Pods-CyberSwiftTests/Pods-CyberSwiftTests.release.xcconfig"; sourceTree = "<group>"; };
+		72FB95E5419699B77BD2F429 /* Pods_CyberSwiftTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CyberSwiftTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8AB2614591624246CBE93FA0 /* Pods-CyberSwiftTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CyberSwiftTests.debug.xcconfig"; path = "Target Support Files/Pods-CyberSwiftTests/Pods-CyberSwiftTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B111B5BA224E1B5A00F84AD9 /* KeychainManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		B1677C65223F9BD7005FB286 /* RestAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestAPIManager.swift; sourceTree = "<group>"; };
 		B1677C6D223FAA5F005FB286 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
@@ -121,6 +140,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3BD1330E22F850770006C70F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3BD1331622F850770006C70F /* CyberSwift.framework in Frameworks */,
+				7EF06C95D4BFFC91A593F720 /* Pods_CyberSwiftTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B18EBB2A223F8F8800F52D3C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -136,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				F6ED672114DF191DC66860EA /* Pods_CyberSwift.framework */,
+				72FB95E5419699B77BD2F429 /* Pods_CyberSwiftTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -149,6 +178,15 @@
 				B1677C65223F9BD7005FB286 /* RestAPIManager.swift */,
 			);
 			path = RestAPIManager;
+			sourceTree = "<group>";
+		};
+		3BD1331222F850770006C70F /* CyberSwiftTests */ = {
+			isa = PBXGroup;
+			children = (
+				3BD1331322F850770006C70F /* GenerateKeysTests.swift */,
+				3BD1331522F850770006C70F /* Info.plist */,
+			);
+			path = CyberSwiftTests;
 			sourceTree = "<group>";
 		};
 		3BF3A6B622F1D47700A6916E /* EOSTransaction */ = {
@@ -175,6 +213,8 @@
 			children = (
 				34491307AF58D97E2E29C420 /* Pods-CyberSwift.debug.xcconfig */,
 				4837076B0145B925ED946333 /* Pods-CyberSwift.release.xcconfig */,
+				8AB2614591624246CBE93FA0 /* Pods-CyberSwiftTests.debug.xcconfig */,
+				6573AA23182BFAECEBF635F1 /* Pods-CyberSwiftTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -199,6 +239,7 @@
 				B1AA194222956E3C00AF5DF0 /* README.md */,
 				B1CE5CFB22677C0000731FD0 /* API.md */,
 				B18EBB2F223F8F8800F52D3C /* CyberSwift */,
+				3BD1331222F850770006C70F /* CyberSwiftTests */,
 				B18EBB2E223F8F8800F52D3C /* Products */,
 				75F3EB65C5A22587C3A36A98 /* Pods */,
 				09E1B2A3A59F37FF407AE3B2 /* Frameworks */,
@@ -209,6 +250,7 @@
 			isa = PBXGroup;
 			children = (
 				B18EBB2D223F8F8800F52D3C /* CyberSwift.framework */,
+				3BD1331122F850770006C70F /* CyberSwiftTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -305,6 +347,26 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		3BD1331022F850770006C70F /* CyberSwiftTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3BD1331B22F850770006C70F /* Build configuration list for PBXNativeTarget "CyberSwiftTests" */;
+			buildPhases = (
+				0EF50925FE3990A62A8737CF /* [CP] Check Pods Manifest.lock */,
+				3BD1330D22F850770006C70F /* Sources */,
+				3BD1330E22F850770006C70F /* Frameworks */,
+				3BD1330F22F850770006C70F /* Resources */,
+				F68E3C5ECE70743C94C03A49 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3BD1331822F850770006C70F /* PBXTargetDependency */,
+			);
+			name = CyberSwiftTests;
+			productName = CyberSwiftTests;
+			productReference = 3BD1331122F850770006C70F /* CyberSwiftTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		B18EBB2C223F8F8800F52D3C /* CyberSwift */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B18EBB35223F8F8800F52D3C /* Build configuration list for PBXNativeTarget "CyberSwift" */;
@@ -330,9 +392,14 @@
 		B18EBB24223F8F8800F52D3C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				DefaultBuildSystemTypeForWorkspace = Original;
+				LastSwiftUpdateCheck = 1030;
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = golos.io;
 				TargetAttributes = {
+					3BD1331022F850770006C70F = {
+						CreatedOnToolsVersion = 10.3;
+					};
 					B18EBB2C223F8F8800F52D3C = {
 						CreatedOnToolsVersion = 10.1;
 						LastSwiftMigration = 1020;
@@ -354,11 +421,19 @@
 			projectRoot = "";
 			targets = (
 				B18EBB2C223F8F8800F52D3C /* CyberSwift */,
+				3BD1331022F850770006C70F /* CyberSwiftTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3BD1330F22F850770006C70F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B18EBB2B223F8F8800F52D3C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -371,6 +446,28 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0EF50925FE3990A62A8737CF /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CyberSwiftTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		649564B65A8EBB551668D241 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -393,9 +490,34 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		F68E3C5ECE70743C94C03A49 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CyberSwiftTests/Pods-CyberSwiftTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CyberSwiftTests/Pods-CyberSwiftTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CyberSwiftTests/Pods-CyberSwiftTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3BD1330D22F850770006C70F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3BD1331422F850770006C70F /* GenerateKeysTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B18EBB29223F8F8800F52D3C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -451,6 +573,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		3BD1331822F850770006C70F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B18EBB2C223F8F8800F52D3C /* CyberSwift */;
+			targetProxy = 3BD1331722F850770006C70F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		B1C3F870223F993F005711EF /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
@@ -464,6 +594,46 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		3BD1331922F850770006C70F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8AB2614591624246CBE93FA0 /* Pods-CyberSwiftTests.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5G8856SBG8;
+				INFOPLIST_FILE = CyberSwiftTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = io.golos.CyberSwiftTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		3BD1331A22F850770006C70F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6573AA23182BFAECEBF635F1 /* Pods-CyberSwiftTests.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5G8856SBG8;
+				INFOPLIST_FILE = CyberSwiftTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = io.golos.CyberSwiftTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		B18EBB33223F8F8800F52D3C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -670,6 +840,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3BD1331B22F850770006C70F /* Build configuration list for PBXNativeTarget "CyberSwiftTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3BD1331922F850770006C70F /* Debug */,
+				3BD1331A22F850770006C70F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		B18EBB27223F8F8800F52D3C /* Build configuration list for PBXProject "CyberSwift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
