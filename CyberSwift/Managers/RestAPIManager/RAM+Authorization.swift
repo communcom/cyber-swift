@@ -220,7 +220,7 @@ extension Reactive where Base: RestAPIManager {
                     Config.currentUserIDKey: result.user,
                     Config.currentUserNameKey: result.displayName,
                     Config.currentUserMasterKey: masterKey,
-                    Config.registrationStepKey: CurrentUserRegistrationStep.registered.rawValue
+                    Config.registrationStepKey: CurrentUserRegistrationStep.relogined.rawValue
                 ])
                 
                 return result

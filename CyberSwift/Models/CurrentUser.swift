@@ -42,6 +42,7 @@ public enum CurrentUserRegistrationStep: String {
     case setUserName    = "setUsername"
     case toBlockChain   = "toBlockChain"
     case registered     = "registered"
+    case relogined      = "relogined"
 }
 
 public enum CurrentUserSettingStep: String {
