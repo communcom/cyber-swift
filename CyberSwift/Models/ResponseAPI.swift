@@ -319,6 +319,7 @@ public struct ResponseAPIContentGetComment: Decodable {
     public let author: ResponseAPIAuthor?
     public let parent: ResponseAPIContentGetCommentParent
     public let parentComment: ResponseAPIContentGetCommentParentComment?
+    public let nestedLevel: UInt
 }
 
 public struct ResponseAPIContentGetCommentContent: Decodable {
