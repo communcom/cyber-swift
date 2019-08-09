@@ -33,6 +33,7 @@ public struct RequestAPI: Encodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(id, forKey: .id)
         try container.encode(method, forKey: .method)
+        try container.encode(jsonrpc, forKey: .jsonrpc)
         let wrappedDict = params.mapValues(EncodableWrapper.init(wrapped:))
         try container.encode(wrappedDict, forKey: .params)
     }

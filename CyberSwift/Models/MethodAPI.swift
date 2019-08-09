@@ -290,7 +290,7 @@ public indirect enum MethodAPIType {
             
         //  Template { "id": 9, "jsonrpc": "2.0", "method": "onlineNotify.history", "params": { "freshOnly": true, "fromId": "3123", markAsViewed}}
         case .getOnlineNotifyHistory(let fromId, _, let markAsViewed, let freshOnly):
-            var parameters: [String: Encodable] = ["limit": "\(Config.paginationLimit)", "markAsViewed": markAsViewed, "freshOnly": freshOnly]
+            var parameters: [String: Encodable] = ["limit": Config.paginationLimit, "markAsViewed": markAsViewed, "freshOnly": freshOnly]
             
             if let fromId = fromId {
                 parameters["fromId"] = fromId
