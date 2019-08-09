@@ -336,7 +336,7 @@ public indirect enum MethodAPIType {
 
         //  Template { "id": 13, "jsonrpc": "2.0", "method": "options.set", "params": { "profile": <userNickName-deviceUDID>, "push": { "lang": <languageValue>, "show": { "vote": <voteValue>, "flag": <flagValue>, "reply": <replyValue>, "transfer": <transferValue>, "subscribe": <subscribeValue>, "unsubscribe": <unsibscribeValue>, "mention": <mentionValue>, "repost": <repostValue>,  "message": <messageValue>, "witnessVote": <witnessVoteValue>, "witnessCancelVote": <witnessCancelVoteValue>, "reward": <rewardValue>, "curatorReward": <curatorRewardValue> }}}
         case .setNotice(let options, let type, let appProfileType):
-            var parameters: [String: String] =  [
+            var parameters: [String: Encodable] =  [
                                                     "app":      appProfileType.rawValue,
                                                     "profile":  String(format: "%@-%@", Config.currentUser?.id ?? "", Config.currentDeviceType)
                                                 ]
@@ -345,11 +345,16 @@ public indirect enum MethodAPIType {
                 var pushLanguage = Localize.currentLanguage()
                 #warning("supporting only Russian and English")
                 if pushLanguage != "ru", pushLanguage != "en" {pushLanguage = "en"}
-                parameters["push"]      =   String(format: "{\"lang\": \"%@\", \"show\": {%@}}", pushLanguage, options.getNoticeOptionsValues())
+                
+                let setNoticeParams = RequestParameterAPI.SetNoticeParams(lang: pushLanguage, show: options)
+                
+                parameters["push"]      =   setNoticeParams
             }
             
             if type == .notify {
-                parameters["notify"]    =   String(format: "{\"show\": {%@}}", options.getNoticeOptionsValues())
+                let setNoticeParams = RequestParameterAPI.SetNoticeParams(lang: nil, show: options)
+                
+                parameters["notify"]    =   setNoticeParams
             }
 
             return  (methodAPIType:     self,

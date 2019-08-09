@@ -59,6 +59,13 @@ class RequestAPIEncodingTests: XCTestCase {
         let methodAPIType = MethodAPIType.getOnlineNotifyHistory(fromId: "fasdfasdf", paginationLimit: 80, markAsViewed: true, freshOnly: true)
         print(getRequestString(id: 17, methodAPIType: methodAPIType))
     }
+    
+    func testSetNotify() {
+        let value = ResponseAPIGetOptionsNotifyShow(upvote: true, downvote: true, transfer: true, reply: true, subscribe: true, unsubscribe: true, mention: true, repost: true, reward: true, curatorReward: true, witnessVote: true, witnessCancelVote: true).toParam()
+        
+        let methodAPIType = MethodAPIType.setNotice(options: value, type: .notify, appProfileType: .golos)
+        print(getRequestString(id: 18, methodAPIType: methodAPIType))
+    }
 
     func testPerformanceExample() {
         // This is an example of a performance test case.
