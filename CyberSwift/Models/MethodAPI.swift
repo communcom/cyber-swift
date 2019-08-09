@@ -436,7 +436,7 @@ public indirect enum MethodAPIType {
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.registration.rawValue,
                      methodName:        "verify",
-                     parameters:        ["phone": phoneValue, "code": "\(codeValue)"])
+                     parameters:        ["phone": phoneValue, "code": codeValue])
             
         //  { "id": 4, "jsonrpc": "2.0", "method": "registration.setUsername", "params": { "user": "tester", "phone": "+70000000000" }}
         case .setUser(let name, let phoneValue):
