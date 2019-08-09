@@ -87,6 +87,26 @@ public struct RequestParameterAPI {
             return  String(format: "\"language\": %@, \"nsfwContent\": %@", self.language, self.nsfwContent)
         }
     }
+    
+    
+    public struct SetNoticeParams: Encodable {
+        public let lang: String?
+        public let show: NoticeOptions
+        
+        enum CodingKeys: String, CodingKey {
+            case lang
+            case show
+        }
+        
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            
+            if let lang = lang {
+                try container.encode(lang, forKey: .lang)
+            }
+            try container.encode(show, forKey: .show)
+        }
+    }
         
 
     // MARK: -
@@ -120,12 +140,6 @@ public struct RequestParameterAPI {
             self.curatorReward      =   curatorReward
             self.witnessVote        =   witnessVote
             self.witnessCancelVote  =   witnessCancelVote
-        }
-        
-        // MARK: - Functions
-        // Template: "upvote": <upvote>, "downvote": <downvote>, "transfer": <transfer>, "reply": <reply>, "subscribe": <subscribe>, "unsubscribe": <unsibscribe>, "mention": <mention>, "repost": <repost>, "reward": <reward>, "curatorReward": <curatorReward>, "witnessVote": <witnessVote>, "witnessCancelVote": <witnessCancelVote>,
-        public func getNoticeOptionsValues() -> String {
-            return  String(format: "\"upvote\": \"%@\", \"downvote\": \"%@\", \"transfer\": \"%@\", \"reply\": \"%@\", \"subscribe\": \"%@\", \"unsubscribe\": \"%@\", \"mention\": \"%@\", \"repost\": \"%@\", \"reward\": \"%@\", \"curatorReward\": \"%@\", \"witnessVote\": \"%@\", \"witnessCancelVote\": \"%@\"", self.upvote.description, self.downvote.description, self.transfer.description, self.reply.description, self.subscribe.description, self.unsubscribe.description, self.mention.description, self.repost.description, self.reward.description, self.curatorReward.description, self.witnessVote.description, self.witnessCancelVote.description)
         }
     }
 }
