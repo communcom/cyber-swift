@@ -86,7 +86,11 @@ public class RestAPIManager {
         paginationSequenceKey:     String? = nil
     ) -> Single<ResponseAPIContentGetComments> {
         
-        let methodAPIType = MethodAPIType.getUserComments(nickName: nickName ?? "Cyber", sortMode: sortMode, paginationSequenceKey: paginationSequenceKey)
+        let methodAPIType = MethodAPIType.getUserComments(
+            nickName: nickName ?? "Cyber",
+            sortMode: sortMode,
+            limit: paginationLimit,
+            paginationSequenceKey: paginationSequenceKey)
         
         return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
             .log(method: "content.getComments")
@@ -110,6 +114,7 @@ public class RestAPIManager {
         let methodAPIType = MethodAPIType.getPostComments(userNickName:             nickName,
                                                           permlink:                 permlink,
                                                           sortMode:                 sortMode,
+                                                          limit: paginationLimit,
                                                           paginationSequenceKey:    paginationSequenceKey)
         
         return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)

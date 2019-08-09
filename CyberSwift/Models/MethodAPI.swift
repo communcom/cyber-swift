@@ -94,10 +94,10 @@ public indirect enum MethodAPIType {
     case waitForTransaction(id: String)
     
     //  Getting user comments feed
-    case getUserComments(nickName: String, sortMode: CommentSortMode, paginationSequenceKey: String?)
+    case getUserComments(nickName: String, sortMode: CommentSortMode, limit: Int8, paginationSequenceKey: String?)
     
     //  Getting post comments feed
-    case getPostComments(userNickName: String, permlink: String, sortMode: CommentSortMode, paginationSequenceKey: String?)
+    case getPostComments(userNickName: String, permlink: String, sortMode: CommentSortMode, limit: Int8, paginationSequenceKey: String?)
     
     //  Log in
     case authorize(userID: String, activeKey: String)
@@ -221,8 +221,8 @@ public indirect enum MethodAPIType {
                      parameters:        ["transactionId": id])
             
         //  Template { "id": 4, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "user", "userId": "tst2nbduouxh", "sortBy": "time", "limit": 20 }}
-        case .getUserComments(let userNickNameValue, let sortModeValue, let paginationSequenceKeyValue):
-            var parameters: [String: String] = ["type": "user", "userId": userNickNameValue, "sortBy": sortModeValue.rawValue, "limit": "\(Config.paginationLimit)"]
+        case .getUserComments(let userNickNameValue, let sortModeValue, let limit, let paginationSequenceKeyValue):
+            var parameters: [String: String] = ["type": "user", "userId": userNickNameValue, "sortBy": sortModeValue.rawValue, "limit": "\(limit)"]
             
             if let paginationSequenceKeyValue = paginationSequenceKeyValue {
                 parameters["sequenceKey"] = paginationSequenceKeyValue
@@ -234,8 +234,8 @@ public indirect enum MethodAPIType {
                      parameters:        parameters)
             
         //  Template { "id": 5, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "post", "userId": "tst1xrhojmka", "sortBy": "time", "permlink":  "demeterfightswithandromedaagainstepimetheus", "refBlockNum": "520095", "limit": 20 }}
-        case .getPostComments(let userNickNameValue, let permlinkValue, let sortModeValue, let paginationSequenceKeyValue):
-            var parameters: [String: String] = ["type": "post", "userId": userNickNameValue, "permlink": permlinkValue, "sortBy": sortModeValue.rawValue, "limit": "\(Config.paginationLimit)"]
+        case .getPostComments(let userNickNameValue, let permlinkValue, let sortModeValue, let limit, let paginationSequenceKeyValue):
+            var parameters: [String: String] = ["type": "post", "userId": userNickNameValue, "permlink": permlinkValue, "sortBy": sortModeValue.rawValue, "limit": "\(limit)"]
             
             if let paginationSequenceKeyValue = paginationSequenceKeyValue {
                 parameters["sequenceKey"] = paginationSequenceKeyValue
