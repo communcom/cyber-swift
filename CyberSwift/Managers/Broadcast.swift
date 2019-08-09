@@ -119,26 +119,7 @@ extension Broadcast {
             var jsonString: String
             
             jsonData    =   try jsonEncoder.encode(requestAPI)
-            jsonString  =   "\(String(data: jsonData, encoding: .utf8)!)"
-
-            jsonString  =   jsonString
-                                .replacingOccurrences(of: "[[[", with: "[[")
-                                .replacingOccurrences(of: "[\"nil\"]", with: "]")
-                                .replacingOccurrences(of: "\"\(Config.paginationLimit)\"", with: "\(Config.paginationLimit)")
-                                .replacingOccurrences(of: "\"_", with: "")
-                                .replacingOccurrences(of: "_\"", with: "")
-                                .replacingOccurrences(of: "\\", with: "")
-                                .replacingOccurrences(of: "\"{", with: "{")
-                                .replacingOccurrences(of: "}\"}}", with: "}}}")
-                                .replacingOccurrences(of: "}\"", with: "}")
-                                .replacingOccurrences(of: "\"true\"", with: "true")
-                                .replacingOccurrences(of: "\"false\"", with: "false")
-
-            if jsonString.contains("registration.verify") {
-                jsonString = jsonString
-                                .replacingOccurrences(of: "code\":\"", with: "code\":")
-                                .replacingOccurrences(of: "\"}}", with: "}}")
-            }
+            jsonString  =   String(data: jsonData, encoding: .utf8)!
             
             // Template: { "id": 2, "jsonrpc": "2.0", "method": "content.getProfile", "params": { "userId": "tst3uuqzetwf" }}
             return (id: codeID, requestMessage: jsonString, methodAPIType: requestParamsType.methodAPIType, errorAPI: nil)

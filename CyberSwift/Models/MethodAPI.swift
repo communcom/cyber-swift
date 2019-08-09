@@ -16,7 +16,7 @@ import Foundation
 import Localize_Swift
 
 /// Type of request parameters
-typealias RequestMethodParameters   =   (methodAPIType: MethodAPIType, methodGroup: String, methodName: String, parameters: [String: String])
+typealias RequestMethodParameters   =   (methodAPIType: MethodAPIType, methodGroup: String, methodName: String, parameters: [String: Encodable])
 
 public enum MethodAPIGroup: String {
     case offline            =   "offline"
@@ -187,7 +187,7 @@ public indirect enum MethodAPIType {
 
         //  Template { "id": 2, "jsonrpc": "2.0", "method": "content.getFeed", "params": { "type": "community", "timeframe": "day", "sortBy": "popular", "limit": 20, "userId": "tst3uuqzetwf", "communityId": "gls" }}
         case .getFeed(let typeModeValue, let userNickNameValue, let communityIDValue, let timeFrameModeValue, let sortModeValue, let paginationSequenceKeyValue):
-            var parameters: [String: String] = ["type": typeModeValue.rawValue, "timeframe": timeFrameModeValue.rawValue, "sortBy": sortModeValue.rawValue, "limit": "\(Config.paginationLimit)"]
+            var parameters: [String: Encodable] = ["type": typeModeValue.rawValue, "timeframe": timeFrameModeValue.rawValue, "sortBy": sortModeValue.rawValue, "limit": Config.paginationLimit]
             
             if let userIDValue = userNickNameValue {
                 parameters["userId"] = userIDValue
@@ -222,7 +222,7 @@ public indirect enum MethodAPIType {
             
         //  Template { "id": 4, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "user", "userId": "tst2nbduouxh", "sortBy": "time", "limit": 20 }}
         case .getUserComments(let userNickNameValue, let sortModeValue, let limit, let paginationSequenceKeyValue):
-            var parameters: [String: String] = ["type": "user", "userId": userNickNameValue, "sortBy": sortModeValue.rawValue, "limit": "\(limit)"]
+            var parameters: [String: Encodable] = ["type": "user", "userId": userNickNameValue, "sortBy": sortModeValue.rawValue, "limit": limit]
             
             if let paginationSequenceKeyValue = paginationSequenceKeyValue {
                 parameters["sequenceKey"] = paginationSequenceKeyValue
@@ -235,7 +235,7 @@ public indirect enum MethodAPIType {
             
         //  Template { "id": 5, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "post", "userId": "tst1xrhojmka", "sortBy": "time", "permlink":  "demeterfightswithandromedaagainstepimetheus", "refBlockNum": "520095", "limit": 20 }}
         case .getPostComments(let userNickNameValue, let permlinkValue, let sortModeValue, let limit, let paginationSequenceKeyValue):
-            var parameters: [String: String] = ["type": "post", "userId": userNickNameValue, "permlink": permlinkValue, "sortBy": sortModeValue.rawValue, "limit": "\(limit)"]
+            var parameters: [String: Encodable] = ["type": "post", "userId": userNickNameValue, "permlink": permlinkValue, "sortBy": sortModeValue.rawValue, "limit": limit]
             
             if let paginationSequenceKeyValue = paginationSequenceKeyValue {
                 parameters["sequenceKey"] = paginationSequenceKeyValue
@@ -290,7 +290,7 @@ public indirect enum MethodAPIType {
             
         //  Template { "id": 9, "jsonrpc": "2.0", "method": "onlineNotify.history", "params": { "freshOnly": true, "fromId": "3123", markAsViewed}}
         case .getOnlineNotifyHistory(let fromId, _, let markAsViewed, let freshOnly):
-            var parameters: [String: String] = ["limit": "\(Config.paginationLimit)", "markAsViewed": markAsViewed.toParam, "freshOnly": freshOnly.toParam]
+            var parameters: [String: Encodable] = ["limit": "\(Config.paginationLimit)", "markAsViewed": markAsViewed, "freshOnly": freshOnly]
             
             if let fromId = fromId {
                 parameters["fromId"] = fromId
@@ -363,7 +363,7 @@ public indirect enum MethodAPIType {
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.notify.rawValue,
                      methodName:        "markAsRead",
-                     parameters:        ["ids": notifies.description])
+                     parameters:        ["ids": notifies])
 
         //  Template { "id": 15, "jsonrpc": "2.0", "method": "meta.recordPostView", "params": { "postLink": <author.permlink>, "fingerPrint": <deviceUDID> }}
         case .recordPostView(let permlink):
@@ -397,7 +397,7 @@ public indirect enum MethodAPIType {
         /// REGISTRATION-SERVICE
         //  Template { "id": 1, "jsonrpc": "2.0", "method": "registration.getState", "params": { "phone": "+70000000000" }}
         case .getState(let idValue, let phoneValue):
-            var parameters = [String: String]()
+            var parameters = [String: Encodable]()
             
             if idValue != nil {
                 parameters["user"] = idValue!
