@@ -82,7 +82,7 @@ public enum AppProfileType: String {
 public indirect enum MethodAPIType {
     /// FACADE-SERVICE
     //  Getting a user profile
-    case getProfile(userID: String, appProfileType: AppProfileType)
+    case getProfile(userID: String?, username: String?, appProfileType: AppProfileType)
 
     //  Getting tape posts
     case getFeed(typeMode: FeedTypeMode, userID: String?, communityID: String?, timeFrameMode: FeedTimeFrameMode, sortMode: FeedSortMode, paginationSequenceKey: String?)
@@ -179,11 +179,20 @@ public indirect enum MethodAPIType {
         switch self {
         /// FACADE-SERVICE
         //  Template { "id": 1, "jsonrpc": "2.0", "method": "content.getProfile", "params": { "userId": "tst3uuqzetwf" }}
-        case .getProfile(let userIDValue, let appProfileType):
+        case .getProfile(let userIDValue, let usernameValue, let appProfileType):
+            var params = [String: Encodable]()
+            params["app"] = appProfileType.rawValue
+            
+            if let id = userIDValue {
+                params["userId"] = id
+            } else if let username = usernameValue {
+                params["username"] = username
+            }
+            
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getProfile",
-                     parameters:        ["userId": userIDValue, "app": appProfileType.rawValue])
+                     parameters:        params)
 
         //  Template { "id": 2, "jsonrpc": "2.0", "method": "content.getFeed", "params": { "type": "community", "timeframe": "day", "sortBy": "popular", "limit": 20, "userId": "tst3uuqzetwf", "communityId": "gls" }}
         case .getFeed(let typeModeValue, let userNickNameValue, let communityIDValue, let timeFrameModeValue, let sortModeValue, let paginationSequenceKeyValue):
