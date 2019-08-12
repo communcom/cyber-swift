@@ -252,6 +252,10 @@ extension Reactive where Base: RestAPIManager {
     
     /// Logout user
     public func logout() -> Completable {
+        let methodAPIType = MethodAPIType.logout
+        let requestMethodAPIType = Broadcast.instance.prepareGETRequest(methodAPIType: methodAPIType)
+        SocketManager.shared.sendMessage(requestMethodAPIType.requestMessage!)
+        
         return pushNotifyOff()
             .andThen(Completable.create {completable in
                 do {

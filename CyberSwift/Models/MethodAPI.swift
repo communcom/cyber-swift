@@ -101,6 +101,9 @@ public indirect enum MethodAPIType {
     
     //  Log in
     case authorize(userID: String, activeKey: String)
+    
+    //  Log out
+    case logout
 
     //  Get the secret authorization to sign
     case generateSecret
@@ -261,6 +264,13 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.auth.rawValue,
                      methodName:        "authorize",
                      parameters:        ["user": userIDValue, "secret": Config.webSocketSecretKey, "sign": EOSManager.signWebSocketSecretKey(userActiveKey: activeKeyValue) ?? "Cyberway"])
+            
+        //  Template { "id": 6, "jsonrpc": "2.0", "method": "auth.logout", "params": { "": "" }}
+        case .logout:
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.auth.rawValue,
+                     methodName:        "logout",
+                     parameters:        ["": ""])
 
         //  Template { "id": 7, "jsonrpc": "2.0", "method": "auth.generateSecret", "params": { "": "" }}
         case .generateSecret:

@@ -30,6 +30,9 @@ extension MethodAPIType {
         case .authorize(_):
             return (responseAPI: try JSONDecoder().decode(ResponseAPIAuthAuthorizeResult.self, from: jsonData), errorAPI: nil)
             
+        case .logout:
+            return (responseAPI: nil, errorAPI: nil)
+            
         case .generateSecret:
             return (responseAPI: try JSONDecoder().decode(ResponseAPIAuthGenerateSecretResult.self, from: jsonData), errorAPI: nil)
             

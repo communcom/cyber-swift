@@ -52,6 +52,17 @@ public class SocketManager {
     }
     
     func sendRequest(methodAPIType: RequestMethodAPIType) -> Single<ResponseAPIType> {
+        sendMessage(methodAPIType.requestMessage!)
+        
+        return text
+            .filter {self.compareMessageFromResponseText($0, to: methodAPIType.id)}
+            .timeout(10, scheduler: MainScheduler.instance)
+            .take(1)
+            .asSingle()
+            .map {try self.transformMessage($0, to: methodAPIType.methodAPIType)}
+    }
+    
+    func sendMessage(_ message: String) {
         if !socket.isConnected {
             connect()
             connected
@@ -59,18 +70,12 @@ public class SocketManager {
                 .take(1)
                 .asSingle()
                 .subscribe(onSuccess: {[weak self] _ in
-                    self?.socket.write(string: methodAPIType.requestMessage!)
+                    self?.socket.write(string: message)
                 })
                 .disposed(by: bag)
         } else {
-            socket.write(string: methodAPIType.requestMessage!)
+            socket.write(string: message)
         }
-        return text
-            .filter {self.compareMessageFromResponseText($0, to: methodAPIType.id)}
-            .timeout(10, scheduler: MainScheduler.instance)
-            .take(1)
-            .asSingle()
-            .map {try self.transformMessage($0, to: methodAPIType.methodAPIType)}
     }
     
     func observeConnection() {

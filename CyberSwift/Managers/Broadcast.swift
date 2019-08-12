@@ -102,7 +102,7 @@ public class Broadcast {
 // MARK: - Microservices
 extension Broadcast {
     /// Prepare method request
-    private func prepareGETRequest(methodAPIType: MethodAPIType) -> RequestMethodAPIType {
+    public func prepareGETRequest(methodAPIType: MethodAPIType) -> RequestMethodAPIType {
         
         let codeID              =   generateUniqueId(forType: methodAPIType)
         let requestParamsType   =   methodAPIType.introduced()
