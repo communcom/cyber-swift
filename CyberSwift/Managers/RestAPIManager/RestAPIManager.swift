@@ -22,7 +22,7 @@ public class RestAPIManager {
     // API `content.getProfile`
     public func getProfile(
         userID:          String?,
-        username:        String?,
+        username:        String? = nil,
         appProfileType:  AppProfileType = .cyber
     ) -> Single<ResponseAPIContentGetProfile> {
         
