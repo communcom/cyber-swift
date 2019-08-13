@@ -93,6 +93,17 @@ public class SocketManager {
                 }
             })
             .disposed(by: bag)
+        
+        subject
+            .subscribe(onNext: { (event) in
+                switch event {
+                case .disconnected(_):
+                    self.connected.accept(false)
+                default:
+                    break
+                }
+            })
+            .disposed(by: bag)
     }
     
     func monitorNetwork() {
