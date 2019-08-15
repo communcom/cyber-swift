@@ -11,11 +11,4 @@ import Foundation
 public struct RequestAPITransaction: Encodable {
     public let signatures: [String]
     public let serializedTransaction: String
-    
-    func convertToJSON() -> String {
-        let jsonData = try! JSONEncoder().encode(self)
-        let jsonString = String(data: jsonData, encoding: .utf8)!
-        
-        return jsonString
-    }
 }

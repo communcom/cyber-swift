@@ -175,7 +175,7 @@ public indirect enum MethodAPIType {
     case toBlockChain(user: String, keys: [String: UserKeys])
 
     /// CHAIN-SERVICE
-    case bandwidthProvide(chainID: String, transaction: String)
+    case bandwidthProvide(chainID: String, transaction: RequestAPITransaction)
     
     /// This method return request parameters from selected enum case.
     func introduced() -> RequestMethodParameters {
@@ -506,7 +506,7 @@ public indirect enum MethodAPIType {
             
         // Template: missing
         case .bandwidthProvide(let chainID, let transaction):
-            var parameters = ["chainId": chainID]
+            var parameters: [String: Encodable] = ["chainId": chainID]
             parameters["transaction"] = transaction
             
             return  (methodAPIType:     self,

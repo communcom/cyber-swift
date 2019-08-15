@@ -40,7 +40,7 @@ extension EOSTransaction {
             
             
             // Prepare methodAPIType
-            let methodAPIType = MethodAPIType.bandwidthProvide(chainID: chainID, transaction: rrr.convertToJSON())
+            let methodAPIType = MethodAPIType.bandwidthProvide(chainID: chainID, transaction: rrr)
             
             return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
         }
