@@ -213,8 +213,7 @@ public indirect enum MethodAPIType {
             parameters["limit"] = Config.paginationLimit
             
             // userId
-            if (typeModeValue == .subscriptions ||
-                typeModeValue == .byUser) && userNickNameValue == nil {
+            if typeModeValue == .subscriptions || typeModeValue == .byUser {
                 if let userIDValue = userNickNameValue {
                     parameters["userId"] = userIDValue
                 }
