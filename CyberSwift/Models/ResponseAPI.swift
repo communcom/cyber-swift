@@ -162,7 +162,7 @@ public struct ResponseAPIContentGetFeed: Decodable {
 public struct ResponseAPIContentGetPost: Decodable {
     public var content: ResponseAPIContentGetPostContent
     public var votes: ResponseAPIContentVotes
-    public let stats: ResponseAPIContentGetPostStats
+    public var stats: ResponseAPIContentGetPostStats
     public let payout: ResponseAPIContentGetPostPayout
     public let contentId: ResponseAPIContentId
     public let meta: ResponseAPIContentGetPostMeta
@@ -242,7 +242,7 @@ public struct ResponseAPIContentVotes: Decodable {
 
 public struct ResponseAPIContentGetPostStats: Decodable {
     public let wilson: ResponseAPIContentGetPostStatsWilson?
-    public let commentsCount: UInt64
+    public var commentsCount: UInt64
     public let rShares: Conflicted?
     public let hot: Double
     public let trending: Double
