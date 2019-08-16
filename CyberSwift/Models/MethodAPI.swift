@@ -229,9 +229,6 @@ public indirect enum MethodAPIType {
             
             #warning("tags missing")
             
-            // contentType
-            parameters["contentType"] = "mobile"
-            
             parameters["sequenceKey"] = paginationSequenceKeyValue
             
             return  (methodAPIType:     self,
@@ -246,8 +243,7 @@ public indirect enum MethodAPIType {
                      methodName:        "getPost",
                      parameters:        [
                         "userId": userNickNameValue,
-                        "permlink": permlinkValue,
-                        "contentType": "mobile"])
+                        "permlink": permlinkValue])
             
         //  Template { "id": 1, "jsonrpc": "2.0", "method": "content.waitForTransaction", "params": { "transactionId": "OdklASkljlAQafdlkjEoljmasdfkD" } }
         case .waitForTransaction(let id):
@@ -258,7 +254,7 @@ public indirect enum MethodAPIType {
             
         //  Template { "id": 4, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "user", "userId": "tst2nbduouxh", "sortBy": "time", "limit": 20 }}
         case .getUserComments(let userNickNameValue, let sortModeValue, let limit, let paginationSequenceKeyValue):
-            var parameters: [String: Encodable] = ["type": "user", "userId": userNickNameValue, "sortBy": sortModeValue.rawValue, "limit": limit, "contentType": "mobile"]
+            var parameters: [String: Encodable] = ["type": "user", "userId": userNickNameValue, "sortBy": sortModeValue.rawValue, "limit": limit]
             
             if let paginationSequenceKeyValue = paginationSequenceKeyValue {
                 parameters["sequenceKey"] = paginationSequenceKeyValue
@@ -271,7 +267,7 @@ public indirect enum MethodAPIType {
             
         //  Template { "id": 5, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "post", "userId": "tst1xrhojmka", "sortBy": "time", "permlink":  "demeterfightswithandromedaagainstepimetheus", "refBlockNum": "520095", "limit": 20 }}
         case .getPostComments(let userNickNameValue, let permlinkValue, let sortModeValue, let limit, let paginationSequenceKeyValue):
-            var parameters: [String: Encodable] = ["type": "post", "userId": userNickNameValue, "permlink": permlinkValue, "sortBy": sortModeValue.rawValue, "limit": limit, "contentType": "mobile"]
+            var parameters: [String: Encodable] = ["type": "post", "userId": userNickNameValue, "permlink": permlinkValue, "sortBy": sortModeValue.rawValue, "limit": limit]
             
             if let paginationSequenceKeyValue = paginationSequenceKeyValue {
                 parameters["sequenceKey"] = paginationSequenceKeyValue
