@@ -199,15 +199,37 @@ public indirect enum MethodAPIType {
 
         //  Template { "id": 2, "jsonrpc": "2.0", "method": "content.getFeed", "params": { "type": "community", "timeframe": "day", "sortBy": "popular", "limit": 20, "userId": "tst3uuqzetwf", "communityId": "gls" }}
         case .getFeed(let typeModeValue, let userNickNameValue, let communityIDValue, let timeFrameModeValue, let sortModeValue, let paginationSequenceKeyValue):
-            var parameters: [String: Encodable] = ["type": typeModeValue.rawValue, "timeframe": timeFrameModeValue.rawValue, "sortBy": sortModeValue.rawValue, "limit": Config.paginationLimit]
+            var parameters = [String: Encodable]()
             
-            if let userIDValue = userNickNameValue {
-                parameters["userId"] = userIDValue
+            // sortBy
+            parameters["sortBy"] = sortModeValue.rawValue
+            
+            // timeframe
+            if typeModeValue == .community && sortModeValue == .popular {
+                parameters["timeframe"] = timeFrameModeValue.rawValue
             }
             
-            if let communityIDValue = communityIDValue {
+            // limit
+            parameters["limit"] = Config.paginationLimit
+            
+            // userId
+            if (typeModeValue == .subscriptions ||
+                typeModeValue == .byUser) && userNickNameValue == nil {
+                if let userIDValue = userNickNameValue {
+                    parameters["userId"] = userIDValue
+                }
+            }
+            
+            // communityId
+            if typeModeValue == .community,
+                let communityIDValue = communityIDValue {
                 parameters["communityId"] = communityIDValue
             }
+            
+            #warning("tags missing")
+            
+            // contentType
+            parameters["contentType"] = "mobile"
             
             if let paginationSequenceKeyValue = paginationSequenceKeyValue {
                 parameters["sequenceKey"] = paginationSequenceKeyValue
@@ -223,7 +245,10 @@ public indirect enum MethodAPIType {
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getPost",
-                     parameters:        ["userId": userNickNameValue, "permlink": permlinkValue])
+                     parameters:        [
+                        "userId": userNickNameValue,
+                        "permlink": permlinkValue,
+                        "contentType": "mobile"])
             
         //  Template { "id": 1, "jsonrpc": "2.0", "method": "content.waitForTransaction", "params": { "transactionId": "OdklASkljlAQafdlkjEoljmasdfkD" } }
         case .waitForTransaction(let id):
@@ -234,7 +259,7 @@ public indirect enum MethodAPIType {
             
         //  Template { "id": 4, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "user", "userId": "tst2nbduouxh", "sortBy": "time", "limit": 20 }}
         case .getUserComments(let userNickNameValue, let sortModeValue, let limit, let paginationSequenceKeyValue):
-            var parameters: [String: Encodable] = ["type": "user", "userId": userNickNameValue, "sortBy": sortModeValue.rawValue, "limit": limit]
+            var parameters: [String: Encodable] = ["type": "user", "userId": userNickNameValue, "sortBy": sortModeValue.rawValue, "limit": limit, "contentType": "mobile"]
             
             if let paginationSequenceKeyValue = paginationSequenceKeyValue {
                 parameters["sequenceKey"] = paginationSequenceKeyValue
@@ -247,7 +272,7 @@ public indirect enum MethodAPIType {
             
         //  Template { "id": 5, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "post", "userId": "tst1xrhojmka", "sortBy": "time", "permlink":  "demeterfightswithandromedaagainstepimetheus", "refBlockNum": "520095", "limit": 20 }}
         case .getPostComments(let userNickNameValue, let permlinkValue, let sortModeValue, let limit, let paginationSequenceKeyValue):
-            var parameters: [String: Encodable] = ["type": "post", "userId": userNickNameValue, "permlink": permlinkValue, "sortBy": sortModeValue.rawValue, "limit": limit]
+            var parameters: [String: Encodable] = ["type": "post", "userId": userNickNameValue, "permlink": permlinkValue, "sortBy": sortModeValue.rawValue, "limit": limit, "contentType": "mobile"]
             
             if let paginationSequenceKeyValue = paginationSequenceKeyValue {
                 parameters["sequenceKey"] = paginationSequenceKeyValue
