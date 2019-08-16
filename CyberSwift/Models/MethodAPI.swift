@@ -200,6 +200,8 @@ public indirect enum MethodAPIType {
         //  Template { "id": 2, "jsonrpc": "2.0", "method": "content.getFeed", "params": { "type": "community", "timeframe": "day", "sortBy": "popular", "limit": 20, "userId": "tst3uuqzetwf", "communityId": "gls" }}
         case .getFeed(let typeModeValue, let userNickNameValue, let communityIDValue, let timeFrameModeValue, let sortModeValue, let paginationSequenceKeyValue):
             var parameters = [String: Encodable]()
+            // type
+            parameters["type"] = typeModeValue.rawValue
             
             // sortBy
             parameters["sortBy"] = sortModeValue.rawValue
