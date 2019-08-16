@@ -231,9 +231,7 @@ public indirect enum MethodAPIType {
             // contentType
             parameters["contentType"] = "mobile"
             
-            if let paginationSequenceKeyValue = paginationSequenceKeyValue {
-                parameters["sequenceKey"] = paginationSequenceKeyValue
-            }
+            parameters["sequenceKey"] = paginationSequenceKeyValue
             
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
