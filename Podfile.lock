@@ -36,7 +36,7 @@ DEPENDENCIES:
   - SwiftyJSON (~> 4.0)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - BigInt
     - Checksum
     - CryptoSwift
@@ -80,4 +80,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: c842a47696f95a2c04f5a263cad8707dcff5c7d7
 
-COCOAPODS: 1.7.5
+COCOAPODS: 1.8.0.beta.1

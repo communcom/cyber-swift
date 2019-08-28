@@ -123,7 +123,7 @@ extension Reactive where Base: RestAPIManager {
             return .error(ErrorAPI.requestFailed(message: "Phone missing"))
         }
         
-        let methodAPIType = MethodAPIType.setUser(name: name, phone: phone)
+        let methodAPIType = MethodAPIType.setUser(name: name, phone: phone.trimmingCharacters(in: .whitespaces).replacingOccurrences(of: " ", with: ""))
         
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
             .log(method: "registration.setUsername")
