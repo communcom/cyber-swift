@@ -14,7 +14,7 @@ extension Reactive where Base: RestAPIManager {
     /// Get registration state
     public func getState(userId: String? = Config.currentUser?.id, phone: String? = Config.currentUser?.phoneNumber) -> Single<ResponseAPIRegistrationGetState> {
         
-        let methodAPIType = MethodAPIType.getState(id: userId, phone: userId == nil ? phone: nil)
+        let methodAPIType = MethodAPIType.getState(id: userId, phone: userId == nil ? phone : nil)
         
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
             .log(method: "registration.getState")
@@ -41,7 +41,7 @@ extension Reactive where Base: RestAPIManager {
     /// First step of registration
     public func firstStep(phone: String) -> Single<ResponseAPIRegistrationFirstStep> {
         
-        let methodAPIType = MethodAPIType.firstStep(phone: phone, isDebugMode: base.isDebugMode)
+        let methodAPIType = MethodAPIType.firstStep(phone: phone.trimSpaces(), isDebugMode: base.isDebugMode)
         
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
             .log(method: "registration.firstStep")
@@ -52,7 +52,7 @@ extension Reactive where Base: RestAPIManager {
                 
                 try KeychainManager.save([
                     Config.registrationStepKey: CurrentUserRegistrationStep.verify.rawValue,
-                    Config.registrationUserPhoneKey: phone,
+                    Config.registrationUserPhoneKey: phone.trimSpaces(),
                     Config.registrationSmsNextRetryKey: result.nextSmsRetry
                 ])
                 
@@ -69,7 +69,7 @@ extension Reactive where Base: RestAPIManager {
             return .error(ErrorAPI.requestFailed(message: "Phone missing"))
         }
         
-        let methodAPIType = MethodAPIType.verify(phone: phone, code: code)
+        let methodAPIType = MethodAPIType.verify(phone: phone.trimSpaces(), code: code)
         
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
             .log(method: "registration.verify")
@@ -96,7 +96,7 @@ extension Reactive where Base: RestAPIManager {
             return .error(ErrorAPI.requestFailed(message: "Phone missing"))
         }
         
-        let methodAPIType = MethodAPIType.resendSmsCode(phone: phone, isDebugMode: base.isDebugMode)
+        let methodAPIType = MethodAPIType.resendSmsCode(phone: phone.trimSpaces(), isDebugMode: base.isDebugMode)
         
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
             .log(method: "registration.resendSmsCode")
@@ -123,7 +123,7 @@ extension Reactive where Base: RestAPIManager {
             return .error(ErrorAPI.requestFailed(message: "Phone missing"))
         }
         
-        let methodAPIType = MethodAPIType.setUser(name: name, phone: phone.trimmingCharacters(in: .whitespaces).replacingOccurrences(of: " ", with: ""))
+        let methodAPIType = MethodAPIType.setUser(name: name, phone: phone.trimSpaces())
         
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
             .log(method: "registration.setUsername")

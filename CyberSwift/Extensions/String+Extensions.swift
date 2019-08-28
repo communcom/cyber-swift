@@ -54,6 +54,10 @@ extension String {
             .replacingOccurrences(of: " ", with: "-")
             .replacingOccurrences(of: ":", with: "-")
     }
+    
+    public func trimSpaces() -> String {
+        return self.trimmingCharacters(in: .whitespaces).replacingOccurrences(of: " ", with: "")
+    }
 }
 
 extension StringTransform {
