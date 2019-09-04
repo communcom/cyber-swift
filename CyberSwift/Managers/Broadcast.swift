@@ -178,6 +178,16 @@ extension Broadcast {
                             .andThen(self.executeGetRequest(methodAPIType: methodAPIType))
                     }
                 }
+                
+                if let error = error as? RxError {
+                    switch error {
+                    case .timeout:
+                        throw ErrorAPI.requestFailed(message: "Request has timed out")
+                    default:
+                        break
+                    }
+                }
+                
                 throw error
             })
     }
