@@ -43,7 +43,7 @@ public let blueWhiteColorPickers: ThemeColorPicker                      =   [ "#
 public let brightBlueWhiteColorPickers: ThemeColorPicker                =   [ "#2f7dfb", "#ffffff" ]
 public let softRedColorPickers: ThemeColorPicker                        =   [ "#e34646", "#e34646" ]
 
-public let blackWhiteDictionaryPickers: ThemeDictionaryPicker           =   ThemeDictionaryPicker.pickerWithAttributes([[NSAttributedString.Key.foregroundColor: UIColor(hexString: "#000000")], [NSAttributedString.Key.foregroundColor: UIColor(hexString: "#ffffff")]])
+public let blackWhiteDictionaryPickers: ThemeDictionaryPicker           =   ThemeDictionaryPicker.pickerWithDicts([[NSAttributedString.Key.foregroundColor.rawValue: UIColor(hexString: "#000000")], [NSAttributedString.Key.foregroundColor.rawValue: UIColor(hexString: "#ffffff")]])
 
 public let veryLightGrayCGColorPickers: ThemeCGColorPicker              =   [ "#dbdbdb", "#dbdbdb" ]
 public let whiteVeryDarkGrayCGColorPickers: ThemeCGColorPicker          =   [ "#ffffff", "#5a5a5a" ]
