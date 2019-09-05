@@ -101,6 +101,10 @@ extension MethodAPIType {
         /// CHAIN-SERVICE
         case .bandwidthProvide(_):
             return (responseAPI: try JSONDecoder().decode(ResponseAPIBandwidthProvideResult.self, from: jsonData), errorAPI: nil)
+            
+        /// OTHER
+        case .getEmbed(_):
+            return (responseAPI: try JSONDecoder().decode(ResponseAPIFrameGetEmbedResult.self, from: jsonData), errorAPI: nil)
         }
     }
 }

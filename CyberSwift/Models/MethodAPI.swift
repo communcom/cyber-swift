@@ -177,6 +177,9 @@ public indirect enum MethodAPIType {
     /// CHAIN-SERVICE
     case bandwidthProvide(chainID: String, transaction: RequestAPITransaction)
     
+    /// OTHER
+    case getEmbed(url: String)
+    
     /// This method return request parameters from selected enum case.
     func introduced() -> RequestMethodParameters {
         switch self {
@@ -533,8 +536,14 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.bandwidth.rawValue,
                      methodName:        "provide",
                      parameters:        parameters)
+            
+        // Template     { "id": 6, "jsonrpc": "2.0", "method": "registration.toBlockChain", "params": { "type": "oembed", "url": "https://www.youtube.com/watch?v=UiYlRkVxC_4" }}
+        case .getEmbed(let url):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.frame.rawValue,
+                     methodName:        "getEmbed",
+                     parameters:        [ "type": "oembed", "url": url ])
+            
         } // switch
-        
-        
     }
 }

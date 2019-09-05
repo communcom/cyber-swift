@@ -392,4 +392,18 @@ public class RestAPIManager {
         
         task.resume()
     }
+    
+    //  MARK: - Others
+    /// get embed content
+    func getEmbed(url: String) -> Single<ResponseAPIFrameGetEmbed> {
+        let methodAPIType = MethodAPIType.getEmbed(url: url)
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+            .log(method: "frame.getEmbed")
+            .map {result in
+                guard let result = (result as? ResponseAPIFrameGetEmbedResult)?.result else {
+                    throw ErrorAPI.unknown
+                }
+                return result
+        }
+    }
 }
