@@ -821,7 +821,7 @@ public struct ResponseAPIFrameGetEmbedResult: Decodable {
 }
 
 public struct ResponseAPIFrameGetEmbed: Decodable {
-    public let type: String?
+    public var type: String?
     public let version: String?
     public let title: String?
     public var url: String?
