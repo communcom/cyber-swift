@@ -832,6 +832,6 @@ public struct ResponseAPIFrameGetEmbed: Decodable {
     public let thumbnail_url: String?
     public let thumbnail_width: UInt?
     public let thumbnail_height: UInt?
-    public let html: String?
+    public var html: String?
     public let content_length: UInt32?
 }
