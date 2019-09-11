@@ -41,7 +41,7 @@ class RequestAPIEncodingTests: XCTestCase {
     }
     
     func testGetFeed() {
-        let methodAPIType = MethodAPIType.getFeed(typeMode: .byUser, userID: "tst11dadsprp", communityID: "gls", timeFrameMode: .all, sortMode: .timeDesc, paginationSequenceKey: nil)
+        let methodAPIType = MethodAPIType.getFeed(typeMode: .byUser, userID: "tst11dadsprp", communityID: "gls", timeFrameMode: .all, sortMode: .timeDesc, paginationSequenceKey: nil, paginationLimit: 10)
         print(getRequestString(id: 14, methodAPIType: methodAPIType))
     }
     
