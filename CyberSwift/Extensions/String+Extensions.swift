@@ -50,9 +50,12 @@ extension String {
     }
     
     public static func permlinkWith(string: String) -> String {
-        return (string.applyingTransform(.toLowercaseASCIINoSpaces, reverse: false)! + "-" + Date().convert(toStringFormat: .expirationDateType)).lowercased()
+        // limit to 256 characters
+        let substring = (string.applyingTransform(.toLowercaseASCIINoSpaces, reverse: false)! + "-" + Date().convert(toStringFormat: .expirationDateType)).lowercased()
             .replacingOccurrences(of: " ", with: "-")
             .replacingOccurrences(of: ":", with: "-")
+            .prefix(256)
+        return String(substring)
     }
     
     public func trimSpaces() -> String {
