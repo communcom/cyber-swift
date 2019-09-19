@@ -820,7 +820,7 @@ public struct ResponseAPIFrameGetEmbedResult: Decodable {
     public let error: ResponseAPIError?
 }
 
-public struct ResponseAPIFrameGetEmbed: Decodable {
+public struct ResponseAPIFrameGetEmbed: Codable {
     public var type: String?
     public let version: String?
     public let title: String?
