@@ -20,11 +20,12 @@ extension String {
     public var uppercaseFirst: String {
         return first.uppercased() + String(dropFirst())
     }
+    
+    public static var latinLettersAndNumbers =
+        Set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 
     public static func randomString(length: Int) -> String {
-        let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        
-        return String((0..<length).map{ _ in letters.randomElement()! })
+        return String((0..<length).map{ _ in latinLettersAndNumbers.randomElement()! })
     }
     
     public func removeWhitespaceCharacters() -> String {
@@ -50,11 +51,22 @@ extension String {
     }
     
     public static func permlinkWith(string: String) -> String {
-        // limit to 256 characters
-        let substring = (string.applyingTransform(.toLowercaseASCIINoSpaces, reverse: false)! + "-" + Date().convert(toStringFormat: .expirationDateType)).lowercased()
-            .replacingOccurrences(of: " ", with: "-")
-            .replacingOccurrences(of: ":", with: "-")
-            .prefix(256)
+        // transform all characters to ASCII
+        let transform1 = string.applyingTransform(.toLowercaseASCIINoSpaces, reverse: false)!
+        
+        // remove all unallowed characters
+        let transform2 = String(transform1.filter {latinLettersAndNumbers.contains($0)})
+        
+        // add date time
+        let transform3 = transform2.lowercased()
+            + "-"
+            + Date().convert(toStringFormat: .expirationDateType)
+                .replacingOccurrences(of: " ", with: "-")
+                .replacingOccurrences(of: ":", with: "-")
+        
+        // get first 256 characters
+        let substring = transform3.prefix(256)
+        
         return String(substring)
     }
     
