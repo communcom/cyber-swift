@@ -58,11 +58,13 @@ extension String {
         let transform2 = String(transform1.filter {latinLettersAndNumbers.contains($0)})
         
         // add date time
-        let transform3 = transform2.lowercased()
+        let transform3 = Date().convert(toStringFormat: .expirationDateType)
+            .replacingOccurrences(of: " ", with: "-")
+            .replacingOccurrences(of: ":", with: "-")
+            .lowercased()
             + "-"
-            + Date().convert(toStringFormat: .expirationDateType)
-                .replacingOccurrences(of: " ", with: "-")
-                .replacingOccurrences(of: ":", with: "-")
+            + transform2.lowercased()
+        
         
         // get first 256 characters
         let substring = transform3.prefix(256)
