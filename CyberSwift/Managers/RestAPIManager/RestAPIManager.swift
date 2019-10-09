@@ -65,9 +65,9 @@ public class RestAPIManager {
     }
     
     // API `content.getPost`
-    public func loadPost(permlink: String) -> Single<ResponseAPIContentGetPost> {
+    public func loadPost(permlink: String, communityId: String) -> Single<ResponseAPIContentGetPost> {
         
-        let methodAPIType = MethodAPIType.getPost(permlink: permlink)
+        let methodAPIType = MethodAPIType.getPost(permlink: permlink, communityId: communityId)
         
         return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
             .log(method: "content.getPost")

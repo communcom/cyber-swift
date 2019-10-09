@@ -172,23 +172,23 @@ public struct ResponseAPIContentGetPost: Decodable {
 
 public struct ResponseAPIContentGetPostContent: Decodable {
     public let type: String
-    public let body: ResponseAPIContentGetPostContentBody
+    public let body: ResponseAPIContentBlock
 }
 
-public struct ResponseAPIContentGetPostContentBody: Decodable {
+public struct ResponseAPIContentBlock: Codable {
     public let id: UInt64
     public let type: String
-    public let attributes: ResponseAPIContentGetPostContentBodyAttributes?
-    public let content: ResponseAPIContentGetPostContentBodyContent
+    public let attributes: ResponseAPIContentBlockAttributes?
+    public let content: ResponseAPIContentBlockContent
 }
 
-public enum ResponseAPIContentGetPostContentBodyContent: Decodable {
-    case array([ResponseAPIContentGetPostContentBody])
+public enum ResponseAPIContentBlockContent: Codable {
+    case array([ResponseAPIContentBlock])
     case string(String)
     case unsupported
 }
 
-public struct ResponseAPIContentGetPostContentBodyAttributes: Decodable {
+public struct ResponseAPIContentBlockAttributes: Codable {
     // PostBlock
     public var title: String?
     public var type: String?
@@ -211,13 +211,6 @@ public struct ResponseAPIContentGetPostContentBodyAttributes: Decodable {
     public var thumbnail_url: String?
     public var thumbnail_size: [UInt]?
     public var html: String?
-}
-
-public struct ResponseAPIContentEmbed: Decodable {
-    public let _id: String
-    public let id: String?
-    public let type: String?
-    public var result: ResponseAPIContentEmbedResult?
 }
 
 public struct ResponseAPIContentEmbedResult: Decodable {
@@ -318,20 +311,7 @@ public struct ResponseAPIContentGetComment: Decodable {
 }
 
 public struct ResponseAPIContentGetCommentContent: Decodable {
-    public let body: ResponseAPIContentGetCommentContentBody
-    public let metadata: ResponseAPIContentGetCommentContentMetadata?
-    public let embeds: [ResponseAPIContentEmbed]
-}
-
-public struct ResponseAPIContentGetCommentContentBody: Decodable {
-    public let preview: String?
-    public let full: String?
-}
-
-public struct ResponseAPIContentGetCommentContentMetadata: Decodable {
-    public let app: String?
-    public let format: String?
-    public let tags: [String]?
+    public let body: ResponseAPIContentBlock
 }
 
 public struct ResponseAPIContentGetCommentVotes: Decodable {
