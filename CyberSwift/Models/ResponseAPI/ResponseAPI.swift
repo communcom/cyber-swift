@@ -776,6 +776,7 @@ public struct ResponseAPIContentGetCommunity: Decodable {
     public let communityId: String
     public let communityName: String?
     public let isSubscribed: Bool
+    public let avatarUrl: String?
 }
 
 // MARK: - API `content.getCommunitiesList`
