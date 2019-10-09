@@ -153,6 +153,9 @@ public indirect enum MethodAPIType {
 
     //  Remove post from favorites
     case removeFavorites(permlink: String)
+    
+    //  Get community
+    case getCommunity(id: String)
 
 
     /// REGISTRATION-SERVICE
@@ -433,6 +436,12 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.favorites.rawValue,
                      methodName:        "remove",
                      parameters:        ["permlink": permlink])
+            
+        case .getCommunity(let id):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.content.rawValue,
+                     methodName:        "getCommunity",
+                     parameters:        ["communityId": id])
 
 
         /// REGISTRATION-SERVICE

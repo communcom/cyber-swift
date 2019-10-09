@@ -301,7 +301,8 @@ public class RestAPIManager {
     }
 
     // API `favorites.remove`
-    public func removeFavorites(permlink: String) -> Single<ResponseAPIRemoveFavorites> {// Check user authorize
+    public func removeFavorites(permlink: String) -> Single<ResponseAPIRemoveFavorites> {
+        // Check user authorize
         guard Config.currentUser?.id != nil else { return .error(ErrorAPI.unauthorized)}
         
         let methodAPIType = MethodAPIType.removeFavorites(permlink: permlink)
@@ -314,6 +315,21 @@ public class RestAPIManager {
                 }
                 return result
         }
+    }
+    
+    //  MARK: - Communities
+    public func getCommunity(id: String) -> Single<ResponseAPIContentGetCommunity> {
+        
+        let methodAPIType = MethodAPIType.getCommunity(id: id)
+        
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+            .log(method: "content.getCommunity")
+            .map {result in
+                guard let result = (result as? ResponseAPIContentGetCommunityResult)?.result else {
+                    throw ErrorAPI.unknown
+                }
+                return result
+            }
     }
 
     //  MARK: - Contract `gls.social`

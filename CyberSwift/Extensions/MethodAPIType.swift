@@ -78,6 +78,9 @@ extension MethodAPIType {
         case .removeFavorites(_):
             return (responseAPI: try JSONDecoder().decode(ResponseAPIRemoveFavoritesResult.self, from: jsonData), errorAPI: nil)
             
+        case .getCommunity(_):
+            return (responseAPI: try JSONDecoder().decode(ResponseAPIContentGetCommunity.self, from: jsonData), errorAPI: nil)
+            
             
         // REGISTRATION-SERVICE
         case .getState(_):
