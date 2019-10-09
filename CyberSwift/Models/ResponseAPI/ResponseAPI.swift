@@ -180,6 +180,9 @@ public struct ResponseAPIContentBlock: Codable {
     public let type: String
     public var attributes: ResponseAPIContentBlockAttributes?
     public let content: ResponseAPIContentBlockContent
+    
+    // for creating
+    public var maxId: UInt64?
 }
 
 public enum ResponseAPIContentBlockContent: Codable {
