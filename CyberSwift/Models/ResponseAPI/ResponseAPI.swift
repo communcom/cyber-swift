@@ -215,7 +215,7 @@ public struct ResponseAPIContentBlockAttributes: Codable {
     public var thumbnail_size: [UInt]?
     public var html: String?
     
-    init(
+    public init(
         title: String? = nil,
         type: String? = nil,
         version: String? = nil,
