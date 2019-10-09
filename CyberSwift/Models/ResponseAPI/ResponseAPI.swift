@@ -172,7 +172,7 @@ public struct ResponseAPIContentGetPost: Decodable {
 
 public struct ResponseAPIContentGetPostContent: Decodable {
     public let type: String
-    public let body: ResponseAPIContentBlock
+    public var body: ResponseAPIContentBlock
 }
 
 public struct ResponseAPIContentBlock: Codable {
