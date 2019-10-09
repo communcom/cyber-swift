@@ -82,7 +82,7 @@ public enum AppProfileType: String {
 public indirect enum MethodAPIType {
     /// FACADE-SERVICE
     //  Getting a user profile
-    case getProfile(userID: String?, username: String?, appProfileType: AppProfileType)
+    case getProfile(user: String?, appProfileType: AppProfileType)
 
     //  Getting tape posts
     case getFeed(typeMode: FeedTypeMode, userID: String?, communityID: String?, timeFrameMode: FeedTimeFrameMode, sortMode: FeedSortMode, paginationSequenceKey: String?, paginationLimit: Int8)
@@ -184,16 +184,12 @@ public indirect enum MethodAPIType {
     func introduced() -> RequestMethodParameters {
         switch self {
         /// FACADE-SERVICE
-        //  Template { "id": 1, "jsonrpc": "2.0", "method": "content.getProfile", "params": { "userId": "tst3uuqzetwf" }}
-        case .getProfile(let userIDValue, let usernameValue, let appProfileType):
+        //  Template { "id": 1, "jsonrpc": "2.0", "method": "content.getProfile", "params": { "user": "<user id or user name>" }}
+        case .getProfile(let user, let appProfileType):
             var params = [String: Encodable]()
             params["app"] = appProfileType.rawValue
             
-            if let id = userIDValue {
-                params["userId"] = id
-            } else if let username = usernameValue {
-                params["username"] = username
-            }
+            params["user"] = user
             
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,

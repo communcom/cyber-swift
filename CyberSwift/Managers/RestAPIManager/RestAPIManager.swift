@@ -21,16 +21,15 @@ public class RestAPIManager {
     // MARK: - FACADE-SERVICE
     // API `content.getProfile`
     public func getProfile(
-        userID:          String?,
-        username:        String? = nil,
+        user:        String? = nil,
         appProfileType:  AppProfileType = .cyber
     ) -> Single<ResponseAPIContentGetProfile> {
         
-        if userID == nil && username == nil {
+        if user == nil {
             return .error(ErrorAPI.requestFailed(message: "userID or username is missing"))
         }
         
-        let methodAPIType = MethodAPIType.getProfile(userID: userID, username: username, appProfileType: appProfileType)
+        let methodAPIType = MethodAPIType.getProfile(user: user, appProfileType: appProfileType)
 
         return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
             .log(method: "content.getProfile")
@@ -40,19 +39,6 @@ public class RestAPIManager {
                 }
                 return result
             }
-            .catchError({ (error) in
-                // if tried fetching username
-                if username != nil {throw error}
-                
-                // retry fetching with username
-                if let error = error as? ErrorAPI {
-                    let message = error.caseInfo.message
-                    if message == "Not found" {
-                        return self.getProfile(userID: nil, username: userID)
-                    }
-                }
-                throw error
-            })
     }
 
     // API `content.getFeed`
