@@ -178,7 +178,7 @@ public struct ResponseAPIContentGetPostContent: Decodable {
 public struct ResponseAPIContentBlock: Codable {
     public let id: UInt64
     public let type: String
-    public let attributes: ResponseAPIContentBlockAttributes?
+    public var attributes: ResponseAPIContentBlockAttributes?
     public let content: ResponseAPIContentBlockContent
 }
 
