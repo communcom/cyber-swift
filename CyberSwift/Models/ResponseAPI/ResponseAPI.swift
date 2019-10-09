@@ -167,24 +167,50 @@ public struct ResponseAPIContentGetPost: Decodable {
     public let contentId: ResponseAPIContentId
     public let meta: ResponseAPIContentGetPostMeta
     public let author: ResponseAPIAuthor?
-    public let community: ResponseAPIContentGetPostCommunity
+    public let community: ResponseAPIContentGetCommunity
 }
 
 public struct ResponseAPIContentGetPostContent: Decodable {
-    public var body: ResponseAPIContentGetPostContentBody
-    public var title: String
-    public let tags: [String?]?
-    public let metadata: ResponseAPIContentGetPostContentMetadata?
-    public var embeds: [ResponseAPIContentEmbed]
+    public let type: String
+    public let body: ResponseAPIContentGetPostContentBody
 }
 
 public struct ResponseAPIContentGetPostContentBody: Decodable {
-    public let preview: String?
-    public var full: String?
+    public let id: UInt64
+    public let type: String
+    public let attributes: ResponseAPIContentGetPostContentBodyAttributes?
+    public let content: ResponseAPIContentGetPostContentBodyContent
 }
 
-public struct ResponseAPIContentGetPostContentMetadata: Decodable {
-    public let embeds: [ResponseAPIContentGetPostContentMetadataEmbed]?
+public enum ResponseAPIContentGetPostContentBodyContent: Decodable {
+    case array([ResponseAPIContentGetPostContentBody])
+    case string(String)
+    case unsupported
+}
+
+public struct ResponseAPIContentGetPostContentBodyAttributes: Decodable {
+    // PostBlock
+    public var title: String?
+    public var type: String?
+    public var version: String?
+    
+    // TextBlock
+    public var style: [String]?
+    public var text_color: String?
+    
+    // LinkBlock
+    public var url: String?
+    
+    // ImageBlock
+    public var description: String?
+    
+    // VideoBlock
+    public var provider_name: String?
+    public var author: String?
+    public var author_url: String?
+    public var thumbnail_url: String?
+    public var thumbnail_size: [UInt]?
+    public var html: String?
 }
 
 public struct ResponseAPIContentEmbed: Decodable {
@@ -208,29 +234,6 @@ public struct ResponseAPIContentEmbedResult: Decodable {
     public let thumbnail_height: UInt64?
     public var html: String?
     public let content_length: UInt64?
-}
-
-public struct ResponseAPIContentGetPostContentMetadataEmbed: Decodable {
-    public let url: String?
-    public let result: ResponseAPIContentGetPostContentMetadataEmbedResult?
-    public let id: Conflicted
-    public let html: String?
-    public let type: String?
-}
-
-public struct ResponseAPIContentGetPostContentMetadataEmbedResult: Decodable {
-    public let type: String
-    public let version: String
-    public let title: String
-    public let url: String
-    public let author: String
-    public let author_url: String
-    public let provider_name: String
-    public let description: String
-    public let thumbnail_url: String
-    public let thumbnail_width: UInt16
-    public let thumbnail_height: UInt16
-    public let html: String
 }
 
 public struct ResponseAPIContentVotes: Decodable {
@@ -261,19 +264,11 @@ public struct ResponseAPIContentGetPostPayout: Decodable {
 public struct ResponseAPIContentId: Decodable {
     public let userId: String
     public let permlink: String
-    public let refBlockNum: UInt64?
 }
 
 public struct ResponseAPIContentGetPostMeta: Decodable {
-    public let time: String
+    public let creationTime: String
 }
-
-public struct ResponseAPIContentGetPostCommunity: Decodable {
-    public let id: String
-    public let name: String
-    public let avatarUrl: String?
-}
-
 
 // MARK: - API `content.getPost`
 public struct ResponseAPIContentGetPostResult: Decodable, ResponseAPIHasError {
@@ -799,6 +794,7 @@ public struct ResponseAPIContentGetCommunityResult: Decodable, ResponseAPIHasErr
 public struct ResponseAPIContentGetCommunity: Decodable {
     public let subscribersCount: UInt16
     public let communityId: String
+    public let communityName: String?
     public let isSubscribed: Bool
 }
 

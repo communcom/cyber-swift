@@ -52,7 +52,7 @@ public class RestAPIManager {
         paginationSequenceKey:     String? = nil
     ) -> Single<ResponseAPIContentGetFeed> {
         
-        let methodAPIType = MethodAPIType.getFeed(typeMode: typeMode, userID: userID, communityID: communityID, timeFrameMode: timeFrameMode, sortMode: sortMode, paginationSequenceKey: paginationSequenceKey, paginationLimit: paginationLimit)
+        let methodAPIType = MethodAPIType.getFeed(typeMode: typeMode, communityID: communityID, timeFrameMode: timeFrameMode, sortMode: sortMode, paginationSequenceKey: paginationSequenceKey, paginationLimit: paginationLimit)
         
         return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
             .log(method: "content.getFeed")

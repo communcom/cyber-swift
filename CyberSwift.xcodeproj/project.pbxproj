@@ -61,6 +61,7 @@
 		B1EA02F62289D3B400835244 /* UITextField+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EA02F52289D3B400835244 /* UITextField+Extensions.swift */; };
 		B1EA0319228A985400835244 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EA0318228A985400835244 /* UIView+Extensions.swift */; };
 		B1F7B44A229FB5A4005492DD /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F7B449229FB5A4005492DD /* UIImage+Extensions.swift */; };
+		BCE93909234D868E00226E39 /* ResponseAPI+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE93908234D868E00226E39 /* ResponseAPI+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -138,6 +139,7 @@
 		B1EA02F52289D3B400835244 /* UITextField+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+Extensions.swift"; sourceTree = "<group>"; };
 		B1EA0318228A985400835244 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		B1F7B449229FB5A4005492DD /* UIImage+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
+		BCE93908234D868E00226E39 /* ResponseAPI+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Extensions.swift"; sourceTree = "<group>"; };
 		F6ED672114DF191DC66860EA /* Pods_CyberSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CyberSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -330,10 +332,19 @@
 				B1804BA8225DCF9B00260A32 /* PhoneCode.swift */,
 				B1C3F864223F9906005711EF /* RequestAPI.swift */,
 				B1902AD522706F1E00661211 /* RequestParameterAPI.swift */,
-				B1C3F866223F9906005711EF /* ResponseAPI.swift */,
+				BCE93907234D866A00226E39 /* ResponseAPI */,
 				3BDF4FA922C229440029D616 /* BCResponseAPIError.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		BCE93907234D866A00226E39 /* ResponseAPI */ = {
+			isa = PBXGroup;
+			children = (
+				B1C3F866223F9906005711EF /* ResponseAPI.swift */,
+				BCE93908234D868E00226E39 /* ResponseAPI+Extensions.swift */,
+			);
+			path = ResponseAPI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -526,6 +537,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCE93909234D868E00226E39 /* ResponseAPI+Extensions.swift in Sources */,
 				3BF3A6B822F1D48E00A6916E /* EOSTransaction+Actions.swift in Sources */,
 				B1F7B44A229FB5A4005492DD /* UIImage+Extensions.swift in Sources */,
 				B179917A2269B4560014CB44 /* Secp256k1.swift in Sources */,
