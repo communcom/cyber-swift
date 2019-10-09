@@ -85,19 +85,19 @@ public indirect enum MethodAPIType {
     case getProfile(user: String?)
 
     //  Getting tape posts
-    case getFeed(typeMode: FeedTypeMode, userID: String?, communityID: String?, timeFrameMode: FeedTimeFrameMode, sortMode: FeedSortMode, paginationSequenceKey: String?, paginationLimit: Int8)
+    case getFeed(typeMode: FeedTypeMode, communityID: String?, timeFrameMode: FeedTimeFrameMode, sortMode: FeedSortMode, paginationSequenceKey: String?, paginationLimit: Int8)
     
     //  Getting selected post
-    case getPost(userID: String, permlink: String)
+    case getPost(permlink: String)
     
     //  Waiting for transaction
     case waitForTransaction(id: String)
     
     //  Getting user comments feed
-    case getUserComments(nickName: String, sortMode: CommentSortMode, limit: Int8, paginationSequenceKey: String?)
+    case getUserComments(sortMode: CommentSortMode, limit: Int8, paginationSequenceKey: String?)
     
     //  Getting post comments feed
-    case getPostComments(userNickName: String, permlink: String, sortMode: CommentSortMode, limit: Int8, paginationSequenceKey: String?)
+    case getPostComments(permlink: String, sortMode: CommentSortMode, limit: Int8, paginationSequenceKey: String?)
     
     //  Log in
     case authorize(userID: String, activeKey: String)
@@ -194,6 +194,7 @@ public indirect enum MethodAPIType {
         case .getProfile(let user):
             var params = [String: Encodable]()
             params["user"] = user
+            params["userId"] = Config.currentUser?.id
             
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
@@ -201,7 +202,7 @@ public indirect enum MethodAPIType {
                      parameters:        params)
 
         //  Template { "id": 2, "jsonrpc": "2.0", "method": "content.getFeed", "params": { "type": "community", "timeframe": "day", "sortBy": "popular", "limit": 20, "userId": "tst3uuqzetwf", "communityId": "gls" }}
-        case .getFeed(let typeModeValue, let userNickNameValue, let communityIDValue, let timeFrameModeValue, let sortModeValue, let paginationSequenceKeyValue, let paginationLimitValue):
+        case .getFeed(let typeModeValue, let communityIDValue, let timeFrameModeValue, let sortModeValue, let paginationSequenceKeyValue, let paginationLimitValue):
             var parameters = [String: Encodable]()
             // type
             parameters["type"] = typeModeValue.rawValue
@@ -219,9 +220,7 @@ public indirect enum MethodAPIType {
             
             // userId
             if typeModeValue == .subscriptions || typeModeValue == .byUser {
-                if let userIDValue = userNickNameValue {
-                    parameters["userId"] = userIDValue
-                }
+                parameters["userId"] = Config.currentUser?.id
             }
             
             // communityId
@@ -240,12 +239,12 @@ public indirect enum MethodAPIType {
                      parameters:        parameters)
             
         //  Template { "id": 3, "jsonrpc": "2.0", "method": "content.getPost", "params": { "userId": "tst2nbduouxh", "permlink": "hephaestusfightswithantigoneagainststyx", "refBlockNum": 381607 }}
-        case .getPost(let userNickNameValue, let permlinkValue):
+        case .getPost(let permlinkValue):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getPost",
                      parameters:        [
-                        "userId": userNickNameValue,
+                        "userId": Config.currentUser?.id,
                         "permlink": permlinkValue])
             
         //  Template { "id": 1, "jsonrpc": "2.0", "method": "content.waitForTransaction", "params": { "transactionId": "OdklASkljlAQafdlkjEoljmasdfkD" } }
@@ -256,8 +255,8 @@ public indirect enum MethodAPIType {
                      parameters:        ["transactionId": id])
             
         //  Template { "id": 4, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "user", "userId": "tst2nbduouxh", "sortBy": "time", "limit": 20 }}
-        case .getUserComments(let userNickNameValue, let sortModeValue, let limit, let paginationSequenceKeyValue):
-            var parameters: [String: Encodable] = ["type": "user", "userId": userNickNameValue, "sortBy": sortModeValue.rawValue, "limit": limit]
+        case .getUserComments(let sortModeValue, let limit, let paginationSequenceKeyValue):
+            var parameters: [String: Encodable] = ["type": "user", "userId": Config.currentUser?.id, "sortBy": sortModeValue.rawValue, "limit": limit]
             
             if let paginationSequenceKeyValue = paginationSequenceKeyValue {
                 parameters["sequenceKey"] = paginationSequenceKeyValue
@@ -269,8 +268,8 @@ public indirect enum MethodAPIType {
                      parameters:        parameters)
             
         //  Template { "id": 5, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "post", "userId": "tst1xrhojmka", "sortBy": "time", "permlink":  "demeterfightswithandromedaagainstepimetheus", "refBlockNum": "520095", "limit": 20 }}
-        case .getPostComments(let userNickNameValue, let permlinkValue, let sortModeValue, let limit, let paginationSequenceKeyValue):
-            var parameters: [String: Encodable] = ["type": "post", "userId": userNickNameValue, "permlink": permlinkValue, "sortBy": sortModeValue.rawValue, "limit": limit]
+        case .getPostComments(let permlinkValue, let sortModeValue, let limit, let paginationSequenceKeyValue):
+            var parameters: [String: Encodable] = ["type": "post", "userId": Config.currentUser?.id, "permlink": permlinkValue, "sortBy": sortModeValue.rawValue, "limit": limit]
             
             if let paginationSequenceKeyValue = paginationSequenceKeyValue {
                 parameters["sequenceKey"] = paginationSequenceKeyValue

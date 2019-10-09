@@ -65,12 +65,9 @@ public class RestAPIManager {
     }
     
     // API `content.getPost`
-    public func loadPost(
-        userID:        String = Config.currentUser?.id ?? "Cyber",
-        permlink:      String
-    ) -> Single<ResponseAPIContentGetPost> {
+    public func loadPost(permlink: String) -> Single<ResponseAPIContentGetPost> {
         
-        let methodAPIType = MethodAPIType.getPost(userID: userID, permlink: permlink)
+        let methodAPIType = MethodAPIType.getPost(permlink: permlink)
         
         return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
             .log(method: "content.getPost")
@@ -84,14 +81,12 @@ public class RestAPIManager {
     
     // API `content.getComments` by user
     public func loadUserComments(
-        nickName:                  String? = Config.currentUser?.id,
         sortMode:                  CommentSortMode = .time,
         paginationLimit:           Int8 = Config.paginationLimit,
         paginationSequenceKey:     String? = nil
     ) -> Single<ResponseAPIContentGetComments> {
         
         let methodAPIType = MethodAPIType.getUserComments(
-            nickName: nickName ?? "Cyber",
             sortMode: sortMode,
             limit: paginationLimit,
             paginationSequenceKey: paginationSequenceKey)
@@ -108,15 +103,13 @@ public class RestAPIManager {
     
     // API `content.getComments` by post
     public func loadPostComments(
-        nickName:                  String = Config.currentUser?.id ?? "Cyber",
         permlink:                  String,
         sortMode:                  CommentSortMode = .time,
         paginationLimit:           Int8 = Config.paginationLimit,
         paginationSequenceKey:     String? = nil
     ) -> Single<ResponseAPIContentGetComments> {
         
-        let methodAPIType = MethodAPIType.getPostComments(userNickName:             nickName,
-                                                          permlink:                 permlink,
+        let methodAPIType = MethodAPIType.getPostComments(permlink:                 permlink,
                                                           sortMode:                 sortMode,
                                                           limit: paginationLimit,
                                                           paginationSequenceKey:    paginationSequenceKey)
