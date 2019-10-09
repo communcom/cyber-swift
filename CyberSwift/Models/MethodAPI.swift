@@ -156,6 +156,9 @@ public indirect enum MethodAPIType {
     
     //  Get community
     case getCommunity(id: String)
+    
+    //  Get communities list
+    case getCommunitiesList(offset: Int)
 
 
     /// REGISTRATION-SERVICE
@@ -442,6 +445,12 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getCommunity",
                      parameters:        ["communityId": id])
+            
+        case .getCommunitiesList(let offset):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.content.rawValue,
+                     methodName:        "getCommunitiesList",
+                     parameters:        ["offset": offset])
 
 
         /// REGISTRATION-SERVICE

@@ -331,6 +331,20 @@ public class RestAPIManager {
                 return result
             }
     }
+    
+    public func getCommunitiesList(offset: Int) -> Single<ResponseAPIContentGetCommunitiesList> {
+        
+        let methodAPIType = MethodAPIType.getCommunitiesList(offset: offset)
+        
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+            .log(method: "content.getCommunitiesList")
+            .map { result in
+                guard let result = (result as? ResponseAPIContentGetCommunitiesListResult)?.result else {
+                    throw ErrorAPI.unknown
+                }
+                return result
+            }
+    }
 
     //  MARK: - Contract `gls.social`
     /// Posting image

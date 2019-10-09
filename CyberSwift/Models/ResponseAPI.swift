@@ -788,6 +788,7 @@ public struct ResponseAPIRemoveFavorites: Decodable {
     public let status: String
 }
 
+// MARK: - API `content.getCommunity`
 public struct ResponseAPIContentGetCommunityResult: Decodable, ResponseAPIHasError {
     public let jsonrpc: String
     public let id: UInt16
@@ -801,6 +802,17 @@ public struct ResponseAPIContentGetCommunity: Decodable {
     public let isSubscribed: Bool
 }
 
+// MARK: - API `content.getCommunitiesList`
+public struct ResponseAPIContentGetCommunitiesListResult: Decodable, ResponseAPIHasError {
+    public let jsonrpc: String
+    public let id: UInt16
+    public let result: ResponseAPIContentGetCommunitiesList?
+    public let error: ResponseAPIError?
+}
+
+public struct ResponseAPIContentGetCommunitiesList: Decodable {
+    public let communities: [ResponseAPIContentGetCommunity]
+}
 
 // MARK: - Generate new testnet accounts
 public struct ResponseAPICreateNewAccount: Decodable {
