@@ -183,6 +183,18 @@ public struct ResponseAPIContentBlock: Codable {
     
     // for creating
     public var maxId: UInt64?
+    
+    public init(
+        id: UInt64,
+        type: String,
+        attributes: ResponseAPIContentBlockAttributes?,
+        content: ResponseAPIContentBlockContent
+    ) {
+        self.id = id
+        self.type = type
+        self.attributes = attributes
+        self.content = content
+    }
 }
 
 public enum ResponseAPIContentBlockContent: Codable {
