@@ -76,35 +76,4 @@ public extension ResponseAPIContentBlockAttributes {
         self.thumbnail_size =   nil
         self.html           =   embed.html
     }
-    
-    init(
-        title: String? = nil,
-        type: String? = nil,
-        version: String? = nil,
-        style: [String]? = nil,
-        text_color: String? = nil,
-        url: String? = nil,
-        description: String? = nil,
-        provider_name: String? = nil,
-        author: String? = nil,
-        author_url: String? = nil,
-        thumbnail_url: String? = nil,
-        thumbnail_size: [UInt]? = nil,
-        html: String? = nil
-    ){
-        self.title = title
-        self.type = type
-        self.version = version
-        self.style = style
-        self.text_color = text_color
-        self.url = url
-        self.description = description
-        self.provider_name = provider_name
-        self.author = author
-        self.author_url = author_url
-        self.thumbnail_url = thumbnail_url
-        self.thumbnail_size = thumbnail_size
-        self.html = html
-    }
-
 }
