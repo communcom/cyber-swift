@@ -21,7 +21,7 @@ extension MethodAPIType {
         case .waitForTransaction(id: _):
             return (responseAPI: try JSONDecoder().decode(ResponseAPIContentWaitForTransactionResult.self, from: jsonData), errorAPI: nil)
             
-        case .getUserComments(_), .getPostComments(_):
+        case .getComments(_):
             return (responseAPI: try JSONDecoder().decode(ResponseAPIContentGetCommentsResult.self, from: jsonData), errorAPI: nil)
             
         case .getProfile(_):

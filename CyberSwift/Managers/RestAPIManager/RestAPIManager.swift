@@ -81,15 +81,19 @@ public class RestAPIManager {
     
     // API `content.getComments` by user
     public func loadUserComments(
-        sortMode:                  CommentSortMode = .time,
-        paginationLimit:           Int8 = Config.paginationLimit,
-        paginationSequenceKey:     String? = nil
+        sortBy: CommentSortMode = .time,
+        sequenceKey: String? = nil,
+        limit: Int8 = Config.paginationLimit,
+        userId: String? = Config.currentUser?.id
     ) -> Single<ResponseAPIContentGetComments> {
         
-        let methodAPIType = MethodAPIType.getUserComments(
-            sortMode: sortMode,
-            limit: paginationLimit,
-            paginationSequenceKey: paginationSequenceKey)
+        let methodAPIType = MethodAPIType.getComments(
+            sortBy: sortBy,
+            sequenceKey: sequenceKey,
+            limit: limit,
+            type: .user,
+            userId: userId ?? "",
+            permlink: nil)
         
         return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
             .log(method: "content.getComments")
@@ -103,16 +107,20 @@ public class RestAPIManager {
     
     // API `content.getComments` by post
     public func loadPostComments(
-        permlink:                  String,
-        sortMode:                  CommentSortMode = .time,
-        paginationLimit:           Int8 = Config.paginationLimit,
-        paginationSequenceKey:     String? = nil
+        sortBy: CommentSortMode = .time,
+        sequenceKey: String? = nil,
+        limit: Int8 = Config.paginationLimit,
+        userId: String? = Config.currentUser?.id,
+        permlink:                  String
     ) -> Single<ResponseAPIContentGetComments> {
         
-        let methodAPIType = MethodAPIType.getPostComments(permlink:                 permlink,
-                                                          sortMode:                 sortMode,
-                                                          limit: paginationLimit,
-                                                          paginationSequenceKey:    paginationSequenceKey)
+        let methodAPIType = MethodAPIType.getComments(
+            sortBy: sortBy,
+            sequenceKey: sequenceKey,
+            limit: limit,
+            type: .post,
+            userId: userId ?? "",
+            permlink: permlink)
         
         return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
             .log(method: "content.getComments (by post)")

@@ -66,6 +66,12 @@ public enum CommentSortMode: String {
     case timeDesc           =   "timeDesc"
 }
 
+public enum GetCommentsType: String {
+    case user               =   "user"
+    case post               =   "post"
+    case replies            =   "replies"
+}
+
 public enum RegistrationStategyMode: String {
     case smsFromUser        =   "smsFromUser"
     case smsToUser          =   "smsToUser"
@@ -99,10 +105,7 @@ public indirect enum MethodAPIType {
     case waitForTransaction(id: String)
     
     //  Getting user comments feed
-    case getUserComments(sortMode: CommentSortMode, limit: Int8, paginationSequenceKey: String?)
-    
-    //  Getting post comments feed
-    case getPostComments(permlink: String, sortMode: CommentSortMode, limit: Int8, paginationSequenceKey: String?)
+    case getComments(sortBy: CommentSortMode, sequenceKey: String?, limit: Int8, type: GetCommentsType, userId: String, permlink: String?)
     
     //  Log in
     case authorize(userID: String, activeKey: String)
@@ -261,25 +264,25 @@ public indirect enum MethodAPIType {
                      parameters:        ["transactionId": id])
             
         //  Template { "id": 4, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "user", "userId": "tst2nbduouxh", "sortBy": "time", "limit": 20 }}
-        case .getUserComments(let sortModeValue, let limit, let paginationSequenceKeyValue):
-            var parameters: [String: Encodable] = ["type": "user", "userId": Config.currentUser?.id, "sortBy": sortModeValue.rawValue, "limit": limit]
+        case .getComments(let sortBy, let sequenceKey, let limit, let type, let userId, let permlink):
+            var parameters: [String: Encodable] =
+                [
+                    "sortBy": sortBy.rawValue,
+                    "sequenceKey": sequenceKey,
+                    "limit": limit
+                ]
             
-            if let paginationSequenceKeyValue = paginationSequenceKeyValue {
-                parameters["sequenceKey"] = paginationSequenceKeyValue
+            switch type {
+            case .user:
+                parameters["userId"] = userId
+            case .post:
+                parameters["userId"] = userId
+                parameters["permlink"] = permlink
+            case .replies:
+                parameters["userId"] = userId
             }
             
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.content.rawValue,
-                     methodName:        "getComments",
-                     parameters:        parameters)
-            
-        //  Template { "id": 5, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "post", "userId": "tst1xrhojmka", "sortBy": "time", "permlink":  "demeterfightswithandromedaagainstepimetheus", "refBlockNum": "520095", "limit": 20 }}
-        case .getPostComments(let permlinkValue, let sortModeValue, let limit, let paginationSequenceKeyValue):
-            var parameters: [String: Encodable] = ["type": "post", "userId": Config.currentUser?.id, "permlink": permlinkValue, "sortBy": sortModeValue.rawValue, "limit": limit]
-            
-            if let paginationSequenceKeyValue = paginationSequenceKeyValue {
-                parameters["sequenceKey"] = paginationSequenceKeyValue
-            }
+            parameters["sequenceKey"] = sequenceKey
             
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
