@@ -325,9 +325,14 @@ public class RestAPIManager {
             }
     }
     
-    public func getCommunitiesList(offset: Int) -> Single<ResponseAPIContentGetCommunitiesList> {
+    public func getCommunitiesList(
+        type: GetCommunitiesType,
+        userId: String? = Config.currentUser?.id,
+        offset: Int,
+        limit: Int = 10
+    ) -> Single<ResponseAPIContentGetCommunitiesList> {
         
-        let methodAPIType = MethodAPIType.getCommunitiesList(offset: offset)
+        let methodAPIType = MethodAPIType.getCommunitiesList(type: type, userId: userId, offset: offset, limit: 10)
         
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
             .log(method: "content.getCommunitiesList")

@@ -78,6 +78,11 @@ public enum AppProfileType: String {
     case cyber              =   "cyber"
 }
 
+public enum GetCommunitiesType: String {
+    case all                =   "all"
+    case user               =   "user"
+}
+
 
 public indirect enum MethodAPIType {
     /// FACADE-SERVICE
@@ -158,7 +163,7 @@ public indirect enum MethodAPIType {
     case getCommunity(id: String)
     
     //  Get communities list
-    case getCommunitiesList(offset: Int)
+    case getCommunitiesList(type: GetCommunitiesType, userId: String?, offset: Int, limit: Int)
 
 
     /// REGISTRATION-SERVICE
@@ -446,11 +451,19 @@ public indirect enum MethodAPIType {
                      methodName:        "getCommunity",
                      parameters:        ["communityId": id])
             
-        case .getCommunitiesList(let offset):
+        case .getCommunitiesList(let type, let userId, let offset, let limit):
+            var params = [String: Encodable]()
+            params["type"] = type.rawValue
+            if type == .user {
+                params["userId"] = userId
+            }
+            params["offset"] = offset
+            params["limit"] = limit
+            
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getCommunitiesList",
-                     parameters:        ["offset": offset])
+                     parameters:        params)
 
 
         /// REGISTRATION-SERVICE
