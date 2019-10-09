@@ -79,7 +79,7 @@ extension MethodAPIType {
             return (responseAPI: try JSONDecoder().decode(ResponseAPIRemoveFavoritesResult.self, from: jsonData), errorAPI: nil)
             
         case .getCommunity(_):
-            return (responseAPI: try JSONDecoder().decode(ResponseAPIContentGetCommunity.self, from: jsonData), errorAPI: nil)
+            return (responseAPI: try JSONDecoder().decode(ResponseAPIContentGetCommunityResult.self, from: jsonData), errorAPI: nil)
             
             
         // REGISTRATION-SERVICE
