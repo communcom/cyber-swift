@@ -179,7 +179,7 @@ public struct ResponseAPIContentBlock: Codable {
     public let id: UInt64
     public let type: String
     public var attributes: ResponseAPIContentBlockAttributes?
-    public let content: ResponseAPIContentBlockContent
+    public var content: ResponseAPIContentBlockContent
     
     // for creating
     public var maxId: UInt64?
