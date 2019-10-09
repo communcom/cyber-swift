@@ -166,7 +166,7 @@ public indirect enum MethodAPIType {
     case getCommunity(id: String)
     
     //  Get communities list
-    case getCommunitiesList(type: GetCommunitiesType, userId: String?, offset: Int, limit: Int)
+    case getCommunities(type: GetCommunitiesType, userId: String?, offset: Int, limit: Int)
 
 
     /// REGISTRATION-SERVICE
@@ -454,7 +454,7 @@ public indirect enum MethodAPIType {
                      methodName:        "getCommunity",
                      parameters:        ["communityId": id])
             
-        case .getCommunitiesList(let type, let userId, let offset, let limit):
+        case .getCommunities(let type, let userId, let offset, let limit):
             var params = [String: Encodable]()
             params["type"] = type.rawValue
             if type == .user {
@@ -465,7 +465,7 @@ public indirect enum MethodAPIType {
             
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
-                     methodName:        "getCommunitiesList",
+                     methodName:        "getCommunities",
                      parameters:        params)
 
 

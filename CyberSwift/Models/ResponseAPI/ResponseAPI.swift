@@ -824,15 +824,15 @@ public struct ResponseAPIContentGetCommunity: Decodable {
     public let avatarUrl: String?
 }
 
-// MARK: - API `content.getCommunitiesList`
-public struct ResponseAPIContentGetCommunitiesListResult: Decodable, ResponseAPIHasError {
+// MARK: - API `content.getCommunities`
+public struct ResponseAPIContentGetCommunitiesResult: Decodable, ResponseAPIHasError {
     public let jsonrpc: String
     public let id: UInt16
-    public let result: ResponseAPIContentGetCommunitiesList?
+    public let result: ResponseAPIContentGetCommunities?
     public let error: ResponseAPIError?
 }
 
-public struct ResponseAPIContentGetCommunitiesList: Decodable {
+public struct ResponseAPIContentGetCommunities: Decodable {
     public let communities: [ResponseAPIContentGetCommunity]
 }
 

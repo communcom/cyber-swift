@@ -338,14 +338,14 @@ public class RestAPIManager {
         userId: String? = Config.currentUser?.id,
         offset: Int,
         limit: Int = 10
-    ) -> Single<ResponseAPIContentGetCommunitiesList> {
+    ) -> Single<ResponseAPIContentGetCommunities> {
         
-        let methodAPIType = MethodAPIType.getCommunitiesList(type: type, userId: userId, offset: offset, limit: 10)
+        let methodAPIType = MethodAPIType.getCommunities(type: type, userId: userId, offset: offset, limit: 10)
         
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
             .log(method: "content.getCommunitiesList")
             .map { result in
-                guard let result = (result as? ResponseAPIContentGetCommunitiesListResult)?.result else {
+                guard let result = (result as? ResponseAPIContentGetCommunitiesResult)?.result else {
                     throw ErrorAPI.unknown
                 }
                 return result

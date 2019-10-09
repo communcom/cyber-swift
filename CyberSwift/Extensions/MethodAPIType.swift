@@ -81,8 +81,8 @@ extension MethodAPIType {
         case .getCommunity(_):
             return (responseAPI: try JSONDecoder().decode(ResponseAPIContentGetCommunityResult.self, from: jsonData), errorAPI: nil)
             
-        case .getCommunitiesList(_):
-            return (responseAPI: try JSONDecoder().decode(ResponseAPIContentGetCommunitiesListResult.self, from: jsonData), errorAPI: nil)
+        case .getCommunities(_):
+            return (responseAPI: try JSONDecoder().decode(ResponseAPIContentGetCommunitiesResult.self, from: jsonData), errorAPI: nil)
             
             
         // REGISTRATION-SERVICE
