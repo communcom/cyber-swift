@@ -29,7 +29,7 @@ public class RestAPIManager {
             return .error(ErrorAPI.requestFailed(message: "userID or username is missing"))
         }
         
-        let methodAPIType = MethodAPIType.getProfile(user: user, appProfileType: appProfileType)
+        let methodAPIType = MethodAPIType.getProfile(user: user)
 
         return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
             .log(method: "content.getProfile")
