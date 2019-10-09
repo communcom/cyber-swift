@@ -42,7 +42,7 @@ public struct Config {
     // For SwiftSocket
     
     // Don't use!!!
-    static let gate_API_URL: String                     =   "wss://dev-gate.commun.com"
+    static let gate_API_URL: String                     =   "wss://dev-gate.commun.com/"
     
     public static let testingPassword: String           =   "machtfrei"
     static let imageHost: String                        =   "https://img.golos.io/upload"
