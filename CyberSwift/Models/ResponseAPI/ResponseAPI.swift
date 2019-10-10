@@ -817,11 +817,13 @@ public struct ResponseAPIContentGetCommunityResult: Decodable, ResponseAPIHasErr
 }
 
 public struct ResponseAPIContentGetCommunity: Decodable {
-    public let subscribersCount: UInt16
-    public let communityId: String
-    public let communityName: String?
-    public let isSubscribed: Bool
+    public let communityId: String?
+    public let alias: String?
+    public let name: String?
     public let avatarUrl: String?
+    public let language: String?
+    public let subscribersCount: UInt16?
+    public let isSubscribed: Bool?
 }
 
 // MARK: - API `content.getCommunities`

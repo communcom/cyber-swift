@@ -333,7 +333,7 @@ public class RestAPIManager {
             }
     }
     
-    public func getCommunitiesList(
+    public func getCommunities(
         type: GetCommunitiesType,
         userId: String? = Config.currentUser?.id,
         offset: Int,
