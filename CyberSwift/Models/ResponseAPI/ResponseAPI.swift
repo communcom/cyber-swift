@@ -151,7 +151,7 @@ public struct ResponseAPIContentGetPosts: Decodable {
 public struct ResponseAPIContentGetPost: Decodable {
     public var content: ResponseAPIContentGetPostContent
     public var votes: ResponseAPIContentVotes
-    public var stats: ResponseAPIContentGetPostStats
+    public var stats: ResponseAPIContentGetPostStats?
     public let payout: ResponseAPIContentGetPostPayout
     public let contentId: ResponseAPIContentId
     public let meta: ResponseAPIContentGetPostMeta
