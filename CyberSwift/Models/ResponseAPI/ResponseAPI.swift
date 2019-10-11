@@ -151,11 +151,11 @@ public struct ResponseAPIContentGetPosts: Decodable {
 public struct ResponseAPIContentGetPost: Decodable {
     public var content: ResponseAPIContentGetPostContent
     public var votes: ResponseAPIContentVotes
-    public var stats: ResponseAPIContentGetPostStats?
-    public let payout: ResponseAPIContentGetPostPayout
-    public let contentId: ResponseAPIContentId
     public let meta: ResponseAPIContentGetPostMeta
+    public let contentId: ResponseAPIContentId
     public let author: ResponseAPIAuthor?
+    public var stats: ResponseAPIContentGetPostStats?
+    public let payout: ResponseAPIContentGetPostPayout?
     public let community: ResponseAPIContentGetCommunity
 }
 
@@ -266,8 +266,8 @@ public struct ResponseAPIContentEmbedResult: Decodable {
 public struct ResponseAPIContentVotes: Decodable {
     public var upCount: Int64?
     public var downCount: Int64?
-    public var hasUpVote: Bool = false
-    public var hasDownVote: Bool = false
+    public var hasUpVote: Bool? = false
+    public var hasDownVote: Bool? = false
 }
 
 public struct ResponseAPIContentGetPostStats: Decodable {
