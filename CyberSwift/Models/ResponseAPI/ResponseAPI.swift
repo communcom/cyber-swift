@@ -9,7 +9,7 @@
 import Foundation
 
 public struct ResponseAPIResult<T: Decodable>: Decodable {
-    public let id: String
+    public let id: UInt64
     public let jsonrpc: String
     public let result: T?
     public let error: ResponseAPIError?
