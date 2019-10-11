@@ -16,13 +16,8 @@ extension Reactive where Base: RestAPIManager {
         
         let methodAPIType = MethodAPIType.getState(id: userId, phone: userId == nil ? phone : nil)
         
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
-            .log(method: "registration.getState")
+        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationGetState>)
             .map { result in
-                guard let result = (result as? ResponseAPIRegistrationGetStateResult)?.result else {
-                    throw ErrorAPI.unknown
-                }
-                
                 // save state
                 var dataToSave = [String: Any]()
                 if let id = userId ?? result.user {
@@ -43,13 +38,8 @@ extension Reactive where Base: RestAPIManager {
         
         let methodAPIType = MethodAPIType.firstStep(phone: phone.trimSpaces(), isDebugMode: base.isDebugMode)
         
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
-            .log(method: "registration.firstStep")
+        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationFirstStep>)
             .map {result in
-                guard let result = (result as? ResponseAPIRegistrationFirstStepResult)?.result else {
-                    throw ErrorAPI.unknown
-                }
-                
                 try KeychainManager.save([
                     Config.registrationStepKey: CurrentUserRegistrationStep.verify.rawValue,
                     Config.registrationUserPhoneKey: phone.trimSpaces(),
@@ -71,12 +61,8 @@ extension Reactive where Base: RestAPIManager {
         
         let methodAPIType = MethodAPIType.verify(phone: phone.trimSpaces(), code: code)
         
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
-            .log(method: "registration.verify")
+        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationVerify>)
             .map {result in
-                guard let result = (result as? ResponseAPIRegistrationVerifyResult)?.result else {
-                    throw ErrorAPI.unknown
-                }
                 
                 try KeychainManager.save([
                     Config.registrationStepKey: CurrentUserRegistrationStep.setUserName.rawValue,
@@ -98,12 +84,8 @@ extension Reactive where Base: RestAPIManager {
         
         let methodAPIType = MethodAPIType.resendSmsCode(phone: phone.trimSpaces(), isDebugMode: base.isDebugMode)
         
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
-            .log(method: "registration.resendSmsCode")
+        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIResendSmsCode>)
             .map {result in
-                guard let result = (result as? ResponseAPIResendSmsCodeResult)?.result else {
-                    throw ErrorAPI.unknown
-                }
                 
                 try KeychainManager.save([
                     Config.registrationStepKey: CurrentUserRegistrationStep.verify.rawValue,
@@ -125,12 +107,8 @@ extension Reactive where Base: RestAPIManager {
         
         let methodAPIType = MethodAPIType.setUser(name: name, phone: phone.trimSpaces())
         
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
-            .log(method: "registration.setUsername")
+        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationSetUsername>)
             .map {result in
-                guard let result = (result as? ResponseAPIRegistrationSetUsernameResult)?.result else {
-                    throw ErrorAPI.unknown
-                }
                 
                 try KeychainManager.save([
                     Config.registrationStepKey: CurrentUserRegistrationStep.toBlockChain.rawValue,
@@ -154,12 +132,8 @@ extension Reactive where Base: RestAPIManager {
         
         let methodAPIType = MethodAPIType.toBlockChain(user: name, keys: userkeys)
         
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
-            .log(method: "registration.toBlockChain")
+        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationToBlockChain>)
             .map {result -> ResponseAPIRegistrationToBlockChain in
-                guard let result = (result as? ResponseAPIRegistrationToBlockChainResult)?.result else {
-                    throw ErrorAPI.unknown
-                }
                 
                 try KeychainManager.save([
                     Config.registrationStepKey: CurrentUserRegistrationStep.registered.rawValue,
@@ -207,12 +181,8 @@ extension Reactive where Base: RestAPIManager {
         let methodAPIType = MethodAPIType.authorize(userID: login, activeKey: userKeys["active"]!.privateKey!)
         
         return self.generateSecret()
-            .andThen(Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType))
-            .log(method: "auth.authorize (login)")
+            .andThen(Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIAuthAuthorize>)
             .map {result in
-                guard let result = (result as? ResponseAPIAuthAuthorizeResult)?.result else {
-                    throw ErrorAPI.unknown
-                }
                 
                 try KeychainManager.save(userkeys: userKeys)
                 
@@ -240,20 +210,12 @@ extension Reactive where Base: RestAPIManager {
         let methodAPIType = MethodAPIType.authorize(userID: userId, activeKey: activeKey)
         
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
-            .log(method: "auth.authorize")
-            .map {result in
-                guard let result = (result as? ResponseAPIAuthAuthorizeResult)?.result else {
-                    throw ErrorAPI.unknown
-                }
-                
-                return result
-            }
     }
     
     /// Logout user
     public func logout() -> Completable {
-        let methodAPIType = MethodAPIType.logout
-        let requestMethodAPIType = Broadcast.instance.prepareGETRequest(methodAPIType: methodAPIType)
+        let requestParamsType = MethodAPIType.logout.introduced()
+        let requestMethodAPIType = Broadcast.instance.prepareGETRequest(requestParamsType: requestParamsType)
         SocketManager.shared.sendMessage(requestMethodAPIType.requestMessage!)
         
         return pushNotifyOff()
@@ -279,12 +241,8 @@ extension Reactive where Base: RestAPIManager {
         
         let methodAPIType = MethodAPIType.generateSecret
         
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
-            .log(method: "auth.generateSecret")
+        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIAuthGenerateSecret>)
             .flatMapCompletable {result in
-                guard let result = (result as? ResponseAPIAuthGenerateSecretResult)?.result else {
-                    throw ErrorAPI.unknown
-                }
                 Config.webSocketSecretKey = result.secret
                 return .empty()
             }

@@ -32,36 +32,22 @@ public class RestAPIManager {
         let methodAPIType = MethodAPIType.getProfile(user: user)
 
         return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
-            .log(method: "content.getProfile")
-            .map {result in
-                guard let result = (result as? ResponseAPIContentGetProfileResult)?.result else {
-                    throw ErrorAPI.unknown
-                }
-                return result
-            }
     }
 
-    // API `content.getFeed`
-    public func loadFeed(
-        typeMode:                  FeedTypeMode = .community,
-        userID:                    String? = nil,
-        communityID:               String? = nil,
-        timeFrameMode:             FeedTimeFrameMode = .day,
-        sortMode:                  FeedSortMode = .popular,
-        paginationLimit:           Int8 = Config.paginationLimit,
-        paginationSequenceKey:     String? = nil
-    ) -> Single<ResponseAPIContentGetFeed> {
+    // API `content.getPosts`
+    public func getPosts(
+        userId:         String? = Config.currentUser?.id,
+        communityId:    String,
+        allowNsfw:      Bool = false,
+        type:           FeedTypeMode = .community,
+        sortBy:         FeedSortMode = .time,
+        limit:          UInt = UInt(Config.paginationLimit),
+        offset:         UInt = 0
+    ) -> Single<ResponseAPIContentGetPosts>
+    {
+        let methodAPIType = MethodAPIType.getPosts(userId: userId, communityId: communityId, allowNsfw: allowNsfw, type: type, sortBy: sortBy, limit: limit, offset: offset)
         
-        let methodAPIType = MethodAPIType.getFeed(typeMode: typeMode, communityID: communityID, timeFrameMode: timeFrameMode, sortMode: sortMode, paginationSequenceKey: paginationSequenceKey, paginationLimit: paginationLimit)
-        
-        return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
-            .log(method: "content.getFeed")
-            .map {result in
-                guard let result = (result as? ResponseAPIContentGetFeedResult)?.result else {
-                    throw ErrorAPI.unknown
-                }
-                return result
-            }
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
     
     // API `content.getPost`
@@ -70,13 +56,6 @@ public class RestAPIManager {
         let methodAPIType = MethodAPIType.getPost(permlink: permlink, communityId: communityId)
         
         return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
-            .log(method: "content.getPost")
-            .map {result in
-                guard let result = (result as? ResponseAPIContentGetPostResult)?.result else {
-                    throw ErrorAPI.unknown
-                }
-                return result
-            }
     }
     
     // API `content.getComments` by user
@@ -96,13 +75,6 @@ public class RestAPIManager {
             permlink: nil)
         
         return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
-            .log(method: "content.getComments")
-            .map {result in
-                guard let result = (result as? ResponseAPIContentGetCommentsResult)?.result else {
-                    throw ErrorAPI.unknown
-                }
-                return result
-            }
     }
     
     // API `content.getComments` by post
@@ -123,13 +95,6 @@ public class RestAPIManager {
             permlink: permlink)
         
         return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
-            .log(method: "content.getComments (by post)")
-            .map {result in
-                guard let result = (result as? ResponseAPIContentGetCommentsResult)?.result else {
-                    throw ErrorAPI.unknown
-                }
-                return result
-            }
     }
     
     // API `content.waitForTransaction`
@@ -137,14 +102,8 @@ public class RestAPIManager {
         
         let methodAPIType = MethodAPIType.waitForTransaction(id: id)
         
-        return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
-            .log(method: "content.waitForTransaction")
-            .flatMapCompletable({ (result) -> Completable in
-                guard ((result as? ResponseAPIContentWaitForTransactionResult)?.result) != nil else {
-                    throw ErrorAPI.unknown
-                }
-                return .empty()
-            })
+        return (Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType) as Single<ResponseAPIContentWaitForTransaction>)
+            .flatMapToCompletable()
     }
     
     // API `push.historyFresh`
@@ -153,13 +112,6 @@ public class RestAPIManager {
         let methodAPIType = MethodAPIType.getPushHistoryFresh
         
         return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
-            .log(method: "push.historyFresh")
-            .map {result in
-                guard let result = (result as? ResponseAPIPushHistoryFreshResult)?.result else {
-                    throw ErrorAPI.unknown
-                }
-                return result
-            }
     }
     
     // API `onlineNotify.history`
@@ -173,13 +125,6 @@ public class RestAPIManager {
         let methodAPIType = MethodAPIType.getOnlineNotifyHistory(fromId: fromId, paginationLimit: paginationLimit, markAsViewed: markAsViewed, freshOnly: freshOnly)
         
         return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
-            .log(method: "onlineNotify.history")
-            .map {result in
-                guard let result = (result as? ResponseAPIOnlineNotifyHistoryResult)?.result else {
-                    throw ErrorAPI.unknown
-                }
-                return result
-            }
     }
     
     // API `onlineNotify.historyFresh`
@@ -188,13 +133,6 @@ public class RestAPIManager {
         let methodAPIType = MethodAPIType.getOnlineNotifyHistoryFresh
         
         return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
-            .log(method: "onlineNotify.historyFresh")
-            .map {result in
-                guard let result = (result as? ResponseAPIOnlineNotifyHistoryFreshResult)?.result else {
-                    throw ErrorAPI.unknown
-                }
-                return result
-            }
     }
     
     // API `notify.markAllAsViewed`
@@ -203,13 +141,6 @@ public class RestAPIManager {
         let methodAPIType = MethodAPIType.notifyMarkAllAsViewed
         
         return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
-            .log(method: "notify.markAllAsViewed")
-            .map {result in
-                guard let result = (result as? ResponseAPINotifyMarkAllAsViewedResult)?.result else {
-                    throw ErrorAPI.unknown
-                }
-                return result
-            }
     }
     
     // API `notify.markAsRead`
@@ -221,15 +152,6 @@ public class RestAPIManager {
         let methodAPIType = MethodAPIType.markAsRead(notifies: notifies)
         
         return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
-            .log(method: "notify.markAsRead")
-            .map {result in
-                guard let result = (result as? ResponseAPIMarkNotifiesAsReadResult)?.result else {
-                    throw ErrorAPI.unknown
-                }
-                return result
-            }
-
-        
     }
     
     // API basic `options.set`
@@ -240,13 +162,6 @@ public class RestAPIManager {
         let methodAPIType = MethodAPIType.setBasicOptions(nsfw: nsfwContent.rawValue)
         
         return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
-            .log(method: "options.set")
-            .map {result in
-                guard let result = (result as? ResponseAPISetOptionsBasicResult)?.result else {
-                    throw ErrorAPI.unknown
-                }
-                return result
-            }
     }
     
     // API `meta.recordPostView`
@@ -257,14 +172,6 @@ public class RestAPIManager {
         let methodAPIType = MethodAPIType.recordPostView(permlink: permlink)
         
         return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
-            .log(method: "meta.recordPostView")
-            .map {result in
-                guard let result = (result as? ResponseAPIMetaRecordPostViewResult)?.result else {
-                    throw ErrorAPI.unknown
-                }
-                return result
-        }
-        
     }
     
     // API `favorites.get`
@@ -275,13 +182,6 @@ public class RestAPIManager {
         let methodAPIType = MethodAPIType.getFavorites
         
         return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
-            .log(method: "favorites.get")
-            .map {result in
-                guard let result = (result as? ResponseAPIGetFavoritesResult)?.result else {
-                    throw ErrorAPI.unknown
-                }
-                return result
-            }
     }
 
     // API `favorites.add`
@@ -292,13 +192,6 @@ public class RestAPIManager {
         let methodAPIType = MethodAPIType.addFavorites(permlink: permlink)
         
         return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
-            .log(method: "favorites.add")
-            .map {result in
-                guard let result = (result as? ResponseAPIAddFavoritesResult)?.result else {
-                    throw ErrorAPI.unknown
-                }
-                return result
-        }
     }
 
     // API `favorites.remove`
@@ -309,13 +202,6 @@ public class RestAPIManager {
         let methodAPIType = MethodAPIType.removeFavorites(permlink: permlink)
         
         return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
-            .log(method: "favorites.remove")
-            .map {result in
-                guard let result = (result as? ResponseAPIRemoveFavoritesResult)?.result else {
-                    throw ErrorAPI.unknown
-                }
-                return result
-        }
     }
     
     //  MARK: - Communities
@@ -324,13 +210,6 @@ public class RestAPIManager {
         let methodAPIType = MethodAPIType.getCommunity(id: id)
         
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
-            .log(method: "content.getCommunity")
-            .map {result in
-                guard let result = (result as? ResponseAPIContentGetCommunityResult)?.result else {
-                    throw ErrorAPI.unknown
-                }
-                return result
-            }
     }
     
     public func getCommunities(
@@ -343,13 +222,6 @@ public class RestAPIManager {
         let methodAPIType = MethodAPIType.getCommunities(type: type, userId: userId, offset: offset, limit: 10)
         
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
-            .log(method: "content.getCommunitiesList")
-            .map { result in
-                guard let result = (result as? ResponseAPIContentGetCommunitiesResult)?.result else {
-                    throw ErrorAPI.unknown
-                }
-                return result
-            }
     }
 
     //  MARK: - Contract `gls.social`
@@ -420,12 +292,5 @@ public class RestAPIManager {
     public func getEmbed(url: String) -> Single<ResponseAPIFrameGetEmbed> {
         let methodAPIType = MethodAPIType.getEmbed(url: url)
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
-            .log(method: "frame.getEmbed")
-            .map {result in
-                guard let result = (result as? ResponseAPIFrameGetEmbedResult)?.result else {
-                    throw ErrorAPI.unknown
-                }
-                return result
-        }
     }
 }

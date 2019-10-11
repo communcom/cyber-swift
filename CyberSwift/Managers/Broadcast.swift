@@ -89,7 +89,7 @@ public class Broadcast {
     var currentId = 0
     /// Generating a unique ID
     //  for content:                < 100
-    private func generateUniqueId(forType type: Any) -> Int {
+    private func generateUniqueId() -> Int {
         currentId += 1
         if currentId == 100 {
             currentId = 0
@@ -102,10 +102,9 @@ public class Broadcast {
 // MARK: - Microservices
 extension Broadcast {
     /// Prepare method request
-    public func prepareGETRequest(methodAPIType: MethodAPIType) -> RequestMethodAPIType {
+    func prepareGETRequest(requestParamsType: RequestMethodParameters) -> RequestMethodAPIType {
         
-        let codeID              =   generateUniqueId(forType: methodAPIType)
-        let requestParamsType   =   methodAPIType.introduced()
+        let codeID              =   generateUniqueId()
         
         let requestAPI          =   RequestAPI(id:          codeID,
                                                method:      String(format: "%@.%@", requestParamsType.methodGroup, requestParamsType.methodName),
@@ -131,13 +130,14 @@ extension Broadcast {
     }
     
     /// Rx method to deal with executeGetRequest
-    public func executeGetRequest(methodAPIType: MethodAPIType) -> Single<Decodable> {
+    public func executeGetRequest<T: Decodable>(methodAPIType: MethodAPIType) -> Single<T> {
         // Offline mode
         if (!Config.isNetworkAvailable) {
             return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
         // Prepare content request
-        let requestMethodAPIType = self.prepareGETRequest(methodAPIType: methodAPIType)
+        let requestParamsType   =   methodAPIType.introduced()
+        let requestMethodAPIType = prepareGETRequest(requestParamsType: requestParamsType)
         
         guard requestMethodAPIType.errorAPI == nil else {
             return .error(ErrorAPI.requestFailed(message: "Broadcast, line \(#line): \(requestMethodAPIType.errorAPI!)"))
@@ -151,19 +151,23 @@ extension Broadcast {
                     throw responseAPIType.errorAPI!
                 }
                 
-                if let result = responseAPI as? ResponseAPIHasError,
-                    let error = result.error{
-                    let message =
-                        error.error?.details?.first?.message.replacingOccurrences(of: "assertion failure with message: ", with: "")
-                            ?? error.error?.what
-                            ?? error.message
+                if let result = responseAPI as? ResponseAPIResult<T>
+                {
+                    if let error = result.error {
+                        let message =
+                        error.error?.details?.first?.message.replacingOccurrences(of: "assertion failure with message: ", with: "") ?? error.error?.what
+                        ?? error.message
+                        throw ErrorAPI.requestFailed(message: message)
+                    }
                     
-                    throw ErrorAPI.requestFailed(message: message)
+                    if let result = result.result {
+                        return result
+                    }
                 }
                 
-                return responseAPI
+                throw ErrorAPI.unknown
             }
-            .catchError({ (error) -> Single<Decodable> in
+            .catchError({ (error) -> Single<T> in
                 if let error = error as? ErrorAPI {
                     let message = error.caseInfo.message
                     if message == "Unauthorized request: access denied" {
@@ -190,5 +194,6 @@ extension Broadcast {
                 
                 throw error
             })
+            .log(method: "\(requestParamsType.methodGroup).\(requestParamsType.methodName)")
     }
 }
