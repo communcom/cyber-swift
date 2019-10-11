@@ -48,8 +48,8 @@ extension PrimitiveSequenceType where Self.TraitType == RxSwift.SingleTrait, Sel
     }
 }
 
-extension PrimitiveSequenceType where Self.TraitType == RxSwift.SingleTrait, Self.ElementType == Decodable {
-    func log(method: String) -> Single<Decodable> {
+extension PrimitiveSequenceType where Self.TraitType == RxSwift.SingleTrait, Self.ElementType: Decodable {
+    func log(method: String) -> Single<Self.ElementType> {
         return self.do(
 //            onSuccess: { responseAPIResult in
 //                Logger.log(message: "\nAPI `\(method)` response result: \n\(responseAPIResult)\n", event: .info)

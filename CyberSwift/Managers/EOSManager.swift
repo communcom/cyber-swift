@@ -42,7 +42,6 @@ class EOSManager {
                 return body
             }
             .log(method: "getChainInfo")
-            .map {$0 as! Info}
     }
     
     static var headBlock: Single<Block> {
@@ -56,7 +55,6 @@ class EOSManager {
                 }
             }
             .log(method: "getChainHeadBlock")
-            .map {$0 as! Block}
     }
     
     static func getAccount(nickName: String) -> Single<Account> {
@@ -66,7 +64,6 @@ class EOSManager {
                 return body
             }
             .log(method: "getChainAccount")
-            .map {$0 as! Account}
     }
     
     static func getTransaction(_ blockNumberHint: String) -> Single<HistoricTransaction> {
@@ -76,7 +73,6 @@ class EOSManager {
                 return body
             }
             .log(method: "getHistoricTransaction")
-            .map {$0 as! HistoricTransaction}
     }
     
     // MARK: - Helpers

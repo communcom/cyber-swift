@@ -17,7 +17,7 @@ extension EOSTransaction {
         actions: [ActionAbi],
         authorizingPrivateKey: EOSPrivateKey
     ) -> Single<String> {
-        return chainApi().getInfo().flatMap { info -> Single<Decodable> in
+        return chainApi().getInfo().flatMap { info -> Single<ResponseAPIBandwidthProvide> in
             guard info.success,
                 let chainID = info.body?.chain_id else {
                     throw ErrorAPI.couldNotRetrieveChainInfo
@@ -42,12 +42,9 @@ extension EOSTransaction {
             // Prepare methodAPIType
             let methodAPIType = MethodAPIType.bandwidthProvide(chainID: chainID, transaction: rrr)
             
-            return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+            return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIBandwidthProvide>
         }
         .map {result -> String in
-            guard let result = (result as? ResponseAPIBandwidthProvideResult)?.result else {
-                throw ErrorAPI.unknown
-            }
             return result.transaction_id
         }
     }

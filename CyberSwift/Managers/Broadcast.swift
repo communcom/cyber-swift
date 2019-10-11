@@ -12,14 +12,6 @@ import RxSwift
 /// Type of request API
 public typealias RequestMethodAPIType   =   (id: Int, requestMessage: String?, methodAPIType: MethodAPIType, errorAPI: ErrorAPI?)
 
-/// Type of response API
-public typealias ResponseAPIType        =   (responseAPI: Decodable?, errorAPI: ErrorAPI?)
-public typealias ResultAPIHandler       =   (Decodable) -> Void
-public typealias ErrorAPIHandler        =   (ErrorAPI) -> Void
-
-/// Type of stored request API
-public typealias RequestMethodAPIStore  =   (methodAPIType: MethodAPIType, completion: (ResponseAPIType) -> Void)
-
 
 public class Broadcast {
     // MARK: - Properties
@@ -89,7 +81,7 @@ public class Broadcast {
     var currentId = 0
     /// Generating a unique ID
     //  for content:                < 100
-    private func generateUniqueId(forType type: Any) -> Int {
+    private func generateUniqueId() -> Int {
         currentId += 1
         if currentId == 100 {
             currentId = 0
@@ -102,10 +94,9 @@ public class Broadcast {
 // MARK: - Microservices
 extension Broadcast {
     /// Prepare method request
-    public func prepareGETRequest(methodAPIType: MethodAPIType) -> RequestMethodAPIType {
+    func prepareGETRequest(requestParamsType: RequestMethodParameters) -> RequestMethodAPIType {
         
-        let codeID              =   generateUniqueId(forType: methodAPIType)
-        let requestParamsType   =   methodAPIType.introduced()
+        let codeID              =   generateUniqueId()
         
         let requestAPI          =   RequestAPI(id:          codeID,
                                                method:      String(format: "%@.%@", requestParamsType.methodGroup, requestParamsType.methodName),
@@ -131,13 +122,14 @@ extension Broadcast {
     }
     
     /// Rx method to deal with executeGetRequest
-    public func executeGetRequest(methodAPIType: MethodAPIType) -> Single<Decodable> {
+    public func executeGetRequest<T: Decodable>(methodAPIType: MethodAPIType) -> Single<T> {
         // Offline mode
         if (!Config.isNetworkAvailable) {
             return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
         // Prepare content request
-        let requestMethodAPIType = self.prepareGETRequest(methodAPIType: methodAPIType)
+        let requestParamsType   =   methodAPIType.introduced()
+        let requestMethodAPIType = prepareGETRequest(requestParamsType: requestParamsType)
         
         guard requestMethodAPIType.errorAPI == nil else {
             return .error(ErrorAPI.requestFailed(message: "Broadcast, line \(#line): \(requestMethodAPIType.errorAPI!)"))
@@ -146,24 +138,7 @@ extension Broadcast {
         Logger.log(message: "\nrequestMethodAPIType:\n\t\(requestMethodAPIType.requestMessage!)\n", event: .debug)
         
         return SocketManager.shared.sendRequest(methodAPIType: requestMethodAPIType)
-            .map { responseAPIType in
-                guard let responseAPI = responseAPIType.responseAPI else {
-                    throw responseAPIType.errorAPI!
-                }
-                
-                if let result = responseAPI as? ResponseAPIHasError,
-                    let error = result.error{
-                    let message =
-                        error.error?.details?.first?.message.replacingOccurrences(of: "assertion failure with message: ", with: "")
-                            ?? error.error?.what
-                            ?? error.message
-                    
-                    throw ErrorAPI.requestFailed(message: message)
-                }
-                
-                return responseAPI
-            }
-            .catchError({ (error) -> Single<Decodable> in
+            .catchError({ (error) -> Single<T> in
                 if let error = error as? ErrorAPI {
                     let message = error.caseInfo.message
                     if message == "Unauthorized request: access denied" {
@@ -190,5 +165,6 @@ extension Broadcast {
                 
                 throw error
             })
+            .log(method: "\(requestParamsType.methodGroup).\(requestParamsType.methodName)")
     }
 }

@@ -94,9 +94,9 @@ public indirect enum MethodAPIType {
     /// FACADE-SERVICE
     //  Getting a user profile
     case getProfile(user: String?)
-
-    //  Getting tape posts
-    case getFeed(typeMode: FeedTypeMode, communityID: String?, timeFrameMode: FeedTimeFrameMode, sortMode: FeedSortMode, paginationSequenceKey: String?, paginationLimit: Int8)
+    
+    //  Get posts
+    case getPosts(userId: String?, communityId: String?, allowNsfw: Bool?, type: FeedTypeMode, sortBy: FeedSortMode, limit: UInt, offset: UInt)
     
     //  Getting selected post
     case getPost(permlink: String, communityId: String)
@@ -210,40 +210,19 @@ public indirect enum MethodAPIType {
                      parameters:        params)
 
         //  Template { "id": 2, "jsonrpc": "2.0", "method": "content.getFeed", "params": { "type": "community", "timeframe": "day", "sortBy": "popular", "limit": 20, "userId": "tst3uuqzetwf", "communityId": "gls" }}
-        case .getFeed(let typeModeValue, let communityIDValue, let timeFrameModeValue, let sortModeValue, let paginationSequenceKeyValue, let paginationLimitValue):
+        case .getPosts(let userId, let communityId, let allowNsfw, let type, let sortBy, let limit, let offset):
             var parameters = [String: Encodable]()
-            // type
-            parameters["type"] = typeModeValue.rawValue
-            
-            // sortBy
-            parameters["sortBy"] = sortModeValue.rawValue
-            
-            // timeframe
-            if typeModeValue == .community && sortModeValue == .popular {
-                parameters["timeframe"] = timeFrameModeValue.rawValue
-            }
-            
-            // limit
-            parameters["limit"] = paginationLimitValue
-            
-            // userId
-            if typeModeValue == .subscriptions || typeModeValue == .byUser {
-                parameters["userId"] = Config.currentUser?.id
-            }
-            
-            // communityId
-            if typeModeValue == .community,
-                let communityIDValue = communityIDValue {
-                parameters["communityId"] = communityIDValue
-            }
-            
-            #warning("tags missing")
-            
-            parameters["sequenceKey"] = paginationSequenceKeyValue
+            parameters["userId"]        = userId ?? Config.currentUser?.id
+            parameters["communityId"]   = communityId
+            parameters["allowNsfw"]     = allowNsfw ?? false
+            parameters["type"]          = type.rawValue
+            parameters["sortBy"]        = sortBy.rawValue
+            parameters["limit"]         = limit
+            parameters["offset"]        = offset
             
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
-                     methodName:        "getFeed",
+                     methodName:        "getPosts",
                      parameters:        parameters)
             
         //  Template { "id": 3, "jsonrpc": "2.0", "method": "content.getPost", "params": { "userId": "tst2nbduouxh", "permlink": "hephaestusfightswithantigoneagainststyx", "refBlockNum": 381607 }}

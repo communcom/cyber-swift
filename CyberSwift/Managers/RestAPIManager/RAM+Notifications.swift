@@ -27,14 +27,7 @@ extension Reactive where Base: RestAPIManager {
         
         let methodAPIType = MethodAPIType.notifyPushOn(fcmToken: token, appProfileType: AppProfileType.golos)
         
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
-            .map {result in
-                guard let result = (result as? ResponseAPINotifyPushOnResult)?.result else {
-                    throw ErrorAPI.unknown
-                }
-                return result
-            }
-            .log(method: "push.notifyOn")
+        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPINotifyPushOn>)
             .do(onSuccess: { _ in
                 UserDefaults.standard.set(true, forKey: Config.currentUserPushNotificationOn)
             })
@@ -53,14 +46,7 @@ extension Reactive where Base: RestAPIManager {
         
         let methodAPIType = MethodAPIType.notifyPushOff(appProfileType: AppProfileType.golos)
         
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
-            .map {result in
-                guard let result = (result as? ResponseAPINotifyPushOffResult)?.result else {
-                    throw ErrorAPI.unknown
-                }
-                return result
-            }
-            .log(method: "push.notifyOff")
+        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPINotifyPushOff>)
             .do(onSuccess: { _ in
                 UserDefaults.standard.set(false, forKey: Config.currentUserPushNotificationOn)
             })
@@ -80,14 +66,6 @@ extension Reactive where Base: RestAPIManager {
         let methodAPIType = MethodAPIType.getOptions
         
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
-            .log(method: "options.get")
-            .map {result in
-                guard let result = (result as? ResponseAPIGetOptionsResult)?.result else {
-                    throw ErrorAPI.unknown
-                }
-                return result
-            }
-            
     }
     
     /// Turn specific notification types on or off
@@ -105,14 +83,7 @@ extension Reactive where Base: RestAPIManager {
         
         let methodAPIType = MethodAPIType.setNotice(options: options, type: type, appProfileType: appProfileType)
         
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
-            .map {result in
-                guard let result = (result as? ResponseAPISetOptionsNoticeResult)?.result else {
-                    throw ErrorAPI.unknown
-                }
-                return result
-            }
-            .log(method: "options.set")
+        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPISetOptionsNotice>)
             .flatMapToCompletable()
     }
 }
