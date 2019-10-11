@@ -9,7 +9,7 @@
 import Foundation
 
 public struct ResponseAPIResult<T: Decodable>: Decodable {
-    public let id: Int64
+    public let id: String
     public let jsonrpc: String
     public let result: T?
     public let error: ResponseAPIError?
@@ -266,8 +266,8 @@ public struct ResponseAPIContentEmbedResult: Decodable {
 public struct ResponseAPIContentVotes: Decodable {
     public var upCount: Int64?
     public var downCount: Int64?
-    public var hasUpVote: Bool
-    public var hasDownVote: Bool
+    public var hasUpVote: Bool = false
+    public var hasDownVote: Bool = false
 }
 
 public struct ResponseAPIContentGetPostStats: Decodable {
