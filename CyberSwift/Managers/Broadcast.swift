@@ -12,14 +12,6 @@ import RxSwift
 /// Type of request API
 public typealias RequestMethodAPIType   =   (id: Int, requestMessage: String?, methodAPIType: MethodAPIType, errorAPI: ErrorAPI?)
 
-/// Type of response API
-public typealias ResponseAPIType        =   (responseAPI: Decodable?, errorAPI: ErrorAPI?)
-public typealias ResultAPIHandler       =   (Decodable) -> Void
-public typealias ErrorAPIHandler        =   (ErrorAPI) -> Void
-
-/// Type of stored request API
-public typealias RequestMethodAPIStore  =   (methodAPIType: MethodAPIType, completion: (ResponseAPIType) -> Void)
-
 
 public class Broadcast {
     // MARK: - Properties
@@ -146,27 +138,6 @@ extension Broadcast {
         Logger.log(message: "\nrequestMethodAPIType:\n\t\(requestMethodAPIType.requestMessage!)\n", event: .debug)
         
         return SocketManager.shared.sendRequest(methodAPIType: requestMethodAPIType)
-            .map { responseAPIType in
-                guard let responseAPI = responseAPIType.responseAPI else {
-                    throw responseAPIType.errorAPI!
-                }
-                
-                if let result = responseAPI as? ResponseAPIResult<T>
-                {
-                    if let error = result.error {
-                        let message =
-                        error.error?.details?.first?.message.replacingOccurrences(of: "assertion failure with message: ", with: "") ?? error.error?.what
-                        ?? error.message
-                        throw ErrorAPI.requestFailed(message: message)
-                    }
-                    
-                    if let result = result.result {
-                        return result
-                    }
-                }
-                
-                throw ErrorAPI.unknown
-            }
             .catchError({ (error) -> Single<T> in
                 if let error = error as? ErrorAPI {
                     let message = error.caseInfo.message

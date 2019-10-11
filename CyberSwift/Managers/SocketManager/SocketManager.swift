@@ -51,7 +51,7 @@ public class SocketManager {
         socket.disconnect()
     }
     
-    func sendRequest(methodAPIType: RequestMethodAPIType) -> Single<ResponseAPIType> {
+    func sendRequest<T: Decodable>(methodAPIType: RequestMethodAPIType) -> Single<T> {
         sendMessage(methodAPIType.requestMessage!)
         
         return text
@@ -59,7 +59,7 @@ public class SocketManager {
             .timeout(10, scheduler: MainScheduler.instance)
             .take(1)
             .asSingle()
-            .map {try self.transformMessage($0, to: methodAPIType.methodAPIType)}
+            .map {try self.transformMessage($0)}
     }
     
     func sendMessage(_ message: String) {
@@ -157,7 +157,7 @@ extension SocketManager {
     }
     
     /// Transform text message to object
-    func transformMessage(_ text: String, to type: MethodAPIType) throws -> ResponseAPIType {
+    func transformMessage<T: Decodable>(_ text: String) throws -> T {
         Logger.log(message: "websocketDidReceiveMessage: \n\t\(text)", event: .severe)
         
         guard let jsonData = text.data(using: .utf8) else {
@@ -168,9 +168,20 @@ extension SocketManager {
         try validate(jsonData: jsonData)
         
         // Decode json
-        let response = try type.decode(from: jsonData)
+        let response = try JSONDecoder().decode(ResponseAPIResult<T>.self, from: jsonData)
         
-        return response
+        if let result = response.result {
+            return result
+        }
+        else if let error = response.error {
+            let message =
+            error.error?.details?.first?.message.replacingOccurrences(of: "assertion failure with message: ", with: "") ?? error.error?.what
+            ?? error.message
+            throw ErrorAPI.requestFailed(message: message)
+        }
+        else {
+            throw ErrorAPI.unknown
+        }
     }
 }
 

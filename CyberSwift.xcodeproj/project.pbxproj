@@ -12,7 +12,6 @@
 		3B1E901822CDF16B00D7A0C1 /* iCloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1E901722CDF16B00D7A0C1 /* iCloudManager.swift */; };
 		3B3016B722F1E4D3003CD1BD /* RequestAPITransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3016B622F1E4D3003CD1BD /* RequestAPITransaction.swift */; };
 		3B3016B922F1FDAA003CD1BD /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3016B822F1FDAA003CD1BD /* ReachabilityManager.swift */; };
-		3B5D91C622CE14E100BB7DCC /* MethodAPIType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5D91C522CE14E100BB7DCC /* MethodAPIType.swift */; };
 		3B5EDE3F22E0F10900897BF3 /* RAM+Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5EDE3E22E0F10900897BF3 /* RAM+Notifications.swift */; };
 		3B61AC3222E1C5CD00F608AF /* ResponseAPIGetOptionsNotifyShow+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B61AC3122E1C5CD00F608AF /* ResponseAPIGetOptionsNotifyShow+Extensions.swift */; };
 		3B9BEB3A22FD11FC003C70B3 /* RequestAPIEncodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B9BEB3922FD11FC003C70B3 /* RequestAPIEncodingTests.swift */; };
@@ -80,7 +79,6 @@
 		3B1E901722CDF16B00D7A0C1 /* iCloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iCloudManager.swift; sourceTree = "<group>"; };
 		3B3016B622F1E4D3003CD1BD /* RequestAPITransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestAPITransaction.swift; sourceTree = "<group>"; };
 		3B3016B822F1FDAA003CD1BD /* ReachabilityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityManager.swift; sourceTree = "<group>"; };
-		3B5D91C522CE14E100BB7DCC /* MethodAPIType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MethodAPIType.swift; sourceTree = "<group>"; };
 		3B5EDE3E22E0F10900897BF3 /* RAM+Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Notifications.swift"; sourceTree = "<group>"; };
 		3B61AC3122E1C5CD00F608AF /* ResponseAPIGetOptionsNotifyShow+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPIGetOptionsNotifyShow+Extensions.swift"; sourceTree = "<group>"; };
 		3B9BEB3922FD11FC003C70B3 /* RequestAPIEncodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestAPIEncodingTests.swift; sourceTree = "<group>"; };
@@ -292,7 +290,6 @@
 				B1C3F854223F98B1005711EF /* Date+Extensions.swift */,
 				B1C3F856223F98B1005711EF /* Encodable+Extensions.swift */,
 				B1C3F85D223F98DC005711EF /* Logger.swift */,
-				3B5D91C522CE14E100BB7DCC /* MethodAPIType.swift */,
 				3BBBE2992296A8A10029C9C9 /* RxSwift.swift */,
 				B17991712269B4280014CB44 /* String+Extensions.swift */,
 				B1EA02CC22895EB400835244 /* UIButton+Extensions.swift */,
@@ -577,7 +574,6 @@
 				3B3016B922F1FDAA003CD1BD /* ReachabilityManager.swift in Sources */,
 				B1A74A642243892B009D68E7 /* EOSTransaction.swift in Sources */,
 				B1EA02F62289D3B400835244 /* UITextField+Extensions.swift in Sources */,
-				3B5D91C622CE14E100BB7DCC /* MethodAPIType.swift in Sources */,
 				3BCDB40B2260E9C300739F7E /* Bool+Extensions.swift in Sources */,
 				B17991702269B4070014CB44 /* Array+Extensions.swift in Sources */,
 				B1C3F868223F9907005711EF /* RequestAPI.swift in Sources */,
