@@ -72,7 +72,8 @@ public class RestAPIManager {
             limit: limit,
             type: .user,
             userId: userId ?? "",
-            permlink: nil)
+            permlink: nil,
+            parentComment: nil)
         
         return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
     }
@@ -83,8 +84,20 @@ public class RestAPIManager {
         sequenceKey: String? = nil,
         limit: Int8 = Config.paginationLimit,
         userId: String? = Config.currentUser?.id,
-        permlink:                  String
+        permlink:                  String,
+        parentCommentUserId: String? = nil,
+        parentCommentPermlink: String? = nil
     ) -> Single<ResponseAPIContentGetComments> {
+        
+        var parentComment: [String: String]?
+        if let parentCommentUserId = parentCommentUserId,
+            let parentCommentPermlink = parentCommentPermlink
+        {
+            parentComment = [
+                "userId":   parentCommentUserId,
+                "permlink": parentCommentPermlink
+            ]
+        }
         
         let methodAPIType = MethodAPIType.getComments(
             sortBy: sortBy,
@@ -92,7 +105,8 @@ public class RestAPIManager {
             limit: limit,
             type: .post,
             userId: userId ?? "",
-            permlink: permlink)
+            permlink: permlink,
+            parentComment: parentComment)
         
         return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
     }

@@ -151,7 +151,7 @@ public struct ResponseAPIContentGetPosts: Decodable {
 public struct ResponseAPIContentGetPost: Decodable {
     public var content: ResponseAPIContentBlock
     public var votes: ResponseAPIContentVotes
-    public let meta: ResponseAPIContentGetPostMeta
+    public let meta: ResponseAPIContentMeta
     public let contentId: ResponseAPIContentId
     public let author: ResponseAPIAuthor?
     public var stats: ResponseAPIContentGetPostStats?
@@ -286,9 +286,10 @@ public struct ResponseAPIContentGetPostPayout: Decodable {
 public struct ResponseAPIContentId: Decodable {
     public let userId: String
     public let permlink: String
+    public let communityId: String?
 }
 
-public struct ResponseAPIContentGetPostMeta: Decodable {
+public struct ResponseAPIContentMeta: Decodable {
     public let creationTime: String
 }
 
@@ -301,23 +302,18 @@ public struct ResponseAPIContentWaitForTransaction: Decodable {
 // MARK: - API `content.getComments`
 public struct ResponseAPIContentGetComments: Decodable {
     public let items: [ResponseAPIContentGetComment]?
-    public let sequenceKey: String?
 }
 
 public struct ResponseAPIContentGetComment: Decodable {
-    public let content: ResponseAPIContentGetCommentContent
     public var votes: ResponseAPIContentVotes
-    public let payout: ResponseAPIContentGetCommentPayout
+    public let meta: ResponseAPIContentMeta
+    public var childCommentsCount: UInt
     public let contentId: ResponseAPIContentId
-    public let meta: ResponseAPIContentGetCommentMeta
+    public let parents: ResponseAPIContentGetCommentParent
+    public let content: ResponseAPIContentBlock
     public let author: ResponseAPIAuthor?
-    public let parent: ResponseAPIContentGetCommentParent
-    public let parentComment: ResponseAPIContentGetCommentParentComment?
-    public let nestedLevel: UInt
-}
-
-public struct ResponseAPIContentGetCommentContent: Decodable {
-    public let body: ResponseAPIContentBlock
+    public let community: ResponseAPIContentGetCommunity?
+    public let children: [ResponseAPIContentGetComment]?
 }
 
 public struct ResponseAPIContentGetCommentVotes: Decodable {
@@ -331,15 +327,12 @@ public struct ResponseAPIContentGetCommentPayout: Decodable {
     public let rShares: UInt64?
 }
 
-public struct ResponseAPIContentGetCommentMeta: Decodable {
-    public let time: String
-}
-
 public struct ResponseAPIAuthor: Decodable {
     public let userId: String
     public let username: String?
     public let avatarUrl: String?
     public let stats: ResponseAPIAuthorStats?
+    public var isSubscribed: Bool?
 }
 
 public struct ResponseAPIAuthorStats: Decodable {
@@ -347,14 +340,8 @@ public struct ResponseAPIAuthorStats: Decodable {
 }
 
 public struct ResponseAPIContentGetCommentParent: Decodable {
-    public let post: ResponseAPIContentGetCommentParentPost?
-    public let comment: ResponseAPIContentGetCommentParentComment?
-}
-
-public struct ResponseAPIContentGetCommentParentComment: Decodable {
-    public let contentId: ResponseAPIContentId?
-    public let content: ResponseAPIContentGetCommentParentCommentContent?
-    public let author: ResponseAPIAuthor?
+    public let post: ResponseAPIContentId?
+    public let comment: ResponseAPIContentId?
 }
 
 public struct ResponseAPIContentGetCommentParentCommentContent: Decodable {
@@ -367,14 +354,6 @@ public struct ResponseAPIContentGetCommentParentCommentContentBody: Decodable {
 
 
 // MARK: - API `content.getComments` by user
-public struct ResponseAPIContentGetCommentParentPost: Decodable {
-    public let content: ResponseAPIContentGetCommentParentPostContent?
-    public let community: ResponseAPIContentGetCommentParentPostCommunity?
-    
-    // API `content.getComments` by post
-    public let contentId: ResponseAPIContentId?
-}
-
 public struct ResponseAPIContentGetCommentParentPostContent: Decodable {
     public let title: String
 }

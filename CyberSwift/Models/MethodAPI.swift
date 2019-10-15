@@ -105,7 +105,7 @@ public indirect enum MethodAPIType {
     case waitForTransaction(id: String)
     
     //  Getting user comments feed
-    case getComments(sortBy: CommentSortMode, sequenceKey: String?, limit: Int8, type: GetCommentsType, userId: String, permlink: String?)
+    case getComments(sortBy: CommentSortMode, sequenceKey: String?, limit: Int8, type: GetCommentsType, userId: String, permlink: String?, parentComment: [String: String]?)
     
     //  Log in
     case authorize(userID: String, activeKey: String)
@@ -243,7 +243,7 @@ public indirect enum MethodAPIType {
                      parameters:        ["transactionId": id])
             
         //  Template { "id": 4, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "user", "userId": "tst2nbduouxh", "sortBy": "time", "limit": 20 }}
-        case .getComments(let sortBy, let sequenceKey, let limit, let type, let userId, let permlink):
+        case .getComments(let sortBy, let sequenceKey, let limit, let type, let userId, let permlink, let parentComment):
             var parameters: [String: Encodable] =
                 [
                     "sortBy": sortBy.rawValue,
@@ -257,6 +257,9 @@ public indirect enum MethodAPIType {
             case .post:
                 parameters["userId"] = userId
                 parameters["permlink"] = permlink
+                if let parentComment = parentComment {
+                    parameters["parentComment"] = parentComment
+                }
             case .replies:
                 parameters["userId"] = userId
             }
