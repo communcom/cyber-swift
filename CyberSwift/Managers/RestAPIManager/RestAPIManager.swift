@@ -61,9 +61,9 @@ public class RestAPIManager {
     // API `content.getComments` by user
     public func loadUserComments(
         sortBy: CommentSortMode = .time,
-        sequenceKey: String? = nil,
-        limit: Int8 = Config.paginationLimit,
-        userId: String? = Config.currentUser?.id
+        sequenceKey: String?    = nil,
+        limit: Int8             = Config.paginationLimit,
+        userId: String?         = Config.currentUser?.id
     ) -> Single<ResponseAPIContentGetComments> {
         
         let methodAPIType = MethodAPIType.getComments(
@@ -73,6 +73,8 @@ public class RestAPIManager {
             type: .user,
             userId: userId ?? "",
             permlink: nil,
+            communityId: nil,
+            communityAlias: nil,
             parentComment: nil)
         
         return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
@@ -80,13 +82,15 @@ public class RestAPIManager {
     
     // API `content.getComments` by post
     public func loadPostComments(
-        sortBy: CommentSortMode = .time,
-        sequenceKey: String? = nil,
-        limit: Int8 = Config.paginationLimit,
-        userId: String? = Config.currentUser?.id,
-        permlink:                  String,
-        parentCommentUserId: String? = nil,
-        parentCommentPermlink: String? = nil
+        sortBy: CommentSortMode         = .time,
+        sequenceKey: String?            = nil,
+        limit: Int8                     = Config.paginationLimit,
+        userId: String?                 = Config.currentUser?.id,
+        permlink: String,
+        communityId: String?            = nil,
+        communityAlias: String?         = nil,
+        parentCommentUserId: String?    = nil,
+        parentCommentPermlink: String?  = nil
     ) -> Single<ResponseAPIContentGetComments> {
         
         var parentComment: [String: String]?
@@ -106,6 +110,8 @@ public class RestAPIManager {
             type: .post,
             userId: userId ?? "",
             permlink: permlink,
+            communityId: communityId,
+            communityAlias: communityAlias,
             parentComment: parentComment)
         
         return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
