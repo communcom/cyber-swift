@@ -122,13 +122,14 @@ extension Reactive where Base: RestAPIManager {
     /// Save user to blockchain
     public func toBlockChain() -> Completable {
         
-        guard let name = Config.currentUser?.name else {
+        guard let id = Config.currentUser?.id,
+            let name = Config.currentUser?.name else {
             Logger.log(message: "username missing for user: \(String(describing: Config.currentUser))", event: .error)
             return .error(ErrorAPI.requestFailed(message: "userId missing"))
         }
         
         let masterKey = String.randomString(length: 51)
-        let userkeys = generateKeys(login: name, masterKey: masterKey)
+        let userkeys = generateKeys(userId: id, masterKey: masterKey)
         
         let methodAPIType = MethodAPIType.toBlockChain(user: name, keys: userkeys)
         

@@ -22,7 +22,7 @@ public class RestAPIManager {
     // API `content.resolveProfile`
     public func resolveProfile(username: String) -> Single<ResponseAPIContentResolveProfile> {
         let methodAPIType = MethodAPIType.resolveProfile(username: username)
-        return Broadcast.instance.executeGetRequest(methodAPIType: MethodAPIType)
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
     
     // API `content.getProfile`
