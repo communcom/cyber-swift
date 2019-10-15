@@ -287,7 +287,7 @@ public indirect enum MethodAPIType {
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.auth.rawValue,
                      methodName:        "generateSecret",
-                     parameters:        ["": ""])
+                     parameters:        [:])
 
         //  Template { "id": 71, "jsonrpc": "2.0", "method": "push.notifyOn", "params": { "key": <fcm_token>, "profile": <userNickName-deviceUDID>, "app": <gls> }}
         case .notifyPushOn(let fcmTokenValue, let appProfileType):
