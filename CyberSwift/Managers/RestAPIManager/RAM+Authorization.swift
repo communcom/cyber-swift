@@ -174,13 +174,20 @@ extension Reactive where Base: RestAPIManager {
     
     /// Login user
     public func login(login: String, masterKey: String, retried: Bool = false) -> Single<ResponseAPIAuthAuthorize> {
-        // Create 4 pairs of keys
-        let userKeys = generateKeys(login: login, masterKey: masterKey)
         
-        // Send authorize request with 1 of 4 keys
-        let methodAPIType = MethodAPIType.authorize(userID: login, activeKey: userKeys["active"]!.privateKey!)
+        var userKeys = [String: UserKeys]()
+        var methodAPIType: MethodAPIType!
         
-        return self.generateSecret()
+        return base.resolveProfile(username: login)
+            .flatMapCompletable({ (profile) -> Completable in
+                // Create 4 pairs of keys
+                userKeys = self.generateKeys(userId: profile.userId, masterKey: masterKey)
+                
+                // Authorize request with 1 of 4 keys
+                methodAPIType = MethodAPIType.authorize(userID: login, activeKey: userKeys["active"]!.privateKey!)
+                
+                return self.generateSecret()
+            })
             .andThen(Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIAuthAuthorize>)
             .map {result in
                 
@@ -249,14 +256,14 @@ extension Reactive where Base: RestAPIManager {
     }
     
     // MARK: - Private functions
-    public func generateKeys(login: String, masterKey: String) -> [String: UserKeys] {
+    public func generateKeys(userId: String, masterKey: String) -> [String: UserKeys] {
         var userKeys = [String: UserKeys]()
         
         // type
         let types = ["owner", "active", "posting", "memo"]
         
         for keyType in types {
-            let seed                =   login + keyType + masterKey
+            let seed                =   userId + keyType + masterKey
             let brainKey            =   seed.removeWhitespaceCharacters()
             let brainKeyBytes       =   brainKey.bytes
             

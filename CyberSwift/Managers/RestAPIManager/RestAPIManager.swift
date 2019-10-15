@@ -19,6 +19,12 @@ public class RestAPIManager {
     public static let instance = RestAPIManager()
     
     // MARK: - FACADE-SERVICE
+    // API `content.resolveProfile`
+    public func resolveProfile(username: String) -> Single<ResponseAPIContentResolveProfile> {
+        let methodAPIType = MethodAPIType.resolveProfile(username: username)
+        return Broadcast.instance.executeGetRequest(methodAPIType: MethodAPIType)
+    }
+    
     // API `content.getProfile`
     public func getProfile(
         user:        String? = nil,

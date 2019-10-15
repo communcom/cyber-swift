@@ -75,6 +75,12 @@ public struct ResponseAPIErrorErrorDetail: Decodable {
     public let message: String
 }
 
+// MARK: - API `content.resolveProfile`
+public struct ResponseAPIContentResolveProfile: Decodable {
+    public let userId: String
+    public let username: String
+    public let avatarUrl: String?
+}
 
 // MARK: - API `content.getProfile`
 public struct ResponseAPIContentGetProfile: Decodable {

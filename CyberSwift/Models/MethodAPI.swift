@@ -92,6 +92,9 @@ public enum GetCommunitiesType: String {
 
 public indirect enum MethodAPIType {
     /// FACADE-SERVICE
+    //  Resolve a user profile
+    case resolveProfile(username: String)
+    
     //  Getting a user profile
     case getProfile(user: String?)
     
@@ -198,6 +201,13 @@ public indirect enum MethodAPIType {
     func introduced() -> RequestMethodParameters {
         switch self {
         /// FACADE-SERVICE
+        //  Template {"jsonrpc":"2.0","method":"content.resolveProfile","params":{"username":"johnson-annmarie-iv"},"id":33}
+        case .resolveProfile(let username):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.content.rawValue,
+                     methodName:        "resolveProfile",
+                     parameters:        ["username": username])
+            
         //  Template { "id": 1, "jsonrpc": "2.0", "method": "content.getProfile", "params": { "user": "<user id or user name>" }}
         case .getProfile(let user):
             var params = [String: Encodable]()
