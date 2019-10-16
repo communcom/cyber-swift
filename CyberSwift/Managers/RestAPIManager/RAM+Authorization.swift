@@ -184,7 +184,7 @@ extension Reactive where Base: RestAPIManager {
                 userKeys = self.generateKeys(userId: profile.userId, masterKey: masterKey)
                 
                 // Authorize request with 1 of 4 keys
-                let methodAPIType = MethodAPIType.authorize(userID: login, activeKey: userKeys["active"]!.privateKey!)
+                let methodAPIType = MethodAPIType.authorize(username: login, activeKey: userKeys["active"]!.privateKey!)
                 
                 return self.generateSecret()
                     .andThen(Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIAuthAuthorize>)
@@ -208,14 +208,14 @@ extension Reactive where Base: RestAPIManager {
     /// Authorize registered user
     public func authorize() -> Single<ResponseAPIAuthAuthorize> {
         
-        guard let userId = Config.currentUser?.id,
+        guard let username = Config.currentUser?.name,
             let activeKey = Config.currentUser?.activeKeys?.privateKey
         else {
             Logger.log(message: "userId or activeKey missing for user: \(String(describing: Config.currentUser))", event: .error)
             return .error(ErrorAPI.requestFailed(message: "userId or activeKey missing"))
         }
         
-        let methodAPIType = MethodAPIType.authorize(userID: userId, activeKey: activeKey)
+        let methodAPIType = MethodAPIType.authorize(username: username, activeKey: activeKey)
         
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
