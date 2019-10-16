@@ -194,10 +194,11 @@ extension Reactive where Base: RestAPIManager {
                 try KeychainManager.save(userkeys: userKeys)
                 
                 try KeychainManager.save([
-                    Config.currentUserIDKey: result.user,
-                    Config.currentUserNameKey: result.displayName,
-                    Config.currentUserMasterKey: masterKey,
-                    Config.registrationStepKey: CurrentUserRegistrationStep.relogined.rawValue
+                    Config.currentUserKey:          result.user,
+                    Config.currentUserIDKey:        result.userId,
+                    Config.currentUserNameKey:      result.username,
+                    Config.currentUserMasterKey:    masterKey,
+                    Config.registrationStepKey:     CurrentUserRegistrationStep.relogined.rawValue
                 ])
                 
                 return result
