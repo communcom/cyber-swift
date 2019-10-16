@@ -47,6 +47,11 @@ extension EOSTransaction {
         .map {result -> String in
             return result.transaction_id
         }
+        .do(onError: { (error) in
+            if let error = error as? ChainError {
+                Logger.log(message: "ChainAPI.getInfo error: \(error)", event: .debug)
+            }
+        })
     }
     
     private func createTransactionAbi(expirationDate:   Date,
