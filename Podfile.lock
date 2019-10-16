@@ -23,11 +23,11 @@ PODS:
 DEPENDENCIES:
   - Checksum
   - CryptoSwift
-  - eosswift (~> 1.5)
+  - eosswift (from `https://github.com/communcom/eos-swift.git`)
   - GoloCrypto (from `https://github.com/Monserg/GoloGrypto.git`)
   - Localize-Swift (~> 2.0)
   - Locksmith
-  - ReachabilitySwift
+  - ReachabilitySwift (~> 4.3.1)
   - RxCocoa
   - RxSwift
   - secp256k1.swift
@@ -40,7 +40,6 @@ SPEC REPOS:
     - BigInt
     - Checksum
     - CryptoSwift
-    - eosswift
     - Localize-Swift
     - Locksmith
     - ReachabilitySwift
@@ -53,10 +52,15 @@ SPEC REPOS:
     - SwiftyJSON
 
 EXTERNAL SOURCES:
+  eosswift:
+    :git: https://github.com/communcom/eos-swift.git
   GoloCrypto:
     :git: https://github.com/Monserg/GoloGrypto.git
 
 CHECKOUT OPTIONS:
+  eosswift:
+    :commit: c124b20575b4a70923a52301427dfab6b4db70f5
+    :git: https://github.com/communcom/eos-swift.git
   GoloCrypto:
     :commit: c40a95682df32420b70d45e43590d9ef096de124
     :git: https://github.com/Monserg/GoloGrypto.git
@@ -65,7 +69,7 @@ SPEC CHECKSUMS:
   BigInt: 76b5dfdfa3e2e478d4ffdf161aeede5502e2742f
   Checksum: f1aa56a27dea5db4006c819e2e129ee6aeb1d9af
   CryptoSwift: d81eeaa59dc5a8d03720fe919a6fd07b51f7439f
-  eosswift: 22bc931fd65bbd446c3f828233b8fd2916cec4a7
+  eosswift: 6b36cff0d2ccdf2f2429d6b11ca6272b4481c249
   GoloCrypto: 30495d770515d57bd7b8e8a35098a9cdefc44578
   Localize-Swift: c798ec9286494866f7068f85f7c71283ac5bdab4
   Locksmith: e9bebbaaa4cee3c511bc358a44f843c3fe00e21f
@@ -78,6 +82,6 @@ SPEC CHECKSUMS:
   SwiftTheme: 4560ca4a4274aef71dd3f985aa8007c6e59993fd
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
 
-PODFILE CHECKSUM: d9a5e14ec8817f51618c186023b830bc6a9ac6b6
+PODFILE CHECKSUM: 7a5d6d86c28d090c64da23bc59cb8421fc6d07ac
 
 COCOAPODS: 1.8.3

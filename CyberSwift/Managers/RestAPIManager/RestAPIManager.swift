@@ -7,7 +7,6 @@
 //  https://github.com/GolosChain/imghost
 //
 
-import eosswift
 import Foundation
 import RxSwift
 

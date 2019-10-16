@@ -23,7 +23,7 @@ Pod::Spec.new do |spec|
     spec.dependency 'CryptoSwift'
     spec.dependency 'Starscream'
     spec.dependency 'secp256k1.swift'
-    spec.dependency 'eosswift', '~> 1.5'
+    spec.dependency 'eosswift'
     spec.dependency 'Localize-Swift', '~> 2.0'
     spec.dependency 'ReachabilitySwift', '~> 4.3.1'
     spec.dependency 'SwiftyJSON', '~> 4.0'

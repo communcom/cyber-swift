@@ -5,7 +5,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 def common_pods
   # EOS framework
-  pod 'eosswift', '~> 1.5'
+  pod 'eosswift', :git => "https://github.com/communcom/eos-swift.git"
   
   pod 'RxSwift'
   pod 'RxCocoa'
