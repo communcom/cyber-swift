@@ -18,7 +18,7 @@ import Foundation
 import RxSwift
 
 enum TransactionAccountType: String {
-    case glsPublish = "gls.publish"
+    case comnGallery = "comn.gallery"
     case glsVesting = "gls.vesting"
     case glsSocial = "gls.social"
     case glsCtrl = "gls.ctrl"
@@ -159,7 +159,7 @@ class EOSManager {
         
         let createNewAccountArgsData = DataWriterValue(hex: createNewAccountArgs.toHex())
         
-        return pushAuthorized(account: .glsPublish, name: "newaccount", data: createNewAccountArgsData)
+        return pushAuthorized(account: .comnGallery, name: "newaccount", data: createNewAccountArgsData)
     }
     
     static func vote(voteType:  VoteActionType,
@@ -181,7 +181,7 @@ class EOSManager {
         
         let voteArgsData = DataWriterValue(hex: voteArgs.toHex())
         
-        return pushAuthorized(account: .glsPublish, name: voteType.rawValue, data: voteArgsData)
+        return pushAuthorized(account: .comnGallery, name: voteType.rawValue, data: voteArgsData)
             .flatMapToCompletable()
     }
     
@@ -191,7 +191,7 @@ class EOSManager {
         let messageCreateArgsData = DataWriterValue(hex: messageCreateArgs.toHex())
         
         // send transaction
-        return pushAuthorized(account: .glsPublish, name: "createmssg", data: messageCreateArgsData)
+        return pushAuthorized(account: .comnGallery, name: "createmssg", data: messageCreateArgsData)
     }
     
     
@@ -201,7 +201,7 @@ class EOSManager {
         
         
         // Send transaction
-        return pushAuthorized(account: .glsPublish, name: "deletemssg", data: messageDeleteArgsData)
+        return pushAuthorized(account: .comnGallery, name: "deletemssg", data: messageDeleteArgsData)
             .flatMapToCompletable()
     }
     
@@ -210,7 +210,7 @@ class EOSManager {
         let messageUpdateArgsData = DataWriterValue(hex: messageArgs.toHex())
         
         // Send transaction
-        return pushAuthorized(account: .glsPublish, name: "updatemssg", data: messageUpdateArgsData)
+        return pushAuthorized(account: .comnGallery, name: "updatemssg", data: messageUpdateArgsData)
     }
     
     static func updateUserProfile(changereputArgs: EOSTransaction.UserProfileChangereputArgs) -> Single<String> {
@@ -218,7 +218,7 @@ class EOSManager {
         let changereputArgsData = DataWriterValue(hex: changereputArgs.toHex())
         
         // Send transaction
-        return pushAuthorized(account: .glsPublish, name: "changereput", data: changereputArgsData)
+        return pushAuthorized(account: .comnGallery, name: "changereput", data: changereputArgsData)
     }
     
     static func reblog(args: EOSTransaction.ReblogArgs) -> Single<String> {
@@ -226,7 +226,7 @@ class EOSManager {
         let reblogArgsData = DataWriterValue(hex: args.toHex())
         
         // Send transaction
-        return pushAuthorized(account: .glsPublish, name: "reblog", data: reblogArgsData)
+        return pushAuthorized(account: .comnGallery, name: "reblog", data: reblogArgsData)
     }
     
     // MARK: - Contract `gls.vesting`
