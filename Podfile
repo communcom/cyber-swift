@@ -21,7 +21,7 @@ def common_pods
   #  pod 'Starscream', '~> 3.0'
   pod 'SwiftyJSON', '~> 4.0'
   pod 'Starscream'
-  pod 'ReachabilitySwift'
+  pod 'ReachabilitySwift', '~> 4.3.1'
   
   # GoloCrypto
   pod 'GoloCrypto', :git => "https://github.com/Monserg/GoloGrypto.git"

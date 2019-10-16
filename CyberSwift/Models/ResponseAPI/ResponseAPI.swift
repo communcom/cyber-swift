@@ -374,7 +374,8 @@ public struct ResponseAPIContentGetCommentParentPostCommunity: Decodable {
 // MARK: - API `auth.authorize`
 public struct ResponseAPIAuthAuthorize: Decodable {
     public let user: String
-    public let displayName: String
+    public let username: String
+    public let userId: String
     public let roles: [ResponseAPIAuthAuthorizeRole]?
     public let permission: String
 }
