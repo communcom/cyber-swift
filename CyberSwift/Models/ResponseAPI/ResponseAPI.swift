@@ -275,9 +275,9 @@ public struct ResponseAPIContentGetPostStats: Decodable {
     public let wilson: ResponseAPIContentGetPostStatsWilson?
     public var commentsCount: UInt64
     public let rShares: Conflicted?
-    public let hot: Double
-    public let trending: Double
-    public let viewCount: UInt64
+    public let hot: Double?
+    public let trending: Double?
+    public let viewCount: UInt64?
 }
 
 public struct ResponseAPIContentGetPostStatsWilson: Decodable {
