@@ -177,19 +177,18 @@ extension Reactive where Base: RestAPIManager {
     public func login(login: String, masterKey: String, retried: Bool = false) -> Single<ResponseAPIAuthAuthorize> {
         
         var userKeys = [String: UserKeys]()
-        var methodAPIType: MethodAPIType!
         
         return base.resolveProfile(username: login)
-            .flatMapCompletable({ (profile) -> Completable in
+            .flatMap({ (profile) -> Single<ResponseAPIAuthAuthorize> in
                 // Create 4 pairs of keys
                 userKeys = self.generateKeys(userId: profile.userId, masterKey: masterKey)
                 
                 // Authorize request with 1 of 4 keys
-                methodAPIType = MethodAPIType.authorize(userID: login, activeKey: userKeys["active"]!.privateKey!)
+                let methodAPIType = MethodAPIType.authorize(userID: login, activeKey: userKeys["active"]!.privateKey!)
                 
                 return self.generateSecret()
+                    .andThen(Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIAuthAuthorize>)
             })
-            .andThen(Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIAuthAuthorize>)
             .map {result in
                 
                 try KeychainManager.save(userkeys: userKeys)
