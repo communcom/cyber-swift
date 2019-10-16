@@ -28,19 +28,21 @@ extension Reactive where Base: RestAPIManager {
                                weight:      voteType == .unvote ? 0 : 1)
     }
 
-    public func create(message:             String,
-                       headline:            String? = nil,
-                       parentPermlink:      String? = nil,
-                       author:              String,
-                       tags:                [String]?,
-                       metaData:            String) -> Single<SendPostCompletion> {
+    public func create(
+        commun_code:         String,
+        message:             String,
+        headline:            String? = nil,
+        parentPermlink:      String? = nil,
+        author:              String,
+        tags:                [String]?
+    ) -> Single<SendPostCompletion> {
         // Check for authorization
         guard let userId = Config.currentUser?.id else {
             return .error(ErrorAPI.unauthorized)
         }
 
         // Prepare array
-        let arrayTags = tags == nil ? [EOSTransaction.Tags()] : tags!.map({ EOSTransaction.Tags.init(tagValue: $0) })
+        let tags = tags ?? []
         
         // Construct message create Args
         
@@ -48,23 +50,20 @@ extension Reactive where Base: RestAPIManager {
         let prefixTitle         =   parentPermlink == nil ? headermssgValue : "Comment"
         let messagePermlink     =   String.permlinkWith(string: prefixTitle)
 
-        let message_id         =   EOSTransaction.Mssgid(authorValue: parentPermlink == nil ? author : userId, permlinkValue: messagePermlink)
+        let message_id          =   EOSTransaction.Mssgid(authorValue: parentPermlink == nil ? author : userId, permlinkValue: messagePermlink)
         
-        let parent_id          =   parentPermlink == nil ? EOSTransaction.Mssgid() : EOSTransaction.Mssgid(authorValue: author, permlinkValue: parentPermlink ?? messagePermlink)
+        let parent_id           =   parentPermlink == nil ? EOSTransaction.Mssgid() : EOSTransaction.Mssgid(authorValue: author, permlinkValue: parentPermlink ?? messagePermlink)
         
-        let messageCreateArgs = EOSTransaction.MessageCreateArgs(
+        let messageCreateArgs   =   EOSTransaction.MessageCreateArgs(
+            commun_code: commun_code,
             message_id: message_id,
             parent_id: parent_id,
-            beneficiaries: [],
-            tokenprop: 0,
-            vestpayment: 1,
-            headermssg: headermssgValue,
-            bodymssg: message,
-            languagemssg: "ru",
-            tags: arrayTags,
-            jsonmetadata: metaData,
+            header: headermssgValue,
+            body: message,
+            tags: tags,
+            metadata: "",
             curators_prcnt: 0,
-            max_payout: nil)
+            weight: nil)
         
         return EOSManager.create(messageCreateArgs: messageCreateArgs)
             .map {(transactionId: $0, userId: userId, permlink: messagePermlink)}
