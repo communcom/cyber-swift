@@ -74,24 +74,12 @@ public class EOSTransaction {
     
     /// Update Post/Comment
     public struct MessageUpdateArgs: Encodable {
-        // MARK: - Properties
+        let commun_code: String
         let message_id: Mssgid
-        let headermssg: String
-        let bodymssg: String
-        let languagemssg: String
-        let tags: [Tags]
-        let jsonmetadata: String
-        
-        
-        // MARK: - Initialization
-        init(authorValue: String = "CyberSwift", messagePermlink: String, parentPermlink: String? = nil, headermssgValue: String = "test", bodymssgValue: String = "test", languagemssgValue: String = "ru", tagsValues: [Tags] = [Tags()], jsonmetadataValue: String = "") {
-            self.message_id     =   Mssgid(authorValue: authorValue, permlinkValue: messagePermlink)
-            self.headermssg     =   headermssgValue
-            self.bodymssg       =   bodymssgValue
-            self.languagemssg   =   languagemssgValue
-            self.tags           =   tagsValues
-            self.jsonmetadata   =   jsonmetadataValue
-        }
+        let parent_id: Mssgid
+        let header: String
+        let body: String
+        let tags: [String]
     }
     
     

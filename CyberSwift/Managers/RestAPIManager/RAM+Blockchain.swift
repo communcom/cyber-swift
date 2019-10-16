@@ -46,7 +46,7 @@ extension Reactive where Base: RestAPIManager {
         
         // Construct message create Args
         
-        let headermssgValue     =   headline ?? String(format: "Test Post Title %i", arc4random_uniform(100))
+        let headermssgValue     =   headline ?? ""
         let prefixTitle         =   parentPermlink == nil ? headermssgValue : "Comment"
         let messagePermlink     =   String.permlinkWith(string: prefixTitle)
 
@@ -80,28 +80,30 @@ extension Reactive where Base: RestAPIManager {
         return EOSManager.delete(messageArgs: messageDeleteArgs)
     }
     
-    public func updateMessage(permlink:         String,
-                              parentPermlink:   String?,
-                              headline:         String,
-                              message:          String,
-                              tags:             [String]?,
-                              metaData:         String
-                              ) -> Single<SendPostCompletion> {
+    public func updateMessage(
+        communCode:      String,
+        permlink:         String,
+        parentAuthor:     String? = nil,
+        parentPermlink:   String? = nil,
+        headline:         String?,
+        message:          String,
+        tags:             [String] = []
+    ) -> Single<SendPostCompletion> {
        
         guard let author = Config.currentUser?.id else {
             return .error(ErrorAPI.unauthorized)
         }
         
-        let arrayTags = tags == nil ? [EOSTransaction.Tags()] : tags!.map({ EOSTransaction.Tags.init(tagValue: $0) })
+        let parent_id           =   (parentPermlink == nil && parentAuthor == nil) ? EOSTransaction.Mssgid() : EOSTransaction.Mssgid(authorValue: parentAuthor!, permlinkValue: parentPermlink!)
         
         let messageUpdateArgs = EOSTransaction.MessageUpdateArgs(
-            authorValue:           author,
-            messagePermlink:       permlink,
-            parentPermlink:        parentPermlink,
-            headermssgValue:       headline,
-            bodymssgValue:         message,
-            tagsValues:            arrayTags,
-            jsonmetadataValue:     metaData)
+            commun_code: communCode,
+            message_id: EOSTransaction.Mssgid(authorValue: author, permlinkValue: permlink),
+            parent_id: parent_id,
+            header: headline ?? "",
+            body: message,
+            tags: tags)
+        
         return EOSManager.update(messageArgs: messageUpdateArgs)
             .map {(transactionId: $0, userId: author, permlink: permlink)}
     }
