@@ -50,9 +50,9 @@ extension Reactive where Base: RestAPIManager {
         let prefixTitle         =   parentPermlink == nil ? headermssgValue : "Comment"
         let messagePermlink     =   String.permlinkWith(string: prefixTitle)
 
-        let message_id          =   EOSTransaction.Mssgid(authorValue: userId, permlinkValue: messagePermlink)
+        let message_id          =   EOSTransaction.Mssgid(author: userId, permlink: messagePermlink)
         
-        let parent_id           =   (parentPermlink == nil && parentAuthor == nil) ? EOSTransaction.Mssgid() : EOSTransaction.Mssgid(authorValue: parentAuthor!, permlinkValue: parentPermlink!)
+        let parent_id           =   (parentPermlink == nil && parentAuthor == nil) ? nil : EOSTransaction.Mssgid(author: parentAuthor!, permlink: parentPermlink!)
         
         let messageCreateArgs   =   EOSTransaction.MessageCreateArgs(
             commun_code: commun_code,
@@ -76,7 +76,7 @@ extension Reactive where Base: RestAPIManager {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
         
-        let messageDeleteArgs = EOSTransaction.MessageDeleteArgs(authorValue: author, messagePermlink: permlink)
+        let messageDeleteArgs = EOSTransaction.MessageDeleteArgs(author: author, messagePermlink: permlink)
         return EOSManager.delete(messageArgs: messageDeleteArgs)
     }
     
@@ -94,11 +94,11 @@ extension Reactive where Base: RestAPIManager {
             return .error(ErrorAPI.unauthorized)
         }
         
-        let parent_id           =   (parentPermlink == nil && parentAuthor == nil) ? EOSTransaction.Mssgid() : EOSTransaction.Mssgid(authorValue: parentAuthor!, permlinkValue: parentPermlink!)
+        let parent_id           =   (parentPermlink == nil && parentAuthor == nil) ? nil : EOSTransaction.Mssgid(author: parentAuthor!, permlink: parentPermlink!)
         
         let messageUpdateArgs = EOSTransaction.MessageUpdateArgs(
             commun_code: communCode,
-            message_id: EOSTransaction.Mssgid(authorValue: author, permlinkValue: permlink),
+            message_id: EOSTransaction.Mssgid(author: author, permlink: permlink),
             parent_id: parent_id,
             header: headline ?? "",
             body: message,

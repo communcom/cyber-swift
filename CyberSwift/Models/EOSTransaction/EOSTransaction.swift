@@ -40,7 +40,7 @@ public class EOSTransaction {
 
         init(authorValue: String = "", permlinkValue: String = "", reblogerValue: String, headermssgValue: String, bodymssgValue: String) {
             self.rebloger   =   NameWriterValue(name: reblogerValue)
-            self.message_id =   Mssgid(authorValue: authorValue, permlinkValue: permlinkValue)
+            self.message_id =   Mssgid(author: authorValue, permlink: permlinkValue)
             self.headermssg =   headermssgValue
             self.bodymssg   =   bodymssgValue
         }
@@ -49,20 +49,15 @@ public class EOSTransaction {
     
     /// Create Post/Comment
     public struct Mssgid: Encodable {
-        let author: NameWriterValue
+        let author: String
         let permlink: String
-        
-        init(authorValue: String = "", permlinkValue: String = "") {
-            self.author     =   NameWriterValue(name: authorValue)
-            self.permlink   =   permlinkValue
-        }
     }
     
     /// Action `createmssg` (https://github.com/GolosChain/golos.contracts/blob/develop/golos.publication/golos.publication.abi#createmssg)
     public struct MessageCreateArgs: Encodable {
         let commun_code: String
         let message_id: Mssgid
-        let parent_id: Mssgid
+        let parent_id: Mssgid?
         let header: String
         let body: String
         let tags: [String]
@@ -76,7 +71,7 @@ public class EOSTransaction {
     public struct MessageUpdateArgs: Encodable {
         let commun_code: String
         let message_id: Mssgid
-        let parent_id: Mssgid
+        let parent_id: Mssgid?
         let header: String
         let body: String
         let tags: [String]
@@ -90,8 +85,8 @@ public class EOSTransaction {
         
         
         // MARK: - Initialization
-        init(authorValue: String = "CyberSwift", messagePermlink: String) {
-            self.message_id = Mssgid(authorValue: authorValue, permlinkValue: messagePermlink)
+        init(author: String = "CyberSwift", messagePermlink: String) {
+            self.message_id = Mssgid(author: author, permlink: messagePermlink)
         }
     }
     
@@ -135,7 +130,7 @@ public class EOSTransaction {
         // MARK: - Initialization
         init(voterValue: String, authorValue: String, permlinkValue: String, weightValue: Int16 = 0) {
             self.voter      =   NameWriterValue(name: voterValue)
-            self.message_id =   Mssgid(authorValue: authorValue, permlinkValue: permlinkValue)
+            self.message_id =   Mssgid(author: authorValue, permlink: permlinkValue)
             self.weight     =   weightValue
         }
     }
@@ -151,7 +146,7 @@ public class EOSTransaction {
         // MARK: - Initialization
         init(voterValue: String, authorValue: String, permlinkValue: String) {
             self.voter      =   NameWriterValue(name: voterValue)
-            self.message_id =   Mssgid(authorValue: authorValue, permlinkValue: permlinkValue)
+            self.message_id =   Mssgid(author: authorValue, permlink: permlinkValue)
         }
     }
     
