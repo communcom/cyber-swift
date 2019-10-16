@@ -31,11 +31,12 @@ public struct Config {
     static let blocksBehind: Int = 3
     public static let expireSeconds: Double = 30.0
     
-    #warning("Which blockchain?")
+   
     
-    static let blockchain_API_Address: String               =   "116.202.4.46"
-    static let blockchain_API_Port: Int32                   =   8888
-    static let blockchain_API_URL: String               =   "\(Config.blockchain_API_Address):\(Config.blockchain_API_Port)/"
+//    static let blockchain_API_Address: String               =   "116.202.4.46"
+//    static let blockchain_API_Port: Int32                   =   8888
+     #warning("node.commun.com in production")
+    static let blockchain_API_URL: String               =   "https://dev-node.commun.com/"
     static let gate_API_IP_Port: Int32                  =   8080
     
     
