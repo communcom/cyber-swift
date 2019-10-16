@@ -33,7 +33,7 @@ extension Reactive where Base: RestAPIManager {
         message:             String,
         headline:            String? = nil,
         parentPermlink:      String? = nil,
-        author:              String,
+        parentAuthor:        String? = nil,
         tags:                [String]?
     ) -> Single<SendPostCompletion> {
         // Check for authorization
@@ -50,9 +50,9 @@ extension Reactive where Base: RestAPIManager {
         let prefixTitle         =   parentPermlink == nil ? headermssgValue : "Comment"
         let messagePermlink     =   String.permlinkWith(string: prefixTitle)
 
-        let message_id          =   EOSTransaction.Mssgid(authorValue: parentPermlink == nil ? author : userId, permlinkValue: messagePermlink)
+        let message_id          =   EOSTransaction.Mssgid(authorValue: userId, permlinkValue: messagePermlink)
         
-        let parent_id           =   parentPermlink == nil ? EOSTransaction.Mssgid() : EOSTransaction.Mssgid(authorValue: author, permlinkValue: parentPermlink ?? messagePermlink)
+        let parent_id           =   (parentPermlink == nil && parentAuthor == nil) ? EOSTransaction.Mssgid() : EOSTransaction.Mssgid(authorValue: parentAuthor!, permlinkValue: parentPermlink!)
         
         let messageCreateArgs   =   EOSTransaction.MessageCreateArgs(
             commun_code: commun_code,
