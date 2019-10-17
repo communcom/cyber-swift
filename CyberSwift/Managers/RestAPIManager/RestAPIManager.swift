@@ -66,17 +66,20 @@ public class RestAPIManager {
     // API `content.getComments` by user
     public func loadUserComments(
         sortBy: CommentSortMode = .time,
-        sequenceKey: String?    = nil,
-        limit: Int8             = Config.paginationLimit,
+        offset: UInt            = 0,
+        limit: UInt             = UInt(Config.paginationLimit),
         userId: String?         = Config.currentUser?.id
     ) -> Single<ResponseAPIContentGetComments> {
+        guard let userId = userId else {
+            return .error(ErrorAPI.unauthorized)
+        }
         
         let methodAPIType = MethodAPIType.getComments(
             sortBy: sortBy,
-            sequenceKey: sequenceKey,
+            offset: offset,
             limit: limit,
             type: .user,
-            userId: userId ?? "",
+            userId: userId,
             permlink: nil,
             communityId: nil,
             communityAlias: nil,
@@ -88,8 +91,8 @@ public class RestAPIManager {
     // API `content.getComments` by post
     public func loadPostComments(
         sortBy: CommentSortMode         = .time,
-        sequenceKey: String?            = nil,
-        limit: Int8                     = Config.paginationLimit,
+        offset: UInt                    = 0,
+        limit: UInt                     = UInt(Config.paginationLimit),
         userId: String?                 = Config.currentUser?.id,
         permlink: String,
         communityId: String?            = nil,
@@ -97,6 +100,8 @@ public class RestAPIManager {
         parentCommentUserId: String?    = nil,
         parentCommentPermlink: String?  = nil
     ) -> Single<ResponseAPIContentGetComments> {
+        
+        guard let userId = userId else {return .error(ErrorAPI.unauthorized)}
         
         var parentComment: [String: String]?
         if let parentCommentUserId = parentCommentUserId,
@@ -110,10 +115,10 @@ public class RestAPIManager {
         
         let methodAPIType = MethodAPIType.getComments(
             sortBy: sortBy,
-            sequenceKey: sequenceKey,
+            offset: offset,
             limit: limit,
             type: .post,
-            userId: userId ?? "",
+            userId: userId,
             permlink: permlink,
             communityId: communityId,
             communityAlias: communityAlias,
