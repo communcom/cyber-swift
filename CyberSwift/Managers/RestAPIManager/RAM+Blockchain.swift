@@ -52,7 +52,7 @@ extension Reactive where Base: RestAPIManager {
 
         let message_id          =   EOSTransaction.Mssgid(author: userId, permlink: messagePermlink)
         
-        let parent_id           =   (parentPermlink == nil && parentAuthor == nil) ? nil : EOSTransaction.Mssgid(author: parentAuthor!, permlink: parentPermlink!)
+        let parent_id           =   (parentPermlink == nil && parentAuthor == nil) ? EOSTransaction.Mssgid(author: "", permlink: "") : EOSTransaction.Mssgid(author: parentAuthor!, permlink: parentPermlink!)
         
         let messageCreateArgs   =   EOSTransaction.MessageCreateArgs(
             commun_code: commun_code,
@@ -62,7 +62,7 @@ extension Reactive where Base: RestAPIManager {
             body: message,
             tags: tags,
             metadata: "",
-            curators_prcnt: 0,
+            curators_prcnt: 5000,
             weight: nil)
         
         return EOSManager.create(messageCreateArgs: messageCreateArgs)
