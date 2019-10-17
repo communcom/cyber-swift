@@ -63,7 +63,7 @@ extension Reactive where Base: RestAPIManager {
             tags: tags,
             metadata: "",
             curators_prcnt: 5000,
-            weight: nil)
+            weight: 0)
         
         return EOSManager.create(messageCreateArgs: messageCreateArgs)
             .map {(transactionId: $0, userId: userId, permlink: messagePermlink)}
