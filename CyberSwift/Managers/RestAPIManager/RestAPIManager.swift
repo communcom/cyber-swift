@@ -42,7 +42,7 @@ public class RestAPIManager {
     // API `content.getPosts`
     public func getPosts(
         userId:         String? = Config.currentUser?.id,
-        communityId:    String,
+        communityId:    String?,
         allowNsfw:      Bool = false,
         type:           FeedTypeMode = .community,
         sortBy:         FeedSortMode = .time,
