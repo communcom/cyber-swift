@@ -55,15 +55,15 @@ extension Reactive where Base: RestAPIManager {
         let parent_id           =   (parentPermlink == nil && parentAuthor == nil) ? EOSTransaction.Mssgid(author: "", permlink: "") : EOSTransaction.Mssgid(author: parentAuthor!, permlink: parentPermlink!)
         
         let messageCreateArgs   =   EOSTransaction.MessageCreateArgs(
-            commun_code: commun_code,
-            message_id: message_id,
-            parent_id: parent_id,
-            header: headermssgValue,
-            body: message,
-            tags: StringCollectionWriterValue(value: tags),
-            metadata: "",
-            curators_prcnt: 5000,
-            weight: 0)
+            commun_code:        NameWriterValue(name: commun_code),
+            message_id:         message_id,
+            parent_id:          parent_id,
+            header:             NameWriterValue(name: headermssgValue),
+            body:               NameWriterValue(name: message),
+            tags:               StringCollectionWriterValue(value: tags),
+            metadata:           NameWriterValue(name: ""),
+            curators_prcnt:     BlockNumWriterValue(value: 0),
+            weight:             BlockNumWriterValue(value: 0))
         
         return EOSManager.create(messageCreateArgs: messageCreateArgs)
             .map {(transactionId: $0, userId: userId, permlink: messagePermlink)}
