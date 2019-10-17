@@ -48,7 +48,7 @@ extension Reactive where Base: RestAPIManager {
         
         let headermssgValue     =   headline ?? ""
         let prefixTitle         =   parentPermlink == nil ? headermssgValue : "Comment"
-        let messagePermlink     =   String.permlinkWith(string: prefixTitle)
+        let messagePermlink     =   String.permlinkWith(string: prefixTitle.isEmpty ? message : prefixTitle)
 
         let message_id          =   EOSTransaction.Mssgid(author: userId, permlink: messagePermlink)
         
