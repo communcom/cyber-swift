@@ -49,13 +49,8 @@ public class EOSTransaction {
     
     /// Create Post/Comment
     public struct Mssgid: Encodable {
-        let author: NameWriterValue
+        let author: String
         let permlink: String
-        
-        init(author: String = "", permlink: String = "") {
-            self.author     =   NameWriterValue(name: author)
-            self.permlink   =   permlink
-        }
     }
     
     /// Action `createmssg` (https://github.com/GolosChain/golos.contracts/blob/develop/golos.publication/golos.publication.abi#createmssg)
