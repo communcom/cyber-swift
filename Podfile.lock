@@ -3,7 +3,7 @@ PODS:
     - SipHash (~> 1.2)
   - Checksum (1.0.0)
   - CryptoSwift (1.0.0)
-  - eosswift (1.6.0):
+  - eosswift (1.5):
     - BigInt (~> 3.1.0)
     - RxCocoa (~> 4.0)
     - RxSwift (~> 4.0)
@@ -59,7 +59,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   eosswift:
-    :commit: c124b20575b4a70923a52301427dfab6b4db70f5
+    :commit: 9bca6a1a65f03f8739ba289afb7594b49e7abbd6
     :git: https://github.com/communcom/eos-swift.git
   GoloCrypto:
     :commit: c40a95682df32420b70d45e43590d9ef096de124
@@ -69,7 +69,7 @@ SPEC CHECKSUMS:
   BigInt: 76b5dfdfa3e2e478d4ffdf161aeede5502e2742f
   Checksum: f1aa56a27dea5db4006c819e2e129ee6aeb1d9af
   CryptoSwift: d81eeaa59dc5a8d03720fe919a6fd07b51f7439f
-  eosswift: 6b36cff0d2ccdf2f2429d6b11ca6272b4481c249
+  eosswift: 753a0f14eb3924707036903aa90b9e607dfb8a36
   GoloCrypto: 30495d770515d57bd7b8e8a35098a9cdefc44578
   Localize-Swift: c798ec9286494866f7068f85f7c71283ac5bdab4
   Locksmith: e9bebbaaa4cee3c511bc358a44f843c3fe00e21f
