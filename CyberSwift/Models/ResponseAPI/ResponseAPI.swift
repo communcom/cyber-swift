@@ -85,14 +85,17 @@ public struct ResponseAPIContentResolveProfile: Decodable {
 // MARK: - API `content.getProfile`
 public struct ResponseAPIContentGetProfile: Decodable {
     public let subscriptions: ResponseAPIContentGetProfileSubscription?
+    public var subscribers: ResponseAPIContentGetProfileSubscriber?
+    public var blacklist: ResponseAPIContentGetProfileBlacklist?
     public let stats: ResponseAPIContentGetProfileStat
+    public let leaderIn: [String]?
     public let userId: String
     public let username: String?
     public let registration: ResponseAPIContentGetProfileRegistration
-    public let createdAt: String
     public let personal: ResponseAPIContentGetProfilePersonal
-    public var subscribers: ResponseAPIContentGetProfileSubscriber?
     public var isSubscribed: Bool?
+    public var isSubscription: Bool?
+    public let createdAt: String?
 }
 
 public struct ResponseAPIContentGetProfileSubscription: Decodable {
@@ -118,6 +121,7 @@ public struct ResponseAPIContentGetProfileRegistration: Decodable {
 }
 
 public struct ResponseAPIContentGetProfileStat: Decodable {
+    public let reputation: Int64
     public let postsCount: Int64
     public let commentsCount: Int64
 }
@@ -132,6 +136,11 @@ public struct ResponseAPIContentGetProfilePersonal: Decodable {
 public struct ResponseAPIContentGetProfileSubscriber: Decodable {
     public var usersCount: UInt64
     public let communitiesCount: UInt64
+}
+
+public struct ResponseAPIContentGetProfileBlacklist: Decodable {
+    public var userIds: [String]
+    public var communityIds: [String]
 }
 
 public struct ResponseAPIContentGetProfileContact: Decodable {
