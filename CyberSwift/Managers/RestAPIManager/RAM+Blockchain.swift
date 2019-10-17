@@ -60,7 +60,7 @@ extension Reactive where Base: RestAPIManager {
             parent_id: parent_id,
             header: headermssgValue,
             body: message,
-            tags: tags,
+            tags: StringCollectionWriterValue(value: tags),
             metadata: "",
             curators_prcnt: 5000,
             weight: 0)
@@ -102,7 +102,7 @@ extension Reactive where Base: RestAPIManager {
             parent_id: parent_id,
             header: headline ?? "",
             body: message,
-            tags: tags)
+            tags: StringCollectionWriterValue(value: tags))
         
         return EOSManager.update(messageArgs: messageUpdateArgs)
             .map {(transactionId: $0, userId: author, permlink: permlink)}
