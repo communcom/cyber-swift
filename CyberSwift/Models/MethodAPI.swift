@@ -35,6 +35,7 @@ public enum MethodAPIGroup: String {
 }
 
 public enum FeedTypeMode: String {
+    case new                =   "new"
     case community          =   "community"
     case subscriptions      =   "subscriptions"
     case byUser             =   "byUser"
