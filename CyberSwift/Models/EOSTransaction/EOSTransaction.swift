@@ -129,14 +129,14 @@ public class EOSTransaction {
         // MARK: - Properties
         let voter: NameWriterValue
         let message_id: Mssgid
-        let weight: Int16
+        let weight: BlockNumWriterValue
         
         
         // MARK: - Initialization
         init(voterValue: String, authorValue: String, permlinkValue: String, weightValue: Int16 = 0) {
             self.voter      =   NameWriterValue(name: voterValue)
             self.message_id =   Mssgid(author: authorValue, permlink: permlinkValue)
-            self.weight     =   weightValue
+            self.weight     =   BlockNumWriterValue(value: Int(weightValue))
         }
     }
     
