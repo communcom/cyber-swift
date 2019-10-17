@@ -68,9 +68,9 @@ public class RestAPIManager {
         sortBy: CommentSortMode = .time,
         offset: UInt            = 0,
         limit: UInt             = UInt(Config.paginationLimit),
-        userId: String?         = Config.currentUser?.id
+        userId: String?
     ) -> Single<ResponseAPIContentGetComments> {
-        guard let userId = userId else {
+        guard let userId = userId ?? Config.currentUser?.id else {
             return .error(ErrorAPI.unauthorized)
         }
         
