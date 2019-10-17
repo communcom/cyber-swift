@@ -257,6 +257,7 @@ public indirect enum MethodAPIType {
         case .getComments(let sortBy, let offset, let limit, let type, let userId, let permlink, let communityId, let communityAlias, let parentComment):
             var parameters: [String: Encodable] =
                 [
+                    "type": type.rawValue,
                     "sortBy": sortBy.rawValue,
                     "offset": offset,
                     "limit": limit
