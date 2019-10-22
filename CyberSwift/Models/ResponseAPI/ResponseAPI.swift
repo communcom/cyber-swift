@@ -164,7 +164,7 @@ public struct ResponseAPIContentGetPosts: Decodable {
 }
 
 public struct ResponseAPIContentGetPost: Decodable {
-    public var content: ResponseAPIContentBlock
+    public var document: ResponseAPIContentBlock
     public var votes: ResponseAPIContentVotes
     public let meta: ResponseAPIContentMeta
     public let contentId: ResponseAPIContentId
