@@ -227,7 +227,9 @@ public indirect enum MethodAPIType {
             parameters["communityId"]   = communityId
             parameters["allowNsfw"]     = allowNsfw ?? false
             parameters["type"]          = type.rawValue
-            parameters["sortBy"]        = sortBy.rawValue
+            if type != .new {
+                parameters["sortBy"]    = sortBy.rawValue
+            }
             parameters["limit"]         = limit
             parameters["offset"]        = offset
             
