@@ -253,6 +253,17 @@ public class RestAPIManager {
         
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
+    
+    // MARK: - Subscribers
+    public func getSubscribers(
+        userId: String?         = Config.currentUser?.id,
+        communityId: String?    = nil,
+        offset: Int             = 0,
+        limit: Int              = 10
+    ) -> Single<ResponseAPIContentResolveProfile> {
+        let methodAPIType = MethodAPIType.getSubscribers(userId: userId, communityId: communityId, offset: offset, limit: limit)
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+    }
 
     //  MARK: - Contract `gls.social`
     /// Posting image
