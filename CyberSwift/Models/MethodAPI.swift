@@ -472,15 +472,22 @@ public indirect enum MethodAPIType {
                      parameters:        params)
             
         case .getSubscribers(let userId, let communityId, let offset, let limit):
+            var params: [String: Encodable] = [
+                "offset"        :   offset,
+                "limit"         :   limit
+            ]
+            
+            if let communityId = communityId {
+                params["communityId"]   = communityId
+            }
+            else {
+                params["userId"]        = userId
+            }
+            
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getSubscribers",
-                     parameters:        [
-                        "userId"        :   userId,
-                        "communityId"   :   communityId,
-                        "offset"        :   offset,
-                        "limit"         :   limit
-                     ])
+                     parameters:        params)
 
 
         /// REGISTRATION-SERVICE
