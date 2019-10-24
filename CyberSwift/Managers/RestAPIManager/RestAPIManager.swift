@@ -260,7 +260,7 @@ public class RestAPIManager {
         communityId: String?    = nil,
         offset: Int             = 0,
         limit: Int              = 10
-    ) -> Single<ResponseAPIContentResolveProfile> {
+    ) -> Single<ResponseAPIContentGetSubscribers> {
         let methodAPIType = MethodAPIType.getSubscribers(userId: userId, communityId: communityId, offset: offset, limit: limit)
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
