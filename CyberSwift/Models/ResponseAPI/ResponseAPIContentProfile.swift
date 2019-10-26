@@ -68,8 +68,8 @@ public struct ResponseAPIContentGetProfilePersonal: Decodable {
 }
 
 public struct ResponseAPIContentGetProfileSubscriber: Decodable {
-    public var usersCount: UInt64
-    public let communitiesCount: UInt64
+    public var usersCount: UInt64?
+    public let communitiesCount: UInt64?
 }
 
 public struct ResponseAPIContentGetProfileBlacklist: Decodable {
