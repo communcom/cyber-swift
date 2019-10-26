@@ -241,7 +241,7 @@ public struct ResponseAPIContentGetCommunity: Decodable {
     public let description: String?
     public let language: String?
     public let rules: String?
-    public let isSubscribed: Bool?
+    public var isSubscribed: Bool?
     public let isBlocked: Bool?
     public let friendsCount: UInt16?
     public let friends: [ResponseAPIContentResolveProfile]?
