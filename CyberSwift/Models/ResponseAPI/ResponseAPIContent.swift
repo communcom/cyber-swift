@@ -232,7 +232,7 @@ public struct ResponseAPIContentGetCommentParentPostCommunity: Decodable {
 
 // MARK: - API `content.getCommunity`
 public struct ResponseAPIContentGetCommunity: Decodable {
-    public var subscribersCount: UInt16?
+    public var subscribersCount: UInt64?
     public let communityId: String?
     public let alias: String?
     public let name: String?
@@ -243,7 +243,7 @@ public struct ResponseAPIContentGetCommunity: Decodable {
     public let rules: String?
     public var isSubscribed: Bool?
     public let isBlocked: Bool?
-    public let friendsCount: UInt16?
+    public let friendsCount: UInt64?
     public let friends: [ResponseAPIContentResolveProfile]?
 }
 
