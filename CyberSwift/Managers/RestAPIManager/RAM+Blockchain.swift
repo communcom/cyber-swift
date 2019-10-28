@@ -150,7 +150,7 @@ extension Reactive where Base: RestAPIManager {
     }
     
     // MARK: - `contract commun.list`
-    public func joinCommunity(_ communityId: String) -> Single<String> {
+    public func followCommunity(_ communityId: String) -> Single<String> {
         // Check user authorize
         guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKeys?.privateKey else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
@@ -158,5 +158,15 @@ extension Reactive where Base: RestAPIManager {
         
         let followArgs = EOSTransaction.CommunListFollowArgs(commun_code: communityId, follower: userID)
         return EOSManager.followCommunity(followArgs)
+    }
+    
+    public func unfollowCommunity(_ communityId: String) -> Single<String> {
+        // Check user authorize
+        guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKeys?.privateKey else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        }
+        
+        let unFollowArgs = EOSTransaction.CommunListUnfollowArgs(commun_code: communityId, follower: userID)
+        return EOSManager.unfollowCommunity(unFollowArgs)
     }
 }

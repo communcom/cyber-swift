@@ -369,4 +369,10 @@ public class EOSTransaction {
         let commun_code: String
         let follower: String
     }
+    
+    /// Action `unfollow`
+    public struct CommunListUnfollowArgs: Encodable {
+        let commun_code: String
+        let follower: String
+    }
 }
