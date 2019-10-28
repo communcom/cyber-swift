@@ -234,26 +234,6 @@ public class RestAPIManager {
         return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
     }
     
-    //  MARK: - Communities
-    public func getCommunity(id: String) -> Single<ResponseAPIContentGetCommunity> {
-        
-        let methodAPIType = MethodAPIType.getCommunity(id: id)
-        
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
-    }
-    
-    public func getCommunities(
-        type: GetCommunitiesType,
-        userId: String? = Config.currentUser?.id,
-        offset: Int,
-        limit: Int = 10
-    ) -> Single<ResponseAPIContentGetCommunities> {
-        
-        let methodAPIType = MethodAPIType.getCommunities(type: type, userId: userId, offset: offset, limit: 10)
-        
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
-    }
-    
     // MARK: - Subscribers
     public func getSubscribers(
         userId: String?         = Config.currentUser?.id,

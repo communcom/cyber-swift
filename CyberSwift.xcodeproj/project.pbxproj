@@ -60,6 +60,8 @@
 		B1EA0319228A985400835244 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EA0318228A985400835244 /* UIView+Extensions.swift */; };
 		B1F7B44A229FB5A4005492DD /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F7B449229FB5A4005492DD /* UIImage+Extensions.swift */; };
 		BC3D9763235040B500421718 /* ResponseAPIContentGetCommentsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3D9762235040B500421718 /* ResponseAPIContentGetCommentsTests.swift */; };
+		BC48FC3C23667FB10049C4F4 /* ResponseAPIContentCommunity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC48FC3B23667FB10049C4F4 /* ResponseAPIContentCommunity.swift */; };
+		BC48FC3E236680740049C4F4 /* RAM+Community.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC48FC3D236680740049C4F4 /* RAM+Community.swift */; };
 		BCA97132236178E600AE37E1 /* ResponseAPIContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA97131236178E600AE37E1 /* ResponseAPIContent.swift */; };
 		BCA971342361798000AE37E1 /* ResponseAPIContentProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA971332361798000AE37E1 /* ResponseAPIContentProfile.swift */; };
 		BCB2A6F4235588EA00B3582B /* ResponseAPIContentGetComments.json in Resources */ = {isa = PBXBuildFile; fileRef = BCB2A6F3235588EA00B3582B /* ResponseAPIContentGetComments.json */; };
@@ -141,6 +143,8 @@
 		B1EA0318228A985400835244 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		B1F7B449229FB5A4005492DD /* UIImage+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		BC3D9762235040B500421718 /* ResponseAPIContentGetCommentsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseAPIContentGetCommentsTests.swift; sourceTree = "<group>"; };
+		BC48FC3B23667FB10049C4F4 /* ResponseAPIContentCommunity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseAPIContentCommunity.swift; sourceTree = "<group>"; };
+		BC48FC3D236680740049C4F4 /* RAM+Community.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Community.swift"; sourceTree = "<group>"; };
 		BCA97131236178E600AE37E1 /* ResponseAPIContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseAPIContent.swift; sourceTree = "<group>"; };
 		BCA971332361798000AE37E1 /* ResponseAPIContentProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseAPIContentProfile.swift; sourceTree = "<group>"; };
 		BCB2A6F3235588EA00B3582B /* ResponseAPIContentGetComments.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ResponseAPIContentGetComments.json; sourceTree = "<group>"; };
@@ -182,10 +186,11 @@
 		3B1E901422CDEC2F00D7A0C1 /* RestAPIManager */ = {
 			isa = PBXGroup;
 			children = (
+				B1677C65223F9BD7005FB286 /* RestAPIManager.swift */,
 				3B1E901522CDEC6A00D7A0C1 /* RAM+Authorization.swift */,
 				3BBBE2972295AAE90029C9C9 /* RAM+Blockchain.swift */,
 				3B5EDE3E22E0F10900897BF3 /* RAM+Notifications.swift */,
-				B1677C65223F9BD7005FB286 /* RestAPIManager.swift */,
+				BC48FC3D236680740049C4F4 /* RAM+Community.swift */,
 			);
 			path = RestAPIManager;
 			sourceTree = "<group>";
@@ -352,6 +357,7 @@
 				BCE93908234D868E00226E39 /* ResponseAPI+Extensions.swift */,
 				BCA97131236178E600AE37E1 /* ResponseAPIContent.swift */,
 				BCA971332361798000AE37E1 /* ResponseAPIContentProfile.swift */,
+				BC48FC3B23667FB10049C4F4 /* ResponseAPIContentCommunity.swift */,
 			);
 			path = ResponseAPI;
 			sourceTree = "<group>";
@@ -580,6 +586,7 @@
 				3BE3666722E5CE7C00F84A04 /* SocketManager.swift in Sources */,
 				3BB342B622CB7591009546B2 /* CurrentUser.swift in Sources */,
 				B1C3F858223F98B1005711EF /* ConstantsApp.swift in Sources */,
+				BC48FC3C23667FB10049C4F4 /* ResponseAPIContentCommunity.swift in Sources */,
 				B1EA0319228A985400835244 /* UIView+Extensions.swift in Sources */,
 				B179917D2269B4560014CB44 /* GSBase58.swift in Sources */,
 				B1C3F860223F98DC005711EF /* Broadcast.swift in Sources */,
@@ -595,6 +602,7 @@
 				B1677C66223F9BD7005FB286 /* RestAPIManager.swift in Sources */,
 				3B61AC3222E1C5CD00F608AF /* ResponseAPIGetOptionsNotifyShow+Extensions.swift in Sources */,
 				B1804BA9225DCF9B00260A32 /* PhoneCode.swift in Sources */,
+				BC48FC3E236680740049C4F4 /* RAM+Community.swift in Sources */,
 				BCA971342361798000AE37E1 /* ResponseAPIContentProfile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
