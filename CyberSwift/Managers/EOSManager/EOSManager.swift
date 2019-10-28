@@ -18,9 +18,10 @@ import Foundation
 import RxSwift
 
 enum TransactionAccountType: String {
-    case comnGallery = "comn.gallery"
-    case comnSocial = "comn.social"
-    case comnCtrl = "comn.ctrl"
+    case comnGallery = "commun.gallery"
+    case comnSocial = "commun.social"
+    case comnCtrl = "commun.ctrl"
+    case comnList = "commun.list"
 }
 
 public struct ProviderArgs: Encodable {

@@ -362,4 +362,11 @@ public class EOSTransaction {
             self.witness    =   NameWriterValue(name: witnessValue)
         }
     }
+    
+    // MARK: - Contract `commun.list`
+    /// Action `follow`
+    public struct CommunListFollowArgs: Encodable {
+        let commun_code: String
+        let follower: String
+    }
 }
