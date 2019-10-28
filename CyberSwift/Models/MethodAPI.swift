@@ -475,15 +475,17 @@ public indirect enum MethodAPIType {
                      parameters:        params)
             
         case .getLeaders(let communityId, let sequenceKey, let limit, let query):
+            var params: [String: Encodable] = [
+               "communityId":   communityId,
+               "limit":         limit
+            ]
+            params["sequenceKey"] = sequenceKey
+            params["query"]       = query
+            
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getLeaders",
-                     parameters:        [
-                        "communityId": communityId,
-                        "sequenceKey": sequenceKey,
-                        "limit"      : limit,
-                        "query"      : query
-                     ])
+                     parameters:        params)
             
         case .getSubscribers(let userId, let communityId, let offset, let limit):
             var params: [String: Encodable] = [

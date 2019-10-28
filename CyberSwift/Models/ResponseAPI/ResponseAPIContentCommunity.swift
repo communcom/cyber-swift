@@ -32,6 +32,19 @@ public struct ResponseAPIContentGetCommunity: Decodable {
 
 // MARK: - API `content.getLeaders`
 public struct ResponseAPIContentGetLeaders: Decodable {
-    
+    public let items: [ResponseAPIContentGetLeader]
+}
+
+public struct ResponseAPIContentGetLeader: Decodable {
+    public let url: String
+    public let rating: String
+    public let isActive: Bool
+    public let userId: String
+    public let position: UInt64
+    public let isVoted: Bool
+    public let ratingPercent: Double
+    public let isSubscribed: Bool
+    public let username: String?
+    public let avatarUrl: String?
 }
 
