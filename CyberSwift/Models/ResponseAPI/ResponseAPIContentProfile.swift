@@ -87,3 +87,60 @@ public struct ResponseAPIContentGetProfileSubscribers: Decodable {
 public struct ResponseAPIContentGetSubscribers: Decodable {
     public let items: [ResponseAPIContentResolveProfile]
 }
+
+// MARK: - API `content.getSubscriptions`
+public struct ResponseAPIContentGetSubscriptions: Decodable {
+    public let items: ResponseAPIContentGetSubscriptionsItem
+}
+
+public enum ResponseAPIContentGetSubscriptionsItem: Decodable {
+    case users([ResponseAPIContentGetSubscriptionsUser])
+    case communities([ResponseAPIContentGetSubscriptionsCommunity])
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let users = try? container.decode([ResponseAPIContentGetSubscriptionsUser].self) {
+            self = .users(users)
+            return
+        }
+        if let communities = try? container.decode([ResponseAPIContentGetSubscriptionsCommunity].self) {
+            self = .communities(communities)
+            return
+        }
+        throw ErrorAPI.unsupported
+    }
+    
+    var usersValue: [ResponseAPIContentGetSubscriptionsUser]? {
+        switch self {
+        case .users(let users):
+            return users
+        default:
+            return nil
+        }
+    }
+    
+    var communitiesValue: [ResponseAPIContentGetSubscriptionsCommunity]? {
+        switch self {
+        case .communities(let communities):
+            return communities
+        default:
+            return nil
+        }
+    }
+}
+
+public struct ResponseAPIContentGetSubscriptionsUser: Decodable {
+    public let userId: String
+    public let username: String
+    public let avatarUrl: String
+    public let subscribersCount: UInt64?
+    public let postsCount: UInt64?
+    public var isSubscribed: Bool?
+}
+
+public struct ResponseAPIContentGetSubscriptionsCommunity: Decodable {
+    public let communityId: String
+    public let name: String
+    public let code: String?
+    public var isSubscribed: Bool?
+}

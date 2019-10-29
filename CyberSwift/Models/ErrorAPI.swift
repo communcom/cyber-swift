@@ -63,6 +63,10 @@ public enum ErrorAPI: Error {
         return ErrorAPI.other(message: "Unknown error")
     }
     
+    public static var unsupported: ErrorAPI {
+        return ErrorAPI.other(message: "Unsupported")
+    }
+    
     public static var unauthorized: ErrorAPI {
         return ErrorAPI.requestFailed(message: "Unauthorized")
     }
