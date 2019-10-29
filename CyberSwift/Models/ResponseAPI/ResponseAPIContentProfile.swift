@@ -25,7 +25,7 @@ public struct ResponseAPIContentGetProfile: Decodable {
     public let registration: ResponseAPIContentGetProfileRegistration
     public var subscribers: ResponseAPIContentGetProfileSubscriber?
     public let subscriptions: ResponseAPIContentGetProfileSubscription?
-    public let personal: ResponseAPIContentGetProfilePersonal
+    public let personal: ResponseAPIContentGetProfilePersonal?
     public var isSubscribed: Bool?
     public var isSubscription: Bool?
     public var isBlocked: Bool?
