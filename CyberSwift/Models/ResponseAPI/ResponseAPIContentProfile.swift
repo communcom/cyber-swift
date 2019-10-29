@@ -110,7 +110,7 @@ public enum ResponseAPIContentGetSubscriptionsItem: Decodable {
         throw ErrorAPI.unsupported
     }
     
-    var user: ResponseAPIContentGetSubscriptionsUser? {
+    public var userValue: ResponseAPIContentGetSubscriptionsUser? {
         switch self {
         case .user(let user):
             return user
@@ -119,7 +119,7 @@ public enum ResponseAPIContentGetSubscriptionsItem: Decodable {
         }
     }
     
-    var community: ResponseAPIContentGetSubscriptionsCommunity? {
+    public var communityValue: ResponseAPIContentGetSubscriptionsCommunity? {
         switch self {
         case .community(let community):
             return community
