@@ -18,36 +18,30 @@ public struct ResponseAPIContentResolveProfile: Decodable {
 
 // MARK: - API `content.getProfile`
 public struct ResponseAPIContentGetProfile: Decodable {
-    public let subscriptions: ResponseAPIContentGetProfileSubscription?
-    public var subscribers: ResponseAPIContentGetProfileSubscriber?
-    public var blacklist: ResponseAPIContentGetProfileBlacklist?
     public let stats: ResponseAPIContentGetProfileStat
     public let leaderIn: [String]?
     public let userId: String
     public let username: String?
     public let registration: ResponseAPIContentGetProfileRegistration
+    public var subscribers: ResponseAPIContentGetProfileSubscriber?
+    public let subscriptions: ResponseAPIContentGetProfileSubscription?
     public let personal: ResponseAPIContentGetProfilePersonal
     public var isSubscribed: Bool?
     public var isSubscription: Bool?
-    public let createdAt: String?
+    public var isBlocked: Bool?
+    public var commonCommunitiesCount: UInt64?
+    public var commonCommunities: [ResponseAPIContentGetProfileCommonCommunity]
 }
 
 public struct ResponseAPIContentGetProfileSubscription: Decodable {
     public var usersCount: UInt64?
     public var communitiesCount: UInt64?
-    public let userIds: [ResponseAPIContentGetProfileSubscriptionUserID?]?
-    public let communities: [ResponseAPIContentGetProfileSubscriptionCommunity?]?
 }
 
-public struct ResponseAPIContentGetProfileSubscriptionUserID: Decodable {
-    public let id: String
-    public let avatarUrl: String?
-}
-
-public struct ResponseAPIContentGetProfileSubscriptionCommunity: Decodable {
-    public let id: String
+public struct ResponseAPIContentGetProfileCommonCommunity: Decodable {
+    public let communityId: String
     public let name: String
-    public let avatarUrl: String?
+    public let alias: String?
 }
 
 public struct ResponseAPIContentGetProfileRegistration: Decodable {
