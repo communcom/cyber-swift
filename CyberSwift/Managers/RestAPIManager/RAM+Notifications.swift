@@ -14,6 +14,56 @@ public enum NoticeType {
     case notify
 }
 
+extension RestAPIManager {
+    // API `push.historyFresh`
+    public func getPushHistoryFresh() -> Single<ResponseAPIPushHistoryFresh> {
+        
+        let methodAPIType = MethodAPIType.getPushHistoryFresh
+        
+        return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
+    }
+    
+    // API `onlineNotify.history`
+    public func getOnlineNotifyHistory(
+        fromId:              String? = nil,
+        paginationLimit:     Int8 = Config.paginationLimit,
+        markAsViewed:        Bool = false,
+        freshOnly:           Bool = false
+    ) -> Single<ResponseAPIOnlineNotifyHistory> {
+        
+        let methodAPIType = MethodAPIType.getOnlineNotifyHistory(fromId: fromId, paginationLimit: paginationLimit, markAsViewed: markAsViewed, freshOnly: freshOnly)
+        
+        return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
+    }
+    
+    // API `onlineNotify.historyFresh`
+    public func getOnlineNotifyHistoryFresh() -> Single<ResponseAPIOnlineNotifyHistoryFresh> {
+        
+        let methodAPIType = MethodAPIType.getOnlineNotifyHistoryFresh
+        
+        return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
+    }
+    
+    // API `notify.markAllAsViewed`
+    public func notifyMarkAllAsViewed() -> Single<ResponseAPINotifyMarkAllAsViewed> {
+        
+        let methodAPIType = MethodAPIType.notifyMarkAllAsViewed
+        
+        return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
+    }
+    
+    // API `notify.markAsRead`
+    public func markAsRead(notifies: [String]) -> Single<ResponseAPIMarkNotifiesAsRead> {
+        
+        // Check user authorize
+        guard Config.currentUser?.id != nil else { return .error(ErrorAPI.unauthorized)}
+
+        let methodAPIType = MethodAPIType.markAsRead(notifies: notifies)
+        
+        return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
+    }
+}
+
 extension Reactive where Base: RestAPIManager {
     /// Turn on push notification
     public func pushNotifyOn() -> Completable {

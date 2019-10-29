@@ -67,6 +67,7 @@
 		BCA971342361798000AE37E1 /* ResponseAPIContentProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA971332361798000AE37E1 /* ResponseAPIContentProfile.swift */; };
 		BCB2A6F4235588EA00B3582B /* ResponseAPIContentGetComments.json in Resources */ = {isa = PBXBuildFile; fileRef = BCB2A6F3235588EA00B3582B /* ResponseAPIContentGetComments.json */; };
 		BCB2A6F62355897A00B3582B /* Decodable+MockObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB2A6F52355897A00B3582B /* Decodable+MockObjects.swift */; };
+		BCCE0A9E2367DD3A00A183AA /* RAM+Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE0A9D2367DD3A00A183AA /* RAM+Profile.swift */; };
 		BCE93909234D868E00226E39 /* ResponseAPI+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE93908234D868E00226E39 /* ResponseAPI+Extensions.swift */; };
 /* End PBXBuildFile section */
 
@@ -151,6 +152,7 @@
 		BCA971332361798000AE37E1 /* ResponseAPIContentProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseAPIContentProfile.swift; sourceTree = "<group>"; };
 		BCB2A6F3235588EA00B3582B /* ResponseAPIContentGetComments.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ResponseAPIContentGetComments.json; sourceTree = "<group>"; };
 		BCB2A6F52355897A00B3582B /* Decodable+MockObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+MockObjects.swift"; sourceTree = "<group>"; };
+		BCCE0A9D2367DD3A00A183AA /* RAM+Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Profile.swift"; sourceTree = "<group>"; };
 		BCE93908234D868E00226E39 /* ResponseAPI+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Extensions.swift"; sourceTree = "<group>"; };
 		F6ED672114DF191DC66860EA /* Pods_CyberSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CyberSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -193,6 +195,7 @@
 				3BBBE2972295AAE90029C9C9 /* RAM+Blockchain.swift */,
 				3B5EDE3E22E0F10900897BF3 /* RAM+Notifications.swift */,
 				BC48FC3D236680740049C4F4 /* RAM+Community.swift */,
+				BCCE0A9D2367DD3A00A183AA /* RAM+Profile.swift */,
 			);
 			path = RestAPIManager;
 			sourceTree = "<group>";
@@ -585,6 +588,7 @@
 				B1902AD622706F1E00661211 /* RequestParameterAPI.swift in Sources */,
 				3B5EDE3F22E0F10900897BF3 /* RAM+Notifications.swift in Sources */,
 				B1EA02CE22895EB400835244 /* UIButton+Extensions.swift in Sources */,
+				BCCE0A9E2367DD3A00A183AA /* RAM+Profile.swift in Sources */,
 				3BBBE29A2296A8A10029C9C9 /* RxSwift.swift in Sources */,
 				B1C3F859223F98B1005711EF /* Encodable+Extensions.swift in Sources */,
 				B1A74A662243893A009D68E7 /* EOSManager.swift in Sources */,

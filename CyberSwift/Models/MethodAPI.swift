@@ -90,6 +90,10 @@ public enum GetCommunitiesType: String {
     case user               =   "user"
 }
 
+public enum GetSubscriptionsType: String {
+    case user               =   "user"
+    case community          =   "community"
+}
 
 public indirect enum MethodAPIType {
     /// FACADE-SERVICE
@@ -177,6 +181,9 @@ public indirect enum MethodAPIType {
 
     //  Get subscribers
     case getSubscribers(userId: String?, communityId: String?, offset: Int, limit: Int)
+    
+    //  Get subscriptions
+    case getSubscriptions(userId: String?, type: GetSubscriptionsType, offset: Int, limit: Int)
     
     /// REGISTRATION-SERVICE
     //  Get current registration status for user
@@ -503,6 +510,19 @@ public indirect enum MethodAPIType {
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getSubscribers",
+                     parameters:        params)
+            
+        case .getSubscriptions(let userId, let type, let offset, let limit):
+            let params: [String: Encodable] = [
+                "offset" : offset,
+                "limit"  : limit,
+                "type"   : type.rawValue,
+                "userId" : userId
+            ]
+            
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.content.rawValue,
+                     methodName:        "getSubscriptions",
                      parameters:        params)
 
 

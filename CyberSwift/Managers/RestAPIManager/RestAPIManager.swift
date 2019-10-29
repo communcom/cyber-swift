@@ -18,27 +18,6 @@ public class RestAPIManager {
     public static let instance = RestAPIManager()
     
     // MARK: - FACADE-SERVICE
-    // API `content.resolveProfile`
-    public func resolveProfile(username: String) -> Single<ResponseAPIContentResolveProfile> {
-        let methodAPIType = MethodAPIType.resolveProfile(username: username)
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
-    }
-    
-    // API `content.getProfile`
-    public func getProfile(
-        user:        String? = nil,
-        appProfileType:  AppProfileType = .cyber
-    ) -> Single<ResponseAPIContentGetProfile> {
-        
-        if user == nil {
-            return .error(ErrorAPI.requestFailed(message: "userID or username is missing"))
-        }
-        
-        let methodAPIType = MethodAPIType.getProfile(user: user)
-
-        return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
-    }
-
     // API `content.getPosts`
     public func getPosts(
         userId:         String? = Config.currentUser?.id,
@@ -59,31 +38,6 @@ public class RestAPIManager {
     public func loadPost(permlink: String, communityId: String) -> Single<ResponseAPIContentGetPost> {
         
         let methodAPIType = MethodAPIType.getPost(permlink: permlink, communityId: communityId)
-        
-        return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
-    }
-    
-    // API `content.getComments` by user
-    public func loadUserComments(
-        sortBy: CommentSortMode = .time,
-        offset: UInt            = 0,
-        limit: UInt             = UInt(Config.paginationLimit),
-        userId: String?
-    ) -> Single<ResponseAPIContentGetComments> {
-        guard let userId = userId ?? Config.currentUser?.id else {
-            return .error(ErrorAPI.unauthorized)
-        }
-        
-        let methodAPIType = MethodAPIType.getComments(
-            sortBy: sortBy,
-            offset: offset,
-            limit: limit,
-            type: .user,
-            userId: userId,
-            permlink: nil,
-            communityId: nil,
-            communityAlias: nil,
-            parentComment: nil)
         
         return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
     }
@@ -136,64 +90,6 @@ public class RestAPIManager {
             .flatMapToCompletable()
     }
     
-    // API `push.historyFresh`
-    public func getPushHistoryFresh() -> Single<ResponseAPIPushHistoryFresh> {
-        
-        let methodAPIType = MethodAPIType.getPushHistoryFresh
-        
-        return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
-    }
-    
-    // API `onlineNotify.history`
-    public func getOnlineNotifyHistory(
-        fromId:              String? = nil,
-        paginationLimit:     Int8 = Config.paginationLimit,
-        markAsViewed:        Bool = false,
-        freshOnly:           Bool = false
-    ) -> Single<ResponseAPIOnlineNotifyHistory> {
-        
-        let methodAPIType = MethodAPIType.getOnlineNotifyHistory(fromId: fromId, paginationLimit: paginationLimit, markAsViewed: markAsViewed, freshOnly: freshOnly)
-        
-        return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
-    }
-    
-    // API `onlineNotify.historyFresh`
-    public func getOnlineNotifyHistoryFresh() -> Single<ResponseAPIOnlineNotifyHistoryFresh> {
-        
-        let methodAPIType = MethodAPIType.getOnlineNotifyHistoryFresh
-        
-        return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
-    }
-    
-    // API `notify.markAllAsViewed`
-    public func notifyMarkAllAsViewed() -> Single<ResponseAPINotifyMarkAllAsViewed> {
-        
-        let methodAPIType = MethodAPIType.notifyMarkAllAsViewed
-        
-        return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
-    }
-    
-    // API `notify.markAsRead`
-    public func markAsRead(notifies: [String]) -> Single<ResponseAPIMarkNotifiesAsRead> {
-        
-        // Check user authorize
-        guard Config.currentUser?.id != nil else { return .error(ErrorAPI.unauthorized)}
-
-        let methodAPIType = MethodAPIType.markAsRead(notifies: notifies)
-        
-        return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
-    }
-    
-    // API basic `options.set`
-    public func setBasicOptions(nsfwContent: NsfwContentMode) -> Single<ResponseAPISetOptionsBasic> {
-        // Check user authorize
-        guard Config.currentUser?.id != nil else { return .error(ErrorAPI.unauthorized)}
-
-        let methodAPIType = MethodAPIType.setBasicOptions(nsfw: nsfwContent.rawValue)
-        
-        return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
-    }
-    
     // API `meta.recordPostView`
     public func recordPostView(permlink: String) -> Single<ResponseAPIMetaRecordPostView> {
         // Check user authorize
@@ -204,46 +100,7 @@ public class RestAPIManager {
         return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
     }
     
-    // API `favorites.get`
-    public func getFavorites() -> Single<ResponseAPIGetFavorites> {
-        // Check user authorize
-        guard Config.currentUser?.id != nil else { return .error(ErrorAPI.unauthorized)}
-
-        let methodAPIType = MethodAPIType.getFavorites
-        
-        return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
-    }
-
-    // API `favorites.add`
-    public func addFavorites(permlink: String) -> Single<ResponseAPIAddFavorites> {
-        // Check user authorize
-        guard Config.currentUser?.id != nil else { return .error(ErrorAPI.unauthorized)}
-
-        let methodAPIType = MethodAPIType.addFavorites(permlink: permlink)
-        
-        return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
-    }
-
-    // API `favorites.remove`
-    public func removeFavorites(permlink: String) -> Single<ResponseAPIRemoveFavorites> {
-        // Check user authorize
-        guard Config.currentUser?.id != nil else { return .error(ErrorAPI.unauthorized)}
-        
-        let methodAPIType = MethodAPIType.removeFavorites(permlink: permlink)
-        
-        return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
-    }
     
-    // MARK: - Subscribers
-    public func getSubscribers(
-        userId: String?         = Config.currentUser?.id,
-        communityId: String?    = nil,
-        offset: Int             = 0,
-        limit: Int              = 10
-    ) -> Single<ResponseAPIContentGetSubscribers> {
-        let methodAPIType = MethodAPIType.getSubscribers(userId: userId, communityId: communityId, offset: offset, limit: limit)
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
-    }
 
     //  MARK: - Contract `gls.social`
     /// Posting image
