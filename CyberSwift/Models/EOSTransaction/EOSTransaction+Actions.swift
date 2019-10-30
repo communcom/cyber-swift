@@ -27,6 +27,8 @@ extension EOSTransaction {
                                                            blockIdDetails:      BlockIdDetails(blockId: info.body!.head_block_id),
                                                            actions:             actions)
             
+            Logger.log(message: transactionAbi.convertToJSON(), event: .debug)
+            
             let signedTransactionAbi = SignedTransactionAbi(chainId:            ChainIdWriterValue(chainId: info.body!.chain_id),
                                                             transaction:        transactionAbi,
                                                             context_free_data:  HexCollectionWriterValue(value: []))
