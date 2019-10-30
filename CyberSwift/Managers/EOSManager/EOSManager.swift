@@ -17,11 +17,19 @@ import eosswift
 import Foundation
 import RxSwift
 
+
 enum TransactionAccountType: String {
-    case comnGallery = "commun.gallery"
-    case comnSocial = "commun.social"
-    case comnCtrl = "commun.ctrl"
-    case comnList = "commun.list"
+    static let prefix = "c"
+    case point          = "point"
+    case ctrl           = "ctrl"
+    case emit           = "emit"
+    case list           = "list"
+    case gallery        = "gallery"
+    case social         = "social"
+    
+    var stringValue: String {
+        return TransactionAccountType.prefix + "." + rawValue
+    }
 }
 
 public struct ProviderArgs: Encodable {
@@ -104,7 +112,7 @@ class EOSManager {
             permission:   AccountNameWriterValue(name:    "active"))
         
         let action = ActionAbi(
-            account: AccountNameWriterValue(name: account.rawValue),
+            account: AccountNameWriterValue(name: account.stringValue),
             name: AccountNameWriterValue(name: name),
             authorization: [transactionAuthorizationAbi],
             data: data)
@@ -159,7 +167,7 @@ class EOSManager {
         
         let createNewAccountArgsData = DataWriterValue(hex: createNewAccountArgs.toHex())
         
-        return pushAuthorized(account: .comnGallery, name: "newaccount", data: createNewAccountArgsData)
+        return pushAuthorized(account: .gallery, name: "newaccount", data: createNewAccountArgsData)
     }
     
     static func vote(voteType:  VoteActionType,
@@ -181,7 +189,7 @@ class EOSManager {
         
         let voteArgsData = DataWriterValue(hex: voteArgs.toHex())
         
-        return pushAuthorized(account: .comnGallery, name: voteType.rawValue, data: voteArgsData)
+        return pushAuthorized(account: .gallery, name: voteType.rawValue, data: voteArgsData)
             .flatMapToCompletable()
     }
     
@@ -191,7 +199,7 @@ class EOSManager {
         let messageCreateArgsData = DataWriterValue(hex: messageCreateArgs.toHex())
         
         // send transaction
-        return pushAuthorized(account: .comnGallery, name: "createmssg", data: messageCreateArgsData)
+        return pushAuthorized(account: .gallery, name: "create", data: messageCreateArgsData)
     }
     
     
@@ -201,7 +209,7 @@ class EOSManager {
         
         
         // Send transaction
-        return pushAuthorized(account: .comnGallery, name: "deletemssg", data: messageDeleteArgsData)
+        return pushAuthorized(account: .gallery, name: "remove", data: messageDeleteArgsData)
             .flatMapToCompletable()
     }
     
@@ -210,7 +218,7 @@ class EOSManager {
         let messageUpdateArgsData = DataWriterValue(hex: messageArgs.toHex())
         
         // Send transaction
-        return pushAuthorized(account: .comnGallery, name: "updatemssg", data: messageUpdateArgsData)
+        return pushAuthorized(account: .gallery, name: "update", data: messageUpdateArgsData)
     }
     
     static func updateUserProfile(changereputArgs: EOSTransaction.UserProfileChangereputArgs) -> Single<String> {
@@ -218,7 +226,7 @@ class EOSManager {
         let changereputArgsData = DataWriterValue(hex: changereputArgs.toHex())
         
         // Send transaction
-        return pushAuthorized(account: .comnGallery, name: "changereput", data: changereputArgsData)
+        return pushAuthorized(account: .gallery, name: "changereput", data: changereputArgsData)
     }
     
     static func reblog(args: EOSTransaction.ReblogArgs) -> Single<String> {
@@ -226,7 +234,7 @@ class EOSManager {
         let reblogArgsData = DataWriterValue(hex: args.toHex())
         
         // Send transaction
-        return pushAuthorized(account: .comnGallery, name: "reblog", data: reblogArgsData)
+        return pushAuthorized(account: .gallery, name: "reblog", data: reblogArgsData)
     }
     
     // MARK: - Contract `gls.vesting`
@@ -244,7 +252,7 @@ class EOSManager {
         let pinArgsData = DataWriterValue(hex: pinArgs.toHex())
         
         // Send transaction
-        return pushAuthorized(account: .comnSocial, name: isUnpin ? "unpin": "pin", data: pinArgsData)
+        return pushAuthorized(account: .social, name: isUnpin ? "unpin": "pin", data: pinArgsData)
     }
     
     static func updateUserProfile(blockArgs: EOSTransaction.UserProfileBlockArgs, isUnblock: Bool) -> Single<String> {
@@ -252,7 +260,7 @@ class EOSManager {
         let blockArgsData = DataWriterValue(hex: blockArgs.toHex())
         
         // Send transaction
-        return pushAuthorized(account: .comnSocial, name: isUnblock ? "unblock": "block", data: blockArgsData)
+        return pushAuthorized(account: .social, name: isUnblock ? "unblock": "block", data: blockArgsData)
     }
     
     static func update(userProfileMetaArgs: EOSTransaction.UserProfileUpdatemetaArgs) -> Single<String> {
@@ -262,7 +270,7 @@ class EOSManager {
         let userProfileUpdatemetaArgsData = DataWriterValue(hex: userProfileMetaArgs.toHex())
         
         // Send transaction
-        return pushAuthorized(account: .comnSocial, name: "updatemeta", data: userProfileUpdatemetaArgsData)
+        return pushAuthorized(account: .social, name: "updatemeta", data: userProfileUpdatemetaArgsData)
     }
     
     static func delete(userProfileMetaArgs: EOSTransaction.UserProfileDeleteArgs) -> Single<String> {
@@ -270,7 +278,7 @@ class EOSManager {
         let userProfileDeletemetaArgsData = DataWriterValue(hex: userProfileMetaArgs.toHex())
         
         // Send transaction
-        return pushAuthorized(account: .comnSocial, name: "deletemeta", data: userProfileDeletemetaArgsData)
+        return pushAuthorized(account: .social, name: "deletemeta", data: userProfileDeletemetaArgsData)
     }
     
     // MARK: - Contract `gls.ctrl`
@@ -279,7 +287,7 @@ class EOSManager {
         let regwithessArgsData = DataWriterValue(hex: witnessArgs.toHex())
         
         // Send transaction
-        return pushAuthorized(account: .comnCtrl, name: "regwitness", data: regwithessArgsData)
+        return pushAuthorized(account: .ctrl, name: "regwitness", data: regwithessArgsData)
     }
     
     static func vote(witnessArgs: EOSTransaction.VotewitnessArgs) -> Single<String> {
@@ -287,7 +295,7 @@ class EOSManager {
         let votewithessArgsData = DataWriterValue(hex: witnessArgs.toHex())
         
         // Send transaction
-        return pushAuthorized(account: .comnCtrl, name: "votewitness", data: votewithessArgsData)
+        return pushAuthorized(account: .ctrl, name: "votewitness", data: votewithessArgsData)
     }
     
     static func unvote(witnessArgs: EOSTransaction.UnvotewitnessArgs) -> Single<String> {
@@ -295,7 +303,7 @@ class EOSManager {
         let unvotewithessArgsData = DataWriterValue(hex: witnessArgs.toHex())
         
         // Send transaction
-        return pushAuthorized(account: .comnCtrl, name: "unvotewitn", data: unvotewithessArgsData)
+        return pushAuthorized(account: .ctrl, name: "unvotewitn", data: unvotewithessArgsData)
     }
     
     static func unreg(witnessArgs: EOSTransaction.UnregwitnessArgs) -> Single<String> {
@@ -303,6 +311,6 @@ class EOSManager {
         let unregwithessArgsData = DataWriterValue(hex: witnessArgs.toHex())
         
         // Send transaction
-        return pushAuthorized(account: .comnCtrl, name: "unregwitness", data: unregwithessArgsData)
+        return pushAuthorized(account: .ctrl, name: "unregwitness", data: unregwithessArgsData)
     }
 }

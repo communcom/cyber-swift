@@ -16,7 +16,7 @@ extension EOSManager {
         let followArgsData = DataWriterValue(hex: followArgs.toHex())
         
         // Send transaction
-        return pushAuthorized(account: .comnList, name: "follow", data: followArgsData)
+        return pushAuthorized(account: .list, name: "follow", data: followArgsData)
     }
     
     static func unfollowCommunity(_ unfollowArgs: EOSTransaction.CommunListUnfollowArgs) -> Single<String> {
@@ -24,6 +24,6 @@ extension EOSManager {
         let unfollowArgsData = DataWriterValue(hex: unfollowArgs.toHex())
         
         // Send transaction
-        return pushAuthorized(account: .comnList, name: "unfollow", data: unfollowArgsData)
+        return pushAuthorized(account: .list, name: "unfollow", data: unfollowArgsData)
     }
 }

@@ -20,7 +20,7 @@ extension Reactive where Base: RestAPIManager {
             .map { result in
                 // save state
                 var dataToSave = [String: Any]()
-                if let id = userId ?? result.user {
+                if let id = userId {
                     dataToSave[Config.currentUserIDKey] = id
                 } else if let phone = phone {
                     dataToSave[Config.registrationUserPhoneKey] = phone
@@ -41,8 +41,8 @@ extension Reactive where Base: RestAPIManager {
         return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationFirstStep>)
             .map {result in
                 try KeychainManager.save([
-                    Config.registrationStepKey: CurrentUserRegistrationStep.verify.rawValue,
-                    Config.registrationUserPhoneKey: phone.trimSpaces(),
+                    Config.registrationStepKey:         CurrentUserRegistrationStep.verify.rawValue,
+                    Config.registrationUserPhoneKey:    phone.trimSpaces(),
                     Config.registrationSmsNextRetryKey: result.nextSmsRetry
                 ])
                 
