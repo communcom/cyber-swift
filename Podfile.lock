@@ -59,7 +59,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   eosswift:
-    :commit: 9bca6a1a65f03f8739ba289afb7594b49e7abbd6
+    :commit: d919b66d452de46568b94745451111123af80ca9
     :git: https://github.com/communcom/eos-swift.git
   GoloCrypto:
     :commit: c40a95682df32420b70d45e43590d9ef096de124
