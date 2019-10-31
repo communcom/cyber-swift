@@ -35,7 +35,6 @@ extension Reactive where Base: RestAPIManager {
     
     /// First step of registration
     public func firstStep(phone: String) -> Single<ResponseAPIRegistrationFirstStep> {
-        
         let methodAPIType = MethodAPIType.firstStep(phone: phone.trimSpaces(), isDebugMode: base.isDebugMode)
         
         return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationFirstStep>)
@@ -52,9 +51,7 @@ extension Reactive where Base: RestAPIManager {
     
     /// Verify code
     public func verify(code: UInt64) -> Single<ResponseAPIRegistrationVerify> {
-        
-        guard let phone = Config.currentUser?.phoneNumber
-        else {
+        guard let phone = Config.currentUser?.phoneNumber else {
             Logger.log(message: "Phone missing for user: \(String(describing: Config.currentUser))", event: .error)
             return .error(ErrorAPI.requestFailed(message: "Phone missing"))
         }
@@ -62,8 +59,7 @@ extension Reactive where Base: RestAPIManager {
         let methodAPIType = MethodAPIType.verify(phone: phone.trimSpaces(), code: code)
         
         return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationVerify>)
-            .map {result in
-                
+            .map { result in
                 try KeychainManager.save([
                     Config.registrationStepKey: CurrentUserRegistrationStep.setUserName.rawValue,
                     Config.registrationSmsCodeKey: code
@@ -76,7 +72,6 @@ extension Reactive where Base: RestAPIManager {
     
     /// Resend sms code
     public func resendSmsCode() -> Single<ResponseAPIResendSmsCode> {
-        
         guard let phone = Config.currentUser?.phoneNumber else {
             Logger.log(message: "Phone missing for user: \(String(describing: Config.currentUser))", event: .error)
             return .error(ErrorAPI.requestFailed(message: "Phone missing"))
@@ -86,10 +81,8 @@ extension Reactive where Base: RestAPIManager {
         
         return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIResendSmsCode>)
             .map {result in
-                
                 try KeychainManager.save([
-                    Config.registrationStepKey: CurrentUserRegistrationStep.verify.rawValue,
-                    Config.registrationSmsCodeKey: result.code,
+                    Config.registrationStepKey:         result.currentState,
                     Config.registrationSmsNextRetryKey: result.nextSmsRetry
                 ])
                 
@@ -99,7 +92,6 @@ extension Reactive where Base: RestAPIManager {
     
     /// set userName
     public func setUserName(_ name: String) -> Single<ResponseAPIRegistrationSetUsername> {
-        
         guard let phone = Config.currentUser?.phoneNumber else {
             Logger.log(message: "Phone missing for user: \(String(describing: Config.currentUser))", event: .error)
             return .error(ErrorAPI.requestFailed(message: "Phone missing"))
@@ -111,48 +103,44 @@ extension Reactive where Base: RestAPIManager {
             .map {result in
                 
                 try KeychainManager.save([
-                    Config.registrationStepKey: CurrentUserRegistrationStep.toBlockChain.rawValue,
-                    Config.currentUserNameKey: name
+                    Config.registrationStepKey:         CurrentUserRegistrationStep.toBlockChain.rawValue,
+                    Config.registrationUserPhoneKey:    phone.trimSpaces(),
+                    Config.currentUserNameKey:          name,
+                    Config.currentUserIDKey:            result.userId,
                 ])
-                
+
                 return result
         }
     }
     
     /// Save user to blockchain
     public func toBlockChain() -> Completable {
-        
-        guard let id = Config.currentUser?.id,
-            let name = Config.currentUser?.name else {
+        guard let userName = Config.currentUser?.name, let userID = Config.currentUser?.id, let userPhone = Config.currentUser?.phoneNumber else {
             Logger.log(message: "username missing for user: \(String(describing: Config.currentUser))", event: .error)
             return .error(ErrorAPI.requestFailed(message: "userId missing"))
         }
         
         let masterKey = String.randomString(length: 51)
-        let userkeys = generateKeys(userId: id, masterKey: masterKey)
-        
-        let methodAPIType = MethodAPIType.toBlockChain(user: name, keys: userkeys)
+        let userkeys = generateKeys(userId: userID, masterKey: masterKey)
+        let methodAPIType = MethodAPIType.toBlockChain(phone: userPhone, userID: userID, userName: userName, keys: userkeys)
         
         return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationToBlockChain>)
-            .map {result -> ResponseAPIRegistrationToBlockChain in
-                
+            .log(method: "registration.toBlockChain")
+            .map { result -> ResponseAPIRegistrationToBlockChain in
                 try KeychainManager.save([
-                    Config.registrationStepKey: CurrentUserRegistrationStep.registered.rawValue,
-                    Config.currentUserNameKey: result.username,
-                    Config.currentUserIDKey: result.userId,
-                    Config.currentUserMasterKey: masterKey
+                    Config.registrationStepKey:     CurrentUserRegistrationStep.registered.rawValue,
+                    Config.currentUserNameKey:      userName,
+                    Config.currentUserIDKey:        result.userId,
+                    Config.currentUserMasterKey:    masterKey
                 ])
                 
                 try KeychainManager.save(userkeys: userkeys)
                 
                 return result
-            }
-//            .flatMap {_ in
-//                return self.authorize()
-//            }
-            .flatMapToCompletable()
+        }
+        .flatMapToCompletable()
     }
-    
+        
     /// Set passcode
     public func setPasscode(_ passcode: String, onBoarding: Bool = true) throws {
         guard passcode.count == 4, Int(passcode) != nil else {return}

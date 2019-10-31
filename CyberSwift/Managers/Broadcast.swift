@@ -139,8 +139,9 @@ extension Broadcast {
         
         return SocketManager.shared.sendRequest(methodAPIType: requestMethodAPIType)
             .catchError({ (error) -> Single<T> in
-                if let error = error as? ErrorAPI {
-                    let message = error.caseInfo.message
+                if let errorAPI = error as? ErrorAPI {
+                    let message = errorAPI.caseInfo.message
+                    
                     if message == "Unauthorized request: access denied" {
                         return RestAPIManager.instance.rx.authorize()
                             .flatMap {_ in self.executeGetRequest(methodAPIType: methodAPIType)}
@@ -152,10 +153,14 @@ extension Broadcast {
                         return RestAPIManager.instance.rx.generateSecret()
                             .andThen(self.executeGetRequest(methodAPIType: methodAPIType))
                     }
+                    
+                    if message == "Invalid step taken" {
+                        throw ErrorAPI.registrationRequestFailed(message: message, currentStep: "currentState")
+                    }
                 }
-                
-                if let error = error as? RxError {
-                    switch error {
+                                
+                if let errorRx = error as? RxError {
+                    switch errorRx {
                     case .timeout:
                         throw ErrorAPI.requestFailed(message: "Request has timed out")
                     default:

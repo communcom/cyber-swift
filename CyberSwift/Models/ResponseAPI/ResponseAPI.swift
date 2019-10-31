@@ -101,36 +101,42 @@ public struct ResponseAPIRegistrationGetState: Decodable {
 
 
 // MARK: - API `registration.firstStep`
+// {"jsonrpc":"2.0","id":1,"result":{"code":1234,"nextSmsRetry":"2019-10-30T09:51:27.649Z","currentState":"verify"}}
 public struct ResponseAPIRegistrationFirstStep: Decodable {
     public let code: UInt64?
-    public let strategy: String
+    public let currentState: String
     public let nextSmsRetry: String
 }
 
 
 // MARK: - API `registration.verify`
+// {"jsonrpc":"2.0","id":3,"result":{"currentState":"setUsername"}}
 public struct ResponseAPIRegistrationVerify: Decodable {
-    public let status: String
+    public let currentState: String
 }
 
 
 // MARK: - API `registration.setUsername`
+// {"jsonrpc":"2.0","id":3,"result":{"userId":"tst5osiwjzpx","currentState":"toBlockChain"}}
 public struct ResponseAPIRegistrationSetUsername: Decodable {
-    public let status: String
+    public let userId: String
+    public let currentState: String
 }
 
 
 // MARK: - API `registration.resendSmsCode`
+// {"jsonrpc":"2.0","id":3,"result":{"nextSmsRetry":"2019-10-30T10:05:08.338Z","currentState":"verify"}}
 public struct ResponseAPIResendSmsCode: Decodable {
     public let nextSmsRetry: String
-    public let code: UInt64
+    public let currentState: String
 }
 
 
 // MARK: - API `registration.toBlockChain`
+// {"jsonrpc":"2.0","id":3,"result":{"userId":"tst5gtbbviic","currentState":"toBlockChain"}}
 public struct ResponseAPIRegistrationToBlockChain: Decodable {
     public let userId: String
-    public let username: String
+    public let currentState: String
 }
 
 

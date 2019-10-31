@@ -199,10 +199,11 @@ public indirect enum MethodAPIType {
     case setUser(name: String, phone: String)
 
     //  Re-send of the confirmation code (for the smsToUser strategy)
-    case resendSmsCode(phone: String, isDebugMode: Bool)
+    case resendSmsCode(phone: String)
     
     //  The last step of registration, entry in the blockchain
-    case toBlockChain(user: String, keys: [String: UserKeys])
+//    case toBlockChain(user: String, keys: [String: UserKeys])
+    case toBlockChain(phone: String, userID: String, userName: String, keys: [String: UserKeys])
 
     /// CHAIN-SERVICE
     case bandwidthProvide(chainID: String, transaction: RequestAPITransaction)
@@ -550,9 +551,10 @@ public indirect enum MethodAPIType {
             var parameters = ["phone": phoneValue]
 
             if isDebugMode {
-                parameters["testingPass"] = Config.testingPassword
+                parameters["testingPass"]   =   Config.testingPassword
+                parameters["captcha"]       =   ""
             }
-            
+
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.registration.rawValue,
                      methodName:        "firstStep",
@@ -565,52 +567,38 @@ public indirect enum MethodAPIType {
                      methodName:        "verify",
                      parameters:        ["phone": phoneValue, "code": codeValue])
             
-        //  { "id": 4, "jsonrpc": "2.0", "method": "registration.setUsername", "params": { "user": "tester", "phone": "+70000000000" }}
+        //  { "id": 4, "jsonrpc": "2.0", "method": "registration.setUsername", "params": { "username": "tester", "phone": "+70000000000" }}
         case .setUser(let name, let phoneValue):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.registration.rawValue,
                      methodName:        "setUsername",
-                     parameters:        ["phone": phoneValue, "user": name])
+                     parameters:        ["phone": phoneValue, "username": name])
 
         //  Debug template      { "id": 5, "jsonrpc": "2.0", "method": "registration.resendSmsCode", "params": { "phone": "+70000000000", "testingPass": "DpQad16yDlllEy6" }}
         //  Release template    { "id": 5, "jsonrpc": "2.0", "method": "registration.resendSmsCode", "params": { "phone": "+70000000000" }}
-        case .resendSmsCode(let phoneValue, let isDebugMode):
-            var parameters = ["phone": phoneValue]
-            
-            if isDebugMode {
-                parameters["testingPass"] = Config.testingPassword
-            }
-            
+        case .resendSmsCode(let phoneValue):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.registration.rawValue,
                      methodName:        "resendSmsCode",
-                     parameters:        parameters)
+                     parameters:        ["phone": phoneValue])
 
-            //  Template    { "id": 6, "jsonrpc": "2.0", "method": "registration.toBlockChain", "params": { "user": "tester", "owber": "5HtBPHEhgRmZpAR7EtF3NwG5wVzotNGHBBFo8CF6kucwqeiatpw", "active": "5K4bqcDKtveY8JA3saNkqmCsv18JQsxKf7LGU27nLPzigCmCK69", "posting": "5KPcWDsxka9MEZYBspFqFJueq2L7hgFxWTNkhxoqf1iFYJwZXYD", "memo": "5Kgn17ZFaJVzYVY3Mc8H99MuwqhECA7EWwkbDC7EZgFAjHAEtvS" }}
-        case .toBlockChain(let user, let keysValues):
-            var parameters = ["user": user]
+        //  Template    { "id": 6, "jsonrpc": "2.0", "method": "registration.toBlockChain", "params": { "user": "tester", "owber": "5HtBPHEhgRmZpAR7EtF3NwG5wVzotNGHBBFo8CF6kucwqeiatpw", "active": "5K4bqcDKtveY8JA3saNkqmCsv18JQsxKf7LGU27nLPzigCmCK69", "posting": "5KPcWDsxka9MEZYBspFqFJueq2L7hgFxWTNkhxoqf1iFYJwZXYD", "memo": "5Kgn17ZFaJVzYVY3Mc8H99MuwqhECA7EWwkbDC7EZgFAjHAEtvS" }}
+        case .toBlockChain(let phoneValue, let userIdValue, let userNameValue, let keysValues):
+            var parameters = ["phone": phoneValue, "userId": userIdValue, "username": userNameValue]
 
             if let ownerUserKey = keysValues["owner"] {
-                parameters["owner"] = ownerUserKey.publicKey
+                parameters["publicOwnerKey"] = ownerUserKey.publicKey
             }
 
             if let activeUserKey = keysValues["active"] {
-                parameters["active"] = activeUserKey.publicKey
+                parameters["publicActiveKey"] = activeUserKey.publicKey
             }
 
-            if let postingUserKey = keysValues["posting"] {
-                parameters["posting"] = postingUserKey.publicKey
-            }
-
-            if let memoUserKey = keysValues["memo"] {
-                parameters["memo"] = memoUserKey.publicKey
-            }
-            
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.registration.rawValue,
-                     methodName:        "toBlockChain",
+                     methodName:        CurrentUserRegistrationStep.toBlockChain.rawValue,
                      parameters:        parameters)
-            
+
             
         // Template: missing
         case .bandwidthProvide(let chainID, let transaction):
