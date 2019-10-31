@@ -34,6 +34,12 @@ public struct ResponseAPIContentGetCommunityRule: Decodable {
     public let id: String?
     public let title: String?
     public let text: String?
+    
+    public init(id: String?, title: String?, text: String?) {
+        self.id = id
+        self.title = title
+        self.text = text
+    }
 }
 
 // MARK: - API `content.getLeaders`
