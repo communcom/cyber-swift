@@ -143,4 +143,6 @@ public struct ResponseAPIContentGetSubscriptionsCommunity: Decodable {
     public let name: String
     public let code: String?
     public var isSubscribed: Bool?
+    public let avatarUrl: String?
+    public let coverUrl: String?
 }
