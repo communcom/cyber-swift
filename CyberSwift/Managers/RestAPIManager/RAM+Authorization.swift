@@ -77,10 +77,10 @@ extension Reactive where Base: RestAPIManager {
             return .error(ErrorAPI.requestFailed(message: "Phone missing"))
         }
         
-        let methodAPIType = MethodAPIType.resendSmsCode(phone: phone.trimSpaces(), isDebugMode: base.isDebugMode)
+        let methodAPIType = MethodAPIType.resendSmsCode(phone: phone.trimSpaces())
         
         return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIResendSmsCode>)
-            .map {result in
+            .map { result in
                 try KeychainManager.save([
                     Config.registrationStepKey:         result.currentState,
                     Config.registrationSmsNextRetryKey: result.nextSmsRetry
@@ -100,7 +100,7 @@ extension Reactive where Base: RestAPIManager {
         let methodAPIType = MethodAPIType.setUser(name: name, phone: phone.trimSpaces())
         
         return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationSetUsername>)
-            .map {result in
+            .map { result in
                 
                 try KeychainManager.save([
                     Config.registrationStepKey:         CurrentUserRegistrationStep.toBlockChain.rawValue,
