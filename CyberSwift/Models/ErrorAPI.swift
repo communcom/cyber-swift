@@ -14,6 +14,7 @@ public enum ErrorAPI: Error {
     case blockchain(message: String)
     case invalidData(message: String)
     case requestFailed(message: String)
+    case registrationRequestFailed(message: String, currentStep: String)
     case jsonParsingFailure(message: String)
     case responseUnsuccessful(message: String)
     case jsonConversionFailure(message: String)
@@ -36,6 +37,9 @@ public enum ErrorAPI: Error {
         case .requestFailed(let message):
             return (title: "Request Failed".localized(), message: message, code: 100)
             
+        case .registrationRequestFailed(let message, let currentStep):
+            return (title: currentStep, message: message, code: 100)
+
         case .responseUnsuccessful(let message):
             return (title: "Response Unsuccessful".localized(), message: message, code: 100)
             
