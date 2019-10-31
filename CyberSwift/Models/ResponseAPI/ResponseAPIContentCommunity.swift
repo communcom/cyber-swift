@@ -30,6 +30,12 @@ public struct ResponseAPIContentGetCommunity: Decodable {
     public let friends: [ResponseAPIContentResolveProfile]?
 }
 
+public struct ResponseAPIContentGetCommunityRule: Decodable {
+    public let id: String?
+    public let title: String?
+    public let text: String?
+}
+
 // MARK: - API `content.getLeaders`
 public struct ResponseAPIContentGetLeaders: Decodable {
     public let items: [ResponseAPIContentGetLeader]
