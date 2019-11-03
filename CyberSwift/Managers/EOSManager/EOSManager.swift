@@ -86,9 +86,12 @@ class EOSManager {
     // MARK: - Helpers
     static func signWebSocketSecretKey(userActiveKey: String) -> String? {
         do {
+            guard let data = Config.webSocketSecretKey?.data(using: .utf8) else {
+                throw ErrorAPI.blockchain(message: "secret key not found")
+            }
             let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
             
-            let signature = PrivateKeySigning().sign(digest:            Config.webSocketSecretKey.data(using: .utf8)!,
+            let signature = PrivateKeySigning().sign(digest:            data,
                                                      eosPrivateKey:     privateKey)
             
             return signature

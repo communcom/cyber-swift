@@ -49,7 +49,14 @@ public struct Config {
     static let imageHost: String                        =   "https://img.golos.io/upload"
     
     /// Websocket
-    public static var webSocketSecretKey: String        =   "Cyberway"
+    public static var webSocketSecretKey: String? {
+        get {
+            return UserDefaults.standard.string(forKey: "webSocketSecretKey")
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "webSocketSecretKey")
+        }
+    }
     
     public static var currentUser: CurrentUser? {
         return KeychainManager.currentUser()
