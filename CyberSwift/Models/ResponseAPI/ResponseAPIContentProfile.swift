@@ -133,7 +133,7 @@ public struct ResponseAPIContentGetSubscriptionsUser: Decodable {
     public let userId: String
     public let username: String
     public let avatarUrl: String
-    public let subscribersCount: UInt64?
+    public var subscribersCount: UInt64?
     public let postsCount: UInt64?
     public var isSubscribed: Bool?
 }
