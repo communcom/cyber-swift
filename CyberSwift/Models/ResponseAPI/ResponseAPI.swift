@@ -264,6 +264,13 @@ public struct ResponseAPIGetOptionsNotifyShow: Decodable {
     public var curatorReward: Bool
     public var witnessVote: Bool
     public var witnessCancelVote: Bool
+    
+    public static var allOn: ResponseAPIGetOptionsNotifyShow {
+        ResponseAPIGetOptionsNotifyShow(upvote: true, downvote: true, transfer: true, reply: true, subscribe: true, unsubscribe: true, mention: true, repost: true, reward: true, curatorReward: true, witnessVote: true, witnessCancelVote: true)
+    }
+    public static var allOff: ResponseAPIGetOptionsNotifyShow {
+        ResponseAPIGetOptionsNotifyShow(upvote: false, downvote: false, transfer: false, reply: false, subscribe: false, unsubscribe: false, mention: false, repost: false, reward: false, curatorReward: false, witnessVote: false, witnessCancelVote: false)
+    }
 }
 
 public struct ResponseAPIGetOptionsNotifyPush: Decodable {
