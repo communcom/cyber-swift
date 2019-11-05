@@ -14,7 +14,7 @@ public struct ResponseAPIContentGetCommunities: Decodable {
 }
 
 // MARK: - API `content.getCommunity`
-public struct ResponseAPIContentGetCommunity: Decodable {
+public struct ResponseAPIContentGetCommunity: Decodable, Equatable {
     public var subscribersCount: UInt64?
     public let communityId: String
     public let alias: String?
@@ -30,7 +30,7 @@ public struct ResponseAPIContentGetCommunity: Decodable {
     public let friends: [ResponseAPIContentResolveProfile]?
 }
 
-public struct ResponseAPIContentGetCommunityRule: Decodable {
+public struct ResponseAPIContentGetCommunityRule: Decodable, Equatable {
     public let id: String?
     public let title: String?
     public let text: String?

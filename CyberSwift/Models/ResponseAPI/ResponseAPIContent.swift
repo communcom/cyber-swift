@@ -14,7 +14,7 @@ public struct ResponseAPIContentGetPosts: Decodable {
     public let sequenceKey: String?
 }
 
-public struct ResponseAPIContentGetPost: Decodable {
+public struct ResponseAPIContentGetPost: Decodable, Equatable {
     public var document: ResponseAPIContentBlock?
     public var votes: ResponseAPIContentVotes
     public let meta: ResponseAPIContentMeta
@@ -135,14 +135,14 @@ public struct ResponseAPIContentEmbedResult: Decodable {
     public let content_length: UInt64?
 }
 
-public struct ResponseAPIContentVotes: Decodable {
+public struct ResponseAPIContentVotes: Decodable, Equatable {
     public var upCount: Int64?
     public var downCount: Int64?
     public var hasUpVote: Bool? = false
     public var hasDownVote: Bool? = false
 }
 
-public struct ResponseAPIContentGetPostStats: Decodable {
+public struct ResponseAPIContentGetPostStats: Decodable, Equatable {
     public let wilson: ResponseAPIContentGetPostStatsWilson?
     public var commentsCount: UInt64
     public let rShares: Conflicted?
@@ -151,22 +151,22 @@ public struct ResponseAPIContentGetPostStats: Decodable {
     public let viewCount: UInt64?
 }
 
-public struct ResponseAPIContentGetPostStatsWilson: Decodable {
+public struct ResponseAPIContentGetPostStatsWilson: Decodable, Equatable {
     public let hot: Double
     public let trending: Double
 }
 
-public struct ResponseAPIContentGetPostPayout: Decodable {
+public struct ResponseAPIContentGetPostPayout: Decodable, Equatable {
     public let rShares: Conflicted?
 }
 
-public struct ResponseAPIContentId: Decodable {
+public struct ResponseAPIContentId: Decodable, Equatable {
     public let userId: String
     public let permlink: String
     public let communityId: String?
 }
 
-public struct ResponseAPIContentMeta: Decodable {
+public struct ResponseAPIContentMeta: Decodable, Equatable {
     public let creationTime: String
 }
 
@@ -204,7 +204,7 @@ public struct ResponseAPIContentGetCommentPayout: Decodable {
     public let rShares: UInt64?
 }
 
-public struct ResponseAPIAuthor: Decodable {
+public struct ResponseAPIAuthor: Decodable, Equatable {
     public let userId: String
     public let username: String?
     public let avatarUrl: String?
@@ -212,7 +212,7 @@ public struct ResponseAPIAuthor: Decodable {
     public var isSubscribed: Bool?
 }
 
-public struct ResponseAPIAuthorStats: Decodable {
+public struct ResponseAPIAuthorStats: Decodable, Equatable {
     public let reputation: Int64?
 }
 

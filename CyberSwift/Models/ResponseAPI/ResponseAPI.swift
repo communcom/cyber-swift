@@ -16,7 +16,7 @@ public struct ResponseAPIResult<T: Decodable>: Decodable {
 }
 
 /// [Multiple types](https://stackoverflow.com/questions/46759044/swift-structures-handling-multiple-types-for-a-single-property)
-public struct Conflicted: Codable {
+public struct Conflicted: Codable, Equatable {
     public let stringValue: String?
     
     // Where we determine what type the value is

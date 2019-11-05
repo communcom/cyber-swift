@@ -9,7 +9,7 @@
 import Foundation
 
 // MARK: - API `content.resolveProfile`
-public struct ResponseAPIContentResolveProfile: Decodable {
+public struct ResponseAPIContentResolveProfile: Decodable, Equatable {
     public let userId: String
     public let username: String
     public let avatarUrl: String?
