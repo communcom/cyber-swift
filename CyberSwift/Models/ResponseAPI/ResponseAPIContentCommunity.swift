@@ -47,7 +47,7 @@ public struct ResponseAPIContentGetLeader: Decodable {
     public let isActive: Bool
     public let userId: String
     public let position: UInt64
-    public let isVoted: Bool
+    public var isVoted: Bool
     public let ratingPercent: Double
     public let isSubscribed: Bool
     public let username: String?
