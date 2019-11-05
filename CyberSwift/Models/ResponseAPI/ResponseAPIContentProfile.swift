@@ -14,6 +14,8 @@ public struct ResponseAPIContentResolveProfile: Decodable {
     public let username: String
     public let avatarUrl: String?
     public var isSubscribed: Bool?
+    public var subscribersCount: UInt64?
+    public var postsCount: UInt64?
 }
 
 // MARK: - API `content.getProfile`
