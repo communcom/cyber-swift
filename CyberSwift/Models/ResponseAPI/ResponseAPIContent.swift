@@ -25,7 +25,7 @@ public struct ResponseAPIContentGetPost: Decodable {
     public let community: ResponseAPIContentGetCommunity
 }
 
-public struct ResponseAPIContentBlock: Codable {
+public struct ResponseAPIContentBlock: Codable, Equatable {
     public let id: UInt64
     public let type: String
     public var attributes: ResponseAPIContentBlockAttributes?
@@ -47,13 +47,24 @@ public struct ResponseAPIContentBlock: Codable {
     }
 }
 
-public enum ResponseAPIContentBlockContent: Codable {
+public enum ResponseAPIContentBlockContent: Codable, Equatable {
+    public static func == (lhs: ResponseAPIContentBlockContent, rhs: ResponseAPIContentBlockContent) -> Bool {
+        switch (lhs, rhs) {
+        case (.array(let array1), .array(let array2)):
+            return array1 == array2
+        case (.string(let string1), .string(let string2)):
+            return string1 == string2
+        default:
+            return false
+        }
+    }
+    
     case array([ResponseAPIContentBlock])
     case string(String)
     case unsupported
 }
 
-public struct ResponseAPIContentBlockAttributes: Codable {
+public struct ResponseAPIContentBlockAttributes: Codable, Equatable {
     // PostBlock
     public var title: String?
     public var type: String?
