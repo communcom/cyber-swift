@@ -41,7 +41,7 @@ public struct ResponseAPIContentGetLeaders: Decodable {
     public let items: [ResponseAPIContentGetLeader]
 }
 
-public struct ResponseAPIContentGetLeader: Decodable {
+public struct ResponseAPIContentGetLeader: Decodable, Equatable {
     public let url: String
     public let rating: UInt
     public let isActive: Bool

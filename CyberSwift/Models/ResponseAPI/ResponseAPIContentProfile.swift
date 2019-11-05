@@ -19,7 +19,7 @@ public struct ResponseAPIContentResolveProfile: Decodable, Equatable {
 }
 
 // MARK: - API `content.getProfile`
-public struct ResponseAPIContentGetProfile: Decodable {
+public struct ResponseAPIContentGetProfile: Decodable, Equatable {
     public let stats: ResponseAPIContentGetProfileStat
     public let leaderIn: [String]?
     public let userId: String
@@ -35,35 +35,35 @@ public struct ResponseAPIContentGetProfile: Decodable {
     public var commonCommunities: [ResponseAPIContentGetProfileCommonCommunity]
 }
 
-public struct ResponseAPIContentGetProfileSubscription: Decodable {
+public struct ResponseAPIContentGetProfileSubscription: Decodable, Equatable {
     public var usersCount: UInt64?
     public var communitiesCount: UInt64?
 }
 
-public struct ResponseAPIContentGetProfileCommonCommunity: Decodable {
+public struct ResponseAPIContentGetProfileCommonCommunity: Decodable, Equatable {
     public let communityId: String
     public let name: String
     public let alias: String?
 }
 
-public struct ResponseAPIContentGetProfileRegistration: Decodable {
+public struct ResponseAPIContentGetProfileRegistration: Decodable, Equatable {
     public let time: String
 }
 
-public struct ResponseAPIContentGetProfileStat: Decodable {
+public struct ResponseAPIContentGetProfileStat: Decodable, Equatable {
     public let reputation: Int64
     public let postsCount: Int64
     public let commentsCount: Int64
 }
 
-public struct ResponseAPIContentGetProfilePersonal: Decodable {
+public struct ResponseAPIContentGetProfilePersonal: Decodable, Equatable {
     public let contacts: ResponseAPIContentGetProfileContact?
     public let avatarUrl: String?
     public let coverUrl: String?
     public let biography: String?
 }
 
-public struct ResponseAPIContentGetProfileSubscriber: Decodable {
+public struct ResponseAPIContentGetProfileSubscriber: Decodable, Equatable {
     public var usersCount: UInt64?
     public let communitiesCount: UInt64?
 }
@@ -73,7 +73,7 @@ public struct ResponseAPIContentGetProfileBlacklist: Decodable {
     public var communityIds: [String]
 }
 
-public struct ResponseAPIContentGetProfileContact: Decodable {
+public struct ResponseAPIContentGetProfileContact: Decodable, Equatable {
     public let facebook: String?
     public let telegram: String?
     public let whatsApp: String?
@@ -95,7 +95,18 @@ public struct ResponseAPIContentGetSubscriptions: Decodable {
     public let items: [ResponseAPIContentGetSubscriptionsItem]
 }
 
-public enum ResponseAPIContentGetSubscriptionsItem: Decodable {
+public enum ResponseAPIContentGetSubscriptionsItem: Decodable, Equatable {
+    public static func == (lhs: ResponseAPIContentGetSubscriptionsItem, rhs: ResponseAPIContentGetSubscriptionsItem) -> Bool {
+        switch (lhs, rhs) {
+        case (.user(let user), .user(let user2)):
+            return user == user2
+        case (.community(let com1), .community(let com2)):
+            return com1 == com2
+        default:
+            return false
+        }
+    }
+    
     case user(ResponseAPIContentGetSubscriptionsUser)
     case community(ResponseAPIContentGetSubscriptionsCommunity)
     
@@ -131,7 +142,7 @@ public enum ResponseAPIContentGetSubscriptionsItem: Decodable {
     }
 }
 
-public struct ResponseAPIContentGetSubscriptionsUser: Decodable {
+public struct ResponseAPIContentGetSubscriptionsUser: Decodable, Equatable {
     public let userId: String
     public let username: String
     public let avatarUrl: String?
@@ -140,7 +151,7 @@ public struct ResponseAPIContentGetSubscriptionsUser: Decodable {
     public var isSubscribed: Bool?
 }
 
-public struct ResponseAPIContentGetSubscriptionsCommunity: Decodable {
+public struct ResponseAPIContentGetSubscriptionsCommunity: Decodable, Equatable {
     public let communityId: String
     public let name: String
     public let code: String?

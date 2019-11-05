@@ -181,7 +181,7 @@ public struct ResponseAPIContentGetComments: Decodable {
     public let items: [ResponseAPIContentGetComment]?
 }
 
-public struct ResponseAPIContentGetComment: Decodable {
+public struct ResponseAPIContentGetComment: Decodable, Equatable {
     public var votes: ResponseAPIContentVotes
     public let meta: ResponseAPIContentMeta
     public var childCommentsCount: UInt
@@ -216,7 +216,7 @@ public struct ResponseAPIAuthorStats: Decodable, Equatable {
     public let reputation: Int64?
 }
 
-public struct ResponseAPIContentGetCommentParent: Decodable {
+public struct ResponseAPIContentGetCommentParent: Decodable, Equatable {
     public let post: ResponseAPIContentId?
     public let comment: ResponseAPIContentId?
 }

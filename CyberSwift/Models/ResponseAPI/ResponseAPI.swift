@@ -164,7 +164,7 @@ public struct ResponseAPIOnlineNotifyHistory: Decodable {
     public let data: [ResponseAPIOnlineNotificationData]
 }
 
-public struct ResponseAPIOnlineNotificationData: Decodable {
+public struct ResponseAPIOnlineNotificationData: Decodable, Equatable {
     public let _id: String
     public let timestamp: String
     public let eventType: String
@@ -178,28 +178,28 @@ public struct ResponseAPIOnlineNotificationData: Decodable {
     public let value: ResponseAPIOnlineNotificationDataValue?
 }
 
-public struct ResponseAPIOnlineNotificationDataComunity: Decodable {
+public struct ResponseAPIOnlineNotificationDataComunity: Decodable, Equatable {
     public let id: String
     public let name: String
 }
 
-public struct ResponseAPIOnlineNotificationDataActor: Decodable {
+public struct ResponseAPIOnlineNotificationDataActor: Decodable, Equatable {
     public let userId: String?
     public let username: String?
     public let avatarUrl: String?
 }
 
-public struct ResponseAPIOnlineNotificationDataPost: Decodable {
+public struct ResponseAPIOnlineNotificationDataPost: Decodable, Equatable {
     public let contentId: ResponseAPIContentId
     public let title: String?
 }
 
-public struct ResponseAPIOnlineNotificationDataComment: Decodable {
+public struct ResponseAPIOnlineNotificationDataComment: Decodable, Equatable {
     public let contentId: ResponseAPIContentId
     public let body: String
 }
 
-public struct ResponseAPIOnlineNotificationDataValue: Decodable {
+public struct ResponseAPIOnlineNotificationDataValue: Decodable, Equatable {
     public let amount: String
     public let currency: String
 }
