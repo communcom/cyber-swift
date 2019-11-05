@@ -43,7 +43,7 @@ public struct ResponseAPIContentGetLeaders: Decodable {
 
 public struct ResponseAPIContentGetLeader: Decodable {
     public let url: String
-    public let rating: String
+    public let rating: UInt
     public let isActive: Bool
     public let userId: String
     public let position: UInt64
