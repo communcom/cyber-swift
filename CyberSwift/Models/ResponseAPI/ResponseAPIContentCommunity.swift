@@ -16,6 +16,7 @@ public struct ResponseAPIContentGetCommunities: Decodable {
 // MARK: - API `content.getCommunity`
 public struct ResponseAPIContentGetCommunity: Decodable, Equatable {
     public var subscribersCount: UInt64?
+    public let postsCount: UInt64?
     public let communityId: String
     public let alias: String?
     public let name: String
