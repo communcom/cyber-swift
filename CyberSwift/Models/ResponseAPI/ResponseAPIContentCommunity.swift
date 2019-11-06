@@ -10,7 +10,7 @@ import Foundation
 
 // MARK: - API `content.getCommunities`
 public struct ResponseAPIContentGetCommunities: Decodable {
-    public let communities: [ResponseAPIContentGetCommunity]
+    public let items: [ResponseAPIContentGetCommunity]
 }
 
 // MARK: - API `content.getCommunity`
