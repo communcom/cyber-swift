@@ -19,6 +19,9 @@ public let whiteVeryDarkGrayishRedPickers: ThemeColorPicker             =   [ "#
 
 public let lightGrayishBlueWhiteColorPickers: ThemeColorPicker          =   [ "#f2f4f7", "#ffffff" ]
 public let lightGrayishBlueBlackColorPickers: ThemeColorPicker          =   [ "#f2f4f7", "#000000" ]
+public let grayishRedColorPickers: ThemeColorPicker                     =   [ "#c6c5c5", "#c6c5c5" ]
+public let darkGrayishBluePickers: ThemeColorPicker                     =   [ "#9b9fa2", "#9b9fa2" ]
+public let grayishBluePickers: ThemeColorPicker                         =   [ "#a5a7bd", "#a5a7bd" ]
 
 public let veryLightGrayColorPickers: ThemeColorPicker                  =   [ "#dbdbdb", "#dbdbdb" ]
 public let veryLightGrayVeryDarkGrayColorPickers: ThemeColorPicker      =   [ "#dbdbdb", "#5a5a5a" ]
@@ -27,7 +30,6 @@ public let darkGrayPickers: ThemeColorPicker                            =   [ "#
 public let darkGrayWhiteColorPickers: ThemeColorPicker                  =   [ "#7d7d7d", "#ffffff" ]
 
 public let blackWhiteColorPickers: ThemeColorPicker                     =   [ "#000000", "#ffffff" ]
-public let darkGrayishBluePickers: ThemeColorPicker                     =   [ "#9b9fa2", "#9b9fa2" ]
 public let veryDarkGrayWhiteColorPickers: ThemeColorPicker              =   [ "#333333", "#ffffff" ]
 public let vividBlueWhiteColorPickers: ThemeColorPicker                 =   [ "#1298ff", "#ffffff" ]
 public let vividBlueColorPickers: ThemeColorPicker                      =   [ "#1298ff", "#1298ff" ]
@@ -35,7 +37,6 @@ public let darkModerateBlueColorPickers: ThemeColorPicker               =   [ "#
 public let grayWhiteColorPickers: ThemeColorPicker                      =   [ "#a6a6a6", "#ffffff" ]
 public let verySoftBlueColorPickers: ThemeColorPicker                   =   [ "#a0d6fd", "#a0d6fd" ]
 public let softBlueColorPickers: ThemeColorPicker                       =   [ "#6a80f5", "#6a80f5" ]
-public let grayishRedColorPickers: ThemeColorPicker                     =   [ "#c6c5c5", "#c6c5c5" ]
 
 public let lightGrayWhiteColorPickers: ThemeColorPicker                 =   [ "#c1c1c1", "#ffffff" ]
 public let redWhiteColorPickers: ThemeColorPicker                       =   [ "#ff0000", "#ffffff" ]
