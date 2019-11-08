@@ -107,7 +107,7 @@ public indirect enum MethodAPIType {
     case getPosts(userId: String?, communityId: String?, allowNsfw: Bool?, type: FeedTypeMode, sortBy: FeedSortMode, limit: UInt, offset: UInt)
     
     //  Getting selected post
-    case getPost(permlink: String, communityId: String)
+    case getPost(userId: String, permlink: String, communityId: String)
     
     //  Waiting for transaction
     case waitForTransaction(id: String)
@@ -252,14 +252,14 @@ public indirect enum MethodAPIType {
                      parameters:        parameters)
             
         //  Template { "id": 3, "jsonrpc": "2.0", "method": "content.getPost", "params": { "userId": "tst2nbduouxh", "permlink": "hephaestusfightswithantigoneagainststyx", "refBlockNum": 381607 }}
-        case .getPost(let permlinkValue, let communityId):
+        case .getPost(let userId, let permlink, let communityId):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getPost",
                      parameters:        [
-                        "userId": Config.currentUser?.id,
-                        "permlink": permlinkValue,
-                        "communityId": communityId])
+                        "userId":       userId,
+                        "permlink":     permlink,
+                        "communityId":  communityId])
             
         //  Template { "id": 1, "jsonrpc": "2.0", "method": "content.waitForTransaction", "params": { "transactionId": "OdklASkljlAQafdlkjEoljmasdfkD" } }
         case .waitForTransaction(let id):
