@@ -135,7 +135,7 @@ extension Broadcast {
             return .error(ErrorAPI.requestFailed(message: "Broadcast, line \(#line): \(requestMethodAPIType.errorAPI!)"))
         }
         
-        Logger.log(message: "\nrequestMethodAPIType:\n\t\(requestMethodAPIType.requestMessage!)\n", event: .debug)
+        Logger.log(message: "\nrequestMethodAPIType:\n\t\(requestMethodAPIType.requestMessage!)\n", event: .request)
         
         return SocketManager.shared.sendRequest(methodAPIType: requestMethodAPIType)
             .catchError({ (error) -> Single<T> in

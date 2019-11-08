@@ -18,6 +18,8 @@ public enum LogEvent: String {
     case verbose    =   "[🔬]"          // current values
     case warning    =   "[⚠️]"
     case severe     =   "[🔥]"          // tokens & keys & init & deinit
+    case request    =   "[⬆️]"
+    case response   =   "[⬇️]"
 }
 
 public class Logger {

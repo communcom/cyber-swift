@@ -158,7 +158,7 @@ extension SocketManager {
     
     /// Transform text message to object
     func transformMessage<T: Decodable>(_ text: String) throws -> T {
-        Logger.log(message: "websocketDidReceiveMessage: \n\t\(text)", event: .severe)
+        Logger.log(message: "websocketDidReceiveMessage: \n\t\(text)", event: .response)
         
         guard let jsonData = text.data(using: .utf8) else {
             throw ErrorAPI.invalidData(message: "Response Unsuccessful")
