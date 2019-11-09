@@ -52,7 +52,8 @@ public class RestAPIManager {
         communityId: String?            = nil,
         communityAlias: String?         = nil,
         parentCommentUserId: String?    = nil,
-        parentCommentPermlink: String?  = nil
+        parentCommentPermlink: String?  = nil,
+        resolveNestedComments: Bool     = false
     ) -> Single<ResponseAPIContentGetComments> {
         
         guard let userId = userId else {return .error(ErrorAPI.unauthorized)}
@@ -76,7 +77,8 @@ public class RestAPIManager {
             permlink: permlink,
             communityId: communityId,
             communityAlias: communityAlias,
-            parentComment: parentComment)
+            parentComment: parentComment,
+            resolveNestedComments: resolveNestedComments)
         
         return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
     }

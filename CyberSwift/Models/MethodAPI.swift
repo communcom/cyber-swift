@@ -65,6 +65,7 @@ public enum CommentTypeMode: String {
 public enum CommentSortMode: String {
     case time               =   "time"
     case timeDesc           =   "timeDesc"
+    case popularity         =   "popularity"
 }
 
 public enum GetCommentsType: String {
@@ -113,7 +114,7 @@ public indirect enum MethodAPIType {
     case waitForTransaction(id: String)
     
     //  Getting user comments feed
-    case getComments(sortBy: CommentSortMode, offset: UInt, limit: UInt, type: GetCommentsType, userId: String, permlink: String?, communityId: String?, communityAlias: String?, parentComment: [String: String]?)
+    case getComments(sortBy: CommentSortMode, offset: UInt, limit: UInt, type: GetCommentsType, userId: String, permlink: String?, communityId: String?, communityAlias: String?, parentComment: [String: String]?, resolveNestedComments: Bool)
     
     //  Log in
     case authorize(username: String, activeKey: String)
@@ -269,7 +270,7 @@ public indirect enum MethodAPIType {
                      parameters:        ["transactionId": id])
             
         //  Template { "id": 4, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "user", "userId": "tst2nbduouxh", "sortBy": "time", "limit": 20 }}
-        case .getComments(let sortBy, let offset, let limit, let type, let userId, let permlink, let communityId, let communityAlias, let parentComment):
+        case .getComments(let sortBy, let offset, let limit, let type, let userId, let permlink, let communityId, let communityAlias, let parentComment, let resolveNestedComments):
             var parameters: [String: Encodable] =
                 [
                     "type": type.rawValue,
@@ -287,6 +288,7 @@ public indirect enum MethodAPIType {
                 if let parentComment = parentComment {
                     parameters["parentComment"] = parentComment
                 }
+                parameters["resolveNestedComments"] = resolveNestedComments
             case .replies:
                 parameters["userId"] = userId
             }
