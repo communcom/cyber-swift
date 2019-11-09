@@ -51,7 +51,8 @@ extension RestAPIManager {
             permlink: nil,
             communityId: nil,
             communityAlias: nil,
-            parentComment: nil)
+            parentComment: nil,
+            resolveNestedComments: false)
         
         return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
     }
