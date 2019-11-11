@@ -285,12 +285,12 @@ public indirect enum MethodAPIType {
             case .post:
                 parameters["userId"] = userId
                 parameters["permlink"] = permlink
-                if let parentComment = parentComment {
-                    parameters["parentComment"] = parentComment
-                }
                 parameters["resolveNestedComments"] = resolveNestedComments
             case .replies:
                 parameters["userId"] = userId
+                parameters["permlink"] = permlink
+                parameters["parentComment"] = parentComment
+                parameters["resolveNestedComments"] = resolveNestedComments
             }
             
             if communityId == nil {
