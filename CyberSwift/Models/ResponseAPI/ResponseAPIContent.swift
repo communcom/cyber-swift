@@ -190,7 +190,7 @@ public struct ResponseAPIContentGetComment: Decodable, Equatable {
     public let document: ResponseAPIContentBlock
     public let author: ResponseAPIAuthor?
     public let community: ResponseAPIContentGetCommunity?
-    public let children: [ResponseAPIContentGetComment]?
+    public var children: [ResponseAPIContentGetComment]?
 }
 
 public struct ResponseAPIContentGetCommentVotes: Decodable {
