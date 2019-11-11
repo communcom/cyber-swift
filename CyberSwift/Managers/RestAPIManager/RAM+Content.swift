@@ -108,7 +108,7 @@ extension RestAPIManager {
                 "userId": parentComment.userId,
                 "permlink": parentComment.permlink
             ],
-            resolveNestedComments: false)
+            resolveNestedComments: resolveNestedComments)
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
 }
