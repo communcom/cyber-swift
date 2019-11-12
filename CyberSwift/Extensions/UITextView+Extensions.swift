@@ -9,7 +9,7 @@
 import UIKit
 import SwiftTheme
 
-extension UITextField {
+extension UITextView {
     public func tune(withTextColors textColors: ThemeColorPicker?, font: UIFont?, alignment: NSTextAlignment) {
         self.font                   =   font
         self.theme_textColor        =   textColors
