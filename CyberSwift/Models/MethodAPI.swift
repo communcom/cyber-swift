@@ -191,7 +191,8 @@ public indirect enum MethodAPIType {
     case getState(id: String?, phone: String?)
     
     //  First step of registration
-    case firstStep(phone: String, isDebugMode: Bool)
+    //  Modify: add `captchaType` (https://github.com/communcom/commun/issues/929)
+    case firstStep(phone: String, captchaCode: String, isDebugMode: Bool)
     
     //  Second registration step, account verification
     case verify(phone: String, code: UInt64)
@@ -547,14 +548,13 @@ public indirect enum MethodAPIType {
                      methodName:        "getState",
                      parameters:        parameters)
 
-        //  Debug template      { "id": 2, "jsonrpc": "2.0", "method": "registration.firstStep", "params": { "phone": "+70000000000", "testingPass": "DpQad16yDlllEy6" }}
-        //  Release template    { "id": 2, "jsonrpc": "2.0", "method": "registration.firstStep", "params": { "phone": "+70000000000" }}
-        case .firstStep(let phoneValue, let isDebugMode):
-            var parameters = ["phone": phoneValue]
+        //  Debug template      { "id": 2, "jsonrpc": "2.0", "method": "registration.firstStep", "params": { "phone": "+70000000000", "captcha": <captcha_code>, "captchaType": "ios", "testingPass": "DpQad16yDlllEy6" }}
+        //  Release template    { "id": 2, "jsonrpc": "2.0", "method": "registration.firstStep", "params": { "phone": "+70000000000", "captcha": <captcha_code>, "captchaType": "ios" }}
+        case .firstStep(let phoneValue, let captchaCode, let isDebugMode):
+            var parameters = ["phone": phoneValue, "captcha": captchaCode, "captchaType": "ios" ]
 
             if isDebugMode {
                 parameters["testingPass"]   =   Config.testingPassword
-                parameters["captcha"]       =   ""
             }
 
             return  (methodAPIType:     self,
