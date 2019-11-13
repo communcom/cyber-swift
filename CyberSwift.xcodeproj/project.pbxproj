@@ -26,6 +26,7 @@
 		3BF3A6B822F1D48E00A6916E /* EOSTransaction+Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF3A6B722F1D48E00A6916E /* EOSTransaction+Actions.swift */; };
 		7EF06C95D4BFFC91A593F720 /* Pods_CyberSwiftTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72FB95E5419699B77BD2F429 /* Pods_CyberSwiftTests.framework */; };
 		B111B5BB224E1B5A00F84AD9 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B111B5BA224E1B5A00F84AD9 /* KeychainManager.swift */; };
+		B154D8BB237A97E70042E991 /* UITextView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B154D8BA237A97E70042E991 /* UITextView+Extensions.swift */; };
 		B1677C66223F9BD7005FB286 /* RestAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1677C65223F9BD7005FB286 /* RestAPIManager.swift */; };
 		B179916E2269B3EB0014CB44 /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B179916D2269B3EA0014CB44 /* Data+Extensions.swift */; };
 		B17991702269B4070014CB44 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B179916F2269B4060014CB44 /* Array+Extensions.swift */; };
@@ -106,6 +107,7 @@
 		72FB95E5419699B77BD2F429 /* Pods_CyberSwiftTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CyberSwiftTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AB2614591624246CBE93FA0 /* Pods-CyberSwiftTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CyberSwiftTests.debug.xcconfig"; path = "Target Support Files/Pods-CyberSwiftTests/Pods-CyberSwiftTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B111B5BA224E1B5A00F84AD9 /* KeychainManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
+		B154D8BA237A97E70042E991 /* UITextView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extensions.swift"; sourceTree = "<group>"; };
 		B1677C65223F9BD7005FB286 /* RestAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestAPIManager.swift; sourceTree = "<group>"; };
 		B1677C6D223FAA5F005FB286 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		B179916D2269B3EA0014CB44 /* Data+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
@@ -321,6 +323,7 @@
 				B1F7B449229FB5A4005492DD /* UIImage+Extensions.swift */,
 				B1EA02CB22895EB300835244 /* UILabel+Extensions.swift */,
 				B1EA02F52289D3B400835244 /* UITextField+Extensions.swift */,
+				B154D8BA237A97E70042E991 /* UITextView+Extensions.swift */,
 				B1EA0318228A985400835244 /* UIView+Extensions.swift */,
 				3B61AC3122E1C5CD00F608AF /* ResponseAPIGetOptionsNotifyShow+Extensions.swift */,
 			);
@@ -608,6 +611,7 @@
 				BC48FC3C23667FB10049C4F4 /* ResponseAPIContentCommunity.swift in Sources */,
 				B1EA0319228A985400835244 /* UIView+Extensions.swift in Sources */,
 				B179917D2269B4560014CB44 /* GSBase58.swift in Sources */,
+				B154D8BB237A97E70042E991 /* UITextView+Extensions.swift in Sources */,
 				B1C3F860223F98DC005711EF /* Broadcast.swift in Sources */,
 				3B1E901822CDF16B00D7A0C1 /* iCloudManager.swift in Sources */,
 				B1EA02CD22895EB400835244 /* UILabel+Extensions.swift in Sources */,

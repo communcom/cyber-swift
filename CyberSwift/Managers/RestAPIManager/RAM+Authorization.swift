@@ -34,8 +34,8 @@ extension Reactive where Base: RestAPIManager {
     }
     
     /// First step of registration
-    public func firstStep(phone: String) -> Single<ResponseAPIRegistrationFirstStep> {
-        let methodAPIType = MethodAPIType.firstStep(phone: phone.trimSpaces(), isDebugMode: base.isDebugMode)
+    public func firstStep(phone: String, captchaCode: String) -> Single<ResponseAPIRegistrationFirstStep> {
+        let methodAPIType = MethodAPIType.firstStep(phone: phone.trimSpaces(), captchaCode: captchaCode, isDebugMode: base.isDebugMode)
         
         return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationFirstStep>)
             .map {result in
