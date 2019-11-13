@@ -110,7 +110,7 @@ public indirect enum MethodAPIType {
     case getProfile(user: String?)
     
     //  Get user's black list
-    case getBlacklist(userId: String?, type: GetBlacklistType)
+    case getBlacklist(userId: String?, type: GetBlacklistType, limit: Int, offset: Int)
     
     //  Get posts
     case getPosts(userId: String?, communityId: String?, allowNsfw: Bool?, type: FeedTypeMode, sortBy: FeedSortMode, limit: UInt, offset: UInt)
@@ -243,11 +243,11 @@ public indirect enum MethodAPIType {
                      methodName:        "getProfile",
                      parameters:        params)
             
-        case .getBlacklist(let userId, let type):
+        case .getBlacklist(let userId, let type, let limit, let offset):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getBlacklist",
-                     parameters:        ["userId": userId, "type": type.rawValue])
+                     parameters:        ["userId": userId, "type": type.rawValue, "limit": limit, "offset": offset])
 
         //  Template { "id": 2, "jsonrpc": "2.0", "method": "content.getFeed", "params": { "type": "community", "timeframe": "day", "sortBy": "popular", "limit": 20, "userId": "tst3uuqzetwf", "communityId": "gls" }}
         case .getPosts(let userId, let communityId, let allowNsfw, let type, let sortBy, let limit, let offset):
