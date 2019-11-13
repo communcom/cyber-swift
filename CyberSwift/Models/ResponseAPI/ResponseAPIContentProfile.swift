@@ -161,5 +161,66 @@ public struct ResponseAPIContentGetSubscriptionsCommunity: Decodable, Equatable 
 }
 
 // MARK: - API `content.getBlacklist`
-public typealias ResponseAPIContentGetBlacklist = ResponseAPIContentGetSubscriptions
-public typealias ResponseAPIContentGetBlacklistItem = ResponseAPIContentGetSubscriptionsItem
+public struct ResponseAPIContentGetBlacklist: Decodable {
+    public let items: [ResponseAPIContentGetBlacklistItem]
+}
+
+public enum ResponseAPIContentGetBlacklistItem: Decodable, Equatable {
+    public static func == (lhs: ResponseAPIContentGetBlacklistItem, rhs: ResponseAPIContentGetBlacklistItem) -> Bool {
+        switch (lhs, rhs) {
+        case (.user(let user), .user(let user2)):
+            return user == user2
+        case (.community(let com1), .community(let com2)):
+            return com1 == com2
+        default:
+            return false
+        }
+    }
+    case user(ResponseAPIContentGetBlacklistUser)
+    case community(ResponseAPIContentGetBlacklistCommunity)
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let users = try? container.decode(ResponseAPIContentGetBlacklistUser.self) {
+            self = .user(users)
+            return
+        }
+        if let communities = try? container.decode(ResponseAPIContentGetBlacklistCommunity.self) {
+            self = .community(communities)
+            return
+        }
+        throw ErrorAPI.unsupported
+    }
+    
+    public var userValue: ResponseAPIContentGetBlacklistUser? {
+        switch self {
+        case .user(let user):
+            return user
+        default:
+            return nil
+        }
+    }
+    
+    public var communityValue: ResponseAPIContentGetBlacklistCommunity? {
+        switch self {
+        case .community(let community):
+            return community
+        default:
+            return nil
+        }
+    }
+}
+
+public struct ResponseAPIContentGetBlacklistUser: Decodable, Equatable {
+    public let userId: String
+    public let username: String
+    public let avatarUrl: String?
+    public var isSubscribed: Bool?
+}
+
+public struct ResponseAPIContentGetBlacklistCommunity: Decodable, Equatable {
+    public let communityId: String
+    public let alias: String?
+    public let name: String
+    public var isSubscribed: Bool?
+}
