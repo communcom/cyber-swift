@@ -159,3 +159,7 @@ public struct ResponseAPIContentGetSubscriptionsCommunity: Decodable, Equatable 
     public let avatarUrl: String?
     public let coverUrl: String?
 }
+
+// MARK: - API `content.getBlacklist`
+public typealias ResponseAPIContentGetBlacklist = ResponseAPIContentGetSubscriptions
+public typealias ResponseAPIContentGetBlacklistItem = ResponseAPIContentGetSubscriptionsItem

@@ -96,6 +96,11 @@ public enum GetSubscriptionsType: String {
     case community          =   "community"
 }
 
+public enum GetBlacklistType: String {
+    case user               =   "user"
+    case community          =   "community"
+}
+
 public indirect enum MethodAPIType {
     /// FACADE-SERVICE
     //  Resolve a user profile
@@ -103,6 +108,9 @@ public indirect enum MethodAPIType {
     
     //  Getting a user profile
     case getProfile(user: String?)
+    
+    //  Get user's black list
+    case getBlacklist(userId: String?, type: GetBlacklistType)
     
     //  Get posts
     case getPosts(userId: String?, communityId: String?, allowNsfw: Bool?, type: FeedTypeMode, sortBy: FeedSortMode, limit: UInt, offset: UInt)
@@ -234,6 +242,12 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getProfile",
                      parameters:        params)
+            
+        case .getBlacklist(let userId, let type):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.content.rawValue,
+                     methodName:        "getBlacklist",
+                     parameters:        ["userId": userId, "type": type.rawValue])
 
         //  Template { "id": 2, "jsonrpc": "2.0", "method": "content.getFeed", "params": { "type": "community", "timeframe": "day", "sortBy": "popular", "limit": 20, "userId": "tst3uuqzetwf", "communityId": "gls" }}
         case .getPosts(let userId, let communityId, let allowNsfw, let type, let sortBy, let limit, let offset):

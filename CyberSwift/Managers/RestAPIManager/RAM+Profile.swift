@@ -118,4 +118,13 @@ extension RestAPIManager {
         let methodAPIType = MethodAPIType.getSubscriptions(userId: userId, type: type, offset: offset, limit: limit)
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
+    
+    // MARK: - Blacklist
+    public func getBlacklist(
+        userId: String?         = Config.currentUser?.id,
+        type: GetBlacklistType
+    ) -> Single<ResponseAPIContentGetBlacklist> {
+        let methodAPIType = MethodAPIType.getBlacklist(userId: userId, type: type)
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+    }
 }
