@@ -31,8 +31,8 @@ public struct ResponseAPIContentGetProfile: Decodable, Equatable {
     public var isSubscribed: Bool?
     public var isSubscription: Bool?
     public var isBlocked: Bool?
-    public var commonCommunitiesCount: UInt64?
-    public var commonCommunities: [ResponseAPIContentGetProfileCommonCommunity]
+    public var highlightCommunitiesCount: UInt64?
+    public var highlightCommunities: [ResponseAPIContentGetProfileCommonCommunity]
 }
 
 public struct ResponseAPIContentGetProfileSubscription: Decodable, Equatable {
@@ -44,6 +44,9 @@ public struct ResponseAPIContentGetProfileCommonCommunity: Decodable, Equatable 
     public let communityId: String
     public let name: String
     public let alias: String?
+    public let coverUrl: String?
+    public let subscribersCount: UInt64?
+    public var isSubscribed: Bool?
 }
 
 public struct ResponseAPIContentGetProfileRegistration: Decodable, Equatable {
