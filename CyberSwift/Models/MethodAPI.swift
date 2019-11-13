@@ -243,11 +243,12 @@ public indirect enum MethodAPIType {
                      methodName:        "getProfile",
                      parameters:        params)
             
+            #warning("offset and limit should be added?")
         case .getBlacklist(let userId, let type, let limit, let offset):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getBlacklist",
-                     parameters:        ["userId": userId, "type": type.rawValue, "limit": limit, "offset": offset])
+                     parameters:        ["userId": userId, "type": type.rawValue/*, "limit": limit, "offset": offset*/])
 
         //  Template { "id": 2, "jsonrpc": "2.0", "method": "content.getFeed", "params": { "type": "community", "timeframe": "day", "sortBy": "popular", "limit": 20, "userId": "tst3uuqzetwf", "communityId": "gls" }}
         case .getPosts(let userId, let communityId, let allowNsfw, let type, let sortBy, let limit, let offset):
