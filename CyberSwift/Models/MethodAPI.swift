@@ -114,7 +114,7 @@ public indirect enum MethodAPIType {
     case waitForTransaction(id: String)
     
     //  Getting user comments feed
-    case getComments(sortBy: CommentSortMode, offset: UInt, limit: UInt, type: GetCommentsType, userId: String, permlink: String?, communityId: String?, communityAlias: String?, parentComment: [String: String]?, resolveNestedComments: Bool)
+    case getComments(sortBy: CommentSortMode?, offset: UInt, limit: UInt, type: GetCommentsType, userId: String, permlink: String?, communityId: String?, communityAlias: String?, parentComment: [String: String]?, resolveNestedComments: Bool?)
     
     //  Log in
     case authorize(username: String, activeKey: String)
@@ -274,9 +274,10 @@ public indirect enum MethodAPIType {
             var parameters: [String: Encodable] =
                 [
                     "type": type.rawValue,
-                    "sortBy": sortBy.rawValue,
+                    "sortBy": sortBy?.rawValue,
                     "offset": offset,
-                    "limit": limit
+                    "limit": limit,
+                    "resolveNestedComments": resolveNestedComments
                 ]
             
             switch type {
@@ -285,12 +286,10 @@ public indirect enum MethodAPIType {
             case .post:
                 parameters["userId"] = userId
                 parameters["permlink"] = permlink
-                parameters["resolveNestedComments"] = resolveNestedComments
+                parameters["parentComment"] = parentComment
             case .replies:
                 parameters["userId"] = userId
                 parameters["permlink"] = permlink
-                parameters["parentComment"] = parentComment
-                parameters["resolveNestedComments"] = resolveNestedComments
             }
             
             if communityId == nil {

@@ -90,16 +90,14 @@ extension RestAPIManager {
     public func getRepliesForComment(
         forPost post: ResponseAPIContentId,
         parentComment: ResponseAPIContentId,
-        sortBy: CommentSortMode         = .time,
         offset: UInt                    = 0,
-        limit: UInt                     = UInt(Config.paginationLimit),
-        resolveNestedComments: Bool     = false
+        limit: UInt                     = UInt(Config.paginationLimit)
     ) -> Single<ResponseAPIContentGetComments> {
         let methodAPIType = MethodAPIType.getComments(
-            sortBy: sortBy,
+            sortBy: .time,
             offset: offset,
             limit: limit,
-            type: .replies,
+            type: .post,
             userId: post.userId,
             permlink: post.permlink,
             communityId: post.communityId,
@@ -108,7 +106,7 @@ extension RestAPIManager {
                 "userId": parentComment.userId,
                 "permlink": parentComment.permlink
             ],
-            resolveNestedComments: resolveNestedComments)
+            resolveNestedComments: nil)
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
 }
