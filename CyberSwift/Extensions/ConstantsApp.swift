@@ -94,7 +94,9 @@ public struct Config {
     public static let currentUserPublickMemoKey: String     =   "currentUserPublickMemoKey"
     
     public static let currentUserAvatarUrlKey: String       =   "currentUserAvatarUrlKey"
-    
+    public static let currentUserCoverUrlKey: String        =   "currentUserCoverUrlKey"
+    public static let currentUserBiographyKey: String       =   "currentUserBiographyKey"
+
     public static let currentUserThemeKey: String           =   "currentUserThemeKey"
     public static let currentUserAppLanguageKey: String     =   "currentUserAppLanguageKey"
     
