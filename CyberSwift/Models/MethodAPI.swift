@@ -97,8 +97,8 @@ public enum GetSubscriptionsType: String {
 }
 
 public enum GetBlacklistType: String {
-    case user               =   "user"
-    case community          =   "community"
+    case users              =   "users"
+    case communities        =   "communities"
 }
 
 public indirect enum MethodAPIType {
@@ -292,8 +292,7 @@ public indirect enum MethodAPIType {
                     "type": type.rawValue,
                     "sortBy": sortBy?.rawValue,
                     "offset": offset,
-                    "limit": limit,
-                    "resolveNestedComments": resolveNestedComments
+                    "limit": limit
                 ]
             
             switch type {
@@ -314,6 +313,8 @@ public indirect enum MethodAPIType {
             else {
                 parameters["communityId"] = communityId
             }
+            
+            parameters["resolveNestedComments"] = resolveNestedComments
             
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
