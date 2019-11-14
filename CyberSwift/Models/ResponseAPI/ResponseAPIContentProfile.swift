@@ -154,7 +154,7 @@ public struct ResponseAPIContentGetSubscriptionsUser: Decodable, Equatable {
     public var isSubscribed: Bool?
 }
 
-public struct ResponseAPIContentGetSubscriptionsCommunity: Decodable, Equatable {
+public struct ResponseAPIContentGetSubscriptionsCommunity: Codable, Equatable {
     public let communityId: String
     public let name: String
     public let code: String?
