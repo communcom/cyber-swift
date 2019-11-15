@@ -375,6 +375,21 @@ public class EOSTransaction {
         }
     }
     
+    /// Action `voteleader`
+    public struct VoteLeaderArgs: Encodable {
+        let commun_code: String
+        let voter: NameWriterValue
+        let leader: NameWriterValue
+        let pct: UInt16?
+        
+        init(commun_code: String, voter: String, leader: String, pct: UInt16? = nil) {
+            self.commun_code = commun_code
+            self.voter = NameWriterValue(name: voter)
+            self.leader = NameWriterValue(name: leader)
+            self.pct = pct
+        }
+    }
+    
     // MARK: - Contract `commun.list`
     /// Action `follow`
     public struct CommunListFollowArgs: Encodable {
