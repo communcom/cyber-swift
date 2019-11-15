@@ -53,5 +53,8 @@ public struct ResponseAPIContentGetLeader: Decodable, Equatable {
     public let isSubscribed: Bool
     public let username: String?
     public let avatarUrl: String?
+    
+    // Additional property
+    public var communityId: String?
 }
 
