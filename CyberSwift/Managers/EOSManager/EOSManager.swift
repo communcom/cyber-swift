@@ -284,6 +284,12 @@ class EOSManager {
         return pushAuthorized(account: .social, name: "deletemeta", data: userProfileDeletemetaArgsData)
     }
     
+    static func block(args: EOSTransaction.BlockUserArgs) -> Single<String> {
+        // Prepare data
+        let data = DataWriterValue(hex: args.toHex())
+        return pushAuthorized(account: .social, name: "block", data: data)
+    }
+    
     // MARK: - Contract `gls.ctrl`
     static func reg(witnessArgs: EOSTransaction.RegwitnessArgs) -> Single<String> {
         // Prepare data

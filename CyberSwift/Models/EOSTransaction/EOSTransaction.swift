@@ -319,6 +319,18 @@ public class EOSTransaction {
         }
     }
     
+    /// Block user
+    public struct BlockUserArgs: Encodable {
+        // MARK: - Properties
+        let blocker: NameWriterValue
+        let blocking: NameWriterValue
+        
+        init(blocker: String, blocking: String) {
+            self.blocker = NameWriterValue(name: blocker)
+            self.blocking = NameWriterValue(name: blocking)
+        }
+    }
+    
 
     //  MARK: - Contract `gls.ctrl`
     /// Action `regwitness` (1)
