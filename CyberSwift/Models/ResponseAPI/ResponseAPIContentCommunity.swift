@@ -29,7 +29,7 @@ public struct ResponseAPIContentGetCommunity: Decodable, Equatable {
     public let isBlocked: Bool?
     public let friendsCount: UInt64?
     public let friends: [ResponseAPIContentResolveProfile]?
-    public let isBeingJoined: Bool? = false
+    public var isBeingJoined: Bool? = false
 }
 
 public struct ResponseAPIContentGetCommunityRule: Decodable, Equatable {
