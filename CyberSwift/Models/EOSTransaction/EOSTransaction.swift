@@ -60,14 +60,13 @@ public class EOSTransaction {
     
     /// Action `createmssg` (https://github.com/GolosChain/golos.contracts/blob/develop/golos.publication/golos.publication.abi#createmssg)
     public struct MessageCreateArgs: Encodable {
-        let commun_code: String
+        let commun_code: CyberSymbolWriterValue
         let message_id: Mssgid
         let parent_id: Mssgid?
         let header: String
         let body: String
         let tags: StringCollectionWriterValue
         let metadata: String
-        let curators_prcnt: UInt64
         let weight: UInt64?
     }
     
