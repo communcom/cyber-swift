@@ -57,5 +57,6 @@ public struct ResponseAPIContentGetLeader: Decodable, Equatable {
     
     // Additional property
     public var communityId: String?
+    public var isBeingVoted: Bool? = false
 }
 
