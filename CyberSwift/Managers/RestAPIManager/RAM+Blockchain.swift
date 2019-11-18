@@ -190,4 +190,13 @@ extension Reactive where Base: RestAPIManager {
         let args = EOSTransaction.VoteLeaderArgs(commun_code: communityId, voter: userID, leader: leader)
         return EOSManager.voteLeader(args: args)
     }
+    
+    public func unvoteLeader(communityId: String, leader: String) -> Single<String> {
+        // Check user authorize
+        guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKeys?.privateKey else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        }
+        let args = EOSTransaction.UnvoteLeaderArgs(commun_code: communityId, voter: userID, leader: leader)
+        return EOSManager.unvoteLeader(args: args)
+    }
 }

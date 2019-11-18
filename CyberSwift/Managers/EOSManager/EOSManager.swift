@@ -328,4 +328,10 @@ class EOSManager {
         let data = DataWriterValue(hex: args.toHex())
         return pushAuthorized(account: .ctrl, name: "voteleader", data: data)
     }
+    
+    static func unvoteLeader(args: EOSTransaction.UnvoteLeaderArgs) -> Single<String> {
+        // Prepare data
+        let data = DataWriterValue(hex: args.toHex())
+        return pushAuthorized(account: .ctrl, name: "unvotelead", data: data)
+    }
 }
