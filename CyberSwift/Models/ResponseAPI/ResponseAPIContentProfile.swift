@@ -16,6 +16,9 @@ public struct ResponseAPIContentResolveProfile: Decodable, Equatable {
     public var isSubscribed: Bool?
     public var subscribersCount: UInt64?
     public var postsCount: UInt64?
+    
+    // additional property
+    public var isBeingToggledFollow: Bool? = false
 }
 
 // MARK: - API `content.getProfile`
@@ -33,6 +36,9 @@ public struct ResponseAPIContentGetProfile: Decodable, Equatable {
     public var isBlocked: Bool?
     public var highlightCommunitiesCount: UInt64?
     public var highlightCommunities: [ResponseAPIContentGetProfileCommonCommunity]
+    
+    // Additional properties
+    public var isBeingToggledFollow: Bool? = false
 }
 
 public struct ResponseAPIContentGetProfileSubscription: Decodable, Equatable {
@@ -152,6 +158,9 @@ public struct ResponseAPIContentGetSubscriptionsUser: Decodable, Equatable {
     public var subscribersCount: UInt64?
     public let postsCount: UInt64?
     public var isSubscribed: Bool?
+    
+    // additional property
+    public var isBeingToggledFollow: Bool? = false
 }
 
 public struct ResponseAPIContentGetSubscriptionsCommunity: Codable, Equatable {
