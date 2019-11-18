@@ -161,6 +161,7 @@ public struct ResponseAPIContentGetSubscriptionsCommunity: Codable, Equatable {
     public var isSubscribed: Bool?
     public let avatarUrl: String?
     public let coverUrl: String?
+    public var isBeingJoined: Bool? = false
 }
 
 // MARK: - API `content.getBlacklist`
