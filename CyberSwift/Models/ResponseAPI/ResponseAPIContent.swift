@@ -140,6 +140,7 @@ public struct ResponseAPIContentVotes: Decodable, Equatable {
     public var downCount: Int64?
     public var hasUpVote: Bool? = false
     public var hasDownVote: Bool? = false
+    public var isBeingVoted: Bool? = false
 }
 
 public struct ResponseAPIContentGetPostStats: Decodable, Equatable {
