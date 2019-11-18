@@ -9,8 +9,8 @@
 //
 
 import RxSwift
-import eosswift
 import Foundation
+import eosswift
 
 public typealias Byte = UInt8
 public typealias BaseT = Int64
@@ -49,11 +49,11 @@ public class EOSTransaction {
     
     /// Create Post/Comment
     public struct Mssgid: Encodable {
-        let author: NameWriterValue
+        let author: AccountNameWriterValue
         let permlink: String
         
         init(author: String = "", permlink: String = "") {
-            self.author     =   NameWriterValue(name: author)
+            self.author     =   AccountNameWriterValue(name: author)
             self.permlink   =   permlink
         }
     }
@@ -127,16 +127,24 @@ public class EOSTransaction {
     /// Upvote
     public struct UpvoteArgs: Encodable {
         // MARK: - Properties
-        let voter: NameWriterValue
+        let commun_code: CyberSymbolWriterValue
+        let voter: AccountNameWriterValue
         let message_id: Mssgid
-        let weight: BlockNumWriterValue
+        let weight: Int
         
         
         // MARK: - Initialization
-        init(voterValue: String, authorValue: String, permlinkValue: String, weightValue: Int16 = 0) {
-            self.voter      =   NameWriterValue(name: voterValue)
+        init(communityID: String,
+             voterValue: String,
+             authorValue: String,
+             permlinkValue: String) {
+            self.commun_code =  CyberSymbolWriterValue(name: communityID)
+            self.voter      =   AccountNameWriterValue(name: voterValue)
             self.message_id =   Mssgid(author: authorValue, permlink: permlinkValue)
-            self.weight     =   BlockNumWriterValue(value: Int(weightValue))
+            self.weight     =   Int(0)
+
+            print("message_id hex: \(self.message_id.toHex())")
+            print("UpvoteArgs hex: \(self.toHex())")
         }
     }
     
@@ -144,12 +152,14 @@ public class EOSTransaction {
     /// Unvote
     public struct UnvoteArgs: Encodable {
         // MARK: - Properties
+        let commun_code: CyberSymbolWriterValue
         let voter: NameWriterValue
         let message_id: Mssgid
         
         
         // MARK: - Initialization
-        init(voterValue: String, authorValue: String, permlinkValue: String) {
+        init(communityID: String, voterValue: String, authorValue: String, permlinkValue: String) {
+            self.commun_code =  CyberSymbolWriterValue(name: communityID)
             self.voter      =   NameWriterValue(name: voterValue)
             self.message_id =   Mssgid(author: authorValue, permlink: permlinkValue)
         }
@@ -405,13 +415,18 @@ public class EOSTransaction {
     // MARK: - Contract `commun.list`
     /// Action `follow`
     public struct CommunListFollowArgs: Encodable {
-        let commun_code: String
-        let follower: String
+        let commun_code: CyberSymbolWriterValue
+        let follower: AccountNameWriterValue
     }
     
     /// Action `unfollow`
     public struct CommunListUnfollowArgs: Encodable {
         let commun_code: String
         let follower: String
+    }
+
+    public struct CommunBandwidthProvider: Encodable {
+        let provider: AccountNameWriterValue
+        let account: AccountNameWriterValue
     }
 }

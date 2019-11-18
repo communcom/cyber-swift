@@ -22,19 +22,19 @@ extension EOSTransaction {
                 let chainID = info.body?.chain_id else {
                     throw ErrorAPI.couldNotRetrieveChainInfo
             }
-            
-            let transactionAbi = self.createTransactionAbi(expirationDate:      expirationDate,
-                                                           blockIdDetails:      BlockIdDetails(blockId: info.body!.head_block_id),
-                                                           actions:             actions)
+
+            let transactionAbi = self.createTransactionAbi(expirationDate: expirationDate,
+                                                           blockIdDetails: BlockIdDetails(blockId: info.body!.head_block_id),
+                                                           actions: actions)
             
             Logger.log(message: transactionAbi.convertToJSON(), event: .debug)
             
-            let signedTransactionAbi = SignedTransactionAbi(chainId:            ChainIdWriterValue(chainId: info.body!.chain_id),
-                                                            transaction:        transactionAbi,
-                                                            context_free_data:  HexCollectionWriterValue(value: []))
+            let signedTransactionAbi = SignedTransactionAbi(chainId: ChainIdWriterValue(chainId: info.body!.chain_id),
+                                                            transaction: transactionAbi,
+                                                            context_free_data: HexCollectionWriterValue(value: []))
             
-            let signature = PrivateKeySigning().sign(digest:                    try signedTransactionAbi.toData(),
-                                                     eosPrivateKey:             authorizingPrivateKey)
+            let signature = PrivateKeySigning().sign(digest: try signedTransactionAbi.toData(),
+                                                     eosPrivateKey: authorizingPrivateKey)
             
             // JSON
             let rrr = RequestAPITransaction(signatures: [signature],
@@ -42,7 +42,8 @@ extension EOSTransaction {
             
             
             // Prepare methodAPIType
-            let methodAPIType = MethodAPIType.bandwidthProvide(chainID: chainID, transaction: rrr)
+            let methodAPIType = MethodAPIType.bandwidthProvide(chainID: chainID,
+                                                               transaction: rrr)
             
             return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIBandwidthProvide>
         }

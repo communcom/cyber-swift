@@ -109,30 +109,53 @@ class EOSManager {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
         
-        // Prepare actions
-        let transactionAuthorizationAbi = TransactionAuthorizationAbi(
+        // Action 1
+        let transactionAuthorizationAbiActive = TransactionAuthorizationAbi(
             actor:        AccountNameWriterValue(name:    userID),
             permission:   AccountNameWriterValue(name:    "active"))
+
+        let transactionAuthorizationAbiClient = TransactionAuthorizationAbi(
+            actor:        AccountNameWriterValue(name:    account.stringValue),
+            permission:   AccountNameWriterValue(name:    "clients"))
         
-        let action = ActionAbi(
+        let action1 = ActionAbi(
             account: AccountNameWriterValue(name: account.stringValue),
             name: AccountNameWriterValue(name: name),
-            authorization: [transactionAuthorizationAbi],
+            authorization: [transactionAuthorizationAbiActive, transactionAuthorizationAbiClient],
             data: data)
+        print("action1 hex: \(action1.toHex())")
+        // Action 2
+        let transactionAuthorizationAbiBandwidth = TransactionAuthorizationAbi(
+            actor:        AccountNameWriterValue(name:    "c"),
+            permission:   AccountNameWriterValue(name:    "providebw"))
+        let args2 = EOSTransaction.CommunBandwidthProvider(
+            provider: AccountNameWriterValue(name:    "c"),
+            account: AccountNameWriterValue(name:    userID))
+
+        let action2 = ActionAbi(
+            account: AccountNameWriterValue(name: "cyber"),
+            name: AccountNameWriterValue(name: "providebw"),
+            authorization: [transactionAuthorizationAbiBandwidth],
+            data: DataWriterValue(hex: args2.toHex()))
+        print("action2 hex: \(action2.toHex())")
+
+        // Action 3
+        let args3 = EOSTransaction.CommunBandwidthProvider(
+            provider: AccountNameWriterValue(name:    "c"),
+            account: AccountNameWriterValue(name:    account.stringValue))
         
-//        let secondTransactionAuthorizationAbi = TransactionAuthorizationAbi(
-//            actor: AccountNameWriterValue(name: "gls"),
-//            permission: AccountNameWriterValue(name: "providebw"))
-//        let providerArgs = ProviderArgs(
-//            provider: AccountNameWriterValue(name: "gls"),
-//            account: AccountNameWriterValue(name: userID))
-//        let action2 = ActionAbi(account: AccountNameWriterValue(name: "cyber"), name: AccountNameWriterValue(name: "providebw"), authorization: [secondTransactionAuthorizationAbi], data: DataWriterValue(hex: providerArgs.toHex()))
-        
+        let action3 = ActionAbi(
+            account: AccountNameWriterValue(name: "cyber"),
+            name: AccountNameWriterValue(name: "providebw"),
+            authorization: [transactionAuthorizationAbiBandwidth],
+            data: DataWriterValue(hex: args3.toHex()))
+        print("action3 hex: \(action3.toHex())")
+
         let transaction = EOSTransaction(chainApi: EOSManager.chainApi)
-        
+
         do {
             let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
-            return transaction.push(expirationDate: expiration, actions: [action], authorizingPrivateKey: privateKey)
+            return transaction.push(expirationDate: expiration, actions: [action1, action2, action3], authorizingPrivateKey: privateKey)
         } catch {
             return .error(error)
         }
@@ -173,25 +196,33 @@ class EOSManager {
         return pushAuthorized(account: .gallery, name: "newaccount", data: createNewAccountArgsData)
     }
     
-    static func vote(voteType:  VoteActionType,
-                     author:    String,
-                     permlink:  String,
-                     weight:    Int16) -> Completable {
+    static func vote(voteType: VoteActionType,
+                     communityId: String,
+                     author: String,
+                     permlink: String) -> Completable {
         guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKeys?.privateKey else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
         
         // Prepare data
-        let voteArgs: Encodable = (voteType == .unvote) ?   EOSTransaction.UnvoteArgs.init(voterValue:          userID,
-                                                                                           authorValue:         author,
-                                                                                           permlinkValue:       permlink) :
-            EOSTransaction.UpvoteArgs.init(voterValue:          userID,
-                                           authorValue:         author,
-                                           permlinkValue:       permlink,
-                                           weightValue:         weight)
-        
+
+        var voteArgs: Encodable!
+
+        if voteType == .unvote {
+            voteArgs = EOSTransaction.UnvoteArgs.init(communityID: communityId,
+                                                      voterValue: userID,
+                                                      authorValue: author,
+                                                      permlinkValue: permlink)
+        } else {
+            voteArgs = EOSTransaction.UpvoteArgs.init(communityID: communityId,
+                                                      voterValue: userID,
+                                                      authorValue: author,
+                                                      permlinkValue: permlink)
+
+        }
+
         let voteArgsData = DataWriterValue(hex: voteArgs.toHex())
-        
+        print(voteArgs.toHex())
         return pushAuthorized(account: .gallery, name: voteType.rawValue, data: voteArgsData)
             .flatMapToCompletable()
     }

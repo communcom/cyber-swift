@@ -17,15 +17,15 @@ public typealias SendPostCompletion = (transactionId: String?, userId: String?, 
 extension Reactive where Base: RestAPIManager {
     //  MARK: - Contract `gls.publish`
     public func vote(voteType:       VoteActionType,
+                     communityId:    String,
                      author:         String,
-                     permlink:       String,
-                     weight:         Int16 = 0) -> Completable {
+                     permlink:       String) -> Completable {
        
         
-        return EOSManager.vote(voteType:    voteType,
-                               author:      author,
-                               permlink:    permlink,
-                               weight:      voteType == .unvote ? 0 : 1)
+        return EOSManager.vote(voteType: voteType,
+                               communityId: communityId,
+                               author: author,
+                               permlink: permlink)
     }
 
     public func create(
@@ -165,18 +165,26 @@ extension Reactive where Base: RestAPIManager {
         guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKeys?.privateKey else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
-        
-        let followArgs = EOSTransaction.CommunListFollowArgs(commun_code: communityId, follower: userID)
+
+        let followArgs = EOSTransaction.CommunListFollowArgs(
+            commun_code: CyberSymbolWriterValue(name: communityId),
+            follower: AccountNameWriterValue(name: userID)
+        )
+
         return EOSManager.followCommunity(followArgs)
     }
-    
+
     public func unfollowCommunity(_ communityId: String) -> Single<String> {
         // Check user authorize
         guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKeys?.privateKey else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
-        
-        let unFollowArgs = EOSTransaction.CommunListUnfollowArgs(commun_code: communityId, follower: userID)
+
+        let unFollowArgs = EOSTransaction.CommunListFollowArgs(
+            commun_code: CyberSymbolWriterValue(name: communityId),
+            follower: AccountNameWriterValue(name: userID)
+        )
+
         return EOSManager.unfollowCommunity(unFollowArgs)
     }
     
