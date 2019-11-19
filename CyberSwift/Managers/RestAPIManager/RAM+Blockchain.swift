@@ -31,8 +31,8 @@ extension Reactive where Base: RestAPIManager {
     public func createMessage(
         isComment: Bool = false,
         communCode: String,
-        parentAuthor: String?,
-        parentPermlink: String?,
+        parentAuthor: String? = nil,
+        parentPermlink: String? = nil,
         header: String = "",
         body: String,
         tags: [String] = []
@@ -76,6 +76,7 @@ extension Reactive where Base: RestAPIManager {
         // Send request
         return EOSManager.create(messageCreateArgs: args)
             .map {(transactionId: $0, userId: userId, permlink: permlink)}
+            .observeOn(MainScheduler.instance)
     }
     
     public func deleteMessage(permlink: String) -> Completable {
@@ -113,6 +114,7 @@ extension Reactive where Base: RestAPIManager {
         
         return EOSManager.update(messageArgs: args)
             .map {(transactionId: $0, userId: author, permlink: permlink)}
+            .observeOn(MainScheduler.instance)
     }
     
     public func reblog(author:              String,
