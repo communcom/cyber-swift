@@ -75,10 +75,10 @@ public class EOSTransaction {
     public struct MessageUpdateArgs: Encodable {
         let commun_code: String
         let message_id: Mssgid
-        let parent_id: Mssgid?
         let header: String
         let body: String
         let tags: StringCollectionWriterValue
+        let metadata: String
     }
     
     

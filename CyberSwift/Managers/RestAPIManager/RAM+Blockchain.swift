@@ -27,45 +27,55 @@ extension Reactive where Base: RestAPIManager {
                                author: author,
                                permlink: permlink)
     }
-
-    public func create(
-        communCode:         String,
-        message:             String,
-        headline:            String? = nil,
-        parentPermlink:      String? = nil,
-        parentAuthor:        String? = nil,
-        tags:                [String]?
+    
+    public func createMessage(
+        isComment: Bool = false,
+        communCode: String,
+        parentAuthor: String?,
+        parentPermlink: String?,
+        header: String = "",
+        body: String,
+        tags: [String] = []
     ) -> Single<SendPostCompletion> {
         // Check for authorization
         guard let userId = Config.currentUser?.id else {
             return .error(ErrorAPI.unauthorized)
         }
+        
+        // Create permlink for comment
+        var permlink: String
+        if isComment {
+            permlink = String.permlinkWith(string: "comment")
+        }
 
-        // Prepare array
-        let tags = tags ?? []
+        // Create permlink for post
+        else {
+            permlink = String.permlinkWith(string: header.isEmpty ? body : header)
+        }
         
-        // Construct message create Args
+        // Prepare arguments
+        let messageId = EOSTransaction.Mssgid(author: userId, permlink: permlink)
         
-        let headermssgValue     =   headline ?? ""
-        let prefixTitle         =   parentPermlink == nil ? headermssgValue : "Comment"
-        let messagePermlink     =   String.permlinkWith(string: prefixTitle.isEmpty ? message : prefixTitle)
-
-        let message_id          =   EOSTransaction.Mssgid(author: userId, permlink: messagePermlink)
+        var parentId: EOSTransaction.Mssgid?
+        if let parentAuthor = parentAuthor,
+            let parentPermlink = parentPermlink
+        {
+            parentId = EOSTransaction.Mssgid(author: parentAuthor, permlink: parentPermlink)
+        }
         
-        let parent_id           =   (parentPermlink == nil && parentAuthor == nil) ? EOSTransaction.Mssgid(author: "", permlink: "") : EOSTransaction.Mssgid(author: parentAuthor!, permlink: parentPermlink!)
-        
-        let messageCreateArgs   =   EOSTransaction.MessageCreateArgs(
+        let args = EOSTransaction.MessageCreateArgs(
             commun_code:    CyberSymbolWriterValue(name: communCode),
-            message_id:     message_id,
-            parent_id:      parent_id,
-            header:         headermssgValue,
-            body:           message,
+            message_id:     messageId,
+            parent_id:      parentId,
+            header:         header,
+            body:           body,
             tags:           StringCollectionWriterValue(value: tags),
             metadata:       "",
             weight:         0)
         
-        return EOSManager.create(messageCreateArgs: messageCreateArgs)
-            .map {(transactionId: $0, userId: userId, permlink: messagePermlink)}
+        // Send request
+        return EOSManager.create(messageCreateArgs: args)
+            .map {(transactionId: $0, userId: userId, permlink: permlink)}
     }
     
     public func deleteMessage(permlink: String) -> Completable {
@@ -80,30 +90,28 @@ extension Reactive where Base: RestAPIManager {
     }
     
     public func updateMessage(
-        communCode:      String,
-        permlink:         String,
-        parentAuthor:     String? = nil,
-        parentPermlink:   String? = nil,
-        headline:         String?,
-        message:          String,
-        tags:             [String] = []
+        communCode: String,
+        permlink:   String,
+        header:     String = "",
+        body:       String,
+        tags:       [String] = []
     ) -> Single<SendPostCompletion> {
        
         guard let author = Config.currentUser?.id else {
             return .error(ErrorAPI.unauthorized)
         }
         
-        let parent_id           =   (parentPermlink == nil && parentAuthor == nil) ? nil : EOSTransaction.Mssgid(author: parentAuthor!, permlink: parentPermlink!)
+        // prepare args
+        let messageId = EOSTransaction.Mssgid(author: author, permlink: permlink)
+        let args = EOSTransaction.MessageUpdateArgs(
+            commun_code:    communCode,
+            message_id:     messageId,
+            header:         header,
+            body:           body,
+            tags:           StringCollectionWriterValue(value: tags),
+            metadata:       "")
         
-        let messageUpdateArgs = EOSTransaction.MessageUpdateArgs(
-            commun_code: communCode,
-            message_id: EOSTransaction.Mssgid(author: author, permlink: permlink),
-            parent_id: parent_id,
-            header: headline ?? "",
-            body: message,
-            tags: StringCollectionWriterValue(value: tags))
-        
-        return EOSManager.update(messageArgs: messageUpdateArgs)
+        return EOSManager.update(messageArgs: args)
             .map {(transactionId: $0, userId: author, permlink: permlink)}
     }
     
