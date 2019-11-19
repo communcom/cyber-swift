@@ -52,13 +52,23 @@ extension String {
     
     public static func permlinkWith(string: String) -> String {
         // transform all characters to ASCII
-        let timestamp = Int(Date().timeIntervalSince1970)
-        var components = string.components(separatedBy: "-")
-        components.insert("re", at: 0)
-        components.removeLast()
-        components.append("\(timestamp)")
-        let substring = components.joined(separator: "-").prefix(256)
-
+        let transform1 = string.applyingTransform(.toLowercaseASCIINoSpaces, reverse: false)!
+        
+        // remove all unallowed characters
+        let transform2 = String(transform1.filter {latinLettersAndNumbers.contains($0)})
+        
+        // add date time
+        let transform3 = Date().convert(toStringFormat: .expirationDateType)
+            .replacingOccurrences(of: " ", with: "-")
+            .replacingOccurrences(of: ":", with: "-")
+            .lowercased()
+            + "-"
+            + transform2.lowercased()
+        
+        
+        // get first 256 characters
+        let substring = transform3.prefix(256)
+        
         return String(substring)
     }
     

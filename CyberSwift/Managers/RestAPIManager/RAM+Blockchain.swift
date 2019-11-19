@@ -28,12 +28,14 @@ extension Reactive where Base: RestAPIManager {
                                permlink: permlink)
     }
 
-    public func create(communCode: String,
-                       header:  String? = nil,
-                       parentAuthor: String? = nil,
-                       parentPermlink: String? = nil,
-                       message: String,
-                       tags: [String]? = nil) -> Single<SendPostCompletion> {
+    public func create(
+        communCode:         String,
+        message:             String,
+        headline:            String? = nil,
+        parentPermlink:      String? = nil,
+        parentAuthor:        String? = nil,
+        tags:                [String]?
+    ) -> Single<SendPostCompletion> {
         // Check for authorization
         guard let userId = Config.currentUser?.id else {
             return .error(ErrorAPI.unauthorized)
@@ -44,25 +46,20 @@ extension Reactive where Base: RestAPIManager {
         
         // Construct message create Args
         
-        let headermssgValue     =   header ?? ""
-//        let prefixTitle         =   parentPermlink == nil ? headermssgValue : "Comment"
-        let messagePermlink     =   String.permlinkWith(string: parentPermlink ?? "")
-//
+        let headermssgValue     =   headline ?? ""
+        let prefixTitle         =   parentPermlink == nil ? headermssgValue : "Comment"
+        let messagePermlink     =   String.permlinkWith(string: prefixTitle.isEmpty ? message : prefixTitle)
+
         let message_id          =   EOSTransaction.Mssgid(author: userId, permlink: messagePermlink)
-//
-        let parent_id           =   EOSTransaction.Mssgid(author: parentAuthor ?? "", permlink: parentPermlink ?? "")
-
-        //TODO: create struct
-        let comment = """
-{\"id\":1,\"type\":\"post\",\"attributes\":{\"version\":\"1.0\",\"type\":\"comment\"},\"content\":[{\"id\":2,\"type\":\"paragraph\",\"content\":[{\"id\":3,\"type\":\"text\",\"content\":\"\(message)\"}]}]}
-"""
-
+        
+        let parent_id           =   (parentPermlink == nil && parentAuthor == nil) ? EOSTransaction.Mssgid(author: "", permlink: "") : EOSTransaction.Mssgid(author: parentAuthor!, permlink: parentPermlink!)
+        
         let messageCreateArgs   =   EOSTransaction.MessageCreateArgs(
             commun_code:    CyberSymbolWriterValue(name: communCode),
             message_id:     message_id,
             parent_id:      parent_id,
             header:         headermssgValue,
-            body:           comment,
+            body:           message,
             tags:           StringCollectionWriterValue(value: tags),
             metadata:       "",
             weight:         0)
