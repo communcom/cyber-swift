@@ -132,7 +132,7 @@ extension Reactive where Base: RestAPIManager {
         return EOSManager.reblog(args: reblogArgs)
     }
     
-    // MARK: - Contract `gls.social`
+    // MARK: - Contract `commun.social`
     public func update(userProfile: [String: String]) -> Single<String> {
         // Check user authorize
         guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKeys?.privateKey else {

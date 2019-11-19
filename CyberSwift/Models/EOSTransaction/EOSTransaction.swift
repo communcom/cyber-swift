@@ -244,75 +244,23 @@ public class EOSTransaction {
     
     /// User profile: Updatemeta
     public struct UserProfileAccountmetaArgs: Encodable {
-        // MARK: - Properties
-        let type: String?
-        let app: String?
-        let email: String?
-        let phone: String?
+        let avatar_url: String?
+        let cover_url: String?
+        let biography: String?
         let facebook: String?
-        let instagram: String?
         let telegram: String?
-        let vk: String?
         let whatsapp: String?
         let wechat: String?
-        let website: String?
-        let first_name: String?
-        let last_name: String?
-        let name: String?
-        let birth_date: String?
-        let gender: String?
-        let location: String?
-        let city: String?
-        let about: String?
-        let occupation: String?
-        let i_can: String?
-        let looking_for: String?
-        let business_category: String?
-        let background_image: String?
-        let cover_image: String?
-        let profile_image: String?
-        let user_image: String?
-        let ico_address: String?
-        let target_date: String?
-        let target_plan: String?
-        let target_point_a: String?
-        let target_point_b: String?
-        
         
         // MARK: - Initialization
         init(json: [String: String?]) {
-            self.type               =   json["type"] ?? nil
-            self.app                =   json["app"] ?? nil
-            self.email              =   json["email"] ?? nil
-            self.phone              =   json["phone"] ?? nil
-            self.facebook           =   json["facebook"] ?? nil
-            self.instagram          =   json["instagram"] ?? nil
-            self.telegram           =   json["telegram"] ?? nil
-            self.vk                 =   json["vk"] ?? nil
-            self.whatsapp           =   json["whatsapp"] ?? nil
-            self.wechat             =   json["wechat"] ?? nil
-            self.website            =   json["website"] ?? nil
-            self.first_name         =   json["first_name"] ?? nil
-            self.last_name          =   json["last_name"] ?? nil
-            self.name               =   json["name"] ?? nil
-            self.birth_date         =   json["birth_date"] ?? nil
-            self.gender             =   json["gender"] ?? nil
-            self.location           =   json["location"] ?? nil
-            self.city               =   json["city"] ?? nil
-            self.about              =   json["about"] ?? nil
-            self.occupation         =   json["occupation"] ?? nil
-            self.i_can              =   json["i_can"] ?? nil
-            self.looking_for        =   json["looking_for"] ?? nil
-            self.business_category  =   json["business_category"] ?? nil
-            self.background_image   =   json["background_image"] ?? nil
-            self.cover_image        =   json["cover_image"] ?? nil
-            self.profile_image      =   json["profile_image"] ?? nil
-            self.user_image         =   json["user_image"] ?? nil
-            self.ico_address        =   json["ico_address"] ?? nil
-            self.target_date        =   json["target_date"] ?? nil
-            self.target_plan        =   json["target_plan"] ?? nil
-            self.target_point_a     =   json["target_point_a"] ?? nil
-            self.target_point_b     =   json["target_point_b"] ?? nil
+            self.avatar_url = json["avatar_url"] ?? nil
+            self.cover_url = json["cover_url"] ?? nil
+            self.biography = json["biography"] ?? nil
+            self.facebook = json["facebook"] ?? nil
+            self.telegram = json["telegram"] ?? nil
+            self.whatsapp = json["whatsapp"] ?? nil
+            self.wechat = json["wechat"] ?? nil
         }
     }
     
