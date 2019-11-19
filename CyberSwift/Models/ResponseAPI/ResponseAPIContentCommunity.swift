@@ -16,19 +16,26 @@ public struct ResponseAPIContentGetCommunities: Decodable {
 // MARK: - API `content.getCommunity`
 public struct ResponseAPIContentGetCommunity: Decodable, Equatable {
     public var subscribersCount: UInt64?
+    public var leadersCount: UInt64?
     public let postsCount: UInt64?
     public let communityId: String
+    public let issuer: String?
     public let alias: String?
+    public let rules: [ResponseAPIContentGetCommunityRule]?
     public let name: String
+    public let registrationTime: String
     public let avatarUrl: String?
     public let coverUrl: String?
     public let description: String?
     public let language: String?
-    public let rules: [ResponseAPIContentGetCommunityRule]?
     public var isSubscribed: Bool?
     public let isBlocked: Bool?
     public let friendsCount: UInt64?
     public let friends: [ResponseAPIContentResolveProfile]?
+    public var isLeader: Bool?
+    public var isStoppedLeader: Bool?
+    
+    // Additional field
     public var isBeingJoined: Bool? = false
 }
 
