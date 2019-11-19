@@ -23,7 +23,7 @@ public struct ResponseAPIContentGetCommunity: Decodable, Equatable {
     public let alias: String?
     public let rules: [ResponseAPIContentGetCommunityRule]?
     public let name: String
-    public let registrationTime: String
+    public let registrationTime: String?
     public let avatarUrl: String?
     public let coverUrl: String?
     public let description: String?
