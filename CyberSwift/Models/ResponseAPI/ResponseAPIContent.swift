@@ -165,6 +165,12 @@ public struct ResponseAPIContentId: Decodable, Equatable {
     public let userId: String
     public let permlink: String
     public let communityId: String?
+    
+    public init(userId: String, permlink: String, communityId: String?) {
+        self.userId = userId
+        self.permlink = permlink
+        self.communityId = communityId
+    }
 }
 
 public struct ResponseAPIContentMeta: Decodable, Equatable {
@@ -230,6 +236,14 @@ public struct ResponseAPIAuthor: Decodable, Equatable {
     public let avatarUrl: String?
     public let stats: ResponseAPIAuthorStats?
     public var isSubscribed: Bool?
+    
+    public init(userId: String, username: String?, avatarUrl: String?, stats: ResponseAPIAuthorStats?, isSubscribed: Bool?) {
+        self.userId = userId
+        self.username = username
+        self.avatarUrl = avatarUrl
+        self.stats = ResponseAPIAuthorStats(reputation: nil)
+        self.isSubscribed = isSubscribed
+    }
 }
 
 public struct ResponseAPIAuthorStats: Decodable, Equatable {
@@ -239,6 +253,11 @@ public struct ResponseAPIAuthorStats: Decodable, Equatable {
 public struct ResponseAPIContentGetCommentParent: Decodable, Equatable {
     public let post: ResponseAPIContentId?
     public let comment: ResponseAPIContentId?
+    
+    public init(post: ResponseAPIContentId?, comment: ResponseAPIContentId?) {
+        self.post = post
+        self.comment = comment
+    }
 }
 
 public struct ResponseAPIContentGetCommentParentCommentContent: Decodable {
