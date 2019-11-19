@@ -188,7 +188,7 @@ public struct ResponseAPIContentGetComment: Decodable, Equatable {
     public var childCommentsCount: UInt
     public let contentId: ResponseAPIContentId
     public let parents: ResponseAPIContentGetCommentParent
-    public let document: ResponseAPIContentBlock
+    public var document: ResponseAPIContentBlock
     public let author: ResponseAPIAuthor?
     public let community: ResponseAPIContentGetCommunity?
     public var children: [ResponseAPIContentGetComment]?
