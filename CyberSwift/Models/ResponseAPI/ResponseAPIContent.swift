@@ -192,13 +192,32 @@ public struct ResponseAPIContentGetComment: Decodable, Equatable {
     public let author: ResponseAPIAuthor?
     public let community: ResponseAPIContentGetCommunity?
     public var children: [ResponseAPIContentGetComment]?
-}
-
-public struct ResponseAPIContentGetCommentVotes: Decodable {
-    public let upCount: Int64?
-    public let downCount: Int64?
-    public let hasUpVote: Bool
-    public let hasDownVote: Bool
+    
+    public init(
+        contentId: ResponseAPIContentId,
+        parents: ResponseAPIContentGetCommentParent,
+        document: ResponseAPIContentBlock,
+        author: ResponseAPIAuthor,
+        community: ResponseAPIContentGetCommunity?
+    ) {
+        let votes = ResponseAPIContentVotes(upCount: 0, downCount: 0)
+        self.votes = votes
+        
+        let meta = ResponseAPIContentMeta(creationTime: Date().toString())
+        self.meta = meta
+        
+        self.childCommentsCount = 0
+        
+        self.contentId = contentId
+        
+        self.parents = parents
+        
+        self.document = document
+        
+        self.author = author
+        
+        self.community = community
+    }
 }
 
 public struct ResponseAPIContentGetCommentPayout: Decodable {
