@@ -23,6 +23,9 @@ public struct ResponseAPIContentGetPost: Decodable, Equatable {
     public var stats: ResponseAPIContentGetPostStats?
     public let payout: ResponseAPIContentGetPostPayout?
     public let community: ResponseAPIContentGetCommunity
+    
+    // Additional properties
+    public var isAddingComment: Bool? = false
 }
 
 public struct ResponseAPIContentBlock: Codable, Equatable {
@@ -198,6 +201,9 @@ public struct ResponseAPIContentGetComment: Decodable, Equatable {
     public let author: ResponseAPIAuthor?
     public let community: ResponseAPIContentGetCommunity?
     public var children: [ResponseAPIContentGetComment]?
+    
+    // Additional properties
+    public var isReplying: Bool? = false
     
     public init(
         contentId: ResponseAPIContentId,
