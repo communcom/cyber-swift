@@ -18,6 +18,10 @@ enum DeviceScreenSize {
 }
 
 extension UIDevice {
+    var hasNotch: Bool {
+        return (UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0) > 0
+    }
+    
     class func getDeviceScreenSize() -> DeviceScreenSize {
         if UIDevice.current.userInterfaceIdiom == .phone {
             switch UIScreen.main.nativeBounds.height {
