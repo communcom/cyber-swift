@@ -46,10 +46,8 @@ extension Reactive where Base: RestAPIManager {
         var permlink: String
         if isComment {
             permlink = String.permlinkWith(string: "comment")
-        }
-
-        // Create permlink for post
-        else {
+        } else {
+            // Create permlink for post
             permlink = String.permlinkWith(string: header.isEmpty ? body : header)
         }
         
@@ -57,10 +55,10 @@ extension Reactive where Base: RestAPIManager {
         let messageId = EOSTransaction.Mssgid(author: userId, permlink: permlink)
         
         var parentId: EOSTransaction.Mssgid?
-        if let parentAuthor = parentAuthor,
-            let parentPermlink = parentPermlink
-        {
+        if let parentAuthor = parentAuthor, let parentPermlink = parentPermlink {
             parentId = EOSTransaction.Mssgid(author: parentAuthor, permlink: parentPermlink)
+        } else {
+            parentId = EOSTransaction.Mssgid()
         }
         
         let args = EOSTransaction.MessageCreateArgs(
