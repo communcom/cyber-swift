@@ -232,6 +232,7 @@ public struct ResponseAPIContentGetBlacklistUser: Decodable, Equatable {
     
     // additional properties
     public var isBeingUnblocked: Bool? = false
+    public var isBlocked: Bool? = true
 }
 
 public struct ResponseAPIContentGetBlacklistCommunity: Decodable, Equatable {
@@ -242,4 +243,5 @@ public struct ResponseAPIContentGetBlacklistCommunity: Decodable, Equatable {
     
     // additional properties
     public var isBeingUnblocked: Bool? = false
+    public var isBlocked: Bool? = true
 }
