@@ -18,7 +18,7 @@ enum DeviceScreenSize {
 }
 
 extension UIDevice {
-    static var hasNotch: Bool {
+    public static var hasNotch: Bool {
         return (UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0) > 0
     }
     
