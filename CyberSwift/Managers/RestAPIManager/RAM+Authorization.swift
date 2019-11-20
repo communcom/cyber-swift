@@ -213,23 +213,23 @@ extension Reactive where Base: RestAPIManager {
         let requestParamsType = MethodAPIType.logout.introduced()
         let requestMethodAPIType = Broadcast.instance.prepareGETRequest(requestParamsType: requestParamsType)
         SocketManager.shared.sendMessage(requestMethodAPIType.requestMessage!)
-        
-        return pushNotifyOff()
-            .andThen(Completable.create {completable in
-                do {
-                    try KeychainManager.deleteUser()
-                    UserDefaults.standard.set(nil, forKey: Config.currentUserPushNotificationOn)
-                    UserDefaults.standard.set(nil, forKey: Config.currentUserAppLanguageKey)
-                    UserDefaults.standard.set(nil, forKey: Config.currentUserThemeKey)
-                    UserDefaults.standard.set(nil, forKey: Config.currentUserAvatarUrlKey)
-                    UserDefaults.standard.set(nil, forKey: Config.currentUserBiometryAuthEnabled)
-                    
-                    completable(.completed)
-                } catch {
-                    completable(.error(error))
-                }
-                return Disposables.create()
-            })
+
+        do {
+            try KeychainManager.deleteUser()
+            UserDefaults.standard.set(nil, forKey: Config.currentUserPushNotificationOn)
+            UserDefaults.standard.set(nil, forKey: Config.currentUserAppLanguageKey)
+            UserDefaults.standard.set(nil, forKey: Config.currentUserThemeKey)
+            UserDefaults.standard.set(nil, forKey: Config.currentUserAvatarUrlKey)
+            UserDefaults.standard.set(nil, forKey: Config.currentUserBiometryAuthEnabled)
+        } catch {
+            print(error)
+        }
+
+        // pushNotifyOff()
+        return Completable.create { completable in
+            completable(.completed)
+            return Disposables.create()
+        }
     }
     
     /// Generate secret
