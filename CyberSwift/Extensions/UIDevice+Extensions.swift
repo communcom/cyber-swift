@@ -22,6 +22,10 @@ extension UIDevice {
         return (UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0) > 0
     }
     
+    public static var safeAreaInsets: UIEdgeInsets {
+        return UIApplication.shared.keyWindow?.safeAreaInsets ?? .zero
+    }
+
     class func getDeviceScreenSize() -> DeviceScreenSize {
         if UIDevice.current.userInterfaceIdiom == .phone {
             switch UIScreen.main.nativeBounds.height {
