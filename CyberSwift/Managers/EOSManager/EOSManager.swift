@@ -270,6 +270,7 @@ class EOSManager {
         // Send transaction
         return pushAuthorized(account: .gallery, name: "reblog", data: reblogArgsData)
     }
+
     
     // MARK: - Contract `gls.vesting`
 //    static func publish(transferArgs: EOSTransaction.TransferArgs) -> Single<String> {
@@ -370,5 +371,11 @@ class EOSManager {
         // Prepare data
         let data = DataWriterValue(hex: args.toHex())
         return pushAuthorized(account: .ctrl, name: "unvotelead", data: data)
+    }
+
+    static func report(args: EOSTransaction.ReprotArgs) -> Single<String> {
+        // Prepare data
+        let data = DataWriterValue(hex: args.toHex())
+        return pushAuthorized(account: .gallery, name: "report", data: data)
     }
 }

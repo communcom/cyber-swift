@@ -226,4 +226,28 @@ extension Reactive where Base: RestAPIManager {
         let args = EOSTransaction.UnvoteLeaderArgs(commun_code: communityId, voter: userID, leader: leader)
         return EOSManager.unvoteLeader(args: args)
     }
+
+    public func report(communityID: String,
+                       autorID: String,
+                       permlink: String,
+                       reason: ReportReason) -> Single<String> {
+        // Check user authorize
+        guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKeys?.privateKey else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        }
+
+        let args = EOSTransaction.ReprotArgs(communityID: communityID, userID: userID, autorID: autorID, permlink: permlink, reason: reason.rawValue)
+        return EOSManager.report(args: args)
+    }
+
+    public enum ReportReason: String, CaseIterable {
+        case spam = "Spam"
+        case harassment = "Harassment"
+        case niguty = "Niguty"
+        case violence = "Violence"
+        case fakeNews = "Fake News"
+        case terrorism = "Terrorism"
+        case hateSpeech = "Hate Speech"
+        case unauthorizedSales = "Unauthorized Sales"
+    }
 }

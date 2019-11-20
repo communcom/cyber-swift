@@ -376,4 +376,23 @@ public class EOSTransaction {
         let provider: AccountNameWriterValue
         let account: AccountNameWriterValue
     }
+
+    /// Action `report`
+    public struct ReprotArgs: Encodable {
+        let communCode: CyberSymbolWriterValue
+        let reporter: NameWriterValue
+        let message: Mssgid
+        let reason: String
+
+        init(communityID: String,
+             userID: String,
+             autorID: String,
+             permlink: String,
+             reason: String) {
+            self.communCode = CyberSymbolWriterValue(name: communityID)
+            self.reporter = NameWriterValue(name: userID)
+            self.message = Mssgid(author: autorID, permlink: permlink)
+            self.reason = reason
+        }
+    }
 }
