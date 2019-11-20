@@ -334,13 +334,14 @@ public class EOSTransaction {
     
     /// Action `voteleader`
     public struct VoteLeaderArgs: Encodable {
-        let commun_code: String
+        let commun_code: CyberSymbolWriterValue
         let voter: NameWriterValue
         let leader: NameWriterValue
         let pct: UInt16?
+        let fix: Int = 0 //FIXME: add 00 data
         
         init(commun_code: String, voter: String, leader: String, pct: UInt16? = nil) {
-            self.commun_code = commun_code
+            self.commun_code = CyberSymbolWriterValue(name: commun_code)
             self.voter = NameWriterValue(name: voter)
             self.leader = NameWriterValue(name: leader)
             self.pct = pct
@@ -348,12 +349,12 @@ public class EOSTransaction {
     }
     /// Action `voteleader`
     public struct UnvoteLeaderArgs: Encodable {
-        let commun_code: String
+        let commun_code: CyberSymbolWriterValue
         let voter: NameWriterValue
         let leader: NameWriterValue
         
         init(commun_code: String, voter: String, leader: String, pct: UInt16? = nil) {
-            self.commun_code = commun_code
+            self.commun_code = CyberSymbolWriterValue(name: commun_code)
             self.voter = NameWriterValue(name: voter)
             self.leader = NameWriterValue(name: leader)
         }

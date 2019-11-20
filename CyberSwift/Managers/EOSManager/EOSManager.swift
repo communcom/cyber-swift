@@ -100,7 +100,12 @@ class EOSManager {
         }
     }
     
-    static func pushAuthorized(account: TransactionAccountType, name: String, data: DataWriterValue, expiration: Date = Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds)) -> Single<String> {
+    static func pushAuthorized(account: TransactionAccountType,
+                               name: String,
+                               data: DataWriterValue,
+                               expiration: Date = Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds),
+                               disableClientAuth: Bool = false,
+                               disableCyberBandwidth: Bool  = false) -> Single<String> {
         
         // Offline mode
         if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
@@ -117,26 +122,31 @@ class EOSManager {
         let transactionAuthorizationAbiClient = TransactionAuthorizationAbi(
             actor:        AccountNameWriterValue(name:    account.stringValue),
             permission:   AccountNameWriterValue(name:    "clients"))
-        
+
+        var auth = [transactionAuthorizationAbiActive, transactionAuthorizationAbiClient]
+        if disableClientAuth {
+            auth.removeLast()
+        }
+
         let action1 = ActionAbi(
             account: AccountNameWriterValue(name: account.stringValue),
             name: AccountNameWriterValue(name: name),
-            authorization: [transactionAuthorizationAbiActive, transactionAuthorizationAbiClient],
+            authorization: auth,
             data: data)
         print("action1 hex: \(action1.toHex())")
         // Action 2
         let transactionAuthorizationAbiBandwidth = TransactionAuthorizationAbi(
             actor:        AccountNameWriterValue(name:    "c"),
             permission:   AccountNameWriterValue(name:    "providebw"))
+
         let args2 = EOSTransaction.CommunBandwidthProvider(
             provider: AccountNameWriterValue(name:    "c"),
             account: AccountNameWriterValue(name:    userID))
 
-        let action2 = ActionAbi(
-            account: AccountNameWriterValue(name: "cyber"),
-            name: AccountNameWriterValue(name: "providebw"),
-            authorization: [transactionAuthorizationAbiBandwidth],
-            data: DataWriterValue(hex: args2.toHex()))
+        let action2 = ActionAbi(account: AccountNameWriterValue(name: "cyber"),
+                                name: AccountNameWriterValue(name: "providebw"),
+                                authorization: [transactionAuthorizationAbiBandwidth],
+                                data: DataWriterValue(hex: args2.toHex()))
         print("action2 hex: \(action2.toHex())")
 
         // Action 3
@@ -155,7 +165,11 @@ class EOSManager {
 
         do {
             let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
-            return transaction.push(expirationDate: expiration, actions: [action1, action2, action3], authorizingPrivateKey: privateKey)
+            var actions = [action1, action2, action3]
+            if disableCyberBandwidth {
+                actions.removeLast()
+            }
+            return transaction.push(expirationDate: expiration, actions: actions, authorizingPrivateKey: privateKey)
         } catch {
             return .error(error)
         }
@@ -364,13 +378,23 @@ class EOSManager {
     static func voteLeader(args: EOSTransaction.VoteLeaderArgs) -> Single<String> {
         // Prepare data
         let data = DataWriterValue(hex: args.toHex())
-        return pushAuthorized(account: .ctrl, name: "voteleader", data: data)
+
+        return pushAuthorized(account: .ctrl,
+                              name: "voteleader",
+                              data: data,
+                              disableClientAuth: true,
+                              disableCyberBandwidth: true)
     }
     
     static func unvoteLeader(args: EOSTransaction.UnvoteLeaderArgs) -> Single<String> {
         // Prepare data
         let data = DataWriterValue(hex: args.toHex())
-        return pushAuthorized(account: .ctrl, name: "unvotelead", data: data)
+
+        return pushAuthorized(account: .ctrl,
+                              name: "unvotelead",
+                              data: data,
+                              disableClientAuth: true,
+                              disableCyberBandwidth: true)
     }
 
     static func report(args: EOSTransaction.ReprotArgs) -> Single<String> {
