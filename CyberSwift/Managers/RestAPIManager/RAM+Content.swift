@@ -94,7 +94,7 @@ extension RestAPIManager {
         limit: UInt                     = UInt(Config.paginationLimit)
     ) -> Single<ResponseAPIContentGetComments> {
         let methodAPIType = MethodAPIType.getComments(
-            sortBy: .time,
+            sortBy: .timeDesc,
             offset: offset,
             limit: limit,
             type: .post,
