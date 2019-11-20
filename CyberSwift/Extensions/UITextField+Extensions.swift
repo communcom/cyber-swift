@@ -15,7 +15,7 @@ extension UITextField {
         self.theme_textColor        =   textColors
         self.textAlignment          =   alignment
         
-        self.attributedPlaceholder  =   NSAttributedString(string:      placeholder.localized(),
+        self.attributedPlaceholder  =   NSAttributedString(string:      placeholder.localized().uppercaseFirst,
                                                            attributes:  [ NSAttributedString.Key.foregroundColor: UIColor(hexString: "#9B9FA2") ])
     }
     
