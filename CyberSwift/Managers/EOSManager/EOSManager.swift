@@ -321,6 +321,12 @@ class EOSManager {
         return pushAuthorized(account: .social, name: "block", data: data)
     }
     
+    static func unblock(args: EOSTransaction.BlockUserArgs) -> Single<String> {
+        // Prepare data
+        let data = DataWriterValue(hex: args.toHex())
+        return pushAuthorized(account: .social, name: "unblock", data: data)
+    }
+    
     // MARK: - Contract `gls.ctrl`
     static func reg(witnessArgs: EOSTransaction.RegwitnessArgs) -> Single<String> {
         // Prepare data

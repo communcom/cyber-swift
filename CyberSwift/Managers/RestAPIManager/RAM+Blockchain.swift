@@ -168,6 +168,16 @@ extension Reactive where Base: RestAPIManager {
         return EOSManager.block(args: args)
     }
     
+    public func unblock(_ userToUnblock: String) -> Single<String> {
+        // Check user authorize
+        guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKeys?.privateKey else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        }
+        
+        let args = EOSTransaction.BlockUserArgs(blocker: userID, blocking: userToUnblock)
+        return EOSManager.unblock(args: args)
+    }
+    
     // MARK: - Contract `commun.list`
     public func followCommunity(_ communityId: String) -> Single<String> {
         // Check user authorize

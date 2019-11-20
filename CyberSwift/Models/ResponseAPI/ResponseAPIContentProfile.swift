@@ -229,6 +229,9 @@ public struct ResponseAPIContentGetBlacklistUser: Decodable, Equatable {
     public let username: String
     public let avatarUrl: String?
     public var isSubscribed: Bool?
+    
+    // additional properties
+    public var isBeingUnblocked: Bool? = false
 }
 
 public struct ResponseAPIContentGetBlacklistCommunity: Decodable, Equatable {
@@ -236,4 +239,7 @@ public struct ResponseAPIContentGetBlacklistCommunity: Decodable, Equatable {
     public let alias: String?
     public let name: String
     public var isSubscribed: Bool?
+    
+    // additional properties
+    public var isBeingUnblocked: Bool? = false
 }
