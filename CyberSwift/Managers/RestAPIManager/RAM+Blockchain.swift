@@ -45,7 +45,7 @@ extension Reactive where Base: RestAPIManager {
         // Create permlink for comment
         var permlink: String
         if isComment {
-            permlink = String.permlinkWith(string: "comment")
+            permlink = String.permlinkWith(string: "comment-\(userId)")
         } else {
             // Create permlink for post
             permlink = String.permlinkWith(string: header.isEmpty ? body : header)

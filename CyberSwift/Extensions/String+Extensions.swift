@@ -67,7 +67,7 @@ extension String {
         
         
         // get first 256 characters
-        let substring = transform3.prefix(256)
+        let substring = transform3.prefix(250)
         
         return String(substring)
     }
