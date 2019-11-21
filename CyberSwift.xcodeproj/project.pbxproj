@@ -45,6 +45,7 @@
 		B1A74A662243893A009D68E7 /* EOSManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A74A652243893A009D68E7 /* EOSManager.swift */; };
 		B1AA194322956E3C00AF5DF0 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = B1AA194222956E3C00AF5DF0 /* README.md */; };
 		B1AA194522956E4400AF5DF0 /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = B1AA194422956E4300AF5DF0 /* LICENSE.md */; };
+		B1C3715B23867AAF000BAE2F /* Numbers+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3715A23867AAF000BAE2F /* Numbers+Extensions.swift */; };
 		B1C3F857223F98B1005711EF /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3F854223F98B1005711EF /* Date+Extensions.swift */; };
 		B1C3F858223F98B1005711EF /* ConstantsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3F855223F98B1005711EF /* ConstantsApp.swift */; };
 		B1C3F859223F98B1005711EF /* Encodable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3F856223F98B1005711EF /* Encodable+Extensions.swift */; };
@@ -129,6 +130,7 @@
 		B1A74A652243893A009D68E7 /* EOSManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EOSManager.swift; sourceTree = "<group>"; };
 		B1AA194222956E3C00AF5DF0 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		B1AA194422956E4300AF5DF0 /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
+		B1C3715A23867AAF000BAE2F /* Numbers+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Numbers+Extensions.swift"; sourceTree = "<group>"; };
 		B1C3F854223F98B1005711EF /* Date+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		B1C3F855223F98B1005711EF /* ConstantsApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstantsApp.swift; sourceTree = "<group>"; };
 		B1C3F856223F98B1005711EF /* Encodable+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Encodable+Extensions.swift"; sourceTree = "<group>"; };
@@ -315,6 +317,8 @@
 				B1C3F854223F98B1005711EF /* Date+Extensions.swift */,
 				B1C3F856223F98B1005711EF /* Encodable+Extensions.swift */,
 				B1C3F85D223F98DC005711EF /* Logger.swift */,
+				B1C3715A23867AAF000BAE2F /* Numbers+Extensions.swift */,
+				3B61AC3122E1C5CD00F608AF /* ResponseAPIGetOptionsNotifyShow+Extensions.swift */,
 				3BBBE2992296A8A10029C9C9 /* RxSwift.swift */,
 				B17991712269B4280014CB44 /* String+Extensions.swift */,
 				B1EA02CC22895EB400835244 /* UIButton+Extensions.swift */,
@@ -325,7 +329,6 @@
 				B1EA02F52289D3B400835244 /* UITextField+Extensions.swift */,
 				B154D8BA237A97E70042E991 /* UITextView+Extensions.swift */,
 				B1EA0318228A985400835244 /* UIView+Extensions.swift */,
-				3B61AC3122E1C5CD00F608AF /* ResponseAPIGetOptionsNotifyShow+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -619,6 +622,7 @@
 				BCA97132236178E600AE37E1 /* ResponseAPIContent.swift in Sources */,
 				B1A74A642243892B009D68E7 /* EOSTransaction.swift in Sources */,
 				B1EA02F62289D3B400835244 /* UITextField+Extensions.swift in Sources */,
+				B1C3715B23867AAF000BAE2F /* Numbers+Extensions.swift in Sources */,
 				BC48FC492366A4850049C4F4 /* EOSManager+commun.list.swift in Sources */,
 				3BCDB40B2260E9C300739F7E /* Bool+Extensions.swift in Sources */,
 				B17991702269B4070014CB44 /* Array+Extensions.swift in Sources */,
