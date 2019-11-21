@@ -84,14 +84,8 @@ public class EOSTransaction {
     
     /// Delete Post/Comment
     public struct MessageDeleteArgs: Encodable {
-        // MARK: - Properties
+        let commun_code: CyberSymbolWriterValue
         let message_id: Mssgid
-        
-        
-        // MARK: - Initialization
-        init(author: String = "CyberSwift", messagePermlink: String) {
-            self.message_id = Mssgid(author: author, permlink: messagePermlink)
-        }
     }
     
     
