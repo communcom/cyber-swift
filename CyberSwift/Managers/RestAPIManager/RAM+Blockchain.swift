@@ -77,14 +77,15 @@ extension Reactive where Base: RestAPIManager {
             .observeOn(MainScheduler.instance)
     }
     
-    public func deleteMessage(permlink: String) -> Completable {
-       
-        
+    public func deleteMessage(communCode: String, permlink: String) -> Completable {
         guard let author = Config.currentUser?.id else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
         
-        let messageDeleteArgs = EOSTransaction.MessageDeleteArgs(author: author, messagePermlink: permlink)
+        let messageDeleteArgs = EOSTransaction.MessageDeleteArgs(
+            commun_code: CyberSymbolWriterValue(name: communCode),
+            message_id: EOSTransaction.Mssgid(author: author, permlink: permlink)
+        )
         return EOSManager.delete(messageArgs: messageDeleteArgs)
     }
     

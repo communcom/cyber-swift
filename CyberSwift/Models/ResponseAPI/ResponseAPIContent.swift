@@ -23,6 +23,7 @@ public struct ResponseAPIContentGetPost: Decodable, Equatable {
     public var stats: ResponseAPIContentGetPostStats?
     public let payout: ResponseAPIContentGetPostPayout?
     public let community: ResponseAPIContentGetCommunity
+    public let url: String?
     
     // Additional properties
     public var isAddingComment: Bool? = false
