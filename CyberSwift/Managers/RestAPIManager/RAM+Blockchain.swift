@@ -257,13 +257,20 @@ extension Reactive where Base: RestAPIManager {
     public func report(communityID: String,
                        autorID: String,
                        permlink: String,
-                       reason: ReportReason) -> Single<String> {
+                       reasons: [ReportReason]) -> Single<String> {
         // Check user authorize
         guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKeys?.privateKey else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
 
-        let args = EOSTransaction.ReprotArgs(communityID: communityID, userID: userID, autorID: autorID, permlink: permlink, reason: reason.rawValue)
+        // Change False News to falsenews
+        let stringReasons = reasons.map { (reason) -> String in
+            let reasons = reason.rawValue.components(separatedBy: " ")
+            let normalizeTag = reasons.map({$0.lowercased()}).joined(separator: "")
+            return "\"\(normalizeTag)\""
+        }
+
+        let args = EOSTransaction.ReprotArgs(communityID: communityID, userID: userID, autorID: autorID, permlink: permlink, reason: "[\(stringReasons.joined(separator: ", "))]")
         return EOSManager.report(args: args)
     }
 
@@ -272,7 +279,7 @@ extension Reactive where Base: RestAPIManager {
         case harassment = "Harassment"
         case niguty = "Niguty"
         case violence = "Violence"
-        case fakeNews = "Fake News"
+        case falseNews = "False News"
         case terrorism = "Terrorism"
         case hateSpeech = "Hate Speech"
         case unauthorizedSales = "Unauthorized Sales"
