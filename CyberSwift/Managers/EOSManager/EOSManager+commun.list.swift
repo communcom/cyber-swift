@@ -26,4 +26,20 @@ extension EOSManager {
         // Send transaction
         return pushAuthorized(account: .list, name: "unfollow", data: unfollowArgsData)
     }
+    
+    static func hideCommunity(_ args: EOSTransaction.CommunListFollowArgs) -> Single<String> {
+        // Prepare data
+        let data = DataWriterValue(hex: args.toHex())
+        
+        // Send transaction
+        return pushAuthorized(account: .list, name: "hide", data: data)
+    }
+    
+    static func unhideCommunity(_ args: EOSTransaction.CommunListFollowArgs) -> Single<String> {
+        // Prepare data
+        let data = DataWriterValue(hex: args.toHex())
+        
+        // Send transaction
+        return pushAuthorized(account: .list, name: "unhide", data: data)
+    }
 }
