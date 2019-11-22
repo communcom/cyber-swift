@@ -18,13 +18,14 @@ extension RestAPIManager {
     }
     
     public func getCommunities(
-        type: GetCommunitiesType,
+        type: GetCommunitiesType?,
         userId: String? = Config.currentUser?.id,
-        offset: Int,
-        limit: Int = 10
+        offset: Int?,
+        limit: Int?,
+        search: String? = nil
     ) -> Single<ResponseAPIContentGetCommunities> {
         
-        let methodAPIType = MethodAPIType.getCommunities(type: type, userId: userId, offset: offset, limit: 10)
+        let methodAPIType = MethodAPIType.getCommunities(type: type, userId: userId, search: search, offset: offset, limit: limit)
         
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
