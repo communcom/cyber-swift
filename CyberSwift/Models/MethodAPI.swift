@@ -39,6 +39,11 @@ public enum FeedTypeMode: String {
     case community          =   "community"
     case subscriptions      =   "subscriptions"
     case byUser             =   "byUser"
+    case topLikes           =   "topLikes"
+    case topComments        =   "topComments"
+    case topRewards         =   "topRewards"
+    case hot                =   "hot"
+    case voted              =   "voted"
 }
 
 public enum FeedTimeFrameMode: String {
