@@ -174,7 +174,11 @@ extension SocketManager {
             return result
         } else if let error = response.error {
             let message = error.data?.error?.details?.first?.message.replacingOccurrences(of: "assertion failure with message: ", with: "") ?? error.data?.message ?? error.message
-            
+
+            if message == "balance does not exist" {
+                throw ErrorAPI.balanceNotExist(message: message)
+            }
+
             if message == "Invalid step taken", let currentState = error.currentState {
                 throw ErrorAPI.registrationRequestFailed(message: message, currentStep: currentState)
             }

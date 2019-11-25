@@ -104,7 +104,7 @@ extension Reactive where Base: RestAPIManager {
         // prepare args
         let messageId = EOSTransaction.Mssgid(author: author, permlink: permlink)
         let args = EOSTransaction.MessageUpdateArgs(
-            commun_code:    communCode,
+            commun_code:    CyberSymbolWriterValue(name: communCode),
             message_id:     messageId,
             header:         header,
             body:           body,

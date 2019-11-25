@@ -15,6 +15,10 @@ import eosswift
 public typealias Byte = UInt8
 public typealias BaseT = Int64
 
+protocol HasCommunCode {
+    func getCode() -> CyberSymbolWriterValue
+}
+
 public class EOSTransaction {
     // MARK: - Properties
     private let _chainApi: ChainApi
@@ -59,7 +63,7 @@ public class EOSTransaction {
     }
     
     /// Action `createmssg` (https://github.com/GolosChain/golos.contracts/blob/develop/golos.publication/golos.publication.abi#createmssg)
-    public struct MessageCreateArgs: Encodable {
+    public struct MessageCreateArgs: Encodable, HasCommunCode {
         let commun_code: CyberSymbolWriterValue
         let message_id: Mssgid
         let parent_id: Mssgid?
@@ -68,24 +72,36 @@ public class EOSTransaction {
         let tags: StringCollectionWriterValue
         let metadata: String
         let weight: UInt64?
+
+        func getCode() -> CyberSymbolWriterValue {
+            return commun_code
+        }
     }
     
     
     /// Update Post/Comment
-    public struct MessageUpdateArgs: Encodable {
-        let commun_code: String
+    public struct MessageUpdateArgs: Encodable, HasCommunCode {
+        let commun_code: CyberSymbolWriterValue
         let message_id: Mssgid
         let header: String
         let body: String
         let tags: StringCollectionWriterValue
         let metadata: String
+
+        func getCode() -> CyberSymbolWriterValue {
+            return commun_code
+        }
     }
     
     
     /// Delete Post/Comment
-    public struct MessageDeleteArgs: Encodable {
+    public struct MessageDeleteArgs: Encodable, HasCommunCode {
         let commun_code: CyberSymbolWriterValue
         let message_id: Mssgid
+
+        func getCode() -> CyberSymbolWriterValue {
+            return commun_code
+        }
     }
     
     
@@ -118,7 +134,7 @@ public class EOSTransaction {
     
     
     /// Upvote
-    public struct UpvoteArgs: Encodable {
+    public struct UpvoteArgs: Encodable, HasCommunCode {
         // MARK: - Properties
         let commun_code: CyberSymbolWriterValue
         let voter: AccountNameWriterValue
@@ -135,15 +151,16 @@ public class EOSTransaction {
             self.voter      =   AccountNameWriterValue(name: voterValue)
             self.message_id =   Mssgid(author: authorValue, permlink: permlinkValue)
             self.weight     =   Int(0)
+        }
 
-            print("message_id hex: \(self.message_id.toHex())")
-            print("UpvoteArgs hex: \(self.toHex())")
+        func getCode() -> CyberSymbolWriterValue {
+            return commun_code
         }
     }
     
     
     /// Unvote
-    public struct UnvoteArgs: Encodable {
+    public struct UnvoteArgs: Encodable, HasCommunCode {
         // MARK: - Properties
         let commun_code: CyberSymbolWriterValue
         let voter: NameWriterValue
@@ -155,6 +172,10 @@ public class EOSTransaction {
             self.commun_code =  CyberSymbolWriterValue(name: communityID)
             self.voter      =   NameWriterValue(name: voterValue)
             self.message_id =   Mssgid(author: authorValue, permlink: permlinkValue)
+        }
+
+        func getCode() -> CyberSymbolWriterValue {
+            return commun_code
         }
     }
     
@@ -327,22 +348,27 @@ public class EOSTransaction {
     }
     
     /// Action `voteleader`
-    public struct VoteLeaderArgs: Encodable {
+    public struct VoteLeaderArgs: Encodable, HasCommunCode {
         let commun_code: CyberSymbolWriterValue
         let voter: NameWriterValue
         let leader: NameWriterValue
+        let enable_pct: UInt8 //pct is optional, need 1 - there value
         let pct: UInt16?
-        let fix: Int = 0 //FIXME: add 00 data
         
         init(commun_code: String, voter: String, leader: String, pct: UInt16? = nil) {
             self.commun_code = CyberSymbolWriterValue(name: commun_code)
             self.voter = NameWriterValue(name: voter)
             self.leader = NameWriterValue(name: leader)
             self.pct = pct
+            self.enable_pct = pct == nil ? 0 : 1
+        }
+
+        func getCode() -> CyberSymbolWriterValue {
+            return commun_code
         }
     }
     /// Action `voteleader`
-    public struct UnvoteLeaderArgs: Encodable {
+    public struct UnvoteLeaderArgs: Encodable, HasCommunCode {
         let commun_code: CyberSymbolWriterValue
         let voter: NameWriterValue
         let leader: NameWriterValue
@@ -352,13 +378,21 @@ public class EOSTransaction {
             self.voter = NameWriterValue(name: voter)
             self.leader = NameWriterValue(name: leader)
         }
+
+        func getCode() -> CyberSymbolWriterValue {
+            return commun_code
+        }
     }
     
     // MARK: - Contract `commun.list`
     /// Action `follow`
-    public struct CommunListFollowArgs: Encodable {
+    public struct CommunListFollowArgs: Encodable, HasCommunCode {
         let commun_code: CyberSymbolWriterValue
         let follower: AccountNameWriterValue
+
+        func getCode() -> CyberSymbolWriterValue {
+            return commun_code
+        }
     }
 
     public struct CommunBandwidthProvider: Encodable {
@@ -367,7 +401,7 @@ public class EOSTransaction {
     }
 
     /// Action `report`
-    public struct ReprotArgs: Encodable {
+    public struct ReprotArgs: Encodable, HasCommunCode {
         let communCode: CyberSymbolWriterValue
         let reporter: NameWriterValue
         let message: Mssgid
@@ -383,5 +417,16 @@ public class EOSTransaction {
             self.message = Mssgid(author: autorID, permlink: permlink)
             self.reason = reason
         }
+
+        func getCode() -> CyberSymbolWriterValue {
+            return communCode
+        }
+    }
+
+    public struct OpenBalanceArgs: Encodable {
+        let owner: AccountNameWriterValue
+        let commun_code: CyberSymbolWriterValue
+        let enable_ram_player: UInt8 = 1 // ram_payer is optional, need 1 - there value
+        let ram_payer: AccountNameWriterValue
     }
 }

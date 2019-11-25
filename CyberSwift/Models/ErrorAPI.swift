@@ -22,6 +22,7 @@ public enum ErrorAPI: Error {
     case savingKeys(message: String)
     case socketDisconnected
     case other(message: String)
+    case balanceNotExist(message: String)
     
     public var caseInfo: (title: String, message: String, code: Int) {
         switch self {
@@ -60,6 +61,9 @@ public enum ErrorAPI: Error {
             
         case .other(let message):
             return (title: "Other error".localized(), message: message, code: 100)
+
+        case .balanceNotExist(let message):
+            return (title: "Request Failed".localized(), message: message, code: 100)
         }
     }
     

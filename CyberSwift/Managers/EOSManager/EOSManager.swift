@@ -41,7 +41,7 @@ class EOSManager {
     // MARK: - Properties
     static let chainApi     =   ChainApiFactory.create(rootUrl: Config.blockchain_API_URL)
     static let historyApi   =   HistoryApiFactory.create(rootUrl: Config.blockchain_API_URL)
-    
+
     // MARK: - BC Info
     static var chainInfo: Single<Info> {
         return EOSManager.chainApi.getInfo()
@@ -102,11 +102,11 @@ class EOSManager {
     
     static func pushAuthorized(account: TransactionAccountType,
                                name: String,
-                               data: DataWriterValue,
+                               args: Encodable,
                                expiration: Date = Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds),
                                disableClientAuth: Bool = false,
                                disableCyberBandwidth: Bool  = false) -> Single<String> {
-        
+
         // Offline mode
         if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
 
@@ -132,7 +132,7 @@ class EOSManager {
             account: AccountNameWriterValue(name: account.stringValue),
             name: AccountNameWriterValue(name: name),
             authorization: auth,
-            data: data)
+            data: DataWriterValue(hex: args.toHex()))
         print("action1 hex: \(action1.toHex())")
         // Action 2
         let transactionAuthorizationAbiBandwidth = TransactionAuthorizationAbi(
@@ -151,8 +151,8 @@ class EOSManager {
 
         // Action 3
         let args3 = EOSTransaction.CommunBandwidthProvider(
-            provider: AccountNameWriterValue(name:    "c"),
-            account: AccountNameWriterValue(name:    account.stringValue))
+            provider: AccountNameWriterValue(name: "c"),
+            account: AccountNameWriterValue(name: account.stringValue))
         
         let action3 = ActionAbi(
             account: AccountNameWriterValue(name: "cyber"),
@@ -169,7 +169,68 @@ class EOSManager {
             if disableCyberBandwidth {
                 actions.removeLast()
             }
-            return transaction.push(expirationDate: expiration, actions: actions, authorizingPrivateKey: privateKey)
+            let request = transaction.push(expirationDate: expiration, actions: actions, authorizingPrivateKey: privateKey)
+
+            return request.catchError { (error) -> Single<String> in
+                if let error = error as? ErrorAPI {
+                    switch error {
+                    case .balanceNotExist:
+                        return openBalance(args: args).flatMap { (message) -> Single<String> in
+                            return pushAuthorized(account: account, name: name, args: args, expiration: expiration, disableClientAuth: disableClientAuth, disableCyberBandwidth: disableCyberBandwidth)
+                        }
+                    default:
+                        break
+                    }
+                }
+                return .error(error)
+            }
+        } catch {
+            return .error(error)
+        }
+    }
+
+    private static func openBalance(args: Encodable)  -> Single<String> {
+        guard let communCodeArgs = args as? HasCommunCode else {
+            return .error(ErrorAPI.requestFailed(message: "balance does not exist"))
+        }
+
+        guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKeys?.privateKey else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        }
+
+        let code = communCodeArgs.getCode()
+
+        let transactionAuthorizationAbiActive = TransactionAuthorizationAbi(
+            actor:        AccountNameWriterValue(name:    userID),
+            permission:   AccountNameWriterValue(name:    "active"))
+
+        let balanceArgs = EOSTransaction.OpenBalanceArgs(owner: AccountNameWriterValue(name: userID),
+                                                         commun_code: code,
+                                                         ram_payer: AccountNameWriterValue(name: userID))
+
+        let transactionAuthorizationAbiBandwidth = TransactionAuthorizationAbi(
+            actor:        AccountNameWriterValue(name:    "c"),
+            permission:   AccountNameWriterValue(name:    "providebw"))
+
+        let action1 = ActionAbi(account: AccountNameWriterValue(name: "c.point"),
+                                name: AccountNameWriterValue(name: "open"),
+                                authorization: [transactionAuthorizationAbiActive],
+                                data: DataWriterValue(hex: balanceArgs.toHex()))
+
+        let args2 = EOSTransaction.CommunBandwidthProvider(
+            provider: AccountNameWriterValue(name:    "c"),
+            account: AccountNameWriterValue(name:    userID))
+
+        let action2 = ActionAbi(account: AccountNameWriterValue(name: "cyber"),
+                                name: AccountNameWriterValue(name: "providebw"),
+                                authorization: [transactionAuthorizationAbiBandwidth],
+                                data: DataWriterValue(hex: args2.toHex()))
+
+        let transaction = EOSTransaction(chainApi: EOSManager.chainApi)
+        print("action1 hex: \(action1.toHex())")
+        do {
+            let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
+            return transaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [action1, action2], authorizingPrivateKey: privateKey)
         } catch {
             return .error(error)
         }
@@ -205,9 +266,7 @@ class EOSManager {
             owner:        owner,
             active:       owner)
         
-        let createNewAccountArgsData = DataWriterValue(hex: createNewAccountArgs.toHex())
-        
-        return pushAuthorized(account: .gallery, name: "newaccount", data: createNewAccountArgsData)
+        return pushAuthorized(account: .gallery, name: "newaccount", args: createNewAccountArgs)
     }
     
     static func vote(voteType: VoteActionType,
@@ -235,54 +294,33 @@ class EOSManager {
 
         }
 
-        let voteArgsData = DataWriterValue(hex: voteArgs.toHex())
-        print(voteArgs.toHex())
-        return pushAuthorized(account: .gallery, name: voteType.rawValue, data: voteArgsData)
+        return pushAuthorized(account: .gallery, name: voteType.rawValue, args: voteArgs)
             .flatMapToCompletable()
     }
     
     static func create(messageCreateArgs: EOSTransaction.MessageCreateArgs) -> Single<String> {
         // Prepare data
         Logger.log(message: messageCreateArgs.convertToJSON(), event: .debug)
-        let messageCreateArgsData = DataWriterValue(hex: messageCreateArgs.toHex())
-        
         // send transaction
-        return pushAuthorized(account: .gallery, name: "create", data: messageCreateArgsData)
+        return pushAuthorized(account: .gallery, name: "create", args: messageCreateArgs)
     }
     
     
     static func delete(messageArgs: EOSTransaction.MessageDeleteArgs) -> Completable {
-        // Prepare data
-        let messageDeleteArgsData = DataWriterValue(hex: messageArgs.toHex())
-        
-        
-        // Send transaction
-        return pushAuthorized(account: .gallery, name: "remove", data: messageDeleteArgsData)
+        return pushAuthorized(account: .gallery, name: "remove", args: messageArgs)
             .flatMapToCompletable()
     }
     
     static func update(messageArgs: EOSTransaction.MessageUpdateArgs) -> Single<String> {
-        // Prepare data
-        let messageUpdateArgsData = DataWriterValue(hex: messageArgs.toHex())
-        
-        // Send transaction
-        return pushAuthorized(account: .gallery, name: "update", data: messageUpdateArgsData)
+        return pushAuthorized(account: .gallery, name: "update", args: messageArgs)
     }
     
     static func updateUserProfile(changereputArgs: EOSTransaction.UserProfileChangereputArgs) -> Single<String> {
-        // Prepare data
-        let changereputArgsData = DataWriterValue(hex: changereputArgs.toHex())
-        
-        // Send transaction
-        return pushAuthorized(account: .gallery, name: "changereput", data: changereputArgsData)
+        return pushAuthorized(account: .gallery, name: "changereput", args: changereputArgs)
     }
     
     static func reblog(args: EOSTransaction.ReblogArgs) -> Single<String> {
-        // Prepare data
-        let reblogArgsData = DataWriterValue(hex: args.toHex())
-        
-        // Send transaction
-        return pushAuthorized(account: .gallery, name: "reblog", data: reblogArgsData)
+        return pushAuthorized(account: .gallery, name: "reblog", args: args)
     }
 
     
@@ -297,109 +335,64 @@ class EOSManager {
     
     // MARK: - Contract `gls.social`
     static func updateUserProfile(pinArgs: EOSTransaction.UserProfilePinArgs, isUnpin: Bool) -> Single<String> {
-        // Prepare data
-        let pinArgsData = DataWriterValue(hex: pinArgs.toHex())
-        
-        // Send transaction
-        return pushAuthorized(account: .social, name: isUnpin ? "unpin": "pin", data: pinArgsData)
+        return pushAuthorized(account: .social, name: isUnpin ? "unpin": "pin", args: pinArgs)
     }
     
     static func updateUserProfile(blockArgs: EOSTransaction.UserProfileBlockArgs, isUnblock: Bool) -> Single<String> {
-        // Prepare data
-        let blockArgsData = DataWriterValue(hex: blockArgs.toHex())
-        
-        // Send transaction
-        return pushAuthorized(account: .social, name: isUnblock ? "unblock": "block", data: blockArgsData)
+        return pushAuthorized(account: .social, name: isUnblock ? "unblock": "block", args: blockArgs)
     }
     
     static func update(userProfileMetaArgs: EOSTransaction.UserProfileUpdatemetaArgs) -> Single<String> {
         Logger.log(message: "\nuserProfileMetaArgs: \n\(userProfileMetaArgs.convertToJSON())\n", event: .debug)
-        
-        // Prepare data
-        let userProfileUpdatemetaArgsData = DataWriterValue(hex: userProfileMetaArgs.toHex())
-        
-        // Send transaction
-        return pushAuthorized(account: .social, name: "updatemeta", data: userProfileUpdatemetaArgsData)
+        return pushAuthorized(account: .social, name: "updatemeta", args: userProfileMetaArgs)
     }
     
     static func delete(userProfileMetaArgs: EOSTransaction.UserProfileDeleteArgs) -> Single<String> {
-        // Prepare data
-        let userProfileDeletemetaArgsData = DataWriterValue(hex: userProfileMetaArgs.toHex())
-        
-        // Send transaction
-        return pushAuthorized(account: .social, name: "deletemeta", data: userProfileDeletemetaArgsData)
+        return pushAuthorized(account: .social, name: "deletemeta", args: userProfileMetaArgs)
     }
     
     static func block(args: EOSTransaction.BlockUserArgs) -> Single<String> {
-        // Prepare data
-        let data = DataWriterValue(hex: args.toHex())
-        return pushAuthorized(account: .social, name: "block", data: data)
+        return pushAuthorized(account: .social, name: "block", args: args)
     }
     
     static func unblock(args: EOSTransaction.BlockUserArgs) -> Single<String> {
-        // Prepare data
-        let data = DataWriterValue(hex: args.toHex())
-        return pushAuthorized(account: .social, name: "unblock", data: data)
+        return pushAuthorized(account: .social, name: "unblock", args: args)
     }
     
     // MARK: - Contract `gls.ctrl`
     static func reg(witnessArgs: EOSTransaction.RegwitnessArgs) -> Single<String> {
-        // Prepare data
-        let regwithessArgsData = DataWriterValue(hex: witnessArgs.toHex())
-        
-        // Send transaction
-        return pushAuthorized(account: .ctrl, name: "regwitness", data: regwithessArgsData)
+        return pushAuthorized(account: .ctrl, name: "regwitness", args: witnessArgs)
     }
     
     static func vote(witnessArgs: EOSTransaction.VotewitnessArgs) -> Single<String> {
-        // Prepare data
-        let votewithessArgsData = DataWriterValue(hex: witnessArgs.toHex())
-        
-        // Send transaction
-        return pushAuthorized(account: .ctrl, name: "votewitness", data: votewithessArgsData)
+        return pushAuthorized(account: .ctrl, name: "votewitness", args: witnessArgs)
     }
     
     static func unvote(witnessArgs: EOSTransaction.UnvotewitnessArgs) -> Single<String> {
-        // Prepare data
-        let unvotewithessArgsData = DataWriterValue(hex: witnessArgs.toHex())
-        
-        // Send transaction
-        return pushAuthorized(account: .ctrl, name: "unvotewitn", data: unvotewithessArgsData)
+        return pushAuthorized(account: .ctrl, name: "unvotewitn", args: witnessArgs)
     }
     
     static func unreg(witnessArgs: EOSTransaction.UnregwitnessArgs) -> Single<String> {
-        // Prepare data
-        let unregwithessArgsData = DataWriterValue(hex: witnessArgs.toHex())
-        
-        // Send transaction
-        return pushAuthorized(account: .ctrl, name: "unregwitness", data: unregwithessArgsData)
+        return pushAuthorized(account: .ctrl, name: "unregwitness", args: witnessArgs)
     }
     
     static func voteLeader(args: EOSTransaction.VoteLeaderArgs) -> Single<String> {
-        // Prepare data
-        let data = DataWriterValue(hex: args.toHex())
-
         return pushAuthorized(account: .ctrl,
                               name: "voteleader",
-                              data: data,
+                              args: args,
                               disableClientAuth: true,
                               disableCyberBandwidth: true)
     }
     
     static func unvoteLeader(args: EOSTransaction.UnvoteLeaderArgs) -> Single<String> {
-        // Prepare data
-        let data = DataWriterValue(hex: args.toHex())
-
         return pushAuthorized(account: .ctrl,
                               name: "unvotelead",
-                              data: data,
+                              args: args,
                               disableClientAuth: true,
                               disableCyberBandwidth: true)
     }
 
     static func report(args: EOSTransaction.ReprotArgs) -> Single<String> {
-        // Prepare data
-        let data = DataWriterValue(hex: args.toHex())
-        return pushAuthorized(account: .gallery, name: "report", data: data)
+        return pushAuthorized(account: .gallery, name: "report", args: args)
     }
 }
