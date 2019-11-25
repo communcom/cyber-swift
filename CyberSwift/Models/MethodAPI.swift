@@ -50,16 +50,15 @@ public enum FeedTimeFrameMode: String {
     case day                =   "day"
     case week               =   "week"
     case month              =   "month"
-    case year               =   "year"
+//    case year               =   "year"
     case all                =   "all"
-    case wilsonHot          =   "WilsonHot"
-    case wilsonTrending     =   "WilsonTrending"
+//    case wilsonHot          =   "WilsonHot"
+//    case wilsonTrending     =   "WilsonTrending"
 }
 
 public enum FeedSortMode: String {
     case time               =   "time"
     case timeDesc           =   "timeDesc"
-    case popular            =   "popular"
 }
 
 public enum CommentTypeMode: String {
