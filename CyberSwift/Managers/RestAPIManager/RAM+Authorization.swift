@@ -221,6 +221,7 @@ extension Reactive where Base: RestAPIManager {
             UserDefaults.standard.set(nil, forKey: Config.currentUserThemeKey)
             UserDefaults.standard.set(nil, forKey: Config.currentUserAvatarUrlKey)
             UserDefaults.standard.set(nil, forKey: Config.currentUserBiometryAuthEnabled)
+            UserDefaults.standard.set(nil, forKey: Config.currentUserDidSubscribeToMoreThan3Communities)
         } catch {
             print(error)
         }
