@@ -102,4 +102,5 @@ public struct Config {
     
     public static let currentUserPushNotificationOn: String =   "currentUserPushNotificationOn"
     public static let currentUserBiometryAuthEnabled:String =   "currentUserBiometryAuthEnabled"
+    public static let currentUserDidSubscribeToMoreThan3Communities:String =   "currentUserDidSubscribeToMoreThan3Communities"
 }
