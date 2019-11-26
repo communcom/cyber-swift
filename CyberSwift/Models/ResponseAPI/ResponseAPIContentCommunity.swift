@@ -37,6 +37,29 @@ public struct ResponseAPIContentGetCommunity: Decodable, Equatable {
     
     // Additional field
     public var isBeingJoined: Bool? = false
+    
+    public init(community: ResponseAPIContentGetSubscriptionsCommunity) {
+        self.subscribersCount = community.subscribersCount
+        self.leadersCount = community.leadersCount
+        self.postsCount = community.postsCount
+        self.communityId = community.communityId
+        self.issuer = nil
+        self.alias = nil
+        self.rules = nil
+        self.name = community.name
+        self.registrationTime = nil
+        self.avatarUrl = community.avatarUrl
+        self.coverUrl = community.avatarUrl
+        self.description = nil
+        self.language = nil
+        self.isSubscribed = community.isSubscribed
+        self.isBlocked = nil
+        self.friendsCount = nil
+        self.friends = nil
+        self.isLeader = nil
+        
+        self.isBeingJoined = community.isBeingJoined
+    }
 }
 
 public struct ResponseAPIContentGetCommunityRule: Decodable, Equatable {
