@@ -141,7 +141,6 @@
 		B1C3F866223F9906005711EF /* ResponseAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseAPI.swift; sourceTree = "<group>"; };
 		B1C3F867223F9907005711EF /* MethodAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MethodAPI.swift; sourceTree = "<group>"; };
 		B1C3F86F223F993F005711EF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		B1C3F871223F9962005711EF /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B1CE5CFB22677C0000731FD0 /* API.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = API.md; sourceTree = "<group>"; };
 		B1EA02CB22895EB300835244 /* UILabel+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
 		B1EA02CC22895EB400835244 /* UIButton+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
@@ -650,7 +649,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				B1C3F86F223F993F005711EF /* en */,
-				B1C3F871223F9962005711EF /* ru */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
