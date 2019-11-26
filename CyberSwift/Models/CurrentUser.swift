@@ -37,21 +37,23 @@ public struct UserKeys {
 }
 
 public enum CurrentUserRegistrationStep: String {
-    case firstStep      = "firstStep"
-    case verify         = "verify"
-    case setUserName    = "setUsername"
-    case toBlockChain   = "toBlockChain"
-    case registered     = "registered"
-    case relogined      = "relogined"
+    case firstStep          =   "firstStep"
+    case verify             =   "verify"
+    case setUserName        =   "setUsername"
+    case toBlockChain       =   "toBlockChain"
+    case registered         =   "registered"
+    case relogined          =   "relogined"
 }
 
 public enum CurrentUserSettingStep: String {
-    case setPasscode    = "setPasscode"
+    case setPasscode        =   "setPasscode"
+    case setFaceId          =   "setFaceId"
+    case ftue               =   "ftue"
+    case backUpICloud       =   "backUpICloud"
+    case setAvatar          =   "setAvatar"
+    case setBio             =   "setBio"
+    case completed          =   "completed"
+    case masterPassword     =   "masterPassword"
+
     // FaceId = FaceId or TouchId (optional)
-    case setFaceId      = "setFaceId"
-    case ftue           = "ftue"
-    case backUpICloud   = "backUpICloud"
-    case setAvatar      = "setAvatar"
-    case setBio         = "setBio"
-    case completed      = "completed"
 }
