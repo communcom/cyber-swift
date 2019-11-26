@@ -73,10 +73,11 @@ public struct ResponseAPIContentBlockAttributes: Codable, Equatable {
     public var title: String?
     public var type: String?
     public var version: String?
+    public var coverUrl: String?
     
     // TextBlock
     public var style: [String]?
-    public var text_color: String?
+    public var textColor: String?
     
     // LinkBlock
     public var url: String?
@@ -85,11 +86,13 @@ public struct ResponseAPIContentBlockAttributes: Codable, Equatable {
     public var description: String?
     
     // VideoBlock
-    public var provider_name: String?
+    public var providerName: String?
     public var author: String?
-    public var author_url: String?
-    public var thumbnail_url: String?
-    public var thumbnail_size: [UInt]?
+    public var authorUrl: String?
+    public var thumbnailUrl: String?
+    public var thumbnailSize: [UInt]?
+    public var thumbnailWidth: UInt?
+    public var thumbnailHeight: UInt?
     public var html: String?
     
     public init(
@@ -97,29 +100,35 @@ public struct ResponseAPIContentBlockAttributes: Codable, Equatable {
         type: String? = nil,
         version: String? = nil,
         style: [String]? = nil,
-        text_color: String? = nil,
+        textColor: String? = nil,
         url: String? = nil,
         description: String? = nil,
-        provider_name: String? = nil,
+        providerName: String? = nil,
         author: String? = nil,
-        author_url: String? = nil,
-        thumbnail_url: String? = nil,
-        thumbnail_size: [UInt]? = nil,
-        html: String? = nil
+        authorUrl: String? = nil,
+        thumbnailUrl: String? = nil,
+        thumbnailSize: [UInt]? = nil,
+        html: String? = nil,
+        coverUrl: String? = nil,
+        thumbnailHeight: UInt? = nil,
+        thumbnailWidth: UInt? = nil
     ){
         self.title = title
         self.type = type
         self.version = version
         self.style = style
-        self.text_color = text_color
+        self.textColor = textColor
         self.url = url
         self.description = description
-        self.provider_name = provider_name
+        self.providerName = providerName
         self.author = author
-        self.author_url = author_url
-        self.thumbnail_url = thumbnail_url
-        self.thumbnail_size = thumbnail_size
+        self.authorUrl = authorUrl
+        self.thumbnailUrl = thumbnailUrl
+        self.thumbnailSize = thumbnailSize
         self.html = html
+        self.coverUrl = coverUrl
+        self.thumbnailWidth = thumbnailWidth
+        self.thumbnailHeight = thumbnailHeight
     }
 }
 
@@ -129,14 +138,14 @@ public struct ResponseAPIContentEmbedResult: Decodable {
     public let title: String?
     public var url: String
     public let author: String?
-    public let author_url: String?
-    public let provider_name: String?
+    public let authorUrl: String?
+    public let providerName: String?
     public let description: String?
-    public var thumbnail_url: String?
-    public let thumbnail_width: UInt64?
-    public let thumbnail_height: UInt64?
+    public var thumbnailUrl: String?
+    public let thumbnailWidth: UInt64?
+    public let thumbnailHeight: UInt64?
     public var html: String?
-    public let content_length: UInt64?
+    public let contentLength: UInt64?
 }
 
 public struct ResponseAPIContentVotes: Decodable, Equatable {

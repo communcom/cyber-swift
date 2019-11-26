@@ -66,14 +66,15 @@ public extension ResponseAPIContentBlockAttributes {
         self.type           =   type
         self.version        =   nil
         self.style          =   nil
-        self.text_color     =   nil
+        self.textColor      =   nil
         self.url            =   embed.url
         self.description    =   embed.description
-        self.provider_name  =   embed.provider_name
+        self.providerName   =   embed.providerName
         self.author         =   embed.author
-        self.author_url     =   embed.author_url
-        self.thumbnail_url  =   embed.thumbnail_url
-        self.thumbnail_size =   nil
+        self.authorUrl      =   embed.authorUrl
+        self.thumbnailUrl   =   embed.thumbnailUrl
+        self.thumbnailSize  =   nil
         self.html           =   embed.html
+        self.coverUrl       =   nil
     }
 }

@@ -355,12 +355,12 @@ public struct ResponseAPIFrameGetEmbed: Codable {
     public let title: String?
     public var url: String?
     public let author: String?
-    public let author_url: String?
-    public let provider_name: String?
+    public let authorUrl: String?
+    public let providerName: String?
     public let description: String?
-    public let thumbnail_url: String?
-    public let thumbnail_width: UInt?
-    public let thumbnail_height: UInt?
+    public let thumbnailUrl: String?
+    public let thumbnailWidth: UInt?
+    public let thumbnailHeight: UInt?
     public var html: String?
-    public let content_length: UInt32?
+    public let contentLength: UInt32?
 }
