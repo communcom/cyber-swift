@@ -164,6 +164,9 @@ public struct ResponseAPIContentGetSubscriptionsUser: Decodable, Equatable {
 }
 
 public struct ResponseAPIContentGetSubscriptionsCommunity: Codable, Equatable {
+    public var subscribersCount: UInt64?
+    public var leadersCount: UInt64?
+    public let postsCount: UInt64?
     public let communityId: String
     public let name: String
     public let code: String?
@@ -173,6 +176,9 @@ public struct ResponseAPIContentGetSubscriptionsCommunity: Codable, Equatable {
     public var isBeingJoined: Bool? = false
     
     public init(community: ResponseAPIContentGetCommunity) {
+        self.subscribersCount = community.subscribersCount
+        self.leadersCount = community.leadersCount
+        self.postsCount = community.postsCount
         self.communityId = community.communityId
         self.name = community.name
         self.code = ""
