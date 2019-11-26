@@ -76,5 +76,7 @@ public extension ResponseAPIContentBlockAttributes {
         self.thumbnailSize  =   nil
         self.html           =   embed.html
         self.coverUrl       =   nil
+        self.thumbnailWidth =   embed.thumbnailWidth
+        self.thumbnailHeight =  embed.thumbnailHeight
     }
 }
