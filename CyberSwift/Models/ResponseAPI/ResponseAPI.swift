@@ -146,21 +146,9 @@ public struct ResponseAPIRegistrationToBlockChain: Decodable {
 }
 
 
-// MARK: - API `push.notifyOn`
-public struct ResponseAPINotifyPushOn: Decodable {
+// MARK: - API that returns status
+public struct ResponseAPIStatus: Decodable {
     public let status: String
-}
-
-
-// MARK: - API `push.notifyOff`
-public struct ResponseAPINotifyPushOff: Decodable {
-    public let status: String
-}
-
-
-// MARK: - API `push.historyFresh`
-public struct ResponseAPIPushHistoryFresh: Decodable {
-    //    public let status: String
 }
 
 
@@ -235,12 +223,6 @@ public struct ResponseAPIOnlineNotifyHistoryFreshFreshByTypes: Decodable {
 }
 
 
-// MARK: - API `notify.markAllAsRead`
-public struct ResponseAPINotifyMarkAllAsViewed: Decodable {
-    public let status: String
-}
-
-
 // MARK: - API `options.get`
 public struct ResponseAPIGetOptions: Decodable {
     public let basic: ResponseAPIGetOptionsBasic?
@@ -284,45 +266,10 @@ public struct ResponseAPIGetOptionsNotifyPush: Decodable {
     public let show: ResponseAPIGetOptionsNotifyShow
 }
 
-// MARK: - API `options.set` basic
-public struct ResponseAPISetOptionsBasic: Decodable {
-    public let status: String
-}
-
-
-// MARK: - API `options.set` notice
-public struct ResponseAPISetOptionsNotice: Decodable {
-    public let status: String
-}
-
-
-// MARK: - API `notify.markAsRead`
-public struct ResponseAPIMarkNotifiesAsRead: Decodable {
-    public let status: String
-}
-
-
-// MARK: - API `meta.recordPostView`
-public struct ResponseAPIMetaRecordPostView: Decodable {
-    public let status: String
-}
-
 
 // MARK: - API `favorites.get`
 public struct ResponseAPIGetFavorites: Decodable {
     public let list: [String?]
-}
-
-
-// MARK: - API `favorites.add`
-public struct ResponseAPIAddFavorites: Decodable {
-    public let status: String
-}
-
-
-// MARK: - API `favorites.remove`
-public struct ResponseAPIRemoveFavorites: Decodable {
-    public let status: String
 }
 
 // MARK: - Generate new testnet accounts

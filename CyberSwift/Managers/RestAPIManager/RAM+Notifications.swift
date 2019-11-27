@@ -16,7 +16,7 @@ public enum NoticeType {
 
 extension RestAPIManager {
     // API `push.historyFresh`
-    public func getPushHistoryFresh() -> Single<ResponseAPIPushHistoryFresh> {
+    public func getPushHistoryFresh() -> Single<ResponseAPIStatus> {
         
         let methodAPIType = MethodAPIType.getPushHistoryFresh
         
@@ -45,7 +45,7 @@ extension RestAPIManager {
     }
     
     // API `notify.markAllAsViewed`
-    public func notifyMarkAllAsViewed() -> Single<ResponseAPINotifyMarkAllAsViewed> {
+    public func notifyMarkAllAsViewed() -> Single<ResponseAPIStatus> {
         
         let methodAPIType = MethodAPIType.notifyMarkAllAsViewed
         
@@ -53,7 +53,7 @@ extension RestAPIManager {
     }
     
     // API `notify.markAsRead`
-    public func markAsRead(notifies: [String]) -> Single<ResponseAPIMarkNotifiesAsRead> {
+    public func markAsRead(notifies: [String]) -> Single<ResponseAPIStatus> {
         
         // Check user authorize
         guard Config.currentUser?.id != nil else { return .error(ErrorAPI.unauthorized)}
@@ -77,7 +77,7 @@ extension Reactive where Base: RestAPIManager {
         
         let methodAPIType = MethodAPIType.notifyPushOn(fcmToken: token, appProfileType: AppProfileType.golos)
         
-        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPINotifyPushOn>)
+        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIStatus>)
             .do(onSuccess: { _ in
                 UserDefaults.standard.set(true, forKey: Config.currentUserPushNotificationOn)
             })
@@ -96,7 +96,7 @@ extension Reactive where Base: RestAPIManager {
         
         let methodAPIType = MethodAPIType.notifyPushOff(appProfileType: AppProfileType.golos)
         
-        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPINotifyPushOff>)
+        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIStatus>)
             .do(onSuccess: { _ in
                 UserDefaults.standard.set(false, forKey: Config.currentUserPushNotificationOn)
             })
@@ -133,7 +133,7 @@ extension Reactive where Base: RestAPIManager {
         
         let methodAPIType = MethodAPIType.setNotice(options: options, type: type, appProfileType: appProfileType)
         
-        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPISetOptionsNotice>)
+        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIStatus>)
             .flatMapToCompletable()
     }
 }

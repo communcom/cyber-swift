@@ -125,7 +125,6 @@ extension Reactive where Base: RestAPIManager {
         let methodAPIType = MethodAPIType.toBlockChain(phone: userPhone, userID: userID, userName: userName, keys: userkeys)
         
         return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationToBlockChain>)
-            .log(method: "registration.toBlockChain")
             .map { result -> ResponseAPIRegistrationToBlockChain in
                 try KeychainManager.save([
                     Config.registrationStepKey:     CurrentUserRegistrationStep.registered.rawValue,
@@ -139,6 +138,17 @@ extension Reactive where Base: RestAPIManager {
                 return result
         }
         .flatMapToCompletable()
+    }
+    
+    /// Subscribe to communities on boarding
+    public func onboardingCommunitySubscriptions(
+        communityIds: [String]
+    ) -> Completable {
+        guard let userId = Config.currentUser?.id else {return .error(ErrorAPI.unauthorized)}
+        guard communityIds.count >= 3 else {return .error(ErrorAPI.other(message: "You must subscribe to at least 3 communities"))}
+        let methodAPIType = MethodAPIType.onboardingCommunitySubscriptions(userId: userId, communityIds: communityIds)
+        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIStatus>)
+            .flatMapToCompletable()
     }
         
     /// Set passcode

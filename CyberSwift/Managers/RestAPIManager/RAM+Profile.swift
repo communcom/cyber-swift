@@ -58,7 +58,7 @@ extension RestAPIManager {
     }
     
     // API basic `options.set`
-    public func setBasicOptions(nsfwContent: NsfwContentMode) -> Single<ResponseAPISetOptionsBasic> {
+    public func setBasicOptions(nsfwContent: NsfwContentMode) -> Single<ResponseAPIStatus> {
         // Check user authorize
         guard Config.currentUser?.id != nil else { return .error(ErrorAPI.unauthorized)}
 
@@ -78,7 +78,7 @@ extension RestAPIManager {
     }
 
     // API `favorites.add`
-    public func addFavorites(permlink: String) -> Single<ResponseAPIAddFavorites> {
+    public func addFavorites(permlink: String) -> Single<ResponseAPIStatus> {
         // Check user authorize
         guard Config.currentUser?.id != nil else { return .error(ErrorAPI.unauthorized)}
 
@@ -88,7 +88,7 @@ extension RestAPIManager {
     }
 
     // API `favorites.remove`
-    public func removeFavorites(permlink: String) -> Single<ResponseAPIRemoveFavorites> {
+    public func removeFavorites(permlink: String) -> Single<ResponseAPIStatus> {
         // Check user authorize
         guard Config.currentUser?.id != nil else { return .error(ErrorAPI.unauthorized)}
         

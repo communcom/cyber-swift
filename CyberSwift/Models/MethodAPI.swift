@@ -218,6 +218,9 @@ public indirect enum MethodAPIType {
     //  The last step of registration, entry in the blockchain
 //    case toBlockChain(user: String, keys: [String: UserKeys])
     case toBlockChain(phone: String, userID: String, userName: String, keys: [String: UserKeys])
+    
+    //  Onboarding step to force user to subscribe to at least 3 communities
+    case onboardingCommunitySubscriptions(userId: String, communityIds: [String])
 
     /// CHAIN-SERVICE
     case bandwidthProvide(chainID: String, transaction: RequestAPITransaction)
@@ -621,6 +624,14 @@ public indirect enum MethodAPIType {
                      methodName:        CurrentUserRegistrationStep.toBlockChain.rawValue,
                      parameters:        parameters)
 
+        case .onboardingCommunitySubscriptions(let userId, let communityIds):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.registration.rawValue,
+                     methodName:        CurrentUserRegistrationStep.toBlockChain.rawValue,
+                     parameters:        [
+                        "userId": userId,
+                        "communityIds": communityIds
+                    ])
             
         // Template: missing
         case .bandwidthProvide(let chainID, let transaction):
