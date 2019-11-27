@@ -162,13 +162,8 @@ extension Reactive where Base: RestAPIManager {
     }
     
     /// backupIcloud
-    public func backUpICloud(onBoarding: Bool = true) throws {
+    public func backUpICloud() {
         iCloudManager.saveUser()
-        if onBoarding {
-            try KeychainManager.save([
-                Config.settingStepKey: CurrentUserSettingStep.setAvatar.rawValue
-            ])
-        }
     }
     
     /// Login user
