@@ -627,7 +627,7 @@ public indirect enum MethodAPIType {
         case .onboardingCommunitySubscriptions(let userId, let communityIds):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.registration.rawValue,
-                     methodName:        CurrentUserRegistrationStep.toBlockChain.rawValue,
+                     methodName:        "onboardingCommunitySubscriptions",
                      parameters:        [
                         "userId": userId,
                         "communityIds": communityIds
