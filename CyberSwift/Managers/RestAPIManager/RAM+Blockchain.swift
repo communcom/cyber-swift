@@ -68,28 +68,34 @@ extension RestAPIManager {
         }
         
         // Send mock data
+        var newComment: ResponseAPIContentGetComment?
+        var parentComment = parentComment
         if isComment {
             // New comment
             if !isReplying {
-                let newComment = ResponseAPIContentGetComment(
+                newComment = ResponseAPIContentGetComment(
                     contentId: ResponseAPIContentId(userId: userId, permlink: permlink, communityId: communCode),
                     parents: ResponseAPIContentGetCommentParent(post: ResponseAPIContentId(userId: userId, permlink: permlink, communityId: communCode), comment: nil),
                     document: block,
                     author: ResponseAPIAuthor(userId: userId, username: Config.currentUser?.name, avatarUrl: UserDefaults.standard.string(forKey: Config.currentUserAvatarUrlKey), stats: nil, isSubscribed: nil),
                     community: parentPost?.community)
+                newComment?.isEditing = true
+                newComment?.hasError = false
                 var parentPost = parentPost
-                parentPost?.notifyCommentAdded(newComment)
+                parentPost?.notifyCommentAdded(newComment!)
             }
             // Reply
             else {
-                let newComment = ResponseAPIContentGetComment(
+                newComment = ResponseAPIContentGetComment(
                     contentId: ResponseAPIContentId(userId: userId, permlink: permlink, communityId: parentPost?.community.communityId ?? ""),
                     parents: ResponseAPIContentGetCommentParent(post: nil, comment: parentComment?.contentId),
                     document: block,
                     author: ResponseAPIAuthor(userId: userId, username: Config.currentUser?.name, avatarUrl: UserDefaults.standard.string(forKey: Config.currentUserAvatarUrlKey), stats: nil, isSubscribed: nil),
                     community: parentPost?.community)
-                var parentComment = parentComment
-                parentComment?.addChildComment(newComment)
+                newComment?.isEditing = true
+                newComment?.hasError = false
+                parentComment?.isEditing = true
+                parentComment?.addChildComment(newComment!)
                 
                 var parentPost = parentPost
                 let commentsCount = (parentPost?.stats?.commentsCount ?? 0) + 1
@@ -113,6 +119,37 @@ extension RestAPIManager {
         return EOSManager.create(messageCreateArgs: args)
             .map {(transactionId: $0, userId: userId, permlink: permlink)}
             .observeOn(MainScheduler.instance)
+            .do(onSuccess: { (_) in
+                if isComment {
+                    if isReplying {
+                        newComment?.isEditing = false
+                        newComment?.hasError = false
+                        newComment?.notifyChanged()
+                    }
+                    else {
+                        parentComment?.isEditing = false
+                        parentComment?.notifyChanged()
+                        newComment?.isEditing = false
+                        newComment?.hasError = false
+                        newComment?.notifyChanged()
+                    }
+                }
+            }, onError: { (error) in
+                if isComment {
+                    if isReplying {
+                        newComment?.isEditing = false
+                        newComment?.hasError = true
+                        newComment?.notifyChanged()
+                    }
+                    else {
+                        parentComment?.isEditing = false
+                        parentComment?.notifyChanged()
+                        newComment?.isEditing = false
+                        newComment?.hasError = true
+                        newComment?.notifyChanged()
+                    }
+                }
+            })
     }
     
     public func deleteMessage(communCode: String, permlink: String) -> Completable {
