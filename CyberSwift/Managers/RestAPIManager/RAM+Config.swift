@@ -16,5 +16,8 @@ extension RestAPIManager {
     ) -> Single<ResponseAPIGetConfig> {
         let methodAPIType = MethodAPIType.getConfig(deviceType: deviceType, version: version)
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+            .do(onSuccess: { (config) in
+                Config.appConfig = config
+            })
     }
 }

@@ -62,6 +62,23 @@ public struct Config {
         return KeychainManager.currentUser()
     }
     
+    public static var appConfig: ResponseAPIGetConfig? {
+        get {
+            if let savedConfig = UserDefaults.standard.data(forKey: Config.currentUserGetConfig)
+            {
+                return try? JSONDecoder().decode(ResponseAPIGetConfig.self, from: savedConfig)
+            }
+            return nil
+        }
+        set {
+            guard let newValue = newValue else {return}
+            let encoder = JSONEncoder()
+            if let encoded = try? encoder.encode(newValue) {
+                UserDefaults.standard.set(encoded, forKey: Config.currentUserGetConfig)
+            }
+        }
+    }
+    
     /// Check network connection
     public static var isNetworkAvailable: Bool {
         return ReachabilityManager.connection()
@@ -103,4 +120,5 @@ public struct Config {
     public static let currentUserPushNotificationOn: String =   "currentUserPushNotificationOn"
     public static let currentUserBiometryAuthEnabled:String =   "currentUserBiometryAuthEnabled"
     public static let currentUserDidSubscribeToMoreThan3Communities:String =   "currentUserDidSubscribeToMoreThan3Communities"
+    public static let currentUserGetConfig: String          =   "currentUserGetConfig"
 }
