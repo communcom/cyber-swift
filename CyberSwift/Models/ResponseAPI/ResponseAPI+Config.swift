@@ -9,11 +9,11 @@
 import Foundation
 
 public struct ResponseAPIGetConfig: Codable, Equatable {
-    let features: ResponseAPIGetConfigFeatures?
-    let domain: String?
-    let ftueCommunityBonus: UInt
+    public let features: ResponseAPIGetConfigFeatures?
+    public let domain: String?
+    public let ftueCommunityBonus: UInt?
 }
 
 public struct ResponseAPIGetConfigFeatures: Codable, Equatable {
-    let ftueCommunityBunus: Bool
+    public let ftueCommunityBunus: Bool
 }
