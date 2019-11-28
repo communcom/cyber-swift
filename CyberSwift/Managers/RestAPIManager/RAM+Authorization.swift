@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 
-extension Reactive where Base: RestAPIManager {
+extension RestAPIManager {
     // MARK: - Public function
     /// Get registration state
     public func getState(userId: String? = Config.currentUser?.id, phone: String? = Config.currentUser?.phoneNumber) -> Single<ResponseAPIRegistrationGetState> {
@@ -35,7 +35,7 @@ extension Reactive where Base: RestAPIManager {
     
     /// First step of registration
     public func firstStep(phone: String, captchaCode: String) -> Single<ResponseAPIRegistrationFirstStep> {
-        let methodAPIType = MethodAPIType.firstStep(phone: phone.trimSpaces(), captchaCode: captchaCode, isDebugMode: base.isDebugMode)
+        let methodAPIType = MethodAPIType.firstStep(phone: phone.trimSpaces(), captchaCode: captchaCode, isDebugMode: isDebugMode)
         
         return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationFirstStep>)
             .map {result in
@@ -171,7 +171,7 @@ extension Reactive where Base: RestAPIManager {
         
         var userKeys = [String: UserKeys]()
         
-        return base.resolveProfile(username: login)
+        return resolveProfile(username: login)
             .flatMap({ (profile) -> Single<ResponseAPIAuthAuthorize> in
                 // Create 4 pairs of keys
                 userKeys = self.generateKeys(userId: profile.userId, masterKey: masterKey)

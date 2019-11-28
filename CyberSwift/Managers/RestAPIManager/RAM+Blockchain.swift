@@ -14,7 +14,7 @@ extension RestAPIManager: ReactiveCompatible {}
 
 public typealias SendPostCompletion = (transactionId: String?, userId: String?, permlink: String?)
 
-extension Reactive where Base: RestAPIManager {
+extension RestAPIManager {
     //  MARK: - Contract `gls.publish`
     public func vote(voteType:       VoteActionType,
                      communityId:    String,

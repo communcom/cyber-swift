@@ -143,14 +143,14 @@ extension Broadcast {
                     let message = errorAPI.caseInfo.message
                     
                     if message == "Unauthorized request: access denied" {
-                        return RestAPIManager.instance.rx.authorize()
+                        return RestAPIManager.instance.authorize()
                             .flatMap {_ in self.executeGetRequest(methodAPIType: methodAPIType)}
                     }
                     
                     if message == "There is no secret stored for this channelId. Probably, client's already authorized" ||
                         message == "Secret verification failed - access denied"{
                         // retrieve secret
-                        return RestAPIManager.instance.rx.generateSecret()
+                        return RestAPIManager.instance.generateSecret()
                             .andThen(self.executeGetRequest(methodAPIType: methodAPIType))
                     }
                     

@@ -32,6 +32,7 @@ public enum MethodAPIGroup: String {
     case content            =   "content"
     case auth               =   "auth"
     case bandwidth          =   "bandwidth"
+    case config             =   "config"
 }
 
 public enum FeedTypeMode: String {
@@ -221,6 +222,9 @@ public indirect enum MethodAPIType {
     
     //  Onboarding step to force user to subscribe to at least 3 communities
     case onboardingCommunitySubscriptions(userId: String, communityIds: [String])
+    
+    /// Config
+    case getConfig(deviceType: String = "phone", version: String)
 
     /// CHAIN-SERVICE
     case bandwidthProvide(chainID: String, transaction: RequestAPITransaction)
@@ -631,6 +635,17 @@ public indirect enum MethodAPIType {
                      parameters:        [
                         "userId": userId,
                         "communityIds": communityIds
+                    ])
+            
+        case .getConfig(let deviceType, let version):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.config.rawValue,
+                     methodName:        "getConfig",
+                     parameters:        [
+                        "platform"      :   "ios",
+                        "deviceType"    :   deviceType,
+                        "type"          :   "app",
+                        "version"       :   version
                     ])
             
         // Template: missing

@@ -64,7 +64,7 @@ extension RestAPIManager {
     }
 }
 
-extension Reactive where Base: RestAPIManager {
+extension RestAPIManager {
     /// Turn on push notification
     public func pushNotifyOn() -> Completable {
         // Offline mode

@@ -62,6 +62,8 @@
 		B1EA0319228A985400835244 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EA0318228A985400835244 /* UIView+Extensions.swift */; };
 		B1F7B44A229FB5A4005492DD /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F7B449229FB5A4005492DD /* UIImage+Extensions.swift */; };
 		BC3D9763235040B500421718 /* ResponseAPIContentGetCommentsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3D9762235040B500421718 /* ResponseAPIContentGetCommentsTests.swift */; };
+		BC44DBAB238F716300412F08 /* ResponseAPI+Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DBAA238F716300412F08 /* ResponseAPI+Config.swift */; };
+		BC44DBAD238F739600412F08 /* RAM+Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DBAC238F739600412F08 /* RAM+Config.swift */; };
 		BC48FC3C23667FB10049C4F4 /* ResponseAPIContentCommunity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC48FC3B23667FB10049C4F4 /* ResponseAPIContentCommunity.swift */; };
 		BC48FC3E236680740049C4F4 /* RAM+Community.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC48FC3D236680740049C4F4 /* RAM+Community.swift */; };
 		BC48FC492366A4850049C4F4 /* EOSManager+commun.list.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC48FC482366A4850049C4F4 /* EOSManager+commun.list.swift */; };
@@ -149,6 +151,8 @@
 		B1EA0318228A985400835244 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		B1F7B449229FB5A4005492DD /* UIImage+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		BC3D9762235040B500421718 /* ResponseAPIContentGetCommentsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseAPIContentGetCommentsTests.swift; sourceTree = "<group>"; };
+		BC44DBAA238F716300412F08 /* ResponseAPI+Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Config.swift"; sourceTree = "<group>"; };
+		BC44DBAC238F739600412F08 /* RAM+Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Config.swift"; sourceTree = "<group>"; };
 		BC48FC3B23667FB10049C4F4 /* ResponseAPIContentCommunity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseAPIContentCommunity.swift; sourceTree = "<group>"; };
 		BC48FC3D236680740049C4F4 /* RAM+Community.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Community.swift"; sourceTree = "<group>"; };
 		BC48FC482366A4850049C4F4 /* EOSManager+commun.list.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EOSManager+commun.list.swift"; sourceTree = "<group>"; };
@@ -196,6 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				B1677C65223F9BD7005FB286 /* RestAPIManager.swift */,
+				BC44DBAC238F739600412F08 /* RAM+Config.swift */,
 				3B1E901522CDEC6A00D7A0C1 /* RAM+Authorization.swift */,
 				BC52913D2378FE910022EC7F /* RAM+Content.swift */,
 				3BBBE2972295AAE90029C9C9 /* RAM+Blockchain.swift */,
@@ -380,6 +385,7 @@
 				BCA97131236178E600AE37E1 /* ResponseAPIContent.swift */,
 				BCA971332361798000AE37E1 /* ResponseAPIContentProfile.swift */,
 				BC48FC3B23667FB10049C4F4 /* ResponseAPIContentCommunity.swift */,
+				BC44DBAA238F716300412F08 /* ResponseAPI+Config.swift */,
 			);
 			path = ResponseAPI;
 			sourceTree = "<group>";
@@ -584,6 +590,7 @@
 				B179917B2269B4560014CB44 /* SteemEncoder.swift in Sources */,
 				B19A28D6226087EE001C9F43 /* UIDevice+Extensions.swift in Sources */,
 				B1C3F861223F98DC005711EF /* Logger.swift in Sources */,
+				BC44DBAD238F739600412F08 /* RAM+Config.swift in Sources */,
 				3BE08B9722E6609D00BE6FCB /* SocketManager+Rx.swift in Sources */,
 				B1C3F86A223F9907005711EF /* ResponseAPI.swift in Sources */,
 				B179917E2269B4560014CB44 /* PublicKey.swift in Sources */,
@@ -597,6 +604,7 @@
 				3B5EDE3F22E0F10900897BF3 /* RAM+Notifications.swift in Sources */,
 				B1EA02CE22895EB400835244 /* UIButton+Extensions.swift in Sources */,
 				BCCE0A9E2367DD3A00A183AA /* RAM+Profile.swift in Sources */,
+				BC44DBAB238F716300412F08 /* ResponseAPI+Config.swift in Sources */,
 				3BBBE29A2296A8A10029C9C9 /* RxSwift.swift in Sources */,
 				B1C3F859223F98B1005711EF /* Encodable+Extensions.swift in Sources */,
 				B1A74A662243893A009D68E7 /* EOSManager.swift in Sources */,
