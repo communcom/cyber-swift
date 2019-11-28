@@ -94,7 +94,6 @@ extension RestAPIManager {
                     community: parentPost?.community)
                 newComment?.isEditing = true
                 newComment?.hasError = false
-                parentComment?.isEditing = true
                 parentComment?.addChildComment(newComment!)
                 
                 var parentPost = parentPost
@@ -181,6 +180,7 @@ extension RestAPIManager {
         }
         
         var originBlock: ResponseAPIContentBlock?
+        var originMessage = originMessage
         // send mock playholder
         if var post = originMessage as? ResponseAPIContentGetPost {
             originBlock = post.document
@@ -188,12 +188,14 @@ extension RestAPIManager {
             post.isEditing = true
             post.hasError = false
             post.notifyChanged()
+            originMessage = post
         }
         else if var comment = originMessage as? ResponseAPIContentGetComment {
             originBlock = comment.document
             comment.document = block
             comment.isEditing = true
             comment.notifyChanged()
+            originMessage = comment
         }
         
         // prepare args
