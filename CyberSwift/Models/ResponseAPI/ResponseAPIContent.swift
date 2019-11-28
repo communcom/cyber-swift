@@ -8,6 +8,18 @@
 
 import Foundation
 
+// MARK: - MessageStatus
+public enum MessageStatus: Decodable, Equatable {
+    public init(from decoder: Decoder) throws {
+        self = .done
+    }
+    
+    case done
+    case editing
+    case addingChild
+    case error
+}
+
 // MARK: - API `content.getPosts`
 public struct ResponseAPIContentGetPosts: Decodable {
     public let items: [ResponseAPIContentGetPost]?
@@ -26,10 +38,7 @@ public struct ResponseAPIContentGetPost: Decodable, Equatable {
     public let url: String?
     
     // Additional properties
-    public var isAddingComment: Bool? = false
-    
-    public var isEditing: Bool? = false
-    public var hasError: Bool? = false
+    public var status: MessageStatus? = .done
 }
 
 public struct ResponseAPIContentBlock: Codable, Equatable {
@@ -216,9 +225,7 @@ public struct ResponseAPIContentGetComment: Decodable, Equatable {
     public var children: [ResponseAPIContentGetComment]?
     
     // Additional properties
-    public var isReplying: Bool? = false
-    public var isEditing: Bool? = false
-    public var hasError: Bool? = false
+    public var status: MessageStatus? = .done
     
     public init(
         contentId: ResponseAPIContentId,
