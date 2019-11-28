@@ -30,16 +30,22 @@ extension RestAPIManager {
     
     public func createMessage(
         isComment: Bool = false,
+        parentPost: ResponseAPIContentGetPost? = nil,
+        isReplying: Bool = false,
+        parentComment: ResponseAPIContentGetComment? = nil,
         communCode: String,
         parentAuthor: String? = nil,
         parentPermlink: String? = nil,
         header: String = "",
-        body: String,
-        tags: [String] = []
+        block: ResponseAPIContentBlock
     ) -> Single<SendPostCompletion> {
         // Check for authorization
         guard let userId = Config.currentUser?.id else {
             return .error(ErrorAPI.unauthorized)
+        }
+        
+        guard let bodyString = try? block.jsonString() else {
+            return .error(ErrorAPI.invalidData(message: "Body is invalid"))
         }
         
         // Create permlink for comment
@@ -48,7 +54,7 @@ extension RestAPIManager {
             permlink = String.permlinkWith(string: "comment-\(userId)-\(Int.random(in: 0..<100))")
         } else {
             // Create permlink for post
-            permlink = String.permlinkWith(string: header.isEmpty ? body : header)
+            permlink = String.permlinkWith(string: header.isEmpty ? bodyString : header)
         }
         
         // Prepare arguments
@@ -61,17 +67,49 @@ extension RestAPIManager {
             parentId = EOSTransaction.Mssgid()
         }
         
+        // Send mock data
+        if isComment {
+            // New comment
+            if !isReplying {
+                let newComment = ResponseAPIContentGetComment(
+                    contentId: ResponseAPIContentId(userId: userId, permlink: permlink, communityId: communCode),
+                    parents: ResponseAPIContentGetCommentParent(post: ResponseAPIContentId(userId: userId, permlink: permlink, communityId: communCode), comment: nil),
+                    document: block,
+                    author: ResponseAPIAuthor(userId: userId, username: Config.currentUser?.name, avatarUrl: UserDefaults.standard.string(forKey: Config.currentUserAvatarUrlKey), stats: nil, isSubscribed: nil),
+                    community: parentPost?.community)
+                var parentPost = parentPost
+                parentPost?.notifyCommentAdded(newComment)
+            }
+            // Reply
+            else {
+                let newComment = ResponseAPIContentGetComment(
+                    contentId: ResponseAPIContentId(userId: userId, permlink: permlink, communityId: parentPost?.community.communityId ?? ""),
+                    parents: ResponseAPIContentGetCommentParent(post: nil, comment: parentComment?.contentId),
+                    document: block,
+                    author: ResponseAPIAuthor(userId: userId, username: Config.currentUser?.name, avatarUrl: UserDefaults.standard.string(forKey: Config.currentUserAvatarUrlKey), stats: nil, isSubscribed: nil),
+                    community: parentPost?.community)
+                var parentComment = parentComment
+                parentComment?.addChildComment(newComment)
+                
+                var parentPost = parentPost
+                let commentsCount = (parentPost?.stats?.commentsCount ?? 0) + 1
+                parentPost?.stats?.commentsCount = commentsCount
+                parentPost?.notifyChanged()
+            }
+        }
+        
+        // Send request
+        let tags = block.getTags()
         let args = EOSTransaction.MessageCreateArgs(
             commun_code:    CyberSymbolWriterValue(name: communCode),
             message_id:     messageId,
             parent_id:      parentId,
             header:         header,
-            body:           body,
+            body:           bodyString,
             tags:           StringCollectionWriterValue(value: tags),
             metadata:       "",
             weight:         0)
         
-        // Send request
         return EOSManager.create(messageCreateArgs: args)
             .map {(transactionId: $0, userId: userId, permlink: permlink)}
             .observeOn(MainScheduler.instance)
@@ -90,30 +128,74 @@ extension RestAPIManager {
     }
     
     public func updateMessage(
+        originMessage: Decodable,
         communCode: String,
         permlink:   String,
         header:     String = "",
-        body:       String,
-        tags:       [String] = []
+        block:       ResponseAPIContentBlock
     ) -> Single<SendPostCompletion> {
        
         guard let author = Config.currentUser?.id else {
             return .error(ErrorAPI.unauthorized)
         }
         
+        guard let bodyString = try? block.jsonString() else {
+            return .error(ErrorAPI.invalidData(message: "Body is invalid"))
+        }
+        
+        var originBlock: ResponseAPIContentBlock?
+        // send mock playholder
+        if var post = originMessage as? ResponseAPIContentGetPost {
+            originBlock = post.document
+            post.document = block
+            post.isEditing = true
+            post.hasError = false
+            post.notifyChanged()
+        }
+        else if var comment = originMessage as? ResponseAPIContentGetComment {
+            originBlock = comment.document
+            comment.document = block
+            comment.isEditing = true
+            comment.notifyChanged()
+        }
+        
         // prepare args
         let messageId = EOSTransaction.Mssgid(author: author, permlink: permlink)
+        let tags = block.getTags()
         let args = EOSTransaction.MessageUpdateArgs(
             commun_code:    CyberSymbolWriterValue(name: communCode),
             message_id:     messageId,
             header:         header,
-            body:           body,
+            body:           bodyString,
             tags:           StringCollectionWriterValue(value: tags),
             metadata:       "")
         
         return EOSManager.update(messageArgs: args)
             .map {(transactionId: $0, userId: author, permlink: permlink)}
             .observeOn(MainScheduler.instance)
+            .do(onSuccess: { (_) in
+                if var post = originMessage as? ResponseAPIContentGetPost {
+                    post.isEditing = false
+                    post.hasError = false
+                    post.notifyChanged()
+                }
+                else if var comment = originMessage as? ResponseAPIContentGetComment {
+                    comment.isEditing = false
+                    comment.hasError = false
+                    comment.notifyChanged()
+                }
+            }, onError: { (_) in
+                if var post = originMessage as? ResponseAPIContentGetPost {
+                    post.isEditing = false
+                    post.hasError = true
+                    post.notifyChanged()
+                }
+                else if var comment = originMessage as? ResponseAPIContentGetComment {
+                    comment.isEditing = false
+                    comment.hasError = true
+                    comment.notifyChanged()
+                }
+            })
     }
     
     public func reblog(author:              String,

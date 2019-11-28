@@ -27,6 +27,9 @@ public struct ResponseAPIContentGetPost: Decodable, Equatable {
     
     // Additional properties
     public var isAddingComment: Bool? = false
+    
+    public var isEditing: Bool? = false
+    public var hasError: Bool? = false
 }
 
 public struct ResponseAPIContentBlock: Codable, Equatable {
@@ -214,6 +217,8 @@ public struct ResponseAPIContentGetComment: Decodable, Equatable {
     
     // Additional properties
     public var isReplying: Bool? = false
+    public var isEditing: Bool? = false
+    public var hasError: Bool? = false
     
     public init(
         contentId: ResponseAPIContentId,

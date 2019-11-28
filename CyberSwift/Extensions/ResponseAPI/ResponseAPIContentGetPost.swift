@@ -20,8 +20,11 @@ extension ResponseAPIContentGetPost: IdentifiableType {
     
     public static var commentAddedEventName: String {"CommentAdded"}
     
-    public func notifyChildrenChanged() {
-        notifyEvent(eventName: Self.commentAddedEventName)
+    public mutating func notifyCommentAdded(_ comment: ResponseAPIContentGetComment) {
+        let commentCount = (stats?.commentsCount ?? 0) + 1
+        self.stats?.commentsCount = commentCount
+        notifyEvent(eventName: Self.commentAddedEventName, object: comment)
+        notifyChanged()
     }
     
     public var attachments: [ResponseAPIContentBlock] {
