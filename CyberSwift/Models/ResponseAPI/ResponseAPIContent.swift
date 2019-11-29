@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxDataSources
 
 // MARK: - MessageStatus
 public enum MessageStatus: Decodable, Equatable {
@@ -20,13 +21,20 @@ public enum MessageStatus: Decodable, Equatable {
     case error
 }
 
+public protocol ResponseAPIContentMessageType: Decodable, Equatable, IdentifiableType {
+    var votes: ResponseAPIContentVotes {get set}
+    var document: ResponseAPIContentBlock? {get set}
+    var community: ResponseAPIContentGetCommunity? {get}
+    var contentId: ResponseAPIContentId {get}
+}
+
 // MARK: - API `content.getPosts`
 public struct ResponseAPIContentGetPosts: Decodable {
     public let items: [ResponseAPIContentGetPost]?
     public let sequenceKey: String?
 }
 
-public struct ResponseAPIContentGetPost: Decodable, Equatable {
+public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
     public var document: ResponseAPIContentBlock?
     public var votes: ResponseAPIContentVotes
     public let meta: ResponseAPIContentMeta
@@ -34,7 +42,7 @@ public struct ResponseAPIContentGetPost: Decodable, Equatable {
     public let author: ResponseAPIAuthor?
     public var stats: ResponseAPIContentGetPostStats?
     public let payout: ResponseAPIContentGetPostPayout?
-    public let community: ResponseAPIContentGetCommunity
+    public let community: ResponseAPIContentGetCommunity?
     public let url: String?
     
     // Additional properties
@@ -213,13 +221,13 @@ public struct ResponseAPIContentGetComments: Decodable {
     public let items: [ResponseAPIContentGetComment]?
 }
 
-public struct ResponseAPIContentGetComment: Decodable, Equatable {
+public struct ResponseAPIContentGetComment: ResponseAPIContentMessageType {
     public var votes: ResponseAPIContentVotes
     public let meta: ResponseAPIContentMeta
     public var childCommentsCount: UInt
     public let contentId: ResponseAPIContentId
     public let parents: ResponseAPIContentGetCommentParent
-    public var document: ResponseAPIContentBlock
+    public var document: ResponseAPIContentBlock?
     public let author: ResponseAPIAuthor?
     public let community: ResponseAPIContentGetCommunity?
     public var children: [ResponseAPIContentGetComment]?
