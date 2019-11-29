@@ -76,6 +76,7 @@
 		BC44DBE6238FA66F00412F08 /* ResponseAPIContentResolveProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DBE5238FA66E00412F08 /* ResponseAPIContentResolveProfile.swift */; };
 		BC44DBE8238FA69F00412F08 /* ResponseAPIOnlineNotificationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DBE7238FA69F00412F08 /* ResponseAPIOnlineNotificationData.swift */; };
 		BC44DBEC238FA99000412F08 /* ResponseAPIContentBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DBEB238FA99000412F08 /* ResponseAPIContentBlock.swift */; };
+		BC4692B62390BAFA0064A38B /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4692B52390BAFA0064A38B /* UIApplication.swift */; };
 		BC48FC3C23667FB10049C4F4 /* ResponseAPIContentCommunity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC48FC3B23667FB10049C4F4 /* ResponseAPIContentCommunity.swift */; };
 		BC48FC3E236680740049C4F4 /* RAM+Community.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC48FC3D236680740049C4F4 /* RAM+Community.swift */; };
 		BC48FC492366A4850049C4F4 /* EOSManager+commun.list.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC48FC482366A4850049C4F4 /* EOSManager+commun.list.swift */; };
@@ -177,6 +178,7 @@
 		BC44DBE5238FA66E00412F08 /* ResponseAPIContentResolveProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseAPIContentResolveProfile.swift; sourceTree = "<group>"; };
 		BC44DBE7238FA69F00412F08 /* ResponseAPIOnlineNotificationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseAPIOnlineNotificationData.swift; sourceTree = "<group>"; };
 		BC44DBEB238FA99000412F08 /* ResponseAPIContentBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseAPIContentBlock.swift; sourceTree = "<group>"; };
+		BC4692B52390BAFA0064A38B /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
 		BC48FC3B23667FB10049C4F4 /* ResponseAPIContentCommunity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseAPIContentCommunity.swift; sourceTree = "<group>"; };
 		BC48FC3D236680740049C4F4 /* RAM+Community.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Community.swift"; sourceTree = "<group>"; };
 		BC48FC482366A4850049C4F4 /* EOSManager+commun.list.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EOSManager+commun.list.swift"; sourceTree = "<group>"; };
@@ -358,6 +360,7 @@
 				B1EA02F52289D3B400835244 /* UITextField+Extensions.swift */,
 				B154D8BA237A97E70042E991 /* UITextView+Extensions.swift */,
 				B1EA0318228A985400835244 /* UIView+Extensions.swift */,
+				BC4692B52390BAFA0064A38B /* UIApplication.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -634,6 +637,7 @@
 				B179917A2269B4560014CB44 /* Secp256k1.swift in Sources */,
 				BC44DBE6238FA66F00412F08 /* ResponseAPIContentResolveProfile.swift in Sources */,
 				B1C3F869223F9907005711EF /* ErrorAPI.swift in Sources */,
+				BC4692B62390BAFA0064A38B /* UIApplication.swift in Sources */,
 				B179917B2269B4560014CB44 /* SteemEncoder.swift in Sources */,
 				BC44DBE4238FA65700412F08 /* ResponseAPIContentGetSubscriptionsItem.swift in Sources */,
 				B19A28D6226087EE001C9F43 /* UIDevice+Extensions.swift in Sources */,

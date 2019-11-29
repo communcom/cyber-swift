@@ -224,7 +224,7 @@ public indirect enum MethodAPIType {
     case onboardingCommunitySubscriptions(userId: String, communityIds: [String])
     
     /// Config
-    case getConfig()
+    case getConfig
 
     /// CHAIN-SERVICE
     case bandwidthProvide(chainID: String, transaction: RequestAPITransaction)
@@ -637,7 +637,7 @@ public indirect enum MethodAPIType {
                         "communityIds": communityIds
                     ])
             
-        case .getConfig():
+        case .getConfig:
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.config.rawValue,
                      methodName:        "getConfig",

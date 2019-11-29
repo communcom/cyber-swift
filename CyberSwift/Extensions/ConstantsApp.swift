@@ -42,7 +42,7 @@ public struct Config {
     
     // For SwiftSocket
     
-    // Don't use!!!
+    #warning("change for production")
     static let gate_API_URL: String                     =   "wss://dev-gate.commun.com/"
     
     public static let testingPassword: String           =   "machtfrei"
