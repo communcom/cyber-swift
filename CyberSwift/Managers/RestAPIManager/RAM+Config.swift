@@ -10,11 +10,8 @@ import Foundation
 import RxSwift
 
 extension RestAPIManager {
-    public func getConfig(
-        deviceType: String = "phone",
-        version: String
-    ) -> Single<ResponseAPIGetConfig> {
-        let methodAPIType = MethodAPIType.getConfig(deviceType: deviceType, version: version)
+    public func getConfig() -> Single<ResponseAPIGetConfig> {
+        let methodAPIType = MethodAPIType.getConfig()
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
             .do(onSuccess: { (config) in
                 Config.appConfig = config

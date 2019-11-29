@@ -224,7 +224,7 @@ public indirect enum MethodAPIType {
     case onboardingCommunitySubscriptions(userId: String, communityIds: [String])
     
     /// Config
-    case getConfig(deviceType: String = "phone", version: String)
+    case getConfig()
 
     /// CHAIN-SERVICE
     case bandwidthProvide(chainID: String, transaction: RequestAPITransaction)
@@ -637,16 +637,11 @@ public indirect enum MethodAPIType {
                         "communityIds": communityIds
                     ])
             
-        case .getConfig(let deviceType, let version):
+        case .getConfig():
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.config.rawValue,
                      methodName:        "getConfig",
-                     parameters:        [
-                        "platform"      :   "ios",
-                        "deviceType"    :   deviceType,
-                        "type"          :   "app",
-                        "version"       :   version
-                    ])
+                     parameters:        [:])
             
         // Template: missing
         case .bandwidthProvide(let chainID, let transaction):
