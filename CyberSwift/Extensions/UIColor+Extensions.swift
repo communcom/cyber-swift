@@ -35,8 +35,9 @@ public let vividBlueWhiteColorPickers: ThemeColorPicker                 =   [ "#
 public let vividBlueColorPickers: ThemeColorPicker                      =   [ "#1298ff", "#1298ff" ]
 public let darkModerateBlueColorPickers: ThemeColorPicker               =   [ "#4469af", "#4469af" ]
 public let grayWhiteColorPickers: ThemeColorPicker                      =   [ "#a6a6a6", "#ffffff" ]
-public let verySoftBlueColorPickers: ThemeColorPicker                   =   [ "#a0d6fd", "#a0d6fd" ]
-public let softBlueColorPickers: ThemeColorPicker                       =   [ "#6a80f5", "#6a80f5" ]
+public let verySoftBlueColorPickers: ThemeColorPicker                   =   [ "#6A80F5", "#6A80F5" ]
+public let softBlueColorPickers: ThemeColorPicker                       =   [ "#6A80F5", "#6A80F5" ]
+public let communGrayColorPickers: ThemeColorPicker                     =   [ "#A5A7BD", "#A5A7BD" ]
 
 public let lightGrayWhiteColorPickers: ThemeColorPicker                 =   [ "#c1c1c1", "#ffffff" ]
 public let redWhiteColorPickers: ThemeColorPicker                       =   [ "#ff0000", "#ffffff" ]

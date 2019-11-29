@@ -16,7 +16,7 @@ extension UITextField {
         self.textAlignment          =   alignment
         
         self.attributedPlaceholder  =   NSAttributedString(string:      placeholder.localized().uppercaseFirst,
-                                                           attributes:  [ NSAttributedString.Key.foregroundColor: UIColor(hexString: "#9B9FA2") ])
+                                                           attributes:  [ NSAttributedString.Key.foregroundColor: UIColor(hexString: "#A5A7BD") ])
     }
     
     public func setLeftPaddingPoints(_ amount: CGFloat) {
