@@ -76,10 +76,10 @@ public struct ResponseAPIContentGetLeaders: Decodable {
 public struct ResponseAPIContentGetLeader: Decodable, Equatable {
     public let url: String
     public let rating: Double
+    public let votesCount: UInt64
     public let isActive: Bool
     public let userId: String
     public let position: UInt64
-    public var isVoted: Bool
     public let ratingPercent: Double
     public let isSubscribed: Bool
     public let username: String?
@@ -89,4 +89,3 @@ public struct ResponseAPIContentGetLeader: Decodable, Equatable {
     public var communityId: String?
     public var isBeingVoted: Bool? = false
 }
-
