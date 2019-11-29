@@ -76,7 +76,7 @@ public struct ResponseAPIContentGetLeaders: Decodable {
 public struct ResponseAPIContentGetLeader: Decodable, Equatable {
     public let url: String
     public let rating: Double
-    public let votesCount: UInt64
+    public var votesCount: Int
     public let isActive: Bool
     public let userId: String
     public let position: UInt64
