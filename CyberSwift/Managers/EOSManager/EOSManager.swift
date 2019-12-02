@@ -106,6 +106,8 @@ class EOSManager {
                                expiration: Date = Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds),
                                disableClientAuth: Bool = false,
                                disableCyberBandwidth: Bool  = false) -> Single<String> {
+        
+        Logger.log(message: args.convertToJSON(), event: .request)
 
         // Offline mode
         if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
@@ -133,7 +135,6 @@ class EOSManager {
             name: AccountNameWriterValue(name: name),
             authorization: auth,
             data: DataWriterValue(hex: args.toHex()))
-        print("action1 hex: \(action1.toHex())")
         // Action 2
         let transactionAuthorizationAbiBandwidth = TransactionAuthorizationAbi(
             actor:        AccountNameWriterValue(name:    "c"),
@@ -147,7 +148,6 @@ class EOSManager {
                                 name: AccountNameWriterValue(name: "providebw"),
                                 authorization: [transactionAuthorizationAbiBandwidth],
                                 data: DataWriterValue(hex: args2.toHex()))
-        print("action2 hex: \(action2.toHex())")
 
         // Action 3
         let args3 = EOSTransaction.CommunBandwidthProvider(
@@ -159,7 +159,6 @@ class EOSManager {
             name: AccountNameWriterValue(name: "providebw"),
             authorization: [transactionAuthorizationAbiBandwidth],
             data: DataWriterValue(hex: args3.toHex()))
-        print("action3 hex: \(action3.toHex())")
 
         let transaction = EOSTransaction(chainApi: EOSManager.chainApi)
 
