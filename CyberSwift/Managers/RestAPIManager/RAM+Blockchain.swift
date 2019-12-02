@@ -86,7 +86,7 @@ extension RestAPIManager {
             // Reply
             else {
                 newComment = ResponseAPIContentGetComment(
-                    contentId: ResponseAPIContentId(userId: userId, permlink: permlink, communityId: parentPost?.community.communityId ?? ""),
+                    contentId: ResponseAPIContentId(userId: userId, permlink: permlink, communityId: parentPost?.community?.communityId ?? ""),
                     parents: ResponseAPIContentGetCommentParent(post: nil, comment: parentComment?.contentId),
                     document: block,
                     author: ResponseAPIAuthor(userId: userId, username: Config.currentUser?.name, avatarUrl: UserDefaults.standard.string(forKey: Config.currentUserAvatarUrlKey), stats: nil, isSubscribed: nil),
