@@ -16,7 +16,7 @@ extension ResponseAPIContentGetComment: IdentifiableType {
     }
     
     public var content: [ResponseAPIContentBlock]? {
-        return document.content.arrayValue
+        return document?.content.arrayValue
     }
     
     public var firstEmbedImageURL: String? {

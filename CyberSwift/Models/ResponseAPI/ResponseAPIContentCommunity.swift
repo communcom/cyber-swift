@@ -80,6 +80,7 @@ public struct ResponseAPIContentGetLeader: Decodable, Equatable {
     public let isActive: Bool
     public let userId: String
     public let position: UInt64
+    public var isVoted: Bool?
     public let ratingPercent: Double
     public let isSubscribed: Bool
     public let username: String?
