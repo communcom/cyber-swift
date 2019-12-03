@@ -82,11 +82,14 @@ public struct ResponseAPIContentGetLeader: Decodable, Equatable {
     public let position: UInt64
     public var isVoted: Bool?
     public let ratingPercent: Double
-    public let isSubscribed: Bool
-    public let username: String?
+    public var isSubscribed: Bool?
+    public let username: String
     public let avatarUrl: String?
+    
+    public var subscribersCount: UInt64?
     
     // Additional property
     public var communityId: String?
     public var isBeingVoted: Bool? = false
+    public var isBeingToggledFollow: Bool? = false
 }

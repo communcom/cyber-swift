@@ -19,6 +19,16 @@ public struct ResponseAPIContentResolveProfile: Decodable, Equatable {
     
     // additional property
     public var isBeingToggledFollow: Bool? = false
+    
+    public init(leader: ResponseAPIContentGetLeader) {
+        self.userId = leader.userId
+        self.username = leader.username
+        self.avatarUrl = leader.avatarUrl
+        self.isSubscribed = leader.isSubscribed
+        self.subscribersCount = leader.subscribersCount
+        self.postsCount = nil
+        self.isBeingToggledFollow = leader.isBeingToggledFollow
+    }
 }
 
 // MARK: - API `content.getProfile`
