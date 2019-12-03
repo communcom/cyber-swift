@@ -61,8 +61,11 @@ public struct ResponseAPIContentGetProfileCommonCommunity: Decodable, Equatable 
     public let name: String
     public let alias: String?
     public let coverUrl: String?
+    public let avatarUrl: String?
     public let subscribersCount: UInt64?
     public var isSubscribed: Bool?
+    
+    public var isBeingJoined: Bool? = false
 }
 
 public struct ResponseAPIContentGetProfileRegistration: Decodable, Equatable {
@@ -183,6 +186,8 @@ public struct ResponseAPIContentGetSubscriptionsCommunity: Codable, Equatable {
     public var isSubscribed: Bool?
     public let avatarUrl: String?
     public let coverUrl: String?
+    
+    
     public var isBeingJoined: Bool? = false
     
     public init(community: ResponseAPIContentGetCommunity) {
@@ -195,6 +200,20 @@ public struct ResponseAPIContentGetSubscriptionsCommunity: Codable, Equatable {
         self.isSubscribed = community.isSubscribed
         self.avatarUrl = community.avatarUrl
         self.coverUrl = community.avatarUrl
+        self.isBeingJoined = community.isBeingJoined
+    }
+    
+    public init(community: ResponseAPIContentGetProfileCommonCommunity) {
+        self.subscribersCount = community.subscribersCount
+        self.leadersCount = nil
+        self.postsCount = nil
+        self.communityId = community.communityId
+        self.name = community.name
+        self.code = ""
+        self.isSubscribed = community.isSubscribed
+        self.avatarUrl = community.avatarUrl
+        self.coverUrl = community.coverUrl
+        
         self.isBeingJoined = community.isBeingJoined
     }
 }
