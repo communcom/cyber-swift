@@ -6,6 +6,7 @@
 //  Copyright © 2019 golos.io. All rights reserved.
 //
 //  https://www.countryflags.com/en/
+//  https://en.wikipedia.org/wiki/List_of_mobile_telephone_prefixes_by_country#cite_note-prefix_note-1
 //
 
 import Foundation
@@ -18,13 +19,14 @@ public class Country: Encodable {
     public var `default`: Bool
     public var verificationPhone: String
     public var verificationOverrides: Override?
-    
+    public var nsn: UInt?
+
     public var phoneCode: String {
         return "+\(code)"
     }
 
 
-    init(codeValue: UInt16, shortCodeValue: String, labelValue: String, flagURLString: String, defaultValue: Bool = false, verificationPhoneValue: String = "", verificationOverridesValue: Override? = nil) {
+    init(codeValue: UInt16, shortCodeValue: String, labelValue: String, flagURLString: String, defaultValue: Bool = false, verificationPhoneValue: String = "", verificationOverridesValue: Override? = nil, nsnValue: UInt? = nil) {
         self.code = codeValue
         self.shortCode = shortCodeValue
         self.label = labelValue
@@ -32,6 +34,7 @@ public class Country: Encodable {
         self.default = defaultValue
         self.verificationPhone = verificationPhoneValue
         self.verificationOverrides = verificationOverridesValue
+        self.nsn = nsnValue
     }
     
     public var localizedName: String {
@@ -296,7 +299,7 @@ public class PhoneCode {
     // MARK: - Functions
     public class func getCountries() -> [Country] {
         return [ UnitedStates(codeValue: 1, shortCodeValue: "US", labelValue: "United States", flagURLString: "https://cdn.countryflags.com/thumbs/united-states-of-america/flag-800.png"),
-                 Russia(codeValue: 7, shortCodeValue: "RU", labelValue: "Russia", flagURLString: "https://cdn.countryflags.com/thumbs/russia/flag-800.png", defaultValue: true, verificationPhoneValue: "+7 (916) 930-63-59"),
+                 Russia(codeValue: 7, shortCodeValue: "RU", labelValue: "Russia", flagURLString: "https://cdn.countryflags.com/thumbs/russia/flag-800.png", defaultValue: true, verificationPhoneValue: "+7 (916) 930-63-59", nsnValue: 10),
                  Kazakhstan(codeValue: 7, shortCodeValue: "KZ", labelValue: "Kazakhstan", flagURLString: "https://cdn.countryflags.com/thumbs/kazakhstan/flag-800.png", verificationPhoneValue: "+7 (777) 007-69-77"),
                  Lithuania(codeValue: 370, shortCodeValue: "LT", labelValue: "Lithuania", flagURLString: "https://cdn.countryflags.com/thumbs/lithuania/flag-800.png"),
                  Belarus(codeValue: 375, shortCodeValue: "BY", labelValue: "Belarus", flagURLString: "https://cdn.countryflags.com/thumbs/belarus/flag-800.png", verificationPhoneValue: "+375 (29) 230-87-70"),
