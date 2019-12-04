@@ -78,8 +78,6 @@ public struct ResponseAPIContentGetProfileStat: Decodable, Equatable {
 
 public struct ResponseAPIContentGetProfilePersonal: Decodable, Equatable {
     public let contacts: ResponseAPIContentGetProfileContact?
-    public let avatarUrl: String?
-    public let coverUrl: String?
     public let biography: String?
 }
 
