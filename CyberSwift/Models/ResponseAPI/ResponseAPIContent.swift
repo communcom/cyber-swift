@@ -244,32 +244,6 @@ public struct ResponseAPIContentGetComment: ResponseAPIContentMessageType {
     // Additional properties
     public var status: MessageStatus? = .done
     
-//    public init(
-//        contentId: ResponseAPIContentId,
-//        parents: ResponseAPIContentGetCommentParent,
-//        document: ResponseAPIContentBlock,
-//        author: ResponseAPIAuthor,
-//        community: ResponseAPIContentGetCommunity?
-//    ) {
-//        let votes = ResponseAPIContentVotes(upCount: 0, downCount: 0)
-//        self.votes = votes
-//
-//        let meta = ResponseAPIContentMeta(creationTime: Date().toString())
-//        self.meta = meta
-//
-//        self.childCommentsCount = 0
-//
-//        self.contentId = contentId
-//
-//        self.parents = parents
-//
-//        self.document = document
-//
-//        self.author = author
-//
-//        self.community = community
-//    }
-    
     public var identity: String {
         return self.contentId.userId + "/" + self.contentId.permlink
     }

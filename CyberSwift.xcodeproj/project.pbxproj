@@ -69,6 +69,7 @@
 		BC44DBE0238FA5C900412F08 /* ResponseAPIContentGetPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DBDF238FA5C900412F08 /* ResponseAPIContentGetPost.swift */; };
 		BC44DBEC238FA99000412F08 /* ResponseAPIContentBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DBEB238FA99000412F08 /* ResponseAPIContentBlock.swift */; };
 		BC4692B62390BAFA0064A38B /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4692B52390BAFA0064A38B /* UIApplication.swift */; };
+		BC46931323978DDE0064A38B /* ResponseAPIContentResolveProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC46931223978DDE0064A38B /* ResponseAPIContentResolveProfile.swift */; };
 		BC48FC3C23667FB10049C4F4 /* ResponseAPIContentCommunity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC48FC3B23667FB10049C4F4 /* ResponseAPIContentCommunity.swift */; };
 		BC48FC3E236680740049C4F4 /* RAM+Community.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC48FC3D236680740049C4F4 /* RAM+Community.swift */; };
 		BC48FC492366A4850049C4F4 /* EOSManager+commun.list.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC48FC482366A4850049C4F4 /* EOSManager+commun.list.swift */; };
@@ -163,6 +164,7 @@
 		BC44DBDF238FA5C900412F08 /* ResponseAPIContentGetPost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseAPIContentGetPost.swift; sourceTree = "<group>"; };
 		BC44DBEB238FA99000412F08 /* ResponseAPIContentBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseAPIContentBlock.swift; sourceTree = "<group>"; };
 		BC4692B52390BAFA0064A38B /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
+		BC46931223978DDE0064A38B /* ResponseAPIContentResolveProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseAPIContentResolveProfile.swift; sourceTree = "<group>"; };
 		BC48FC3B23667FB10049C4F4 /* ResponseAPIContentCommunity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseAPIContentCommunity.swift; sourceTree = "<group>"; };
 		BC48FC3D236680740049C4F4 /* RAM+Community.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Community.swift"; sourceTree = "<group>"; };
 		BC48FC482366A4850049C4F4 /* EOSManager+commun.list.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EOSManager+commun.list.swift"; sourceTree = "<group>"; };
@@ -384,6 +386,7 @@
 			isa = PBXGroup;
 			children = (
 				BC44DBD7238FA44300412F08 /* ResponseAPIContentGetComment.swift */,
+				BC46931223978DDE0064A38B /* ResponseAPIContentResolveProfile.swift */,
 				BC44DBDF238FA5C900412F08 /* ResponseAPIContentGetPost.swift */,
 				BC44DBEB238FA99000412F08 /* ResponseAPIContentBlock.swift */,
 			);
@@ -630,6 +633,7 @@
 				3B5EDE3F22E0F10900897BF3 /* RAM+Notifications.swift in Sources */,
 				B1EA02CE22895EB400835244 /* UIButton+Extensions.swift in Sources */,
 				BCCE0A9E2367DD3A00A183AA /* RAM+Profile.swift in Sources */,
+				BC46931323978DDE0064A38B /* ResponseAPIContentResolveProfile.swift in Sources */,
 				BC44DBAB238F716300412F08 /* ResponseAPI+Config.swift in Sources */,
 				3BBBE29A2296A8A10029C9C9 /* RxSwift.swift in Sources */,
 				B1C3F859223F98B1005711EF /* Encodable+Extensions.swift in Sources */,

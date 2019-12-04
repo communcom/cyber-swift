@@ -11,6 +11,36 @@ import RxDataSources
 
 
 extension ResponseAPIContentGetComment {
+    init(
+        contentId: ResponseAPIContentId,
+        parents: ResponseAPIContentGetCommentParent,
+        document: ResponseAPIContentBlock,
+        author: ResponseAPIAuthor,
+        community: ResponseAPIContentGetCommunity?
+    ) {
+        let votes = ResponseAPIContentVotes(upCount: 0, downCount: 0)
+        self.votes = votes
+
+        let meta = ResponseAPIContentMeta(creationTime: Date().toString())
+        self.meta = meta
+
+        self.childCommentsCount = 0
+
+        self.contentId = contentId
+
+        self.parents = parents
+
+        self.document = document
+
+        self.author = author
+
+        self.community = community
+        
+        self.children = []
+        
+        self.status = .done
+    }
+    
     public var content: [ResponseAPIContentBlock]? {
         return document?.content.arrayValue
     }
