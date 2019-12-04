@@ -9,7 +9,7 @@
 import Foundation
 
 // MARK: - API `content.resolveProfile`
-public struct ResponseAPIContentResolveProfile: Decodable, Equatable {
+public struct ResponseAPIContentResolveProfile: Codable, Equatable {
     public let userId: String
     public let username: String
     public let avatarUrl: String?
@@ -45,7 +45,7 @@ public struct ResponseAPIContentGetProfile: Decodable, Equatable {
     public var isSubscription: Bool?
     public var isBlocked: Bool?
     public var highlightCommunitiesCount: UInt64?
-    public var highlightCommunities: [ResponseAPIContentGetProfileCommonCommunity]
+    public var highlightCommunities: [ResponseAPIContentGetCommunity]
     
     // Additional properties
     public var isBeingToggledFollow: Bool? = false
@@ -54,15 +54,6 @@ public struct ResponseAPIContentGetProfile: Decodable, Equatable {
 public struct ResponseAPIContentGetProfileSubscription: Decodable, Equatable {
     public var usersCount: UInt64?
     public var communitiesCount: UInt64?
-}
-
-public struct ResponseAPIContentGetProfileCommonCommunity: Decodable, Equatable {
-    public let communityId: String
-    public let name: String
-    public let alias: String?
-    public let coverUrl: String?
-    public let subscribersCount: UInt64?
-    public var isSubscribed: Bool?
 }
 
 public struct ResponseAPIContentGetProfileRegistration: Decodable, Equatable {
@@ -127,7 +118,7 @@ public enum ResponseAPIContentGetSubscriptionsItem: Decodable, Equatable {
     }
     
     case user(ResponseAPIContentGetSubscriptionsUser)
-    case community(ResponseAPIContentGetSubscriptionsCommunity)
+    case community(ResponseAPIContentGetCommunity)
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -135,7 +126,7 @@ public enum ResponseAPIContentGetSubscriptionsItem: Decodable, Equatable {
             self = .user(users)
             return
         }
-        if let communities = try? container.decode(ResponseAPIContentGetSubscriptionsCommunity.self) {
+        if let communities = try? container.decode(ResponseAPIContentGetCommunity.self) {
             self = .community(communities)
             return
         }
@@ -151,7 +142,7 @@ public enum ResponseAPIContentGetSubscriptionsItem: Decodable, Equatable {
         }
     }
     
-    public var communityValue: ResponseAPIContentGetSubscriptionsCommunity? {
+    public var communityValue: ResponseAPIContentGetCommunity? {
         switch self {
         case .community(let community):
             return community
@@ -171,32 +162,6 @@ public struct ResponseAPIContentGetSubscriptionsUser: Decodable, Equatable {
     
     // additional property
     public var isBeingToggledFollow: Bool? = false
-}
-
-public struct ResponseAPIContentGetSubscriptionsCommunity: Codable, Equatable {
-    public var subscribersCount: UInt64?
-    public var leadersCount: UInt64?
-    public let postsCount: UInt64?
-    public let communityId: String
-    public let name: String
-    public let code: String?
-    public var isSubscribed: Bool?
-    public let avatarUrl: String?
-    public let coverUrl: String?
-    public var isBeingJoined: Bool? = false
-    
-    public init(community: ResponseAPIContentGetCommunity) {
-        self.subscribersCount = community.subscribersCount
-        self.leadersCount = community.leadersCount
-        self.postsCount = community.postsCount
-        self.communityId = community.communityId
-        self.name = community.name
-        self.code = ""
-        self.isSubscribed = community.isSubscribed
-        self.avatarUrl = community.avatarUrl
-        self.coverUrl = community.avatarUrl
-        self.isBeingJoined = community.isBeingJoined
-    }
 }
 
 // MARK: - API `content.getBlacklist`

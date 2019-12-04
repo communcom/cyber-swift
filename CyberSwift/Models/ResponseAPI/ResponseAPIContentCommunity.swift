@@ -14,21 +14,27 @@ public struct ResponseAPIContentGetCommunities: Decodable {
 }
 
 // MARK: - API `content.getCommunity`
-public struct ResponseAPIContentGetCommunity: Decodable, Equatable {
+public struct ResponseAPIContentGetCommunity: Codable, Equatable {
+    #warning("Be careful, mark new properties as optional, please!!!")
+    
     public var subscribersCount: UInt64?
     public var leadersCount: UInt64?
     public let postsCount: UInt64?
     public let communityId: String
+    public let name: String
+    public let code: String?
+    public var isSubscribed: Bool?
+    public let avatarUrl: String?
+    public let coverUrl: String?
+    
     public let issuer: String?
     public let alias: String?
     public let rules: [ResponseAPIContentGetCommunityRule]?
-    public let name: String
     public let registrationTime: String?
-    public let avatarUrl: String?
-    public let coverUrl: String?
+    
+    
     public let description: String?
     public let language: String?
-    public var isSubscribed: Bool?
     public let isBlocked: Bool?
     public let friendsCount: UInt64?
     public let friends: [ResponseAPIContentResolveProfile]?
@@ -37,32 +43,9 @@ public struct ResponseAPIContentGetCommunity: Decodable, Equatable {
     
     // Additional field
     public var isBeingJoined: Bool? = false
-    
-    public init(community: ResponseAPIContentGetSubscriptionsCommunity) {
-        self.subscribersCount = community.subscribersCount
-        self.leadersCount = community.leadersCount
-        self.postsCount = community.postsCount
-        self.communityId = community.communityId
-        self.issuer = nil
-        self.alias = nil
-        self.rules = nil
-        self.name = community.name
-        self.registrationTime = nil
-        self.avatarUrl = community.avatarUrl
-        self.coverUrl = community.avatarUrl
-        self.description = nil
-        self.language = nil
-        self.isSubscribed = community.isSubscribed
-        self.isBlocked = nil
-        self.friendsCount = nil
-        self.friends = nil
-        self.isLeader = nil
-        
-        self.isBeingJoined = community.isBeingJoined
-    }
 }
 
-public struct ResponseAPIContentGetCommunityRule: Decodable, Equatable {
+public struct ResponseAPIContentGetCommunityRule: Codable, Equatable {
     public let id: String?
     public let title: String?
     public let text: String?

@@ -25,9 +25,3 @@ extension ResponseAPIContentGetSubscriptionsUser: IdentifiableType {
         return userId + "/" + username
     }
 }
-
-extension ResponseAPIContentGetSubscriptionsCommunity: IdentifiableType {
-    public var identity: String {
-        return communityId + "/" + name
-    }
-}
