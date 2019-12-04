@@ -11,7 +11,7 @@ import RxDataSources
 import RxSwift
 
 public protocol ListItemType: Decodable, Equatable, IdentifiableType {
-    
+    func newUpdatedItem(from item: Self) -> Self?
 }
 public extension ListItemType {
     static var changedEventName: String {"DidChange"}

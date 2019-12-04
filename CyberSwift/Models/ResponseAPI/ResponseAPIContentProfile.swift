@@ -9,7 +9,7 @@
 import Foundation
 
 // MARK: - API `content.resolveProfile`
-public struct ResponseAPIContentResolveProfile: Codable, Equatable {
+public struct ResponseAPIContentResolveProfile: Encodable, ListItemType {
     public let userId: String
     public let username: String
     public let avatarUrl: String?
@@ -20,27 +20,35 @@ public struct ResponseAPIContentResolveProfile: Codable, Equatable {
     // additional property
     public var isBeingToggledFollow: Bool? = false
     
-    public init(leader: ResponseAPIContentGetLeader) {
-        self.userId = leader.userId
-        self.username = leader.username
-        self.avatarUrl = leader.avatarUrl
-        self.isSubscribed = leader.isSubscribed
-        self.subscribersCount = leader.subscribersCount
-        self.postsCount = nil
-        self.isBeingToggledFollow = leader.isBeingToggledFollow
-    }
+//    public init(leader: ResponseAPIContentGetLeader) {
+//        self.ini
+//        self.userId = leader.userId
+//        self.username = leader.username
+//        self.avatarUrl = leader.avatarUrl
+//        self.isSubscribed = leader.isSubscribed
+//        self.subscribersCount = leader.subscribersCount
+//        self.postsCount = nil
+//        self.isBeingToggledFollow = leader.isBeingToggledFollow
+//    }
     
     public var identity: String {
         return userId + "/" + username
     }
+    
+    public func newUpdatedItem(from item: ResponseAPIContentResolveProfile) -> ResponseAPIContentResolveProfile? {
+        guard item.identity == self.identity else {return nil}
+        return ResponseAPIContentResolveProfile(userId: item.userId, username: item.username, avatarUrl: item.avatarUrl ?? self.avatarUrl, isSubscribed: item.isSubscribed ?? self.isSubscribed, subscribersCount: item.subscribersCount ?? self.subscribersCount, postsCount: item.postsCount ?? self.postsCount, isBeingToggledFollow: item.isBeingToggledFollow ?? self.isBeingToggledFollow)
+    }
 }
 
 // MARK: - API `content.getProfile`
-public struct ResponseAPIContentGetProfile: Decodable, Equatable {
+public struct ResponseAPIContentGetProfile: ListItemType {
     public let stats: ResponseAPIContentGetProfileStat
     public let leaderIn: [String]?
     public let userId: String
     public let username: String
+    public let avatarUrl: String?
+    public let coverUrl: String?
     public let registration: ResponseAPIContentGetProfileRegistration
     public var subscribers: ResponseAPIContentGetProfileSubscriber?
     public let subscriptions: ResponseAPIContentGetProfileSubscription?
@@ -56,6 +64,11 @@ public struct ResponseAPIContentGetProfile: Decodable, Equatable {
     
     public var identity: String {
         return userId + "/" + username
+    }
+    
+    public func newUpdatedItem(from item: ResponseAPIContentGetProfile) -> ResponseAPIContentGetProfile? {
+        guard item.identity == self.identity else {return nil}
+        return ResponseAPIContentGetProfile(stats: item.stats, leaderIn: item.leaderIn ?? self.leaderIn, userId: item.userId, username: item.username, avatarUrl: item.avatarUrl ?? self.avatarUrl, coverUrl: item.coverUrl ?? self.coverUrl, registration: item.registration, subscribers: item.subscribers ?? self.subscribers, subscriptions: item.subscriptions ?? self.subscriptions, personal: item.personal ?? self.personal, isSubscribed: item.isSubscribed ?? self.isSubscribed, isSubscription: item.isSubscription ?? self.isSubscription, isBlocked: item.isBlocked ?? self.isBlocked, highlightCommunitiesCount: item.highlightCommunitiesCount ?? self.highlightCommunitiesCount, highlightCommunities: item.highlightCommunities, isBeingToggledFollow: item.isBeingToggledFollow ?? self.isBeingToggledFollow)
     }
 }
 
@@ -167,9 +180,23 @@ public enum ResponseAPIContentGetSubscriptionsItem: ListItemType {
             return community.identity
         }
     }
+    
+    public func newUpdatedItem(from item: ResponseAPIContentGetSubscriptionsItem) -> ResponseAPIContentGetSubscriptionsItem? {
+        guard item.identity == self.identity else {return nil}
+        switch self {
+        case .user(let userSelf):
+            guard let newUser = item.userValue else {return nil}
+            guard let updatedUser = userSelf.newUpdatedItem(from: newUser) else {return nil}
+            return ResponseAPIContentGetSubscriptionsItem.user(updatedUser)
+        case .community(let communitySelf):
+            guard let newCommunity = item.communityValue else {return nil}
+            guard let updatedCommunity = communitySelf.newUpdatedItem(from: newCommunity) else {return nil}
+            return ResponseAPIContentGetSubscriptionsItem.community(updatedCommunity)
+        }
+    }
 }
 
-public struct ResponseAPIContentGetSubscriptionsUser: Decodable, Equatable {
+public struct ResponseAPIContentGetSubscriptionsUser: ListItemType {
     public let userId: String
     public let username: String
     public let avatarUrl: String?
@@ -182,6 +209,11 @@ public struct ResponseAPIContentGetSubscriptionsUser: Decodable, Equatable {
     
     public var identity: String {
         return userId + "/" + username
+    }
+    
+    public func newUpdatedItem(from item: ResponseAPIContentGetSubscriptionsUser) -> ResponseAPIContentGetSubscriptionsUser? {
+        guard item.identity == self.identity else {return nil}
+        return ResponseAPIContentGetSubscriptionsUser(userId: item.userId, username: item.username, avatarUrl: item.avatarUrl ?? self.avatarUrl, subscribersCount: item.subscribersCount ?? self.subscribersCount, postsCount: item.postsCount ?? self.postsCount, isSubscribed: item.isSubscribed ?? self.isSubscribed, isBeingToggledFollow: item.isBeingToggledFollow ?? self.isBeingToggledFollow)
     }
 }
 
@@ -243,6 +275,20 @@ public enum ResponseAPIContentGetBlacklistItem: ListItemType {
             return community.identity
         }
     }
+    
+    public func newUpdatedItem(from item: ResponseAPIContentGetBlacklistItem) -> ResponseAPIContentGetBlacklistItem? {
+        guard item.identity == self.identity else {return nil}
+        switch self {
+        case .user(let userSelf):
+            guard let newUser = item.userValue else {return nil}
+            guard let updatedUser = userSelf.newUpdatedItem(from: newUser) else {return nil}
+            return ResponseAPIContentGetBlacklistItem.user(updatedUser)
+        case .community(let communitySelf):
+            guard let newCommunity = item.communityValue else {return nil}
+            guard let updatedCommunity = communitySelf.newUpdatedItem(from: newCommunity) else {return nil}
+            return ResponseAPIContentGetBlacklistItem.community(updatedCommunity)
+        }
+    }
 }
 
 public struct ResponseAPIContentGetBlacklistUser: ListItemType {
@@ -258,6 +304,11 @@ public struct ResponseAPIContentGetBlacklistUser: ListItemType {
     public var identity: String {
         return userId + "/" + username
     }
+    
+    public func newUpdatedItem(from item: ResponseAPIContentGetBlacklistUser) -> ResponseAPIContentGetBlacklistUser? {
+        guard item.identity == self.identity else {return nil}
+        return ResponseAPIContentGetBlacklistUser(userId: item.userId, username: item.username, avatarUrl: item.avatarUrl ?? self.avatarUrl, isSubscribed: item.isSubscribed ?? self.isSubscribed, isBeingUnblocked: item.isBeingUnblocked ?? self.isBeingUnblocked, isBlocked: item.isBlocked ?? self.isBlocked)
+    }
 }
 
 public struct ResponseAPIContentGetBlacklistCommunity: ListItemType {
@@ -272,5 +323,10 @@ public struct ResponseAPIContentGetBlacklistCommunity: ListItemType {
     
     public var identity: String {
         return communityId + "/" + name
+    }
+    
+    public func newUpdatedItem(from item: ResponseAPIContentGetBlacklistCommunity) -> ResponseAPIContentGetBlacklistCommunity? {
+        guard item.identity == self.identity else {return nil}
+        return ResponseAPIContentGetBlacklistCommunity(communityId: item.communityId, alias: item.alias ?? self.alias, name: item.name, isSubscribed: item.isSubscribed ?? self.isSubscribed, isBeingUnblocked: item.isBeingUnblocked ?? self.isBeingUnblocked, isBlocked: item.isBlocked ?? self.isBlocked)
     }
 }

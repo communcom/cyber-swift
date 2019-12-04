@@ -51,6 +51,11 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
     public var identity: String {
         return self.contentId.userId + "/" + self.contentId.permlink
     }
+    
+    public func newUpdatedItem(from item: ResponseAPIContentGetPost) -> ResponseAPIContentGetPost? {
+        guard self.identity == item.identity else {return nil}
+        return ResponseAPIContentGetPost(document: item.document, votes: item.votes, meta: item.meta, contentId: item.contentId, author: item.author ?? self.author, stats: item.stats ?? self.stats, payout: item.payout ?? self.payout, community: item.community ?? self.community, url: item.url ?? self.url, status: item.status ?? self.status)
+    }
 }
 
 public struct ResponseAPIContentBlock: Codable, Equatable {
@@ -239,34 +244,39 @@ public struct ResponseAPIContentGetComment: ResponseAPIContentMessageType {
     // Additional properties
     public var status: MessageStatus? = .done
     
-    public init(
-        contentId: ResponseAPIContentId,
-        parents: ResponseAPIContentGetCommentParent,
-        document: ResponseAPIContentBlock,
-        author: ResponseAPIAuthor,
-        community: ResponseAPIContentGetCommunity?
-    ) {
-        let votes = ResponseAPIContentVotes(upCount: 0, downCount: 0)
-        self.votes = votes
-        
-        let meta = ResponseAPIContentMeta(creationTime: Date().toString())
-        self.meta = meta
-        
-        self.childCommentsCount = 0
-        
-        self.contentId = contentId
-        
-        self.parents = parents
-        
-        self.document = document
-        
-        self.author = author
-        
-        self.community = community
-    }
+//    public init(
+//        contentId: ResponseAPIContentId,
+//        parents: ResponseAPIContentGetCommentParent,
+//        document: ResponseAPIContentBlock,
+//        author: ResponseAPIAuthor,
+//        community: ResponseAPIContentGetCommunity?
+//    ) {
+//        let votes = ResponseAPIContentVotes(upCount: 0, downCount: 0)
+//        self.votes = votes
+//
+//        let meta = ResponseAPIContentMeta(creationTime: Date().toString())
+//        self.meta = meta
+//
+//        self.childCommentsCount = 0
+//
+//        self.contentId = contentId
+//
+//        self.parents = parents
+//
+//        self.document = document
+//
+//        self.author = author
+//
+//        self.community = community
+//    }
     
     public var identity: String {
         return self.contentId.userId + "/" + self.contentId.permlink
+    }
+    
+    public func newUpdatedItem(from item: ResponseAPIContentGetComment) -> ResponseAPIContentGetComment? {
+        guard item.identity == self.identity else {return nil}
+        return ResponseAPIContentGetComment(votes: item.votes, meta: item.meta, childCommentsCount: item.childCommentsCount, contentId: item.contentId, parents: item.parents, document: item.document ?? self.document, author: item.author ?? self.author, community: item.community ?? self.community, children: item.children ?? self.children, status: item.status ?? self.status)
     }
 }
 

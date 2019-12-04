@@ -174,6 +174,11 @@ public struct ResponseAPIOnlineNotificationData: ListItemType {
     public var identity: String {
         return self._id
     }
+    
+    public func newUpdatedItem(from item: ResponseAPIOnlineNotificationData) -> ResponseAPIOnlineNotificationData? {
+        guard self.identity == item.identity else {return nil}
+        return ResponseAPIOnlineNotificationData(_id: item._id, timestamp: item.timestamp, eventType: item.eventType, fresh: item.fresh, unread: item.unread, community: item.community ?? self.community, actor: item.actor ?? self.actor, post: item.post ?? self.post, comment: item.comment ?? self.comment, value: item.value ?? self.value)
+    }
 }
 
 public struct ResponseAPIOnlineNotificationDataComunity: Decodable, Equatable {
