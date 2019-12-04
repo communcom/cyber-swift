@@ -158,7 +158,7 @@ public struct ResponseAPIOnlineNotifyHistory: Decodable {
     public let data: [ResponseAPIOnlineNotificationData]
 }
 
-public struct ResponseAPIOnlineNotificationData: Decodable, Equatable {
+public struct ResponseAPIOnlineNotificationData: ListItemType {
     public let _id: String
     public let timestamp: String
     public let eventType: String
@@ -170,6 +170,10 @@ public struct ResponseAPIOnlineNotificationData: Decodable, Equatable {
     public let post: ResponseAPIOnlineNotificationDataPost?
     public let comment: ResponseAPIOnlineNotificationDataComment?
     public let value: ResponseAPIOnlineNotificationDataValue?
+    
+    public var identity: String {
+        return self._id
+    }
 }
 
 public struct ResponseAPIOnlineNotificationDataComunity: Decodable, Equatable {

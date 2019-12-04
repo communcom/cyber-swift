@@ -65,16 +65,8 @@
 		BC44DBAB238F716300412F08 /* ResponseAPI+Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DBAA238F716300412F08 /* ResponseAPI+Config.swift */; };
 		BC44DBAD238F739600412F08 /* RAM+Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DBAC238F739600412F08 /* RAM+Config.swift */; };
 		BC44DBB2238FA1FD00412F08 /* ListItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DBB1238FA1FD00412F08 /* ListItemType.swift */; };
-		BC44DBD4238FA3E100412F08 /* ResponseAPIContentGetBlacklistItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DBD3238FA3E100412F08 /* ResponseAPIContentGetBlacklistItem.swift */; };
 		BC44DBD8238FA44300412F08 /* ResponseAPIContentGetComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DBD7238FA44300412F08 /* ResponseAPIContentGetComment.swift */; };
-		BC44DBDA238FA55900412F08 /* ResponseAPIContentGetCommunity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DBD9238FA55900412F08 /* ResponseAPIContentGetCommunity.swift */; };
-		BC44DBDC238FA59500412F08 /* ResponseAPIContentGetCommunityRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DBDB238FA59500412F08 /* ResponseAPIContentGetCommunityRule.swift */; };
-		BC44DBDE238FA5AA00412F08 /* ResponseAPIContentGetLeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DBDD238FA5AA00412F08 /* ResponseAPIContentGetLeader.swift */; };
 		BC44DBE0238FA5C900412F08 /* ResponseAPIContentGetPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DBDF238FA5C900412F08 /* ResponseAPIContentGetPost.swift */; };
-		BC44DBE2238FA63D00412F08 /* ResponseAPIContentGetProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DBE1238FA63D00412F08 /* ResponseAPIContentGetProfile.swift */; };
-		BC44DBE4238FA65700412F08 /* ResponseAPIContentGetSubscriptionsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DBE3238FA65700412F08 /* ResponseAPIContentGetSubscriptionsItem.swift */; };
-		BC44DBE6238FA66F00412F08 /* ResponseAPIContentResolveProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DBE5238FA66E00412F08 /* ResponseAPIContentResolveProfile.swift */; };
-		BC44DBE8238FA69F00412F08 /* ResponseAPIOnlineNotificationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DBE7238FA69F00412F08 /* ResponseAPIOnlineNotificationData.swift */; };
 		BC44DBEC238FA99000412F08 /* ResponseAPIContentBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DBEB238FA99000412F08 /* ResponseAPIContentBlock.swift */; };
 		BC4692B62390BAFA0064A38B /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4692B52390BAFA0064A38B /* UIApplication.swift */; };
 		BC48FC3C23667FB10049C4F4 /* ResponseAPIContentCommunity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC48FC3B23667FB10049C4F4 /* ResponseAPIContentCommunity.swift */; };
@@ -167,16 +159,8 @@
 		BC44DBAA238F716300412F08 /* ResponseAPI+Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Config.swift"; sourceTree = "<group>"; };
 		BC44DBAC238F739600412F08 /* RAM+Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Config.swift"; sourceTree = "<group>"; };
 		BC44DBB1238FA1FD00412F08 /* ListItemType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListItemType.swift; sourceTree = "<group>"; };
-		BC44DBD3238FA3E100412F08 /* ResponseAPIContentGetBlacklistItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseAPIContentGetBlacklistItem.swift; sourceTree = "<group>"; };
 		BC44DBD7238FA44300412F08 /* ResponseAPIContentGetComment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseAPIContentGetComment.swift; sourceTree = "<group>"; };
-		BC44DBD9238FA55900412F08 /* ResponseAPIContentGetCommunity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseAPIContentGetCommunity.swift; sourceTree = "<group>"; };
-		BC44DBDB238FA59500412F08 /* ResponseAPIContentGetCommunityRule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseAPIContentGetCommunityRule.swift; sourceTree = "<group>"; };
-		BC44DBDD238FA5AA00412F08 /* ResponseAPIContentGetLeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseAPIContentGetLeader.swift; sourceTree = "<group>"; };
 		BC44DBDF238FA5C900412F08 /* ResponseAPIContentGetPost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseAPIContentGetPost.swift; sourceTree = "<group>"; };
-		BC44DBE1238FA63D00412F08 /* ResponseAPIContentGetProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseAPIContentGetProfile.swift; sourceTree = "<group>"; };
-		BC44DBE3238FA65700412F08 /* ResponseAPIContentGetSubscriptionsItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseAPIContentGetSubscriptionsItem.swift; sourceTree = "<group>"; };
-		BC44DBE5238FA66E00412F08 /* ResponseAPIContentResolveProfile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseAPIContentResolveProfile.swift; sourceTree = "<group>"; };
-		BC44DBE7238FA69F00412F08 /* ResponseAPIOnlineNotificationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseAPIOnlineNotificationData.swift; sourceTree = "<group>"; };
 		BC44DBEB238FA99000412F08 /* ResponseAPIContentBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseAPIContentBlock.swift; sourceTree = "<group>"; };
 		BC4692B52390BAFA0064A38B /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
 		BC48FC3B23667FB10049C4F4 /* ResponseAPIContentCommunity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseAPIContentCommunity.swift; sourceTree = "<group>"; };
@@ -399,16 +383,8 @@
 		BC44DBD2238FA3C700412F08 /* ResponseAPI */ = {
 			isa = PBXGroup;
 			children = (
-				BC44DBD3238FA3E100412F08 /* ResponseAPIContentGetBlacklistItem.swift */,
 				BC44DBD7238FA44300412F08 /* ResponseAPIContentGetComment.swift */,
-				BC44DBD9238FA55900412F08 /* ResponseAPIContentGetCommunity.swift */,
-				BC44DBDB238FA59500412F08 /* ResponseAPIContentGetCommunityRule.swift */,
-				BC44DBDD238FA5AA00412F08 /* ResponseAPIContentGetLeader.swift */,
 				BC44DBDF238FA5C900412F08 /* ResponseAPIContentGetPost.swift */,
-				BC44DBE1238FA63D00412F08 /* ResponseAPIContentGetProfile.swift */,
-				BC44DBE3238FA65700412F08 /* ResponseAPIContentGetSubscriptionsItem.swift */,
-				BC44DBE5238FA66E00412F08 /* ResponseAPIContentResolveProfile.swift */,
-				BC44DBE7238FA69F00412F08 /* ResponseAPIOnlineNotificationData.swift */,
 				BC44DBEB238FA99000412F08 /* ResponseAPIContentBlock.swift */,
 			);
 			path = ResponseAPI;
@@ -631,15 +607,12 @@
 			files = (
 				BCE93909234D868E00226E39 /* ResponseAPI+Extensions.swift in Sources */,
 				3BF3A6B822F1D48E00A6916E /* EOSTransaction+Actions.swift in Sources */,
-				BC44DBDC238FA59500412F08 /* ResponseAPIContentGetCommunityRule.swift in Sources */,
 				B1F7B44A229FB5A4005492DD /* UIImage+Extensions.swift in Sources */,
 				BC44DBE0238FA5C900412F08 /* ResponseAPIContentGetPost.swift in Sources */,
 				B179917A2269B4560014CB44 /* Secp256k1.swift in Sources */,
-				BC44DBE6238FA66F00412F08 /* ResponseAPIContentResolveProfile.swift in Sources */,
 				B1C3F869223F9907005711EF /* ErrorAPI.swift in Sources */,
 				BC4692B62390BAFA0064A38B /* UIApplication.swift in Sources */,
 				B179917B2269B4560014CB44 /* SteemEncoder.swift in Sources */,
-				BC44DBE4238FA65700412F08 /* ResponseAPIContentGetSubscriptionsItem.swift in Sources */,
 				B19A28D6226087EE001C9F43 /* UIDevice+Extensions.swift in Sources */,
 				B1C3F861223F98DC005711EF /* Logger.swift in Sources */,
 				BC44DBAD238F739600412F08 /* RAM+Config.swift in Sources */,
@@ -650,14 +623,12 @@
 				B1C3F86B223F9907005711EF /* MethodAPI.swift in Sources */,
 				3BDF4FAA22C229440029D616 /* BCResponseAPIError.swift in Sources */,
 				B179917C2269B4560014CB44 /* PrivateKey.swift in Sources */,
-				BC44DBD4238FA3E100412F08 /* ResponseAPIContentGetBlacklistItem.swift in Sources */,
 				B1C3F857223F98B1005711EF /* Date+Extensions.swift in Sources */,
 				B1EA02D02289626D00835244 /* UIColor+Extensions.swift in Sources */,
 				BC44DBB2238FA1FD00412F08 /* ListItemType.swift in Sources */,
 				B1902AD622706F1E00661211 /* RequestParameterAPI.swift in Sources */,
 				3B5EDE3F22E0F10900897BF3 /* RAM+Notifications.swift in Sources */,
 				B1EA02CE22895EB400835244 /* UIButton+Extensions.swift in Sources */,
-				BC44DBE2238FA63D00412F08 /* ResponseAPIContentGetProfile.swift in Sources */,
 				BCCE0A9E2367DD3A00A183AA /* RAM+Profile.swift in Sources */,
 				BC44DBAB238F716300412F08 /* ResponseAPI+Config.swift in Sources */,
 				3BBBE29A2296A8A10029C9C9 /* RxSwift.swift in Sources */,
@@ -676,10 +647,7 @@
 				B1C3F858223F98B1005711EF /* ConstantsApp.swift in Sources */,
 				BC48FC3C23667FB10049C4F4 /* ResponseAPIContentCommunity.swift in Sources */,
 				B1EA0319228A985400835244 /* UIView+Extensions.swift in Sources */,
-				BC44DBE8238FA69F00412F08 /* ResponseAPIOnlineNotificationData.swift in Sources */,
 				B179917D2269B4560014CB44 /* GSBase58.swift in Sources */,
-				BC44DBDA238FA55900412F08 /* ResponseAPIContentGetCommunity.swift in Sources */,
-				BC44DBDE238FA5AA00412F08 /* ResponseAPIContentGetLeader.swift in Sources */,
 				B154D8BB237A97E70042E991 /* UITextView+Extensions.swift in Sources */,
 				B1C3F860223F98DC005711EF /* Broadcast.swift in Sources */,
 				3B1E901822CDF16B00D7A0C1 /* iCloudManager.swift in Sources */,

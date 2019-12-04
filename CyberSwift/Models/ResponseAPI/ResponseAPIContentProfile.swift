@@ -29,6 +29,10 @@ public struct ResponseAPIContentResolveProfile: Codable, Equatable {
         self.postsCount = nil
         self.isBeingToggledFollow = leader.isBeingToggledFollow
     }
+    
+    public var identity: String {
+        return userId + "/" + username
+    }
 }
 
 // MARK: - API `content.getProfile`
@@ -49,6 +53,10 @@ public struct ResponseAPIContentGetProfile: Decodable, Equatable {
     
     // Additional properties
     public var isBeingToggledFollow: Bool? = false
+    
+    public var identity: String {
+        return userId + "/" + username
+    }
 }
 
 public struct ResponseAPIContentGetProfileSubscription: Decodable, Equatable {
@@ -105,7 +113,7 @@ public struct ResponseAPIContentGetSubscriptions: Decodable {
     public let items: [ResponseAPIContentGetSubscriptionsItem]
 }
 
-public enum ResponseAPIContentGetSubscriptionsItem: Decodable, Equatable {
+public enum ResponseAPIContentGetSubscriptionsItem: ListItemType {
     public static func == (lhs: ResponseAPIContentGetSubscriptionsItem, rhs: ResponseAPIContentGetSubscriptionsItem) -> Bool {
         switch (lhs, rhs) {
         case (.user(let user), .user(let user2)):
@@ -150,6 +158,15 @@ public enum ResponseAPIContentGetSubscriptionsItem: Decodable, Equatable {
             return nil
         }
     }
+    
+    public var identity: String {
+        switch self {
+        case .user(let user):
+            return user.identity
+        case .community(let community):
+            return community.identity
+        }
+    }
 }
 
 public struct ResponseAPIContentGetSubscriptionsUser: Decodable, Equatable {
@@ -162,6 +179,10 @@ public struct ResponseAPIContentGetSubscriptionsUser: Decodable, Equatable {
     
     // additional property
     public var isBeingToggledFollow: Bool? = false
+    
+    public var identity: String {
+        return userId + "/" + username
+    }
 }
 
 // MARK: - API `content.getBlacklist`
@@ -169,7 +190,7 @@ public struct ResponseAPIContentGetBlacklist: Decodable {
     public let items: [ResponseAPIContentGetBlacklistItem]
 }
 
-public enum ResponseAPIContentGetBlacklistItem: Decodable, Equatable {
+public enum ResponseAPIContentGetBlacklistItem: ListItemType {
     public static func == (lhs: ResponseAPIContentGetBlacklistItem, rhs: ResponseAPIContentGetBlacklistItem) -> Bool {
         switch (lhs, rhs) {
         case (.user(let user), .user(let user2)):
@@ -213,9 +234,18 @@ public enum ResponseAPIContentGetBlacklistItem: Decodable, Equatable {
             return nil
         }
     }
+    
+    public var identity: String {
+        switch self {
+        case .user(let user):
+            return user.identity
+        case .community(let community):
+            return community.identity
+        }
+    }
 }
 
-public struct ResponseAPIContentGetBlacklistUser: Decodable, Equatable {
+public struct ResponseAPIContentGetBlacklistUser: ListItemType {
     public let userId: String
     public let username: String
     public let avatarUrl: String?
@@ -224,9 +254,13 @@ public struct ResponseAPIContentGetBlacklistUser: Decodable, Equatable {
     // additional properties
     public var isBeingUnblocked: Bool? = false
     public var isBlocked: Bool? = true
+    
+    public var identity: String {
+        return userId + "/" + username
+    }
 }
 
-public struct ResponseAPIContentGetBlacklistCommunity: Decodable, Equatable {
+public struct ResponseAPIContentGetBlacklistCommunity: ListItemType {
     public let communityId: String
     public let alias: String?
     public let name: String
@@ -235,4 +269,8 @@ public struct ResponseAPIContentGetBlacklistCommunity: Decodable, Equatable {
     // additional properties
     public var isBeingUnblocked: Bool? = false
     public var isBlocked: Bool? = true
+    
+    public var identity: String {
+        return communityId + "/" + name
+    }
 }

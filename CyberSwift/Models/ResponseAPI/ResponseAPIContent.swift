@@ -21,7 +21,7 @@ public enum MessageStatus: Decodable, Equatable {
     case error
 }
 
-public protocol ResponseAPIContentMessageType: Decodable, Equatable, IdentifiableType {
+public protocol ResponseAPIContentMessageType: ListItemType {
     var votes: ResponseAPIContentVotes {get set}
     var document: ResponseAPIContentBlock? {get set}
     var community: ResponseAPIContentGetCommunity? {get}
@@ -47,6 +47,10 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
     
     // Additional properties
     public var status: MessageStatus? = .done
+    
+    public var identity: String {
+        return self.contentId.userId + "/" + self.contentId.permlink
+    }
 }
 
 public struct ResponseAPIContentBlock: Codable, Equatable {
@@ -259,6 +263,10 @@ public struct ResponseAPIContentGetComment: ResponseAPIContentMessageType {
         self.author = author
         
         self.community = community
+    }
+    
+    public var identity: String {
+        return self.contentId.userId + "/" + self.contentId.permlink
     }
 }
 

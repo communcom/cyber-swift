@@ -10,11 +10,7 @@ import Foundation
 import RxDataSources
 
 
-extension ResponseAPIContentGetComment: IdentifiableType {
-    public var identity: String {
-        return self.contentId.userId + "/" + self.contentId.permlink
-    }
-    
+extension ResponseAPIContentGetComment {
     public var content: [ResponseAPIContentBlock]? {
         return document?.content.arrayValue
     }

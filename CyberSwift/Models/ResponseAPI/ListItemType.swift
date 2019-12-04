@@ -10,9 +10,10 @@ import Foundation
 import RxDataSources
 import RxSwift
 
-public typealias ListItemType = Decodable & Equatable & IdentifiableType
-
-public extension Decodable where Self: Equatable & IdentifiableType {
+public protocol ListItemType: Decodable, Equatable, IdentifiableType {
+    
+}
+public extension ListItemType {
     static var changedEventName: String {"DidChange"}
     static var deletedEventName: String {"Deleted"}
     static var blockedEventName: String {"Blocked"}

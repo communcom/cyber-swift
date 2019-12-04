@@ -14,7 +14,7 @@ public struct ResponseAPIContentGetCommunities: Decodable {
 }
 
 // MARK: - API `content.getCommunity`
-public struct ResponseAPIContentGetCommunity: Codable, Equatable {
+public struct ResponseAPIContentGetCommunity: Encodable, ListItemType {
     #warning("Be careful, mark new properties as optional, please!!!")
     
     public var subscribersCount: UInt64?
@@ -43,12 +43,20 @@ public struct ResponseAPIContentGetCommunity: Codable, Equatable {
     
     // Additional field
     public var isBeingJoined: Bool? = false
+    
+    public var identity: String {
+        return communityId + "/" + name
+    }
 }
 
 public struct ResponseAPIContentGetCommunityRule: Codable, Equatable {
     public let id: String?
     public let title: String?
     public let text: String?
+    
+    public var identity: String {
+        return id ?? "\(Int.random(in: 0..<100))"
+    }
 }
 
 // MARK: - API `content.getLeaders`
@@ -75,4 +83,8 @@ public struct ResponseAPIContentGetLeader: Decodable, Equatable {
     public var communityId: String?
     public var isBeingVoted: Bool? = false
     public var isBeingToggledFollow: Bool? = false
+    
+    public var identity: String {
+        return userId
+    }
 }

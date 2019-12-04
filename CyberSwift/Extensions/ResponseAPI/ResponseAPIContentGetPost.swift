@@ -9,11 +9,7 @@
 import Foundation
 import RxDataSources
 
-extension ResponseAPIContentGetPost: IdentifiableType {
-    public var identity: String {
-        return self.contentId.userId + "/" + self.contentId.permlink
-    }
-    
+extension ResponseAPIContentGetPost {
     public var content: [ResponseAPIContentBlock]? {
         return document?.content.arrayValue
     }
