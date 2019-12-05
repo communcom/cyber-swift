@@ -9,7 +9,6 @@
 import Foundation
 import RxDataSources
 
-
 extension ResponseAPIContentGetComment {
     init(
         contentId: ResponseAPIContentId,
