@@ -50,26 +50,35 @@ extension String {
         return dateFormatter.date(from: self)!
     }
     
-    public static func permlinkWith(string: String) -> String {
+    public static func permlinkWith(string: String, isComment: Bool = false) -> String {
+        let timestamp = Int(Date().timeIntervalSince1970)
+
+        guard string.count > 0 else {
+            return "\(timestamp)"
+        }
+
+        if isComment {
+            if string.hasPrefix("re-") {
+                var strings = string.components(separatedBy: "-")
+                let perfix = string.hasPrefix("re-re-") ? "" : "re-"
+                guard strings.count > 0 else { return perfix + "\(timestamp)" + "-" + "\(string)"}
+                strings.removeLast()
+                return perfix + strings.joined(separator: "-") + "-" + "\(timestamp)"
+            } else {
+                return "re-" + string + "-" + "\(timestamp)"
+            }
+        }
+
         // transform all characters to ASCII
         let transform1 = string.applyingTransform(.toLowercaseASCIINoSpaces, reverse: false)!
         
         // remove all unallowed characters
         let transform2 = String(transform1.filter {latinLettersAndNumbers.contains($0)})
-        
-        // add date time
-        let transform3 = Date().convert(toStringFormat: .expirationDateType)
-            .replacingOccurrences(of: " ", with: "-")
-            .replacingOccurrences(of: ":", with: "-")
-            .lowercased()
-            + "-"
-            + transform2.lowercased()
-        
-        
+
         // get first 256 characters
-        let substring = transform3.prefix(250)
-        
-        return String(substring)
+        let substring = transform2.prefix(100)
+
+        return "\(timestamp)" + "-" + "\(substring)"
     }
     
     public func trimSpaces() -> String {

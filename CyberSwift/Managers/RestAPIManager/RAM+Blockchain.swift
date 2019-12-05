@@ -51,10 +51,10 @@ extension RestAPIManager {
         // Create permlink for comment
         var permlink: String
         if isComment {
-            permlink = String.permlinkWith(string: "comment-\(userId)-\(Int.random(in: 0..<100))")
+            permlink = String.permlinkWith(string: parentComment?.contentId.permlink ?? parentPost?.contentId.permlink ?? "comment", isComment: true)
         } else {
             // Create permlink for post
-            permlink = String.permlinkWith(string: header.isEmpty ? bodyString : header)
+            permlink = String.permlinkWith(string: header.isEmpty ? "" : header)
         }
         
         // Prepare arguments
