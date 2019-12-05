@@ -17,5 +17,6 @@ extension ResponseAPIContentResolveProfile {
         self.subscribersCount = leader.subscribersCount
         self.postsCount = nil
         self.isBeingToggledFollow = leader.isBeingToggledFollow
+        self.tableViewCellHeight = nil
     }
 }

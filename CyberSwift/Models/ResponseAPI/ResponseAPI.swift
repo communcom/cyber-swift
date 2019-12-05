@@ -171,13 +171,30 @@ public struct ResponseAPIOnlineNotificationData: ListItemType {
     public let comment: ResponseAPIOnlineNotificationDataComment?
     public let value: ResponseAPIOnlineNotificationDataValue?
     
+    
+    // Additional properties
     public var identity: String {
         return self._id
     }
     
+    public var estimatedTableViewCellHeight: CGFloat? {return 82}
+    public var tableViewCellHeight: CGFloat?
+    
     public func newUpdatedItem(from item: ResponseAPIOnlineNotificationData) -> ResponseAPIOnlineNotificationData? {
         guard self.identity == item.identity else {return nil}
-        return ResponseAPIOnlineNotificationData(_id: item._id, timestamp: item.timestamp, eventType: item.eventType, fresh: item.fresh, unread: item.unread, community: item.community ?? self.community, actor: item.actor ?? self.actor, post: item.post ?? self.post, comment: item.comment ?? self.comment, value: item.value ?? self.value)
+        return ResponseAPIOnlineNotificationData(
+            _id: item._id,
+            timestamp: item.timestamp,
+            eventType: item.eventType,
+            fresh: item.fresh,
+            unread: item.unread,
+            community: item.community ?? self.community,
+            actor: item.actor ?? self.actor,
+            post: item.post ?? self.post,
+            comment: item.comment ?? self.comment,
+            value: item.value ?? self.value,
+            tableViewCellHeight: nil
+        )
     }
 }
 

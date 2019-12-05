@@ -43,6 +43,8 @@ public struct ResponseAPIContentGetCommunity: Encodable, ListItemType {
     
     // Additional field
     public var isBeingJoined: Bool? = false
+    public var estimatedTableViewCellHeight: CGFloat? {return 80}
+    public var tableViewCellHeight: CGFloat?
     
     public var identity: String {
         return communityId + "/" + name
@@ -71,7 +73,9 @@ public struct ResponseAPIContentGetCommunity: Encodable, ListItemType {
             friends: item.friends ?? self.friends,
             isLeader: item.isLeader ?? self.isLeader,
             isStoppedLeader: item.isStoppedLeader ?? self.isStoppedLeader,
-            isBeingJoined: item.isBeingJoined ?? self.isBeingJoined)
+            isBeingJoined: item.isBeingJoined ?? self.isBeingJoined,
+            tableViewCellHeight: item.tableViewCellHeight ?? self.tableViewCellHeight
+        )
     }
 }
 
@@ -110,12 +114,32 @@ public struct ResponseAPIContentGetLeader: ListItemType {
     public var isBeingVoted: Bool? = false
     public var isBeingToggledFollow: Bool? = false
     
+    public var estimatedTableViewCellHeight: CGFloat? {return 121}
+    public var tableViewCellHeight: CGFloat?
+    
     public var identity: String {
         return userId
     }
     
     public func newUpdatedItem(from item: ResponseAPIContentGetLeader) -> ResponseAPIContentGetLeader? {
         guard item.identity == self.identity else {return nil}
-        return ResponseAPIContentGetLeader(url: item.url, rating: item.rating, votesCount: item.votesCount, isActive: item.isActive, userId: item.userId, position: item.position, isVoted: item.isVoted ?? self.isVoted, ratingPercent: item.ratingPercent, isSubscribed: item.isSubscribed, username: item.username, avatarUrl: item.avatarUrl ?? self.avatarUrl, subscribersCount: item.subscribersCount ?? self.subscribersCount, communityId: item.communityId ?? self.communityId, isBeingVoted: item.isBeingVoted ?? self.isBeingVoted, isBeingToggledFollow: item.isBeingToggledFollow ?? self.isBeingToggledFollow)
+        return ResponseAPIContentGetLeader(
+            url: item.url,
+            rating: item.rating,
+            votesCount: item.votesCount,
+            isActive: item.isActive,
+            userId: item.userId,
+            position: item.position,
+            isVoted: item.isVoted ?? self.isVoted,
+            ratingPercent: item.ratingPercent,
+            isSubscribed: item.isSubscribed,
+            username: item.username,
+            avatarUrl: item.avatarUrl ?? self.avatarUrl,
+            subscribersCount: item.subscribersCount ?? self.subscribersCount,
+            communityId: item.communityId ?? self.communityId,
+            isBeingVoted: item.isBeingVoted ?? self.isBeingVoted,
+            isBeingToggledFollow: item.isBeingToggledFollow ?? self.isBeingToggledFollow,
+            tableViewCellHeight: nil
+        )
     }
 }
