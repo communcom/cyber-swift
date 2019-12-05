@@ -47,10 +47,6 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
     
     // Additional properties
     public var status: MessageStatus? = .done
-    public var tableViewCellHeight: CGFloat?
-    public var estimatedTableViewCellHeight: CGFloat? {
-        return 200
-    }
     
     public var identity: String {
         return self.contentId.userId + "/" + self.contentId.permlink
@@ -58,12 +54,6 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
     
     public func newUpdatedItem(from item: ResponseAPIContentGetPost) -> ResponseAPIContentGetPost? {
         guard self.identity == item.identity else {return nil}
-        var newCellHeight = item.tableViewCellHeight ?? self.tableViewCellHeight
-        
-        // reset height when document changes
-        if item.document != self.document {
-            newCellHeight = nil
-        }
         return ResponseAPIContentGetPost(
             document: item.document,
             votes: item.votes,
@@ -73,8 +63,8 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
             payout: item.payout ?? self.payout,
             community: item.community ?? self.community,
             url: item.url ?? self.url,
-            status: item.status ?? self.status,
-            tableViewCellHeight: newCellHeight)
+            status: item.status ?? self.status
+        )
     }
 }
 
@@ -263,8 +253,6 @@ public struct ResponseAPIContentGetComment: ResponseAPIContentMessageType {
     
     // Additional properties
     public var status: MessageStatus? = .done
-    public var estimatedTableViewCellHeight: CGFloat? {return 88}
-    public var tableViewCellHeight: CGFloat?
     
     public var identity: String {
         return self.contentId.userId + "/" + self.contentId.permlink
@@ -272,15 +260,6 @@ public struct ResponseAPIContentGetComment: ResponseAPIContentMessageType {
     
     public func newUpdatedItem(from item: ResponseAPIContentGetComment) -> ResponseAPIContentGetComment? {
         guard item.identity == self.identity else {return nil}
-        var newCellHeight = item.tableViewCellHeight ?? self.tableViewCellHeight
-        
-        // reset height when content changes
-        if item.document != self.document ||
-            item.attachments.first != self.attachments.first
-        {
-            newCellHeight = nil
-        }
-        
         return ResponseAPIContentGetComment(
             votes: item.votes,
             meta: item.meta,
@@ -291,8 +270,7 @@ public struct ResponseAPIContentGetComment: ResponseAPIContentMessageType {
             author: item.author ?? self.author,
             community: item.community ?? self.community,
             children: item.children ?? self.children,
-            status: item.status ?? self.status,
-            tableViewCellHeight: newCellHeight
+            status: item.status ?? self.status
         )
     }
 }

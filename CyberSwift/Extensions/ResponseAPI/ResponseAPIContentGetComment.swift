@@ -38,8 +38,6 @@ extension ResponseAPIContentGetComment {
         self.children = []
         
         self.status = .done
-        
-        self.tableViewCellHeight = nil
     }
     
     public var content: [ResponseAPIContentBlock]? {
