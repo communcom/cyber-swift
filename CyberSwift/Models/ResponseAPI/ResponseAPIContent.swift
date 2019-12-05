@@ -58,7 +58,7 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
     
     public func newUpdatedItem(from item: ResponseAPIContentGetPost) -> ResponseAPIContentGetPost? {
         guard self.identity == item.identity else {return nil}
-        var newCellHeight = self.tableViewCellHeight
+        var newCellHeight = item.tableViewCellHeight ?? self.tableViewCellHeight
         
         // reset height when document changes
         if item.document != self.document {
@@ -272,7 +272,7 @@ public struct ResponseAPIContentGetComment: ResponseAPIContentMessageType {
     
     public func newUpdatedItem(from item: ResponseAPIContentGetComment) -> ResponseAPIContentGetComment? {
         guard item.identity == self.identity else {return nil}
-        var newCellHeight = self.tableViewCellHeight
+        var newCellHeight = item.tableViewCellHeight ?? self.tableViewCellHeight
         
         // reset height when content changes
         if item.document != self.document ||

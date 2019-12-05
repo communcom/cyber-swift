@@ -28,7 +28,7 @@ public struct ResponseAPIContentResolveProfile: Encodable, ListItemType {
     
     public func newUpdatedItem(from item: ResponseAPIContentResolveProfile) -> ResponseAPIContentResolveProfile? {
         guard item.identity == self.identity else {return nil}
-        var newCellHeight = self.tableViewCellHeight
+        var newCellHeight = item.tableViewCellHeight ?? self.tableViewCellHeight
         if item.postsCount != self.postsCount || item.subscribersCount != self.subscribersCount {
             newCellHeight = nil
         }
@@ -260,7 +260,7 @@ public struct ResponseAPIContentGetSubscriptionsUser: ListItemType {
     
     public func newUpdatedItem(from item: ResponseAPIContentGetSubscriptionsUser) -> ResponseAPIContentGetSubscriptionsUser? {
         guard item.identity == self.identity else {return nil}
-        var newCellHeight = self.tableViewCellHeight
+        var newCellHeight = item.tableViewCellHeight ?? self.tableViewCellHeight
         
         // reset cell height when content changes
         if item.subscribersCount != self.subscribersCount ||
