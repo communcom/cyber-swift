@@ -81,6 +81,7 @@ extension RestAPIManager {
                     author: ResponseAPIAuthor(userId: userId, username: Config.currentUser?.name, avatarUrl: UserDefaults.standard.string(forKey: Config.currentUserAvatarUrlKey), stats: nil, isSubscribed: nil),
                     community: parentPost?.community)
                 newComment?.sendingState = .adding
+                newComment?.votes.hasUpVote = true
                 parentPost?.notifyCommentAdded(newComment!)
             }
             // Reply
@@ -92,6 +93,7 @@ extension RestAPIManager {
                     author: ResponseAPIAuthor(userId: userId, username: Config.currentUser?.name, avatarUrl: UserDefaults.standard.string(forKey: Config.currentUserAvatarUrlKey), stats: nil, isSubscribed: nil),
                     community: parentPost?.community)
                 newComment?.sendingState = .replying
+                newComment?.votes.hasUpVote = true
                 parentComment?.addChildComment(newComment!)
                 
                 var parentPost = parentPost
