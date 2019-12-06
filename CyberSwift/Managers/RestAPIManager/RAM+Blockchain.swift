@@ -75,11 +75,11 @@ extension RestAPIManager {
             if !isReplying {
                 newComment = ResponseAPIContentGetComment(
                     contentId: ResponseAPIContentId(userId: userId, permlink: permlink, communityId: communCode),
-                    parents: ResponseAPIContentGetCommentParent(post: ResponseAPIContentId(userId: userId, permlink: permlink, communityId: communCode), comment: nil),
+                    parents: ResponseAPIContentGetCommentParent(post: ResponseAPIContentId(userId: parentAuthor ?? "", permlink: parentPermlink ?? "", communityId: communCode), comment: nil),
                     document: block,
                     author: ResponseAPIAuthor(userId: userId, username: Config.currentUser?.name, avatarUrl: UserDefaults.standard.string(forKey: Config.currentUserAvatarUrlKey), stats: nil, isSubscribed: nil),
                     community: parentPost?.community)
-                newComment?.status = .editing
+                newComment?.sendingState = .adding
                 var parentPost = parentPost
                 parentPost?.notifyCommentAdded(newComment!)
             }
@@ -91,7 +91,7 @@ extension RestAPIManager {
                     document: block,
                     author: ResponseAPIAuthor(userId: userId, username: Config.currentUser?.name, avatarUrl: UserDefaults.standard.string(forKey: Config.currentUserAvatarUrlKey), stats: nil, isSubscribed: nil),
                     community: parentPost?.community)
-                newComment?.status = .editing
+                newComment?.sendingState = .replying
                 parentComment?.addChildComment(newComment!)
                 
                 var parentPost = parentPost
@@ -119,22 +119,22 @@ extension RestAPIManager {
             .do(onSuccess: { (_) in
                 if isComment {
                     if isReplying {
-                        newComment?.status = .done
+                        newComment?.sendingState = MessageSendingState.none
                         newComment?.notifyChanged()
                     }
                     else {
-                        newComment?.status = .done
+                        newComment?.sendingState = MessageSendingState.none
                         newComment?.notifyChanged()
                     }
                 }
             }, onError: { (error) in
                 if isComment {
                     if isReplying {
-                        newComment?.status = .error
+                        newComment?.sendingState = .error(state: .replying)
                         newComment?.notifyChanged()
                     }
                     else {
-                        newComment?.status = .error
+                        newComment?.sendingState = .error(state: .adding)
                         newComment?.notifyChanged()
                     }
                 }
@@ -175,14 +175,14 @@ extension RestAPIManager {
         if var post = originMessage as? ResponseAPIContentGetPost {
             originBlock = post.document
             post.document = block
-            post.status = .editing
+            post.sendingState = .editing
             post.notifyChanged()
             originMessage = post
         }
         else if var comment = originMessage as? ResponseAPIContentGetComment {
             originBlock = comment.document
             comment.document = block
-            comment.status = .editing
+            comment.sendingState = .editing
             comment.notifyChanged()
             originMessage = comment
         }
@@ -203,20 +203,20 @@ extension RestAPIManager {
             .observeOn(MainScheduler.instance)
             .do(onSuccess: { (_) in
                 if var post = originMessage as? ResponseAPIContentGetPost {
-                    post.status = .done
+                    post.sendingState = MessageSendingState.none
                     post.notifyChanged()
                 }
                 else if var comment = originMessage as? ResponseAPIContentGetComment {
-                    comment.status = .done
+                    comment.sendingState = MessageSendingState.none
                     comment.notifyChanged()
                 }
             }, onError: { (_) in
                 if var post = originMessage as? ResponseAPIContentGetPost {
-                    post.status = .error
+                    post.sendingState = .error(state: .editing)
                     post.notifyChanged()
                 }
                 else if var comment = originMessage as? ResponseAPIContentGetComment {
-                    comment.status = .error
+                    comment.sendingState = .error(state: .editing)
                     comment.notifyChanged()
                 }
             })

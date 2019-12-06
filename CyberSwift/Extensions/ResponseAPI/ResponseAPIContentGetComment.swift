@@ -37,7 +37,7 @@ extension ResponseAPIContentGetComment {
         
         self.children = []
         
-        self.status = .done
+        self.sendingState = MessageSendingState.none
     }
     
     public var content: [ResponseAPIContentBlock]? {

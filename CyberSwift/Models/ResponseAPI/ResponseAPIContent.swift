@@ -10,15 +10,16 @@ import Foundation
 import RxDataSources
 
 // MARK: - MessageStatus
-public enum MessageStatus: Decodable, Equatable {
+public indirect enum MessageSendingState: Decodable, Equatable {
     public init(from decoder: Decoder) throws {
-        self = .done
+        self = .none
     }
     
-    case done
+    case none
+    case replying
     case editing
-    case addingChild
-    case error
+    case adding
+    case error(state: MessageSendingState)
 }
 
 public protocol ResponseAPIContentMessageType: ListItemType {
@@ -26,6 +27,7 @@ public protocol ResponseAPIContentMessageType: ListItemType {
     var document: ResponseAPIContentBlock? {get set}
     var community: ResponseAPIContentGetCommunity? {get}
     var contentId: ResponseAPIContentId {get}
+    var sendingState: MessageSendingState? {get set}
 }
 
 // MARK: - API `content.getPosts`
@@ -46,7 +48,7 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
     public let url: String?
     
     // Additional properties
-    public var status: MessageStatus? = .done
+    public var sendingState: MessageSendingState? = MessageSendingState.none
     
     public var identity: String {
         return self.contentId.userId + "/" + self.contentId.permlink
@@ -63,7 +65,7 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
             payout: item.payout ?? self.payout,
             community: item.community ?? self.community,
             url: item.url ?? self.url,
-            status: item.status ?? self.status
+            sendingState: item.sendingState ?? self.sendingState
         )
     }
 }
@@ -252,7 +254,7 @@ public struct ResponseAPIContentGetComment: ResponseAPIContentMessageType {
     public var children: [ResponseAPIContentGetComment]?
     
     // Additional properties
-    public var status: MessageStatus? = .done
+    public var sendingState: MessageSendingState? = MessageSendingState.none
     
     public var identity: String {
         return self.contentId.userId + "/" + self.contentId.permlink
@@ -270,7 +272,7 @@ public struct ResponseAPIContentGetComment: ResponseAPIContentMessageType {
             author: item.author ?? self.author,
             community: item.community ?? self.community,
             children: item.children ?? self.children,
-            status: item.status ?? self.status
+            sendingState: item.sendingState ?? self.sendingState
         )
     }
 }
