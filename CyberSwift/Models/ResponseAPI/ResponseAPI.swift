@@ -177,9 +177,6 @@ public struct ResponseAPIOnlineNotificationData: ListItemType {
         return self._id
     }
     
-    public var estimatedTableViewCellHeight: CGFloat? {return 82}
-    public var tableViewCellHeight: CGFloat?
-    
     public func newUpdatedItem(from item: ResponseAPIOnlineNotificationData) -> ResponseAPIOnlineNotificationData? {
         guard self.identity == item.identity else {return nil}
         return ResponseAPIOnlineNotificationData(
@@ -192,8 +189,7 @@ public struct ResponseAPIOnlineNotificationData: ListItemType {
             actor: item.actor ?? self.actor,
             post: item.post ?? self.post,
             comment: item.comment ?? self.comment,
-            value: item.value ?? self.value,
-            tableViewCellHeight: nil
+            value: item.value ?? self.value
         )
     }
 }

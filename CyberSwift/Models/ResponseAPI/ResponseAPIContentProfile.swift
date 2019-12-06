@@ -19,8 +19,6 @@ public struct ResponseAPIContentResolveProfile: Encodable, ListItemType {
     
     // additional property
     public var isBeingToggledFollow: Bool? = false
-    public var estimatedTableViewCellHeight: CGFloat? {return 82}
-    public var tableViewCellHeight: CGFloat?
     
     public var identity: String {
         return userId + "/" + username
@@ -28,10 +26,6 @@ public struct ResponseAPIContentResolveProfile: Encodable, ListItemType {
     
     public func newUpdatedItem(from item: ResponseAPIContentResolveProfile) -> ResponseAPIContentResolveProfile? {
         guard item.identity == self.identity else {return nil}
-        var newCellHeight = item.tableViewCellHeight ?? self.tableViewCellHeight
-        if item.postsCount != self.postsCount || item.subscribersCount != self.subscribersCount {
-            newCellHeight = nil
-        }
         return ResponseAPIContentResolveProfile(
             userId: item.userId,
             username: item.username,
@@ -39,8 +33,7 @@ public struct ResponseAPIContentResolveProfile: Encodable, ListItemType {
             isSubscribed: item.isSubscribed ?? self.isSubscribed,
             subscribersCount: item.subscribersCount ?? self.subscribersCount,
             postsCount: item.postsCount ?? self.postsCount,
-            isBeingToggledFollow: item.isBeingToggledFollow ?? self.isBeingToggledFollow,
-            tableViewCellHeight: newCellHeight
+            isBeingToggledFollow: item.isBeingToggledFollow ?? self.isBeingToggledFollow
         )
     }
 }
@@ -65,8 +58,6 @@ public struct ResponseAPIContentGetProfile: ListItemType {
     
     // Additional properties
     public var isBeingToggledFollow: Bool? = false
-    public var estimatedTableViewCellHeight: CGFloat? {return 82}
-    public var tableViewCellHeight: CGFloat?
     
     public var identity: String {
         return userId + "/" + username
@@ -90,8 +81,7 @@ public struct ResponseAPIContentGetProfile: ListItemType {
             isBlocked: item.isBlocked ?? self.isBlocked,
             highlightCommunitiesCount: item.highlightCommunitiesCount ?? self.highlightCommunitiesCount,
             highlightCommunities: item.highlightCommunities,
-            isBeingToggledFollow: item.isBeingToggledFollow ?? self.isBeingToggledFollow,
-            tableViewCellHeight: nil
+            isBeingToggledFollow: item.isBeingToggledFollow ?? self.isBeingToggledFollow
         )
     }
 }
@@ -203,29 +193,6 @@ public enum ResponseAPIContentGetSubscriptionsItem: ListItemType {
         }
     }
     
-    public var estimatedTableViewCellHeight: CGFloat? {
-        switch self {
-        case .user(let user):
-            return user.estimatedTableViewCellHeight
-        case .community(let community):
-            return community.estimatedTableViewCellHeight
-        }
-    }
-    
-    public var tableViewCellHeight: CGFloat? {
-        get {
-            switch self {
-            case .user(let user):
-                return user.tableViewCellHeight
-            case .community(let community):
-                return community.tableViewCellHeight
-            }
-        }
-        set {
-            
-        }
-    }
-    
     public func newUpdatedItem(from item: ResponseAPIContentGetSubscriptionsItem) -> ResponseAPIContentGetSubscriptionsItem? {
         guard item.identity == self.identity else {return nil}
         switch self {
@@ -251,8 +218,6 @@ public struct ResponseAPIContentGetSubscriptionsUser: ListItemType {
     
     // additional property
     public var isBeingToggledFollow: Bool? = false
-    public var estimatedTableViewCellHeight: CGFloat? {return 82}
-    public var tableViewCellHeight: CGFloat?
     
     public var identity: String {
         return userId + "/" + username
@@ -260,14 +225,6 @@ public struct ResponseAPIContentGetSubscriptionsUser: ListItemType {
     
     public func newUpdatedItem(from item: ResponseAPIContentGetSubscriptionsUser) -> ResponseAPIContentGetSubscriptionsUser? {
         guard item.identity == self.identity else {return nil}
-        var newCellHeight = item.tableViewCellHeight ?? self.tableViewCellHeight
-        
-        // reset cell height when content changes
-        if item.subscribersCount != self.subscribersCount ||
-            item.postsCount != self.postsCount
-        {
-            newCellHeight = nil
-        }
         
         return ResponseAPIContentGetSubscriptionsUser(
             userId: item.userId,
@@ -276,8 +233,7 @@ public struct ResponseAPIContentGetSubscriptionsUser: ListItemType {
             subscribersCount: item.subscribersCount ?? self.subscribersCount,
             postsCount: item.postsCount ?? self.postsCount,
             isSubscribed: item.isSubscribed ?? self.isSubscribed,
-            isBeingToggledFollow: item.isBeingToggledFollow ?? self.isBeingToggledFollow,
-            tableViewCellHeight: newCellHeight
+            isBeingToggledFollow: item.isBeingToggledFollow ?? self.isBeingToggledFollow
         )
     }
 }
@@ -341,29 +297,6 @@ public enum ResponseAPIContentGetBlacklistItem: ListItemType {
         }
     }
     
-    public var estimatedTableViewCellHeight: CGFloat? {
-        switch self {
-        case .user(let user):
-            return user.estimatedTableViewCellHeight
-        case .community(let community):
-            return community.estimatedTableViewCellHeight
-        }
-    }
-    
-    public var tableViewCellHeight: CGFloat? {
-        get {
-            switch self {
-            case .user(let user):
-                return user.tableViewCellHeight
-            case .community(let community):
-                return community.tableViewCellHeight
-            }
-        }
-        set {
-            
-        }
-    }
-    
     public func newUpdatedItem(from item: ResponseAPIContentGetBlacklistItem) -> ResponseAPIContentGetBlacklistItem? {
         guard item.identity == self.identity else {return nil}
         switch self {
@@ -393,9 +326,6 @@ public struct ResponseAPIContentGetBlacklistUser: ListItemType {
         return userId + "/" + username
     }
     
-    public var estimatedTableViewCellHeight: CGFloat? {return 82}
-    public var tableViewCellHeight: CGFloat?
-    
     public func newUpdatedItem(from item: ResponseAPIContentGetBlacklistUser) -> ResponseAPIContentGetBlacklistUser? {
         guard item.identity == self.identity else {return nil}
         return ResponseAPIContentGetBlacklistUser(
@@ -404,8 +334,7 @@ public struct ResponseAPIContentGetBlacklistUser: ListItemType {
             avatarUrl: item.avatarUrl ?? self.avatarUrl,
             isSubscribed: item.isSubscribed ?? self.isSubscribed,
             isBeingUnblocked: item.isBeingUnblocked ?? self.isBeingUnblocked,
-            isBlocked: item.isBlocked ?? self.isBlocked,
-            tableViewCellHeight: self.tableViewCellHeight
+            isBlocked: item.isBlocked ?? self.isBlocked
         )
     }
 }
@@ -424,9 +353,6 @@ public struct ResponseAPIContentGetBlacklistCommunity: ListItemType {
         return communityId + "/" + name
     }
     
-    public var estimatedTableViewCellHeight: CGFloat? {return 82}
-    public var tableViewCellHeight: CGFloat?
-    
     public func newUpdatedItem(from item: ResponseAPIContentGetBlacklistCommunity) -> ResponseAPIContentGetBlacklistCommunity? {
         guard item.identity == self.identity else {return nil}
         return ResponseAPIContentGetBlacklistCommunity(
@@ -435,8 +361,7 @@ public struct ResponseAPIContentGetBlacklistCommunity: ListItemType {
             name: item.name,
             isSubscribed: item.isSubscribed ?? self.isSubscribed,
             isBeingUnblocked: item.isBeingUnblocked ?? self.isBeingUnblocked,
-            isBlocked: item.isBlocked ?? self.isBlocked,
-            tableViewCellHeight: self.tableViewCellHeight
+            isBlocked: item.isBlocked ?? self.isBlocked
         )
     }
 }

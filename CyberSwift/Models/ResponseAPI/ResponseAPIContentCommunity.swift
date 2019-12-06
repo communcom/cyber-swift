@@ -43,8 +43,6 @@ public struct ResponseAPIContentGetCommunity: Encodable, ListItemType {
     
     // Additional field
     public var isBeingJoined: Bool? = false
-    public var estimatedTableViewCellHeight: CGFloat? {return 80}
-    public var tableViewCellHeight: CGFloat?
     
     public var identity: String {
         return communityId + "/" + name
@@ -73,8 +71,7 @@ public struct ResponseAPIContentGetCommunity: Encodable, ListItemType {
             friends: item.friends ?? self.friends,
             isLeader: item.isLeader ?? self.isLeader,
             isStoppedLeader: item.isStoppedLeader ?? self.isStoppedLeader,
-            isBeingJoined: item.isBeingJoined ?? self.isBeingJoined,
-            tableViewCellHeight: item.tableViewCellHeight ?? self.tableViewCellHeight
+            isBeingJoined: item.isBeingJoined ?? self.isBeingJoined
         )
     }
 }
@@ -138,8 +135,7 @@ public struct ResponseAPIContentGetLeader: ListItemType {
             subscribersCount: item.subscribersCount ?? self.subscribersCount,
             communityId: item.communityId ?? self.communityId,
             isBeingVoted: item.isBeingVoted ?? self.isBeingVoted,
-            isBeingToggledFollow: item.isBeingToggledFollow ?? self.isBeingToggledFollow,
-            tableViewCellHeight: nil
+            isBeingToggledFollow: item.isBeingToggledFollow ?? self.isBeingToggledFollow
         )
     }
 }

@@ -10,15 +10,16 @@ import Foundation
 import RxDataSources
 
 // MARK: - MessageStatus
-public enum MessageStatus: Decodable, Equatable {
+public indirect enum MessageSendingState: Decodable, Equatable {
     public init(from decoder: Decoder) throws {
-        self = .done
+        self = .none
     }
     
-    case done
+    case none
+    case replying
     case editing
-    case addingChild
-    case error
+    case adding
+    case error(state: MessageSendingState)
 }
 
 public protocol ResponseAPIContentMessageType: ListItemType {
@@ -26,6 +27,7 @@ public protocol ResponseAPIContentMessageType: ListItemType {
     var document: ResponseAPIContentBlock? {get set}
     var community: ResponseAPIContentGetCommunity? {get}
     var contentId: ResponseAPIContentId {get}
+    var sendingState: MessageSendingState? {get set}
 }
 
 // MARK: - API `content.getPosts`
@@ -46,11 +48,7 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
     public let url: String?
     
     // Additional properties
-    public var status: MessageStatus? = .done
-    public var tableViewCellHeight: CGFloat?
-    public var estimatedTableViewCellHeight: CGFloat? {
-        return 200
-    }
+    public var sendingState: MessageSendingState? = MessageSendingState.none
     
     public var identity: String {
         return self.contentId.userId + "/" + self.contentId.permlink
@@ -58,12 +56,6 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
     
     public func newUpdatedItem(from item: ResponseAPIContentGetPost) -> ResponseAPIContentGetPost? {
         guard self.identity == item.identity else {return nil}
-        var newCellHeight = item.tableViewCellHeight ?? self.tableViewCellHeight
-        
-        // reset height when document changes
-        if item.document != self.document {
-            newCellHeight = nil
-        }
         return ResponseAPIContentGetPost(
             document: item.document,
             votes: item.votes,
@@ -73,8 +65,8 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
             payout: item.payout ?? self.payout,
             community: item.community ?? self.community,
             url: item.url ?? self.url,
-            status: item.status ?? self.status,
-            tableViewCellHeight: newCellHeight)
+            sendingState: item.sendingState ?? self.sendingState
+        )
     }
 }
 
@@ -262,9 +254,7 @@ public struct ResponseAPIContentGetComment: ResponseAPIContentMessageType {
     public var children: [ResponseAPIContentGetComment]?
     
     // Additional properties
-    public var status: MessageStatus? = .done
-    public var estimatedTableViewCellHeight: CGFloat? {return 88}
-    public var tableViewCellHeight: CGFloat?
+    public var sendingState: MessageSendingState? = MessageSendingState.none
     
     public var identity: String {
         return self.contentId.userId + "/" + self.contentId.permlink
@@ -272,15 +262,6 @@ public struct ResponseAPIContentGetComment: ResponseAPIContentMessageType {
     
     public func newUpdatedItem(from item: ResponseAPIContentGetComment) -> ResponseAPIContentGetComment? {
         guard item.identity == self.identity else {return nil}
-        var newCellHeight = item.tableViewCellHeight ?? self.tableViewCellHeight
-        
-        // reset height when content changes
-        if item.document != self.document ||
-            item.attachments.first != self.attachments.first
-        {
-            newCellHeight = nil
-        }
-        
         return ResponseAPIContentGetComment(
             votes: item.votes,
             meta: item.meta,
@@ -291,8 +272,7 @@ public struct ResponseAPIContentGetComment: ResponseAPIContentMessageType {
             author: item.author ?? self.author,
             community: item.community ?? self.community,
             children: item.children ?? self.children,
-            status: item.status ?? self.status,
-            tableViewCellHeight: newCellHeight
+            sendingState: item.sendingState ?? self.sendingState
         )
     }
 }
