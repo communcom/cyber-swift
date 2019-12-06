@@ -70,6 +70,7 @@ extension RestAPIManager {
         // Send mock data
         var newComment: ResponseAPIContentGetComment?
         var parentComment = parentComment
+        var parentPost = parentPost
         if isComment {
             // New comment
             if !isReplying {
@@ -80,7 +81,6 @@ extension RestAPIManager {
                     author: ResponseAPIAuthor(userId: userId, username: Config.currentUser?.name, avatarUrl: UserDefaults.standard.string(forKey: Config.currentUserAvatarUrlKey), stats: nil, isSubscribed: nil),
                     community: parentPost?.community)
                 newComment?.sendingState = .adding
-                var parentPost = parentPost
                 parentPost?.notifyCommentAdded(newComment!)
             }
             // Reply
@@ -132,11 +132,17 @@ extension RestAPIManager {
                     if isReplying {
                         newComment?.sendingState = .error(state: .replying)
                         newComment?.notifyChanged()
+                        let commentsCount = (parentComment?.childCommentsCount ?? 0) - 1
+                        parentComment?.childCommentsCount = commentsCount
+                        parentComment?.notifyChanged()
                     }
                     else {
                         newComment?.sendingState = .error(state: .adding)
                         newComment?.notifyChanged()
                     }
+                    let commentsCount = (parentPost?.stats?.commentsCount ?? 0) - 1
+                    parentPost?.stats?.commentsCount = commentsCount
+                    parentPost?.notifyChanged()
                 }
             })
     }
