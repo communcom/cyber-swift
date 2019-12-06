@@ -82,6 +82,7 @@ extension RestAPIManager {
                     community: parentPost?.community)
                 newComment?.sendingState = .adding
                 newComment?.votes.hasUpVote = true
+                newComment?.votes.upCount = 1
                 parentPost?.notifyCommentAdded(newComment!)
             }
             // Reply
@@ -94,6 +95,7 @@ extension RestAPIManager {
                     community: parentPost?.community)
                 newComment?.sendingState = .replying
                 newComment?.votes.hasUpVote = true
+                newComment?.votes.upCount = 1
                 parentComment?.addChildComment(newComment!)
                 
                 var parentPost = parentPost
