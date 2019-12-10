@@ -38,11 +38,12 @@ extension RestAPIManager {
         let methodAPIType = MethodAPIType.firstStep(phone: phone.trimSpaces(), captchaCode: captchaCode, isDebugMode: isDebugMode)
         
         return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationFirstStep>)
-            .map {result in
+            .map { result in
                 try KeychainManager.save([
                     Config.registrationStepKey:         CurrentUserRegistrationStep.verify.rawValue,
                     Config.registrationUserPhoneKey:    phone.trimSpaces(),
-                    Config.registrationSmsNextRetryKey: result.nextSmsRetry
+                    Config.registrationSmsNextRetryKey: result.nextSmsRetry,
+                    Config.registrationSmsCodeKey:      result.code!
                 ])
                 
                 return result
