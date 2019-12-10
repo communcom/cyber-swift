@@ -11,8 +11,7 @@ import Foundation
 
 
 public struct Config {
-    #warning("fix appStoreId ")
-    public static let appStoreId = "375380948"
+    public static let appStoreId = "1488928931"
     
     // iPhone X as design template
     public static let heightRatio: CGFloat              =   UIScreen.main.bounds.height / (UIApplication.shared.statusBarOrientation.isPortrait ? 812 : 375)
