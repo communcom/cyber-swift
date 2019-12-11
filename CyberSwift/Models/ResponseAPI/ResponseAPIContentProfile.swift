@@ -8,6 +8,13 @@
 
 import Foundation
 
+// MARK: - QrCode
+public struct QrCodeDecodedProfile: Decodable {
+    public let userId: String?
+    public let username: String
+    public let password: String
+}
+
 // MARK: - API `content.resolveProfile`
 public struct ResponseAPIContentResolveProfile: Encodable, ListItemType {
     public let userId: String
