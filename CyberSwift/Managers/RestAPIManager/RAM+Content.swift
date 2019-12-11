@@ -13,10 +13,10 @@ extension RestAPIManager {
     // MARK: - Posts
     // API `content.getPosts`
     public func getPosts(
-        userId:         String? = Config.currentUser?.id,
+        userId:         String?,
         communityId:    String?,
         allowNsfw:      Bool = false,
-        type:           FeedTypeMode = .community,
+        type:           FeedTypeMode,
         sortBy:         FeedSortMode = .time,
         limit:          UInt = UInt(Config.paginationLimit),
         offset:         UInt = 0

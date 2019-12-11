@@ -45,6 +45,19 @@ public enum FeedTypeMode: String {
     case topRewards         =   "topRewards"
     case hot                =   "hot"
     case voted              =   "voted"
+    
+    public var localizedLabel: String? {
+        switch self {
+        case .hot:
+            return "hot".localized()
+        case .new:
+            return "new".localized()
+        case .topLikes:
+            return "popular".localized()
+        default:
+            return nil
+        }
+    }
 }
 
 public enum FeedTimeFrameMode: String {
@@ -55,6 +68,19 @@ public enum FeedTimeFrameMode: String {
     case all                =   "all"
 //    case wilsonHot          =   "WilsonHot"
 //    case wilsonTrending     =   "WilsonTrending"
+    
+    public var localizedLabel: String {
+        switch self {
+        case .day:
+            return "past 24 hours".localized()
+        case .week:
+            return "past week".localized()
+        case .month:
+            return "past month".localized()
+        case .all:
+            return "all time".localized()
+        }
+    }
 }
 
 public enum FeedSortMode: String {
@@ -264,7 +290,7 @@ public indirect enum MethodAPIType {
         //  Template { "id": 2, "jsonrpc": "2.0", "method": "content.getFeed", "params": { "type": "community", "timeframe": "day", "sortBy": "popular", "limit": 20, "userId": "tst3uuqzetwf", "communityId": "gls" }}
         case .getPosts(let userId, let communityId, let allowNsfw, let type, let sortBy, let limit, let offset):
             var parameters = [String: Encodable]()
-            parameters["userId"]        = userId ?? Config.currentUser?.id
+            parameters["userId"]        = userId
             parameters["communityId"]   = communityId
             parameters["allowNsfw"]     = allowNsfw ?? false
             parameters["type"]          = type.rawValue
