@@ -33,4 +33,9 @@ extension ResponseAPIContentBlock {
         }
         return tags
     }
+    
+    public var thumbnailUrl: String? {
+        if type == "image" {return content.stringValue}
+        return attributes?.thumbnailUrl
+    }
 }
