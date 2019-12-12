@@ -15,7 +15,8 @@ extension ResponseAPIContentGetComment {
         parents: ResponseAPIContentGetCommentParent,
         document: ResponseAPIContentBlock,
         author: ResponseAPIAuthor,
-        community: ResponseAPIContentGetCommunity?
+        community: ResponseAPIContentGetCommunity?,
+        placeHolderImage: UIImage? = nil
     ) {
         let votes = ResponseAPIContentVotes(upCount: 0, downCount: 0)
         self.votes = votes
@@ -38,6 +39,8 @@ extension ResponseAPIContentGetComment {
         self.children = []
         
         self.sendingState = MessageSendingState.none
+        
+        self.placeHolderImage = UIImageDumbDecodable(image: placeHolderImage)
     }
     
     public var content: [ResponseAPIContentBlock]? {

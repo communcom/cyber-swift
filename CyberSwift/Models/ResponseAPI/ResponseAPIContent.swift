@@ -254,6 +254,7 @@ public struct ResponseAPIContentGetComment: ResponseAPIContentMessageType {
     public var children: [ResponseAPIContentGetComment]?
     
     // Additional properties
+    public var placeHolderImage: UIImageDumbDecodable?
     public var sendingState: MessageSendingState? = MessageSendingState.none
     
     public var identity: String {
@@ -272,6 +273,7 @@ public struct ResponseAPIContentGetComment: ResponseAPIContentMessageType {
             author: item.author ?? self.author,
             community: item.community ?? self.community,
             children: item.children ?? self.children,
+            placeHolderImage: item.placeHolderImage ?? self.placeHolderImage,
             sendingState: item.sendingState ?? self.sendingState
         )
     }
