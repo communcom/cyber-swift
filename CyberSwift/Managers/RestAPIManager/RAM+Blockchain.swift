@@ -37,15 +37,12 @@ extension RestAPIManager {
         parentAuthor: String? = nil,
         parentPermlink: String? = nil,
         header: String = "",
-        block: ResponseAPIContentBlock
+        block: ResponseAPIContentBlock,
+        uploadingImage: UIImage? = nil
     ) -> Single<SendPostCompletion> {
         // Check for authorization
         guard let userId = Config.currentUser?.id else {
             return .error(ErrorAPI.unauthorized)
-        }
-        
-        guard let bodyString = try? block.jsonString() else {
-            return .error(ErrorAPI.invalidData(message: "Body is invalid"))
         }
         
         // Create permlink for comment
@@ -79,7 +76,9 @@ extension RestAPIManager {
                     parents: ResponseAPIContentGetCommentParent(post: ResponseAPIContentId(userId: parentAuthor ?? "", permlink: parentPermlink ?? "", communityId: communCode), comment: nil),
                     document: block,
                     author: ResponseAPIAuthor(userId: userId, username: Config.currentUser?.name, avatarUrl: UserDefaults.standard.string(forKey: Config.currentUserAvatarUrlKey), stats: nil, isSubscribed: nil),
-                    community: parentPost?.community)
+                    community: parentPost?.community,
+                    placeHolderImage: uploadingImage
+                )
                 newComment?.sendingState = .adding
                 newComment?.votes.hasUpVote = true
                 newComment?.votes.upCount = 1
@@ -92,7 +91,9 @@ extension RestAPIManager {
                     parents: ResponseAPIContentGetCommentParent(post: nil, comment: parentComment?.contentId),
                     document: block,
                     author: ResponseAPIAuthor(userId: userId, username: Config.currentUser?.name, avatarUrl: UserDefaults.standard.string(forKey: Config.currentUserAvatarUrlKey), stats: nil, isSubscribed: nil),
-                    community: parentPost?.community)
+                    community: parentPost?.community,
+                    placeHolderImage: uploadingImage
+                )
                 newComment?.sendingState = .replying
                 newComment?.votes.hasUpVote = true
                 newComment?.votes.upCount = 1
@@ -106,30 +107,58 @@ extension RestAPIManager {
         }
         
         // Send request
-        let tags = block.getTags()
-        let args = EOSTransaction.MessageCreateArgs(
-            commun_code:    CyberSymbolWriterValue(name: communCode),
-            message_id:     messageId,
-            parent_id:      parentId,
-            header:         header,
-            body:           bodyString,
-            tags:           StringCollectionWriterValue(value: tags),
-            metadata:       "",
-            weight:         0)
+        var single: Single<ResponseAPIContentBlock>?
+        if isComment, let image = uploadingImage
+        {
+            single = RestAPIManager.instance.uploadImage(image)
+                .observeOn(MainScheduler.instance)
+                .flatMap {url in
+                    var block = block
+                    
+                    var array = block.content.arrayValue ?? []
+                    
+                    array.append(
+                        ResponseAPIContentBlock(id: (block.maxId ?? 0) + 1, type: "attachments", attributes: nil, content: .array([
+                            ResponseAPIContentBlock(id: (block.maxId ?? 0) + 2, type: "image", attributes: nil, content: .string(url))
+                        ]))
+                    )
+                    
+                    block.content = .array(array)
+                    return .just(block)
+                }
+        }
         
-        return EOSManager.create(messageCreateArgs: args)
-            .map {(transactionId: $0, userId: userId, permlink: permlink)}
-            .observeOn(MainScheduler.instance)
+        var finalBlock: ResponseAPIContentBlock?
+        return (single ?? .just(block))
+            .map {block -> EOSTransaction.MessageCreateArgs in
+                guard let bodyString = try? block.jsonString() else {
+                    throw ErrorAPI.invalidData(message: "Body is invalid")
+                }
+                
+                finalBlock = block
+                
+                let tags = block.getTags()
+                return EOSTransaction.MessageCreateArgs(
+                    commun_code:    CyberSymbolWriterValue(name: communCode),
+                    message_id:     messageId,
+                    parent_id:      parentId,
+                    header:         header,
+                    body:           bodyString,
+                    tags:           StringCollectionWriterValue(value: tags),
+                    metadata:       "",
+                    weight:         0)
+            }
+            .flatMap {args in
+                EOSManager.create(messageCreateArgs: args)
+                    .map {(transactionId: $0, userId: userId, permlink: permlink)}
+                    .observeOn(MainScheduler.instance)
+            }
             .do(onSuccess: { (_) in
                 if isComment {
-                    if isReplying {
-                        newComment?.sendingState = MessageSendingState.none
-                        newComment?.notifyChanged()
-                    }
-                    else {
-                        newComment?.sendingState = MessageSendingState.none
-                        newComment?.notifyChanged()
-                    }
+                    newComment?.sendingState = MessageSendingState.none
+                    newComment?.document = finalBlock
+                    newComment?.placeHolderImage = nil
+                    newComment?.notifyChanged()
                 }
             }, onError: { (error) in
                 if isComment {
@@ -168,20 +197,19 @@ extension RestAPIManager {
         communCode: String,
         permlink:   String,
         header:     String = "",
-        block:       ResponseAPIContentBlock
+        block:       ResponseAPIContentBlock,
+        uploadingImage: UIImage? = nil
     ) -> Single<SendPostCompletion> {
        
         guard let author = Config.currentUser?.id else {
             return .error(ErrorAPI.unauthorized)
         }
         
-        guard let bodyString = try? block.jsonString() else {
-            return .error(ErrorAPI.invalidData(message: "Body is invalid"))
-        }
-        
         var originBlock: ResponseAPIContentBlock?
         var originMessage = originMessage
-        // send mock playholder
+        // send mock placeholder
+        var single: Single<ResponseAPIContentBlock>?
+        
         if var post = originMessage as? ResponseAPIContentGetPost {
             originBlock = post.document
             post.document = block
@@ -192,24 +220,57 @@ extension RestAPIManager {
         else if var comment = originMessage as? ResponseAPIContentGetComment {
             originBlock = comment.document
             comment.document = block
+            comment.placeHolderImage = UIImageDumbDecodable(image: uploadingImage)
             comment.sendingState = .editing
             comment.notifyChanged()
             originMessage = comment
+            
+            if let image = uploadingImage
+            {
+                single = RestAPIManager.instance.uploadImage(image)
+                    .observeOn(MainScheduler.instance)
+                    .flatMap {url in
+                        var block = block
+                        
+                        var array = block.content.arrayValue ?? []
+                        
+                        array.append(
+                            ResponseAPIContentBlock(id: (block.maxId ?? 0) + 1, type: "attachments", attributes: nil, content: .array([
+                                ResponseAPIContentBlock(id: (block.maxId ?? 0) + 2, type: "image", attributes: nil, content: .string(url))
+                            ]))
+                        )
+                        
+                        block.content = .array(array)
+                        return .just(block)
+                    }
+            }
         }
         
         // prepare args
-        let messageId = EOSTransaction.Mssgid(author: author, permlink: permlink)
-        let tags = block.getTags()
-        let args = EOSTransaction.MessageUpdateArgs(
-            commun_code:    CyberSymbolWriterValue(name: communCode),
-            message_id:     messageId,
-            header:         header,
-            body:           bodyString,
-            tags:           StringCollectionWriterValue(value: tags),
-            metadata:       "")
-        
-        return EOSManager.update(messageArgs: args)
-            .map {(transactionId: $0, userId: author, permlink: permlink)}
+        var finalBlock: ResponseAPIContentBlock?
+        return (single ?? .just(block))
+            .map {block -> EOSTransaction.MessageUpdateArgs in
+                guard let bodyString = try? block.jsonString() else {
+                    throw ErrorAPI.invalidData(message: "Body is invalid")
+                }
+                
+                finalBlock = block
+                
+                let messageId = EOSTransaction.Mssgid(author: author, permlink: permlink)
+                
+                let tags = block.getTags()
+                return EOSTransaction.MessageUpdateArgs(
+                    commun_code:    CyberSymbolWriterValue(name: communCode),
+                    message_id:     messageId,
+                    header:         header,
+                    body:           bodyString,
+                    tags:           StringCollectionWriterValue(value: tags),
+                    metadata:       "")
+            }
+            .flatMap {args in
+                EOSManager.update(messageArgs: args)
+                    .map {(transactionId: $0, userId: author, permlink: permlink)}
+            }
             .observeOn(MainScheduler.instance)
             .do(onSuccess: { (_) in
                 if var post = originMessage as? ResponseAPIContentGetPost {
@@ -218,6 +279,8 @@ extension RestAPIManager {
                 }
                 else if var comment = originMessage as? ResponseAPIContentGetComment {
                     comment.sendingState = MessageSendingState.none
+                    comment.document = finalBlock
+                    comment.placeHolderImage = nil
                     comment.notifyChanged()
                 }
             }, onError: { (_) in
