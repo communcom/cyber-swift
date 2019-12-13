@@ -128,12 +128,14 @@ extension RestAPIManager {
                 }
         }
         
-        
+        var finalBlock: ResponseAPIContentBlock?
         return (single ?? .just(block))
             .map {block -> EOSTransaction.MessageCreateArgs in
                 guard let bodyString = try? block.jsonString() else {
                     throw ErrorAPI.invalidData(message: "Body is invalid")
                 }
+                
+                finalBlock = block
                 
                 let tags = block.getTags()
                 return EOSTransaction.MessageCreateArgs(
@@ -153,16 +155,10 @@ extension RestAPIManager {
             }
             .do(onSuccess: { (_) in
                 if isComment {
-                    if isReplying {
-                        newComment?.sendingState = MessageSendingState.none
-                        newComment?.placeHolderImage = nil
-                        newComment?.notifyChanged()
-                    }
-                    else {
-                        newComment?.sendingState = MessageSendingState.none
-                        newComment?.placeHolderImage = nil
-                        newComment?.notifyChanged()
-                    }
+                    newComment?.sendingState = MessageSendingState.none
+                    newComment?.document = finalBlock
+                    newComment?.placeHolderImage = nil
+                    newComment?.notifyChanged()
                 }
             }, onError: { (error) in
                 if isComment {
@@ -251,11 +247,14 @@ extension RestAPIManager {
         }
         
         // prepare args
+        var finalBlock: ResponseAPIContentBlock?
         return (single ?? .just(block))
             .map {block -> EOSTransaction.MessageUpdateArgs in
                 guard let bodyString = try? block.jsonString() else {
                     throw ErrorAPI.invalidData(message: "Body is invalid")
                 }
+                
+                finalBlock = block
                 
                 let messageId = EOSTransaction.Mssgid(author: author, permlink: permlink)
                 
@@ -280,6 +279,7 @@ extension RestAPIManager {
                 }
                 else if var comment = originMessage as? ResponseAPIContentGetComment {
                     comment.sendingState = MessageSendingState.none
+                    comment.document = finalBlock
                     comment.placeHolderImage = nil
                     comment.notifyChanged()
                 }
