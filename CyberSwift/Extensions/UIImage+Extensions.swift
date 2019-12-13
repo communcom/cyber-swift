@@ -18,21 +18,23 @@ extension UIImage {
         return UIGraphicsGetImageFromCurrentImageContext()
     }
     
-    public func resize(_ maxSide: CGFloat = 1920) -> UIImage? {
+    public func resize(_ maxSide: CGFloat = 1280) -> UIImage? {
         var image = self
 
         if size.width > maxSide || size.height > maxSide {
             let proportion = size.width >= size.height ? size.width / maxSide : size.height / maxSide
             let finalRect = CGRect(x: 0, y: 0, width: size.width / proportion, height: size.height / proportion)
-            //        let resizeImage = CGRect()
             UIGraphicsBeginImageContextWithOptions(finalRect.size, false, 1.0)
             draw(in: finalRect)
             image = UIGraphicsGetImageFromCurrentImageContext() ?? self
             UIGraphicsEndImageContext()
         }
 
-        let imageData: Data = image.jpegData(compressionQuality: 0.6)!
-        let finalImage = UIImage(data: imageData) ?? image
-        return finalImage
+        if let imageData = image.jpegData(compressionQuality: 0.6) {
+            let finalImage = UIImage(data: imageData) ?? image
+            return finalImage
+        }
+
+        return nil
     }
 }
