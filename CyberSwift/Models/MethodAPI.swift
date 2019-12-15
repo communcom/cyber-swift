@@ -461,12 +461,7 @@ public indirect enum MethodAPIType {
                                                 ]
 
             if type == .push {
-                var pushLanguage = Localize.currentLanguage()
-                #warning("supporting only Russian and English")
-                if pushLanguage != "ru", pushLanguage != "en" {pushLanguage = "en"}
-                
-                let setNoticeParams = RequestParameterAPI.SetNoticeParams(lang: pushLanguage, show: options)
-                
+                let setNoticeParams = RequestParameterAPI.SetNoticeParams(lang: "en", show: options)
                 parameters["push"]      =   setNoticeParams
             }
             

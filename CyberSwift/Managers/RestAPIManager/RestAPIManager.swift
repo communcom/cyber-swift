@@ -11,8 +11,11 @@ import Foundation
 import RxSwift
 
 public class RestAPIManager {
-    #warning("remove debug mode")
+    #if PROD
+    let isDebugMode = false
+    #else
     let isDebugMode = true
+    #endif
     
     // MARK: - Properties
     public static let instance = RestAPIManager()

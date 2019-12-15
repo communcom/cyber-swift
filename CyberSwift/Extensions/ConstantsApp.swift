@@ -33,22 +33,16 @@ public struct Config {
     static let blocksBehind: Int = 3
     public static let expireSeconds: Double = 30.0
     
-   
-    
-//    static let blockchain_API_Address: String               =   "116.202.4.46"
-//    static let blockchain_API_Port: Int32                   =   8888
-     #warning("node.commun.com in production")
-    static let blockchain_API_URL: String               =   "https://dev-node.commun.com/"
-    static let gate_API_IP_Port: Int32                  =   8080
-    
-    
-    // For SwiftSocket
-    
-    #warning("change for production")
-    static let gate_API_URL: String                     =   "wss://dev-gate.commun.com/"
-    
+    #if APPSTORE
+        static let gate_API_URL: String                     =   "wss://gate.commun.com/"
+        static let blockchain_API_URL: String               =   "https://node.commun.com/"
+    #else
+        static let gate_API_URL: String                     =   "wss://dev-gate.commun.com/"
+        static let blockchain_API_URL: String               =   "https://dev-node.commun.com/"
+    #endif
+
+    static let imageHost: String                        =   "https://img.commun.com/upload"
     public static let testingPassword: String           =   "machtfrei"
-    static let imageHost: String                        =   "https://img.golos.io/upload"
     
     /// Websocket
     public static var webSocketSecretKey: String? {
