@@ -351,6 +351,7 @@ public struct ResponseAPIContentGetBlacklistCommunity: ListItemType {
     public let alias: String?
     public let name: String
     public var isSubscribed: Bool?
+    public var avatarUrl: String?
     
     // additional properties
     public var isBeingUnblocked: Bool? = false
