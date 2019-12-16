@@ -36,23 +36,25 @@ public enum MethodAPIGroup: String {
 }
 
 public enum FeedTypeMode: String {
-    case new                =   "new"
-    case community          =   "community"
-    case subscriptions      =   "subscriptions"
-    case byUser             =   "byUser"
-    case topLikes           =   "topLikes"
-    case topComments        =   "topComments"
-    case topRewards         =   "topRewards"
-    case hot                =   "hot"
-    case voted              =   "voted"
+    case new                    =   "new"
+    case community              =   "community"
+    case subscriptions          =   "subscriptions"
+    case byUser                 =   "byUser"
+    case topLikes               =   "topLikes"
+    case topComments            =   "topComments"
+    case topRewards             =   "topRewards"
+    case hot                    =   "hot"
+    case voted                  =   "voted"
+    case subscriptionsHot       =   "subscriptionsHot"
+    case subscriptionsPopular   =   "subscriptionsPopular"
     
     public var localizedLabel: String? {
         switch self {
-        case .hot:
+        case .hot, .subscriptionsHot:
             return "hot".localized()
         case .new:
             return "new".localized()
-        case .topLikes:
+        case .topLikes, .subscriptionsPopular:
             return "popular".localized()
         default:
             return nil
