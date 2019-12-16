@@ -3,7 +3,7 @@
 //  CyberSwift
 //
 //  Created by msm72 on 1/28/19.
-//  Copyright © 2019 golos.io. All rights reserved.
+//  Copyright © 2019 Commun Limited. All rights reserved.
 //
 //  https://github.com/GolosChain/golos.contracts
 //  https://github.com/GolosChain/cyberway.contracts/blob/38a15c23ea8e0538df52b3e36aeb77d6f3e98fbf/cyber.token/abi/cyber.token.abi
@@ -16,7 +16,6 @@
 import eosswift
 import Foundation
 import RxSwift
-
 
 enum TransactionAccountType: String {
     static let prefix = "c"
@@ -91,8 +90,8 @@ class EOSManager {
             }
             let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
             
-            let signature = PrivateKeySigning().sign(digest:            data,
-                                                     eosPrivateKey:     privateKey)
+            let signature = PrivateKeySigning().sign(digest: data,
+                                                     eosPrivateKey: privateKey)
             
             return signature
         } catch {
@@ -110,7 +109,7 @@ class EOSManager {
         Logger.log(message: args.convertToJSON(), event: .request)
 
         // Offline mode
-        if (!Config.isNetworkAvailable) { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
+        if !Config.isNetworkAvailable { return .error(ErrorAPI.disableInternetConnection(message: nil)) }
 
         guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKeys?.privateKey else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
@@ -118,12 +117,12 @@ class EOSManager {
         
         // Action 1
         let transactionAuthorizationAbiActive = TransactionAuthorizationAbi(
-            actor:        AccountNameWriterValue(name:    userID),
-            permission:   AccountNameWriterValue(name:    "active"))
+            actor: AccountNameWriterValue(name: userID),
+            permission: AccountNameWriterValue(name: "active"))
 
         let transactionAuthorizationAbiClient = TransactionAuthorizationAbi(
-            actor:        AccountNameWriterValue(name:    account.stringValue),
-            permission:   AccountNameWriterValue(name:    "clients"))
+            actor: AccountNameWriterValue(name: account.stringValue),
+            permission: AccountNameWriterValue(name: "clients"))
 
         var auth = [transactionAuthorizationAbiActive, transactionAuthorizationAbiClient]
         if disableClientAuth {
@@ -137,12 +136,12 @@ class EOSManager {
             data: DataWriterValue(hex: args.toHex()))
         // Action 2
         let transactionAuthorizationAbiBandwidth = TransactionAuthorizationAbi(
-            actor:        AccountNameWriterValue(name:    "c"),
-            permission:   AccountNameWriterValue(name:    "providebw"))
+            actor: AccountNameWriterValue(name: "c"),
+            permission: AccountNameWriterValue(name: "providebw"))
 
         let args2 = EOSTransaction.CommunBandwidthProvider(
-            provider: AccountNameWriterValue(name:    "c"),
-            account: AccountNameWriterValue(name:    userID))
+            provider: AccountNameWriterValue(name: "c"),
+            account: AccountNameWriterValue(name: userID))
 
         let action2 = ActionAbi(account: AccountNameWriterValue(name: "cyber"),
                                 name: AccountNameWriterValue(name: "providebw"),
@@ -174,7 +173,7 @@ class EOSManager {
                 if let error = error as? ErrorAPI {
                     switch error {
                     case .balanceNotExist:
-                        return openBalance(args: args).flatMap { (message) -> Single<String> in
+                        return openBalance(args: args).flatMap { (_) -> Single<String> in
                             return pushAuthorized(account: account, name: name, args: args, expiration: expiration, disableClientAuth: disableClientAuth, disableCyberBandwidth: disableCyberBandwidth)
                         }
                     default:
@@ -200,16 +199,16 @@ class EOSManager {
         let code = communCodeArgs.getCode()
 
         let transactionAuthorizationAbiActive = TransactionAuthorizationAbi(
-            actor:        AccountNameWriterValue(name:    userID),
-            permission:   AccountNameWriterValue(name:    "active"))
+            actor: AccountNameWriterValue(name: userID),
+            permission: AccountNameWriterValue(name: "active"))
 
         let balanceArgs = EOSTransaction.OpenBalanceArgs(owner: AccountNameWriterValue(name: userID),
                                                          commun_code: code,
                                                          ram_payer: AccountNameWriterValue(name: userID))
 
         let transactionAuthorizationAbiBandwidth = TransactionAuthorizationAbi(
-            actor:        AccountNameWriterValue(name:    "c"),
-            permission:   AccountNameWriterValue(name:    "providebw"))
+            actor: AccountNameWriterValue(name: "c"),
+            permission: AccountNameWriterValue(name: "providebw"))
 
         let action1 = ActionAbi(account: AccountNameWriterValue(name: "c.point"),
                                 name: AccountNameWriterValue(name: "open"),
@@ -217,8 +216,8 @@ class EOSManager {
                                 data: DataWriterValue(hex: balanceArgs.toHex()))
 
         let args2 = EOSTransaction.CommunBandwidthProvider(
-            provider: AccountNameWriterValue(name:    "c"),
-            account: AccountNameWriterValue(name:    userID))
+            provider: AccountNameWriterValue(name: "c"),
+            account: AccountNameWriterValue(name: userID))
 
         let action2 = ActionAbi(account: AccountNameWriterValue(name: "cyber"),
                                 name: AccountNameWriterValue(name: "providebw"),
@@ -235,7 +234,7 @@ class EOSManager {
         }
     }
     
-    //  MARK: - Contract `gls.publish`
+    // MARK: - Contract `gls.publish`
     
     static func createNewAccount(nickName: String) -> Single<String> {
         guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKeys?.privateKey else {
@@ -254,16 +253,16 @@ class EOSManager {
                         publicKey: currentUserPublicKey,
                         isCurveParamK1: true
                     ),
-                    weight:  1)
+                    weight: 1)
             ],
-            accounts:    StringCollectionWriterValue(value: []),
-            waits:       StringCollectionWriterValue(value: []))
+            accounts: StringCollectionWriterValue(value: []),
+            waits: StringCollectionWriterValue(value: []))
         
         let createNewAccountArgs = NewAccountArgs(
-            creator:      AccountNameWriterValue(name:    userID),
-            name:         AccountNameWriterValue(name:    userID),
-            owner:        owner,
-            active:       owner)
+            creator: AccountNameWriterValue(name: userID),
+            name: AccountNameWriterValue(name: userID),
+            owner: owner,
+            active: owner)
         
         return pushAuthorized(account: .gallery, name: "newaccount", args: createNewAccountArgs)
     }
@@ -304,7 +303,6 @@ class EOSManager {
         return pushAuthorized(account: .gallery, name: "create", args: messageCreateArgs)
     }
     
-    
     static func delete(messageArgs: EOSTransaction.MessageDeleteArgs) -> Completable {
         return pushAuthorized(account: .gallery, name: "remove", args: messageArgs)
             .flatMapToCompletable()
@@ -321,7 +319,6 @@ class EOSManager {
     static func reblog(args: EOSTransaction.ReblogArgs) -> Single<String> {
         return pushAuthorized(account: .gallery, name: "reblog", args: args)
     }
-
     
     // MARK: - Contract `gls.vesting`
 //    static func publish(transferArgs: EOSTransaction.TransferArgs) -> Single<String> {

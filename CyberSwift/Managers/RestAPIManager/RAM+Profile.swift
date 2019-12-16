@@ -3,7 +3,7 @@
 //  CyberSwift
 //
 //  Created by Chung Tran on 10/29/19.
-//  Copyright © 2019 golos.io. All rights reserved.
+//  Copyright © 2019 Commun Limited. All rights reserved.
 //
 
 import Foundation
@@ -18,8 +18,8 @@ extension RestAPIManager {
     
     // API `content.getProfile`
     public func getProfile(
-        user:        String? = nil,
-        appProfileType:  AppProfileType = .cyber
+        user: String? = nil,
+        appProfileType: AppProfileType = .cyber
     ) -> Single<ResponseAPIContentGetProfile> {
         
         if user == nil {
@@ -28,7 +28,7 @@ extension RestAPIManager {
         
         let methodAPIType = MethodAPIType.getProfile(user: user)
 
-        return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
     
     // API `content.getComments` by user
@@ -54,7 +54,7 @@ extension RestAPIManager {
             parentComment: nil,
             resolveNestedComments: false)
         
-        return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
     
     // API basic `options.set`
@@ -64,7 +64,7 @@ extension RestAPIManager {
 
         let methodAPIType = MethodAPIType.setBasicOptions(nsfw: nsfwContent.rawValue)
         
-        return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
     
     // API `favorites.get`
@@ -74,7 +74,7 @@ extension RestAPIManager {
 
         let methodAPIType = MethodAPIType.getFavorites
         
-        return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
 
     // API `favorites.add`
@@ -84,7 +84,7 @@ extension RestAPIManager {
 
         let methodAPIType = MethodAPIType.addFavorites(permlink: permlink)
         
-        return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
 
     // API `favorites.remove`
@@ -94,7 +94,7 @@ extension RestAPIManager {
         
         let methodAPIType = MethodAPIType.removeFavorites(permlink: permlink)
         
-        return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
     
     // MARK: - Subscribers

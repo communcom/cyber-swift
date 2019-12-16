@@ -3,7 +3,7 @@
 //  CyberSwift
 //
 //  Created by Chung Tran on 04/07/2019.
-//  Copyright © 2019 golos.io. All rights reserved.
+//  Copyright © 2019 Commun Limited. All rights reserved.
 //
 
 import Foundation
@@ -40,10 +40,10 @@ extension RestAPIManager {
         return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationFirstStep>)
             .map { result in
                 try KeychainManager.save([
-                    Config.registrationStepKey:         CurrentUserRegistrationStep.verify.rawValue,
-                    Config.registrationUserPhoneKey:    phone.trimSpaces(),
+                    Config.registrationStepKey: CurrentUserRegistrationStep.verify.rawValue,
+                    Config.registrationUserPhoneKey: phone.trimSpaces(),
                     Config.registrationSmsNextRetryKey: result.nextSmsRetry,
-                    Config.registrationSmsCodeKey:      result.code!
+                    Config.registrationSmsCodeKey: result.code!
                 ])
                 
                 return result
@@ -70,7 +70,6 @@ extension RestAPIManager {
         }
     }
     
-    
     /// Resend sms code
     public func resendSmsCode() -> Single<ResponseAPIResendSmsCode> {
         guard let phone = Config.currentUser?.phoneNumber else {
@@ -83,7 +82,7 @@ extension RestAPIManager {
         return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIResendSmsCode>)
             .map { result in
                 try KeychainManager.save([
-                    Config.registrationStepKey:         result.currentState,
+                    Config.registrationStepKey: result.currentState,
                     Config.registrationSmsNextRetryKey: result.nextSmsRetry
                 ])
                 
@@ -104,10 +103,10 @@ extension RestAPIManager {
             .map { result in
                 
                 try KeychainManager.save([
-                    Config.registrationStepKey:         CurrentUserRegistrationStep.toBlockChain.rawValue,
-                    Config.registrationUserPhoneKey:    phone.trimSpaces(),
-                    Config.currentUserNameKey:          name,
-                    Config.currentUserIDKey:            result.userId,
+                    Config.registrationStepKey: CurrentUserRegistrationStep.toBlockChain.rawValue,
+                    Config.registrationUserPhoneKey: phone.trimSpaces(),
+                    Config.currentUserNameKey: name,
+                    Config.currentUserIDKey: result.userId
                 ])
 
                 return result
@@ -128,10 +127,10 @@ extension RestAPIManager {
         return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationToBlockChain>)
             .map { result -> ResponseAPIRegistrationToBlockChain in
                 try KeychainManager.save([
-                    Config.registrationStepKey:     CurrentUserRegistrationStep.registered.rawValue,
-                    Config.currentUserNameKey:      userName,
-                    Config.currentUserIDKey:        result.userId,
-                    Config.currentUserMasterKey:    masterKey
+                    Config.registrationStepKey: CurrentUserRegistrationStep.registered.rawValue,
+                    Config.currentUserNameKey: userName,
+                    Config.currentUserIDKey: result.userId,
+                    Config.currentUserMasterKey: masterKey
                 ])
                 
                 try KeychainManager.save(userkeys: userkeys)
@@ -164,7 +163,7 @@ extension RestAPIManager {
     
     /// backupIcloud
     public func backUpICloud() {
-        iCloudManager.saveUser()
+        ICloudManager.saveUser()
     }
     
     /// Login user
@@ -188,11 +187,11 @@ extension RestAPIManager {
                 try KeychainManager.save(userkeys: userKeys)
                 
                 try KeychainManager.save([
-                    Config.currentUserKey:          result.user,
-                    Config.currentUserIDKey:        result.userId,
-                    Config.currentUserNameKey:      result.username,
-                    Config.currentUserMasterKey:    masterKey,
-                    Config.registrationStepKey:     CurrentUserRegistrationStep.relogined.rawValue
+                    Config.currentUserKey: result.user,
+                    Config.currentUserIDKey: result.userId,
+                    Config.currentUserNameKey: result.username,
+                    Config.currentUserMasterKey: masterKey,
+                    Config.registrationStepKey: CurrentUserRegistrationStep.relogined.rawValue
                 ])
                 
                 return result

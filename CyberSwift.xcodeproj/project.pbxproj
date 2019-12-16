@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		03329A709F0DA60180F91DBB /* Pods_CyberSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6ED672114DF191DC66860EA /* Pods_CyberSwift.framework */; };
 		3B1E901622CDEC6A00D7A0C1 /* RAM+Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1E901522CDEC6A00D7A0C1 /* RAM+Authorization.swift */; };
-		3B1E901822CDF16B00D7A0C1 /* iCloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1E901722CDF16B00D7A0C1 /* iCloudManager.swift */; };
+		3B1E901822CDF16B00D7A0C1 /* ICloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1E901722CDF16B00D7A0C1 /* ICloudManager.swift */; };
 		3B3016B722F1E4D3003CD1BD /* RequestAPITransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3016B622F1E4D3003CD1BD /* RequestAPITransaction.swift */; };
 		3B3016B922F1FDAA003CD1BD /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3016B822F1FDAA003CD1BD /* ReachabilityManager.swift */; };
 		3B5EDE3F22E0F10900897BF3 /* RAM+Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5EDE3E22E0F10900897BF3 /* RAM+Notifications.swift */; };
@@ -96,7 +96,7 @@
 /* Begin PBXFileReference section */
 		34491307AF58D97E2E29C420 /* Pods-CyberSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CyberSwift.debug.xcconfig"; path = "../../Pods/Target Support Files/Pods-CyberSwift/Pods-CyberSwift.debug.xcconfig"; sourceTree = "<group>"; };
 		3B1E901522CDEC6A00D7A0C1 /* RAM+Authorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Authorization.swift"; sourceTree = "<group>"; };
-		3B1E901722CDF16B00D7A0C1 /* iCloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iCloudManager.swift; sourceTree = "<group>"; };
+		3B1E901722CDF16B00D7A0C1 /* ICloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ICloudManager.swift; sourceTree = "<group>"; };
 		3B3016B622F1E4D3003CD1BD /* RequestAPITransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestAPITransaction.swift; sourceTree = "<group>"; };
 		3B3016B822F1FDAA003CD1BD /* ReachabilityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityManager.swift; sourceTree = "<group>"; };
 		3B5EDE3E22E0F10900897BF3 /* RAM+Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Notifications.swift"; sourceTree = "<group>"; };
@@ -363,7 +363,7 @@
 				3BF3A6BB22F1D82900A6916E /* SocketManager */,
 				3B1E901422CDEC2F00D7A0C1 /* RestAPIManager */,
 				B111B5BA224E1B5A00F84AD9 /* KeychainManager.swift */,
-				3B1E901722CDF16B00D7A0C1 /* iCloudManager.swift */,
+				3B1E901722CDF16B00D7A0C1 /* ICloudManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -481,7 +481,7 @@
 				DefaultBuildSystemTypeForWorkspace = Original;
 				LastSwiftUpdateCheck = 1030;
 				LastUpgradeCheck = 1010;
-				ORGANIZATIONNAME = golos.io;
+				ORGANIZATIONNAME = "Commun Limited";
 				TargetAttributes = {
 					3BD1331022F850770006C70F = {
 						CreatedOnToolsVersion = 10.3;
@@ -658,7 +658,7 @@
 				B179917D2269B4560014CB44 /* GSBase58.swift in Sources */,
 				B154D8BB237A97E70042E991 /* UITextView+Extensions.swift in Sources */,
 				B1C3F860223F98DC005711EF /* Broadcast.swift in Sources */,
-				3B1E901822CDF16B00D7A0C1 /* iCloudManager.swift in Sources */,
+				3B1E901822CDF16B00D7A0C1 /* ICloudManager.swift in Sources */,
 				BC44DBD8238FA44300412F08 /* ResponseAPIContentGetComment.swift in Sources */,
 				B1EA02CD22895EB400835244 /* UILabel+Extensions.swift in Sources */,
 				3B3016B922F1FDAA003CD1BD /* ReachabilityManager.swift in Sources */,

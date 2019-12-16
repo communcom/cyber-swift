@@ -3,7 +3,7 @@
 //  CyberSwift
 //
 //  Created by Chung Tran on 22/05/2019.
-//  Copyright © 2019 golos.io. All rights reserved.
+//  Copyright © 2019 Commun Limited. All rights reserved.
 //
 
 import Foundation
@@ -15,12 +15,11 @@ extension RestAPIManager: ReactiveCompatible {}
 public typealias SendPostCompletion = (transactionId: String?, userId: String?, permlink: String?)
 
 extension RestAPIManager {
-    //  MARK: - Contract `gls.publish`
-    public func vote(voteType:       VoteActionType,
-                     communityId:    String,
-                     author:         String,
-                     permlink:       String) -> Completable {
-       
+    // MARK: - Contract `gls.publish`
+    public func vote(voteType: VoteActionType,
+                     communityId: String,
+                     author: String,
+                     permlink: String) -> Completable {
         
         return EOSManager.vote(voteType: voteType,
                                communityId: communityId,
@@ -108,8 +107,7 @@ extension RestAPIManager {
         
         // Send request
         var single: Single<ResponseAPIContentBlock>?
-        if isComment, let image = uploadingImage
-        {
+        if isComment, let image = uploadingImage {
             single = RestAPIManager.instance.uploadImage(image)
                 .observeOn(MainScheduler.instance)
                 .flatMap {url in
@@ -139,14 +137,14 @@ extension RestAPIManager {
                 
                 let tags = block.getTags()
                 return EOSTransaction.MessageCreateArgs(
-                    commun_code:    CyberSymbolWriterValue(name: communCode),
-                    message_id:     messageId,
-                    parent_id:      parentId,
-                    header:         header,
-                    body:           bodyString,
-                    tags:           StringCollectionWriterValue(value: tags),
-                    metadata:       "",
-                    weight:         0)
+                    commun_code: CyberSymbolWriterValue(name: communCode),
+                    message_id: messageId,
+                    parent_id: parentId,
+                    header: header,
+                    body: bodyString,
+                    tags: StringCollectionWriterValue(value: tags),
+                    metadata: "",
+                    weight: 0)
             }
             .flatMap {args in
                 EOSManager.create(messageCreateArgs: args)
@@ -168,8 +166,7 @@ extension RestAPIManager {
                         let commentsCount = (parentComment?.childCommentsCount ?? 0) - 1
                         parentComment?.childCommentsCount = commentsCount
                         parentComment?.notifyChanged()
-                    }
-                    else {
+                    } else {
                         newComment?.sendingState = .error(state: .adding)
                         newComment?.notifyChanged()
                     }
@@ -195,38 +192,33 @@ extension RestAPIManager {
     public func updateMessage(
         originMessage: Decodable,
         communCode: String,
-        permlink:   String,
-        header:     String = "",
-        block:       ResponseAPIContentBlock,
+        permlink: String,
+        header: String = "",
+        block: ResponseAPIContentBlock,
         uploadingImage: UIImage? = nil
     ) -> Single<SendPostCompletion> {
        
         guard let author = Config.currentUser?.id else {
             return .error(ErrorAPI.unauthorized)
         }
-        
-        var originBlock: ResponseAPIContentBlock?
+
         var originMessage = originMessage
         // send mock placeholder
         var single: Single<ResponseAPIContentBlock>?
         
         if var post = originMessage as? ResponseAPIContentGetPost {
-            originBlock = post.document
             post.document = block
             post.sendingState = .editing
             post.notifyChanged()
             originMessage = post
-        }
-        else if var comment = originMessage as? ResponseAPIContentGetComment {
-            originBlock = comment.document
+        } else if var comment = originMessage as? ResponseAPIContentGetComment {
             comment.document = block
             comment.placeHolderImage = UIImageDumbDecodable(image: uploadingImage)
             comment.sendingState = .editing
             comment.notifyChanged()
             originMessage = comment
             
-            if let image = uploadingImage
-            {
+            if let image = uploadingImage {
                 single = RestAPIManager.instance.uploadImage(image)
                     .observeOn(MainScheduler.instance)
                     .flatMap {url in
@@ -260,12 +252,12 @@ extension RestAPIManager {
                 
                 let tags = block.getTags()
                 return EOSTransaction.MessageUpdateArgs(
-                    commun_code:    CyberSymbolWriterValue(name: communCode),
-                    message_id:     messageId,
-                    header:         header,
-                    body:           bodyString,
-                    tags:           StringCollectionWriterValue(value: tags),
-                    metadata:       "")
+                    commun_code: CyberSymbolWriterValue(name: communCode),
+                    message_id: messageId,
+                    header: header,
+                    body: bodyString,
+                    tags: StringCollectionWriterValue(value: tags),
+                    metadata: "")
             }
             .flatMap {args in
                 EOSManager.update(messageArgs: args)
@@ -276,8 +268,7 @@ extension RestAPIManager {
                 if var post = originMessage as? ResponseAPIContentGetPost {
                     post.sendingState = MessageSendingState.none
                     post.notifyChanged()
-                }
-                else if var comment = originMessage as? ResponseAPIContentGetComment {
+                } else if var comment = originMessage as? ResponseAPIContentGetComment {
                     comment.sendingState = MessageSendingState.none
                     comment.document = finalBlock
                     comment.placeHolderImage = nil
@@ -287,25 +278,24 @@ extension RestAPIManager {
                 if var post = originMessage as? ResponseAPIContentGetPost {
                     post.sendingState = .error(state: .editing)
                     post.notifyChanged()
-                }
-                else if var comment = originMessage as? ResponseAPIContentGetComment {
+                } else if var comment = originMessage as? ResponseAPIContentGetComment {
                     comment.sendingState = .error(state: .editing)
                     comment.notifyChanged()
                 }
             })
     }
     
-    public func reblog(author:              String,
-                       rebloger:            String,
-                       permlink:            String,
-                       headermssg:          String,
-                       bodymssg:            String) -> Single<String> {
+    public func reblog(author: String,
+                       rebloger: String,
+                       permlink: String,
+                       headermssg: String,
+                       bodymssg: String) -> Single<String> {
         
-        let reblogArgs = EOSTransaction.ReblogArgs(authorValue:         author,
-                                                   permlinkValue:       permlink,
-                                                   reblogerValue:       rebloger,
-                                                   headermssgValue:     headermssg,
-                                                   bodymssgValue:       bodymssg)
+        let reblogArgs = EOSTransaction.ReblogArgs(authorValue: author,
+                                                   permlinkValue: permlink,
+                                                   reblogerValue: rebloger,
+                                                   headermssgValue: headermssg,
+                                                   bodymssgValue: bodymssg)
         
         return EOSManager.reblog(args: reblogArgs)
     }
@@ -313,14 +303,14 @@ extension RestAPIManager {
     // MARK: - Contract `commun.social`
     public func update(userProfile: [String: String]) -> Single<String> {
         // Check user authorize
-        guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKeys?.privateKey else {
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
         
         let userProfileAccountmetaArgs = EOSTransaction.UserProfileAccountmetaArgs(json: userProfile)
         
-        let userProfileMetaArgs = EOSTransaction.UserProfileUpdatemetaArgs(accountValue:    userID,
-                                                                           metaValue:       userProfileAccountmetaArgs)
+        let userProfileMetaArgs = EOSTransaction.UserProfileUpdatemetaArgs(accountValue: userID,
+                                                                           metaValue: userProfileAccountmetaArgs)
         
         return EOSManager.update(userProfileMetaArgs: userProfileMetaArgs)
     }
@@ -328,7 +318,7 @@ extension RestAPIManager {
     public func follow(_ userToFollow: String, isUnfollow: Bool = false) -> Single<String> {
         
         // Check user authorize
-        guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKeys?.privateKey else {
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
         
@@ -338,7 +328,7 @@ extension RestAPIManager {
     
     public func block(_ userToBlock: String) -> Single<String> {
         // Check user authorize
-        guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKeys?.privateKey else {
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
         
@@ -348,7 +338,7 @@ extension RestAPIManager {
     
     public func unblock(_ userToUnblock: String) -> Single<String> {
         // Check user authorize
-        guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKeys?.privateKey else {
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
         
@@ -359,7 +349,7 @@ extension RestAPIManager {
     // MARK: - Contract `commun.list`
     public func followCommunity(_ communityId: String) -> Single<String> {
         // Check user authorize
-        guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKeys?.privateKey else {
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
 
@@ -373,7 +363,7 @@ extension RestAPIManager {
 
     public func unfollowCommunity(_ communityId: String) -> Single<String> {
         // Check user authorize
-        guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKeys?.privateKey else {
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
 
@@ -387,7 +377,7 @@ extension RestAPIManager {
     
     public func hideCommunity(_ communityId: String) -> Single<String> {
         // Check user authorize
-        guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKeys?.privateKey else {
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
         
@@ -401,7 +391,7 @@ extension RestAPIManager {
     
     public func unhideCommunity(_ communityId: String) -> Single<String> {
         // Check user authorize
-        guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKeys?.privateKey else {
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
         
@@ -416,7 +406,7 @@ extension RestAPIManager {
     // MARK: - Contract `commun.ctrl`
     public func voteLeader(communityId: String, leader: String) -> Single<String> {
         // Check user authorize
-        guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKeys?.privateKey else {
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
         
@@ -426,7 +416,7 @@ extension RestAPIManager {
     
     public func unvoteLeader(communityId: String, leader: String) -> Single<String> {
         // Check user authorize
-        guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKeys?.privateKey else {
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
         let args = EOSTransaction.UnvoteLeaderArgs(commun_code: communityId, voter: userID, leader: leader)
@@ -438,7 +428,7 @@ extension RestAPIManager {
                        permlink: String,
                        reasons: [ReportReason]) -> Single<String> {
         // Check user authorize
-        guard let userID = Config.currentUser?.id, let _ = Config.currentUser?.activeKeys?.privateKey else {
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
 

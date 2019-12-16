@@ -3,7 +3,7 @@
 //  CyberSwift
 //
 //  Created by Sergey Monastyrskiy on 12.11.2019.
-//  Copyright © 2019 golos.io. All rights reserved.
+//  Copyright © 2019 Commun Limited. All rights reserved.
 //
 
 import UIKit

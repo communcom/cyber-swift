@@ -3,7 +3,7 @@
 //  CyberSwift
 //
 //  Created by msm72 on 4/12/19.
-//  Copyright © 2019 golos.io. All rights reserved.
+//  Copyright © 2019 Commun Limited. All rights reserved.
 //
 
 import Foundation
@@ -25,7 +25,7 @@ extension String {
         Set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 
     public static func randomString(length: Int) -> String {
-        return String((0..<length).map{ _ in latinLettersAndNumbers.randomElement()! })
+        return String((0..<length).map { _ in latinLettersAndNumbers.randomElement()! })
     }
     
     public func removeWhitespaceCharacters() -> String {

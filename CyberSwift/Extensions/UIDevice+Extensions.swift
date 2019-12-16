@@ -3,7 +3,7 @@
 //  Golos
 //
 //  Created by Grigory Serebryanyy on 24/01/2018.
-//  Copyright © 2018 golos. All rights reserved.
+//  Copyright © 2018 Commun Limited. All rights reserved.
 //
 
 import UIKit
@@ -47,9 +47,7 @@ extension UIDevice {
             default:
                 return DeviceScreenSize.unknown
             }
-        }
-            
-        else {
+        } else {
             return DeviceScreenSize.unknown
         }
     }

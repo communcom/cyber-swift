@@ -3,7 +3,7 @@
 //  CyberSwift
 //
 //  Created by msm72 on 15.05.2018.
-//  Copyright © 2018 Golos.io. All rights reserved.
+//  Copyright © 2018 Commun Limited. All rights reserved.
 //
 
 import Foundation
@@ -12,12 +12,11 @@ import RxSwift
 /// Type of request API
 public typealias RequestMethodAPIType   =   (id: Int, requestMessage: String?, methodAPIType: MethodAPIType, errorAPI: ErrorAPI?)
 
-
 public class Broadcast {
     // MARK: - Properties
     public static let instance = Broadcast()
-    
-    #warning("Remove later")
+
+    // TODO: Remove later
     let bag = DisposeBag()
     
     // MARK: - Class Initialization
@@ -27,7 +26,6 @@ public class Broadcast {
         Logger.log(message: "Success", event: .severe)
     }
     
-    
     // MARK: - Class Functions
 
     /// Completion handler
@@ -35,18 +33,13 @@ public class Broadcast {
         return { (maybeResult, maybeError) in
             if let result = maybeResult {
                 onResult(result)
-            }
-                
-            else if let error = maybeError {
+            } else if let error = maybeError {
                 onError(error)
-            }
-                
-            else {
+            } else {
                 onError(ErrorAPI.requestFailed(message: "Result not found"))
             }
         }
     }
-    
 
     /// Generate array of new accounts
     public func generateNewTestUser(success: @escaping (ResponseAPICreateNewAccount?) -> Void) {
@@ -77,7 +70,6 @@ public class Broadcast {
         }
     }
     
-    
     var currentId = 0
     /// Generating a unique ID
     //  for content:                < 100
@@ -90,7 +82,6 @@ public class Broadcast {
     }
 }
 
-
 // MARK: - Microservices
 extension Broadcast {
     /// Prepare method request
@@ -98,10 +89,10 @@ extension Broadcast {
         
         let codeID              =   generateUniqueId()
         
-        let requestAPI          =   RequestAPI(id:          codeID,
-                                               method:      String(format: "%@.%@", requestParamsType.methodGroup, requestParamsType.methodName),
-                                               jsonrpc:     "2.0",
-                                               params:      requestParamsType.parameters)
+        let requestAPI          =   RequestAPI(id: codeID,
+                                               method: String(format: "%@.%@", requestParamsType.methodGroup, requestParamsType.methodName),
+                                               jsonrpc: "2.0",
+                                               params: requestParamsType.parameters)
         
         do {
             // Encode data
@@ -124,7 +115,7 @@ extension Broadcast {
     /// Rx method to deal with executeGetRequest
     public func executeGetRequest<T: Decodable>(methodAPIType: MethodAPIType) -> Single<T> {
         // Offline mode
-        if (!Config.isNetworkAvailable) {
+        if !Config.isNetworkAvailable {
             return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
         // Prepare content request

@@ -3,7 +3,7 @@
 //  CyberSwift
 //
 //  Created by Chung Tran on 04/07/2019.
-//  Copyright © 2019 golos.io. All rights reserved.
+//  Copyright © 2019 Commun Limited. All rights reserved.
 //
 
 import Foundation
@@ -82,8 +82,7 @@ public class SocketManager {
         text
             .subscribe(onNext: { (text) in
                 if let data = text.data(using: .utf8),
-                    let json = try? JSON(data: data)
-                {
+                    let json = try? JSON(data: data) {
                     
                     // Retrieve secret
                     if let secret = json["params"]["secret"].string {
@@ -97,7 +96,7 @@ public class SocketManager {
         subject
             .subscribe(onNext: { (event) in
                 switch event {
-                case .disconnected(_):
+                case .disconnected:
                     self.connected.accept(false)
                 default:
                     break
@@ -140,7 +139,7 @@ extension SocketManager {
             throw ErrorAPI.invalidData(message: "Response Unsuccessful")
         }
         
-        guard let _ = json["id"] as? Int else {
+        guard ((json["id"] as? Int) != nil) else {
             // Get error
             let jsonDecoder = JSONDecoder()
             

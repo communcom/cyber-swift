@@ -3,7 +3,7 @@
 //  CyberSwift
 //
 //  Created by msm72 on 2/12/19.
-//  Copyright © 2019 golos.io. All rights reserved.
+//  Copyright © 2019 Commun Limited. All rights reserved.
 //
 //  https://github.com/GolosChain/golos.contracts/blob/master/golos.publication/golos.publication.abi
 //
@@ -23,7 +23,6 @@ public class EOSTransaction {
     // MARK: - Properties
     private let _chainApi: ChainApi
     
-    
     // MARK: - Initialization
     public init(chainApi: ChainApi) {
         self._chainApi = chainApi
@@ -33,8 +32,7 @@ public class EOSTransaction {
         return _chainApi
     }
     
-    
-    //  MARK: - Contract `gls.publish`
+    // MARK: - Contract `gls.publish`
     /// Action `reblog`
     public struct ReblogArgs: Encodable {
         let rebloger: NameWriterValue
@@ -49,7 +47,6 @@ public class EOSTransaction {
             self.bodymssg   =   bodymssgValue
         }
     }
-    
     
     /// Create Post/Comment
     public struct Mssgid: Encodable {
@@ -78,7 +75,6 @@ public class EOSTransaction {
         }
     }
     
-    
     /// Update Post/Comment
     public struct MessageUpdateArgs: Encodable, HasCommunCode {
         let commun_code: CyberSymbolWriterValue
@@ -93,7 +89,6 @@ public class EOSTransaction {
         }
     }
     
-    
     /// Delete Post/Comment
     public struct MessageDeleteArgs: Encodable, HasCommunCode {
         let commun_code: CyberSymbolWriterValue
@@ -104,13 +99,11 @@ public class EOSTransaction {
         }
     }
     
-    
     /// Beneficiary
     public struct Beneficiary: Encodable {
         // MARK: - Properties
         let account: NameWriterValue
         let deductprcnt: BaseT
-        
         
         // MARK: - Initialization
         init(accountValue: String = "", deductprcntValue: BaseT = 0) {
@@ -119,19 +112,16 @@ public class EOSTransaction {
         }
     }
     
-    
     /// Tags
     public struct Tags: Encodable {
         // MARK: - Properties
         let tag: String
-        
         
         // MARK: - Initialization
         init(tagValue: String = "test") {
             self.tag = tagValue
         }
     }
-    
     
     /// Upvote
     public struct UpvoteArgs: Encodable, HasCommunCode {
@@ -140,7 +130,6 @@ public class EOSTransaction {
         let voter: AccountNameWriterValue
         let message_id: Mssgid
         let weight: Int
-        
         
         // MARK: - Initialization
         init(communityID: String,
@@ -158,14 +147,12 @@ public class EOSTransaction {
         }
     }
     
-    
     /// Unvote
     public struct UnvoteArgs: Encodable, HasCommunCode {
         // MARK: - Properties
         let commun_code: CyberSymbolWriterValue
         let voter: NameWriterValue
         let message_id: Mssgid
-        
         
         // MARK: - Initialization
         init(communityID: String, voterValue: String, authorValue: String, permlinkValue: String) {
@@ -179,7 +166,6 @@ public class EOSTransaction {
         }
     }
     
-    
     /// Transfer
     public struct TransferArgs: Encodable {
         // MARK: - Properties
@@ -187,7 +173,6 @@ public class EOSTransaction {
         let to: NameWriterValue
         let quantity: AssetWriterValue
         let memo: String
-        
         
         // MARK: - Initialization
         init(fromValue: String, toValue: String, quantityValue: String, memoValue: String) {
@@ -198,13 +183,11 @@ public class EOSTransaction {
         }
     }
     
-    
     /// User profile: Pin/Unpin
     public struct UserProfilePinArgs: Encodable {
         // MARK: - Properties
         let pinner: NameWriterValue
         let pinning: NameWriterValue
-        
         
         // MARK: - Initialization
         init(pinnerValue: String, pinningValue: String) {
@@ -218,7 +201,6 @@ public class EOSTransaction {
         // MARK: - Properties
         let blocker: NameWriterValue
         let blocking: NameWriterValue
-        
         
         // MARK: - Initialization
         init(blockerValue: String, blockingValue: String) {
@@ -234,7 +216,6 @@ public class EOSTransaction {
         let author: NameWriterValue
         let rshares: Int64
         
-        
         // MARK: - Initialization
         init(voterValue: String, authorValue: String, rsharesValue: Int64) {
             self.voter      =   NameWriterValue(name: voterValue)
@@ -248,7 +229,6 @@ public class EOSTransaction {
         // MARK: - Properties
         let account: NameWriterValue
         let meta: UserProfileAccountmetaArgs
-        
         
         // MARK: - Initialization
         init(accountValue: String, metaValue: UserProfileAccountmetaArgs) {
@@ -284,7 +264,6 @@ public class EOSTransaction {
         // MARK: - Properties
         let account: NameWriterValue
         
-        
         // MARK: - Initialization
         init(accountValue: String) {
             self.account    =   NameWriterValue(name: accountValue)
@@ -302,9 +281,8 @@ public class EOSTransaction {
             self.blocking = NameWriterValue(name: blocking)
         }
     }
-    
 
-    //  MARK: - Contract `gls.ctrl`
+    // MARK: - Contract `gls.ctrl`
     /// Action `regwitness` (1)
     public struct RegwitnessArgs: Encodable {
         let witness: NameWriterValue

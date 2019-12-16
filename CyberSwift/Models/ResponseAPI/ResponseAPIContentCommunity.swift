@@ -3,7 +3,7 @@
 //  CyberSwift
 //
 //  Created by Chung Tran on 10/28/19.
-//  Copyright © 2019 golos.io. All rights reserved.
+//  Copyright © 2019 Commun Limited. All rights reserved.
 //
 
 import Foundation
@@ -15,8 +15,7 @@ public struct ResponseAPIContentGetCommunities: Decodable {
 
 // MARK: - API `content.getCommunity`
 public struct ResponseAPIContentGetCommunity: Encodable, ListItemType {
-    #warning("Be careful, mark new properties as optional, please!!!")
-    
+    // Be careful, mark new properties as optional, please!!!
     public var subscribersCount: UInt64?
     public var leadersCount: UInt64?
     public let postsCount: UInt64?
@@ -31,7 +30,6 @@ public struct ResponseAPIContentGetCommunity: Encodable, ListItemType {
     public let alias: String?
     public let rules: [ResponseAPIContentGetCommunityRule]?
     public let registrationTime: String?
-    
     
     public let description: String?
     public let language: String?

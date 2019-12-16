@@ -3,7 +3,7 @@
 //  Golos
 //
 //  Created by msm72 on 09.06.2018.
-//  Copyright © 2018 golos. All rights reserved.
+//  Copyright © 2018 Commun Limited. All rights reserved.
 //
 
 import UIKit
@@ -24,19 +24,19 @@ extension UILabel {
         self.textAlignment      =   alignment
     }
     
-    public func tune(withAttributedText text:   String,
-                     hexColors:                 ThemeColorPicker?,
-                     font:                      UIFont?,
-                     alignment:                 NSTextAlignment,
-                     isMultiLines:              Bool,
-                     lineHeight:                CGFloat = 26.0,
-                     lineSpacing:               CGFloat = 0.0,
-                     baselineOffset:            CGFloat = 0.0,
-                     lineHeightMultiple:        CGFloat = 1.0) {
+    public func tune(withAttributedText text: String,
+                     hexColors: ThemeColorPicker?,
+                     font: UIFont?,
+                     alignment: NSTextAlignment,
+                     isMultiLines: Bool,
+                     lineHeight: CGFloat = 26.0,
+                     lineSpacing: CGFloat = 0.0,
+                     baselineOffset: CGFloat = 0.0,
+                     lineHeightMultiple: CGFloat = 1.0) {
         ThemeManager.setTheme(index: Config.isAppThemeDark ? 1 : 0)
         
-        let attributedString    =   NSMutableAttributedString(string:      text.localized().uppercaseFirst,
-                                                              attributes:  [ NSAttributedString.Key.font: font! ])
+        let attributedString    =   NSMutableAttributedString(string: text.localized().uppercaseFirst,
+                                                              attributes: [ NSAttributedString.Key.font: font! ])
         
         let style               =   NSMutableParagraphStyle()
         style.lineSpacing       =   CGFloat.adaptive(height: lineSpacing)

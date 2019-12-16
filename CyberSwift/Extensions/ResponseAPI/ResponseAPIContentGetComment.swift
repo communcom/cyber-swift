@@ -3,7 +3,7 @@
 //  Commun
 //
 //  Created by Chung Tran on 7/30/19.
-//  Copyright © 2019 Maxim Prigozhenkov. All rights reserved.
+//  Copyright © 2019 Commun Limited. All rights reserved.
 //
 
 import Foundation
@@ -57,7 +57,7 @@ extension ResponseAPIContentGetComment {
     
     mutating public func addChildComment(_ comment: ResponseAPIContentGetComment) {
         children = (children ?? []) + [comment]
-        childCommentsCount = childCommentsCount + 1
+        childCommentsCount += 1
         notifyChanged()
         notifyChildrenChanged()
     }

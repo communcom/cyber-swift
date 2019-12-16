@@ -3,7 +3,7 @@
 //  CyberSwift
 //
 //  Created by msm72 on 2/4/19.
-//  Copyright © 2019 golos.io. All rights reserved.
+//  Copyright © 2019 Commun Limited. All rights reserved.
 //
 
 import Foundation

@@ -3,7 +3,7 @@
 //  Golos
 //
 //  Created by msm72 on 26.05.2018.
-//  Copyright © 2018 golos. All rights reserved.
+//  Copyright © 2018 Commun Limited. All rights reserved.
 //
 //  https://stackoverflow.com/questions/24263007/how-to-use-hex-colour-values
 
