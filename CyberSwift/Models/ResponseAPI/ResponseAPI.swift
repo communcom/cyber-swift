@@ -3,7 +3,7 @@
 //  CyberSwift
 //
 //  Created by msm72 on 13.04.2018.
-//  Copyright © 2018 Golos.io. All rights reserved.
+//  Copyright © 2018 Commun Limited. All rights reserved.
 //
 
 import Foundation
@@ -46,7 +46,6 @@ public enum StatusState: String {
     case error      =   "Error"
     case offline    =   "Offline"
 }
-
 
 // MARK: - Response Error
 public struct ResponseAPIErrorResult: Decodable {
@@ -98,13 +97,11 @@ public struct ResponseAPIAuthGenerateSecret: Decodable {
     public let secret: String
 }
 
-
 // MARK: - API `registration.getState`
 public struct ResponseAPIRegistrationGetState: Decodable {
     public let currentState: String
     public let user: String?
 }
-
 
 // MARK: - API `registration.firstStep`
 // {"jsonrpc":"2.0","id":1,"result":{"code":1234,"nextSmsRetry":"2019-10-30T09:51:27.649Z","currentState":"verify"}}
@@ -114,13 +111,11 @@ public struct ResponseAPIRegistrationFirstStep: Decodable {
     public let nextSmsRetry: String
 }
 
-
 // MARK: - API `registration.verify`
 // {"jsonrpc":"2.0","id":3,"result":{"currentState":"setUsername"}}
 public struct ResponseAPIRegistrationVerify: Decodable {
     public let currentState: String
 }
-
 
 // MARK: - API `registration.setUsername`
 // {"jsonrpc":"2.0","id":3,"result":{"userId":"tst5osiwjzpx","currentState":"toBlockChain"}}
@@ -129,14 +124,12 @@ public struct ResponseAPIRegistrationSetUsername: Decodable {
     public let currentState: String
 }
 
-
 // MARK: - API `registration.resendSmsCode`
 // {"jsonrpc":"2.0","id":3,"result":{"nextSmsRetry":"2019-10-30T10:05:08.338Z","currentState":"verify"}}
 public struct ResponseAPIResendSmsCode: Decodable {
     public let nextSmsRetry: String
     public let currentState: String
 }
-
 
 // MARK: - API `registration.toBlockChain`
 // {"jsonrpc":"2.0","id":3,"result":{"userId":"tst5gtbbviic","currentState":"toBlockChain"}}
@@ -145,12 +138,10 @@ public struct ResponseAPIRegistrationToBlockChain: Decodable {
     public let currentState: String
 }
 
-
 // MARK: - API that returns status
 public struct ResponseAPIStatus: Decodable {
     public let status: String
 }
-
 
 // MARK: - API `onlineNotify.history`
 public struct ResponseAPIOnlineNotifyHistory: Decodable {
@@ -170,7 +161,6 @@ public struct ResponseAPIOnlineNotificationData: ListItemType {
     public let post: ResponseAPIOnlineNotificationDataPost?
     public let comment: ResponseAPIOnlineNotificationDataComment?
     public let value: ResponseAPIOnlineNotificationDataValue?
-    
     
     // Additional properties
     public var identity: String {
@@ -220,7 +210,6 @@ public struct ResponseAPIOnlineNotificationDataValue: Decodable, Equatable {
     public let currency: String
 }
 
-
 // MARK: - API `onlineNotify.historyFresh`
 public struct ResponseAPIOnlineNotifyHistoryFresh: Decodable {
     public let fresh: UInt16
@@ -243,7 +232,6 @@ public struct ResponseAPIOnlineNotifyHistoryFreshFreshByTypes: Decodable {
     public let witnessVote: UInt16?
     public let witnessCancelVote: UInt16?
 }
-
 
 // MARK: - API `options.get`
 public struct ResponseAPIGetOptions: Decodable {
@@ -287,7 +275,6 @@ public struct ResponseAPIGetOptionsNotifyPush: Decodable {
     public let lang: String
     public let show: ResponseAPIGetOptionsNotifyShow
 }
-
 
 // MARK: - API `favorites.get`
 public struct ResponseAPIGetFavorites: Decodable {

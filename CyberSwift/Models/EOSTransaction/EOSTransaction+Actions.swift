@@ -3,7 +3,7 @@
 //  CyberSwift
 //
 //  Created by Chung Tran on 7/31/19.
-//  Copyright © 2019 golos.io. All rights reserved.
+//  Copyright © 2019 Commun Limited. All rights reserved.
 //
 
 import Foundation
@@ -38,7 +38,6 @@ extension EOSTransaction {
             let rrr = RequestAPITransaction(signatures: [signature],
                                             serializedTransaction: transactionAbi.toHex())
             
-            
             // Prepare methodAPIType
             let methodAPIType = MethodAPIType.bandwidthProvide(chainID: chainID,
                                                                transaction: rrr)
@@ -55,19 +54,19 @@ extension EOSTransaction {
         })
     }
     
-    private func createTransactionAbi(expirationDate:   Date,
-                                      blockIdDetails:   BlockIdDetails,
-                                      actions:          Array<ActionAbi>) -> TransactionAbi {
-        return TransactionAbi(expiration:               TimestampWriterValue(date: expirationDate),
-                              ref_block_num:            BlockNumWriterValue(value: blockIdDetails.blockNum),
-                              ref_block_prefix:         BlockPrefixWriterValue(value: blockIdDetails.blockPrefix),
-                              max_net_usage_words:      0,
-                              max_cpu_usage_ms:         0,
-                              max_ram_kbytes:           0,
-                              max_storage_kbytes:       0,
-                              delay_sec:                0,
-                              context_free_actions:     [],
-                              actions:                  actions,
-                              transaction_extensions:   StringCollectionWriterValue(value: []))
+    private func createTransactionAbi(expirationDate: Date,
+                                      blockIdDetails: BlockIdDetails,
+                                      actions: [ActionAbi]) -> TransactionAbi {
+        return TransactionAbi(expiration: TimestampWriterValue(date: expirationDate),
+                              ref_block_num: BlockNumWriterValue(value: blockIdDetails.blockNum),
+                              ref_block_prefix: BlockPrefixWriterValue(value: blockIdDetails.blockPrefix),
+                              max_net_usage_words: 0,
+                              max_cpu_usage_ms: 0,
+                              max_ram_kbytes: 0,
+                              max_storage_kbytes: 0,
+                              delay_sec: 0,
+                              context_free_actions: [],
+                              actions: actions,
+                              transaction_extensions: StringCollectionWriterValue(value: []))
     }
 }

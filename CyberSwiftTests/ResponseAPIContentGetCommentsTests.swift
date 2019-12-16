@@ -3,14 +3,13 @@
 //  CyberSwiftTests
 //
 //  Created by Chung Tran on 10/11/19.
-//  Copyright © 2019 golos.io. All rights reserved.
+//  Copyright © 2019 Commun Limited. All rights reserved.
 //
 
 import XCTest
 @testable import CyberSwift
 
 class ResponseAPIContentGetCommentsTests: XCTestCase {
-    
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.

@@ -3,7 +3,7 @@
 //  CyberSwift
 //
 //  Created by msm72 on 4/10/19.
-//  Copyright © 2019 golos.io. All rights reserved.
+//  Copyright © 2019 Commun Limited. All rights reserved.
 //
 //  https://www.countryflags.com/en/
 //  https://en.wikipedia.org/wiki/List_of_mobile_telephone_prefixes_by_country#cite_note-prefix_note-1
@@ -24,7 +24,6 @@ public class Country: Encodable {
     public var phoneCode: String {
         return "+\(code)"
     }
-
 
     init(codeValue: UInt16, shortCodeValue: String, labelValue: String, flagURLString: String, defaultValue: Bool = false, verificationPhoneValue: String = "", verificationOverridesValue: Override? = nil, nsnValue: UInt? = nil) {
         self.code = codeValue
@@ -52,7 +51,6 @@ public struct Override: Encodable {
     let startsWith: [String]
     let verificationPhone: String
 }
-
 
 public class PhoneCode {
     // MARK: - Properties
@@ -294,7 +292,6 @@ public class PhoneCode {
     class Yemen: Country {}
     class Zambia: Country {}
     class Zimbabwe: Country {}
-
     
     // MARK: - Functions
     public class func getCountries() -> [Country] {
@@ -535,7 +532,7 @@ public class PhoneCode {
                  WesternSahara(codeValue: 212, shortCodeValue: "EH", labelValue: "Western Sahara", flagURLString: "http://www.geognos.com/api/en/countries/flag/EH.png"),
                  Yemen(codeValue: 967, shortCodeValue: "YE", labelValue: "Yemen", flagURLString: "https://cdn.countryflags.com/thumbs/yemen/flag-800.png"),
                  Zambia(codeValue: 260, shortCodeValue: "ZM", labelValue: "Zambia", flagURLString: "https://cdn.countryflags.com/thumbs/zambia/flag-800.png"),
-                 Zimbabwe(codeValue: 263, shortCodeValue: "ZW", labelValue: "Zimbabwe", flagURLString: "https://cdn.countryflags.com/thumbs/zimbabwe/flag-800.png"),
+                 Zimbabwe(codeValue: 263, shortCodeValue: "ZW", labelValue: "Zimbabwe", flagURLString: "https://cdn.countryflags.com/thumbs/zimbabwe/flag-800.png")
         ]
     }
 }

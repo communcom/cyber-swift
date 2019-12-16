@@ -3,7 +3,7 @@
 //  CyberSwift
 //
 //  Created by Chung Tran on 19/07/2019.
-//  Copyright © 2019 golos.io. All rights reserved.
+//  Copyright © 2019 Commun Limited. All rights reserved.
 //
 
 import Foundation
@@ -20,20 +20,20 @@ extension RestAPIManager {
         
         let methodAPIType = MethodAPIType.getPushHistoryFresh
         
-        return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
     
     // API `onlineNotify.history`
     public func getOnlineNotifyHistory(
-        fromId:              String? = nil,
-        paginationLimit:     Int8 = Config.paginationLimit,
-        markAsViewed:        Bool = false,
-        freshOnly:           Bool = false
+        fromId: String? = nil,
+        paginationLimit: Int8 = Config.paginationLimit,
+        markAsViewed: Bool = false,
+        freshOnly: Bool = false
     ) -> Single<ResponseAPIOnlineNotifyHistory> {
         
         let methodAPIType = MethodAPIType.getOnlineNotifyHistory(fromId: fromId, paginationLimit: paginationLimit, markAsViewed: markAsViewed, freshOnly: freshOnly)
         
-        return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
     
     // API `onlineNotify.historyFresh`
@@ -41,7 +41,7 @@ extension RestAPIManager {
         
         let methodAPIType = MethodAPIType.getOnlineNotifyHistoryFresh
         
-        return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
     
     // API `notify.markAllAsViewed`
@@ -49,7 +49,7 @@ extension RestAPIManager {
         
         let methodAPIType = MethodAPIType.notifyMarkAllAsViewed
         
-        return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
     
     // API `notify.markAsRead`
@@ -60,7 +60,7 @@ extension RestAPIManager {
 
         let methodAPIType = MethodAPIType.markAsRead(notifies: notifies)
         
-        return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
 }
 
@@ -68,7 +68,7 @@ extension RestAPIManager {
     /// Turn on push notification
     public func pushNotifyOn() -> Completable {
         // Offline mode
-        if (!Config.isNetworkAvailable) {
+        if !Config.isNetworkAvailable {
             return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
         guard let token = UserDefaults.standard.value(forKey: "fcmToken") as? String else {
@@ -91,7 +91,7 @@ extension RestAPIManager {
     /// Turn off push notification
     public func pushNotifyOff() -> Completable {
         // Offline mode
-        if (!Config.isNetworkAvailable) {
+        if !Config.isNetworkAvailable {
             return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
         let methodAPIType = MethodAPIType.notifyPushOff(appProfileType: AppProfileType.golos)
@@ -106,7 +106,7 @@ extension RestAPIManager {
     /// Get options of push notify
     public func getPushNotify() -> Single<ResponseAPIGetOptions> {
         // Offline mode
-        if (!Config.isNetworkAvailable) {
+        if !Config.isNetworkAvailable {
             return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
         guard Config.currentUser?.id != nil else {
@@ -124,7 +124,7 @@ extension RestAPIManager {
         type: NoticeType = .push,
         appProfileType: AppProfileType = .golos) -> Completable {
         // Offline mode
-        if (!Config.isNetworkAvailable) {
+        if !Config.isNetworkAvailable {
             return .error(ErrorAPI.disableInternetConnection(message: nil)) }
         
         guard Config.currentUser?.id != nil else {

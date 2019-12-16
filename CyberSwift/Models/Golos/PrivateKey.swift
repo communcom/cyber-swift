@@ -37,7 +37,6 @@ public struct PrivateKey: Equatable {
         self.init(data)
     }
 
-
     /// Derive the public key for this private key.
     /// - Parameter prefix: Address prefix to use when creating key, defaults to main net (STM).
     public func createPublic(prefix: PublicKey.AddressPrefix = .mainNet) -> PublicKey {

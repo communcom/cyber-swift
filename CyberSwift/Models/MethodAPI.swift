@@ -3,7 +3,7 @@
 //  CyberSwift
 //
 //  Created by msm72 on 12.04.2018.
-//  Copyright © 2018 Golos.io. All rights reserved.
+//  Copyright © 2018 Commun Limited. All rights reserved.
 //
 //  This enum use for GET Requests
 //
@@ -281,9 +281,9 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getProfile",
                      parameters:        params)
-            
-            #warning("offset and limit should be added?")
-        case .getBlacklist(let userId, let type, let limit, let offset):
+
+            //TODO: offset and limit should be added?
+        case .getBlacklist(let userId, let type, _, _):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getBlacklist",
@@ -299,8 +299,7 @@ public indirect enum MethodAPIType {
             if type != .new {
                 parameters["sortBy"]    = sortBy.rawValue
             }
-            if type == .topLikes || type == .topComments || type == .topRewards
-            {
+            if type == .topLikes || type == .topComments || type == .topRewards {
                 parameters["timeframe"]     = sortType?.rawValue
             }
             parameters["limit"]         = limit
@@ -317,9 +316,9 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getPost",
                      parameters:        [
-                        "userId":       userId,
-                        "permlink":     permlink,
-                        "communityId":  communityId])
+                        "userId": userId,
+                        "permlink": permlink,
+                        "communityId": communityId])
             
         //  Template { "id": 1, "jsonrpc": "2.0", "method": "content.waitForTransaction", "params": { "transactionId": "OdklASkljlAQafdlkjEoljmasdfkD" } }
         case .waitForTransaction(let id):
@@ -352,8 +351,7 @@ public indirect enum MethodAPIType {
             
             if communityId == nil {
                 parameters["communityAlias"] = communityAlias
-            }
-            else {
+            } else {
                 parameters["communityId"] = communityId
             }
             
@@ -391,9 +389,9 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.push.rawValue,
                      methodName:        "notifyOn",
                      parameters:        [
-                                            "app":      appProfileType.rawValue,
-                                            "key":      fcmTokenValue,
-                                            "profile":  String(format: "%@-%@", Config.currentUser?.id ?? "", Config.currentDeviceType)
+                                            "app": appProfileType.rawValue,
+                                            "key": fcmTokenValue,
+                                            "profile": String(format: "%@-%@", Config.currentUser?.id ?? "", Config.currentDeviceType)
                                         ])
             
         //  Template { "id": 72, "jsonrpc": "2.0", "method": "push.notifyOff", "params": { "profile": <userNickName-deviceUDID>, "app": <gls> }}
@@ -402,8 +400,8 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.push.rawValue,
                      methodName:        "notifyOff",
                      parameters:        [
-                                            "app":      appProfileType.rawValue,
-                                            "profile":  String(format: "%@-%@", Config.currentUser?.id ?? "", Config.currentDeviceType)
+                                            "app": appProfileType.rawValue,
+                                            "profile": String(format: "%@-%@", Config.currentUser?.id ?? "", Config.currentDeviceType)
                                         ])
             
         //  Template { "id": 8, "jsonrpc": "2.0", "method": "push.historyFresh", "params": { "profile": <userNickName-deviceUDID> }}
@@ -455,15 +453,15 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.options.rawValue,
                      methodName:        "set",
                      parameters:        [
-                                            "profile":  String(format: "%@-%@", Config.currentUser?.id ?? "", Config.currentDeviceType),
-                                            "basic":    String(format: "{\"language\": \"%@\", \"nsfwContent\": \"%@\"}", appLanguage, nsfw)
+                                            "profile": String(format: "%@-%@", Config.currentUser?.id ?? "", Config.currentDeviceType),
+                                            "basic": String(format: "{\"language\": \"%@\", \"nsfwContent\": \"%@\"}", appLanguage, nsfw)
                                         ])
 
         //  Template { "id": 13, "jsonrpc": "2.0", "method": "options.set", "params": { "profile": <userNickName-deviceUDID>, "push": { "lang": <languageValue>, "show": { "vote": <voteValue>, "flag": <flagValue>, "reply": <replyValue>, "transfer": <transferValue>, "subscribe": <subscribeValue>, "unsubscribe": <unsibscribeValue>, "mention": <mentionValue>, "repost": <repostValue>,  "message": <messageValue>, "witnessVote": <witnessVoteValue>, "witnessCancelVote": <witnessCancelVoteValue>, "reward": <rewardValue>, "curatorReward": <curatorRewardValue> }}}
         case .setNotice(let options, let type, let appProfileType):
             var parameters: [String: Encodable] =  [
-                                                    "app":      appProfileType.rawValue,
-                                                    "profile":  String(format: "%@-%@", Config.currentUser?.id ?? "", Config.currentDeviceType)
+                                                    "app": appProfileType.rawValue,
+                                                    "profile": String(format: "%@-%@", Config.currentUser?.id ?? "", Config.currentDeviceType)
                                                 ]
 
             if type == .push {
@@ -541,8 +539,8 @@ public indirect enum MethodAPIType {
             
         case .getLeaders(let communityId, let sequenceKey, let limit, let query):
             var params: [String: Encodable] = [
-               "communityId":   communityId,
-               "limit":         limit
+               "communityId": communityId,
+               "limit": limit
             ]
             params["sequenceKey"] = sequenceKey
             params["query"]       = query
@@ -554,14 +552,13 @@ public indirect enum MethodAPIType {
             
         case .getSubscribers(let userId, let communityId, let offset, let limit):
             var params: [String: Encodable] = [
-                "offset"        :   offset,
-                "limit"         :   limit
+                "offset": offset,
+                "limit": limit
             ]
             
             if let communityId = communityId {
                 params["communityId"]   = communityId
-            }
-            else {
+            } else {
                 params["userId"]        = userId
             }
             
@@ -572,17 +569,16 @@ public indirect enum MethodAPIType {
             
         case .getSubscriptions(let userId, let type, let offset, let limit):
             let params: [String: Encodable] = [
-                "offset" : offset,
-                "limit"  : limit,
-                "type"   : type.rawValue,
-                "userId" : userId
+                "offset": offset,
+                "limit": limit,
+                "type": type.rawValue,
+                "userId": userId
             ]
             
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getSubscriptions",
                      parameters:        params)
-
 
         /// REGISTRATION-SERVICE
         //  Template { "id": 1, "jsonrpc": "2.0", "method": "registration.getState", "params": { "phone": "+70000000000" }}

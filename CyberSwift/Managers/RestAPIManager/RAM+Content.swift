@@ -3,7 +3,7 @@
 //  CyberSwift
 //
 //  Created by Chung Tran on 11/11/19.
-//  Copyright © 2019 golos.io. All rights reserved.
+//  Copyright © 2019 Commun Limited. All rights reserved.
 //
 
 import Foundation
@@ -13,16 +13,15 @@ extension RestAPIManager {
     // MARK: - Posts
     // API `content.getPosts`
     public func getPosts(
-        userId:         String?,
-        communityId:    String?,
-        allowNsfw:      Bool = false,
-        type:           FeedTypeMode,
-        sortBy:         FeedSortMode = .time,
-        sortType:       FeedTimeFrameMode? = nil,
-        limit:          UInt = UInt(Config.paginationLimit),
-        offset:         UInt = 0
-    ) -> Single<ResponseAPIContentGetPosts>
-    {
+        userId: String?,
+        communityId: String?,
+        allowNsfw: Bool = false,
+        type: FeedTypeMode,
+        sortBy: FeedSortMode = .time,
+        sortType: FeedTimeFrameMode? = nil,
+        limit: UInt = UInt(Config.paginationLimit),
+        offset: UInt = 0
+    ) -> Single<ResponseAPIContentGetPosts> {
         let methodAPIType = MethodAPIType.getPosts(userId: userId, communityId: communityId, allowNsfw: allowNsfw, type: type, sortBy: sortBy, sortType: sortType, limit: limit, offset: offset)
         
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
@@ -33,7 +32,7 @@ extension RestAPIManager {
         
         let methodAPIType = MethodAPIType.getPost(userId: userId, permlink: permlink, communityId: communityId)
         
-        return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
     
     // API `content.getComments` by post
@@ -54,10 +53,9 @@ extension RestAPIManager {
         
         var parentComment: [String: String]?
         if let parentCommentUserId = parentCommentUserId,
-            let parentCommentPermlink = parentCommentPermlink
-        {
+            let parentCommentPermlink = parentCommentPermlink {
             parentComment = [
-                "userId":   parentCommentUserId,
+                "userId": parentCommentUserId,
                 "permlink": parentCommentPermlink
             ]
         }
@@ -74,7 +72,7 @@ extension RestAPIManager {
             parentComment: parentComment,
             resolveNestedComments: resolveNestedComments)
         
-        return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
     
     // API `meta.recordPostView`
@@ -84,7 +82,7 @@ extension RestAPIManager {
 
         let methodAPIType = MethodAPIType.recordPostView(permlink: permlink)
         
-        return Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType)
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
     
     // MARK: - Comments

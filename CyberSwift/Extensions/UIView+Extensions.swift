@@ -3,7 +3,7 @@
 //  CyberSwift
 //
 //  Created by msm72 on 5/14/19.
-//  Copyright © 2019 golos.io. All rights reserved.
+//  Copyright © 2019 Commun Limited. All rights reserved.
 //
 
 import Foundation
@@ -22,16 +22,16 @@ extension UIView {
     public func addShadow(location: ShadowLocation = .top, height: CGFloat = 10.0, color: UIColor = .gray, opacity: Float = 0.5, radius: CGFloat = 5.0) {
         switch location {
         case .bottom:
-            addShadow(offset:       CGSize(width: 0, height: height),
-                      color:        color,
-                      opacity:      opacity,
-                      radius:       radius)
+            addShadow(offset: CGSize(width: 0, height: height),
+                      color: color,
+                      opacity: opacity,
+                      radius: radius)
         
         case .top:
-            addShadow(offset:       CGSize(width: 0, height: -height),
-                      color:        color,
-                      opacity:      opacity,
-                      radius:       radius)
+            addShadow(offset: CGSize(width: 0, height: -height),
+                      color: color,
+                      opacity: opacity,
+                      radius: radius)
         }
     }
     

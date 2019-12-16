@@ -3,7 +3,7 @@
 //  GoloSwift
 //
 //  Created by msm72 on 01.06.2018.
-//  Copyright © 2018 golos. All rights reserved.
+//  Copyright © 2018 Commun Limited. All rights reserved.
 //
 
 import UIKit
@@ -39,13 +39,9 @@ public struct RequestParameterAPI {
                 // Casting Types
                 if propertyValue is String {
                     jsonData = try jsonEncoder.encode(["\(propertyName)": "\(propertyValue)"])
-                }
-                    
-                else if propertyValue is Int64 {
+                } else if propertyValue is Int64 {
                     jsonData = try jsonEncoder.encode(["\(propertyName)": propertyValue as! Int64])
-                }
-                    
-                else if let data = try? JSONSerialization.data(withJSONObject: propertyValue, options: []) {
+                } else if let data = try? JSONSerialization.data(withJSONObject: propertyValue, options: []) {
                     jsonData = data
                     result += "\"\(propertyName)\":" + "\(String(data: jsonData, encoding: .utf8)!),"
                     continue
@@ -66,13 +62,11 @@ public struct RequestParameterAPI {
         }
     }
     
-    
     // MARK: -
     public struct BasicOptions: Encodable {
         // MARK: - Properties
         public let language: String
         public let nsfwContent: String
-        
         
         // MARK: - Initialization
         public init(language: String = "ru", nsfwContent: String = NsfwContentMode.alwaysAlert.rawValue) {
@@ -80,14 +74,12 @@ public struct RequestParameterAPI {
             self.nsfwContent        =   nsfwContent
         }
         
-        
         // MARK: - Functions
         // Template: "language": <languageValue>, "nsfwContent": <nsfwContentValue>
         public func getBasicOptionsValues() -> String {
             return  String(format: "\"language\": %@, \"nsfwContent\": %@", self.language, self.nsfwContent)
         }
     }
-    
     
     public struct SetNoticeParams: Encodable {
         public let lang: String?
@@ -107,7 +99,6 @@ public struct RequestParameterAPI {
             try container.encode(show, forKey: .show)
         }
     }
-        
 
     // MARK: -
     public struct NoticeOptions: Encodable {
@@ -124,7 +115,6 @@ public struct RequestParameterAPI {
         public let curatorReward: Bool
         public let witnessVote: Bool
         public let witnessCancelVote: Bool
-        
         
         // MARK: - Initialization
         public init(upvote: Bool = true, downvote: Bool = true, transfer: Bool = true, reply: Bool = true, subscribe: Bool = true, unsubscribe: Bool = true, mention: Bool = true, repost: Bool = true, reward: Bool = true, curatorReward: Bool = true, message: Bool = true, witnessVote: Bool = true, witnessCancelVote: Bool = true) {

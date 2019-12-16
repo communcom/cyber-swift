@@ -3,7 +3,7 @@
 //  GoloSwift
 //
 //  Created by msm72 on 29.06.2018.
-//  Copyright © 2018 golos. All rights reserved.
+//  Copyright © 2018 Commun Limited. All rights reserved.
 //
 
 import Foundation

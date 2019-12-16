@@ -3,7 +3,7 @@
 //  Golos
 //
 //  Created by msm72 on 11.06.2018.
-//  Copyright © 2018 golos. All rights reserved.
+//  Copyright © 2018 Commun Limited. All rights reserved.
 //
 
 import UIKit
@@ -15,8 +15,8 @@ extension UITextField {
         self.theme_textColor        =   textColors
         self.textAlignment          =   alignment
         
-        self.attributedPlaceholder  =   NSAttributedString(string:      placeholder.localized().uppercaseFirst,
-                                                           attributes:  [ NSAttributedString.Key.foregroundColor: UIColor(hexString: "#A5A7BD") ])
+        self.attributedPlaceholder  =   NSAttributedString(string: placeholder.localized().uppercaseFirst,
+                                                           attributes: [ NSAttributedString.Key.foregroundColor: UIColor(hexString: "#A5A7BD") ])
     }
     
     public func setLeftPaddingPoints(_ amount: CGFloat) {

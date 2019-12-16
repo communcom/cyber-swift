@@ -3,7 +3,7 @@
 //  golos-ios
 //
 //  Created by Grigory Serebryanyy on 13/01/2018.
-//  Copyright © 2018 golos. All rights reserved.
+//  Copyright © 2018 Commun Limited. All rights reserved.
 //
 
 import UIKit
@@ -69,7 +69,6 @@ extension UIButton {
         layer.cornerRadius = cornerRadius
     }
     
-    
     // For Like / Dislike buttons
     public func startLikeVote(withSpinner spinner: UIActivityIndicatorView) {
         self.isEnabled = false
@@ -92,8 +91,7 @@ extension UIButton {
                 var edgeInsets: UIEdgeInsets = .zero
                 value.getValue(&edgeInsets)
                 return edgeInsets
-            }
-            else {
+            } else {
                 return .zero
             }
         }
@@ -106,7 +104,7 @@ extension UIButton {
     }
 
     public override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-        if UIEdgeInsetsEqualToEdgeInsets(self.touchAreaEdgeInsets, .zero) || !self.isEnabled || self.isHidden {
+        if self.touchAreaEdgeInsets == .zero || !self.isEnabled || self.isHidden {
             return super.point(inside: point, with: event)
         }
 

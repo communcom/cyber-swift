@@ -3,7 +3,7 @@
 //  CyberSwift
 //
 //  Created by msm72 on 27.02.2018.
-//  Copyright © 2018 Golos.io. All rights reserved.
+//  Copyright © 2018 Commun Limited. All rights reserved.
 //
 //  https://medium.com/@sauvik_dolui/developing-a-tiny-logger-in-swift-7221751628e6
 //
@@ -37,7 +37,6 @@ public class Logger {
         return formatter
     }
     
-    
     // MARK: - Class Functions
     private class func sourceFileName(filePath: String) -> String {
         let components = filePath.components(separatedBy: "/")
@@ -60,7 +59,6 @@ public class Logger {
 
     }
 }
-
 
 extension Date {
     func toString() -> String {

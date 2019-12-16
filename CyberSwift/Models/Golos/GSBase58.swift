@@ -121,7 +121,6 @@ public struct GSBase58 {
         return result
     }
     
-    
     /// Convert `Posting key` from String to [Byte]
     public func base58Decode(data: String) -> [Byte] {
         Logger.log(message: "\ntx - postingKeyString:\n\t\(data)\n", event: .debug)

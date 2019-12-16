@@ -49,12 +49,11 @@ public class SteemEncoder {
             self.appendVarint(UInt64(v))
         case let v as UInt:
             self.appendVarint(UInt64(v))
-        case let v as Array<SteemEncodable>:
+        case let v as [SteemEncodable]:
             self.appendVarint(UInt64(v.count))
             for i in v {
                 try i.binaryEncode(to: self)
             }
-            break
         case let v as SteemEncodable:
             try v.binaryEncode(to: self)
         default:

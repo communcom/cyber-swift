@@ -3,7 +3,7 @@
 //  CyberSwift
 //
 //  Created by Chung Tran on 10/24/19.
-//  Copyright © 2019 golos.io. All rights reserved.
+//  Copyright © 2019 Commun Limited. All rights reserved.
 //
 
 import Foundation
@@ -153,7 +153,7 @@ public struct ResponseAPIContentBlockAttributes: Codable, Equatable {
         coverUrl: String? = nil,
         thumbnailHeight: UInt? = nil,
         thumbnailWidth: UInt? = nil
-    ){
+    ) {
         self.title = title
         self.type = type
         self.version = version
@@ -235,7 +235,6 @@ public struct ResponseAPIContentMeta: Decodable, Equatable {
 public struct ResponseAPIContentWaitForTransaction: Decodable {
     public let status: String
 }
-
 
 // MARK: - API `content.getComments`
 public struct ResponseAPIContentGetComments: Decodable {
@@ -321,7 +320,6 @@ public struct ResponseAPIContentGetCommentParentCommentContentBody: Decodable {
     public let preview: String?
 }
 
-
 // MARK: - API `content.getComments` by user
 public struct ResponseAPIContentGetCommentParentPostContent: Decodable {
     public let title: String
@@ -332,5 +330,3 @@ public struct ResponseAPIContentGetCommentParentPostCommunity: Decodable {
     public let name: String
     public let avatarUrl: String?
 }
-
-

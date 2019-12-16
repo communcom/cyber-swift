@@ -3,12 +3,11 @@
 //  CyberSwift
 //
 //  Created by msm72 on 1/28/19.
-//  Copyright © 2019 golos.io. All rights reserved.
+//  Copyright © 2019 Commun Limited. All rights reserved.
 //
 
 import Starscream
 import Foundation
-
 
 public struct Config {
     public static let appStoreId = "1488928931"
@@ -18,11 +17,7 @@ public struct Config {
     public static let widthRatio: CGFloat               =   UIScreen.main.bounds.width / (UIApplication.shared.statusBarOrientation.isPortrait ? 375 : 812)
     
     public static var isAppThemeDark: Bool {
-        set { }
-        
-        get {
-            return UserDefaults.standard.bool(forKey: Config.currentUserThemeKey)
-        }
+        return UserDefaults.standard.bool(forKey: Config.currentUserThemeKey)
     }
     
     public static let currentDeviceType: String         =   { return UIDevice.modelName.replacingOccurrences(of: " ", with: "-") }()
@@ -60,8 +55,7 @@ public struct Config {
     
     public static var appConfig: ResponseAPIGetConfig? {
         get {
-            if let savedConfig = UserDefaults.standard.data(forKey: Config.currentUserGetConfig)
-            {
+            if let savedConfig = UserDefaults.standard.data(forKey: Config.currentUserGetConfig) {
                 return try? JSONDecoder().decode(ResponseAPIGetConfig.self, from: savedConfig)
             }
             return nil
@@ -79,7 +73,6 @@ public struct Config {
     public static var isNetworkAvailable: Bool {
         return ReachabilityManager.connection()
     }
-    
     
     /// Keys
     static let userSecretKey: String                        =   "userSecretKey"
@@ -114,7 +107,7 @@ public struct Config {
     public static let currentUserAppLanguageKey: String     =   "currentUserAppLanguageKey"
     
     public static let currentUserPushNotificationOn: String =   "currentUserPushNotificationOn"
-    public static let currentUserBiometryAuthEnabled:String =   "currentUserBiometryAuthEnabled"
-    public static let currentUserDidSubscribeToMoreThan3Communities:String =   "currentUserDidSubscribeToMoreThan3Communities"
+    public static let currentUserBiometryAuthEnabled: String =   "currentUserBiometryAuthEnabled"
+    public static let currentUserDidSubscribeToMoreThan3Communities: String =   "currentUserDidSubscribeToMoreThan3Communities"
     public static let currentUserGetConfig: String          =   "currentUserGetConfig"
 }

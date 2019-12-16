@@ -2,7 +2,7 @@
 //  CyberSwift
 //
 //  Created by msm72 on 12.07.2018.
-//  Copyright © 2018 golos. All rights reserved.
+//  Copyright © 2018 Commun Limited. All rights reserved.
 //
 //  https://github.com/GolosChain/imghost
 //
@@ -26,11 +26,11 @@ public class RestAPIManager {
         
         let methodAPIType = MethodAPIType.waitForTransaction(id: id)
         
-        return (Broadcast.instance.executeGetRequest(methodAPIType:  methodAPIType) as Single<ResponseAPIContentWaitForTransaction>)
+        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIContentWaitForTransaction>)
             .flatMapToCompletable()
     }
     
-    //  MARK: - Contract `gls.social`
+    // MARK: - Contract `gls.social`
     /// Posting image
     public func uploadImage(_ image: UIImage) -> Single<String> {
         return .create {single in
@@ -46,7 +46,7 @@ public class RestAPIManager {
         }
     }
     
-    public func posting(image:              UIImage,
+    public func posting(image: UIImage,
                         responseHandling:   @escaping (String) -> Void,
                         errorHandling:      @escaping (ErrorAPI) -> Void) {
         // Offline mode
@@ -107,7 +107,7 @@ public class RestAPIManager {
         task.resume()
     }
     
-    //  MARK: - Others
+    // MARK: - Others
     /// get embed content
     public func getEmbed(url: String) -> Single<ResponseAPIFrameGetEmbed> {
         let methodAPIType = MethodAPIType.getEmbed(url: url)

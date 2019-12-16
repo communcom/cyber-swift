@@ -3,12 +3,12 @@
 //  CyberSwift
 //
 //  Created by Chung Tran on 04/07/2019.
-//  Copyright © 2019 golos.io. All rights reserved.
+//  Copyright © 2019 Commun Limited. All rights reserved.
 //
 
 import Foundation
 
-public struct iCloudManager {
+public struct ICloudManager {
     public static func saveUser() {
         guard let user = Config.currentUser else {
             return
