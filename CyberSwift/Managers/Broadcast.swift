@@ -144,10 +144,6 @@ extension Broadcast {
                         return RestAPIManager.instance.generateSecret()
                             .andThen(self.executeGetRequest(methodAPIType: methodAPIType))
                     }
-                    
-                    if message == "Invalid step taken" {
-                        throw ErrorAPI.registrationRequestFailed(message: message, currentStep: "currentState")
-                    }
                 }
                                 
                 if let errorRx = error as? RxError {
