@@ -38,7 +38,7 @@ public struct ResponseAPIWalletGetTransferHistoryItem: ListItemType {
     public let id: String
     public let sender: ResponseAPIWalletGetTransferHistorySender
     public let receiver: ResponseAPIWalletGetTransferHistoryReceiver
-    public let quantity: Double
+    public let quantity: String
     public let symbol: String
     public let point: ResponseAPIWalletGetTransferHistoryPoint
     public let trxId: String
