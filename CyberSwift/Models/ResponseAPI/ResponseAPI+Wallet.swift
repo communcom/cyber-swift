@@ -30,7 +30,11 @@ public struct ResponseAPIWalletGetBalance: ListItemType {
     }
 }
 
-public struct ResponseAPIWalletGetTransferHistory: ListItemType {
+public struct ResponseAPIWalletGetTransferHistory: Decodable {
+    public let items: [ResponseAPIWalletGetTransferHistoryItem]
+}
+
+public struct ResponseAPIWalletGetTransferHistoryItem: ListItemType {
     public let id: String
     public let sender: ResponseAPIWalletGetTransferHistorySender
     public let receiver: ResponseAPIWalletGetTransferHistoryReceiver
@@ -46,8 +50,8 @@ public struct ResponseAPIWalletGetTransferHistory: ListItemType {
         return id
     }
     
-    public func newUpdatedItem(from item: ResponseAPIWalletGetTransferHistory) -> ResponseAPIWalletGetTransferHistory? {
-        ResponseAPIWalletGetTransferHistory(id: item.id, sender: item.sender, receiver: item.receiver, quantity: item.quantity, symbol: item.symbol, point: item.point, trxId: item.trxId, memo: item.memo, timestamp: item.timestamp, meta: item.meta)
+    public func newUpdatedItem(from item: ResponseAPIWalletGetTransferHistoryItem) -> ResponseAPIWalletGetTransferHistoryItem? {
+        ResponseAPIWalletGetTransferHistoryItem(id: item.id, sender: item.sender, receiver: item.receiver, quantity: item.quantity, symbol: item.symbol, point: item.point, trxId: item.trxId, memo: item.memo, timestamp: item.timestamp, meta: item.meta)
     }
 }
 
