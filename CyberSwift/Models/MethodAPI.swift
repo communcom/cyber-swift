@@ -33,6 +33,7 @@ public enum MethodAPIGroup: String {
     case auth               =   "auth"
     case bandwidth          =   "bandwidth"
     case config             =   "config"
+    case wallet             =   "wallet"
 }
 
 public enum FeedTypeMode: String {
@@ -253,6 +254,9 @@ public indirect enum MethodAPIType {
     
     /// Config
     case getConfig
+    
+    /// WALLET
+    case getTransferHistory(userId: String?, direction: String, transferType: String, symbol: String?, rewards: String, offset: UInt, limit: UInt)
 
     /// CHAIN-SERVICE
     case bandwidthProvide(chainID: String, transaction: RequestAPITransaction)
@@ -665,6 +669,20 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.config.rawValue,
                      methodName:        "getConfig",
                      parameters:        [:])
+            
+        case .getTransferHistory(let userId, let direction, let transferType, let symbol, let rewards, let offset, let limit):
+            var parameters = [String: Encodable]()
+            parameters["userId"] = userId
+            parameters["direction"] = direction
+            parameters["transferType"] = transferType
+            parameters["symbol"] = symbol
+            parameters["rewards"] = rewards
+            parameters["offset"] = offset
+            parameters["limit"] = limit
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.wallet.rawValue,
+                     methodName:        "getTransferHistory",
+                     parameters:        parameters)
             
         // Template: missing
         case .bandwidthProvide(let chainID, let transaction):

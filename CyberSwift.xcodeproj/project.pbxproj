@@ -75,6 +75,7 @@
 		BC48FC492366A4850049C4F4 /* EOSManager+commun.list.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC48FC482366A4850049C4F4 /* EOSManager+commun.list.swift */; };
 		BC52913E2378FE910022EC7F /* RAM+Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52913D2378FE910022EC7F /* RAM+Content.swift */; };
 		BC9066E923A9D515000F9A3B /* ResponseAPI+Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9066E823A9D515000F9A3B /* ResponseAPI+Wallet.swift */; };
+		BC9066FC23AA106D000F9A3B /* RAM+Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9066FB23AA106D000F9A3B /* RAM+Wallet.swift */; };
 		BCA97132236178E600AE37E1 /* ResponseAPIContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA97131236178E600AE37E1 /* ResponseAPIContent.swift */; };
 		BCA971342361798000AE37E1 /* ResponseAPI+Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA971332361798000AE37E1 /* ResponseAPI+Profile.swift */; };
 		BCB2A6F4235588EA00B3582B /* ResponseAPIContentGetComments.json in Resources */ = {isa = PBXBuildFile; fileRef = BCB2A6F3235588EA00B3582B /* ResponseAPIContentGetComments.json */; };
@@ -171,6 +172,7 @@
 		BC48FC482366A4850049C4F4 /* EOSManager+commun.list.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EOSManager+commun.list.swift"; sourceTree = "<group>"; };
 		BC52913D2378FE910022EC7F /* RAM+Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Content.swift"; sourceTree = "<group>"; };
 		BC9066E823A9D515000F9A3B /* ResponseAPI+Wallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Wallet.swift"; sourceTree = "<group>"; };
+		BC9066FB23AA106D000F9A3B /* RAM+Wallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Wallet.swift"; sourceTree = "<group>"; };
 		BCA97131236178E600AE37E1 /* ResponseAPIContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseAPIContent.swift; sourceTree = "<group>"; };
 		BCA971332361798000AE37E1 /* ResponseAPI+Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Profile.swift"; sourceTree = "<group>"; };
 		BCB2A6F3235588EA00B3582B /* ResponseAPIContentGetComments.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ResponseAPIContentGetComments.json; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 				3B5EDE3E22E0F10900897BF3 /* RAM+Notifications.swift */,
 				BC48FC3D236680740049C4F4 /* RAM+Community.swift */,
 				BCCE0A9D2367DD3A00A183AA /* RAM+Profile.swift */,
+				BC9066FB23AA106D000F9A3B /* RAM+Wallet.swift */,
 			);
 			path = RestAPIManager;
 			sourceTree = "<group>";
@@ -674,6 +677,7 @@
 				B1677C66223F9BD7005FB286 /* RestAPIManager.swift in Sources */,
 				3B61AC3222E1C5CD00F608AF /* ResponseAPIGetOptionsNotifyShow+Extensions.swift in Sources */,
 				BC48FC3E236680740049C4F4 /* RAM+Community.swift in Sources */,
+				BC9066FC23AA106D000F9A3B /* RAM+Wallet.swift in Sources */,
 				BCA971342361798000AE37E1 /* ResponseAPI+Profile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
