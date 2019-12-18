@@ -78,4 +78,5 @@ public struct ResponseAPIWalletGetTransferHistoryMeta: Codable, Equatable {
     public let transferType: String?
     public let exchangeAmount: Double?
     public let direction: String
+    public let holdType: String?
 }
