@@ -256,7 +256,7 @@ public indirect enum MethodAPIType {
     case getConfig
     
     /// WALLET
-    case getTransferHistory(userId: String?, direction: String, transferType: String, symbol: String?, rewards: String, offset: UInt, limit: UInt)
+    case getTransferHistory(userId: String?, direction: String, transferType: String?, symbol: String?, rewards: String?, offset: UInt, limit: UInt)
 
     /// CHAIN-SERVICE
     case bandwidthProvide(chainID: String, transaction: RequestAPITransaction)

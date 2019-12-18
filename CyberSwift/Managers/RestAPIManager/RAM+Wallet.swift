@@ -13,9 +13,9 @@ extension RestAPIManager {
     public func getTransferHistory(
         userId: String? = nil,
         direction: String = "all",
-        transferType: String = "all",
+        transferType: String? = nil,
         symbol: String? = nil,
-        reward: String = "all",
+        reward: String? = nil,
         offset: UInt = 0,
         limit: UInt = 20
     ) -> Single<ResponseAPIWalletGetTransferHistory> {

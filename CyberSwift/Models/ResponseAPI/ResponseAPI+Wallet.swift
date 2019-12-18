@@ -42,7 +42,7 @@ public struct ResponseAPIWalletGetTransferHistoryItem: ListItemType {
     public let symbol: String
     public let point: ResponseAPIWalletGetTransferHistoryPoint
     public let trxId: String
-    public let memo: String
+    public let memo: String?
     public let timestamp: String
     public let meta: ResponseAPIWalletGetTransferHistoryMeta
     
@@ -68,14 +68,14 @@ public struct ResponseAPIWalletGetTransferHistoryReceiver: Codable, Equatable {
 }
 
 public struct ResponseAPIWalletGetTransferHistoryPoint: Codable, Equatable {
-    public let name: String
-    public let logo: String
-    public let symbol: String
+    public let name: String?
+    public let logo: String?
+    public let symbol: String?
 }
 
 public struct ResponseAPIWalletGetTransferHistoryMeta: Codable, Equatable {
     public let actionType: String?
-    public let transferType: String
-    public let exchangeAmount: Double
+    public let transferType: String?
+    public let exchangeAmount: Double?
     public let direction: String
 }
