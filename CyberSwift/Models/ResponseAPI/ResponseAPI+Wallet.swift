@@ -63,6 +63,8 @@ public struct ResponseAPIWalletGetTransferHistorySender: Codable, Equatable {
 
 public struct ResponseAPIWalletGetTransferHistoryReceiver: Codable, Equatable {
     public let userId: String
+    public let username: String?
+    public let avatarUrl: String?
 }
 
 public struct ResponseAPIWalletGetTransferHistoryPoint: Codable, Equatable {
@@ -72,7 +74,7 @@ public struct ResponseAPIWalletGetTransferHistoryPoint: Codable, Equatable {
 }
 
 public struct ResponseAPIWalletGetTransferHistoryMeta: Codable, Equatable {
-    public let actionType: String
+    public let actionType: String?
     public let transferType: String
     public let exchangeAmount: Double
     public let direction: String
