@@ -8,6 +8,11 @@
 
 import Foundation
 
+public struct ResponseAPIWalletGetBalances: Decodable {
+    public let userId: String
+    public let balances: [ResponseAPIWalletGetBalance]
+}
+
 public struct ResponseAPIWalletGetBalance: ListItemType {
     public let symbol: String
     public let balance: Double
