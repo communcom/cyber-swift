@@ -11,10 +11,10 @@ import Foundation
 import RxSwift
 
 public class RestAPIManager {
-    #if PROD
-    let isDebugMode = false
+    #if APPSTORE
+        let isDebugMode = false
     #else
-    let isDebugMode = true
+        let isDebugMode = true
     #endif
     
     // MARK: - Properties
