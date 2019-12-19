@@ -9,6 +9,8 @@
 
 import Foundation
 
+public typealias Byte = UInt8
+
 public struct GSBase58 {
     static let base58Alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
     

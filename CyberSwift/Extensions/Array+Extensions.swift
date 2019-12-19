@@ -10,14 +10,14 @@ import Checksum
 import Foundation
 import CryptoSwift
 
-extension Array where Element == Byte {
-    public func generateChecksumSha256() -> [Byte] {
-        var checksum: [Byte] = self.sha256()
+extension Array where Element == UInt8 {
+    public func generateChecksumSha256() -> [UInt8] {
+        var checksum: [UInt8] = self.sha256()
         checksum = checksum.sha256()
-        
+
         return Array(checksum[0..<4])
     }
-    
+
     public var base58EncodedString: String {
         guard !self.isEmpty else { return "" }
         return GSBase58.base58FromBytes(self)
