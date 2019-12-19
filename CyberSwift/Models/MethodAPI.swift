@@ -257,6 +257,8 @@ public indirect enum MethodAPIType {
     
     /// WALLET
     case getTransferHistory(userId: String?, direction: String, transferType: String?, symbol: String?, rewards: String?, offset: UInt, limit: UInt)
+    
+    case getBalance(userId: String?)
 
     /// CHAIN-SERVICE
     case bandwidthProvide(chainID: String, transaction: RequestAPITransaction)
@@ -682,6 +684,15 @@ public indirect enum MethodAPIType {
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.wallet.rawValue,
                      methodName:        "getTransferHistory",
+                     parameters:        parameters)
+            
+        case .getBalance(let userId):
+            var parameters = [String: Encodable]()
+            parameters["userId"] = userId
+            
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.wallet.rawValue,
+                     methodName:        "getBalance",
                      parameters:        parameters)
             
         // Template: missing

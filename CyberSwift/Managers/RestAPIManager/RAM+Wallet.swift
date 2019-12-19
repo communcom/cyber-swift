@@ -22,4 +22,11 @@ extension RestAPIManager {
         let methodAPIType = MethodAPIType.getTransferHistory(userId: userId, direction: direction, transferType: transferType, symbol: symbol, rewards: reward, offset: offset, limit: limit)
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
+    
+    public func getBalance(
+        userId: String? = nil
+    ) -> Single<ResponseAPIWalletGetBalances> {
+        let methodAPIType = MethodAPIType.getBalance(userId: userId)
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+    }
 }
