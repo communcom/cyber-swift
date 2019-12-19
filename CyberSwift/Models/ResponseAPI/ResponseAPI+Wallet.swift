@@ -17,9 +17,9 @@ public struct ResponseAPIWalletGetBalance: ListItemType {
     public let symbol: String
     public let balance: String
     public let logo: String?
-    public let name: String
+    public let name: String?
     public let frozen: String?
-    public let price: String
+    public let price: Conflicted?
     
     public var identity: String {
         return symbol
