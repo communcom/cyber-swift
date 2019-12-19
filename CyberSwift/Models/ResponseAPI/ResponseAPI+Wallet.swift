@@ -30,7 +30,19 @@ public struct ResponseAPIWalletGetBalance: ListItemType {
     }
     
     public var communValue: Double {
-        (Double(balance) ?? 0) * (Double(price?.stringValue ?? "1") ?? 0)
+        (Double(balance) ?? 0) * priceValue
+    }
+    
+    public var balanceValue: Double {
+        Double(balance) ?? 0
+    }
+    
+    public var frozenValue: Double {
+        Double(frozen ?? "0") ?? 0
+    }
+    
+    public var priceValue: Double {
+        Double(price?.stringValue ?? "1") ?? 0
     }
 }
 
