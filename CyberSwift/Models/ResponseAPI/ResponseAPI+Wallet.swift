@@ -28,6 +28,10 @@ public struct ResponseAPIWalletGetBalance: ListItemType {
     public func newUpdatedItem(from item: ResponseAPIWalletGetBalance) -> ResponseAPIWalletGetBalance? {
         ResponseAPIWalletGetBalance(symbol: item.symbol, balance: item.balance, logo: item.logo ?? self.logo, name: item.name, frozen: item.frozen ?? self.frozen, price: item.price)
     }
+    
+    public var communValue: Double {
+        (Double(balance) ?? 0) * (Double(price?.stringValue ?? "1") ?? 0)
+    }
 }
 
 public struct ResponseAPIWalletGetTransferHistory: Decodable {
