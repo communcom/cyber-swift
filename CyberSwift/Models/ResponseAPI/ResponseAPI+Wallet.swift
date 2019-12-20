@@ -69,6 +69,10 @@ public struct ResponseAPIWalletGetTransferHistoryItem: ListItemType {
     public func newUpdatedItem(from item: ResponseAPIWalletGetTransferHistoryItem) -> ResponseAPIWalletGetTransferHistoryItem? {
         ResponseAPIWalletGetTransferHistoryItem(id: item.id, sender: item.sender, receiver: item.receiver, quantity: item.quantity, symbol: item.symbol, point: item.point, trxId: item.trxId, memo: item.memo, timestamp: item.timestamp, meta: item.meta)
     }
+    
+    public var quantityValue: Double {
+        (Double(quantity) ?? 0)
+    }
 }
 
 public struct ResponseAPIWalletGetTransferHistorySender: Codable, Equatable {
