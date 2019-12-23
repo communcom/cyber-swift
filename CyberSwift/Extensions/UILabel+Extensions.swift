@@ -26,6 +26,7 @@ extension UILabel {
     
     public func tune(withAttributedText text: String,
                      hexColors: ThemeColorPicker?,
+                     alpha: CGFloat? = 1.0,
                      font: UIFont?,
                      alignment: NSTextAlignment,
                      isMultiLines: Bool,
@@ -52,7 +53,7 @@ extension UILabel {
         
         self.font               =   font
         self.theme_textColor    =   hexColors
-        
+        self.theme_alpha        =   ThemeCGFloatPicker(floats: alpha ?? 1.0)
         self.numberOfLines      =   isMultiLines ? 0 : 1
         self.textAlignment      =   alignment
     }
