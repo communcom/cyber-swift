@@ -44,6 +44,15 @@ public struct ResponseAPIWalletGetBalance: ListItemType {
     public var priceValue: Double {
         Double(price?.stringValue ?? "1") ?? 0
     }
+    
+    public init(symbol: String, balance: String, logo: String?, name: String?, frozen: String?, price: Conflicted?) {
+        self.symbol = symbol
+        self.balance = balance
+        self.logo = logo
+        self.name = name
+        self.frozen = frozen
+        self.price = price
+    }
 }
 
 public struct ResponseAPIWalletGetTransferHistory: Decodable {
