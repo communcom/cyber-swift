@@ -39,6 +39,10 @@ public struct Conflicted: Codable, Equatable {
         var container = encoder.singleValueContainer()
         try container.encode(stringValue)
     }
+    
+    public init(string: String?) {
+        stringValue = string
+    }
 }
 
 public enum StatusState: String {
