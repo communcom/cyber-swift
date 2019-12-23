@@ -1,8 +1,8 @@
 //
-//  RestAPIManager+Rx.swift
+//  BlockchainManager.swift
 //  CyberSwift
 //
-//  Created by Chung Tran on 22/05/2019.
+//  Created by Artem Shilin on 23.12.2019.
 //  Copyright © 2019 Commun Limited. All rights reserved.
 //
 
@@ -10,17 +10,18 @@ import Foundation
 import RxSwift
 import eosswift
 
-extension RestAPIManager: ReactiveCompatible {}
-
 public typealias SendPostCompletion = (transactionId: String?, userId: String?, permlink: String?)
 
-extension RestAPIManager {
-    // MARK: - Contract `gls.publish`
+public class BlockchainManager {
+    // MARK: - Properties
+    public static let instance = BlockchainManager()
+    private let communCurrencyName = "CMN"
+
+    // MARK: - Content Contracts
     public func vote(voteType: VoteActionType,
                      communityId: String,
                      author: String,
                      permlink: String) -> Completable {
-
         return EOSManager.vote(voteType: voteType,
                                communityId: communityId,
                                author: author,
@@ -285,7 +286,27 @@ extension RestAPIManager {
             })
     }
 
-    // MARK: - Contract `commun.social`
+    public func report(communityID: String,
+                       autorID: String,
+                       permlink: String,
+                       reasons: [ReportReason]) -> Single<String> {
+        // Check user authorize
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        }
+
+        // Change False News to falsenews
+        let stringReasons = reasons.map { (reason) -> String in
+            let reasons = reason.rawValue.components(separatedBy: " ")
+            let normalizeTag = reasons.map({$0.lowercased()}).joined(separator: "")
+            return "\"\(normalizeTag)\""
+        }
+
+        let args = EOSArgument.ReportContent(communityID: communityID, userID: userID, authorID: autorID, permlink: permlink, reason: "[\(stringReasons.joined(separator: ", "))]")
+        return EOSManager.report(args: args)
+    }
+
+    // MARK: - Users Contracts
     public func update(userProfile: [String: String]) -> Single<String> {
         // Check user authorize
         guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
@@ -330,7 +351,7 @@ extension RestAPIManager {
         return EOSManager.unblock(args: args)
     }
 
-    // MARK: - Contract `commun.list`
+    // MARK: - Communities Contracts
     public func followCommunity(_ communityId: String) -> Single<String> {
         // Check user authorize
         guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
@@ -387,7 +408,6 @@ extension RestAPIManager {
         return EOSManager.unhideCommunity(args)
     }
 
-    // MARK: - Contract `commun.ctrl`
     public func voteLeader(communityId: String, leader: String) -> Single<String> {
         // Check user authorize
         guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
@@ -407,24 +427,49 @@ extension RestAPIManager {
         return EOSManager.unvoteLeader(args: args)
     }
 
-    public func report(communityID: String,
-                       autorID: String,
-                       permlink: String,
-                       reasons: [ReportReason]) -> Single<String> {
-        // Check user authorize
-        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
+    // MARK: - Wallet Contracts
+    public func transferPoints(to: String,
+                               number: Double,
+                               currency: String) -> Single<String> {
+        guard let userID = Config.currentUser?.id else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
 
-        // Change False News to falsenews
-        let stringReasons = reasons.map { (reason) -> String in
-            let reasons = reason.rawValue.components(separatedBy: " ")
-            let normalizeTag = reasons.map({$0.lowercased()}).joined(separator: "")
-            return "\"\(normalizeTag)\""
+        let args = EOSArgument.Transfer(fromValue: userID, toValue: to, quantityValue: quantityFormatter(number: number, currency: currency), memoValue: "")
+
+        if currency == communCurrencyName {
+            return EOSManager.transferCommunToken(args)
+        } else {
+            return EOSManager.transferToken(args)
+        }
+    }
+
+    public func buyPoints(communNumber: Double,
+                          pointsCurrencyName: String) -> Single<String>  {
+
+        guard let userID = Config.currentUser?.id else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
 
-        let args = EOSArgument.ReportContent(communityID: communityID, userID: userID, authorID: autorID, permlink: permlink, reason: "[\(stringReasons.joined(separator: ", "))]")
-        return EOSManager.report(args: args)
+        let args = EOSArgument.Transfer(fromValue: userID, toValue: BCAccountName.point.stringValue, quantityValue: quantityFormatter(number: communNumber, currency: communCurrencyName), memoValue: pointsCurrencyName)
+        return EOSManager.buyToken(args)
+    }
+
+    public func sellPoints(number: Double, pointsCurrencyName: String) -> Single<String> {
+        guard let userID = Config.currentUser?.id else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        }
+
+        let args = EOSArgument.Transfer(fromValue: userID, toValue: BCAccountName.point.stringValue, quantityValue: quantityFormatter(number: number, currency: pointsCurrencyName), memoValue: "")
+        return EOSManager.sellToken(args)
+    }
+}
+
+// MARK: - Helpers
+extension BlockchainManager {
+    private func quantityFormatter(number: Double, currency: String) -> String {
+        let format = currency == communCurrencyName ? "%.4f" : "%.3f"
+        return "\(String(format: format, number)) \(currency)"
     }
 
     public enum ReportReason: String, CaseIterable {
@@ -437,44 +482,4 @@ extension RestAPIManager {
         case hateSpeech = "Hate Speech"
         case unauthorizedSales = "Unauthorized Sales"
     }
-
-    // MARK: - Wallet
-    public func transferToken(to: String,
-                              number: Double,
-                              currency: String) -> Single<String> {
-        guard let userID = Config.currentUser?.id else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
-        }
-
-        let isCommun = currency == "CMN"
-
-        let args = EOSArgument.Transfer(fromValue: userID, toValue: to, quantityValue: RestAPIManager.quantityFormatter(number: number, currency: currency), memoValue: "")
-        return EOSManager.pushAuthorized(account: isCommun ? .token : .point, name: "transfer", args: args, disableClientAuth: true, disableCyberBandwidth: true)
-    }
-
-    public func buyPoints(communNumber: Double,
-                          pointsCurrencyName: String) -> Single<String>  {
-
-        guard let userID = Config.currentUser?.id else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
-        }
-
-        let args = EOSArgument.Transfer(fromValue: userID, toValue: "c.point", quantityValue: RestAPIManager.quantityFormatter(number: communNumber, currency: "CMN"), memoValue: pointsCurrencyName)
-        return EOSManager.pushAuthorized(account: .token, name: "transfer", args: args, disableClientAuth: true, disableCyberBandwidth: true)
-    }
-
-    public func sellPoints(number: Double, pointsCurrencyName: String) -> Single<String> {
-        guard let userID = Config.currentUser?.id else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
-        }
-
-        let args = EOSArgument.Transfer(fromValue: userID, toValue: "c.point", quantityValue: RestAPIManager.quantityFormatter(number: number, currency: pointsCurrencyName), memoValue: "")
-        return EOSManager.pushAuthorized(account: .point, name: "transfer", args: args, disableClientAuth: true, disableCyberBandwidth: true)
-    }
-
-    private static func quantityFormatter(number: Double, currency: String) -> String {
-        let format = currency == "CMN" ? "%.4f" : "%.3f"
-        return "\(String(format: format, number)) \(currency)"
-    }
-
 }

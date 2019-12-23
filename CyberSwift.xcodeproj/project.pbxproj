@@ -15,7 +15,6 @@
 		3B5EDE3F22E0F10900897BF3 /* RAM+Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B5EDE3E22E0F10900897BF3 /* RAM+Notifications.swift */; };
 		3B61AC3222E1C5CD00F608AF /* ResponseAPIGetOptionsNotifyShow+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B61AC3122E1C5CD00F608AF /* ResponseAPIGetOptionsNotifyShow+Extensions.swift */; };
 		3BB342B622CB7591009546B2 /* CurrentUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BB342B522CB7591009546B2 /* CurrentUser.swift */; };
-		3BBBE2982295AAE90029C9C9 /* RAM+Blockchain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBBE2972295AAE90029C9C9 /* RAM+Blockchain.swift */; };
 		3BBBE29A2296A8A10029C9C9 /* RxSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBBE2992296A8A10029C9C9 /* RxSwift.swift */; };
 		3BCDB40B2260E9C300739F7E /* Bool+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BCDB40A2260E9C300739F7E /* Bool+Extensions.swift */; };
 		3BD1331422F850770006C70F /* GenerateKeysTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BD1331322F850770006C70F /* GenerateKeysTests.swift */; };
@@ -25,6 +24,7 @@
 		3BE3666722E5CE7C00F84A04 /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE3666622E5CE7C00F84A04 /* SocketManager.swift */; };
 		3BF3A6B822F1D48E00A6916E /* EOSTransaction+Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF3A6B722F1D48E00A6916E /* EOSTransaction+Actions.swift */; };
 		7EF06C95D4BFFC91A593F720 /* Pods_CyberSwiftTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72FB95E5419699B77BD2F429 /* Pods_CyberSwiftTests.framework */; };
+		ACD76C8C23B117F8001FAECD /* BlockchainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD76C8A23B11684001FAECD /* BlockchainManager.swift */; };
 		ACFA282223AA99AA009B77A6 /* EOSArgument.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACFA282123AA99AA009B77A6 /* EOSArgument.swift */; };
 		B111B5BB224E1B5A00F84AD9 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B111B5BA224E1B5A00F84AD9 /* KeychainManager.swift */; };
 		B154D8BB237A97E70042E991 /* UITextView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B154D8BA237A97E70042E991 /* UITextView+Extensions.swift */; };
@@ -103,7 +103,6 @@
 		3B5EDE3E22E0F10900897BF3 /* RAM+Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Notifications.swift"; sourceTree = "<group>"; };
 		3B61AC3122E1C5CD00F608AF /* ResponseAPIGetOptionsNotifyShow+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPIGetOptionsNotifyShow+Extensions.swift"; sourceTree = "<group>"; };
 		3BB342B522CB7591009546B2 /* CurrentUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUser.swift; sourceTree = "<group>"; };
-		3BBBE2972295AAE90029C9C9 /* RAM+Blockchain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Blockchain.swift"; sourceTree = "<group>"; };
 		3BBBE2992296A8A10029C9C9 /* RxSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxSwift.swift; sourceTree = "<group>"; };
 		3BCDB40A2260E9C300739F7E /* Bool+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bool+Extensions.swift"; sourceTree = "<group>"; };
 		3BD1331122F850770006C70F /* CyberSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CyberSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -117,6 +116,7 @@
 		6573AA23182BFAECEBF635F1 /* Pods-CyberSwiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CyberSwiftTests.release.xcconfig"; path = "../../Pods/Target Support Files/Pods-CyberSwiftTests/Pods-CyberSwiftTests.release.xcconfig"; sourceTree = "<group>"; };
 		72FB95E5419699B77BD2F429 /* Pods_CyberSwiftTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CyberSwiftTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AB2614591624246CBE93FA0 /* Pods-CyberSwiftTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CyberSwiftTests.debug.xcconfig"; path = "../../Pods/Target Support Files/Pods-CyberSwiftTests/Pods-CyberSwiftTests.debug.xcconfig"; sourceTree = "<group>"; };
+		ACD76C8A23B11684001FAECD /* BlockchainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockchainManager.swift; sourceTree = "<group>"; };
 		ACFA282123AA99AA009B77A6 /* EOSArgument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EOSArgument.swift; sourceTree = "<group>"; };
 		B111B5BA224E1B5A00F84AD9 /* KeychainManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		B154D8BA237A97E70042E991 /* UITextView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extensions.swift"; sourceTree = "<group>"; };
@@ -219,7 +219,6 @@
 				BC44DBAC238F739600412F08 /* RAM+Config.swift */,
 				3B1E901522CDEC6A00D7A0C1 /* RAM+Authorization.swift */,
 				BC52913D2378FE910022EC7F /* RAM+Content.swift */,
-				3BBBE2972295AAE90029C9C9 /* RAM+Blockchain.swift */,
 				3B5EDE3E22E0F10900897BF3 /* RAM+Notifications.swift */,
 				BC48FC3D236680740049C4F4 /* RAM+Community.swift */,
 				BCCE0A9D2367DD3A00A183AA /* RAM+Profile.swift */,
@@ -367,6 +366,7 @@
 				3B1E901422CDEC2F00D7A0C1 /* RestAPIManager */,
 				B111B5BA224E1B5A00F84AD9 /* KeychainManager.swift */,
 				3B1E901722CDF16B00D7A0C1 /* ICloudManager.swift */,
+				ACD76C8A23B11684001FAECD /* BlockchainManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -643,6 +643,7 @@
 				BC46931323978DDE0064A38B /* ResponseAPIContentResolveProfile.swift in Sources */,
 				BC286C3923A2371600801A26 /* UIImageCodable.swift in Sources */,
 				BC44DBAB238F716300412F08 /* ResponseAPI+Config.swift in Sources */,
+				ACD76C8C23B117F8001FAECD /* BlockchainManager.swift in Sources */,
 				3BBBE29A2296A8A10029C9C9 /* RxSwift.swift in Sources */,
 				B1C3F859223F98B1005711EF /* Encodable+Extensions.swift in Sources */,
 				B1A74A662243893A009D68E7 /* EOSManager.swift in Sources */,
@@ -651,7 +652,6 @@
 				B179916E2269B3EB0014CB44 /* Data+Extensions.swift in Sources */,
 				B17991722269B4290014CB44 /* String+Extensions.swift in Sources */,
 				3B3016B722F1E4D3003CD1BD /* RequestAPITransaction.swift in Sources */,
-				3BBBE2982295AAE90029C9C9 /* RAM+Blockchain.swift in Sources */,
 				3BE3666722E5CE7C00F84A04 /* SocketManager.swift in Sources */,
 				3BB342B622CB7591009546B2 /* CurrentUser.swift in Sources */,
 				BC52913E2378FE910022EC7F /* RAM+Content.swift in Sources */,

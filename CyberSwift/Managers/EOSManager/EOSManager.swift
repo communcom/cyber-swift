@@ -29,7 +29,7 @@ class EOSManager {
     // MARK: - Properties
     static let chainApi = ChainApiFactory.create(rootUrl: Config.blockchain_API_URL)
     static let historyApi = HistoryApiFactory.create(rootUrl: Config.blockchain_API_URL)
-
+    
     // MARK: - Helpers
     static func signWebSocketSecretKey(userActiveKey: String) -> String? {
         do {
@@ -139,6 +139,24 @@ class EOSManager {
 
     static func unhideCommunity(_ args: EOSArgument.FollowUser) -> Single<String> {
         pushAuthorized(account: .list, name: "unhide", args: args)
+    }
+
+    // MARK: - cyber.token
+    static func transferCommunToken(_ args: EOSArgument.Transfer) -> Single<String> {
+        pushAuthorized(account: .token, name: "transfer", args: args, disableClientAuth: true, disableCyberBandwidth: true)
+    }
+
+    // MARK: - c.point
+    static func transferToken(_ args: EOSArgument.Transfer) -> Single<String> {
+        pushAuthorized(account: .point, name: "transfer", args: args, disableClientAuth: true, disableCyberBandwidth: true)
+    }
+
+    static func buyToken(_ args: EOSArgument.Transfer) -> Single<String> {
+        pushAuthorized(account: .point, name: "transfer", args: args, disableClientAuth: true, disableCyberBandwidth: true)
+    }
+
+    static func sellToken(_ args: EOSArgument.Transfer) -> Single<String> {
+        pushAuthorized(account: .point, name: "transfer", args: args, disableClientAuth: true, disableCyberBandwidth: true)
     }
 }
 
