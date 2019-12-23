@@ -301,7 +301,6 @@ extension RestAPIManager {
     }
 
     public func follow(_ userToFollow: String, isUnfollow: Bool = false) -> Single<String> {
-
         // Check user authorize
         guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
@@ -438,4 +437,44 @@ extension RestAPIManager {
         case hateSpeech = "Hate Speech"
         case unauthorizedSales = "Unauthorized Sales"
     }
+
+    // MARK: - Wallet
+    public func transferToken(to: String,
+                              number: Double,
+                              currency: String) -> Single<String> {
+        guard let userID = Config.currentUser?.id else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        }
+
+        let isCommun = currency == "CMN"
+
+        let args = EOSArgument.Transfer(fromValue: userID, toValue: to, quantityValue: RestAPIManager.quantityFormatter(number: number, currency: currency), memoValue: "")
+        return EOSManager.pushAuthorized(account: isCommun ? .token : .point, name: "transfer", args: args, disableClientAuth: true, disableCyberBandwidth: true)
+    }
+
+    public func buyPoints(communNumber: Double,
+                          pointsCurrencyName: String) -> Single<String>  {
+
+        guard let userID = Config.currentUser?.id else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        }
+
+        let args = EOSArgument.Transfer(fromValue: userID, toValue: "c.point", quantityValue: RestAPIManager.quantityFormatter(number: communNumber, currency: "CMN"), memoValue: pointsCurrencyName)
+        return EOSManager.pushAuthorized(account: .token, name: "transfer", args: args, disableClientAuth: true, disableCyberBandwidth: true)
+    }
+
+    public func sellPoints(number: Double, pointsCurrencyName: String) -> Single<String> {
+        guard let userID = Config.currentUser?.id else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        }
+
+        let args = EOSArgument.Transfer(fromValue: userID, toValue: "c.point", quantityValue: RestAPIManager.quantityFormatter(number: number, currency: pointsCurrencyName), memoValue: "")
+        return EOSManager.pushAuthorized(account: .point, name: "transfer", args: args, disableClientAuth: true, disableCyberBandwidth: true)
+    }
+
+    private static func quantityFormatter(number: Double, currency: String) -> String {
+        let format = currency == "CMN" ? "%.4f" : "%.3f"
+        return "\(String(format: format, number)) \(currency)"
+    }
+
 }

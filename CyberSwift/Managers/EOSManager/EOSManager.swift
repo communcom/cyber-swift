@@ -140,28 +140,9 @@ class EOSManager {
     static func unhideCommunity(_ args: EOSArgument.FollowUser) -> Single<String> {
         pushAuthorized(account: .list, name: "unhide", args: args)
     }
-
-    // MARK: - cyber.token
-    static func transferToken(args: EOSArgument.Transfer) -> Single<String> {
-        pushAuthorized(account: .token, name: "transfer", args: args)
-    }
 }
 
-// TODO
 extension EOSManager {
-
-//    static func transfer(account: TransactionAccountType,
-//                         actionName: String,
-//                         arguments: Encodable) -> Single<String> {
-//        if !Config.isNetworkAvailable {
-//            return .error(ErrorAPI.disableInternetConnection(message: nil))
-//        }
-//
-//        guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKeys?.privateKey else {
-//            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
-//        }
-//    }
-
     static func pushAuthorized(account: BCAccountName,
                                name: String,
                                args: Encodable,
@@ -218,7 +199,6 @@ extension EOSManager {
         let args3 = TransactionAuthorizationAbi(
                 actor: AccountNameWriterValue(name: "c"),
                 permission: AccountNameWriterValue(name: account.stringValue))
-
 
         let action3 = ActionAbi(
                 account: AccountNameWriterValue(name: "cyber"),
