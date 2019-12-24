@@ -252,16 +252,23 @@ extension EOSManager {
         }
     }
 
-    private static func openBalance(args: Encodable) -> Single<String> {
-        guard let communCodeArgs = args as? EOSArgumentCodeProtocol else {
+    static func openBalance(args: Encodable?, communCode: String? = nil) -> Single<String> {
+        var code: CyberSymbolWriterValue!
+
+        if let communCode = communCode {
+            code = CyberSymbolWriterValue(name: communCode)
+        } else if let args = args {
+            guard let communCodeArgs = args as? EOSArgumentCodeProtocol else {
+                return .error(ErrorAPI.requestFailed(message: "balance does not exist"))
+            }
+            code = communCodeArgs.getCode()
+        } else {
             return .error(ErrorAPI.requestFailed(message: "balance does not exist"))
         }
 
         guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKeys?.privateKey else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
-
-        let code = communCodeArgs.getCode()
 
         let transactionAuthorizationAbiActive = TransactionAuthorizationAbi(
                 actor: AccountNameWriterValue(name: userID),

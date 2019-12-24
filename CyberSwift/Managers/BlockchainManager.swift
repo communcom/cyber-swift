@@ -427,6 +427,10 @@ public class BlockchainManager {
         return EOSManager.unvoteLeader(args: args)
     }
 
+    public func openCommunityBalance(communityCode: String) -> Single<String> {
+        EOSManager.openBalance(args: nil, communCode: communityCode)
+    }
+
     // MARK: - Wallet Contracts
     public func transferPoints(to: String,
                                number: Double,
@@ -463,6 +467,7 @@ public class BlockchainManager {
         let args = EOSArgument.Transfer(fromValue: userID, toValue: BCAccountName.point.stringValue, quantityValue: quantityFormatter(number: number, currency: pointsCurrencyName), memoValue: "")
         return EOSManager.sellToken(args)
     }
+    
 }
 
 // MARK: - Helpers
