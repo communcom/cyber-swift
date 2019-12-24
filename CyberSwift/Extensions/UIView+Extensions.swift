@@ -43,4 +43,20 @@ extension UIView {
         layer.shadowOffset          =   offset
         layer.bounds                =   self.bounds
     }
+    
+    // https://developer.apple.com/documentation/quartzcore/cashapelayer/1521921-linedashpattern#2825197
+    public func draw(lineColor color: UIColor = .lightGray, startPoint start: CGPoint, endPoint end: CGPoint, withDashPattern lineDashPattern: [NSNumber]? = nil) {
+        // Example of lineDashPattern: [nil, [2,3], [10, 5, 5, 5]]
+        let shapeLayer = CAShapeLayer()
+        
+        shapeLayer.strokeColor = color.cgColor
+        shapeLayer.lineWidth = 1.0
+        shapeLayer.lineDashPattern = lineDashPattern
+        
+        let path = CGMutablePath()
+        path.addLines(between: [start, end])
+        shapeLayer.path = path
+        
+        layer.addSublayer(shapeLayer)
+    }
 }
