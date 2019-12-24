@@ -1,8 +1,8 @@
 //
-//  RestAPIManager+Rx.swift
+//  BlockchainManager.swift
 //  CyberSwift
 //
-//  Created by Chung Tran on 22/05/2019.
+//  Created by Artem Shilin on 23.12.2019.
 //  Copyright © 2019 Commun Limited. All rights reserved.
 //
 
@@ -10,23 +10,24 @@ import Foundation
 import RxSwift
 import eosswift
 
-extension RestAPIManager: ReactiveCompatible {}
-
 public typealias SendPostCompletion = (transactionId: String?, userId: String?, permlink: String?)
 
-extension RestAPIManager {
-    // MARK: - Contract `gls.publish`
+public class BlockchainManager {
+    // MARK: - Properties
+    public static let instance = BlockchainManager()
+    private let communCurrencyName = "CMN"
+
+    // MARK: - Content Contracts
     public func vote(voteType: VoteActionType,
                      communityId: String,
                      author: String,
                      permlink: String) -> Completable {
-        
         return EOSManager.vote(voteType: voteType,
                                communityId: communityId,
                                author: author,
                                permlink: permlink)
     }
-    
+
     public func createMessage(
         isComment: Bool = false,
         parentPost: ResponseAPIContentGetPost? = nil,
@@ -43,7 +44,7 @@ extension RestAPIManager {
         guard let userId = Config.currentUser?.id else {
             return .error(ErrorAPI.unauthorized)
         }
-        
+
         // Create permlink for comment
         var permlink: String
         if isComment {
@@ -52,17 +53,17 @@ extension RestAPIManager {
             // Create permlink for post
             permlink = String.permlinkWith(string: header.isEmpty ? "" : header)
         }
-        
+
         // Prepare arguments
-        let messageId = EOSTransaction.Mssgid(author: userId, permlink: permlink)
-        
-        var parentId: EOSTransaction.Mssgid?
+        let messageId = EOSArgument.MessageIDContent(author: userId, permlink: permlink)
+
+        var parentId: EOSArgument.MessageIDContent?
         if let parentAuthor = parentAuthor, let parentPermlink = parentPermlink {
-            parentId = EOSTransaction.Mssgid(author: parentAuthor, permlink: parentPermlink)
+            parentId = EOSArgument.MessageIDContent(author: parentAuthor, permlink: parentPermlink)
         } else {
-            parentId = EOSTransaction.Mssgid()
+            parentId = EOSArgument.MessageIDContent()
         }
-        
+
         // Send mock data
         var newComment: ResponseAPIContentGetComment?
         var parentComment = parentComment
@@ -97,14 +98,14 @@ extension RestAPIManager {
                 newComment?.votes.hasUpVote = true
                 newComment?.votes.upCount = 1
                 parentComment?.addChildComment(newComment!)
-                
+
                 var parentPost = parentPost
                 let commentsCount = (parentPost?.stats?.commentsCount ?? 0) + 1
                 parentPost?.stats?.commentsCount = commentsCount
                 parentPost?.notifyChanged()
             }
         }
-        
+
         // Send request
         var single: Single<ResponseAPIContentBlock>?
         if isComment, let image = uploadingImage {
@@ -112,34 +113,34 @@ extension RestAPIManager {
                 .observeOn(MainScheduler.instance)
                 .flatMap {url in
                     var block = block
-                    
+
                     var array = block.content.arrayValue ?? []
-                    
+
                     array.append(
                         ResponseAPIContentBlock(id: (block.maxId ?? 0) + 1, type: "attachments", attributes: nil, content: .array([
                             ResponseAPIContentBlock(id: (block.maxId ?? 0) + 2, type: "image", attributes: nil, content: .string(url))
                         ]))
                     )
-                    
+
                     block.content = .array(array)
                     return .just(block)
                 }
         }
-        
+
         var finalBlock: ResponseAPIContentBlock?
         return (single ?? .just(block))
-            .map {block -> EOSTransaction.MessageCreateArgs in
+            .map {block -> EOSArgument.CreateContent in
                 guard let bodyString = try? block.jsonString() else {
                     throw ErrorAPI.invalidData(message: "Body is invalid")
                 }
-                
+
                 finalBlock = block
-                
+
                 let tags = block.getTags()
-                return EOSTransaction.MessageCreateArgs(
-                    commun_code: CyberSymbolWriterValue(name: communCode),
+                return EOSArgument.CreateContent(
+                    communCode: CyberSymbolWriterValue(name: communCode),
                     message_id: messageId,
-                    parent_id: parentId,
+                    parentID: parentId,
                     header: header,
                     body: bodyString,
                     tags: StringCollectionWriterValue(value: tags),
@@ -176,19 +177,19 @@ extension RestAPIManager {
                 }
             })
     }
-    
+
     public func deleteMessage(communCode: String, permlink: String) -> Completable {
         guard let author = Config.currentUser?.id else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
-        
-        let messageDeleteArgs = EOSTransaction.MessageDeleteArgs(
-            commun_code: CyberSymbolWriterValue(name: communCode),
-            message_id: EOSTransaction.Mssgid(author: author, permlink: permlink)
+
+        let messageDeleteArgs = EOSArgument.DeleteContent(
+            communCode: CyberSymbolWriterValue(name: communCode),
+            messageID: EOSArgument.MessageIDContent(author: author, permlink: permlink)
         )
         return EOSManager.delete(messageArgs: messageDeleteArgs)
     }
-    
+
     public func updateMessage(
         originMessage: Decodable,
         communCode: String,
@@ -197,7 +198,7 @@ extension RestAPIManager {
         block: ResponseAPIContentBlock,
         uploadingImage: UIImage? = nil
     ) -> Single<SendPostCompletion> {
-       
+
         guard let author = Config.currentUser?.id else {
             return .error(ErrorAPI.unauthorized)
         }
@@ -205,7 +206,7 @@ extension RestAPIManager {
         var originMessage = originMessage
         // send mock placeholder
         var single: Single<ResponseAPIContentBlock>?
-        
+
         if var post = originMessage as? ResponseAPIContentGetPost {
             post.document = block
             post.sendingState = .editing
@@ -217,43 +218,43 @@ extension RestAPIManager {
             comment.sendingState = .editing
             comment.notifyChanged()
             originMessage = comment
-            
+
             if let image = uploadingImage {
                 single = RestAPIManager.instance.uploadImage(image)
                     .observeOn(MainScheduler.instance)
                     .flatMap {url in
                         var block = block
-                        
+
                         var array = block.content.arrayValue ?? []
-                        
+
                         array.append(
                             ResponseAPIContentBlock(id: (block.maxId ?? 0) + 1, type: "attachments", attributes: nil, content: .array([
                                 ResponseAPIContentBlock(id: (block.maxId ?? 0) + 2, type: "image", attributes: nil, content: .string(url))
                             ]))
                         )
-                        
+
                         block.content = .array(array)
                         return .just(block)
                     }
             }
         }
-        
+
         // prepare args
         var finalBlock: ResponseAPIContentBlock?
         return (single ?? .just(block))
-            .map {block -> EOSTransaction.MessageUpdateArgs in
+            .map {block -> EOSArgument.UpdateContent in
                 guard let bodyString = try? block.jsonString() else {
                     throw ErrorAPI.invalidData(message: "Body is invalid")
                 }
-                
+
                 finalBlock = block
-                
-                let messageId = EOSTransaction.Mssgid(author: author, permlink: permlink)
-                
+
+                let messageId = EOSArgument.MessageIDContent(author: author, permlink: permlink)
+
                 let tags = block.getTags()
-                return EOSTransaction.MessageUpdateArgs(
-                    commun_code: CyberSymbolWriterValue(name: communCode),
-                    message_id: messageId,
+                return EOSArgument.UpdateContent(
+                    communCode: CyberSymbolWriterValue(name: communCode),
+                    messageID: messageId,
                     header: header,
                     body: bodyString,
                     tags: StringCollectionWriterValue(value: tags),
@@ -284,144 +285,6 @@ extension RestAPIManager {
                 }
             })
     }
-    
-    public func reblog(author: String,
-                       rebloger: String,
-                       permlink: String,
-                       headermssg: String,
-                       bodymssg: String) -> Single<String> {
-        
-        let reblogArgs = EOSTransaction.ReblogArgs(authorValue: author,
-                                                   permlinkValue: permlink,
-                                                   reblogerValue: rebloger,
-                                                   headermssgValue: headermssg,
-                                                   bodymssgValue: bodymssg)
-        
-        return EOSManager.reblog(args: reblogArgs)
-    }
-    
-    // MARK: - Contract `commun.social`
-    public func update(userProfile: [String: String]) -> Single<String> {
-        // Check user authorize
-        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
-        }
-        
-        let userProfileAccountmetaArgs = EOSTransaction.UserProfileAccountmetaArgs(json: userProfile)
-        
-        let userProfileMetaArgs = EOSTransaction.UserProfileUpdatemetaArgs(accountValue: userID,
-                                                                           metaValue: userProfileAccountmetaArgs)
-        
-        return EOSManager.update(userProfileMetaArgs: userProfileMetaArgs)
-    }
-    
-    public func follow(_ userToFollow: String, isUnfollow: Bool = false) -> Single<String> {
-        
-        // Check user authorize
-        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
-        }
-        
-        let pinArgs = EOSTransaction.UserProfilePinArgs(pinnerValue: userID, pinningValue: userToFollow)
-        return EOSManager.updateUserProfile(pinArgs: pinArgs, isUnpin: isUnfollow)
-    }
-    
-    public func block(_ userToBlock: String) -> Single<String> {
-        // Check user authorize
-        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
-        }
-        
-        let args = EOSTransaction.BlockUserArgs(blocker: userID, blocking: userToBlock)
-        return EOSManager.block(args: args)
-    }
-    
-    public func unblock(_ userToUnblock: String) -> Single<String> {
-        // Check user authorize
-        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
-        }
-        
-        let args = EOSTransaction.BlockUserArgs(blocker: userID, blocking: userToUnblock)
-        return EOSManager.unblock(args: args)
-    }
-    
-    // MARK: - Contract `commun.list`
-    public func followCommunity(_ communityId: String) -> Single<String> {
-        // Check user authorize
-        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
-        }
-
-        let followArgs = EOSTransaction.CommunListFollowArgs(
-            commun_code: CyberSymbolWriterValue(name: communityId),
-            follower: AccountNameWriterValue(name: userID)
-        )
-
-        return EOSManager.followCommunity(followArgs)
-    }
-
-    public func unfollowCommunity(_ communityId: String) -> Single<String> {
-        // Check user authorize
-        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
-        }
-
-        let unFollowArgs = EOSTransaction.CommunListFollowArgs(
-            commun_code: CyberSymbolWriterValue(name: communityId),
-            follower: AccountNameWriterValue(name: userID)
-        )
-
-        return EOSManager.unfollowCommunity(unFollowArgs)
-    }
-    
-    public func hideCommunity(_ communityId: String) -> Single<String> {
-        // Check user authorize
-        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
-        }
-        
-        let args = EOSTransaction.CommunListFollowArgs(
-            commun_code: CyberSymbolWriterValue(name: communityId),
-            follower: AccountNameWriterValue(name: userID)
-        )
-        
-        return EOSManager.hideCommunity(args)
-    }
-    
-    public func unhideCommunity(_ communityId: String) -> Single<String> {
-        // Check user authorize
-        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
-        }
-        
-        let args = EOSTransaction.CommunListFollowArgs(
-            commun_code: CyberSymbolWriterValue(name: communityId),
-            follower: AccountNameWriterValue(name: userID)
-        )
-        
-        return EOSManager.unhideCommunity(args)
-    }
-    
-    // MARK: - Contract `commun.ctrl`
-    public func voteLeader(communityId: String, leader: String) -> Single<String> {
-        // Check user authorize
-        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
-        }
-        
-        let args = EOSTransaction.VoteLeaderArgs(commun_code: communityId, voter: userID, leader: leader)
-        return EOSManager.voteLeader(args: args)
-    }
-    
-    public func unvoteLeader(communityId: String, leader: String) -> Single<String> {
-        // Check user authorize
-        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
-        }
-        let args = EOSTransaction.UnvoteLeaderArgs(commun_code: communityId, voter: userID, leader: leader)
-        return EOSManager.unvoteLeader(args: args)
-    }
 
     public func report(communityID: String,
                        autorID: String,
@@ -439,8 +302,179 @@ extension RestAPIManager {
             return "\"\(normalizeTag)\""
         }
 
-        let args = EOSTransaction.ReprotArgs(communityID: communityID, userID: userID, autorID: autorID, permlink: permlink, reason: "[\(stringReasons.joined(separator: ", "))]")
+        let args = EOSArgument.ReportContent(communityID: communityID, userID: userID, authorID: autorID, permlink: permlink, reason: "[\(stringReasons.joined(separator: ", "))]")
         return EOSManager.report(args: args)
+    }
+
+    // MARK: - Users Contracts
+    public func update(userProfile: [String: String]) -> Single<String> {
+        // Check user authorize
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        }
+
+        let userProfileAccountmetaArgs = EOSArgument.UpdateUser.User(json: userProfile)
+
+        let userProfileMetaArgs = EOSArgument.UpdateUser(accountValue: userID,
+                                                                           metaValue: userProfileAccountmetaArgs)
+
+        return EOSManager.update(userProfileMetaArgs: userProfileMetaArgs)
+    }
+
+    public func follow(_ userToFollow: String, isUnfollow: Bool = false) -> Single<String> {
+        // Check user authorize
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        }
+
+        let pinArgs = EOSArgument.PinUser(pinnerValue: userID, pinningValue: userToFollow)
+        return EOSManager.updateUserProfile(pinArgs: pinArgs, isUnpin: isUnfollow)
+    }
+
+    public func block(_ userToBlock: String) -> Single<String> {
+        // Check user authorize
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        }
+
+        let args = EOSArgument.BlockUser(blocker: userID, blocking: userToBlock)
+        return EOSManager.block(args: args)
+    }
+
+    public func unblock(_ userToUnblock: String) -> Single<String> {
+        // Check user authorize
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        }
+
+        let args = EOSArgument.BlockUser(blocker: userID, blocking: userToUnblock)
+        return EOSManager.unblock(args: args)
+    }
+
+    // MARK: - Communities Contracts
+    public func followCommunity(_ communityId: String) -> Single<String> {
+        // Check user authorize
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        }
+
+        let followArgs = EOSArgument.FollowUser(
+            communCode: CyberSymbolWriterValue(name: communityId),
+            follower: AccountNameWriterValue(name: userID)
+        )
+
+        return EOSManager.followCommunity(followArgs)
+    }
+
+    public func unfollowCommunity(_ communityId: String) -> Single<String> {
+        // Check user authorize
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        }
+
+        let unFollowArgs = EOSArgument.FollowUser(
+            communCode: CyberSymbolWriterValue(name: communityId),
+            follower: AccountNameWriterValue(name: userID)
+        )
+
+        return EOSManager.unfollowCommunity(unFollowArgs)
+    }
+
+    public func hideCommunity(_ communityId: String) -> Single<String> {
+        // Check user authorize
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        }
+
+        let args = EOSArgument.FollowUser(
+            communCode: CyberSymbolWriterValue(name: communityId),
+            follower: AccountNameWriterValue(name: userID)
+        )
+
+        return EOSManager.hideCommunity(args)
+    }
+
+    public func unhideCommunity(_ communityId: String) -> Single<String> {
+        // Check user authorize
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        }
+
+        let args = EOSArgument.FollowUser(
+            communCode: CyberSymbolWriterValue(name: communityId),
+            follower: AccountNameWriterValue(name: userID)
+        )
+
+        return EOSManager.unhideCommunity(args)
+    }
+
+    public func voteLeader(communityId: String, leader: String) -> Single<String> {
+        // Check user authorize
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        }
+
+        let args = EOSArgument.VoteLeader(communCode: communityId, voter: userID, leader: leader)
+        return EOSManager.voteLeader(args: args)
+    }
+
+    public func unvoteLeader(communityId: String, leader: String) -> Single<String> {
+        // Check user authorize
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        }
+        let args = EOSArgument.UnvoteLeader(communCode: communityId, voter: userID, leader: leader)
+        return EOSManager.unvoteLeader(args: args)
+    }
+
+    public func openCommunityBalance(communityCode: String) -> Single<String> {
+        EOSManager.openBalance(args: nil, communCode: communityCode)
+    }
+
+    // MARK: - Wallet Contracts
+    public func transferPoints(to: String,
+                               number: Double,
+                               currency: String) -> Single<String> {
+        guard let userID = Config.currentUser?.id else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        }
+
+        let args = EOSArgument.Transfer(fromValue: userID, toValue: to, quantityValue: quantityFormatter(number: number, currency: currency), memoValue: "")
+
+        if currency == communCurrencyName {
+            return EOSManager.transferCommunToken(args)
+        } else {
+            return EOSManager.transferToken(args)
+        }
+    }
+
+    public func buyPoints(communNumber: Double,
+                          pointsCurrencyName: String) -> Single<String>  {
+
+        guard let userID = Config.currentUser?.id else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        }
+
+        let args = EOSArgument.Transfer(fromValue: userID, toValue: BCAccountName.point.stringValue, quantityValue: quantityFormatter(number: communNumber, currency: communCurrencyName), memoValue: pointsCurrencyName)
+        return EOSManager.buyToken(args)
+    }
+
+    public func sellPoints(number: Double, pointsCurrencyName: String) -> Single<String> {
+        guard let userID = Config.currentUser?.id else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        }
+
+        let args = EOSArgument.Transfer(fromValue: userID, toValue: BCAccountName.point.stringValue, quantityValue: quantityFormatter(number: number, currency: pointsCurrencyName), memoValue: "")
+        return EOSManager.sellToken(args)
+    }
+    
+}
+
+// MARK: - Helpers
+extension BlockchainManager {
+    private func quantityFormatter(number: Double, currency: String) -> String {
+        let format = currency == communCurrencyName ? "%.4f" : "%.3f"
+        return "\(String(format: format, number)) \(currency)"
     }
 
     public enum ReportReason: String, CaseIterable {

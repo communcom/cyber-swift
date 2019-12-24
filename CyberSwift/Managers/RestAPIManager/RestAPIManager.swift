@@ -19,17 +19,17 @@ public class RestAPIManager {
     
     // MARK: - Properties
     public static let instance = RestAPIManager()
-    
+
     // MARK: - FACADE-SERVICE
     // API `content.waitForTransaction`
     public func waitForTransactionWith(id: String) -> Completable {
-        
+
         let methodAPIType = MethodAPIType.waitForTransaction(id: id)
-        
+
         return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIContentWaitForTransaction>)
             .flatMapToCompletable()
     }
-    
+
     // MARK: - Contract `gls.social`
     /// Posting image
     public func uploadImage(_ image: UIImage) -> Single<String> {
