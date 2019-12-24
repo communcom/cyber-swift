@@ -42,8 +42,7 @@ extension RestAPIManager {
                 try KeychainManager.save([
                     Config.registrationStepKey: CurrentUserRegistrationStep.verify.rawValue,
                     Config.registrationUserPhoneKey: phone.trimSpaces(),
-                    Config.registrationSmsNextRetryKey: result.nextSmsRetry,
-                    Config.registrationSmsCodeKey: result.code!
+                    Config.registrationSmsNextRetryKey: result.nextSmsRetry
                 ])
                 
                 return result
