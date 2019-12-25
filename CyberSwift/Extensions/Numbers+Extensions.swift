@@ -16,6 +16,10 @@ extension CGFloat {
     public static func adaptive(height: CGFloat) -> CGFloat {
         return height * Config.heightRatio
     }
+
+    public var formattedWithSeparator: String {
+        return Formatter.withSeparator.string(for: self) ?? ""
+    }
 }
 
 extension Formatter {

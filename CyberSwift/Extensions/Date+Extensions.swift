@@ -10,6 +10,7 @@ import Foundation
 
 public enum DateFormatType: String {
     case commentDate                =   "dd-MM-yyyy"
+    case overwatchType              =   "dd MMMM yyyy"
     case nextSmsDateType            =   "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
     case expirationDateType         =   "yyyy-MM-dd'T'HH:mm:ss"
 }
