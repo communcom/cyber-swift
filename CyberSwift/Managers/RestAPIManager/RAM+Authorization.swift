@@ -39,11 +39,18 @@ extension RestAPIManager {
         
         return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationFirstStep>)
             .map { result in
-                try KeychainManager.save([
+
+                var data: [String: Any] = [
                     Config.registrationStepKey: CurrentUserRegistrationStep.verify.rawValue,
                     Config.registrationUserPhoneKey: phone.trimSpaces(),
                     Config.registrationSmsNextRetryKey: result.nextSmsRetry
-                ])
+                ]
+
+                if let code = result.code {
+                    data[Config.registrationSmsCodeKey] = code
+                }
+
+                try KeychainManager.save(data)
                 
                 return result
         }
