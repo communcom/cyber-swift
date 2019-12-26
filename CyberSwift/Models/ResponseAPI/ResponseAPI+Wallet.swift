@@ -8,6 +8,7 @@
 
 import Foundation
 
+// MARK: - getBalance
 public struct ResponseAPIWalletGetBalances: Decodable {
     public let userId: String
     public let balances: [ResponseAPIWalletGetBalance]
@@ -55,6 +56,7 @@ public struct ResponseAPIWalletGetBalance: ListItemType {
     }
 }
 
+// MARK: - getTransferHistory
 public struct ResponseAPIWalletGetTransferHistory: Decodable {
     public let items: [ResponseAPIWalletGetTransferHistoryItem]
 }
@@ -108,4 +110,9 @@ public struct ResponseAPIWalletGetTransferHistoryMeta: Codable, Equatable {
     public let exchangeAmount: Double?
     public let direction: String
     public let holdType: String?
+}
+
+// MARK: - getBuyPrice
+public struct ResponseAPIWalletGetBuyPrice: Codable, Equatable {
+    public let price: String
 }

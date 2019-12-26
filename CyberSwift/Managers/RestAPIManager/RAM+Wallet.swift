@@ -29,4 +29,12 @@ extension RestAPIManager {
         let methodAPIType = MethodAPIType.getBalance(userId: userId)
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
+    
+    public func getBuyPrice(
+        symbol: String,
+        quantity: String
+    ) -> Single<ResponseAPIWalletGetBuyPrice> {
+        let methodAPIType = MethodAPIType.getBuyPrice(pointSymbol: symbol, quantity: quantity)
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+    }
 }
