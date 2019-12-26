@@ -116,12 +116,12 @@ public struct ResponseAPIWalletGetTransferHistoryMeta: Codable, Equatable {
 public struct ResponseAPIWalletGetPrice: Codable, Equatable {
     public let price: String
     
+    // For comparing request
+    public var symbol: String?
+    public var quantity: String?
+    
     public var priceValue: Double {
         guard let string = price.components(separatedBy: " ").first else {return 0}
         return Double(string) ?? 0
-    }
-    
-    public var symbol: String? {
-        price.components(separatedBy: " ").last
     }
 }
