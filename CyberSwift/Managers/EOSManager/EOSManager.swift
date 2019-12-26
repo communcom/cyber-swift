@@ -146,12 +146,12 @@ class EOSManager {
         pushAuthorized(account: .token, name: "transfer", args: args, disableClientAuth: true, disableCyberBandwidth: true)
     }
 
-    // MARK: - c.point
-    static func transferToken(_ args: EOSArgument.Transfer) -> Single<String> {
-        pushAuthorized(account: .point, name: "transfer", args: args, disableClientAuth: true, disableCyberBandwidth: true)
+    static func buyToken(_ args: EOSArgument.Transfer) -> Single<String> {
+        pushAuthorized(account: .token, name: "transfer", args: args, disableClientAuth: true, disableCyberBandwidth: true)
     }
 
-    static func buyToken(_ args: EOSArgument.Transfer) -> Single<String> {
+    // MARK: - c.point
+    static func transferToken(_ args: EOSArgument.Transfer) -> Single<String> {
         pushAuthorized(account: .point, name: "transfer", args: args, disableClientAuth: true, disableCyberBandwidth: true)
     }
 
