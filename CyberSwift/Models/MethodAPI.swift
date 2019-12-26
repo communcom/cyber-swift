@@ -261,6 +261,8 @@ public indirect enum MethodAPIType {
     case getBalance(userId: String?)
     
     case getBuyPrice(pointSymbol: String, quantity: String)
+    
+    case getSellPrice(quantity: String)
 
     /// CHAIN-SERVICE
     case bandwidthProvide(chainID: String, transaction: RequestAPITransaction)
@@ -702,6 +704,12 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.wallet.rawValue,
                      methodName:        "getBuyPrice",
                      parameters:        ["pointSymbol": pointSymbol, "quantity": quantity])
+            
+        case .getSellPrice(let quantity):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.wallet.rawValue,
+                     methodName:        "getSellPrice",
+                     parameters:        ["quantity": quantity])
             
         // Template: missing
         case .bandwidthProvide(let chainID, let transaction):

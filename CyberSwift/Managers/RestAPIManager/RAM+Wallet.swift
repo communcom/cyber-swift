@@ -33,8 +33,15 @@ extension RestAPIManager {
     public func getBuyPrice(
         symbol: String,
         quantity: String
-    ) -> Single<ResponseAPIWalletGetBuyPrice> {
+    ) -> Single<ResponseAPIWalletGetPrice> {
         let methodAPIType = MethodAPIType.getBuyPrice(pointSymbol: symbol, quantity: quantity)
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+    }
+    
+    public func getSellPrice(
+        quantity: String
+    ) -> Single<ResponseAPIWalletGetPrice> {
+        let methodAPIType = MethodAPIType.getSellPrice(quantity: quantity)
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
 }

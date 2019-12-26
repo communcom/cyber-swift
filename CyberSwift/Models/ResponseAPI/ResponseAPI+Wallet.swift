@@ -113,7 +113,7 @@ public struct ResponseAPIWalletGetTransferHistoryMeta: Codable, Equatable {
 }
 
 // MARK: - getBuyPrice
-public struct ResponseAPIWalletGetBuyPrice: Codable, Equatable {
+public struct ResponseAPIWalletGetPrice: Codable, Equatable {
     public let price: String
     
     public var priceValue: Double {
