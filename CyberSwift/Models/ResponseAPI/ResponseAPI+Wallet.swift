@@ -115,4 +115,13 @@ public struct ResponseAPIWalletGetTransferHistoryMeta: Codable, Equatable {
 // MARK: - getBuyPrice
 public struct ResponseAPIWalletGetBuyPrice: Codable, Equatable {
     public let price: String
+    
+    var priceValue: Double {
+        guard let string = price.components(separatedBy: " ").first else {return 0}
+        return Double(string) ?? 0
+    }
+    
+    var symbol: String? {
+        price.components(separatedBy: " ").last
+    }
 }
