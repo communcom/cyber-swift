@@ -135,6 +135,9 @@ public struct ResponseAPIContentBlockAttributes: Codable, Equatable {
     public var thumbnailWidth: UInt?
     public var thumbnailHeight: UInt?
     public var html: String?
+    public var width: UInt?
+    public var height: UInt?
+
     
     public init(
         title: String? = nil,
@@ -152,7 +155,9 @@ public struct ResponseAPIContentBlockAttributes: Codable, Equatable {
         html: String? = nil,
         coverUrl: String? = nil,
         thumbnailHeight: UInt? = nil,
-        thumbnailWidth: UInt? = nil
+        thumbnailWidth: UInt? = nil,
+        width: UInt? = nil,
+        height: UInt? = nil
     ) {
         self.title = title
         self.type = type
@@ -170,6 +175,8 @@ public struct ResponseAPIContentBlockAttributes: Codable, Equatable {
         self.coverUrl = coverUrl
         self.thumbnailWidth = thumbnailWidth
         self.thumbnailHeight = thumbnailHeight
+        self.width = width
+        self.height = height
     }
 }
 
