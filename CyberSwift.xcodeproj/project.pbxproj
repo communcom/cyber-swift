@@ -38,13 +38,13 @@
 		B179917C2269B4560014CB44 /* PrivateKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17991762269B4550014CB44 /* PrivateKey.swift */; };
 		B179917D2269B4560014CB44 /* GSBase58.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17991772269B4550014CB44 /* GSBase58.swift */; };
 		B179917E2269B4560014CB44 /* PublicKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17991782269B4560014CB44 /* PublicKey.swift */; };
+		B18D5E0C23B9DF9D00CE2228 /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = B1AA194422956E4300AF5DF0 /* LICENSE.md */; };
 		B18EBB32223F8F8800F52D3C /* CyberSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = B18EBB30223F8F8800F52D3C /* CyberSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B1902AD622706F1E00661211 /* RequestParameterAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1902AD522706F1E00661211 /* RequestParameterAPI.swift */; };
 		B19A28D6226087EE001C9F43 /* UIDevice+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19A28D5226087EE001C9F43 /* UIDevice+Extensions.swift */; };
 		B1A74A642243892B009D68E7 /* EOSTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A74A632243892B009D68E7 /* EOSTransaction.swift */; };
 		B1A74A662243893A009D68E7 /* EOSManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A74A652243893A009D68E7 /* EOSManager.swift */; };
 		B1AA194322956E3C00AF5DF0 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = B1AA194222956E3C00AF5DF0 /* README.md */; };
-		B1AA194522956E4400AF5DF0 /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = B1AA194422956E4300AF5DF0 /* LICENSE.md */; };
 		B1C3715B23867AAF000BAE2F /* Numbers+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3715A23867AAF000BAE2F /* Numbers+Extensions.swift */; };
 		B1C3F857223F98B1005711EF /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3F854223F98B1005711EF /* Date+Extensions.swift */; };
 		B1C3F858223F98B1005711EF /* ConstantsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3F855223F98B1005711EF /* ConstantsApp.swift */; };
@@ -528,7 +528,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B1AA194522956E4400AF5DF0 /* LICENSE.md in Resources */,
+				B18D5E0C23B9DF9D00CE2228 /* LICENSE.md in Resources */,
 				B1AA194322956E3C00AF5DF0 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
