@@ -35,6 +35,7 @@ extension SocketManager: WebSocketDelegate {
     
     public var text: Observable<String> {
         return subject
+            .observeOn(MainScheduler.asyncInstance)
             .filter {
                 switch $0 {
                 case .message:
