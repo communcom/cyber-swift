@@ -338,7 +338,8 @@ public class BlockchainManager {
         }
 
         let args = EOSArgument.BlockUser(blocker: userID, blocking: userToBlock)
-        return EOSManager.block(args: args)
+        return follow(userToBlock, isUnfollow: true)
+            .flatMap {_ in EOSManager.block(args: args)}
     }
 
     public func unblock(_ userToUnblock: String) -> Single<String> {
@@ -391,7 +392,8 @@ public class BlockchainManager {
             follower: AccountNameWriterValue(name: userID)
         )
 
-        return EOSManager.hideCommunity(args)
+        return unfollowCommunity(communityId)
+            .flatMap {_ in EOSManager.hideCommunity(args)}
     }
 
     public func unhideCommunity(_ communityId: String) -> Single<String> {
