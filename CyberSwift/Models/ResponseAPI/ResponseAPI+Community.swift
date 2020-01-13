@@ -33,9 +33,10 @@ public struct ResponseAPIContentGetCommunity: Encodable, ListItemType {
     
     public let description: String?
     public let language: String?
-    public let isBlocked: Bool?
+    public var isBlocked: Bool?
     public let friendsCount: UInt64?
     public let friends: [ResponseAPIContentResolveProfile]?
+    public var isInBlacklist: Bool?
     public var isLeader: Bool?
     public var isStoppedLeader: Bool?
     
@@ -103,6 +104,7 @@ public struct ResponseAPIContentGetLeader: ListItemType {
     public let avatarUrl: String?
     
     public var subscribersCount: UInt64?
+    public var isInBlacklist: Bool?
     
     // Additional property
     public var communityId: String?

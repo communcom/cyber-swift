@@ -23,6 +23,7 @@ public struct ResponseAPIContentResolveProfile: Encodable, ListItemType {
     public var isSubscribed: Bool?
     public var subscribersCount: UInt64?
     public var postsCount: UInt64?
+    public var isInBlacklist: Bool?
     
     // additional property
     public var isBeingToggledFollow: Bool? = false
@@ -57,6 +58,7 @@ public struct ResponseAPIContentGetProfile: ListItemType {
     public var subscribers: ResponseAPIContentGetProfileSubscriber?
     public let subscriptions: ResponseAPIContentGetProfileSubscription?
     public let personal: ResponseAPIContentGetProfilePersonal?
+    public var isInBlacklist: Bool?
     public var isSubscribed: Bool?
     public var isSubscription: Bool?
     public var isBlocked: Bool?
@@ -222,6 +224,7 @@ public struct ResponseAPIContentGetSubscriptionsUser: ListItemType {
     public var subscribersCount: UInt64?
     public let postsCount: UInt64?
     public var isSubscribed: Bool?
+    public var isInBlacklist: Bool?
     
     // additional property
     public var isBeingToggledFollow: Bool? = false
