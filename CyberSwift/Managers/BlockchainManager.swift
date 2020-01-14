@@ -430,7 +430,9 @@ public class BlockchainManager {
     }
 
     public func openCommunityBalance(communityCode: String) -> Single<String> {
-        EOSManager.openBalance(args: nil, communCode: communityCode)
+        let code = communityCode == communCurrencyName ? "4,\(communityCode)" : "3,\(communityCode)"
+
+        return EOSManager.openTokenBalance(code: code)
     }
 
     // MARK: - Wallet Contracts

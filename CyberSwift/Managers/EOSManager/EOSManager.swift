@@ -150,6 +150,10 @@ class EOSManager {
         pushAuthorized(account: .token, name: "transfer", args: args, disableClientAuth: true, disableCyberBandwidth: true)
     }
 
+    static func openTokenBalance(code: String) -> Single<String> {
+        openBalance(args: nil, communCode: code, account: .token)
+    }
+
     // MARK: - c.point
     static func transferToken(_ args: EOSArgument.Transfer) -> Single<String> {
         pushAuthorized(account: .point, name: "transfer", args: args, disableClientAuth: true, disableCyberBandwidth: true)
@@ -165,7 +169,8 @@ extension EOSManager {
                                name: String,
                                args: Encodable,
                                disableClientAuth: Bool = false,
-                               disableCyberBandwidth: Bool = false) -> Single<String> {
+                               disableCyberBandwidth: Bool = false,
+                               disableProvidebw: Bool = false) -> Single<String> {
 
         let expiration = Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds)
 
@@ -228,10 +233,16 @@ extension EOSManager {
 
         do {
             let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
-            var actions = [action1, action2, action3]
-            if disableCyberBandwidth {
-                actions.removeLast()
+            var actions = [action1]
+
+            if !disableProvidebw {
+                actions.append(action2)
             }
+
+            if !disableCyberBandwidth {
+                actions.append(action3)
+            }
+
             let request = transaction.push(expirationDate: expiration, actions: actions, authorizingPrivateKey: privateKey)
 
             return request.catchError { (error) -> Single<String> in
@@ -252,7 +263,7 @@ extension EOSManager {
         }
     }
 
-    static func openBalance(args: Encodable?, communCode: String? = nil) -> Single<String> {
+    static func openBalance(args: Encodable?, communCode: String? = nil, account: BCAccountName = BCAccountName.point) -> Single<String> {
         var code: CyberSymbolWriterValue!
 
         if let communCode = communCode {
@@ -274,18 +285,18 @@ extension EOSManager {
                 actor: AccountNameWriterValue(name: userID),
                 permission: AccountNameWriterValue(name: "active"))
 
-        let balanceArgs = EOSArgument.OpenBalance(owner: AccountNameWriterValue(name: userID),
+        let balanceArgs = EOSArgument.OpenBalance(owner: NameWriterValue(name: userID),
                 communCode: code,
-                ramPayer: AccountNameWriterValue(name: userID))
+                ramPayer: NameWriterValue(name: userID))
 
         let transactionAuthorizationAbiBandwidth = TransactionAuthorizationAbi(
                 actor: AccountNameWriterValue(name: "c"),
                 permission: AccountNameWriterValue(name: "providebw"))
 
-        let action1 = ActionAbi(account: AccountNameWriterValue(name: "c.point"),
-                name: AccountNameWriterValue(name: "open"),
-                authorization: [transactionAuthorizationAbiActive],
-                data: DataWriterValue(hex: balanceArgs.toHex()))
+        let action1 = ActionAbi(account: AccountNameWriterValue(name: account.stringValue),
+                                name: AccountNameWriterValue(name: "open"),
+                                authorization: [transactionAuthorizationAbiActive],
+                                data: DataWriterValue(hex: balanceArgs.toHex()))
 
         let args2 = EOSArgument.CommunBandwidthProvider(
                 provider: AccountNameWriterValue(name: "c"),

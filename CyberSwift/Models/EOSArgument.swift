@@ -194,9 +194,9 @@ struct EOSArgument {
     }
 
     struct OpenBalance: Encodable {
-        let owner: AccountNameWriterValue
+        let owner: NameWriterValue
         let communCode: CyberSymbolWriterValue
-        let enable_ram_player: UInt8 = 1 // ram_payer is optional, need 1 - there value
-        let ramPayer: AccountNameWriterValue
+        let enableRamPayer: UInt8 = 1 // ram_payer is optional, need 1 - there value
+        let ramPayer: NameWriterValue
     }
 }
