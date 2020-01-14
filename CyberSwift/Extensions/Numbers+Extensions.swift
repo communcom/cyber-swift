@@ -18,6 +18,7 @@ extension CGFloat {
     }
 
     public var formattedWithSeparator: String {
+        guard self >= 1_000 else { return "\(self)" }
         return Formatter.withSeparator.string(for: self) ?? ""
     }
 }
