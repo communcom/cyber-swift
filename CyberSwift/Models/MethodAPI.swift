@@ -179,9 +179,6 @@ public indirect enum MethodAPIType {
     //  Receiving the number of unread notifications according to user settings
     case getPushHistoryFresh
     
-    //  Receive user's notifications
-    case getOnlineNotifyHistory(fromId: String?, paginationLimit: Int8, markAsViewed: Bool, freshOnly: Bool)
-    
     //  Receive user's fresh notifications count
     case getOnlineNotifyHistoryFresh
     
@@ -420,19 +417,6 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.push.rawValue,
                      methodName:        "historyFresh",
                      parameters:        ["profile": String(format: "%@-%@", Config.currentUser?.id ?? "", Config.currentDeviceType)])
-            
-        //  Template { "id": 9, "jsonrpc": "2.0", "method": "onlineNotify.history", "params": { "freshOnly": true, "fromId": "3123", markAsViewed}}
-        case .getOnlineNotifyHistory(let fromId, _, let markAsViewed, let freshOnly):
-            var parameters: [String: Encodable] = ["limit": Config.paginationLimit, "markAsViewed": markAsViewed, "freshOnly": freshOnly]
-            
-            if let fromId = fromId {
-                parameters["fromId"] = fromId
-            }
-            
-            return (methodAPIType:      self,
-                    methodGroup:        MethodAPIGroup.onlineNotify.rawValue,
-                    methodName:         "history",
-                    parameters:         parameters)
             
         //  Template { "id": 10, "jsonrpc": "2.0", "method": "onlineNotify.historyFresh", "params": {}}
         case .getOnlineNotifyHistoryFresh:

@@ -23,19 +23,6 @@ extension RestAPIManager {
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
     
-    // API `onlineNotify.history`
-    public func getOnlineNotifyHistory(
-        fromId: String? = nil,
-        paginationLimit: Int8 = Config.paginationLimit,
-        markAsViewed: Bool = false,
-        freshOnly: Bool = false
-    ) -> Single<ResponseAPIOnlineNotifyHistory> {
-        
-        let methodAPIType = MethodAPIType.getOnlineNotifyHistory(fromId: fromId, paginationLimit: paginationLimit, markAsViewed: markAsViewed, freshOnly: freshOnly)
-        
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
-    }
-    
     // API `onlineNotify.historyFresh`
     public func getOnlineNotifyHistoryFresh() -> Single<ResponseAPIOnlineNotifyHistoryFresh> {
         
