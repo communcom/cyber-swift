@@ -24,10 +24,23 @@ extension RestAPIManager {
     }
     
     public func getBalance(
-        userId: String? = nil
+        userId: String? = nil,
+        retried: Bool = false
     ) -> Single<ResponseAPIWalletGetBalances> {
         let methodAPIType = MethodAPIType.getBalance(userId: userId)
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIWalletGetBalances>)
+            .flatMap { result -> Single<ResponseAPIWalletGetBalances> in
+                if userId != Config.currentUser?.id || retried {return .just(result)}
+                
+                if result.balances.first(where: {$0.symbol == "CMN"}) != nil {
+                    return .just(result)
+                }
+                
+                // open balance when CMN is missing
+                return BlockchainManager.instance.openCommunityBalance(communityCode: "CMN")
+                    .flatMapCompletable {RestAPIManager.instance.waitForTransactionWith(id: $0)}
+                    .andThen(self.getBalance(userId: userId, retried: true))
+            }
     }
     
     public func getBuyPrice(
