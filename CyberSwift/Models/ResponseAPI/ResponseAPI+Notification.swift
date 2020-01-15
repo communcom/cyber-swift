@@ -10,20 +10,20 @@ import Foundation
 
 // MARK: - getNotifications
 public struct ResponseAPIGetNotifications: Decodable {
-    var items: [ResponseAPIGetNotificationItem]
-    var lastNotificationTimestamp: String
+    public var items: [ResponseAPIGetNotificationItem]
+    public var lastNotificationTimestamp: String
 }
 
 public struct ResponseAPIGetNotificationItem: ListItemType {
-    let id: String
-    let eventType: String
-    let timestamp: String
-    let userId: String
-    let user: ResponseAPIContentResolveProfile?
-    var isNew: Bool
-    let voter: ResponseAPIContentResolveProfile?
-    let entityType: String?
-    let post: ResponseAPIGetNotificationItemPost?
+    public let id: String
+    public let eventType: String
+    public let timestamp: String
+    public let userId: String
+    public let user: ResponseAPIContentResolveProfile?
+    public var isNew: Bool
+    public let voter: ResponseAPIContentResolveProfile?
+    public let entityType: String?
+    public let post: ResponseAPIGetNotificationItemPost?
     
     public var identity: String {id}
     
@@ -34,7 +34,7 @@ public struct ResponseAPIGetNotificationItem: ListItemType {
 }
 
 public struct ResponseAPIGetNotificationItemPost: Decodable, Equatable {
-    let contentId: ResponseAPIContentId
-    let shortText: String?
-    let imageUrl: String?
+    public let contentId: ResponseAPIContentId
+    public let shortText: String?
+    public let imageUrl: String?
 }
