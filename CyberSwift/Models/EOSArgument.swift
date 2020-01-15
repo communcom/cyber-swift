@@ -199,4 +199,16 @@ struct EOSArgument {
         let enableRamPayer: UInt8 = 1 // ram_payer is optional, need 1 - there value
         let ramPayer: NameWriterValue
     }
+
+    struct OpenCommunBalance: Encodable, EOSArgumentCodeProtocol {
+        let owner: NameWriterValue
+        let communCode: CyberSymbolWriterValue
+        let ramPayer: NameWriterValue
+
+        init(owner: String, communCode: String, ramPayer: String) {
+            self.communCode = CyberSymbolWriterValue(name: communCode)
+            self.owner = NameWriterValue(name: owner)
+            self.ramPayer = NameWriterValue(name: ramPayer)
+        }
+    }
 }

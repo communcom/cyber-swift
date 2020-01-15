@@ -430,9 +430,18 @@ public class BlockchainManager {
     }
 
     public func openCommunityBalance(communityCode: String) -> Single<String> {
+        // Check user authorize
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        }
+
         let code = communityCode == communCurrencyName ? "4,\(communityCode)" : "3,\(communityCode)"
 
-        return EOSManager.openTokenBalance(code: code)
+        let args = EOSArgument.OpenCommunBalance(owner: userID,
+                                                 communCode: code,
+                                                 ramPayer: userID)
+
+        return EOSManager.openTokenBalance(args)
     }
 
     // MARK: - Wallet Contracts
