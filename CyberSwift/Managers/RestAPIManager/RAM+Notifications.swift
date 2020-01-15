@@ -15,6 +15,16 @@ public enum NoticeType {
 }
 
 extension RestAPIManager {
+    // API `notifications.getNotifications`
+    public func getNotifications(
+        limit: UInt = 20,
+        beforeThan: String? = nil,
+        filter: [String] = []
+    ) -> Single<ResponseAPIGetNotifications> {
+        let methodAPIType = MethodAPIType.getNotifications(limit: limit, beforeThan: beforeThan, filter: filter)
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+    }
+    
     // API `push.historyFresh`
     public func getPushHistoryFresh() -> Single<ResponseAPIStatus> {
         

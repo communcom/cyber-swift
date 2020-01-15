@@ -22,6 +22,7 @@ public enum MethodAPIGroup: String {
     case offline            =   "offline"
     case options            =   "options"
     case onlineNotify       =   "onlineNotify"
+    case notifications      =   "notifications"
     case push               =   "push"
     case notify             =   "notify"
     case favorites          =   "favorites"
@@ -173,8 +174,8 @@ public indirect enum MethodAPIType {
     // Unsubscribe of push notifications
     case notifyPushOff(appProfileType: AppProfileType)
 
-    //  Receiving notifications history
-//    case getPushHistory(afterId: String?, limit: UInt, markAsViewed: Bool, freshOnly: Bool, types: String?)
+    //  Receiving notifications
+    case getNotifications(limit: UInt, beforeThan: String?, filter: [String])
 
     //  Receiving the number of unread notifications according to user settings
     case getPushHistoryFresh
@@ -410,6 +411,16 @@ public indirect enum MethodAPIType {
                                             "app": appProfileType.rawValue,
                                             "profile": String(format: "%@-%@", Config.currentUser?.id ?? "", Config.currentDeviceType)
                                         ])
+            
+        case .getNotifications(let limit, let beforeThan, let filter):
+            var params = [String: Encodable]()
+            params["limit"] = limit
+            params["beforeThan"] = beforeThan
+            params["filter"] = filter
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.notifications.rawValue,
+                     methodName:        "getNotifications",
+                     parameters:        params)
             
         //  Template { "id": 8, "jsonrpc": "2.0", "method": "push.historyFresh", "params": { "profile": <userNickName-deviceUDID> }}
         case .getPushHistoryFresh:

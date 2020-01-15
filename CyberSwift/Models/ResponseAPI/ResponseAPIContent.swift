@@ -226,11 +226,13 @@ public struct ResponseAPIContentId: Decodable, Equatable {
     public let userId: String
     public let permlink: String
     public let communityId: String?
+    public let username: String?
     
     public init(userId: String, permlink: String, communityId: String?) {
         self.userId = userId
         self.permlink = permlink
         self.communityId = communityId
+        self.username = nil
     }
 }
 
