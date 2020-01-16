@@ -175,7 +175,7 @@ public indirect enum MethodAPIType {
     case notifyPushOff(appProfileType: AppProfileType)
 
     //  Receiving notifications
-    case getNotifications(limit: UInt, beforeThan: String?, filter: [String])
+    case getNotifications(limit: UInt, beforeThan: String?, filter: [String]?)
 
     //  Receiving the number of unread notifications according to user settings
     case getPushHistoryFresh
@@ -416,7 +416,9 @@ public indirect enum MethodAPIType {
             var params = [String: Encodable]()
             params["limit"] = limit
             params["beforeThan"] = beforeThan
-            params["filter"] = filter
+            if let filter = filter, filter.count > 0 {
+                params["filter"] = filter
+            }
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.notifications.rawValue,
                      methodName:        "getNotifications",
