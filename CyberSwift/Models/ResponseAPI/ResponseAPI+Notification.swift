@@ -46,7 +46,7 @@ public struct ResponseAPIGetNotificationItemComment: Decodable, Equatable {
     public let contentId: ResponseAPIContentId
     public let shortText: String?
     public let imageUrl: String?
-    public let parents: ResponseAPIGetNotificationItemCommentParents
+    public let parents: ResponseAPIGetNotificationItemCommentParents?
 }
 
 public struct ResponseAPIGetNotificationItemCommentParents: Decodable, Equatable {
