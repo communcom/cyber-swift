@@ -11,7 +11,7 @@ import Foundation
 // MARK: - getNotifications
 public struct ResponseAPIGetNotifications: Decodable {
     public var items: [ResponseAPIGetNotificationItem]
-    public var lastNotificationTimestamp: String
+    public var lastNotificationTimestamp: String?
 }
 
 public struct ResponseAPIGetNotificationItem: ListItemType {
