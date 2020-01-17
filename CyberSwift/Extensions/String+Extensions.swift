@@ -28,6 +28,17 @@ extension String {
         return String((0..<length).map { _ in latinLettersAndNumbers.randomElement()! })
     }
     
+    // For currency only
+    public var fullName: String {
+        switch self {
+        case "CMN":
+            return "commun".localized().uppercaseFirst
+
+        default:
+            return self.localized().lowercased().uppercaseFirst
+        }
+    }
+    
     public func removeWhitespaceCharacters() -> String {
         var result      =   NSMutableString.init(string: self)
         
