@@ -11,6 +11,7 @@ import Foundation
 
 public struct Config {
     public static let appStoreId = "1488928931"
+    public static let defaultSymbol = "CMN"
     
     // iPhone X as design template
     public static let heightRatio: CGFloat              =   UIScreen.main.bounds.height / (UIApplication.shared.statusBarOrientation.isPortrait ? 812 : 375)

@@ -31,7 +31,7 @@ extension String {
     // For currency only
     public var fullName: String {
         switch self {
-        case "CMN":
+        case Config.defaultSymbol:
             return "commun".localized().uppercaseFirst
 
         default:

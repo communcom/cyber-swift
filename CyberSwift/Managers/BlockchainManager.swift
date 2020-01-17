@@ -15,7 +15,7 @@ public typealias SendPostCompletion = (transactionId: String?, userId: String?, 
 public class BlockchainManager {
     // MARK: - Properties
     public static let instance = BlockchainManager()
-    private let communCurrencyName = "CMN"
+    private let communCurrencyName = Config.defaultSymbol
 
     // MARK: - Content Contracts
     public func vote(voteType: VoteActionType,
