@@ -111,4 +111,6 @@ public struct Config {
     public static let currentUserBiometryAuthEnabled: String =   "currentUserBiometryAuthEnabled"
     public static let currentUserDidSubscribeToMoreThan3Communities: String =   "currentUserDidSubscribeToMoreThan3Communities"
     public static let currentUserGetConfig: String          =   "currentUserGetConfig"
+    
+    public static let currentDeviceIdKey                    =   "currentDeviceIdKey"
 }
