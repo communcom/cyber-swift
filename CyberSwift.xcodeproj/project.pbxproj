@@ -61,6 +61,8 @@
 		B1EA02F62289D3B400835244 /* UITextField+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EA02F52289D3B400835244 /* UITextField+Extensions.swift */; };
 		B1EA0319228A985400835244 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EA0318228A985400835244 /* UIView+Extensions.swift */; };
 		B1F7B44A229FB5A4005492DD /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F7B449229FB5A4005492DD /* UIImage+Extensions.swift */; };
+		BC18FA1523D54B5A005DC7E3 /* ResponseAPI+Exchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC18FA1423D54B5A005DC7E3 /* ResponseAPI+Exchange.swift */; };
+		BC18FA1723D54B8B005DC7E3 /* RAM+Exchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC18FA1623D54B8B005DC7E3 /* RAM+Exchange.swift */; };
 		BC286C3923A2371600801A26 /* UIImageCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC286C3823A2371600801A26 /* UIImageCodable.swift */; };
 		BC3D9763235040B500421718 /* ResponseAPIContentGetCommentsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3D9762235040B500421718 /* ResponseAPIContentGetCommentsTests.swift */; };
 		BC44DBAB238F716300412F08 /* ResponseAPI+Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DBAA238F716300412F08 /* ResponseAPI+Config.swift */; };
@@ -158,6 +160,8 @@
 		B1EA02F52289D3B400835244 /* UITextField+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+Extensions.swift"; sourceTree = "<group>"; };
 		B1EA0318228A985400835244 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		B1F7B449229FB5A4005492DD /* UIImage+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
+		BC18FA1423D54B5A005DC7E3 /* ResponseAPI+Exchange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Exchange.swift"; sourceTree = "<group>"; };
+		BC18FA1623D54B8B005DC7E3 /* RAM+Exchange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Exchange.swift"; sourceTree = "<group>"; };
 		BC286C3823A2371600801A26 /* UIImageCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageCodable.swift; sourceTree = "<group>"; };
 		BC3D9762235040B500421718 /* ResponseAPIContentGetCommentsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseAPIContentGetCommentsTests.swift; sourceTree = "<group>"; };
 		BC44DBAA238F716300412F08 /* ResponseAPI+Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Config.swift"; sourceTree = "<group>"; };
@@ -223,6 +227,7 @@
 				BC48FC3D236680740049C4F4 /* RAM+Community.swift */,
 				BCCE0A9D2367DD3A00A183AA /* RAM+Profile.swift */,
 				BC9066FB23AA106D000F9A3B /* RAM+Wallet.swift */,
+				BC18FA1623D54B8B005DC7E3 /* RAM+Exchange.swift */,
 			);
 			path = RestAPIManager;
 			sourceTree = "<group>";
@@ -418,6 +423,7 @@
 				BC48FC3B23667FB10049C4F4 /* ResponseAPI+Community.swift */,
 				BC44DBAA238F716300412F08 /* ResponseAPI+Config.swift */,
 				BC9066E823A9D515000F9A3B /* ResponseAPI+Wallet.swift */,
+				BC18FA1423D54B5A005DC7E3 /* ResponseAPI+Exchange.swift */,
 			);
 			path = ResponseAPI;
 			sourceTree = "<group>";
@@ -615,6 +621,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCE93909234D868E00226E39 /* ResponseAPI+Extensions.swift in Sources */,
+				BC18FA1723D54B8B005DC7E3 /* RAM+Exchange.swift in Sources */,
 				3BF3A6B822F1D48E00A6916E /* EOSTransaction+Actions.swift in Sources */,
 				ACFA282223AA99AA009B77A6 /* EOSArgument.swift in Sources */,
 				B1F7B44A229FB5A4005492DD /* UIImage+Extensions.swift in Sources */,
@@ -668,6 +675,7 @@
 				B1EA02CD22895EB400835244 /* UILabel+Extensions.swift in Sources */,
 				3B3016B922F1FDAA003CD1BD /* ReachabilityManager.swift in Sources */,
 				BCA97132236178E600AE37E1 /* ResponseAPIContent.swift in Sources */,
+				BC18FA1523D54B5A005DC7E3 /* ResponseAPI+Exchange.swift in Sources */,
 				B1A74A642243892B009D68E7 /* EOSTransaction.swift in Sources */,
 				B1EA02F62289D3B400835244 /* UITextField+Extensions.swift in Sources */,
 				B1C3715B23867AAF000BAE2F /* Numbers+Extensions.swift in Sources */,
