@@ -13,7 +13,7 @@ public struct ResponseAPIGetCurrency: ListItemType {
     public let fullName: String?
     public let enabled: Bool
     public let fixRateEnabled: Bool
-    public let extraIdName: String
+    public let extraIdName: String?
     public let addressUrl: String?
     public let transactionUrl: String?
     public let image: String?
