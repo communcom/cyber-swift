@@ -35,6 +35,7 @@ public enum MethodAPIGroup: String {
     case bandwidth          =   "bandwidth"
     case config             =   "config"
     case wallet             =   "wallet"
+    case exchange           =   "exchange"
 }
 
 public enum FeedTypeMode: String {
@@ -261,6 +262,8 @@ public indirect enum MethodAPIType {
     case getBuyPrice(pointSymbol: String, quantity: String)
     
     case getSellPrice(quantity: String)
+    
+    case getCurrenciesFull
 
     /// CHAIN-SERVICE
     case bandwidthProvide(chainID: String, transaction: RequestAPITransaction)
@@ -707,6 +710,12 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.wallet.rawValue,
                      methodName:        "getSellPrice",
                      parameters:        ["quantity": quantity])
+            
+        case .getCurrenciesFull:
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.exchange.rawValue,
+                     methodName:        "getCurrenciesFull",
+                     parameters:        [:])
             
         // Template: missing
         case .bandwidthProvide(let chainID, let transaction):

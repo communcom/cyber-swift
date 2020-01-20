@@ -76,6 +76,10 @@ public class KeychainManager {
             postingKeys: postingKeys)
     }
     
+    public static var currentDeviceId: String? {
+        return Locksmith.loadDataForUserAccount(userAccount: Config.currentUserIDKey, inService: communService)?[Config.currentDeviceIdKey] as? String
+    }
+    
     // MARK: - Saving
     /// Save login data to Keychain
     public static func save(_ data: [String: Any]) throws {

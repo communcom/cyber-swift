@@ -150,8 +150,8 @@ class EOSManager {
         pushAuthorized(account: .token, name: "transfer", args: args, disableClientAuth: true, disableCyberBandwidth: true)
     }
 
-    static func openTokenBalance(code: String) -> Single<String> {
-        openBalance(args: nil, communCode: code, account: .token)
+    static func openTokenBalance(_ args: EOSArgument.OpenCommunBalance) -> Single<String> {
+        pushAuthorized(account: .token, name: "open", args: args, disableClientAuth: true, disableCyberBandwidth: true, disableProvidebw: false)
     }
 
     // MARK: - c.point
@@ -263,12 +263,10 @@ extension EOSManager {
         }
     }
 
-    static func openBalance(args: Encodable?, communCode: String? = nil, account: BCAccountName = BCAccountName.point) -> Single<String> {
+    static func openBalance(args: Encodable?) -> Single<String> {
         var code: CyberSymbolWriterValue!
 
-        if let communCode = communCode {
-            code = CyberSymbolWriterValue(name: communCode)
-        } else if let args = args {
+        if let args = args {
             guard let communCodeArgs = args as? EOSArgumentCodeProtocol else {
                 return .error(ErrorAPI.requestFailed(message: "balance does not exist"))
             }
@@ -284,7 +282,7 @@ extension EOSManager {
         let transactionAuthorizationAbiActive = TransactionAuthorizationAbi(
                 actor: AccountNameWriterValue(name: userID),
                 permission: AccountNameWriterValue(name: "active"))
-
+        
         let balanceArgs = EOSArgument.OpenBalance(owner: NameWriterValue(name: userID),
                 communCode: code,
                 ramPayer: NameWriterValue(name: userID))
@@ -293,7 +291,7 @@ extension EOSManager {
                 actor: AccountNameWriterValue(name: "c"),
                 permission: AccountNameWriterValue(name: "providebw"))
 
-        let action1 = ActionAbi(account: AccountNameWriterValue(name: account.stringValue),
+        let action1 = ActionAbi(account: AccountNameWriterValue(name: BCAccountName.point.stringValue),
                                 name: AccountNameWriterValue(name: "open"),
                                 authorization: [transactionAuthorizationAbiActive],
                                 data: DataWriterValue(hex: balanceArgs.toHex()))

@@ -23,7 +23,7 @@ public enum WebSocketEvent {
 
 public class SocketManager {
     // MARK: - Properties
-    let socket = WebSocket(url: URL(string: Config.gate_API_URL + "connect?platform=ios&deviceType=phone&clientType=app&version=\(UIApplication.appVersion)")!)
+    let socket = WebSocket(url: URL(string: Config.gate_API_URL + "connect?platform=ios&deviceType=phone&clientType=app&version=\(UIApplication.appVersion)\((KeychainManager.currentDeviceId != nil) ? "&deviceId=\(KeychainManager.currentDeviceId!)" : "")")!)
     
     let subject = PublishSubject<WebSocketEvent>()
     public let connected = BehaviorRelay<Bool>(value: false)

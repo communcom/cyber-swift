@@ -11,6 +11,7 @@ import Foundation
 
 public struct Config {
     public static let appStoreId = "1488928931"
+    public static let defaultSymbol = "CMN"
     
     // iPhone X as design template
     public static let heightRatio: CGFloat              =   UIScreen.main.bounds.height / (UIApplication.shared.statusBarOrientation.isPortrait ? 812 : 375)
@@ -110,4 +111,6 @@ public struct Config {
     public static let currentUserBiometryAuthEnabled: String =   "currentUserBiometryAuthEnabled"
     public static let currentUserDidSubscribeToMoreThan3Communities: String =   "currentUserDidSubscribeToMoreThan3Communities"
     public static let currentUserGetConfig: String          =   "currentUserGetConfig"
+    
+    public static let currentDeviceIdKey                    =   "currentDeviceIdKey"
 }

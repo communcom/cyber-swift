@@ -32,12 +32,12 @@ extension RestAPIManager {
             .flatMap { result -> Single<ResponseAPIWalletGetBalances> in
                 if userId != Config.currentUser?.id || retried {return .just(result)}
                 
-                if result.balances.first(where: {$0.symbol == "CMN"}) != nil {
+                if result.balances.first(where: { $0.symbol == Config.defaultSymbol }) != nil {
                     return .just(result)
                 }
                 
                 // open balance when CMN is missing
-                return BlockchainManager.instance.openCommunityBalance(communityCode: "CMN")
+                return BlockchainManager.instance.openCommunityBalance(communityCode: Config.defaultSymbol)
                     .flatMapCompletable {RestAPIManager.instance.waitForTransactionWith(id: $0)}
                     .andThen(self.getBalance(userId: userId, retried: true))
             }

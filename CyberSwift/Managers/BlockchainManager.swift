@@ -15,7 +15,7 @@ public typealias SendPostCompletion = (transactionId: String?, userId: String?, 
 public class BlockchainManager {
     // MARK: - Properties
     public static let instance = BlockchainManager()
-    private let communCurrencyName = "CMN"
+    private let communCurrencyName = Config.defaultSymbol
 
     // MARK: - Content Contracts
     public func vote(voteType: VoteActionType,
@@ -430,9 +430,18 @@ public class BlockchainManager {
     }
 
     public func openCommunityBalance(communityCode: String) -> Single<String> {
+        // Check user authorize
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
+            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+        }
+
         let code = communityCode == communCurrencyName ? "4,\(communityCode)" : "3,\(communityCode)"
 
-        return EOSManager.openTokenBalance(code: code)
+        let args = EOSArgument.OpenCommunBalance(owner: userID,
+                                                 communCode: code,
+                                                 ramPayer: userID)
+
+        return EOSManager.openTokenBalance(args)
     }
 
     // MARK: - Wallet Contracts
