@@ -15,6 +15,10 @@ public struct ResponseAPIGetNotifications: Decodable {
 }
 
 public struct ResponseAPIGetNotificationItem: ListItemType {
+    public static var empty: ResponseAPIGetNotificationItem {
+        ResponseAPIGetNotificationItem(id: "", eventType: "", timestamp: "", community: nil, userId: nil, author: nil, user: nil, isNew: false, voter: nil, entityType: nil, post: nil, comment: nil)
+    }
+    
     public let id: String
     public let eventType: String
     public let timestamp: String
