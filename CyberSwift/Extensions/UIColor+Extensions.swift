@@ -29,7 +29,7 @@ public let veryLightGrayVeryDarkGrayColorPickers: ThemeColorPicker      =   [ "#
 public let darkGrayPickers: ThemeColorPicker                            =   [ "#333333", "#333333" ]
 public let darkGrayWhiteColorPickers: ThemeColorPicker                  =   [ "#7d7d7d", "#ffffff" ]
 
-//public let softCyanLimeGreenColorPickers: ThemeColorPicker              =   [ "#4EDBB0", "#4EDBB0" ]
+public let softCyanLimeGreenColorPickers: ThemeColorPicker              =   [ "#4EDBB0", "#4EDBB0" ]
 
 public let blackWhiteColorPickers: ThemeColorPicker                     =   [ "#000000", "#ffffff" ]
 public let veryDarkGrayWhiteColorPickers: ThemeColorPicker              =   [ "#333333", "#ffffff" ]
