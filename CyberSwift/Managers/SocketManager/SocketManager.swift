@@ -23,7 +23,7 @@ public enum WebSocketEvent {
 
 public class SocketManager {
     // MARK: - Properties
-    let socket = WebSocket(url: URL(string: Config.gate_API_URL + "connect?platform=ios&deviceType=phone&clientType=app&version=\(UIApplication.appVersion)\((KeychainManager.currentDeviceId != nil) ? "&deviceId=\(KeychainManager.currentDeviceId!)" : "")")!)
+    var socket = WebSocket(url: URL(string: Config.gate_API_URL + "connect?platform=ios&deviceType=phone&clientType=app&version=\(UIApplication.appVersion)\((KeychainManager.currentDeviceId != nil) ? "&deviceId=\(KeychainManager.currentDeviceId!)" : "")")!)
     
     let subject = PublishSubject<WebSocketEvent>()
     public let connected = BehaviorRelay<Bool>(value: false)
@@ -49,6 +49,14 @@ public class SocketManager {
     
     public func disconnect() {
         socket.disconnect()
+    }
+    
+    public func deviceIdDidSet() {
+        guard let id = KeychainManager.currentDeviceId else {return}
+        socket.disconnect()
+        let urlString = Config.gate_API_URL + "connect?platform=ios&deviceType=phone&clientType=app&version=\(id)"
+        socket = WebSocket(url: URL(string: urlString)!)
+        socket.connect()
     }
     
     func sendRequest<T: Decodable>(methodAPIType: RequestMethodAPIType) -> Single<T> {

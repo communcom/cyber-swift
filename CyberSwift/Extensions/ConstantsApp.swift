@@ -113,4 +113,8 @@ public struct Config {
     public static let currentUserGetConfig: String          =   "currentUserGetConfig"
     
     public static let currentDeviceIdKey                    =   "currentDeviceIdKey"
+    
+    public static let currentDeviceDidSendFCMToken          =   "currentDeviceDidSendFCMToken"
+    
+    public static let currentDeviceFcmTokenKey              =   "fcmToken"
 }

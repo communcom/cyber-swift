@@ -233,6 +233,7 @@ extension RestAPIManager {
             UserDefaults.standard.set(nil, forKey: Config.currentUserAvatarUrlKey)
             UserDefaults.standard.set(nil, forKey: Config.currentUserBiometryAuthEnabled)
             UserDefaults.standard.set(nil, forKey: Config.currentUserDidSubscribeToMoreThan3Communities)
+            UserDefaults.standard.set(nil, forKey: Config.currentDeviceDidSendFCMToken)
         } catch {
             print(error)
         }
