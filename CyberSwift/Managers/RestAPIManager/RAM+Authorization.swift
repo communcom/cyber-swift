@@ -238,10 +238,8 @@ extension RestAPIManager {
         }
 
         // pushNotifyOff()
-        return Completable.create { completable in
-            completable(.completed)
-            return Disposables.create()
-        }
+        return deviceResetFcmToken()
+            .flatMapToCompletable()
     }
     
     /// Generate secret
