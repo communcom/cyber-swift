@@ -14,4 +14,14 @@ extension RestAPIManager {
         let methodAPIType = MethodAPIType.deviceSetInfo(timeZoneOffset: timeZoneOffset)
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
+    
+    public func deviceSetFcmToken(_ token: String) -> Single<ResponseAPIStatus> {
+        let methodAPIType = MethodAPIType.deviceSetFcmToken(token)
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+    }
+    
+    public func deviceResetFcmToken() -> Single<ResponseAPIStatus> {
+        let methodAPIType = MethodAPIType.deviceResetFcmToken
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+    }
 }

@@ -268,6 +268,10 @@ public indirect enum MethodAPIType {
     
     /// DEVICE
     case deviceSetInfo(timeZoneOffset: Int)
+    
+    case deviceSetFcmToken(_ token: String)
+    
+    case deviceResetFcmToken
 
     /// CHAIN-SERVICE
     case bandwidthProvide(chainID: String, transaction: RequestAPITransaction)
@@ -727,6 +731,18 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.device.rawValue,
                      methodName:        "setInfo",
                      parameters:        ["timeZoneOffset": timeZoneOffset])
+            
+        case .deviceSetFcmToken(let token):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.device.rawValue,
+                     methodName:        "setFcmToken",
+                     parameters:        ["fcmToken": token])
+            
+        case .deviceResetFcmToken:
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.device.rawValue,
+                     methodName:        "resetFcmToken",
+                     parameters:        [:])
             
         // Template: missing
         case .bandwidthProvide(let chainID, let transaction):
