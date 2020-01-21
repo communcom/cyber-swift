@@ -76,6 +76,7 @@
 		BC46931323978DDE0064A38B /* ResponseAPIContentResolveProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC46931223978DDE0064A38B /* ResponseAPIContentResolveProfile.swift */; };
 		BC48FC3C23667FB10049C4F4 /* ResponseAPI+Community.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC48FC3B23667FB10049C4F4 /* ResponseAPI+Community.swift */; };
 		BC48FC3E236680740049C4F4 /* RAM+Community.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC48FC3D236680740049C4F4 /* RAM+Community.swift */; };
+		BC518BD823D699390090E145 /* RAM+Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC518BD723D699390090E145 /* RAM+Device.swift */; };
 		BC52913E2378FE910022EC7F /* RAM+Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52913D2378FE910022EC7F /* RAM+Content.swift */; };
 		BC9066E923A9D515000F9A3B /* ResponseAPI+Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9066E823A9D515000F9A3B /* ResponseAPI+Wallet.swift */; };
 		BC9066FC23AA106D000F9A3B /* RAM+Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9066FB23AA106D000F9A3B /* RAM+Wallet.swift */; };
@@ -176,6 +177,7 @@
 		BC46931223978DDE0064A38B /* ResponseAPIContentResolveProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseAPIContentResolveProfile.swift; sourceTree = "<group>"; };
 		BC48FC3B23667FB10049C4F4 /* ResponseAPI+Community.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Community.swift"; sourceTree = "<group>"; };
 		BC48FC3D236680740049C4F4 /* RAM+Community.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Community.swift"; sourceTree = "<group>"; };
+		BC518BD723D699390090E145 /* RAM+Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Device.swift"; sourceTree = "<group>"; };
 		BC52913D2378FE910022EC7F /* RAM+Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Content.swift"; sourceTree = "<group>"; };
 		BC9066E823A9D515000F9A3B /* ResponseAPI+Wallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Wallet.swift"; sourceTree = "<group>"; };
 		BC9066FB23AA106D000F9A3B /* RAM+Wallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Wallet.swift"; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 				BCCE0A9D2367DD3A00A183AA /* RAM+Profile.swift */,
 				BC9066FB23AA106D000F9A3B /* RAM+Wallet.swift */,
 				BC18FA1623D54B8B005DC7E3 /* RAM+Exchange.swift */,
+				BC518BD723D699390090E145 /* RAM+Device.swift */,
 			);
 			path = RestAPIManager;
 			sourceTree = "<group>";
@@ -690,6 +693,7 @@
 				3B61AC3222E1C5CD00F608AF /* ResponseAPIGetOptionsNotifyShow+Extensions.swift in Sources */,
 				BC48FC3E236680740049C4F4 /* RAM+Community.swift in Sources */,
 				BC9066FC23AA106D000F9A3B /* RAM+Wallet.swift in Sources */,
+				BC518BD823D699390090E145 /* RAM+Device.swift in Sources */,
 				BCA971342361798000AE37E1 /* ResponseAPI+Profile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
