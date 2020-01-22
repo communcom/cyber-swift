@@ -15,6 +15,12 @@ public struct ResponseAPIResult<T: Decodable>: Decodable {
     public let error: ResponseAPIError?
 }
 
+public struct SocketResponse<T: Decodable>: Decodable {
+    public let method: String
+    public let jsonrpc: String
+    public let params: T
+}
+
 /// [Multiple types](https://stackoverflow.com/questions/46759044/swift-structures-handling-multiple-types-for-a-single-property)
 public struct Conflicted: Codable, Equatable {
     public let stringValue: String?

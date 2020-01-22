@@ -57,3 +57,9 @@ public struct ResponseAPIGetNotificationItemCommentParents: Decodable, Equatable
     public let post: ResponseAPIContentId?
     public let comment: ResponseAPIContentId?
 }
+
+
+// MARK: - notifications.statusUpdated
+public struct SocketResponseNotificationsStatusUpdated: Decodable, Equatable {
+    public let unseenCount: UInt64
+}
