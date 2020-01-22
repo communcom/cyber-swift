@@ -126,7 +126,7 @@ public class SocketManager {
         reachability.stopNotifier()
     }
     
-    public func catchMethod<T: Decodable>(_ method: String) -> Observable<SocketResponse<T>> {
+    public func catchMethod<T: Decodable>(_ method: String, objectType: T.Type) -> Observable<T> {
         text
             .filter { string in
                 guard let jsonData = string.data(using: .utf8),
@@ -136,10 +136,11 @@ public class SocketManager {
                 }
                 return (json["method"] as? String) == method
             }
-            .map { string in
+            .map { string -> SocketResponse<T> in
                 guard let data = string.data(using: .utf8) else {throw ErrorAPI.responseUnsuccessful(message: string)}
                 return try JSONDecoder().decode(SocketResponse<T>.self, from: data)
             }
+            .map {$0.params}
     }
 }
 
