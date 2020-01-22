@@ -38,6 +38,16 @@ public struct ResponseAPIGetNotificationItem: ListItemType {
         guard item.identity == self.identity else {return nil}
         return ResponseAPIGetNotificationItem(id: id, eventType: item.eventType, timestamp: item.timestamp, community: item.community ?? community, userId: item.userId ?? userId, author: item.author ?? author, user: item.user ?? self.user, isNew: item.isNew, voter: item.voter ?? self.voter, entityType: item.entityType ?? entityType, post: item.post ?? post, comment: item.comment ?? comment)
     }
+    
+    public static func join(array1: [ResponseAPIGetNotificationItem], array2: [ResponseAPIGetNotificationItem]) -> [ResponseAPIGetNotificationItem] {
+        var newList = array2.filter {item in
+            !array1.contains(where: {$0.identity == item.identity})
+        }
+        newList = array1 + newList
+        return newList.sorted { (item1, item2) -> Bool in
+            Date.from(string: item1.timestamp) > Date.from(string: item2.timestamp)
+        }
+    }
 }
 
 public struct ResponseAPIGetNotificationItemPost: Decodable, Equatable {

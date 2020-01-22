@@ -31,6 +31,7 @@ public class SocketManager {
     var reachability: Reachability!
     
     public let unseenNotificationsRelay = BehaviorRelay<UInt64>(value: 0)
+    public let newNotificationsRelay = BehaviorRelay<[ResponseAPIGetNotificationItem]>(value: [])
     
     // MARK: - Singleton
     public static let shared = SocketManager()
@@ -117,6 +118,13 @@ public class SocketManager {
         catchMethod("notifications.statusUpdated", objectType: SocketResponseNotificationsStatusUpdated.self)
             .subscribe(onNext: { (status) in
                 self.unseenNotificationsRelay.accept(status.unseenCount)
+            })
+            .disposed(by: bag)
+        
+        catchMethod("notifications.newNotification", objectType: ResponseAPIGetNotificationItem.self)
+            .subscribe(onNext: { (item) in
+                let newNotifications = ResponseAPIGetNotificationItem.join(array1: self.newNotificationsRelay.value, array2: [item])
+                self.newNotificationsRelay.accept(newNotifications)
             })
             .disposed(by: bag)
     }
