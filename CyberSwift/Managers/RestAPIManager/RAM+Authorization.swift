@@ -221,25 +221,23 @@ extension RestAPIManager {
     
     /// Logout user
     public func logout() -> Completable {
-        let requestParamsType = MethodAPIType.logout.introduced()
-        let requestMethodAPIType = Broadcast.instance.prepareGETRequest(requestParamsType: requestParamsType)
-        SocketManager.shared.sendMessage(requestMethodAPIType.requestMessage!)
-
-        do {
-            try KeychainManager.deleteUser()
-            UserDefaults.standard.set(nil, forKey: Config.currentUserPushNotificationOn)
-            UserDefaults.standard.set(nil, forKey: Config.currentUserAppLanguageKey)
-            UserDefaults.standard.set(nil, forKey: Config.currentUserThemeKey)
-            UserDefaults.standard.set(nil, forKey: Config.currentUserAvatarUrlKey)
-            UserDefaults.standard.set(nil, forKey: Config.currentUserBiometryAuthEnabled)
-            UserDefaults.standard.set(nil, forKey: Config.currentUserDidSubscribeToMoreThan3Communities)
-            UserDefaults.standard.set(nil, forKey: Config.currentDeviceDidSendFCMToken)
-        } catch {
-            print(error)
-        }
-
-        // pushNotifyOff()
         return deviceResetFcmToken()
+            .flatMap {_ -> Single<ResponseAPIStatus> in
+                let requestParamsType = MethodAPIType.logout.introduced()
+                let requestMethodAPIType = Broadcast.instance.prepareGETRequest(requestParamsType: requestParamsType)
+                SocketManager.shared.sendMessage(requestMethodAPIType.requestMessage!)
+                return .just(ResponseAPIStatus(status: "OK"))
+            }
+            .do(onSuccess: { (_) in
+                try KeychainManager.deleteUser()
+                UserDefaults.standard.set(nil, forKey: Config.currentUserPushNotificationOn)
+                UserDefaults.standard.set(nil, forKey: Config.currentUserAppLanguageKey)
+                UserDefaults.standard.set(nil, forKey: Config.currentUserThemeKey)
+                UserDefaults.standard.set(nil, forKey: Config.currentUserAvatarUrlKey)
+                UserDefaults.standard.set(nil, forKey: Config.currentUserBiometryAuthEnabled)
+                UserDefaults.standard.set(nil, forKey: Config.currentUserDidSubscribeToMoreThan3Communities)
+                UserDefaults.standard.set(nil, forKey: Config.currentDeviceDidSendFCMToken)
+            })
             .flatMapToCompletable()
     }
     
