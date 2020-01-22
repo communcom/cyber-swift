@@ -56,7 +56,7 @@ public class SocketManager {
     public func deviceIdDidSet() {
         guard let id = KeychainManager.currentDeviceId else {return}
         socket.disconnect()
-        let urlString = Config.gate_API_URL + "connect?platform=ios&deviceType=phone&clientType=app&version=\(id)"
+        let urlString = Config.gate_API_URL + "connect?platform=ios&deviceType=phone&clientType=app&version=\(UIApplication.appVersion)&deviceId=\(id)"
         socket = WebSocket(url: URL(string: urlString)!)
         socket.connect()
     }
