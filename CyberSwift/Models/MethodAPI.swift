@@ -175,6 +175,9 @@ public indirect enum MethodAPIType {
 
     // Unsubscribe of push notifications
     case notifyPushOff(appProfileType: AppProfileType)
+    
+    //  Subsribe to notification service
+    case notificationsSubscribe
 
     //  Receiving notifications
     case getNotifications(limit: UInt, beforeThan: String?, filter: [String]?)
@@ -422,6 +425,12 @@ public indirect enum MethodAPIType {
                                             "app": appProfileType.rawValue,
                                             "profile": String(format: "%@-%@", Config.currentUser?.id ?? "", Config.currentDeviceType)
                                         ])
+            
+        case .notificationsSubscribe:
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.notifications.rawValue,
+                     methodName:        "subscribe",
+                     parameters:        [:])
             
         case .getNotifications(let limit, let beforeThan, let filter):
             var params = [String: Encodable]()

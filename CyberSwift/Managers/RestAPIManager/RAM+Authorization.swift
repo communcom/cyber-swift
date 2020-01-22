@@ -217,6 +217,11 @@ extension RestAPIManager {
         let methodAPIType = MethodAPIType.authorize(username: username, activeKey: activeKey)
         
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+            .do(onSuccess: { (_) in
+                let requestParamsType = MethodAPIType.notificationsSubscribe.introduced()
+                let requestMethodAPIType = Broadcast.instance.prepareGETRequest(requestParamsType: requestParamsType)
+                SocketManager.shared.sendMessage(requestMethodAPIType.requestMessage!)
+            })
     }
     
     /// Logout user
