@@ -30,6 +30,8 @@ public class SocketManager {
     let bag = DisposeBag()
     var reachability: Reachability!
     
+    public let unseenNotificationsRelay = BehaviorRelay<UInt64>(value: 0)
+    
     // MARK: - Singleton
     public static let shared = SocketManager()
     private init() {
@@ -109,6 +111,12 @@ public class SocketManager {
                 default:
                     break
                 }
+            })
+            .disposed(by: bag)
+        
+        catchMethod("notifications.statusUpdated", objectType: SocketResponseNotificationsStatusUpdated.self)
+            .subscribe(onNext: { (status) in
+                self.unseenNotificationsRelay.accept(status.unseenCount)
             })
             .disposed(by: bag)
     }
