@@ -184,6 +184,9 @@ public indirect enum MethodAPIType {
     
     //  Notification getStatus
     case notificationsGetStatus
+    
+    //  Get Push notifications settings
+    case getPushSettings
 
     //  Receiving the number of unread notifications according to user settings
     case getPushHistoryFresh
@@ -438,6 +441,12 @@ public indirect enum MethodAPIType {
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.notifications.rawValue,
                      methodName:        "getStatus",
+                     parameters:        [:])
+            
+        case .getPushSettings:
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.notifications.rawValue,
+                     methodName:        "getPushSettings",
                      parameters:        [:])
             
         case .getNotifications(let limit, let beforeThan, let filter):

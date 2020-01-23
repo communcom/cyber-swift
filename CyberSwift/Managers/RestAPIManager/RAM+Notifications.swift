@@ -38,6 +38,12 @@ extension RestAPIManager {
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
     
+    // API `notifications.getPushSettings`
+    public func notificationsGetPushSettings() -> Single<ResponseAPIStatus> {
+        let methodAPIType = MethodAPIType.getPushSettings
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+    }
+    
     // MARK: - Old methods
     // API `push.historyFresh`
     public func getPushHistoryFresh() -> Single<ResponseAPIStatus> {
