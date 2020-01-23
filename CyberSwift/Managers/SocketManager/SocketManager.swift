@@ -115,7 +115,7 @@ public class SocketManager {
             })
             .disposed(by: bag)
         
-        catchMethod("notifications.statusUpdated", objectType: SocketResponseNotificationsStatusUpdated.self)
+        catchMethod("notifications.statusUpdated", objectType: ResponseAPINotificationsStatusUpdated.self)
             .subscribe(onNext: { (status) in
                 self.unseenNotificationsRelay.accept(status.unseenCount)
             })
