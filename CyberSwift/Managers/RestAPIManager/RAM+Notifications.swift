@@ -38,9 +38,15 @@ extension RestAPIManager {
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
     
-    // API `notifications.getPushSettings`
-    public func notificationsGetPushSettings() -> Single<ResponseAPIStatus> {
+    // API `settings.getPushSettings`
+    public func notificationsGetPushSettings() -> Single<ResponseAPISettingsGetPushSettings> {
         let methodAPIType = MethodAPIType.getPushSettings
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+    }
+    
+    // API `settings.setPushSettings`
+    public func notificationsSetPushSettings(disable types: [String]) -> Single<ResponseAPIStatus> {
+        let methodAPIType = MethodAPIType.setPushSettings(disabled: types)
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
     

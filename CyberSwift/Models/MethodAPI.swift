@@ -37,6 +37,7 @@ public enum MethodAPIGroup: String {
     case wallet             =   "wallet"
     case exchange           =   "exchange"
     case device             =   "device"
+    case settings           =   "settings"
 }
 
 public enum FeedTypeMode: String {
@@ -187,6 +188,9 @@ public indirect enum MethodAPIType {
     
     //  Get Push notifications settings
     case getPushSettings
+    
+    //  Set push notifications settings
+    case setPushSettings(disabled: [String])
 
     //  Receiving the number of unread notifications according to user settings
     case getPushHistoryFresh
@@ -445,9 +449,15 @@ public indirect enum MethodAPIType {
             
         case .getPushSettings:
             return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.notifications.rawValue,
+                     methodGroup:       MethodAPIGroup.settings.rawValue,
                      methodName:        "getPushSettings",
                      parameters:        [:])
+            
+        case .setPushSettings(let disabled):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.settings.rawValue,
+                     methodName:        "setPushSettings",
+                     parameters:        ["disable": disabled])
             
         case .getNotifications(let limit, let beforeThan, let filter):
             var params = [String: Encodable]()

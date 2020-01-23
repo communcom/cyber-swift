@@ -72,3 +72,8 @@ public struct ResponseAPIGetNotificationItemCommentParents: Decodable, Equatable
 public struct ResponseAPINotificationsStatusUpdated: Decodable, Equatable {
     public let unseenCount: UInt64
 }
+
+// MARK: - pushSettings
+public struct ResponseAPISettingsGetPushSettings: Decodable, Equatable {
+    public var disabled: [String]
+}
