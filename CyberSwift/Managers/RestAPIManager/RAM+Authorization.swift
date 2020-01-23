@@ -161,9 +161,11 @@ extension RestAPIManager {
     public func setPasscode(_ passcode: String, onBoarding: Bool = true) throws {
         guard passcode.count == 4, Int(passcode) != nil else {return}
         var data = [Config.currentUserPasscodeKey: passcode]
+        
         if onBoarding {
             data[Config.settingStepKey] = CurrentUserSettingStep.setFaceId.rawValue
         }
+        
         try KeychainManager.save(data)
     }
     
