@@ -15,6 +15,7 @@ public enum NoticeType {
 }
 
 extension RestAPIManager {
+    // MARK: - New methods
     // API `notifications.getNotifications`
     public func getNotifications(
         limit: UInt = 20,
@@ -25,11 +26,19 @@ extension RestAPIManager {
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
     
+    // API `notifications.getStatus`
     public func notificationsGetStatus() -> Single<ResponseAPINotificationsStatusUpdated> {
         let methodAPIType = MethodAPIType.notificationsGetStatus
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
     
+    // API `notifications.markAsRead`
+    public func notificationsMarkAsRead(_ ids: [String]) -> Single<ResponseAPIStatus> {
+        let methodAPIType = MethodAPIType.markAsRead(ids)
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+    }
+    
+    // MARK: - Old methods
     // API `push.historyFresh`
     public func getPushHistoryFresh() -> Single<ResponseAPIStatus> {
         
@@ -50,17 +59,6 @@ extension RestAPIManager {
     public func notifyMarkAllAsViewed() -> Single<ResponseAPIStatus> {
         
         let methodAPIType = MethodAPIType.notifyMarkAllAsViewed
-        
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
-    }
-    
-    // API `notify.markAsRead`
-    public func markAsRead(notifies: [String]) -> Single<ResponseAPIStatus> {
-        
-        // Check user authorize
-        guard Config.currentUser?.id != nil else { return .error(ErrorAPI.unauthorized)}
-
-        let methodAPIType = MethodAPIType.markAsRead(notifies: notifies)
         
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }

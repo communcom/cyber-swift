@@ -201,8 +201,7 @@ public indirect enum MethodAPIType {
     case setNotice(options: RequestParameterAPI.NoticeOptions, type: NoticeType, appProfileType: AppProfileType)
     
     //  Mark specified notifications as read
-    #warning("Not work version")
-    case markAsRead(notifies: [String])
+    case markAsRead([String])
 
     //  Mark all notifications as viewed
     case notifyMarkAllAsViewed
@@ -516,11 +515,9 @@ public indirect enum MethodAPIType {
                      methodName:        "set",
                      parameters:        parameters)
 
-        //  Template { "id": 14, "jsonrpc": "2.0", "method": "notify.markAsRead", "params": { "user": <userNickName>, "params": { "vote": <voteValue>, "flag": <flagValue>, "reply": <replyValue>, "transfer": <transferValue>, "subscribe": <subscribeValue>, "unsubscribe": <unsibscribeValue>, "mention": <mentionValue>, "repost": <repostValue>,  "message": <messageValue>, "witnessVote": <witnessVoteValue>, "witnessCancelVote": <witnessCancelVoteValue>, "reward": <rewardValue>, "curatorReward": <curatorRewardValue> }}}
-        #warning("Not work version")
         case .markAsRead(let notifies):
             return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.notify.rawValue,
+                     methodGroup:       MethodAPIGroup.notifications.rawValue,
                      methodName:        "markAsRead",
                      parameters:        ["ids": notifies])
 
