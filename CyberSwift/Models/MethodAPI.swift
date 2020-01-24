@@ -209,9 +209,9 @@ public indirect enum MethodAPIType {
     
     //  Mark specified notifications as read
     case markAsRead([String])
-
-    //  Mark all notifications as viewed
-    case notifyMarkAllAsViewed
+    
+    //  Mark all as viewed
+    case markAllAsViewed(until: String)
 
     //  Record the fact of viewing the post
     case recordPostView(permlink: String)
@@ -485,13 +485,6 @@ public indirect enum MethodAPIType {
                     methodName:         "historyFresh",
                     parameters:         [:])
             
-        //  Template { "id": 11, "jsonrpc": "2.0", "result": { "status": "OK" } }
-        case .notifyMarkAllAsViewed:
-            return (methodAPIType:      self,
-                    methodGroup:        MethodAPIGroup.notify.rawValue,
-                    methodName:         "markAllAsViewed",
-                    parameters:         [:])
-            
         //  Template { "id": 11, "jsonrpc": "2.0", "method": "options.get", "params": { "profile": <userNickName-deviceUDID> }}
         case .getOptions:
             return  (methodAPIType:     self,
@@ -539,7 +532,13 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.notifications.rawValue,
                      methodName:        "markAsRead",
                      parameters:        ["ids": notifies])
-
+            
+        case .markAllAsViewed(let until):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.notifications.rawValue,
+                     methodName:        "markAllAsViewed",
+                     parameters:        ["until": until])
+            
         //  Template { "id": 15, "jsonrpc": "2.0", "method": "meta.recordPostView", "params": { "postLink": <author.permlink>, "fingerPrint": <deviceUDID> }}
         case .recordPostView(let permlink):
             return  (methodAPIType:     self,

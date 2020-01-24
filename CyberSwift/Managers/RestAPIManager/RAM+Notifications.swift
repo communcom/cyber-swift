@@ -38,6 +38,12 @@ extension RestAPIManager {
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
     
+    // API `notifications.markAllAsViewed`
+    public func notificationsMarkAllAsViewed(until: String) -> Single<ResponseAPIStatus> {
+        let methodAPIType = MethodAPIType.markAllAsViewed(until: until)
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+    }
+    
     // API `settings.getPushSettings`
     public func notificationsGetPushSettings() -> Single<ResponseAPISettingsGetPushSettings> {
         let methodAPIType = MethodAPIType.getPushSettings
@@ -63,14 +69,6 @@ extension RestAPIManager {
     public func getOnlineNotifyHistoryFresh() -> Single<ResponseAPIOnlineNotifyHistoryFresh> {
         
         let methodAPIType = MethodAPIType.getOnlineNotifyHistoryFresh
-        
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
-    }
-    
-    // API `notify.markAllAsViewed`
-    public func notifyMarkAllAsViewed() -> Single<ResponseAPIStatus> {
-        
-        let methodAPIType = MethodAPIType.notifyMarkAllAsViewed
         
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
