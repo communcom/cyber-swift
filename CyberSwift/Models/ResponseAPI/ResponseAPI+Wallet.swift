@@ -16,11 +16,14 @@ public struct ResponseAPIWalletGetBalances: Decodable {
 
 public struct ResponseAPIWalletGetBalance: ListItemType {
     public let symbol: String
-    public let balance: String
+    public var balance: String
     public let logo: String?
     public let name: String?
     public let frozen: String?
     public let price: Conflicted?
+    
+    // MARK: - Other values
+    public var isWaitingForTransaction: Bool?
     
     public var identity: String {
         return symbol
