@@ -20,6 +20,7 @@ public enum LogEvent: String {
     case severe     =   "[🔥]"          // tokens & keys & init & deinit
     case request    =   "[⬆️]"
     case response   =   "[⬇️]"
+    case event      =   "[🎇]"
 }
 
 public class Logger {

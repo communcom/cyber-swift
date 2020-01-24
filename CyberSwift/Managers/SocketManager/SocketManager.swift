@@ -115,13 +115,13 @@ public class SocketManager {
             })
             .disposed(by: bag)
         
-        catchMethod("notifications.statusUpdated", objectType: ResponseAPINotificationsStatusUpdated.self)
+        catchEvent("notifications.statusUpdated", objectType: ResponseAPINotificationsStatusUpdated.self)
             .subscribe(onNext: { (status) in
                 self.unseenNotificationsRelay.accept(status.unseenCount)
             })
             .disposed(by: bag)
         
-        catchMethod("notifications.newNotification", objectType: ResponseAPIGetNotificationItem.self)
+        catchEvent("notifications.newNotification", objectType: ResponseAPIGetNotificationItem.self)
             .subscribe(onNext: { (item) in
                 let newNotifications = ResponseAPIGetNotificationItem.join(array1: self.newNotificationsRelay.value, array2: [item])
                 self.newNotificationsRelay.accept(newNotifications)
@@ -142,7 +142,7 @@ public class SocketManager {
         reachability.stopNotifier()
     }
     
-    public func catchMethod<T: Decodable>(_ method: String, objectType: T.Type) -> Observable<T> {
+    public func catchEvent<T: Decodable>(_ method: String, objectType: T.Type) -> Observable<T> {
         text
             .filter { string in
                 guard let jsonData = string.data(using: .utf8),
@@ -153,6 +153,7 @@ public class SocketManager {
                 return (json["method"] as? String) == method
             }
             .map { string -> SocketResponse<T> in
+                Logger.log(message: "\(method): \(string)", event: .event)
                 guard let data = string.data(using: .utf8) else {throw ErrorAPI.responseUnsuccessful(message: string)}
                 return try JSONDecoder().decode(SocketResponse<T>.self, from: data)
             }
