@@ -29,9 +29,9 @@ extension RestAPIManager {
     }
     
     // API `content.getPost`
-    public func loadPost(userId: String, permlink: String, communityId: String) -> Single<ResponseAPIContentGetPost> {
+    public func loadPost(userId: String? = nil, username: String? = nil, permlink: String, communityId: String? = nil, communityAlias: String? = nil) -> Single<ResponseAPIContentGetPost> {
         
-        let methodAPIType = MethodAPIType.getPost(userId: userId, permlink: permlink, communityId: communityId)
+        let methodAPIType = MethodAPIType.getPost(userId: userId, username: username, permlink: permlink, communityId: communityId, communityAlias: communityAlias)
         
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
@@ -42,6 +42,7 @@ extension RestAPIManager {
         offset: UInt                    = 0,
         limit: UInt                     = UInt(Config.paginationLimit),
         userId: String?                 = Config.currentUser?.id,
+        username: String?               = nil,
         permlink: String,
         communityId: String?            = nil,
         communityAlias: String?         = nil,
@@ -49,8 +50,6 @@ extension RestAPIManager {
         parentCommentPermlink: String?  = nil,
         resolveNestedComments: Bool     = false
     ) -> Single<ResponseAPIContentGetComments> {
-        
-        guard let userId = userId else {return .error(ErrorAPI.unauthorized)}
         
         var parentComment: [String: String]?
         if let parentCommentUserId = parentCommentUserId,
@@ -67,6 +66,7 @@ extension RestAPIManager {
             limit: limit,
             type: .post,
             userId: userId,
+            username: username,
             permlink: permlink,
             communityId: communityId,
             communityAlias: communityAlias,

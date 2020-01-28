@@ -154,13 +154,13 @@ public indirect enum MethodAPIType {
     case getPosts(userId: String?, communityId: String?, communityAlias: String? = nil, allowNsfw: Bool?, type: FeedTypeMode, sortBy: FeedSortMode, sortType: FeedTimeFrameMode?, limit: UInt, offset: UInt)
     
     //  Getting selected post
-    case getPost(userId: String, permlink: String, communityId: String)
+    case getPost(userId: String?, username: String?, permlink: String, communityId: String?, communityAlias: String?)
     
     //  Waiting for transaction
     case waitForTransaction(id: String)
     
     //  Getting user comments feed
-    case getComments(sortBy: CommentSortMode?, offset: UInt, limit: UInt, type: GetCommentsType, userId: String, permlink: String?, communityId: String?, communityAlias: String?, parentComment: [String: String]?, resolveNestedComments: Bool?)
+    case getComments(sortBy: CommentSortMode?, offset: UInt, limit: UInt, type: GetCommentsType, userId: String?, username: String? = nil, permlink: String?, communityId: String?, communityAlias: String?, parentComment: [String: String]?, resolveNestedComments: Bool?)
     
     //  Log in
     case authorize(username: String, activeKey: String)
@@ -343,14 +343,17 @@ public indirect enum MethodAPIType {
                      parameters:        parameters)
             
         //  Template { "id": 3, "jsonrpc": "2.0", "method": "content.getPost", "params": { "userId": "tst2nbduouxh", "permlink": "hephaestusfightswithantigoneagainststyx", "refBlockNum": 381607 }}
-        case .getPost(let userId, let permlink, let communityId):
+        case .getPost(let userId, let username, let permlink, let communityId, let communityAlias):
+            var parameters = [String: Encodable]()
+            parameters["userId"] = userId
+            parameters["username"] = username
+            parameters["permlink"] = permlink
+            parameters["communityId"] = communityId
+            parameters["communityAlias"] = communityAlias
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getPost",
-                     parameters:        [
-                        "userId": userId,
-                        "permlink": permlink,
-                        "communityId": communityId])
+                     parameters:        parameters)
             
         //  Template { "id": 1, "jsonrpc": "2.0", "method": "content.waitForTransaction", "params": { "transactionId": "OdklASkljlAQafdlkjEoljmasdfkD" } }
         case .waitForTransaction(let id):
@@ -360,7 +363,7 @@ public indirect enum MethodAPIType {
                      parameters:        ["transactionId": id])
             
         //  Template { "id": 4, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "user", "userId": "tst2nbduouxh", "sortBy": "time", "limit": 20 }}
-        case .getComments(let sortBy, let offset, let limit, let type, let userId, let permlink, let communityId, let communityAlias, let parentComment, let resolveNestedComments):
+        case .getComments(let sortBy, let offset, let limit, let type, let userId, let username, let permlink, let communityId, let communityAlias, let parentComment, let resolveNestedComments):
             var parameters: [String: Encodable] =
                 [
                     "type": type.rawValue,
@@ -374,6 +377,7 @@ public indirect enum MethodAPIType {
                 parameters["userId"] = userId
             case .post:
                 parameters["userId"] = userId
+                parameters["username"] = username
                 parameters["permlink"] = permlink
                 parameters["parentComment"] = parentComment
             case .replies:
