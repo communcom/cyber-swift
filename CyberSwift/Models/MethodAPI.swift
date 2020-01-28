@@ -226,7 +226,7 @@ public indirect enum MethodAPIType {
     case removeFavorites(permlink: String)
     
     //  Get community
-    case getCommunity(id: String)
+    case getCommunity(id: String? = nil, alias: String? = nil)
     
     //  Get communities list
     case getCommunities(type: GetCommunitiesType?, userId: String?, search: String?, offset: Int?, limit: Int?)
@@ -567,11 +567,14 @@ public indirect enum MethodAPIType {
                      methodName:        "remove",
                      parameters:        ["permlink": permlink])
             
-        case .getCommunity(let id):
+        case .getCommunity(let id, let alias):
+            var params = [String: Encodable]()
+            params["communityId"] = id
+            params["communityAlias"] = alias
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getCommunity",
-                     parameters:        ["communityId": id])
+                     parameters:        params)
             
         case .getCommunities(let type, let userId, let search, let offset, let limit):
             var params = [String: Encodable]()

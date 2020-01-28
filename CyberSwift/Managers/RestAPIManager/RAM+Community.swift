@@ -17,6 +17,13 @@ extension RestAPIManager {
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
     
+    public func getCommunity(alias: String) -> Single<ResponseAPIContentGetCommunity> {
+        
+        let methodAPIType = MethodAPIType.getCommunity(alias: alias)
+        
+        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+    }
+    
     public func getCommunities(
         type: GetCommunitiesType?,
         userId: String? = Config.currentUser?.id,
