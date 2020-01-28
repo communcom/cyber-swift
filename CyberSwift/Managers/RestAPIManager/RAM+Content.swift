@@ -15,6 +15,7 @@ extension RestAPIManager {
     public func getPosts(
         userId: String?,
         communityId: String?,
+        communityAlias: String? = nil,
         allowNsfw: Bool = false,
         type: FeedTypeMode,
         sortBy: FeedSortMode = .time,
@@ -22,7 +23,7 @@ extension RestAPIManager {
         limit: UInt = UInt(Config.paginationLimit),
         offset: UInt = 0
     ) -> Single<ResponseAPIContentGetPosts> {
-        let methodAPIType = MethodAPIType.getPosts(userId: userId, communityId: communityId, allowNsfw: allowNsfw, type: type, sortBy: sortBy, sortType: sortType, limit: limit, offset: offset)
+        let methodAPIType = MethodAPIType.getPosts(userId: userId, communityId: communityId, communityAlias: communityAlias, allowNsfw: allowNsfw, type: type, sortBy: sortBy, sortType: sortType, limit: limit, offset: offset)
         
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }

@@ -151,7 +151,7 @@ public indirect enum MethodAPIType {
     case getBlacklist(userId: String?, type: GetBlacklistType, limit: Int, offset: Int)
     
     //  Get posts
-    case getPosts(userId: String?, communityId: String?, allowNsfw: Bool?, type: FeedTypeMode, sortBy: FeedSortMode, sortType: FeedTimeFrameMode?, limit: UInt, offset: UInt)
+    case getPosts(userId: String?, communityId: String?, communityAlias: String? = nil, allowNsfw: Bool?, type: FeedTypeMode, sortBy: FeedSortMode, sortType: FeedTimeFrameMode?, limit: UInt, offset: UInt)
     
     //  Getting selected post
     case getPost(userId: String, permlink: String, communityId: String)
@@ -232,7 +232,7 @@ public indirect enum MethodAPIType {
     case getCommunities(type: GetCommunitiesType?, userId: String?, search: String?, offset: Int?, limit: Int?)
     
     //  Get leaders
-    case getLeaders(communityId: String, sequenceKey: String?, limit: Int, query: String?)
+    case getLeaders(communityId: String?, communityAlias: String?, sequenceKey: String?, limit: Int, query: String?)
 
     //  Get subscribers
     case getSubscribers(userId: String?, communityId: String?, offset: Int, limit: Int)
@@ -321,20 +321,21 @@ public indirect enum MethodAPIType {
                      parameters:        ["userId": userId, "type": type.rawValue/*, "limit": limit, "offset": offset*/])
 
         //  Template { "id": 2, "jsonrpc": "2.0", "method": "content.getFeed", "params": { "type": "community", "timeframe": "day", "sortBy": "popular", "limit": 20, "userId": "tst3uuqzetwf", "communityId": "gls" }}
-        case .getPosts(let userId, let communityId, let allowNsfw, let type, let sortBy, let sortType, let limit, let offset):
+        case .getPosts(let userId, let communityId, let communityAlias, let allowNsfw, let type, let sortBy, let sortType, let limit, let offset):
             var parameters = [String: Encodable]()
-            parameters["userId"]        = userId
-            parameters["communityId"]   = communityId
-            parameters["allowNsfw"]     = allowNsfw ?? false
-            parameters["type"]          = type.rawValue
+            parameters["userId"]            = userId
+            parameters["communityId"]       = communityId
+            parameters["communityAlias"]    = communityAlias
+            parameters["allowNsfw"]         = allowNsfw ?? false
+            parameters["type"]              = type.rawValue
             if type != .new {
-                parameters["sortBy"]    = sortBy.rawValue
+                parameters["sortBy"]        = sortBy.rawValue
             }
             if type == .topLikes || type == .topComments || type == .topRewards {
                 parameters["timeframe"]     = sortType?.rawValue
             }
-            parameters["limit"]         = limit
-            parameters["offset"]        = offset
+            parameters["limit"]             = limit
+            parameters["offset"]            = offset
             
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
@@ -591,13 +592,13 @@ public indirect enum MethodAPIType {
                      methodName:        "getCommunities",
                      parameters:        params)
             
-        case .getLeaders(let communityId, let sequenceKey, let limit, let query):
-            var params: [String: Encodable] = [
-               "communityId": communityId,
-               "limit": limit
-            ]
-            params["sequenceKey"] = sequenceKey
-            params["query"]       = query
+        case .getLeaders(let communityId, let communityAlias, let sequenceKey, let limit, let query):
+            var params = [String: Encodable]()
+            params["communityId"]       = communityId
+            params["communityAlias"]    = communityAlias
+            params["limit"]             = limit
+            params["sequenceKey"]       = sequenceKey
+            params["query"]             = query
             
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,

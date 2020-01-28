@@ -38,12 +38,13 @@ extension RestAPIManager {
     }
     
     public func getLeaders(
-        communityId: String,
+        communityId: String?    = nil,
+        communityAlias: String? = nil,
         sequenceKey: String?    = nil,
         limit: UInt8            = 10,
         query: String?          = nil
     ) -> Single<ResponseAPIContentGetLeaders> {
-        let methodAPIType = MethodAPIType.getLeaders(communityId: communityId, sequenceKey: sequenceKey, limit: Int(limit), query: query)
+        let methodAPIType = MethodAPIType.getLeaders(communityId: communityId, communityAlias: communityAlias, sequenceKey: sequenceKey, limit: Int(limit), query: query)
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
 }
