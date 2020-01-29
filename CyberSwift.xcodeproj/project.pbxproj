@@ -78,6 +78,7 @@
 		BC52913E2378FE910022EC7F /* RAM+Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52913D2378FE910022EC7F /* RAM+Content.swift */; };
 		BC9066E923A9D515000F9A3B /* ResponseAPI+Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9066E823A9D515000F9A3B /* ResponseAPI+Wallet.swift */; };
 		BC9066FC23AA106D000F9A3B /* RAM+Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9066FB23AA106D000F9A3B /* RAM+Wallet.swift */; };
+		BC99B65E23E185D2004AA74E /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC99B65D23E185D2004AA74E /* Double.swift */; };
 		BCA97132236178E600AE37E1 /* ResponseAPIContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA97131236178E600AE37E1 /* ResponseAPIContent.swift */; };
 		BCA971342361798000AE37E1 /* ResponseAPI+Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA971332361798000AE37E1 /* ResponseAPI+Profile.swift */; };
 		BCB2A6F4235588EA00B3582B /* ResponseAPIContentGetComments.json in Resources */ = {isa = PBXBuildFile; fileRef = BCB2A6F3235588EA00B3582B /* ResponseAPIContentGetComments.json */; };
@@ -177,6 +178,7 @@
 		BC52913D2378FE910022EC7F /* RAM+Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Content.swift"; sourceTree = "<group>"; };
 		BC9066E823A9D515000F9A3B /* ResponseAPI+Wallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Wallet.swift"; sourceTree = "<group>"; };
 		BC9066FB23AA106D000F9A3B /* RAM+Wallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Wallet.swift"; sourceTree = "<group>"; };
+		BC99B65D23E185D2004AA74E /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
 		BCA97131236178E600AE37E1 /* ResponseAPIContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseAPIContent.swift; sourceTree = "<group>"; };
 		BCA971332361798000AE37E1 /* ResponseAPI+Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Profile.swift"; sourceTree = "<group>"; };
 		BCB2A6F3235588EA00B3582B /* ResponseAPIContentGetComments.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ResponseAPIContentGetComments.json; sourceTree = "<group>"; };
@@ -357,6 +359,7 @@
 				B1EA0318228A985400835244 /* UIView+Extensions.swift */,
 				BC4692B52390BAFA0064A38B /* UIApplication.swift */,
 				BC286C3823A2371600801A26 /* UIImageCodable.swift */,
+				BC99B65D23E185D2004AA74E /* Double.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -654,6 +657,7 @@
 				3BBBE29A2296A8A10029C9C9 /* RxSwift.swift in Sources */,
 				B1C3F859223F98B1005711EF /* Encodable+Extensions.swift in Sources */,
 				B1A74A662243893A009D68E7 /* EOSManager.swift in Sources */,
+				BC99B65E23E185D2004AA74E /* Double.swift in Sources */,
 				B17991792269B4560014CB44 /* Random.swift in Sources */,
 				3B1E901622CDEC6A00D7A0C1 /* RAM+Authorization.swift in Sources */,
 				B179916E2269B3EB0014CB44 /* Data+Extensions.swift in Sources */,

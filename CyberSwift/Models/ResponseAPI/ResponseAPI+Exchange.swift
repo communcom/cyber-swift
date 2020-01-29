@@ -31,6 +31,14 @@ public struct ResponseAPIGetCurrency: ListItemType {
 public struct ResponseAPIGetMinMaxAmount: Decodable {
     public let minFromAmount: String
     public let maxToAmount: String
+    
+    public var minValue: Double {
+        Double(minFromAmount) ?? 0
+    }
+    
+    public var maxValue: Double {
+        Double(maxToAmount) ?? 0
+    }
 }
 
 public struct ResponseAPICreateTransaction: Decodable {
