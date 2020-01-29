@@ -16,19 +16,6 @@ extension CGFloat {
     public static func adaptive(height: CGFloat) -> CGFloat {
         return height * Config.heightRatio
     }
-    
-    public func convertToString(withAccuracy accuracy: Int) -> String {
-        switch self {
-        case 0:
-            return String(format: "0.%i", Int(Double(self.fraction) * pow(10.0, Double(accuracy))))
-
-        case 0..<1000:
-            return String(format: "%i.%i", Int(self), Int(Double(self.fraction) * pow(10.0, Double(accuracy))))
-
-        default:
-            return String(format: "%@.%i", self.whole.formattedWithSeparator, Int(Double(self.fraction) * pow(10.0, Double(accuracy))))
-        }
-    }
 }
 
 extension Formatter {

@@ -277,13 +277,19 @@ public indirect enum MethodAPIType {
     case getSellPrice(quantity: String)
     
     case getCurrenciesFull
-    
+
     /// DEVICE
     case deviceSetInfo(timeZoneOffset: Int)
     
     case deviceSetFcmToken(_ token: String)
     
     case deviceResetFcmToken
+    
+    case getMinMaxAmount(from: String, to: String)
+    
+    case getExchangeAmount(from: String, to: String, amount: Double)
+    
+    case createTransaction(from: String, address: String, amount: String, extraId: String?, refundAddress: String?, refundExtraId: String?)
 
     /// CHAIN-SERVICE
     case bandwidthProvide(chainID: String, transaction: RequestAPITransaction)
@@ -784,6 +790,32 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.device.rawValue,
                      methodName:        "resetFcmToken",
                      parameters:        [:])
+            
+        case .getMinMaxAmount(let from, let to):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.exchange.rawValue,
+                     methodName:        "getMinMaxAmount",
+                     parameters:        ["from": from, "to": to])
+            
+        case .getExchangeAmount(let from, let to, let amount):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.exchange.rawValue,
+                     methodName:        "getExchangeAmount",
+                     parameters:        ["from": from, "to": to, "amount": amount])
+            
+        case .createTransaction(let from, let address, let amount, let extraId, let refundAddress, let refundExtraId):
+            var parameters = [String: Encodable]()
+            parameters["from"] = from
+            parameters["address"] = address
+            parameters["amount"] = amount
+            parameters["extraId"] = extraId
+            parameters["refundAddress"] = refundAddress
+            parameters["refundExtraId"] = refundExtraId
+            
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.exchange.rawValue,
+                     methodName:        "createTransaction",
+                     parameters:        parameters)
             
         // Template: missing
         case .bandwidthProvide(let chainID, let transaction):

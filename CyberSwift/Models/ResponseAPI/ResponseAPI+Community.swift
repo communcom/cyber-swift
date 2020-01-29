@@ -95,6 +95,7 @@ public struct ResponseAPIContentGetLeader: ListItemType {
     public let rating: Double
     public var votesCount: Int
     public let isActive: Bool
+    public let inTop: Bool
     public let userId: String
     public let position: UInt64
     public var isVoted: Bool?
@@ -125,6 +126,7 @@ public struct ResponseAPIContentGetLeader: ListItemType {
             rating: item.rating,
             votesCount: item.votesCount,
             isActive: item.isActive,
+            inTop: item.inTop,
             userId: item.userId,
             position: item.position,
             isVoted: item.isVoted ?? self.isVoted,

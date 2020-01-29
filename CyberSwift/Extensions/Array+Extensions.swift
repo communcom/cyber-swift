@@ -23,3 +23,9 @@ extension Array where Element == UInt8 {
         return GSBase58.base58FromBytes(self)
     }
 }
+
+extension Sequence where Iterator.Element == ResponseAPIWalletGetBalance {
+    public var enquityCommunValue: Double {
+        reduce(0, {$0 + $1.communValue})
+    }
+}
