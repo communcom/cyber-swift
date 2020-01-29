@@ -34,7 +34,8 @@ public struct ResponseAPIWalletGetBalance: ListItemType {
     }
     
     public var communValue: Double {
-        priceValue
+        if symbol == "CMN" {return balanceValue}
+        return priceValue
     }
     
     public var balanceValue: Double {
