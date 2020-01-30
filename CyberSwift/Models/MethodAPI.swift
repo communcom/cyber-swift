@@ -38,6 +38,7 @@ public enum MethodAPIGroup: String {
     case exchange           =   "exchange"
     case device             =   "device"
     case settings           =   "settings"
+    case rewards            =   "rewards"
 }
 
 public enum FeedTypeMode: String {
@@ -290,6 +291,9 @@ public indirect enum MethodAPIType {
     case getExchangeAmount(from: String, to: String, amount: Double)
     
     case createTransaction(from: String, address: String, amount: String, extraId: String?, refundAddress: String?, refundExtraId: String?)
+    
+    /// REWARDS
+    case rewardsGetStateBulk(posts: [RequestAPIContentId])
 
     /// CHAIN-SERVICE
     case bandwidthProvide(chainID: String, transaction: RequestAPITransaction)
@@ -816,6 +820,13 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.exchange.rawValue,
                      methodName:        "createTransaction",
                      parameters:        parameters)
+            
+        /// REWARDS
+        case .rewardsGetStateBulk(var posts):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.exchange.rawValue,
+                     methodName:        "getExchangeAmount",
+                     parameters:        ["posts": posts])
             
         // Template: missing
         case .bandwidthProvide(let chainID, let transaction):

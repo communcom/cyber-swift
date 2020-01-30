@@ -44,3 +44,13 @@ public enum VoteActionType: String {
     case upvote     =   "upvote"
     case downvote   =   "downvote"
 }
+
+public struct RequestAPIContentId: Encodable {
+    public let userId: String
+    public let permlink: String
+    
+    init(responseAPI: ResponseAPIContentId) {
+        self.userId = responseAPI.userId
+        self.permlink = responseAPI.permlink
+    }
+}

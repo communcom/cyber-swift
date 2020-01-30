@@ -86,6 +86,8 @@
 		BCB2A6F4235588EA00B3582B /* ResponseAPIContentGetComments.json in Resources */ = {isa = PBXBuildFile; fileRef = BCB2A6F3235588EA00B3582B /* ResponseAPIContentGetComments.json */; };
 		BCB2A6F62355897A00B3582B /* Decodable+MockObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB2A6F52355897A00B3582B /* Decodable+MockObjects.swift */; };
 		BCCE0A9E2367DD3A00A183AA /* RAM+Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE0A9D2367DD3A00A183AA /* RAM+Profile.swift */; };
+		BCCF8AC023E2BDBD004892FF /* ResponseAPI+Rewards.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCF8ABF23E2BDBD004892FF /* ResponseAPI+Rewards.swift */; };
+		BCCF8AC223E2C11B004892FF /* RAM+Rewards.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCF8AC123E2C11B004892FF /* RAM+Rewards.swift */; };
 		BCE93909234D868E00226E39 /* ResponseAPI+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE93908234D868E00226E39 /* ResponseAPI+Extensions.swift */; };
 /* End PBXBuildFile section */
 
@@ -188,6 +190,8 @@
 		BCB2A6F3235588EA00B3582B /* ResponseAPIContentGetComments.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ResponseAPIContentGetComments.json; sourceTree = "<group>"; };
 		BCB2A6F52355897A00B3582B /* Decodable+MockObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+MockObjects.swift"; sourceTree = "<group>"; };
 		BCCE0A9D2367DD3A00A183AA /* RAM+Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Profile.swift"; sourceTree = "<group>"; };
+		BCCF8ABF23E2BDBD004892FF /* ResponseAPI+Rewards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Rewards.swift"; sourceTree = "<group>"; };
+		BCCF8AC123E2C11B004892FF /* RAM+Rewards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Rewards.swift"; sourceTree = "<group>"; };
 		BCE93908234D868E00226E39 /* ResponseAPI+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Extensions.swift"; sourceTree = "<group>"; };
 		F6ED672114DF191DC66860EA /* Pods_CyberSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CyberSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -235,6 +239,7 @@
 				BC9066FB23AA106D000F9A3B /* RAM+Wallet.swift */,
 				BC18FA1623D54B8B005DC7E3 /* RAM+Exchange.swift */,
 				BC518BD723D699390090E145 /* RAM+Device.swift */,
+				BCCF8AC123E2C11B004892FF /* RAM+Rewards.swift */,
 			);
 			path = RestAPIManager;
 			sourceTree = "<group>";
@@ -433,6 +438,7 @@
 				BC9066E823A9D515000F9A3B /* ResponseAPI+Wallet.swift */,
 				BC40719B23CEFAC1000027A3 /* ResponseAPI+Notification.swift */,
 				BC18FA1423D54B5A005DC7E3 /* ResponseAPI+Exchange.swift */,
+				BCCF8ABF23E2BDBD004892FF /* ResponseAPI+Rewards.swift */,
 			);
 			path = ResponseAPI;
 			sourceTree = "<group>";
@@ -642,6 +648,7 @@
 				B19A28D6226087EE001C9F43 /* UIDevice+Extensions.swift in Sources */,
 				B1C3F861223F98DC005711EF /* Logger.swift in Sources */,
 				BC44DBAD238F739600412F08 /* RAM+Config.swift in Sources */,
+				BCCF8AC023E2BDBD004892FF /* ResponseAPI+Rewards.swift in Sources */,
 				3BE08B9722E6609D00BE6FCB /* SocketManager+Rx.swift in Sources */,
 				B1C3F86A223F9907005711EF /* ResponseAPI.swift in Sources */,
 				B179917E2269B4560014CB44 /* PublicKey.swift in Sources */,
@@ -691,6 +698,7 @@
 				B1EA02F62289D3B400835244 /* UITextField+Extensions.swift in Sources */,
 				B1C3715B23867AAF000BAE2F /* Numbers+Extensions.swift in Sources */,
 				3BCDB40B2260E9C300739F7E /* Bool+Extensions.swift in Sources */,
+				BCCF8AC223E2C11B004892FF /* RAM+Rewards.swift in Sources */,
 				B17991702269B4070014CB44 /* Array+Extensions.swift in Sources */,
 				B1C3F868223F9907005711EF /* RequestAPI.swift in Sources */,
 				B1677C66223F9BD7005FB286 /* RestAPIManager.swift in Sources */,
