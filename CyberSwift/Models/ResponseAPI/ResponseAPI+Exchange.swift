@@ -47,10 +47,10 @@ public struct ResponseAPICreateTransaction: Decodable {
     public let currencyFrom: String
     public let currencyTo: String
     public let payinAddress: String
-    public let payinExtraId: String
+    public let payinExtraId: String?
     public let payoutAddress: String
     public let payoutExtraId: String?
-    public let amountExpectedFrom: Double
+    public let amountExpectedFrom: String
     public let amountExpectedTo: Double
     public let createdAt: String
 }

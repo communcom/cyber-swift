@@ -38,7 +38,7 @@ extension RestAPIManager {
         amount: String,
         extraId: String? = nil,
         refundAddress: String? = nil,
-        refundExtraId: String = nil?
+        refundExtraId: String? = nil
     ) -> Single<ResponseAPICreateTransaction> {
         let methodAPIType = MethodAPIType.createTransaction(from: from, address: address, amount: amount, extraId: extraId, refundAddress: refundAddress, refundExtraId: refundExtraId)
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
