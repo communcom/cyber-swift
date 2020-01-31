@@ -16,7 +16,7 @@ public struct ResponseAPIGetNotifications: Decodable {
 
 public struct ResponseAPIGetNotificationItem: ListItemType {
     public static var empty: ResponseAPIGetNotificationItem {
-        ResponseAPIGetNotificationItem(id: "", eventType: "", timestamp: "", community: nil, userId: nil, author: nil, user: nil, isNew: false, voter: nil, entityType: nil, post: nil, comment: nil)
+        ResponseAPIGetNotificationItem(id: "", eventType: "", timestamp: "", community: nil, userId: nil, author: nil, user: nil, isNew: false, voter: nil, entityType: nil, post: nil, comment: nil, from: nil, amount: nil, pointType: nil, tracery: nil)
     }
     
     public let id: String
@@ -31,12 +31,16 @@ public struct ResponseAPIGetNotificationItem: ListItemType {
     public let entityType: String?
     public let post: ResponseAPIGetNotificationItemPost?
     public let comment: ResponseAPIGetNotificationItemComment?
+    public let from: ResponseAPIContentResolveProfile?
+    public let amount: String?
+    public let pointType: String?
+    public let tracery: String?
     
     public var identity: String {id}
     
     public func newUpdatedItem(from item: ResponseAPIGetNotificationItem) -> ResponseAPIGetNotificationItem? {
         guard item.identity == self.identity else {return nil}
-        return ResponseAPIGetNotificationItem(id: id, eventType: item.eventType, timestamp: item.timestamp, community: item.community ?? community, userId: item.userId ?? userId, author: item.author ?? author, user: item.user ?? self.user, isNew: item.isNew, voter: item.voter ?? self.voter, entityType: item.entityType ?? entityType, post: item.post ?? post, comment: item.comment ?? comment)
+        return ResponseAPIGetNotificationItem(id: id, eventType: item.eventType, timestamp: item.timestamp, community: item.community ?? community, userId: item.userId ?? userId, author: item.author ?? author, user: item.user ?? self.user, isNew: item.isNew, voter: item.voter ?? self.voter, entityType: item.entityType ?? entityType, post: item.post ?? post, comment: item.comment ?? comment, from: item.from ?? self.from, amount: item.amount ?? self.amount, pointType: item.pointType ?? self.pointType, tracery: item.tracery ?? self.tracery)
     }
     
     public static func join(array1: [ResponseAPIGetNotificationItem], array2: [ResponseAPIGetNotificationItem]) -> [ResponseAPIGetNotificationItem] {
