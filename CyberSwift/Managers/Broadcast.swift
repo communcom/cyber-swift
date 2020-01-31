@@ -113,7 +113,7 @@ extension Broadcast {
     }
     
     /// Rx method to deal with executeGetRequest
-    public func executeGetRequest<T: Decodable>(methodAPIType: MethodAPIType) -> Single<T> {
+    public func executeGetRequest<T: Decodable>(methodAPIType: MethodAPIType, timeout: RxSwift.RxTimeInterval = 10) -> Single<T> {
         // Offline mode
         if !Config.isNetworkAvailable {
             return .error(ErrorAPI.disableInternetConnection(message: nil)) }
@@ -128,7 +128,7 @@ extension Broadcast {
         
         Logger.log(message: "\nrequestMethodAPIType:\n\t\(requestMethodAPIType.requestMessage!)\n", event: .request)
         
-        return SocketManager.shared.sendRequest(methodAPIType: requestMethodAPIType)
+        return SocketManager.shared.sendRequest(methodAPIType: requestMethodAPIType, timeout: timeout)
             .catchError({ (error) -> Single<T> in
                 if let errorAPI = error as? ErrorAPI {
                     let message = errorAPI.caseInfo.message

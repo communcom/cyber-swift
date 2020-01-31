@@ -62,12 +62,12 @@ public class SocketManager {
         socket.connect()
     }
     
-    func sendRequest<T: Decodable>(methodAPIType: RequestMethodAPIType) -> Single<T> {
+    func sendRequest<T: Decodable>(methodAPIType: RequestMethodAPIType, timeout: RxSwift.RxTimeInterval) -> Single<T> {
         sendMessage(methodAPIType.requestMessage!)
         
         return text
             .filter {self.compareMessageFromResponseText($0, to: methodAPIType.id)}
-            .timeout(10, scheduler: MainScheduler.instance)
+            .timeout(timeout, scheduler: MainScheduler.instance)
             .take(1)
             .asSingle()
             .map {try self.transformMessage($0)}
