@@ -12,13 +12,7 @@ import RxSwift
 
 extension SocketManager: WebSocketDelegate {
     public func websocketDidConnect(socket: WebSocketClient) {
-        if Config.currentUser?.activeKeys?.privateKey != nil {
-            RestAPIManager.instance.authorize().subscribe(onSuccess: { [weak self] _ in
-                self?.subject.onNext(WebSocketEvent.connected)
-            }).disposed(by: bag)
-        } else {
-            subject.onNext(WebSocketEvent.connected)
-        }
+        subject.onNext(WebSocketEvent.connected)
     }
     
     public func websocketDidDisconnect(socket: WebSocketClient, error: Error?) {
