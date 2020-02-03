@@ -140,6 +140,12 @@ public enum GetBlacklistType: String {
     case communities        =   "communities"
 }
 
+public enum SearchEntityType: String, Encodable {
+    case posts
+    case communities
+    case profiles
+}
+
 public indirect enum MethodAPIType {
     /// FACADE-SERVICE
     //  Resolve a user profile
@@ -296,11 +302,11 @@ public indirect enum MethodAPIType {
     case rewardsGetStateBulk(posts: [RequestAPIContentId])
     
     /// SEARCH
-    case quickSearch(queryString: String, entities: [String], limit: UInt)
+    case quickSearch(queryString: String, entities: [SearchEntityType], limit: UInt)
     
-    case extendedSearch(queryString: String, entities: [String: [String: UInt]])
+    case extendedSearch(queryString: String, entities: [SearchEntityType: [String: UInt]])
     
-    case entitySearch(queryString: String, entity: String, limit: UInt, offset: UInt)
+    case entitySearch(queryString: String, entity: SearchEntityType, limit: UInt, offset: UInt)
 
     /// CHAIN-SERVICE
     case bandwidthProvide(chainID: String, transaction: RequestAPITransaction)

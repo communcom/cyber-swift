@@ -12,7 +12,7 @@ import RxSwift
 extension RestAPIManager {
     public func quickSearch(
         queryString: String,
-        entities: [String],
+        entities: [SearchEntityType],
         limit: UInt
     ) -> Single<ResponseAPIContentEntitySearch> {
         let methodAPIType = MethodAPIType.quickSearch(queryString: queryString, entities: entities, limit: limit)
@@ -21,7 +21,7 @@ extension RestAPIManager {
     
     public func extendedSearch(
         queryString: String,
-        entities: [String: [String: UInt]]
+        entities: [SearchEntityType: [String: UInt]]
     ) -> Single<ResponseAPIContentExtendedSearch> {
         let methodAPIType = MethodAPIType.extendedSearch(queryString: queryString, entities: entities)
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
@@ -29,7 +29,7 @@ extension RestAPIManager {
     
     public func entitySearch(
         queryString: String,
-        entity: String,
+        entity: SearchEntityType,
         limit: UInt,
         offset: UInt
     ) -> Single<ResponseAPIContentEntitySearch> {
