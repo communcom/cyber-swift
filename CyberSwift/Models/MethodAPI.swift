@@ -294,6 +294,9 @@ public indirect enum MethodAPIType {
     
     /// REWARDS
     case rewardsGetStateBulk(posts: [RequestAPIContentId])
+    
+    /// SEARCH
+    case quickSearch(queryString: String, entities: [String], limit: UInt)
 
     /// CHAIN-SERVICE
     case bandwidthProvide(chainID: String, transaction: RequestAPITransaction)
@@ -822,11 +825,18 @@ public indirect enum MethodAPIType {
                      parameters:        parameters)
             
         /// REWARDS
-        case .rewardsGetStateBulk(var posts):
+        case .rewardsGetStateBulk(let posts):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.exchange.rawValue,
                      methodName:        "getExchangeAmount",
                      parameters:        ["posts": posts])
+            
+        /// SEARCH
+        case .quickSearch(let queryString, let entities, let limit):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.content.rawValue,
+                     methodName:        "quickSearch",
+                     parameters:        ["queryString": queryString, "entities": entities, "limit": limit])
             
         // Template: missing
         case .bandwidthProvide(let chainID, let transaction):

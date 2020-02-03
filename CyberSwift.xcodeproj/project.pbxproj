@@ -61,6 +61,8 @@
 		B1EA02F62289D3B400835244 /* UITextField+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EA02F52289D3B400835244 /* UITextField+Extensions.swift */; };
 		B1EA0319228A985400835244 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EA0318228A985400835244 /* UIView+Extensions.swift */; };
 		B1F7B44A229FB5A4005492DD /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F7B449229FB5A4005492DD /* UIImage+Extensions.swift */; };
+		BC06A99B23E7C170000B690E /* ResponseAPI+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC06A99A23E7C170000B690E /* ResponseAPI+Search.swift */; };
+		BC06A99D23E7C6A8000B690E /* RAM+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC06A99C23E7C6A8000B690E /* RAM+Search.swift */; };
 		BC18FA1523D54B5A005DC7E3 /* ResponseAPI+Exchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC18FA1423D54B5A005DC7E3 /* ResponseAPI+Exchange.swift */; };
 		BC18FA1723D54B8B005DC7E3 /* RAM+Exchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC18FA1623D54B8B005DC7E3 /* RAM+Exchange.swift */; };
 		BC286C3923A2371600801A26 /* UIImageCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC286C3823A2371600801A26 /* UIImageCodable.swift */; };
@@ -165,6 +167,8 @@
 		B1EA02F52289D3B400835244 /* UITextField+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+Extensions.swift"; sourceTree = "<group>"; };
 		B1EA0318228A985400835244 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		B1F7B449229FB5A4005492DD /* UIImage+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
+		BC06A99A23E7C170000B690E /* ResponseAPI+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Search.swift"; sourceTree = "<group>"; };
+		BC06A99C23E7C6A8000B690E /* RAM+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Search.swift"; sourceTree = "<group>"; };
 		BC18FA1423D54B5A005DC7E3 /* ResponseAPI+Exchange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Exchange.swift"; sourceTree = "<group>"; };
 		BC18FA1623D54B8B005DC7E3 /* RAM+Exchange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Exchange.swift"; sourceTree = "<group>"; };
 		BC286C3823A2371600801A26 /* UIImageCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageCodable.swift; sourceTree = "<group>"; };
@@ -240,6 +244,7 @@
 				BC18FA1623D54B8B005DC7E3 /* RAM+Exchange.swift */,
 				BC518BD723D699390090E145 /* RAM+Device.swift */,
 				BCCF8AC123E2C11B004892FF /* RAM+Rewards.swift */,
+				BC06A99C23E7C6A8000B690E /* RAM+Search.swift */,
 			);
 			path = RestAPIManager;
 			sourceTree = "<group>";
@@ -439,6 +444,7 @@
 				BC40719B23CEFAC1000027A3 /* ResponseAPI+Notification.swift */,
 				BC18FA1423D54B5A005DC7E3 /* ResponseAPI+Exchange.swift */,
 				BCCF8ABF23E2BDBD004892FF /* ResponseAPI+Rewards.swift */,
+				BC06A99A23E7C170000B690E /* ResponseAPI+Search.swift */,
 			);
 			path = ResponseAPI;
 			sourceTree = "<group>";
@@ -661,6 +667,7 @@
 				BC44DBB2238FA1FD00412F08 /* ListItemType.swift in Sources */,
 				B1902AD622706F1E00661211 /* RequestParameterAPI.swift in Sources */,
 				3B5EDE3F22E0F10900897BF3 /* RAM+Notifications.swift in Sources */,
+				BC06A99D23E7C6A8000B690E /* RAM+Search.swift in Sources */,
 				B1EA02CE22895EB400835244 /* UIButton+Extensions.swift in Sources */,
 				BCCE0A9E2367DD3A00A183AA /* RAM+Profile.swift in Sources */,
 				BC46931323978DDE0064A38B /* ResponseAPIContentResolveProfile.swift in Sources */,
@@ -693,6 +700,7 @@
 				B1EA02CD22895EB400835244 /* UILabel+Extensions.swift in Sources */,
 				3B3016B922F1FDAA003CD1BD /* ReachabilityManager.swift in Sources */,
 				BCA97132236178E600AE37E1 /* ResponseAPIContent.swift in Sources */,
+				BC06A99B23E7C170000B690E /* ResponseAPI+Search.swift in Sources */,
 				BC18FA1523D54B5A005DC7E3 /* ResponseAPI+Exchange.swift in Sources */,
 				B1A74A642243892B009D68E7 /* EOSTransaction.swift in Sources */,
 				B1EA02F62289D3B400835244 /* UITextField+Extensions.swift in Sources */,
