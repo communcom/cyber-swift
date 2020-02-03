@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 
 extension RestAPIManager {
-    func quickSearch(
+    public func quickSearch(
         queryString: String,
         entities: [String],
         limit: UInt

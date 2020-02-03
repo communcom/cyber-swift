@@ -9,7 +9,7 @@
 import Foundation
 
 public struct ResponseAPIContentQuickSearch: Decodable {
-    public let items: [ResponseAPIContentGetProfile]
+    public let items: [ResponseAPIContentSearchItem]
     public let total: UInt
 }
 
