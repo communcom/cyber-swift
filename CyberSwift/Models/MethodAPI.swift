@@ -297,6 +297,10 @@ public indirect enum MethodAPIType {
     
     /// SEARCH
     case quickSearch(queryString: String, entities: [String], limit: UInt)
+    
+    case extendedSearch(queryString: String, entities: [String: [String: UInt]])
+    
+    case entitySearch(queryString: String, entity: String, limit: UInt, offset: UInt)
 
     /// CHAIN-SERVICE
     case bandwidthProvide(chainID: String, transaction: RequestAPITransaction)
@@ -837,6 +841,18 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "quickSearch",
                      parameters:        ["queryString": queryString, "entities": entities, "limit": limit])
+            
+        case .extendedSearch(let queryString, let entities):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.content.rawValue,
+                     methodName:        "quickSearch",
+                     parameters:        ["queryString": queryString, "entities": entities])
+            
+        case .entitySearch(let queryString, let entity, let limit, let offset):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.content.rawValue,
+                     methodName:        "quickSearch",
+                     parameters:        ["queryString": queryString, "entity": entity, "limit": limit, "offset": offset])
             
         // Template: missing
         case .bandwidthProvide(let chainID, let transaction):

@@ -8,7 +8,8 @@
 
 import Foundation
 
-public struct ResponseAPIContentQuickSearch: Decodable {
+// MARK: - content.quickSearch
+public struct ResponseAPIContentEntitySearch: Decodable {
     public let items: [ResponseAPIContentSearchItem]
     public let total: UInt
 }
@@ -96,4 +97,11 @@ public enum ResponseAPIContentSearchItem: ListItemType {
             return nil
         }
     }
+}
+
+// MARK: - content.extendedSearch
+public struct ResponseAPIContentExtendedSearch: Decodable {
+    public let profiles: ResponseAPIContentEntitySearch?
+    public let posts: ResponseAPIContentEntitySearch?
+    public let communities: ResponseAPIContentEntitySearch?
 }
