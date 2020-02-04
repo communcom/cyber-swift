@@ -12,7 +12,7 @@ public struct ResponseAPIRewardsGetStateBulk: Decodable {
     public let mosaics: [ResponseAPIRewardsGetStateBulkMosaic]
 }
 
-public struct ResponseAPIRewardsGetStateBulkMosaic: Decodable {
+public struct ResponseAPIRewardsGetStateBulkMosaic: Decodable, Equatable {
     public let topCount: UInt64
     public let collectionEnd: String
     public let reward: String

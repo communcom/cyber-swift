@@ -49,7 +49,7 @@ public struct RequestAPIContentId: Encodable {
     public let userId: String
     public let permlink: String
     
-    init(responseAPI: ResponseAPIContentId) {
+    public init(responseAPI: ResponseAPIContentId) {
         self.userId = responseAPI.userId
         self.permlink = responseAPI.permlink
     }

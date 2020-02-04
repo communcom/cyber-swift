@@ -46,8 +46,9 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
     public let payout: ResponseAPIContentGetPostPayout?
     public let community: ResponseAPIContentGetCommunity?
     public let url: String?
-    
+
     // Additional properties
+    public var mosaic: ResponseAPIRewardsGetStateBulkMosaic?
     public var sendingState: MessageSendingState? = MessageSendingState.none
     
     public var identity: String {
