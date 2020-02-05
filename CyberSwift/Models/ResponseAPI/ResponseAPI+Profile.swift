@@ -21,8 +21,8 @@ public struct ResponseAPIContentResolveProfile: Encodable, ListItemType {
     public let username: String
     public let avatarUrl: String?
     public var isSubscribed: Bool?
-    public var subscribersCount: UInt64?
-    public var postsCount: UInt64?
+    public var subscribersCount: Int64?
+    public var postsCount: Int64?
     public var isInBlacklist: Bool?
     
     // additional property
@@ -62,7 +62,7 @@ public struct ResponseAPIContentGetProfile: ListItemType {
     public var isSubscribed: Bool?
     public var isSubscription: Bool?
     public var isBlocked: Bool?
-    public var highlightCommunitiesCount: UInt64?
+    public var highlightCommunitiesCount: Int64?
     public var highlightCommunities: [ResponseAPIContentGetCommunity]
     
     // Additional properties
@@ -96,8 +96,8 @@ public struct ResponseAPIContentGetProfile: ListItemType {
 }
 
 public struct ResponseAPIContentGetProfileSubscription: Decodable, Equatable {
-    public var usersCount: UInt64?
-    public var communitiesCount: UInt64?
+    public var usersCount: Int64?
+    public var communitiesCount: Int64?
 }
 
 public struct ResponseAPIContentGetProfileRegistration: Decodable, Equatable {
@@ -116,8 +116,8 @@ public struct ResponseAPIContentGetProfilePersonal: Decodable, Equatable {
 }
 
 public struct ResponseAPIContentGetProfileSubscriber: Decodable, Equatable {
-    public var usersCount: UInt64?
-    public let communitiesCount: UInt64?
+    public var usersCount: Int64?
+    public let communitiesCount: Int64?
 }
 
 public struct ResponseAPIContentGetProfileBlacklist: Decodable {
@@ -133,8 +133,8 @@ public struct ResponseAPIContentGetProfileContact: Decodable, Equatable {
 }
 
 public struct ResponseAPIContentGetProfileSubscribers: Decodable {
-    public let usersCount: UInt64
-    public let communitiesCount: UInt64
+    public let usersCount: Int64
+    public let communitiesCount: Int64
 }
 
 // MARK: - API `content.getSubscribers`
@@ -221,8 +221,8 @@ public struct ResponseAPIContentGetSubscriptionsUser: ListItemType {
     public let userId: String
     public let username: String
     public let avatarUrl: String?
-    public var subscribersCount: UInt64?
-    public let postsCount: UInt64?
+    public var subscribersCount: Int64?
+    public let postsCount: Int64?
     public var isSubscribed: Bool?
     public var isInBlacklist: Bool?
     

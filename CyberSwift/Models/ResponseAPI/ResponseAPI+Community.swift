@@ -16,9 +16,9 @@ public struct ResponseAPIContentGetCommunities: Decodable {
 // MARK: - API `content.getCommunity`
 public struct ResponseAPIContentGetCommunity: Encodable, ListItemType {
     // Be careful, mark new properties as optional, please!!!
-    public var subscribersCount: UInt64?
-    public var leadersCount: UInt64?
-    public let postsCount: UInt64?
+    public var subscribersCount: Int64?
+    public var leadersCount: Int64?
+    public let postsCount: Int64?
     public let communityId: String
     public let name: String
     public let code: String?
@@ -34,7 +34,7 @@ public struct ResponseAPIContentGetCommunity: Encodable, ListItemType {
     public let description: String?
     public let language: String?
     public var isBlocked: Bool?
-    public let friendsCount: UInt64?
+    public let friendsCount: Int64?
     public let friends: [ResponseAPIContentResolveProfile]?
     public var isInBlacklist: Bool?
     public var isLeader: Bool?
@@ -93,18 +93,18 @@ public struct ResponseAPIContentGetLeaders: Decodable {
 public struct ResponseAPIContentGetLeader: ListItemType {
     public let url: String
     public let rating: Double
-    public var votesCount: Int
+    public var votesCount: Int64
     public let isActive: Bool
     public let inTop: Bool
     public let userId: String
-    public let position: UInt64
+    public let position: Int64
     public var isVoted: Bool?
     public let ratingPercent: Double
     public var isSubscribed: Bool?
     public let username: String
     public let avatarUrl: String?
     
-    public var subscribersCount: UInt64?
+    public var subscribersCount: Int64?
     public var isInBlacklist: Bool?
     
     // Additional property

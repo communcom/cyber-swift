@@ -13,7 +13,7 @@ public struct ResponseAPIRewardsGetStateBulk: Decodable {
 }
 
 public struct ResponseAPIRewardsGetStateBulkMosaic: Decodable, Equatable {
-    public let topCount: UInt64
+    public let topCount: Int64
     public let collectionEnd: String
     public let reward: String
     public let isClosed: Bool

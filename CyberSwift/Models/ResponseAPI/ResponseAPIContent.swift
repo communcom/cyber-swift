@@ -207,11 +207,11 @@ public struct ResponseAPIContentVotes: Decodable, Equatable {
 
 public struct ResponseAPIContentGetPostStats: Decodable, Equatable {
     public let wilson: ResponseAPIContentGetPostStatsWilson?
-    public var commentsCount: UInt64
+    public var commentsCount: Int64
     public let rShares: Conflicted?
     public let hot: Double?
     public let trending: Double?
-    public let viewCount: UInt64?
+    public let viewCount: Int64?
 }
 
 public struct ResponseAPIContentGetPostStatsWilson: Decodable, Equatable {
