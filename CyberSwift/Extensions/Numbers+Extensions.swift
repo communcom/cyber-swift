@@ -10,11 +10,11 @@ import Foundation
 
 extension CGFloat {
     public static func adaptive(width: CGFloat) -> CGFloat {
-        return width * Config.widthRatio
+        return (width * Config.widthRatio).rounded(.down)
     }
 
     public static func adaptive(height: CGFloat) -> CGFloat {
-        return height * Config.heightRatio
+        return (height * Config.heightRatio).rounded(.down)
     }
 }
 
