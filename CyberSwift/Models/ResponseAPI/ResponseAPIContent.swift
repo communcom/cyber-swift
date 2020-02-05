@@ -66,6 +66,7 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
             payout: item.payout ?? self.payout,
             community: item.community ?? self.community,
             url: item.url ?? self.url,
+            mosaic: item.mosaic ?? self.mosaic,
             sendingState: item.sendingState ?? self.sendingState
         )
     }
