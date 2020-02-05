@@ -837,8 +837,8 @@ public indirect enum MethodAPIType {
         /// REWARDS
         case .rewardsGetStateBulk(let posts):
             return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.exchange.rawValue,
-                     methodName:        "getExchangeAmount",
+                     methodGroup:       MethodAPIGroup.rewards.rawValue,
+                     methodName:        "getStateBulk",
                      parameters:        ["posts": posts])
             
         /// SEARCH
