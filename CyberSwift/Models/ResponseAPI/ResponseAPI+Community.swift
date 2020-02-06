@@ -69,9 +69,11 @@ public struct ResponseAPIContentGetCommunity: Encodable, ListItemType {
             isBlocked: item.isBlocked ?? self.isBlocked,
             friendsCount: item.friendsCount ?? self.friendsCount,
             friends: item.friends ?? self.friends,
+            isInBlacklist: item.isInBlacklist ?? self.isInBlacklist,
             isLeader: item.isLeader ?? self.isLeader,
             isStoppedLeader: item.isStoppedLeader ?? self.isStoppedLeader,
-            isBeingJoined: item.isBeingJoined ?? self.isBeingJoined
+            isBeingJoined: item.isBeingJoined ?? self.isBeingJoined,
+            isBeingUnblocked: item.isBeingUnblocked ?? self.isBeingUnblocked
         )
     }
 }
