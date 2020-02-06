@@ -35,13 +35,14 @@ public struct ResponseAPIContentGetCommunity: Encodable, ListItemType {
     public let language: String?
     public var isBlocked: Bool?
     public let friendsCount: Int64?
-    public let friends: [ResponseAPIContentResolveProfile]?
+    public let friends: [ResponseAPIContentGetProfile]?
     public var isInBlacklist: Bool?
     public var isLeader: Bool?
     public var isStoppedLeader: Bool?
     
     // Additional field
     public var isBeingJoined: Bool? = false
+    public var isBeingUnblocked: Bool? = false
     
     public var identity: String {
         return communityId + "/" + name
@@ -68,9 +69,11 @@ public struct ResponseAPIContentGetCommunity: Encodable, ListItemType {
             isBlocked: item.isBlocked ?? self.isBlocked,
             friendsCount: item.friendsCount ?? self.friendsCount,
             friends: item.friends ?? self.friends,
+            isInBlacklist: item.isInBlacklist ?? self.isInBlacklist,
             isLeader: item.isLeader ?? self.isLeader,
             isStoppedLeader: item.isStoppedLeader ?? self.isStoppedLeader,
-            isBeingJoined: item.isBeingJoined ?? self.isBeingJoined
+            isBeingJoined: item.isBeingJoined ?? self.isBeingJoined,
+            isBeingUnblocked: item.isBeingUnblocked ?? self.isBeingUnblocked
         )
     }
 }

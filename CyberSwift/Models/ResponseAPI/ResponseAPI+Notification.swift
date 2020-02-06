@@ -24,14 +24,14 @@ public struct ResponseAPIGetNotificationItem: ListItemType {
     public let timestamp: String
     public let community: ResponseAPIContentGetCommunity?
     public let userId: String?
-    public let author: ResponseAPIContentResolveProfile?
-    public let user: ResponseAPIContentResolveProfile?
+    public let author: ResponseAPIContentGetProfile?
+    public let user: ResponseAPIContentGetProfile?
     public var isNew: Bool
-    public let voter: ResponseAPIContentResolveProfile?
+    public let voter: ResponseAPIContentGetProfile?
     public let entityType: String?
     public let post: ResponseAPIGetNotificationItemPost?
     public let comment: ResponseAPIGetNotificationItemComment?
-    public let from: ResponseAPIContentResolveProfile?
+    public let from: ResponseAPIContentGetProfile?
     public let amount: String?
     public let pointType: String?
     public let tracery: String?

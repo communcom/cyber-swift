@@ -11,7 +11,7 @@ import RxSwift
 
 extension RestAPIManager {
     // API `content.resolveProfile`
-    public func resolveProfile(username: String) -> Single<ResponseAPIContentResolveProfile> {
+    public func resolveProfile(username: String) -> Single<ResponseAPIContentGetProfile> {
         let methodAPIType = MethodAPIType.resolveProfile(username: username)
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
