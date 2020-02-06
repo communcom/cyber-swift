@@ -42,6 +42,7 @@ public struct ResponseAPIContentGetCommunity: Encodable, ListItemType {
     
     // Additional field
     public var isBeingJoined: Bool? = false
+    public var isBeingUnblocked: Bool? = false
     
     public var identity: String {
         return communityId + "/" + name

@@ -27,6 +27,7 @@ public struct ResponseAPIContentResolveProfile: Encodable, ListItemType {
     
     // additional property
     public var isBeingToggledFollow: Bool? = false
+    public var isBeingUnblocked: Bool? = false
     
     public var identity: String {
         return userId + "/" + username
@@ -264,23 +265,23 @@ public enum ResponseAPIContentGetBlacklistItem: ListItemType {
             return false
         }
     }
-    case user(ResponseAPIContentGetBlacklistUser)
-    case community(ResponseAPIContentGetBlacklistCommunity)
+    case user(ResponseAPIContentResolveProfile)
+    case community(ResponseAPIContentGetCommunity)
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let users = try? container.decode(ResponseAPIContentGetBlacklistUser.self) {
+        if let users = try? container.decode(ResponseAPIContentResolveProfile.self) {
             self = .user(users)
             return
         }
-        if let communities = try? container.decode(ResponseAPIContentGetBlacklistCommunity.self) {
+        if let communities = try? container.decode(ResponseAPIContentGetCommunity.self) {
             self = .community(communities)
             return
         }
         throw ErrorAPI.unsupported
     }
     
-    public var userValue: ResponseAPIContentGetBlacklistUser? {
+    public var userValue: ResponseAPIContentResolveProfile? {
         switch self {
         case .user(let user):
             return user
@@ -289,7 +290,7 @@ public enum ResponseAPIContentGetBlacklistItem: ListItemType {
         }
     }
     
-    public var communityValue: ResponseAPIContentGetBlacklistCommunity? {
+    public var communityValue: ResponseAPIContentGetCommunity? {
         switch self {
         case .community(let community):
             return community
@@ -319,60 +320,5 @@ public enum ResponseAPIContentGetBlacklistItem: ListItemType {
             guard let updatedCommunity = communitySelf.newUpdatedItem(from: newCommunity) else {return nil}
             return ResponseAPIContentGetBlacklistItem.community(updatedCommunity)
         }
-    }
-}
-
-public struct ResponseAPIContentGetBlacklistUser: ListItemType {
-    public let userId: String
-    public let username: String
-    public let avatarUrl: String?
-    public var isSubscribed: Bool?
-    
-    // additional properties
-    public var isBeingUnblocked: Bool? = false
-    public var isBlocked: Bool? = true
-    
-    public var identity: String {
-        return userId + "/" + username
-    }
-    
-    public func newUpdatedItem(from item: ResponseAPIContentGetBlacklistUser) -> ResponseAPIContentGetBlacklistUser? {
-        guard item.identity == self.identity else {return nil}
-        return ResponseAPIContentGetBlacklistUser(
-            userId: item.userId,
-            username: item.username,
-            avatarUrl: item.avatarUrl ?? self.avatarUrl,
-            isSubscribed: item.isSubscribed ?? self.isSubscribed,
-            isBeingUnblocked: item.isBeingUnblocked ?? self.isBeingUnblocked,
-            isBlocked: item.isBlocked ?? self.isBlocked
-        )
-    }
-}
-
-public struct ResponseAPIContentGetBlacklistCommunity: ListItemType {
-    public let communityId: String
-    public let alias: String?
-    public let name: String
-    public var isSubscribed: Bool?
-    public var avatarUrl: String?
-    
-    // additional properties
-    public var isBeingUnblocked: Bool? = false
-    public var isBlocked: Bool? = true
-    
-    public var identity: String {
-        return communityId + "/" + name
-    }
-    
-    public func newUpdatedItem(from item: ResponseAPIContentGetBlacklistCommunity) -> ResponseAPIContentGetBlacklistCommunity? {
-        guard item.identity == self.identity else {return nil}
-        return ResponseAPIContentGetBlacklistCommunity(
-            communityId: item.communityId,
-            alias: item.alias ?? self.alias,
-            name: item.name,
-            isSubscribed: item.isSubscribed ?? self.isSubscribed,
-            isBeingUnblocked: item.isBeingUnblocked ?? self.isBeingUnblocked,
-            isBlocked: item.isBlocked ?? self.isBlocked
-        )
     }
 }
