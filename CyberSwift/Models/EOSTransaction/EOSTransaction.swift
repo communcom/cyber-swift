@@ -73,13 +73,11 @@ public class EOSTransaction {
     }
 }
 
-
 extension EOSArgument {
 
     struct CommunBandwidthProvider: Encodable {
         let provider: AccountNameWriterValue
         let account: AccountNameWriterValue
     }
-
 
 }
