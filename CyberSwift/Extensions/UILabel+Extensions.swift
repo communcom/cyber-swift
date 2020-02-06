@@ -40,11 +40,11 @@ extension UILabel {
                                                               attributes: [ NSAttributedString.Key.font: font! ])
         
         let style               =   NSMutableParagraphStyle()
-        style.lineSpacing       =   CGFloat.adaptive(height: lineSpacing)
-        style.minimumLineHeight =   CGFloat.adaptive(height: lineHeight)
+        style.lineSpacing       =   .adaptive(height: lineSpacing)
+        style.minimumLineHeight =   .adaptive(height: lineHeight)
         
         if lineHeightMultiple != 1.0 {
-            style.lineHeightMultiple = CGFloat.adaptive(height: lineHeightMultiple)
+            style.lineHeightMultiple = .adaptive(height: lineHeightMultiple)
         }
         
         attributedString.addAttributes([NSAttributedString.Key.paragraphStyle: style,
