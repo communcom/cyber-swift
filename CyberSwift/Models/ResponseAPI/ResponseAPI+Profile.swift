@@ -49,22 +49,26 @@ public struct ResponseAPIContentGetProfile: Encodable, ListItemType {
     public func newUpdatedItem(from item: ResponseAPIContentGetProfile) -> ResponseAPIContentGetProfile? {
         guard item.identity == self.identity else {return nil}
         return ResponseAPIContentGetProfile(
-            stats: item.stats,
+            stats: item.stats ?? self.stats,
             leaderIn: item.leaderIn ?? self.leaderIn,
             userId: item.userId,
             username: item.username,
             avatarUrl: item.avatarUrl ?? self.avatarUrl,
             coverUrl: item.coverUrl ?? self.coverUrl,
-            registration: item.registration,
+            registration: item.registration ?? self.registration,
             subscribers: item.subscribers ?? self.subscribers,
             subscriptions: item.subscriptions ?? self.subscriptions,
             personal: item.personal ?? self.personal,
+            isInBlacklist: item.isInBlacklist ?? self.isInBlacklist,
             isSubscribed: item.isSubscribed ?? self.isSubscribed,
             isSubscription: item.isSubscription ?? self.isSubscription,
             isBlocked: item.isBlocked ?? self.isBlocked,
             highlightCommunitiesCount: item.highlightCommunitiesCount ?? self.highlightCommunitiesCount,
-            highlightCommunities: item.highlightCommunities,
-            isBeingToggledFollow: item.isBeingToggledFollow ?? self.isBeingToggledFollow
+            highlightCommunities: item.highlightCommunities ?? self.highlightCommunities,
+            postsCount: item.postsCount ?? self.postsCount,
+            subscribersCount: item.subscribersCount ?? self.subscribersCount,
+            isBeingToggledFollow: item.isBeingToggledFollow ?? self.isBeingToggledFollow,
+            isBeingUnblocked: item.isBeingUnblocked ?? self.isBeingUnblocked
         )
     }
 }
