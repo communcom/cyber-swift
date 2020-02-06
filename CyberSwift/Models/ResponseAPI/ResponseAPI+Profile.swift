@@ -15,47 +15,15 @@ public struct QrCodeDecodedProfile: Decodable {
     public let password: String
 }
 
-// MARK: - API `content.resolveProfile`
-public struct ResponseAPIContentResolveProfile: Encodable, ListItemType {
-    public let userId: String
-    public let username: String
-    public let avatarUrl: String?
-    public var isSubscribed: Bool?
-    public var subscribersCount: Int64?
-    public var postsCount: Int64?
-    public var isInBlacklist: Bool?
-    
-    // additional property
-    public var isBeingToggledFollow: Bool? = false
-    public var isBeingUnblocked: Bool? = false
-    
-    public var identity: String {
-        return userId + "/" + username
-    }
-    
-    public func newUpdatedItem(from item: ResponseAPIContentResolveProfile) -> ResponseAPIContentResolveProfile? {
-        guard item.identity == self.identity else {return nil}
-        return ResponseAPIContentResolveProfile(
-            userId: item.userId,
-            username: item.username,
-            avatarUrl: item.avatarUrl ?? self.avatarUrl,
-            isSubscribed: item.isSubscribed ?? self.isSubscribed,
-            subscribersCount: item.subscribersCount ?? self.subscribersCount,
-            postsCount: item.postsCount ?? self.postsCount,
-            isBeingToggledFollow: item.isBeingToggledFollow ?? self.isBeingToggledFollow
-        )
-    }
-}
-
 // MARK: - API `content.getProfile`
-public struct ResponseAPIContentGetProfile: ListItemType {
-    public let stats: ResponseAPIContentGetProfileStat
+public struct ResponseAPIContentGetProfile: Encodable, ListItemType {
+    public let stats: ResponseAPIContentGetProfileStat?
     public let leaderIn: [String]?
     public let userId: String
     public let username: String
     public let avatarUrl: String?
     public let coverUrl: String?
-    public let registration: ResponseAPIContentGetProfileRegistration
+    public let registration: ResponseAPIContentGetProfileRegistration?
     public var subscribers: ResponseAPIContentGetProfileSubscriber?
     public let subscriptions: ResponseAPIContentGetProfileSubscription?
     public let personal: ResponseAPIContentGetProfilePersonal?
@@ -64,10 +32,15 @@ public struct ResponseAPIContentGetProfile: ListItemType {
     public var isSubscription: Bool?
     public var isBlocked: Bool?
     public var highlightCommunitiesCount: Int64?
-    public var highlightCommunities: [ResponseAPIContentGetCommunity]
+    public var highlightCommunities: [ResponseAPIContentGetCommunity]?
+    
+    // content.resolveProfile
+    public var postsCount: Int64?
+    public var subscribersCount: Int64?
     
     // Additional properties
     public var isBeingToggledFollow: Bool? = false
+    public var isBeingUnblocked: Bool? = false
     
     public var identity: String {
         return userId + "/" + username
@@ -96,27 +69,27 @@ public struct ResponseAPIContentGetProfile: ListItemType {
     }
 }
 
-public struct ResponseAPIContentGetProfileSubscription: Decodable, Equatable {
+public struct ResponseAPIContentGetProfileSubscription: Codable, Equatable {
     public var usersCount: Int64?
     public var communitiesCount: Int64?
 }
 
-public struct ResponseAPIContentGetProfileRegistration: Decodable, Equatable {
+public struct ResponseAPIContentGetProfileRegistration: Codable, Equatable {
     public let time: String
 }
 
-public struct ResponseAPIContentGetProfileStat: Decodable, Equatable {
+public struct ResponseAPIContentGetProfileStat: Codable, Equatable {
     public let reputation: Int64
     public let postsCount: Int64
     public let commentsCount: Int64
 }
 
-public struct ResponseAPIContentGetProfilePersonal: Decodable, Equatable {
+public struct ResponseAPIContentGetProfilePersonal: Codable, Equatable {
     public let contacts: ResponseAPIContentGetProfileContact?
     public let biography: String?
 }
 
-public struct ResponseAPIContentGetProfileSubscriber: Decodable, Equatable {
+public struct ResponseAPIContentGetProfileSubscriber: Codable, Equatable {
     public var usersCount: Int64?
     public let communitiesCount: Int64?
 }
@@ -126,7 +99,7 @@ public struct ResponseAPIContentGetProfileBlacklist: Decodable {
     public var communityIds: [String]
 }
 
-public struct ResponseAPIContentGetProfileContact: Decodable, Equatable {
+public struct ResponseAPIContentGetProfileContact: Codable, Equatable {
     public let facebook: String?
     public let telegram: String?
     public let whatsApp: String?
@@ -140,7 +113,7 @@ public struct ResponseAPIContentGetProfileSubscribers: Decodable {
 
 // MARK: - API `content.getSubscribers`
 public struct ResponseAPIContentGetSubscribers: Decodable {
-    public let items: [ResponseAPIContentResolveProfile]
+    public let items: [ResponseAPIContentGetProfile]
 }
 
 // MARK: - API `content.getSubscriptions`
@@ -265,12 +238,12 @@ public enum ResponseAPIContentGetBlacklistItem: ListItemType {
             return false
         }
     }
-    case user(ResponseAPIContentResolveProfile)
+    case user(ResponseAPIContentGetProfile)
     case community(ResponseAPIContentGetCommunity)
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let users = try? container.decode(ResponseAPIContentResolveProfile.self) {
+        if let users = try? container.decode(ResponseAPIContentGetProfile.self) {
             self = .user(users)
             return
         }
@@ -281,7 +254,7 @@ public enum ResponseAPIContentGetBlacklistItem: ListItemType {
         throw ErrorAPI.unsupported
     }
     
-    public var userValue: ResponseAPIContentResolveProfile? {
+    public var userValue: ResponseAPIContentGetProfile? {
         switch self {
         case .user(let user):
             return user
