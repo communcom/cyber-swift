@@ -123,31 +123,32 @@ struct EOSArgument {
 
     struct UpdateUser: Encodable {
         let account: NameWriterValue
-        let meta: User
+        let meta: UserProfileAccountmetaArgs
 
-        init(accountValue: String, metaValue: User) {
+        init(accountValue: String, metaValue: UserProfileAccountmetaArgs) {
             self.account = NameWriterValue(name: accountValue)
             self.meta = metaValue
         }
+    }
 
-        struct User: Encodable {
-            let avatarUrl: String?
-            let coverUrl: String?
-            let biography: String?
-            let facebook: String?
-            let telegram: String?
-            let whatsapp: String?
-            let wechat: String?
+    struct UserProfileAccountmetaArgs: Encodable {
+        let avatar_url: String?
+        let cover_url: String?
+        let biography: String?
+        let facebook: String?
+        let telegram: String?
+        let whatsapp: String?
+        let wechat: String?
 
-            init(json: [String: String?]) {
-                self.avatarUrl = json["avatar_url"] ?? nil
-                self.coverUrl = json["cover_url"] ?? nil
-                self.biography = json["biography"] ?? nil
-                self.facebook = json["facebook"] ?? nil
-                self.telegram = json["telegram"] ?? nil
-                self.whatsapp = json["whatsapp"] ?? nil
-                self.wechat = json["wechat"] ?? nil
-            }
+        // MARK: - Initialization
+        init(json: [String: String?]) {
+            self.avatar_url = json["avatar_url"] ?? nil
+            self.cover_url = json["cover_url"] ?? nil
+            self.biography = json["biography"] ?? nil
+            self.facebook = json["facebook"] ?? nil
+            self.telegram = json["telegram"] ?? nil
+            self.whatsapp = json["whatsapp"] ?? nil
+            self.wechat = json["wechat"] ?? nil
         }
     }
 

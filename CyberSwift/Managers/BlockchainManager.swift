@@ -313,7 +313,7 @@ public class BlockchainManager {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
 
-        let userProfileAccountmetaArgs = EOSArgument.UpdateUser.User(json: userProfile)
+        let userProfileAccountmetaArgs = EOSArgument.UserProfileAccountmetaArgs(json: userProfile)
 
         let userProfileMetaArgs = EOSArgument.UpdateUser(accountValue: userID,
                                                                            metaValue: userProfileAccountmetaArgs)
