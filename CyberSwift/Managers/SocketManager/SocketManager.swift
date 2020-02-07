@@ -123,8 +123,9 @@ public class SocketManager {
         
         catchEvent("notifications.newNotification", objectType: ResponseAPIGetNotificationItem.self)
             .subscribe(onNext: { (item) in
-                let newNotifications = ResponseAPIGetNotificationItem.join(array1: self.newNotificationsRelay.value, array2: [item])
-                self.newNotificationsRelay.accept(newNotifications)
+                var newNotifications = self.newNotificationsRelay.value
+                newNotifications.joinUnique([item])
+                self.newNotificationsRelay.accept(newNotifications.sortedByTimestamp)
             })
             .disposed(by: bag)
     }
