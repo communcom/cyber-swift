@@ -115,7 +115,7 @@ public struct ResponseAPIContentGetLeader: ListItemType {
     public var isBeingVoted: Bool? = false
     public var isBeingToggledFollow: Bool? = false
     
-    public var estimatedTableViewCellHeight: CGFloat? { return CGFloat.adaptive(height: 137.0) }
+    public var estimatedTableViewCellHeight: CGFloat? { return .adaptive(height: 137.0) }
     public var tableViewCellHeight: CGFloat?
     
     public var identity: String {

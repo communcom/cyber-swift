@@ -139,7 +139,6 @@ public struct ResponseAPIContentBlockAttributes: Codable, Equatable {
     public var html: String?
     public var width: UInt?
     public var height: UInt?
-
     
     public init(
         title: String? = nil,

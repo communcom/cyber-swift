@@ -181,7 +181,7 @@ extension SocketManager {
             throw ErrorAPI.invalidData(message: "Response Unsuccessful")
         }
         
-        guard ((json["id"] as? Int) != nil) else {
+        guard (json["id"] as? Int) != nil else {
             // Get error
             let jsonDecoder = JSONDecoder()
             
