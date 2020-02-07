@@ -31,15 +31,12 @@ extension RestAPIManager {
         return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIWalletGetBalances>)
             .flatMap { result -> Single<ResponseAPIWalletGetBalances> in
                 if userId != Config.currentUser?.id || retried {return .just(result)}
-                
+
+//                 open balance when CMN is missing
                 if result.balances.first(where: { $0.symbol == Config.defaultSymbol }) != nil {
-                    return .just(result)
+                    BlockchainManager.instance.openCommunityBalance(communityCode: Config.defaultSymbol).subscribe().dispose()
                 }
-                
-                // open balance when CMN is missing
-                return BlockchainManager.instance.openCommunityBalance(communityCode: Config.defaultSymbol)
-                    .flatMapCompletable {RestAPIManager.instance.waitForTransactionWith(id: $0)}
-                    .andThen(self.getBalance(userId: userId, retried: true))
+                return .just(result)
             }
     }
     
