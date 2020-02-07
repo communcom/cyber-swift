@@ -17,6 +17,7 @@ public struct QrCodeDecodedProfile: Decodable {
 
 // MARK: - API `content.getProfile`
 public struct ResponseAPIContentGetProfile: Encodable, ListItemType {
+    // FIXME: - Be careful, mark new properties as optional, please!!!
     public let stats: ResponseAPIContentGetProfileStat?
     public let leaderIn: [String]?
     public let userId: String
@@ -137,12 +138,12 @@ public enum ResponseAPIContentGetSubscriptionsItem: ListItemType {
         }
     }
     
-    case user(ResponseAPIContentGetSubscriptionsUser)
+    case user(ResponseAPIContentGetProfile)
     case community(ResponseAPIContentGetCommunity)
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let users = try? container.decode(ResponseAPIContentGetSubscriptionsUser.self) {
+        if let users = try? container.decode(ResponseAPIContentGetProfile.self) {
             self = .user(users)
             return
         }
@@ -153,7 +154,7 @@ public enum ResponseAPIContentGetSubscriptionsItem: ListItemType {
         throw ErrorAPI.unsupported
     }
     
-    public var userValue: ResponseAPIContentGetSubscriptionsUser? {
+    public var userValue: ResponseAPIContentGetProfile? {
         switch self {
         case .user(let user):
             return user
@@ -192,37 +193,6 @@ public enum ResponseAPIContentGetSubscriptionsItem: ListItemType {
             guard let updatedCommunity = communitySelf.newUpdatedItem(from: newCommunity) else {return nil}
             return ResponseAPIContentGetSubscriptionsItem.community(updatedCommunity)
         }
-    }
-}
-
-public struct ResponseAPIContentGetSubscriptionsUser: ListItemType {
-    public let userId: String
-    public let username: String
-    public let avatarUrl: String?
-    public var subscribersCount: Int64?
-    public let postsCount: Int64?
-    public var isSubscribed: Bool?
-    public var isInBlacklist: Bool?
-    
-    // additional property
-    public var isBeingToggledFollow: Bool? = false
-    
-    public var identity: String {
-        return userId + "/" + username
-    }
-    
-    public func newUpdatedItem(from item: ResponseAPIContentGetSubscriptionsUser) -> ResponseAPIContentGetSubscriptionsUser? {
-        guard item.identity == self.identity else {return nil}
-        
-        return ResponseAPIContentGetSubscriptionsUser(
-            userId: item.userId,
-            username: item.username,
-            avatarUrl: item.avatarUrl ?? self.avatarUrl,
-            subscribersCount: item.subscribersCount ?? self.subscribersCount,
-            postsCount: item.postsCount ?? self.postsCount,
-            isSubscribed: item.isSubscribed ?? self.isSubscribed,
-            isBeingToggledFollow: item.isBeingToggledFollow ?? self.isBeingToggledFollow
-        )
     }
 }
 

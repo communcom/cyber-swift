@@ -15,7 +15,7 @@ public struct ResponseAPIContentGetCommunities: Decodable {
 
 // MARK: - API `content.getCommunity`
 public struct ResponseAPIContentGetCommunity: Encodable, ListItemType {
-    // Be careful, mark new properties as optional, please!!!
+    // FIXME: - Be careful, mark new properties as optional, please!!!
     public var subscribersCount: Int64?
     public var leadersCount: Int64?
     public let postsCount: Int64?
