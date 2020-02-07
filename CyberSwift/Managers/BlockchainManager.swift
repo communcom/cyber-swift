@@ -297,7 +297,8 @@ public class BlockchainManager {
         }
 
         // Change False News to falsenews
-        var stringReasons = reasons.filter({$0 != ReportReason.other}).map { (reason) -> String in
+        // .filter({$0 != ReportReason.other})
+        var stringReasons = reasons.map { (reason) -> String in
             let reasons = reason.rawValue.components(separatedBy: " ")
             let normalizeTag = reasons.map({$0.lowercased()}).joined(separator: "")
             return "\"\(normalizeTag)\""
@@ -505,6 +506,6 @@ extension BlockchainManager {
         case hateSpeech = "Hate Speech"
         case unauthorizedSales = "Unauthorized Sales"
         case abuse = "Attempt to abuse"
-        case other = "Other"
+//        case other = "Other"
     }
 }
