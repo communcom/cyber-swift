@@ -26,7 +26,7 @@ public class SocketManager {
     var socket = WebSocket(url: URL(string: Config.gate_API_URL + "connect?platform=ios&deviceType=phone&clientType=app&version=\(UIApplication.appVersion)\((KeychainManager.currentDeviceId != nil) ? "&deviceId=\(KeychainManager.currentDeviceId!)" : "")")!)
     
     let subject = PublishSubject<WebSocketEvent>()
-    public let connected = BehaviorRelay<Bool>(value: false)
+    public let signed = BehaviorRelay<Bool>(value: false)
     let bag = DisposeBag()
     var reachability: Reachability!
     
@@ -75,8 +75,8 @@ public class SocketManager {
     
     func sendMessage(_ message: String) {
         if !socket.isConnected {
-            connect()
-            connected
+            signed
+                .skip(1)
                 .filter {$0}
                 .take(1)
                 .asSingle()
@@ -84,6 +84,7 @@ public class SocketManager {
                     self?.socket.write(string: message)
                 })
                 .disposed(by: bag)
+            connect()
         } else {
             socket.write(string: message)
         }
@@ -98,7 +99,7 @@ public class SocketManager {
                     // Retrieve secret
                     if let secret = json["params"]["secret"].string {
                         Config.webSocketSecretKey = secret
-                        self.connected.accept(true)
+                        self.signed.accept(true)
                     }
                 }
             })
@@ -108,7 +109,7 @@ public class SocketManager {
             .subscribe(onNext: { (event) in
                 switch event {
                 case .disconnected:
-                    self.connected.accept(false)
+                    self.signed.accept(false)
                 default:
                     break
                 }
