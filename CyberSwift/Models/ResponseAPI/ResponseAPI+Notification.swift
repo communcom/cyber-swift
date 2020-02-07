@@ -31,7 +31,7 @@ public struct ResponseAPIGetNotificationItem: ListItemType {
     public let entityType: String?
     public let post: ResponseAPIGetNotificationItemPost?
     public let comment: ResponseAPIGetNotificationItemComment?
-    public let from: ResponseAPIContentGetProfile?
+    public let from: From?
     public let amount: String?
     public let pointType: String?
     public let tracery: String?
@@ -42,6 +42,19 @@ public struct ResponseAPIGetNotificationItem: ListItemType {
         guard item.identity == self.identity else {return nil}
         return ResponseAPIGetNotificationItem(id: id, eventType: item.eventType, timestamp: item.timestamp, community: item.community ?? community, userId: item.userId ?? userId, author: item.author ?? author, user: item.user ?? self.user, isNew: item.isNew, voter: item.voter ?? self.voter, entityType: item.entityType ?? entityType, post: item.post ?? post, comment: item.comment ?? comment, from: item.from ?? self.from, amount: item.amount ?? self.amount, pointType: item.pointType ?? self.pointType, tracery: item.tracery ?? self.tracery)
     }
+
+    public struct From: Encodable, ListItemType {
+        public func newUpdatedItem(from item: ResponseAPIGetNotificationItem.From) -> ResponseAPIGetNotificationItem.From? {
+            guard item.identity == self.identity else {return nil}
+            return From(userId: userId, username: username, avatarUrl: avatarUrl)
+        }
+
+        public var identity: String {"\(userId ?? "")\(username ?? "")\(avatarUrl ?? "")"}
+        public let userId: String?
+        public let username: String?
+        public let avatarUrl: String?
+    }
+
 }
 
 public struct ResponseAPIGetNotificationItemPost: Decodable, Equatable {
