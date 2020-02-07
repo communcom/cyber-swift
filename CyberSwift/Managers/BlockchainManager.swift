@@ -289,17 +289,22 @@ public class BlockchainManager {
     public func report(communityID: String,
                        autorID: String,
                        permlink: String,
-                       reasons: [ReportReason]) -> Single<String> {
+                       reasons: [ReportReason],
+                       message: String? = nil) -> Single<String> {
         // Check user authorize
         guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
             return .error(ErrorAPI.blockchain(message: "Unauthorized"))
         }
 
         // Change False News to falsenews
-        let stringReasons = reasons.map { (reason) -> String in
+        var stringReasons = reasons.filter({$0 != ReportReason.other}).map { (reason) -> String in
             let reasons = reason.rawValue.components(separatedBy: " ")
             let normalizeTag = reasons.map({$0.lowercased()}).joined(separator: "")
             return "\"\(normalizeTag)\""
+        }
+
+        if let message = message {
+            stringReasons.append("other-\(message)")
         }
 
         let args = EOSArgument.ReportContent(communityID: communityID, userID: userID, authorID: autorID, permlink: permlink, reason: "[\(stringReasons.joined(separator: ", "))]")
@@ -499,5 +504,7 @@ extension BlockchainManager {
         case terrorism = "Terrorism"
         case hateSpeech = "Hate Speech"
         case unauthorizedSales = "Unauthorized Sales"
+        case abuse = "Attempt to abuse"
+        case other = "Other"
     }
 }
