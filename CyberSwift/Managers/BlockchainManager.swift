@@ -297,15 +297,14 @@ public class BlockchainManager {
         }
 
         // Change False News to falsenews
-        // .filter({$0 != ReportReason.other})
-        var stringReasons = reasons.map { (reason) -> String in
+        var stringReasons = reasons.filter({$0 != ReportReason.other}).map { (reason) -> String in
             let reasons = reason.rawValue.components(separatedBy: " ")
             let normalizeTag = reasons.map({$0.lowercased()}).joined(separator: "")
             return "\"\(normalizeTag)\""
         }
 
         if let message = message {
-            stringReasons.append("other-\(message)")
+            stringReasons.append("\"other-\(message)\"")
         }
 
         let args = EOSArgument.ReportContent(communityID: communityID, userID: userID, authorID: autorID, permlink: permlink, reason: "[\(stringReasons.joined(separator: ", "))]")
@@ -506,6 +505,6 @@ extension BlockchainManager {
         case hateSpeech = "Hate Speech"
         case unauthorizedSales = "Unauthorized Sales"
         case abuse = "Attempt to abuse"
-//        case other = "Other"
+        case other = "Other"
     }
 }
