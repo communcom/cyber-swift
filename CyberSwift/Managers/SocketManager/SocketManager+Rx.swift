@@ -9,26 +9,27 @@
 import Foundation
 import Starscream
 import RxSwift
+import SwiftyJSON
 
 extension SocketManager: WebSocketDelegate {
     public func websocketDidConnect(socket: WebSocketClient) {
-        subject.onNext(WebSocketEvent.connected)
+        state.accept(.connected)
     }
     
     public func websocketDidDisconnect(socket: WebSocketClient, error: Error?) {
-        subject.onNext(WebSocketEvent.disconnected(error))
+        state.accept(.disconnected(error))
     }
     
     public func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
-        subject.onNext(WebSocketEvent.message(text))
+        state.accept(.message(text))
     }
     
     public func websocketDidReceiveData(socket: WebSocketClient, data: Data) {
-        subject.onNext(WebSocketEvent.data(data))
+        state.accept(.data(data))
     }
     
     public var text: Observable<String> {
-        return subject
+        return state
             .observeOn(MainScheduler.asyncInstance)
             .filter {
                 switch $0 {
@@ -45,7 +46,18 @@ extension SocketManager: WebSocketDelegate {
                 default:
                     return String()
                 }
-        }
+            }
+            .do(onNext: { (message) in
+                if let data = message.data(using: .utf8),
+                    let json = try? JSON(data: data) {
+                    
+                    // Retrieve secret
+                    if let secret = json["params"]["secret"].string {
+                        Config.webSocketSecretKey = secret
+                        self.state.accept(.signed)
+                    }
+                }
+            })
     }
     
 //    public var connected: Observable<Bool> {

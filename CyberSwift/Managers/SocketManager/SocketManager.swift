@@ -10,23 +10,38 @@ import Foundation
 import RxSwift
 import RxCocoa
 import Starscream
-import SwiftyJSON
 import Reachability
 
-public enum WebSocketEvent {
-    case connected
-    case disconnected(Error?)
-    case message(String)
-    case data(Data)
-    case pong
-}
-
 public class SocketManager {
+    // MARK: - Nested type
+    public enum Event: Equatable {
+        public static func == (lhs: Event, rhs: Event) -> Bool {
+            switch (lhs, rhs) {
+            case (.connecting, .connecting), (.connected, .connected), (.signed, .signed), (.pong, .pong):
+                return true
+            case (.disconnected(let error1), .disconnected(let error2)):
+                return error1?.localizedDescription == error2?.localizedDescription
+            case (.message(let string1), .message(let string2)):
+                return string1 == string2
+            case (.data(let data1), .data(let data2)):
+                return data1 == data2
+            default:
+                return false
+            }
+        }
+        case connecting
+        case connected
+        case signed
+        case disconnected(Error?)
+        case message(String)
+        case data(Data)
+        case pong
+    }
+    
     // MARK: - Properties
     var socket = WebSocket(url: URL(string: Config.gate_API_URL + "connect?platform=ios&deviceType=phone&clientType=app&version=\(UIApplication.appVersion)\((KeychainManager.currentDeviceId != nil) ? "&deviceId=\(KeychainManager.currentDeviceId!)" : "")")!)
     
-    let subject = PublishSubject<WebSocketEvent>()
-    public let signed = BehaviorRelay<Bool>(value: false)
+    public let state = BehaviorRelay<Event>(value: .connecting)
     let bag = DisposeBag()
     var reachability: Reachability!
     
@@ -47,6 +62,7 @@ public class SocketManager {
     
     // MARK: - Methods
     public func connect() {
+        state.accept(.connecting)
         socket.connect()
     }
     
@@ -75,9 +91,8 @@ public class SocketManager {
     
     func sendMessage(_ message: String) {
         if !socket.isConnected {
-            signed
-                .skip(1)
-                .filter {$0}
+            state.accept(.connecting)
+            state.filter {$0 == .signed}
                 .take(1)
                 .asSingle()
                 .subscribe(onSuccess: {[weak self] _ in
@@ -91,31 +106,6 @@ public class SocketManager {
     }
     
     func observeConnection() {
-        text
-            .subscribe(onNext: { (text) in
-                if let data = text.data(using: .utf8),
-                    let json = try? JSON(data: data) {
-                    
-                    // Retrieve secret
-                    if let secret = json["params"]["secret"].string {
-                        Config.webSocketSecretKey = secret
-                        self.signed.accept(true)
-                    }
-                }
-            })
-            .disposed(by: bag)
-        
-        subject
-            .subscribe(onNext: { (event) in
-                switch event {
-                case .disconnected:
-                    self.signed.accept(false)
-                default:
-                    break
-                }
-            })
-            .disposed(by: bag)
-        
         catchEvent("notifications.statusUpdated", objectType: ResponseAPINotificationsStatusUpdated.self)
             .subscribe(onNext: { (status) in
                 self.unseenNotificationsRelay.accept(status.unseenCount)
@@ -140,7 +130,6 @@ public class SocketManager {
     }
     
     deinit {
-        subject.onCompleted()
         reachability.stopNotifier()
     }
     
