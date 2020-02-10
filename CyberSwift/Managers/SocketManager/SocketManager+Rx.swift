@@ -27,35 +27,14 @@ extension SocketManager: WebSocketDelegate {
             // Retrieve secret
             if let secret = json["params"]["secret"].string {
                 Config.webSocketSecretKey = secret
-                self.state.accept(.signed)
+                state.accept(.signed)
             }
         } else {
-            state.accept(.message(text))
+            textSubject.onNext(text)
         }
     }
     
     public func websocketDidReceiveData(socket: WebSocketClient, data: Data) {
-        state.accept(.data(data))
-    }
-    
-    public var text: Observable<String> {
-        return state
-            .observeOn(MainScheduler.asyncInstance)
-            .filter {
-                switch $0 {
-                case .message:
-                    return true
-                default:
-                    return false
-                }
-            }
-            .map {
-                switch $0 {
-                case .message(let message):
-                    return message
-                default:
-                    return String()
-                }
-            }
+//        state.accept(.data(data))
     }
 }

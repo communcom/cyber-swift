@@ -19,15 +19,14 @@ public class SocketManager {
         case connected
         case signed
         case disconnected(ErrorAPI?)
-        case message(String)
-        case data(Data)
-        case pong
     }
     
     // MARK: - Properties
     var socket = WebSocket(url: URL(string: Config.gate_API_URL + "connect?platform=ios&deviceType=phone&clientType=app&version=\(UIApplication.appVersion)\((KeychainManager.currentDeviceId != nil) ? "&deviceId=\(KeychainManager.currentDeviceId!)" : "")")!)
     
     public let state = BehaviorRelay<Event>(value: .connecting)
+    public let textSubject = PublishSubject<String>()
+    
     let bag = DisposeBag()
     var reachability: Reachability!
     
@@ -67,7 +66,7 @@ public class SocketManager {
     func sendRequest<T: Decodable>(methodAPIType: RequestMethodAPIType, timeout: RxSwift.RxTimeInterval) -> Single<T> {
         sendMessage(methodAPIType.requestMessage!)
         
-        return text
+        return textSubject
             .filter {self.compareMessageFromResponseText($0, to: methodAPIType.id)}
             .timeout(timeout, scheduler: MainScheduler.instance)
             .take(1)
@@ -76,7 +75,8 @@ public class SocketManager {
     }
     
     func sendMessage(_ message: String) {
-        if !socket.isConnected {
+        switch state.value {
+        case .disconnected(let error):
             state.accept(.connecting)
             state.filter {$0 == .signed}
                 .take(1)
@@ -86,6 +86,11 @@ public class SocketManager {
                 })
                 .disposed(by: bag)
             connect()
+        default:
+            <#code#>
+        }
+        if state.value != .signed {
+            
         } else {
             socket.write(string: message)
         }
@@ -120,7 +125,7 @@ public class SocketManager {
     }
     
     public func catchEvent<T: Decodable>(_ method: String, objectType: T.Type) -> Observable<T> {
-        text
+        textSubject
             .filter { string in
                 guard let jsonData = string.data(using: .utf8),
                     let json = (try? JSONSerialization.jsonObject(with: jsonData, options: .mutableLeaves)) as? [String: Any]
