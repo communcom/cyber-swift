@@ -22,13 +22,12 @@ extension SocketManager: WebSocketDelegate {
     
     public func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
         if let data = text.data(using: .utf8),
-            let json = try? JSON(data: data) {
-            
+            let json = try? JSON(data: data),
+            let secret = json["params"]["secret"].string
+        {
             // Retrieve secret
-            if let secret = json["params"]["secret"].string {
-                Config.webSocketSecretKey = secret
-                state.accept(.signed)
-            }
+            Config.webSocketSecretKey = secret
+            state.accept(.signed)
         } else {
             textSubject.onNext(text)
         }
