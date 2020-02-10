@@ -236,14 +236,21 @@ extension RestAPIManager {
                 return .just(ResponseAPIStatus(status: "OK"))
             }
             .do(onSuccess: { (_) in
+                // Remove in keychain
                 try KeychainManager.deleteUser()
-                UserDefaults.standard.set(nil, forKey: Config.currentUserPushNotificationOn)
+                
+                // Remove UserDefaults
                 UserDefaults.standard.set(nil, forKey: Config.currentUserAppLanguageKey)
                 UserDefaults.standard.set(nil, forKey: Config.currentUserThemeKey)
                 UserDefaults.standard.set(nil, forKey: Config.currentUserAvatarUrlKey)
                 UserDefaults.standard.set(nil, forKey: Config.currentUserBiometryAuthEnabled)
                 UserDefaults.standard.set(nil, forKey: Config.currentUserDidSubscribeToMoreThan3Communities)
                 UserDefaults.standard.set(nil, forKey: Config.currentDeviceDidSendFCMToken)
+                UserDefaults.standard.set(nil, forKey: Config.currentDeviceDidSetInfo)
+                
+                // Remove old notifications
+                SocketManager.shared.newNotificationsRelay.accept([])
+                SocketManager.shared.unseenNotificationsRelay.accept(0)
             })
             .flatMapToCompletable()
     }
