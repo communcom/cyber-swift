@@ -75,8 +75,7 @@ public class SocketManager {
     }
     
     func sendMessage(_ message: String) {
-        switch state.value {
-        case .disconnected(let error):
+        if !socket.isConnected {
             state.accept(.connecting)
             state.filter {$0 == .signed}
                 .take(1)
@@ -86,11 +85,6 @@ public class SocketManager {
                 })
                 .disposed(by: bag)
             connect()
-        default:
-            <#code#>
-        }
-        if state.value != .signed {
-            
         } else {
             socket.write(string: message)
         }
