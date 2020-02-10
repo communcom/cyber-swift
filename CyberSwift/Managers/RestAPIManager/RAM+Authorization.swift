@@ -227,32 +227,28 @@ extension RestAPIManager {
     }
     
     /// Logout user
-    public func logout() -> Completable {
-        return deviceResetFcmToken()
-            .flatMap {_ -> Single<ResponseAPIStatus> in
-                let requestParamsType = MethodAPIType.logout.introduced()
-                let requestMethodAPIType = Broadcast.instance.prepareGETRequest(requestParamsType: requestParamsType)
-                SocketManager.shared.sendMessage(requestMethodAPIType.requestMessage!)
-                return .just(ResponseAPIStatus(status: "OK"))
-            }
-            .do(onSuccess: { (_) in
-                // Remove in keychain
-                try KeychainManager.deleteUser()
-                
-                // Remove UserDefaults
-                UserDefaults.standard.set(nil, forKey: Config.currentUserAppLanguageKey)
-                UserDefaults.standard.set(nil, forKey: Config.currentUserThemeKey)
-                UserDefaults.standard.set(nil, forKey: Config.currentUserAvatarUrlKey)
-                UserDefaults.standard.set(nil, forKey: Config.currentUserBiometryAuthEnabled)
-                UserDefaults.standard.set(nil, forKey: Config.currentUserDidSubscribeToMoreThan3Communities)
-                UserDefaults.standard.set(nil, forKey: Config.currentDeviceDidSendFCMToken)
-                UserDefaults.standard.set(nil, forKey: Config.currentDeviceDidSetInfo)
-                
-                // Remove old notifications
-                SocketManager.shared.newNotificationsRelay.accept([])
-                SocketManager.shared.unseenNotificationsRelay.accept(0)
-            })
-            .flatMapToCompletable()
+    public func logout() throws {
+        // Reset FCM token
+        sendMessageIgnoreResponse(methodAPIType: .deviceResetFcmToken)
+        
+        // logout
+        sendMessageIgnoreResponse(methodAPIType: .logout)
+        
+        // Remove in keychain
+        try KeychainManager.deleteUser()
+        
+        // Remove UserDefaults
+        UserDefaults.standard.set(nil, forKey: Config.currentUserAppLanguageKey)
+        UserDefaults.standard.set(nil, forKey: Config.currentUserThemeKey)
+        UserDefaults.standard.set(nil, forKey: Config.currentUserAvatarUrlKey)
+        UserDefaults.standard.set(nil, forKey: Config.currentUserBiometryAuthEnabled)
+        UserDefaults.standard.set(nil, forKey: Config.currentUserDidSubscribeToMoreThan3Communities)
+        UserDefaults.standard.set(nil, forKey: Config.currentDeviceDidSendFCMToken)
+        UserDefaults.standard.set(nil, forKey: Config.currentDeviceDidSetInfo)
+        
+        // Remove old notifications
+        SocketManager.shared.newNotificationsRelay.accept([])
+        SocketManager.shared.unseenNotificationsRelay.accept(0)
     }
     
     /// Generate secret

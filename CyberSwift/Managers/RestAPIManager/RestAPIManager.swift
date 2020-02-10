@@ -113,4 +113,10 @@ public class RestAPIManager {
         let methodAPIType = MethodAPIType.getEmbed(url: url)
         return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
     }
+    
+    public func sendMessageIgnoreResponse(methodAPIType: MethodAPIType) {
+        let requestParamsType = methodAPIType.introduced()
+        let requestMethodAPIType = Broadcast.instance.prepareGETRequest(requestParamsType: requestParamsType)
+        SocketManager.shared.sendMessage(requestMethodAPIType.requestMessage!)
+    }
 }
