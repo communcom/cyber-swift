@@ -9,6 +9,7 @@
 import eosswift
 import Foundation
 import RxSwift
+import Crashlytics
 
 enum BCAccountName: String {
     case point
@@ -256,6 +257,7 @@ extension EOSManager {
                         break
                     }
                 }
+                Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["account": account.stringValue, "name": name, "user": userID])
                 return .error(error)
             }
         } catch {
@@ -311,6 +313,7 @@ extension EOSManager {
             let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
             return transaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [action1, action2], authorizingPrivateKey: privateKey)
         } catch {
+            Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["account": "c.point", "name": "open", "user": userID])
             return .error(error)
         }
     }

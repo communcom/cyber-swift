@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import Crashlytics
 
 /// Type of request API
 public typealias RequestMethodAPIType   =   (id: Int, requestMessage: String?, methodAPIType: MethodAPIType, errorAPI: ErrorAPI?)
@@ -34,6 +35,7 @@ public class Broadcast {
             if let result = maybeResult {
                 onResult(result)
             } else if let error = maybeError {
+                Crashlytics.sharedInstance().recordError(error)
                 onError(error)
             } else {
                 onError(ErrorAPI.requestFailed(message: "Result not found"))
@@ -61,6 +63,7 @@ public class Broadcast {
                         return success(newAccount)
                     }
                 } catch {
+                    Crashlytics.sharedInstance().recordError(error)
                     Logger.log(message: error.localizedDescription, event: .error)
                     return success(nil)
                 }
@@ -106,6 +109,7 @@ extension Broadcast {
             // Template: { "id": 2, "jsonrpc": "2.0", "method": "content.getProfile", "params": { "userId": "tst3uuqzetwf" }}
             return (id: codeID, requestMessage: jsonString, methodAPIType: requestParamsType.methodAPIType, errorAPI: nil)
         } catch {
+            Crashlytics.sharedInstance().recordError(error)
             Logger.log(message: "Error: \(error.localizedDescription)", event: .error)
             
             return (id: codeID, requestMessage: nil, methodAPIType: requestParamsType.methodAPIType, errorAPI: ErrorAPI.requestFailed(message: "Broadcast, line 406: \(error.localizedDescription)"))
@@ -121,16 +125,19 @@ extension Broadcast {
         // Prepare content request
         let requestParamsType   =   methodAPIType.introduced()
         let requestMethodAPIType = prepareGETRequest(requestParamsType: requestParamsType)
-        
-        guard requestMethodAPIType.errorAPI == nil else {
-            return .error(ErrorAPI.requestFailed(message: "Broadcast, line \(#line): \(requestMethodAPIType.errorAPI!)"))
+
+        if let error = requestMethodAPIType.errorAPI {
+            Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["Method" : methodAPIType.introduced().methodName])
+            return .error(ErrorAPI.requestFailed(message: "Broadcast, line \(#line): \(error)"))
         }
         
         Logger.log(message: "\nrequestMethodAPIType:\n\t\(requestMethodAPIType.requestMessage!)\n", event: .request)
         
         return SocketManager.shared.sendRequest(methodAPIType: requestMethodAPIType, timeout: timeout)
             .catchError({ (error) -> Single<T> in
+                Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["Method" : methodAPIType.introduced().methodName])
                 if let errorAPI = error as? ErrorAPI {
+
                     let message = errorAPI.caseInfo.message
                     
                     if message == "Unauthorized request: access denied" {
