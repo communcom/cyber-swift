@@ -15,6 +15,11 @@ public struct ResponseAPIContentEntitySearch: Decodable {
 }
 
 public enum ResponseAPIContentSearchItem: ListItemType {
+    // MARK: - Nested type
+    struct ItemType: Decodable {
+        let type: String
+    }
+    
     public func newUpdatedItem(from item: ResponseAPIContentSearchItem) -> ResponseAPIContentSearchItem? {
         guard item.identity == self.identity else {return nil}
         switch self {
@@ -41,15 +46,26 @@ public enum ResponseAPIContentSearchItem: ListItemType {
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let user = try? container.decode(ResponseAPIContentGetProfile.self) {
+        
+        guard let type = try? container.decode(ItemType.self)
+            else {throw ErrorAPI.unsupported}
+        
+        let itemType = type.type
+        
+        if itemType == "profile" {
+            let user = try container.decode(ResponseAPIContentGetProfile.self)
             self = .profile(user)
             return
         }
-        if let community = try? container.decode(ResponseAPIContentGetCommunity.self) {
+        
+        if itemType == "community" {
+            let community = try container.decode(ResponseAPIContentGetCommunity.self)
             self = .community(community)
             return
         }
-        if let post = try? container.decode(ResponseAPIContentGetPost.self) {
+        
+        if itemType == "post" {
+            let post = try container.decode(ResponseAPIContentGetPost.self)
             self = .post(post)
             return
         }
