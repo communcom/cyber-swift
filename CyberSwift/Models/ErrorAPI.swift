@@ -10,6 +10,11 @@ import Foundation
 import Localize_Swift
 
 public enum ErrorAPI: Error, Equatable {
+    // MARK: - Constant
+    public enum Message: String {
+        case invalidStepTaken = "Invalid step taken"
+    }
+    
     case disableInternetConnection(message: String?)
     case blockchain(message: String)
     case invalidData(message: String)
