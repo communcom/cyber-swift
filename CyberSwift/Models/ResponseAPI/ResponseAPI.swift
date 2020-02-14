@@ -130,7 +130,7 @@ public struct ResponseAPIRegistrationVerify: Decodable {
 // MARK: - API `registration.setUsername`
 // {"jsonrpc":"2.0","id":3,"result":{"userId":"tst5osiwjzpx","currentState":"toBlockChain"}}
 public struct ResponseAPIRegistrationSetUsername: Decodable {
-    public let userId: String
+    public let userId: String?
     public let currentState: String
 }
 

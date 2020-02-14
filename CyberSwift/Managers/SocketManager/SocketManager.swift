@@ -196,7 +196,7 @@ extension SocketManager {
                 throw ErrorAPI.balanceNotExist(message: message)
             }
 
-            if message == "Invalid step taken", let currentState = error.currentState {
+            if message == ErrorAPI.Message.invalidStepTaken.rawValue, let currentState = error.currentState {
                 throw ErrorAPI.registrationRequestFailed(message: message, currentStep: currentState)
             }
             
