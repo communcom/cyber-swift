@@ -108,7 +108,7 @@ extension RestAPIManager {
         return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationSetUsername>)
             .map { result in
                 guard let userId = result.userId else {
-                    throw ErrorAPI.registrationRequestFailed(message: ErrorAPI.Message.invalidStepTaken.rawValue, currentStep: result.currentState)
+                    throw ErrorAPI.registrationRequestFailed(message: ErrorAPI.Message.couldNotCreateUserId.rawValue, currentStep: result.currentState)
                 }
                 
                 try KeychainManager.save([

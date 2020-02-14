@@ -13,6 +13,7 @@ public enum ErrorAPI: Error, Equatable {
     // MARK: - Constant
     public enum Message: String {
         case invalidStepTaken = "Invalid step taken"
+        case couldNotCreateUserId = "Could not create user id"
     }
     
     case disableInternetConnection(message: String?)
