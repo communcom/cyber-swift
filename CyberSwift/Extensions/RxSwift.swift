@@ -56,10 +56,10 @@ extension PrimitiveSequenceType where Self.TraitType == RxSwift.SingleTrait, Sel
 //            },
             onError: { error in
                 if let error = error as? ErrorAPI {
-                    Logger.log(message: "\nAPI `\(method)` response error: \n\(error.caseInfo.message)\n", event: .error)
+                    Logger.log(message: "\nAPI `\(method)` response error: \n\(error.caseInfo.message)\n", event: .error, apiMethod: method)
                     return
                 }
-                Logger.log(message: "\nAPI `\(method)` response error: \n\(error)\n", event: .error)
+                Logger.log(message: "\nAPI `\(method)` response error: \n\(error)\n", event: .error, apiMethod: method)
             }
         )
     }

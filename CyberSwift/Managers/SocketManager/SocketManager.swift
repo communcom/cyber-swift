@@ -71,6 +71,9 @@ public class SocketManager {
             .timeout(timeout, scheduler: MainScheduler.instance)
             .take(1)
             .asSingle()
+            .do(onSuccess: { (text) in
+                Logger.log(message: "websocketDidReceiveMessage: \n\t\(text)", event: .response, apiMethod: "\(methodAPIType.methodAPIType.introduced().methodGroup).\(methodAPIType.methodAPIType.introduced().methodName)")
+            })
             .map {try self.transformMessage($0)}
     }
     
@@ -175,7 +178,6 @@ extension SocketManager {
     
     /// Transform text message to object
     func transformMessage<T: Decodable>(_ text: String) throws -> T {
-        Logger.log(message: "websocketDidReceiveMessage: \n\t\(text)", event: .response)
         
         guard let jsonData = text.data(using: .utf8) else {
             throw ErrorAPI.invalidData(message: "Response Unsuccessful")
