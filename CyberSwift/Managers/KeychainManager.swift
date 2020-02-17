@@ -126,7 +126,7 @@ public class KeychainManager {
     }
     
     fileprivate static func moveDeviceIdToNewAccount() {
-        // Migrate: save deviceId sepratately from user's data in key chain
+        // Migration: save deviceId sepratately from user's data in key chain
         let deviceIdMigrationKey = "Keychain.deviceIdMigrationKey"
         if !UserDefaults.standard.bool(forKey: deviceIdMigrationKey)
         {
