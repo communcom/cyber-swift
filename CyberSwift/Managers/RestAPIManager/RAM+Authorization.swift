@@ -252,6 +252,9 @@ extension RestAPIManager {
         // Remove old notifications
         SocketManager.shared.newNotificationsRelay.accept([])
         SocketManager.shared.unseenNotificationsRelay.accept(0)
+        
+        // rerun socket
+        SocketManager.shared.reset()
     }
     
     /// Generate secret

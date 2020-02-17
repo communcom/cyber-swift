@@ -76,7 +76,7 @@ public class KeychainManager {
             postingKeys: postingKeys)
     }
     
-    public static var currentDeviceId: String? {
+    static var currentDeviceId: String? {
         return Locksmith.loadDataForUserAccount(userAccount: Config.currentUserIDKey, inService: communService)?[Config.currentDeviceIdKey] as? String
     }
     
@@ -106,5 +106,18 @@ public class KeychainManager {
             Config.currentUserPublickMemoKey: userkeys["memo"]!.publicKey!,
             Config.currentUserPrivateMemoKey: userkeys["memo"]!.privateKey!
         ])
+    }
+    
+    // MARK: - Creating
+    /// Create unique device id
+    public static func createDeviceId() {
+        if KeychainManager.currentDeviceId == nil {
+            let id = UUID().uuidString + "." + "\(Date().timeIntervalSince1970)"
+            do {
+                try KeychainManager.save([Config.currentDeviceIdKey: id])
+            } catch {
+                Logger.log(message: error.localizedDescription, event: .debug)
+            }
+        }
     }
 }
