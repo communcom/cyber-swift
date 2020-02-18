@@ -76,13 +76,13 @@ public class KeychainManager {
             postingKeys: postingKeys)
     }
     
-    public static var currentDeviceId: String? {
-        return Locksmith.loadDataForUserAccount(userAccount: Config.currentUserIDKey, inService: communService)?[Config.currentDeviceIdKey] as? String
+    static var currentDeviceId: String? {
+        return Locksmith.loadDataForUserAccount(userAccount: Config.currentDeviceIdKey, inService: communService)?[Config.currentDeviceIdKey] as? String
     }
     
     // MARK: - Saving
     /// Save login data to Keychain
-    public static func save(_ data: [String: Any]) throws {
+    public static func save(_ data: [String: Any], account: String = Config.currentUserIDKey) throws {
         var dataToSave = [String: Any]()
         if let currentData = Locksmith.loadDataForUserAccount(userAccount: Config.currentUserIDKey, inService: communService) {
             dataToSave = currentData
@@ -92,7 +92,7 @@ public class KeychainManager {
             dataToSave[key] = value
         }
         
-        try Locksmith.updateData(data: dataToSave, forUserAccount: Config.currentUserIDKey, inService: communService)
+        try Locksmith.updateData(data: dataToSave, forUserAccount: account, inService: communService)
     }
     
     static func save(userkeys: [String: UserKeys]) throws {
@@ -106,5 +106,37 @@ public class KeychainManager {
             Config.currentUserPublickMemoKey: userkeys["memo"]!.publicKey!,
             Config.currentUserPrivateMemoKey: userkeys["memo"]!.privateKey!
         ])
+    }
+    
+    // MARK: - Creating
+    /// Create unique device id
+    public static func createDeviceId() {
+        // migration: move deviceId from currentUserAccount to its separate account
+        moveDeviceIdToNewAccount()
+        
+        // Create deviceId if not exists
+        if KeychainManager.currentDeviceId == nil {
+            let id = UUID().uuidString + "." + "\(Date().timeIntervalSince1970)"
+            do {
+                try KeychainManager.save([Config.currentDeviceIdKey: id], account: Config.currentDeviceIdKey)
+            } catch {
+                Logger.log(message: error.localizedDescription, event: .debug)
+            }
+        }
+    }
+    
+    fileprivate static func moveDeviceIdToNewAccount() {
+        // Migration: save deviceId sepratately from user's data in key chain
+        let deviceIdMigrationKey = "Keychain.deviceIdMigrationKey"
+        if !UserDefaults.standard.bool(forKey: deviceIdMigrationKey)
+        {
+            // if old data saved in currentUserIDKey's account
+            if let currentKey = Locksmith.loadDataForUserAccount(userAccount: Config.currentUserIDKey, inService: communService)?[Config.currentDeviceIdKey] as? String
+            {
+                // save old data into separate account
+                try! Locksmith.saveData(data: [Config.currentDeviceIdKey: currentKey], forUserAccount: Config.currentDeviceIdKey)
+            }
+            UserDefaults.standard.set(true, forKey: deviceIdMigrationKey)
+        }
     }
 }

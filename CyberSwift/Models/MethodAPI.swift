@@ -849,10 +849,16 @@ public indirect enum MethodAPIType {
                      parameters:        ["queryString": queryString, "entities": entities, "limit": limit])
             
         case .extendedSearch(let queryString, let entities):
+            var modifiedEntity = [String: [String: UInt]]()
+            
+            for (key, value) in entities {
+                modifiedEntity[key.rawValue] = value
+            }
+            
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
-                     methodName:        "quickSearch",
-                     parameters:        ["queryString": queryString, "entities": entities])
+                     methodName:        "extendedSearch",
+                     parameters:        ["queryString": queryString, "entities": modifiedEntity])
             
         case .entitySearch(let queryString, let entity, let limit, let offset):
             return  (methodAPIType:     self,

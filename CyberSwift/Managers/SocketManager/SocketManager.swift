@@ -22,7 +22,7 @@ public class SocketManager {
     }
     
     // MARK: - Properties
-    var socket = WebSocket(url: URL(string: Config.gate_API_URL + "connect?platform=ios&deviceType=phone&clientType=app&version=\(UIApplication.appVersion)\((KeychainManager.currentDeviceId != nil) ? "&deviceId=\(KeychainManager.currentDeviceId!)" : "")")!)
+    var socket: WebSocket
     
     public let state = BehaviorRelay<Event>(value: .connecting)
     public let textSubject = PublishSubject<String>()
@@ -36,6 +36,12 @@ public class SocketManager {
     // MARK: - Singleton
     public static let shared = SocketManager()
     private init() {
+        // Create device id
+        KeychainManager.createDeviceId()
+        
+        // init socket
+        socket = WebSocket(url: URL(string: Config.gate_API_URL + "connect?platform=ios&deviceType=phone&clientType=app&version=\(UIApplication.appVersion)\((KeychainManager.currentDeviceId != nil) ? "&deviceId=\(KeychainManager.currentDeviceId!)" : "")")!)
+        
         socket.delegate = self
         
         // sign when socket is connected
@@ -55,12 +61,16 @@ public class SocketManager {
         socket.disconnect()
     }
     
-    public func deviceIdDidSet() {
-        guard let id = KeychainManager.currentDeviceId else {return}
-        socket.disconnect()
-        let urlString = Config.gate_API_URL + "connect?platform=ios&deviceType=phone&clientType=app&version=\(UIApplication.appVersion)&deviceId=\(id)"
+    public func reset() {
+        if KeychainManager.currentDeviceId == nil
+        {
+            KeychainManager.createDeviceId()
+        }
+        disconnect()
+        let urlString = Config.gate_API_URL + "connect?platform=ios&deviceType=phone&clientType=app&version=\(UIApplication.appVersion)\((KeychainManager.currentDeviceId != nil) ? "&deviceId=\(KeychainManager.currentDeviceId!)" : "")"
         socket = WebSocket(url: URL(string: urlString)!)
-        socket.connect()
+        connect()
+        socket.delegate = self
     }
     
     func sendRequest<T: Decodable>(methodAPIType: RequestMethodAPIType, timeout: RxSwift.RxTimeInterval) -> Single<T> {
