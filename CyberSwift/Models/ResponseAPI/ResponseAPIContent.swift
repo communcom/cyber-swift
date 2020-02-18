@@ -44,7 +44,7 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
     public let author: ResponseAPIAuthor?
     public var stats: ResponseAPIContentGetPostStats?
     public let payout: ResponseAPIContentGetPostPayout?
-    public let community: ResponseAPIContentGetCommunity?
+    public var community: ResponseAPIContentGetCommunity?
     public let url: String?
 
     // Additional properties
