@@ -863,7 +863,7 @@ public indirect enum MethodAPIType {
         case .entitySearch(let queryString, let entity, let limit, let offset):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
-                     methodName:        "quickSearch",
+                     methodName:        "entitySearch",
                      parameters:        ["queryString": queryString, "entity": entity, "limit": limit, "offset": offset])
             
         // Template: missing
