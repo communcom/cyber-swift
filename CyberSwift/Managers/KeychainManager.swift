@@ -9,6 +9,7 @@
 import Locksmith
 import Foundation
 import RxCocoa
+import Crashlytics
 
 public class KeychainManager {
     private static let communService = "io.commun.eos.ios"
@@ -134,7 +135,11 @@ public class KeychainManager {
             if let currentKey = Locksmith.loadDataForUserAccount(userAccount: Config.currentUserIDKey, inService: communService)?[Config.currentDeviceIdKey] as? String
             {
                 // save old data into separate account
-                try! Locksmith.saveData(data: [Config.currentDeviceIdKey: currentKey], forUserAccount: Config.currentDeviceIdKey)
+                do {
+                    try Locksmith.saveData(data: [Config.currentDeviceIdKey: currentKey], forUserAccount: Config.currentDeviceIdKey)
+                } catch {
+                    Crashlytics.sharedInstance().recordError(error)
+                }
             }
             UserDefaults.standard.set(true, forKey: deviceIdMigrationKey)
         }
