@@ -498,7 +498,7 @@ extension BlockchainManager {
     public enum ReportReason: String, CaseIterable {
         case spam = "Spam"
         case harassment = "Harassment"
-        case niguty = "Niguty"
+        case niguty = "Nudity"
         case violence = "Violence"
         case falseNews = "False News"
         case terrorism = "Terrorism"
