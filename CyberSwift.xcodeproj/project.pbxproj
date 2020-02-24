@@ -63,6 +63,7 @@
 		B1F7B44A229FB5A4005492DD /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F7B449229FB5A4005492DD /* UIImage+Extensions.swift */; };
 		BC06A99B23E7C170000B690E /* ResponseAPI+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC06A99A23E7C170000B690E /* ResponseAPI+Search.swift */; };
 		BC06A99D23E7C6A8000B690E /* RAM+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC06A99C23E7C6A8000B690E /* RAM+Search.swift */; };
+		BC08E8BE2403769A00436A5C /* ResponseAPIContentGetCommunity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC08E8BD2403769A00436A5C /* ResponseAPIContentGetCommunity.swift */; };
 		BC18FA1523D54B5A005DC7E3 /* ResponseAPI+Exchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC18FA1423D54B5A005DC7E3 /* ResponseAPI+Exchange.swift */; };
 		BC18FA1723D54B8B005DC7E3 /* RAM+Exchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC18FA1623D54B8B005DC7E3 /* RAM+Exchange.swift */; };
 		BC286C3923A2371600801A26 /* UIImageCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC286C3823A2371600801A26 /* UIImageCodable.swift */; };
@@ -169,6 +170,7 @@
 		B1F7B449229FB5A4005492DD /* UIImage+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		BC06A99A23E7C170000B690E /* ResponseAPI+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Search.swift"; sourceTree = "<group>"; };
 		BC06A99C23E7C6A8000B690E /* RAM+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Search.swift"; sourceTree = "<group>"; };
+		BC08E8BD2403769A00436A5C /* ResponseAPIContentGetCommunity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseAPIContentGetCommunity.swift; sourceTree = "<group>"; };
 		BC18FA1423D54B5A005DC7E3 /* ResponseAPI+Exchange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Exchange.swift"; sourceTree = "<group>"; };
 		BC18FA1623D54B8B005DC7E3 /* RAM+Exchange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Exchange.swift"; sourceTree = "<group>"; };
 		BC286C3823A2371600801A26 /* UIImageCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageCodable.swift; sourceTree = "<group>"; };
@@ -418,6 +420,7 @@
 				BC46931223978DDE0064A38B /* ResponseAPIContentResolveProfile.swift */,
 				BC44DBDF238FA5C900412F08 /* ResponseAPIContentGetPost.swift */,
 				BC44DBEB238FA99000412F08 /* ResponseAPIContentBlock.swift */,
+				BC08E8BD2403769A00436A5C /* ResponseAPIContentGetCommunity.swift */,
 			);
 			path = ResponseAPI;
 			sourceTree = "<group>";
@@ -709,6 +712,7 @@
 				BCCF8AC223E2C11B004892FF /* RAM+Rewards.swift in Sources */,
 				B17991702269B4070014CB44 /* Array+Extensions.swift in Sources */,
 				B1C3F868223F9907005711EF /* RequestAPI.swift in Sources */,
+				BC08E8BE2403769A00436A5C /* ResponseAPIContentGetCommunity.swift in Sources */,
 				B1677C66223F9BD7005FB286 /* RestAPIManager.swift in Sources */,
 				3B61AC3222E1C5CD00F608AF /* ResponseAPIGetOptionsNotifyShow+Extensions.swift in Sources */,
 				BC48FC3E236680740049C4F4 /* RAM+Community.swift in Sources */,
