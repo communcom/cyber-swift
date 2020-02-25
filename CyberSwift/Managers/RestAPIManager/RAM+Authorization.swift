@@ -10,21 +10,34 @@ import Foundation
 import RxSwift
 
 extension RestAPIManager {
+    static func fixedPhoneNumber(phone: String?) -> String {
+        guard let phone = phone else {return ""}
+        return phone.components(separatedBy: CharacterSet.decimalDigits.inverted).joined(separator: "").trimSpaces()
+    }
+    
     // MARK: - Public function
     /// Get registration state
-    public func getState(userId: String? = Config.currentUser?.id, phone: String? = Config.currentUser?.phoneNumber) -> Single<ResponseAPIRegistrationGetState> {
+    public func getState(phone: String? = Config.currentUser?.phoneNumber) -> Single<ResponseAPIRegistrationGetState> {
         
-        let methodAPIType = MethodAPIType.getState(id: userId, phone: userId == nil ? phone : nil)
+        let methodAPIType = MethodAPIType.getState(phone: RestAPIManager.fixedPhoneNumber(phone: phone))
         
         return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationGetState>)
             .map { result in
                 // save state
                 var dataToSave = [String: Any]()
-                if let id = userId {
-                    dataToSave[Config.currentUserIDKey] = id
-                } else if let phone = phone {
+                
+                if let userId = result.data?.userId {
+                    dataToSave[Config.currentUserIDKey] = userId
+                }
+                
+                if let username = result.data?.username {
+                    dataToSave[Config.currentUserNameKey] = username
+                }
+                
+                if let phone = phone {
                     dataToSave[Config.registrationUserPhoneKey] = phone
                 }
+                
                 dataToSave[Config.registrationStepKey] = result.currentState
                 
                 try KeychainManager.save(dataToSave)
@@ -35,7 +48,7 @@ extension RestAPIManager {
     
     /// First step of registration
     public func firstStep(phone: String, captchaCode: String) -> Single<ResponseAPIRegistrationFirstStep> {
-        let methodAPIType = MethodAPIType.firstStep(phone: phone.trimSpaces(), captchaCode: captchaCode, isDebugMode: isDebugMode)
+        let methodAPIType = MethodAPIType.firstStep(phone: RestAPIManager.fixedPhoneNumber(phone: phone), captchaCode: captchaCode, isDebugMode: isDebugMode)
         
         return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationFirstStep>)
             .map { result in
@@ -131,7 +144,7 @@ extension RestAPIManager {
         
         let masterKey = String.randomString(length: 51)
         let userkeys = generateKeys(userId: userID, masterKey: masterKey)
-        let methodAPIType = MethodAPIType.toBlockChain(phone: userPhone, userID: userID, userName: userName, keys: userkeys)
+        let methodAPIType = MethodAPIType.toBlockChain(phone: RestAPIManager.fixedPhoneNumber(phone: userPhone), userID: userID, userName: userName, keys: userkeys)
         
         return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationToBlockChain>)
             .map { result -> ResponseAPIRegistrationToBlockChain in

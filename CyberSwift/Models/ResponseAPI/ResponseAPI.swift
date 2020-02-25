@@ -110,7 +110,12 @@ public struct ResponseAPIAuthGenerateSecret: Decodable {
 // MARK: - API `registration.getState`
 public struct ResponseAPIRegistrationGetState: Decodable {
     public let currentState: String
-    public let user: String?
+    public let data: ResponseAPIRegistrationGetStateData?
+}
+
+public struct ResponseAPIRegistrationGetStateData: Decodable {
+    public let userId: String?
+    public let username: String?
 }
 
 // MARK: - API `registration.firstStep`

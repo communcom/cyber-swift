@@ -249,7 +249,7 @@ public indirect enum MethodAPIType {
     
     /// REGISTRATION-SERVICE
     //  Get current registration status for user
-    case getState(id: String?, phone: String?)
+    case getState(phone: String?)
     
     //  First step of registration
     //  Modify: add `captchaType` (https://github.com/communcom/commun/issues/929)
@@ -664,12 +664,8 @@ public indirect enum MethodAPIType {
 
         /// REGISTRATION-SERVICE
         //  Template { "id": 1, "jsonrpc": "2.0", "method": "registration.getState", "params": { "phone": "+70000000000" }}
-        case .getState(let idValue, let phoneValue):
+        case .getState(let phoneValue):
             var parameters = [String: Encodable]()
-            
-            if idValue != nil {
-                parameters["user"] = idValue!
-            }
             
             if phoneValue != nil {
                 parameters["phone"] = phoneValue!
