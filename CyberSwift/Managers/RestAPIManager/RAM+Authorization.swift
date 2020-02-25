@@ -48,14 +48,16 @@ extension RestAPIManager {
     
     /// First step of registration
     public func firstStep(phone: String, captchaCode: String) -> Single<ResponseAPIRegistrationFirstStep> {
-        let methodAPIType = MethodAPIType.firstStep(phone: RestAPIManager.fixedPhoneNumber(phone: phone), captchaCode: captchaCode, isDebugMode: isDebugMode)
+        let phone = RestAPIManager.fixedPhoneNumber(phone: phone)
+        
+        let methodAPIType = MethodAPIType.firstStep(phone: phone, captchaCode: captchaCode, isDebugMode: isDebugMode)
         
         return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationFirstStep>)
             .map { result in
 
                 var data: [String: Any] = [
                     Config.registrationStepKey: CurrentUserRegistrationStep.verify.rawValue,
-                    Config.registrationUserPhoneKey: phone.trimSpaces(),
+                    Config.registrationUserPhoneKey: phone,
                     Config.registrationSmsNextRetryKey: result.nextSmsRetry
                 ]
 
