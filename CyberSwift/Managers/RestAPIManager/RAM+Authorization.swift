@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 
 extension RestAPIManager {
-    static func fixedPhoneNumber(phone: String?) -> String {
+    private func fixedPhoneNumber(phone: String?) -> String {
         guard let phone = phone else {return ""}
         return "+" + phone.components(separatedBy: CharacterSet.decimalDigits.inverted).joined(separator: "").trimSpaces()
     }
@@ -19,7 +19,7 @@ extension RestAPIManager {
     /// Get registration state
     public func getState(phone: String? = Config.currentUser?.phoneNumber) -> Single<ResponseAPIRegistrationGetState> {
         
-        let methodAPIType = MethodAPIType.getState(phone: RestAPIManager.fixedPhoneNumber(phone: phone))
+        let methodAPIType = MethodAPIType.getState(phone: fixedPhoneNumber(phone: phone))
         
         return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationGetState>)
             .map { result in
@@ -48,7 +48,7 @@ extension RestAPIManager {
     
     /// First step of registration
     public func firstStep(phone: String, captchaCode: String) -> Single<ResponseAPIRegistrationFirstStep> {
-        let phone = RestAPIManager.fixedPhoneNumber(phone: phone)
+        let phone = fixedPhoneNumber(phone: phone)
         
         let methodAPIType = MethodAPIType.firstStep(phone: phone, captchaCode: captchaCode, isDebugMode: isDebugMode)
         
@@ -146,7 +146,7 @@ extension RestAPIManager {
         
         let masterKey = String.randomString(length: 51)
         let userkeys = generateKeys(userId: userID, masterKey: masterKey)
-        let methodAPIType = MethodAPIType.toBlockChain(phone: RestAPIManager.fixedPhoneNumber(phone: userPhone), userID: userID, userName: userName, keys: userkeys)
+        let methodAPIType = MethodAPIType.toBlockChain(phone: fixedPhoneNumber(phone: userPhone), userID: userID, userName: userName, keys: userkeys)
         
         return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationToBlockChain>)
             .map { result -> ResponseAPIRegistrationToBlockChain in
