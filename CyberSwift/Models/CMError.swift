@@ -31,6 +31,7 @@ public enum ErrorMessage: String {
     case userHasBeenRegistered = "user has been registered"
     case userIdOrActiveKeyMissing = "userId or activeKey missing"
     case userIdOrUsernameIsMissing = "userID or username is missing"
+    case userNotFound = "user not found"
     case unsupportedDataType = "unsupported data type"
     case unsupportedTypeOfPost = "unsupported type of post"
     case youMustSubscribeToAtLeast3Communities = "you must subscribe to at least 3 communities"
@@ -41,8 +42,10 @@ public enum CMError: Error, Equatable, CustomStringConvertible {
     case noConnection
     
     // MARK: - general request errors
+    case userNotFound
     case unauthorized(message: String? = nil)
     case secretVerificationFailed
+    
     case invalidRequest(message: String? = nil) // requestFailed
     case invalidResponse(message: String? = nil, responseString: String? = nil) // responseUnsuccessful ErrorAPI.jsonConversionFailure(message: "JSON Conversion Failure")
     
@@ -59,6 +62,8 @@ public enum CMError: Error, Equatable, CustomStringConvertible {
     
     public var description: String {
         switch self {
+        case .userNotFound:
+            return ErrorMessage.userNotFound.rawValue
         case .unauthorized(message: let message):
             return "unauthorized".localized().uppercaseFirst + (message != nil ? ": \(message!.localized().uppercaseFirst)" : "")
         case .secretVerificationFailed:
@@ -88,6 +93,8 @@ public enum CMError: Error, Equatable, CustomStringConvertible {
     
     public var message: String {
         switch self {
+        case .userNotFound:
+            return ErrorMessage.userNotFound.rawValue
         case .unauthorized(message: let message):
             return message ?? "unauthorized"
         case .secretVerificationFailed:
@@ -96,11 +103,11 @@ public enum CMError: Error, Equatable, CustomStringConvertible {
             return ErrorMessage.noInternetConnection.rawValue
         case .invalidRequest(message: let message):
             return message ?? "request is invalid"
-        case .invalidResponse(message: let message, responseString: let _):
+        case .invalidResponse(message: let message, responseString: _):
             return message ?? "response data is invalid"
-        case .requestFailed(message: let message, code: let code):
+        case .requestFailed(message: let message, code: _):
             return message
-        case .blockchainError(message: let message, code: let code):
+        case .blockchainError(message: let message, code: _):
             return message
         case .registration(let message, _):
             return message
@@ -115,6 +122,8 @@ public enum CMError: Error, Equatable, CustomStringConvertible {
 extension CMError: LocalizedError {
     public var errorDescription: String? {
         switch self {
+        case .userNotFound:
+            return ErrorMessage.userNotFound.rawValue
         case .unauthorized(message: let message):
             return "unauthorized".localized().uppercaseFirst + (message != nil ? ": \(message!.localized().uppercaseFirst)" : "")
         case .secretVerificationFailed:

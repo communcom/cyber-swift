@@ -224,6 +224,11 @@ extension SocketManager {
                 throw CMError.registration(message: ErrorMessage.invalidStepTaken.rawValue, currentState: currentState)
             }
             
+            if message == "Cannot get such account from BC" || message.hasPrefix("Can't resolve name")
+            {
+                throw CMError.userNotFound
+            }
+            
             throw CMError.requestFailed(message: message, code: error.code)
         } else {
             throw CMError.invalidResponse(responseString: text)
