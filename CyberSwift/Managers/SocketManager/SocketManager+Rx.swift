@@ -17,7 +17,7 @@ extension SocketManager: WebSocketDelegate {
     }
     
     public func websocketDidDisconnect(socket: WebSocketClient, error: Error?) {
-        state.accept(.disconnected(error?.toErrorAPI()))
+        state.accept(.disconnected(CMError.socketDisconnected))
     }
     
     public func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {

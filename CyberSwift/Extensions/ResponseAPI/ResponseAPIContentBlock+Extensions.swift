@@ -12,7 +12,7 @@ extension ResponseAPIContentBlock {
     public func jsonString() throws -> String {
         let data = try JSONEncoder().encode(self)
         guard let string = String(data: data, encoding: .utf8) else {
-            throw ErrorAPI.invalidData(message: "Could not parse string from block")
+            throw CMError.invalidRequest(message: ErrorMessage.jsonParsingFailed.rawValue)
         }
         return string
     }

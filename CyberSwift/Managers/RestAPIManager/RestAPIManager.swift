@@ -11,7 +11,7 @@ import Foundation
 import RxSwift
 import Crashlytics
 
-public typealias RequestMethodAPIType   =   (id: Int, requestMessage: String?, methodAPIType: MethodAPIType, errorAPI: ErrorAPI?)
+public typealias RequestMethodAPIType   =   (id: Int, requestMessage: String?, methodAPIType: MethodAPIType, errorAPI: CMError?)
 
 public class RestAPIManager {
     #if APPSTORE
@@ -62,7 +62,7 @@ public class RestAPIManager {
             Crashlytics.sharedInstance().recordError(error)
             Logger.log(message: "Error: \(error.localizedDescription)", event: .error)
             
-            return (id: codeID, requestMessage: nil, methodAPIType: requestParamsType.methodAPIType, errorAPI: ErrorAPI.requestFailed(message: "Broadcast, line 406: \(error.localizedDescription)"))
+            return (id: codeID, requestMessage: nil, methodAPIType: requestParamsType.methodAPIType, errorAPI: CMError.invalidRequest(message: ErrorMessage.jsonConversionFailed.rawValue))
         }
     }
     
@@ -70,7 +70,7 @@ public class RestAPIManager {
     public func executeGetRequest<T: Decodable>(methodAPIType: MethodAPIType, timeout: RxSwift.RxTimeInterval = 10) -> Single<T> {
         // Offline mode
         if !Config.isNetworkAvailable {
-            return .error(ErrorAPI.disableInternetConnection(message: nil)) }
+            return .error(CMError.noConnection) }
         
         // Prepare content request
         let requestParamsType   =   methodAPIType.introduced()
@@ -78,7 +78,7 @@ public class RestAPIManager {
 
         if let error = requestMethodAPIType.errorAPI {
             Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["Method": methodAPIType.introduced().methodName])
-            return .error(ErrorAPI.requestFailed(message: "Broadcast, line \(#line): \(error)"))
+            return .error(error)
         }
         
         Logger.log(message: "\nrequestMethodAPIType:\n\t\(requestMethodAPIType.requestMessage!)\n", event: .request, apiMethod: "\(requestParamsType.methodGroup).\(requestParamsType.methodName)")
@@ -86,27 +86,24 @@ public class RestAPIManager {
         return SocketManager.shared.sendRequest(methodAPIType: requestMethodAPIType, timeout: timeout)
             .catchError({ (error) -> Single<T> in
                 Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["Method": methodAPIType.introduced().methodName])
-                if let errorAPI = error as? ErrorAPI {
-
-                    let message = errorAPI.caseInfo.message
-                    
-                    if message == "Unauthorized request: access denied" {
+                if let error = error as? CMError {
+                    switch error {
+                    case .unauthorized:
                         return RestAPIManager.instance.authorize()
                             .flatMap {_ in self.executeGetRequest(methodAPIType: methodAPIType)}
-                    }
-                    
-                    if message == "There is no secret stored for this channelId. Probably, client's already authorized" ||
-                        message == "Secret verification failed - access denied"{
+                    case .secretVerificationFailed:
                         // retrieve secret
                         return RestAPIManager.instance.generateSecret()
                             .andThen(self.executeGetRequest(methodAPIType: methodAPIType))
+                    default:
+                        throw error
                     }
                 }
                                 
                 if let errorRx = error as? RxError {
                     switch errorRx {
                     case .timeout:
-                        throw ErrorAPI.requestFailed(message: "Request has timed out")
+                        throw CMError.requestFailed(message: ErrorMessage.requestHasTimedOut.rawValue, code: 0)
                     default:
                         break
                     }
@@ -145,13 +142,13 @@ public class RestAPIManager {
     
     public func posting(image: UIImage,
                         responseHandling:   @escaping (String) -> Void,
-                        errorHandling:      @escaping (ErrorAPI) -> Void) {
+                        errorHandling:      @escaping (CMError) -> Void) {
         // Offline mode
-        guard Config.isNetworkAvailable else { return errorHandling(ErrorAPI.disableInternetConnection(message: nil)) }
+        guard Config.isNetworkAvailable else { return errorHandling(CMError.noConnection) }
         
-        guard let resizedImage = image.resize() else { return errorHandling(ErrorAPI.invalidData(message: "Invalid Data")) }
+        guard let resizedImage = image.resize() else { return errorHandling(CMError.invalidRequest(message: ErrorMessage.couldNotResizeImage.rawValue)) }
         
-        guard let imageData = resizedImage.pngData() ?? resizedImage.jpegData(compressionQuality: 1.0) else { return errorHandling(ErrorAPI.invalidData(message: "Invalid Data")) }
+        guard let imageData = resizedImage.pngData() ?? resizedImage.jpegData(compressionQuality: 1.0) else { return errorHandling(CMError.invalidRequest(message: ErrorMessage.couldNotResizeImage.rawValue)) }
         
         let session             =   URLSession(configuration: .default)
         let requestURL          =   URL(string: Config.imageHost)!
@@ -178,7 +175,7 @@ public class RestAPIManager {
         
         let task = session.dataTask(with: request as URLRequest, completionHandler: { (data, _, error) -> Void in
             guard error == nil else {
-                errorHandling(ErrorAPI.responseUnsuccessful(message: "POST Request Failed"))
+                errorHandling(CMError.requestFailed(message: ErrorMessage.uploadingImageFailed.rawValue, code: 0))
                 return
             }
             
@@ -193,11 +190,11 @@ public class RestAPIManager {
                     responseHandling(imageURL)
                 } else {
                     Logger.log(message: "\nAPI `posting image` response error: \n\"JSON Parsing Failure\"\n", event: .error)
-                    errorHandling(ErrorAPI.jsonParsingFailure(message: "JSON Parsing Failure"))
+                    errorHandling(CMError.requestFailed(message: ErrorMessage.jsonParsingFailed.rawValue, code: 0))
                 }
             } catch {
                 Logger.log(message: "\nAPI `posting image` response error: \n\"JSON Conversion Failure\"\n", event: .error)
-                errorHandling(ErrorAPI.jsonConversionFailure(message: "JSON Conversion Failure"))
+                errorHandling(CMError.requestFailed(message: ErrorMessage.jsonConversionFailed.rawValue, code: 0))
             }
         })
         
