@@ -77,7 +77,7 @@ public class RestAPIManager {
         let requestMethodAPIType = prepareGETRequest(requestParamsType: requestParamsType)
 
         if let error = requestMethodAPIType.errorAPI {
-            Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["Method" : methodAPIType.introduced().methodName])
+            Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["Method": methodAPIType.introduced().methodName])
             return .error(ErrorAPI.requestFailed(message: "Broadcast, line \(#line): \(error)"))
         }
         
@@ -85,7 +85,7 @@ public class RestAPIManager {
         
         return SocketManager.shared.sendRequest(methodAPIType: requestMethodAPIType, timeout: timeout)
             .catchError({ (error) -> Single<T> in
-                Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["Method" : methodAPIType.introduced().methodName])
+                Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["Method": methodAPIType.introduced().methodName])
                 if let errorAPI = error as? ErrorAPI {
 
                     let message = errorAPI.caseInfo.message

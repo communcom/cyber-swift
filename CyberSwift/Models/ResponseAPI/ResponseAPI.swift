@@ -158,49 +158,6 @@ public struct ResponseAPIStatus: Decodable {
     public let status: String
 }
 
-// MARK: - API `options.get`
-public struct ResponseAPIGetOptions: Decodable {
-    public let basic: ResponseAPIGetOptionsBasic?
-    public let notify: ResponseAPIGetOptionsNotify
-    public let push: ResponseAPIGetOptionsNotifyPush
-}
-
-public struct ResponseAPIGetOptionsBasic: Decodable {
-    public let language: String?
-    public let nsfwContent: String?
-}
-
-public struct ResponseAPIGetOptionsNotify: Decodable {
-    public let show: ResponseAPIGetOptionsNotifyShow
-}
-
-public struct ResponseAPIGetOptionsNotifyShow: Decodable {
-    public var upvote: Bool
-    public var downvote: Bool
-    public var transfer: Bool
-    public var reply: Bool
-    public var subscribe: Bool
-    public var unsubscribe: Bool
-    public var mention: Bool
-    public var repost: Bool
-    public var reward: Bool
-    public var curatorReward: Bool
-    public var witnessVote: Bool
-    public var witnessCancelVote: Bool
-    
-    public static var allOn: ResponseAPIGetOptionsNotifyShow {
-        ResponseAPIGetOptionsNotifyShow(upvote: true, downvote: true, transfer: true, reply: true, subscribe: true, unsubscribe: true, mention: true, repost: true, reward: true, curatorReward: true, witnessVote: true, witnessCancelVote: true)
-    }
-    public static var allOff: ResponseAPIGetOptionsNotifyShow {
-        ResponseAPIGetOptionsNotifyShow(upvote: false, downvote: false, transfer: false, reply: false, subscribe: false, unsubscribe: false, mention: false, repost: false, reward: false, curatorReward: false, witnessVote: false, witnessCancelVote: false)
-    }
-}
-
-public struct ResponseAPIGetOptionsNotifyPush: Decodable {
-    public let lang: String
-    public let show: ResponseAPIGetOptionsNotifyShow
-}
-
 // MARK: - API `favorites.get`
 public struct ResponseAPIGetFavorites: Decodable {
     public let list: [String?]
