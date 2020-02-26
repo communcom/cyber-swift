@@ -23,6 +23,10 @@ extension RestAPIManager {
         
         return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationGetState>)
             .map { result in
+                if result.currentState == "registered" {
+                    throw CMError.registration(message: ErrorMessage.userHasBeenRegistered.rawValue)
+                }
+                
                 // save state
                 var dataToSave = [String: Any]()
                 

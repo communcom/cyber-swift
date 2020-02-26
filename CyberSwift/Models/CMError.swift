@@ -28,6 +28,7 @@ public enum ErrorMessage: String {
     case encodingRequestFailed = "encoding request failed"
     case uploadingImageFailed = "uploading image failed" // POST Request Failed
 //    case unauthorizedRequestAccessDenied = "Unauthorized request: access denied"
+    case userHasBeenRegistered = "user has been registered"
     case userIdOrActiveKeyMissing = "userId or activeKey missing"
     case userIdOrUsernameIsMissing = "userID or username is missing"
     case unsupportedDataType = "unsupported data type"
