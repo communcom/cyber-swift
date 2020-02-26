@@ -42,7 +42,7 @@ public class BlockchainManager {
     ) -> Single<SendPostCompletion> {
         // Check for authorization
         guard let userId = Config.currentUser?.id else {
-            return .error(ErrorAPI.unauthorized)
+            return .error(CMError.unauthorized())
         }
 
         // Create permlink for comment
@@ -131,7 +131,7 @@ public class BlockchainManager {
         return (single ?? .just(block))
             .map {block -> EOSArgument.CreateContent in
                 guard let bodyString = try? block.jsonString() else {
-                    throw ErrorAPI.invalidData(message: "Body is invalid")
+                    throw CMError.invalidRequest(message: ErrorMessage.bodyIsInvalid.rawValue)
                 }
 
                 finalBlock = block
@@ -180,7 +180,7 @@ public class BlockchainManager {
 
     public func deleteMessage(communCode: String, permlink: String) -> Completable {
         guard let author = Config.currentUser?.id else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+            return .error(CMError.unauthorized())
         }
 
         let messageDeleteArgs = EOSArgument.DeleteContent(
@@ -200,7 +200,7 @@ public class BlockchainManager {
     ) -> Single<SendPostCompletion> {
 
         guard let author = Config.currentUser?.id else {
-            return .error(ErrorAPI.unauthorized)
+            return .error(CMError.unauthorized())
         }
 
         var originMessage = originMessage
@@ -244,7 +244,7 @@ public class BlockchainManager {
         return (single ?? .just(block))
             .map {block -> EOSArgument.UpdateContent in
                 guard let bodyString = try? block.jsonString() else {
-                    throw ErrorAPI.invalidData(message: "Body is invalid")
+                    throw CMError.invalidRequest(message: ErrorMessage.bodyIsInvalid.rawValue)
                 }
 
                 finalBlock = block
@@ -293,7 +293,7 @@ public class BlockchainManager {
                        message: String? = nil) -> Single<String> {
         // Check user authorize
         guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+            return .error(CMError.unauthorized())
         }
 
         // Change False News to falsenews
@@ -315,7 +315,7 @@ public class BlockchainManager {
     public func update(userProfile: [String: String]) -> Single<String> {
         // Check user authorize
         guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+            return .error(CMError.unauthorized())
         }
 
         let userProfileAccountmetaArgs = EOSArgument.UserProfileAccountmetaArgs(json: userProfile)
@@ -329,7 +329,7 @@ public class BlockchainManager {
     public func follow(_ userToFollow: String, isUnfollow: Bool = false) -> Single<String> {
         // Check user authorize
         guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+            return .error(CMError.unauthorized())
         }
 
         let pinArgs = EOSArgument.PinUser(pinnerValue: userID, pinningValue: userToFollow)
@@ -339,7 +339,7 @@ public class BlockchainManager {
     public func block(_ userToBlock: String) -> Single<String> {
         // Check user authorize
         guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+            return .error(CMError.unauthorized())
         }
 
         let args = EOSArgument.BlockUser(blocker: userID, blocking: userToBlock)
@@ -350,7 +350,7 @@ public class BlockchainManager {
     public func unblock(_ userToUnblock: String) -> Single<String> {
         // Check user authorize
         guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+            return .error(CMError.unauthorized())
         }
 
         let args = EOSArgument.BlockUser(blocker: userID, blocking: userToUnblock)
@@ -361,7 +361,7 @@ public class BlockchainManager {
     public func followCommunity(_ communityId: String) -> Single<String> {
         // Check user authorize
         guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+            return .error(CMError.unauthorized())
         }
 
         let followArgs = EOSArgument.FollowUser(
@@ -375,7 +375,7 @@ public class BlockchainManager {
     public func unfollowCommunity(_ communityId: String) -> Single<String> {
         // Check user authorize
         guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+            return .error(CMError.unauthorized())
         }
 
         let unFollowArgs = EOSArgument.FollowUser(
@@ -389,7 +389,7 @@ public class BlockchainManager {
     public func hideCommunity(_ communityId: String) -> Single<String> {
         // Check user authorize
         guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+            return .error(CMError.unauthorized())
         }
 
         let args = EOSArgument.FollowUser(
@@ -404,7 +404,7 @@ public class BlockchainManager {
     public func unhideCommunity(_ communityId: String) -> Single<String> {
         // Check user authorize
         guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+            return .error(CMError.unauthorized())
         }
 
         let args = EOSArgument.FollowUser(
@@ -418,7 +418,7 @@ public class BlockchainManager {
     public func voteLeader(communityId: String, leader: String) -> Single<String> {
         // Check user authorize
         guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+            return .error(CMError.unauthorized())
         }
 
         let args = EOSArgument.VoteLeader(communCode: communityId, voter: userID, leader: leader)
@@ -428,7 +428,7 @@ public class BlockchainManager {
     public func unvoteLeader(communityId: String, leader: String) -> Single<String> {
         // Check user authorize
         guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+            return .error(CMError.unauthorized())
         }
         let args = EOSArgument.UnvoteLeader(communCode: communityId, voter: userID, leader: leader)
         return EOSManager.unvoteLeader(args: args)
@@ -437,7 +437,7 @@ public class BlockchainManager {
     public func openCommunityBalance(communityCode: String) -> Single<String> {
         // Check user authorize
         guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+            return .error(CMError.unauthorized())
         }
 
         let code = communityCode == communCurrencyName ? "4,\(communityCode)" : "3,\(communityCode)"
@@ -454,7 +454,7 @@ public class BlockchainManager {
                                number: Double,
                                currency: String) -> Single<String> {
         guard let userID = Config.currentUser?.id else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+            return .error(CMError.unauthorized())
         }
 
         let args = EOSArgument.Transfer(fromValue: userID, toValue: to, quantityValue: quantityFormatter(number: number, currency: currency), memoValue: "")
@@ -470,7 +470,7 @@ public class BlockchainManager {
                           pointsCurrencyName: String) -> Single<String>  {
 
         guard let userID = Config.currentUser?.id else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+            return .error(CMError.unauthorized())
         }
 
         let args = EOSArgument.Transfer(fromValue: userID, toValue: BCAccountName.point.stringValue, quantityValue: quantityFormatter(number: communNumber, currency: communCurrencyName), memoValue: pointsCurrencyName)
@@ -479,7 +479,7 @@ public class BlockchainManager {
 
     public func sellPoints(number: Double, pointsCurrencyName: String) -> Single<String> {
         guard let userID = Config.currentUser?.id else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+            return .error(CMError.unauthorized())
         }
 
         let args = EOSArgument.Transfer(fromValue: userID, toValue: BCAccountName.point.stringValue, quantityValue: quantityFormatter(number: number, currency: pointsCurrencyName), memoValue: "")

@@ -74,8 +74,7 @@ extension RestAPIManager {
     /// Verify code
     public func verify(code: UInt64) -> Single<ResponseAPIRegistrationVerify> {
         guard let phone = Config.currentUser?.phoneNumber else {
-            Logger.log(message: "Phone missing for user: \(String(describing: Config.currentUser))", event: .error)
-            return .error(ErrorAPI.requestFailed(message: "Phone missing"))
+            return .error(CMError.invalidRequest(message: ErrorMessage.phoneMissing.rawValue))
         }
         
         let methodAPIType = MethodAPIType.verify(phone: phone, code: code)
@@ -94,8 +93,7 @@ extension RestAPIManager {
     /// Resend sms code
     public func resendSmsCode() -> Single<ResponseAPIResendSmsCode> {
         guard let phone = Config.currentUser?.phoneNumber else {
-            Logger.log(message: "Phone missing for user: \(String(describing: Config.currentUser))", event: .error)
-            return .error(ErrorAPI.requestFailed(message: "Phone missing"))
+            return .error(CMError.invalidRequest(message: ErrorMessage.phoneMissing.rawValue))
         }
         
         let methodAPIType = MethodAPIType.resendSmsCode(phone: phone)
@@ -114,8 +112,7 @@ extension RestAPIManager {
     /// set userName
     public func setUserName(_ name: String) -> Single<ResponseAPIRegistrationSetUsername> {
         guard let phone = Config.currentUser?.phoneNumber else {
-            Logger.log(message: "Phone missing for user: \(String(describing: Config.currentUser))", event: .error)
-            return .error(ErrorAPI.requestFailed(message: "Phone missing"))
+            return .error(CMError.invalidRequest(message: ErrorMessage.phoneMissing.rawValue))
         }
         
         let methodAPIType = MethodAPIType.setUser(name: name, phone: phone)
@@ -123,7 +120,7 @@ extension RestAPIManager {
         return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationSetUsername>)
             .map { result in
                 guard let userId = result.userId else {
-                    throw ErrorAPI.registrationRequestFailed(message: ErrorAPI.Message.couldNotCreateUserId.rawValue, currentStep: result.currentState)
+                    throw CMError.registration(message: ErrorMessage.couldNotCreateUserId.rawValue)
                 }
                 
                 try KeychainManager.save([
@@ -140,8 +137,7 @@ extension RestAPIManager {
     /// Save user to blockchain
     public func toBlockChain() -> Completable {
         guard let userName = Config.currentUser?.name, let userID = Config.currentUser?.id, let userPhone = Config.currentUser?.phoneNumber else {
-            Logger.log(message: "username missing for user: \(String(describing: Config.currentUser))", event: .error)
-            return .error(ErrorAPI.requestFailed(message: "userId missing"))
+            return .error(CMError.invalidRequest(message: ErrorMessage.userIdOrUsernameIsMissing.rawValue))
         }
         
         let masterKey = String.randomString(length: 51)
@@ -168,8 +164,8 @@ extension RestAPIManager {
     public func onboardingCommunitySubscriptions(
         communityIds: [String]
     ) -> Completable {
-        guard let userId = Config.currentUser?.id else {return .error(ErrorAPI.unauthorized)}
-        guard communityIds.count >= 3 else {return .error(ErrorAPI.other(message: "You must subscribe to at least 3 communities"))}
+        guard let userId = Config.currentUser?.id else {return .error(CMError.unauthorized())}
+        guard communityIds.count >= 3 else {return .error(CMError.other(message: ErrorMessage.youMustSubscribeToAtLeast3Communities.rawValue))}
         let methodAPIType = MethodAPIType.onboardingCommunitySubscriptions(userId: userId, communityIds: communityIds)
         return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIStatus>)
             .flatMapToCompletable()
@@ -230,8 +226,7 @@ extension RestAPIManager {
         guard let username = Config.currentUser?.name,
             let activeKey = Config.currentUser?.activeKeys?.privateKey
         else {
-            Logger.log(message: "userId or activeKey missing for user: \(String(describing: Config.currentUser))", event: .error)
-            return .error(ErrorAPI.requestFailed(message: "userId or activeKey missing"))
+            return .error(CMError.invalidRequest(message: ErrorMessage.userIdOrActiveKeyMissing.rawValue))
         }
         
         let methodAPIType = MethodAPIType.authorize(username: username, activeKey: activeKey)

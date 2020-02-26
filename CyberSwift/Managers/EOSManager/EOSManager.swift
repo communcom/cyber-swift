@@ -35,7 +35,7 @@ class EOSManager {
     static func signWebSocketSecretKey(userActiveKey: String) -> String? {
         do {
             guard let data = Config.webSocketSecretKey?.data(using: .utf8) else {
-                throw ErrorAPI.blockchain(message: "secret key not found")
+                throw CMError.blockchainError(message: ErrorMessage.secretKeyNotFound.rawValue, code: 0)
             }
             let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
 
@@ -54,7 +54,7 @@ class EOSManager {
                      author: String,
                      permlink: String) -> Completable {
         guard let userID = Config.currentUser?.id else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+            return .error(CMError.unauthorized())
         }
 
         let voteArgs = EOSArgument.VoteContent(communityID: communityId,
@@ -179,11 +179,11 @@ extension EOSManager {
 
         // Offline mode
         if !Config.isNetworkAvailable {
-            return .error(ErrorAPI.disableInternetConnection(message: nil))
+            return .error(CMError.noConnection)
         }
 
         guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKeys?.privateKey else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+            return .error(CMError.unauthorized())
         }
 
         // Action 1
@@ -270,15 +270,15 @@ extension EOSManager {
 
         if let args = args {
             guard let communCodeArgs = args as? EOSArgumentCodeProtocol else {
-                return .error(ErrorAPI.requestFailed(message: "balance does not exist"))
+                return .error(CMError.invalidRequest(message: ErrorMessage.balanceNotExist.rawValue))
             }
             code = communCodeArgs.getCode()
         } else {
-            return .error(ErrorAPI.requestFailed(message: "balance does not exist"))
+            return .error(CMError.invalidRequest(message: ErrorMessage.balanceNotExist.rawValue))
         }
 
         guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKeys?.privateKey else {
-            return .error(ErrorAPI.blockchain(message: "Unauthorized"))
+            return .error(CMError.unauthorized())
         }
 
         let transactionAuthorizationAbiActive = TransactionAuthorizationAbi(

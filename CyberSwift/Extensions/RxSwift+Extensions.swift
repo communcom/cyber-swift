@@ -41,7 +41,7 @@ extension PrimitiveSequenceType where Self.TraitType == RxSwift.SingleTrait, Sel
                 
                 let result = try JSONDecoder().decode(BCResponseAPIErrorResult.self, from: json.stringValue.data(using: .utf8)!)
                 
-                throw ErrorAPI.blockchain(message: result.error.details.first?.message.replacingOccurrences(of: "assertion failure with message: ", with: "") ?? json.stringValue)
+                throw CMError.blockchainError(message: result.realMessage, code: result.code)
             }
             return response
         }
@@ -55,10 +55,6 @@ extension PrimitiveSequenceType where Self.TraitType == RxSwift.SingleTrait, Sel
 //                Logger.log(message: "\nAPI `\(method)` response result: \n\(responseAPIResult)\n", event: .info)
 //            },
             onError: { error in
-                if let error = error as? ErrorAPI {
-                    Logger.log(message: "\nAPI `\(method)` response error: \n\(error.caseInfo.message)\n", event: .error, apiMethod: method)
-                    return
-                }
                 Logger.log(message: "\nAPI `\(method)` response error: \n\(error)\n", event: .error, apiMethod: method)
             }
         )

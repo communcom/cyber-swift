@@ -18,7 +18,7 @@ public class SocketManager {
         case connecting
         case connected
         case signed
-        case disconnected(ErrorAPI?)
+        case disconnected(CMError)
     }
     
     // MARK: - Properties
@@ -143,7 +143,9 @@ public class SocketManager {
             }
             .map { string -> SocketResponse<T> in
                 Logger.log(message: "\(method): \(string)", event: .event)
-                guard let data = string.data(using: .utf8) else {throw ErrorAPI.responseUnsuccessful(message: string)}
+                guard let data = string.data(using: .utf8) else {
+                    throw CMError.invalidResponse(responseString: string)
+                }
                 return try JSONDecoder().decode(SocketResponse<T>.self, from: data)
             }
             .map {$0.params}
@@ -167,7 +169,7 @@ extension SocketManager {
     /// validate message
     fileprivate func validate(jsonData: Data) throws {
         guard let json = (try? JSONSerialization.jsonObject(with: jsonData, options: .mutableLeaves)) as? [String: Any] else {
-            throw ErrorAPI.invalidData(message: "Response Unsuccessful")
+            throw CMError.invalidResponse(message: ErrorMessage.jsonParsingFailed.rawValue)
         }
         
         guard (json["id"] as? Int) != nil else {
@@ -176,11 +178,11 @@ extension SocketManager {
             
             // Catch error
             if let responseAPIResultError = try? jsonDecoder.decode(ResponseAPIErrorResult.self, from: jsonData) {
-                throw ErrorAPI.requestFailed(message: responseAPIResultError.error.message.components(separatedBy: "second.end(): ").last!)
+                throw CMError.requestFailed(message: responseAPIResultError.error.message.components(separatedBy: "second.end(): ").last!, code: responseAPIResultError.error.code)
             }
             
             // If no error matching
-            throw ErrorAPI.invalidData(message: "Message Id not found")
+            throw CMError.invalidResponse(message: ErrorMessage.messageIdNotFound.rawValue)
         }
         
         return
@@ -190,7 +192,7 @@ extension SocketManager {
     func transformMessage<T: Decodable>(_ text: String) throws -> T {
         
         guard let jsonData = text.data(using: .utf8) else {
-            throw ErrorAPI.invalidData(message: "Response Unsuccessful")
+            throw CMError.invalidResponse(message: ErrorMessage.jsonParsingFailed.rawValue, responseString: text)
         }
         
         // Get messageId

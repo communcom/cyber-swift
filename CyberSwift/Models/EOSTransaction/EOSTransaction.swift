@@ -22,7 +22,7 @@ public class EOSTransaction {
                      authorizingPrivateKey: EOSPrivateKey) -> Single<String> {
         return chainApi.getInfo().flatMap { info -> Single<ResponseAPIBandwidthProvide> in
                     guard info.success, let chainID = info.body?.chain_id else {
-                        throw ErrorAPI.couldNotRetrieveChainInfo
+                        throw CMError.blockchainError(message: ErrorMessage.couldNotRetrieveChainInfo.rawValue, code: 0)
                     }
 
                     let transactionAbi = self.createTransactionAbi(expirationDate: expirationDate,

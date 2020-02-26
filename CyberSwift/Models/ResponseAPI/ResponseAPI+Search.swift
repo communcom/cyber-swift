@@ -48,7 +48,7 @@ public enum ResponseAPIContentSearchItem: ListItemType {
         let container = try decoder.singleValueContainer()
         
         guard let type = try? container.decode(ItemType.self)
-            else {throw ErrorAPI.unsupported}
+            else {throw CMError.invalidResponse(message: ErrorMessage.unsupportedDataType.rawValue)}
         
         let itemType = type.type
         
@@ -69,7 +69,7 @@ public enum ResponseAPIContentSearchItem: ListItemType {
             self = .post(post)
             return
         }
-        throw ErrorAPI.unsupported
+        throw CMError.invalidResponse(message: ErrorMessage.unsupportedDataType.rawValue)
     }
     
     case profile(ResponseAPIContentGetProfile)

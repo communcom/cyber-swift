@@ -49,7 +49,6 @@
 		B1C3F859223F98B1005711EF /* Encodable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3F856223F98B1005711EF /* Encodable+Extensions.swift */; };
 		B1C3F861223F98DC005711EF /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3F85D223F98DC005711EF /* Logger.swift */; };
 		B1C3F868223F9907005711EF /* RequestAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3F864223F9906005711EF /* RequestAPI.swift */; };
-		B1C3F869223F9907005711EF /* ErrorAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3F865223F9906005711EF /* ErrorAPI.swift */; };
 		B1C3F86A223F9907005711EF /* ResponseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3F866223F9906005711EF /* ResponseAPI.swift */; };
 		B1C3F86B223F9907005711EF /* MethodAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3F867223F9907005711EF /* MethodAPI.swift */; };
 		B1EA02CD22895EB400835244 /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EA02CB22895EB300835244 /* UILabel+Extensions.swift */; };
@@ -77,6 +76,7 @@
 		BC48FC3C23667FB10049C4F4 /* ResponseAPI+Community.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC48FC3B23667FB10049C4F4 /* ResponseAPI+Community.swift */; };
 		BC48FC3E236680740049C4F4 /* RAM+Community.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC48FC3D236680740049C4F4 /* RAM+Community.swift */; };
 		BC518BD823D699390090E145 /* RAM+Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC518BD723D699390090E145 /* RAM+Device.swift */; };
+		BC51B48924062A1F009DFB48 /* CMError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC51B48824062A1E009DFB48 /* CMError.swift */; };
 		BC52913E2378FE910022EC7F /* RAM+Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52913D2378FE910022EC7F /* RAM+Content.swift */; };
 		BC9066E923A9D515000F9A3B /* ResponseAPI+Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9066E823A9D515000F9A3B /* ResponseAPI+Wallet.swift */; };
 		BC9066FC23AA106D000F9A3B /* RAM+Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9066FB23AA106D000F9A3B /* RAM+Wallet.swift */; };
@@ -150,7 +150,6 @@
 		B1C3F856223F98B1005711EF /* Encodable+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Encodable+Extensions.swift"; sourceTree = "<group>"; };
 		B1C3F85D223F98DC005711EF /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		B1C3F864223F9906005711EF /* RequestAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestAPI.swift; sourceTree = "<group>"; };
-		B1C3F865223F9906005711EF /* ErrorAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorAPI.swift; sourceTree = "<group>"; };
 		B1C3F866223F9906005711EF /* ResponseAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseAPI.swift; sourceTree = "<group>"; };
 		B1C3F867223F9907005711EF /* MethodAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MethodAPI.swift; sourceTree = "<group>"; };
 		B1C3F86F223F993F005711EF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -180,6 +179,7 @@
 		BC48FC3B23667FB10049C4F4 /* ResponseAPI+Community.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Community.swift"; sourceTree = "<group>"; };
 		BC48FC3D236680740049C4F4 /* RAM+Community.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Community.swift"; sourceTree = "<group>"; };
 		BC518BD723D699390090E145 /* RAM+Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Device.swift"; sourceTree = "<group>"; };
+		BC51B48824062A1E009DFB48 /* CMError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMError.swift; sourceTree = "<group>"; };
 		BC52913D2378FE910022EC7F /* RAM+Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Content.swift"; sourceTree = "<group>"; };
 		BC9066E823A9D515000F9A3B /* ResponseAPI+Wallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Wallet.swift"; sourceTree = "<group>"; };
 		BC9066FB23AA106D000F9A3B /* RAM+Wallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Wallet.swift"; sourceTree = "<group>"; };
@@ -391,7 +391,7 @@
 				B179916C2269A4B70014CB44 /* Golos */,
 				3BB342B522CB7591009546B2 /* CurrentUser.swift */,
 				3BF3A6B622F1D47700A6916E /* EOSTransaction */,
-				B1C3F865223F9906005711EF /* ErrorAPI.swift */,
+				BC51B48824062A1E009DFB48 /* CMError.swift */,
 				B1C3F867223F9907005711EF /* MethodAPI.swift */,
 				B1C3F864223F9906005711EF /* RequestAPI.swift */,
 				B1902AD522706F1E00661211 /* RequestParameterAPI.swift */,
@@ -638,7 +638,6 @@
 				B1F7B44A229FB5A4005492DD /* UIImage+Extensions.swift in Sources */,
 				BC44DBE0238FA5C900412F08 /* ResponseAPIContentGetPost+Extensions.swift in Sources */,
 				B179917A2269B4560014CB44 /* Secp256k1.swift in Sources */,
-				B1C3F869223F9907005711EF /* ErrorAPI.swift in Sources */,
 				BC4692B62390BAFA0064A38B /* UIApplication+Extensions.swift in Sources */,
 				B179917B2269B4560014CB44 /* SteemEncoder.swift in Sources */,
 				B19A28D6226087EE001C9F43 /* UIDevice+Extensions.swift in Sources */,
@@ -685,6 +684,7 @@
 				B154D8BB237A97E70042E991 /* UITextView+Extensions.swift in Sources */,
 				3B1E901822CDF16B00D7A0C1 /* ICloudManager.swift in Sources */,
 				BC9066E923A9D515000F9A3B /* ResponseAPI+Wallet.swift in Sources */,
+				BC51B48924062A1F009DFB48 /* CMError.swift in Sources */,
 				BC44DBD8238FA44300412F08 /* ResponseAPIContentGetComment+Extensions.swift in Sources */,
 				B1EA02CD22895EB400835244 /* UILabel+Extensions.swift in Sources */,
 				3B3016B922F1FDAA003CD1BD /* ReachabilityManager.swift in Sources */,

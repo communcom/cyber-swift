@@ -13,6 +13,10 @@ public struct BCResponseAPIErrorResult: Decodable {
     public let code: Int64
     public let message: String
     public let error: BCResponseAPIError
+    
+    public var realMessage: String {
+        error.details.first?.message.replacingOccurrences(of: "assertion failure with message: ", with: "") ?? "unknown"
+    }
 }
 
 public struct BCResponseAPIError: Decodable {

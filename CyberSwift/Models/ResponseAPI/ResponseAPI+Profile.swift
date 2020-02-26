@@ -151,7 +151,7 @@ public enum ResponseAPIContentGetSubscriptionsItem: ListItemType {
             self = .community(communities)
             return
         }
-        throw ErrorAPI.unsupported
+        throw CMError.invalidResponse(message: ErrorMessage.unsupportedDataType.rawValue)
     }
     
     public var userValue: ResponseAPIContentGetProfile? {
@@ -225,7 +225,7 @@ public enum ResponseAPIContentGetBlacklistItem: ListItemType {
             self = .community(communities)
             return
         }
-        throw ErrorAPI.unsupported
+        throw CMError.invalidResponse(message: ErrorMessage.unsupportedDataType.rawValue)
     }
     
     public var userValue: ResponseAPIContentGetProfile? {

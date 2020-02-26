@@ -23,7 +23,7 @@ extension RestAPIManager {
     ) -> Single<ResponseAPIContentGetProfile> {
         
         if user == nil {
-            return .error(ErrorAPI.requestFailed(message: "userID or username is missing"))
+            return .error(CMError.invalidRequest(message: ErrorMessage.userIdOrUsernameIsMissing.rawValue))
         }
         
         let methodAPIType = MethodAPIType.getProfile(user: user)
@@ -39,7 +39,7 @@ extension RestAPIManager {
         userId: String?
     ) -> Single<ResponseAPIContentGetComments> {
         guard let userId = userId ?? Config.currentUser?.id else {
-            return .error(ErrorAPI.unauthorized)
+            return .error(CMError.unauthorized())
         }
         
         let methodAPIType = MethodAPIType.getComments(
@@ -60,7 +60,7 @@ extension RestAPIManager {
     // API basic `options.set`
     public func setBasicOptions(nsfwContent: NsfwContentMode) -> Single<ResponseAPIStatus> {
         // Check user authorize
-        guard Config.currentUser?.id != nil else { return .error(ErrorAPI.unauthorized)}
+        guard Config.currentUser?.id != nil else { return .error(CMError.unauthorized())}
 
         let methodAPIType = MethodAPIType.setBasicOptions(nsfw: nsfwContent.rawValue)
         
@@ -70,7 +70,7 @@ extension RestAPIManager {
     // API `favorites.get`
     public func getFavorites() -> Single<ResponseAPIGetFavorites> {
         // Check user authorize
-        guard Config.currentUser?.id != nil else { return .error(ErrorAPI.unauthorized)}
+        guard Config.currentUser?.id != nil else { return .error(CMError.unauthorized())}
 
         let methodAPIType = MethodAPIType.getFavorites
         
@@ -80,7 +80,7 @@ extension RestAPIManager {
     // API `favorites.add`
     public func addFavorites(permlink: String) -> Single<ResponseAPIStatus> {
         // Check user authorize
-        guard Config.currentUser?.id != nil else { return .error(ErrorAPI.unauthorized)}
+        guard Config.currentUser?.id != nil else { return .error(CMError.unauthorized())}
 
         let methodAPIType = MethodAPIType.addFavorites(permlink: permlink)
         
@@ -90,7 +90,7 @@ extension RestAPIManager {
     // API `favorites.remove`
     public func removeFavorites(permlink: String) -> Single<ResponseAPIStatus> {
         // Check user authorize
-        guard Config.currentUser?.id != nil else { return .error(ErrorAPI.unauthorized)}
+        guard Config.currentUser?.id != nil else { return .error(CMError.unauthorized())}
         
         let methodAPIType = MethodAPIType.removeFavorites(permlink: permlink)
         

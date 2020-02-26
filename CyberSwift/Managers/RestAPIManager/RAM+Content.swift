@@ -79,7 +79,7 @@ extension RestAPIManager {
     // API `meta.recordPostView`
     public func recordPostView(permlink: String) -> Single<ResponseAPIStatus> {
         // Check user authorize
-        guard Config.currentUser?.id != nil else { return .error(ErrorAPI.unauthorized)}
+        guard Config.currentUser?.id != nil else { return .error(CMError.unauthorized())}
 
         let methodAPIType = MethodAPIType.recordPostView(permlink: permlink)
         
