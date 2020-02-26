@@ -60,7 +60,7 @@
 		B1F7B44A229FB5A4005492DD /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F7B449229FB5A4005492DD /* UIImage+Extensions.swift */; };
 		BC06A99B23E7C170000B690E /* ResponseAPI+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC06A99A23E7C170000B690E /* ResponseAPI+Search.swift */; };
 		BC06A99D23E7C6A8000B690E /* RAM+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC06A99C23E7C6A8000B690E /* RAM+Search.swift */; };
-		BC08E8BE2403769A00436A5C /* ResponseAPIContentGetCommunity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC08E8BD2403769A00436A5C /* ResponseAPIContentGetCommunity.swift */; };
+		BC08E8BE2403769A00436A5C /* ResponseAPIContentGetCommunity+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC08E8BD2403769A00436A5C /* ResponseAPIContentGetCommunity+Extensions.swift */; };
 		BC18FA1523D54B5A005DC7E3 /* ResponseAPI+Exchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC18FA1423D54B5A005DC7E3 /* ResponseAPI+Exchange.swift */; };
 		BC18FA1723D54B8B005DC7E3 /* RAM+Exchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC18FA1623D54B8B005DC7E3 /* RAM+Exchange.swift */; };
 		BC286C3923A2371600801A26 /* UIImageCodable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC286C3823A2371600801A26 /* UIImageCodable+Extensions.swift */; };
@@ -69,11 +69,11 @@
 		BC44DBAB238F716300412F08 /* ResponseAPI+Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DBAA238F716300412F08 /* ResponseAPI+Config.swift */; };
 		BC44DBAD238F739600412F08 /* RAM+Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DBAC238F739600412F08 /* RAM+Config.swift */; };
 		BC44DBB2238FA1FD00412F08 /* ListItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DBB1238FA1FD00412F08 /* ListItemType.swift */; };
-		BC44DBD8238FA44300412F08 /* ResponseAPIContentGetComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DBD7238FA44300412F08 /* ResponseAPIContentGetComment.swift */; };
-		BC44DBE0238FA5C900412F08 /* ResponseAPIContentGetPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DBDF238FA5C900412F08 /* ResponseAPIContentGetPost.swift */; };
-		BC44DBEC238FA99000412F08 /* ResponseAPIContentBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DBEB238FA99000412F08 /* ResponseAPIContentBlock.swift */; };
+		BC44DBD8238FA44300412F08 /* ResponseAPIContentGetComment+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DBD7238FA44300412F08 /* ResponseAPIContentGetComment+Extensions.swift */; };
+		BC44DBE0238FA5C900412F08 /* ResponseAPIContentGetPost+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DBDF238FA5C900412F08 /* ResponseAPIContentGetPost+Extensions.swift */; };
+		BC44DBEC238FA99000412F08 /* ResponseAPIContentBlock+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC44DBEB238FA99000412F08 /* ResponseAPIContentBlock+Extensions.swift */; };
 		BC4692B62390BAFA0064A38B /* UIApplication+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4692B52390BAFA0064A38B /* UIApplication+Extensions.swift */; };
-		BC46931323978DDE0064A38B /* ResponseAPIContentResolveProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC46931223978DDE0064A38B /* ResponseAPIContentResolveProfile.swift */; };
+		BC46931323978DDE0064A38B /* ResponseAPIContentResolveProfile+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC46931223978DDE0064A38B /* ResponseAPIContentResolveProfile+Extensions.swift */; };
 		BC48FC3C23667FB10049C4F4 /* ResponseAPI+Community.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC48FC3B23667FB10049C4F4 /* ResponseAPI+Community.swift */; };
 		BC48FC3E236680740049C4F4 /* RAM+Community.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC48FC3D236680740049C4F4 /* RAM+Community.swift */; };
 		BC518BD823D699390090E145 /* RAM+Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC518BD723D699390090E145 /* RAM+Device.swift */; };
@@ -164,7 +164,7 @@
 		B1F7B449229FB5A4005492DD /* UIImage+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		BC06A99A23E7C170000B690E /* ResponseAPI+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Search.swift"; sourceTree = "<group>"; };
 		BC06A99C23E7C6A8000B690E /* RAM+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Search.swift"; sourceTree = "<group>"; };
-		BC08E8BD2403769A00436A5C /* ResponseAPIContentGetCommunity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseAPIContentGetCommunity.swift; sourceTree = "<group>"; };
+		BC08E8BD2403769A00436A5C /* ResponseAPIContentGetCommunity+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPIContentGetCommunity+Extensions.swift"; sourceTree = "<group>"; };
 		BC18FA1423D54B5A005DC7E3 /* ResponseAPI+Exchange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Exchange.swift"; sourceTree = "<group>"; };
 		BC18FA1623D54B8B005DC7E3 /* RAM+Exchange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Exchange.swift"; sourceTree = "<group>"; };
 		BC286C3823A2371600801A26 /* UIImageCodable+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageCodable+Extensions.swift"; sourceTree = "<group>"; };
@@ -173,11 +173,11 @@
 		BC44DBAA238F716300412F08 /* ResponseAPI+Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Config.swift"; sourceTree = "<group>"; };
 		BC44DBAC238F739600412F08 /* RAM+Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Config.swift"; sourceTree = "<group>"; };
 		BC44DBB1238FA1FD00412F08 /* ListItemType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListItemType.swift; sourceTree = "<group>"; };
-		BC44DBD7238FA44300412F08 /* ResponseAPIContentGetComment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseAPIContentGetComment.swift; sourceTree = "<group>"; };
-		BC44DBDF238FA5C900412F08 /* ResponseAPIContentGetPost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseAPIContentGetPost.swift; sourceTree = "<group>"; };
-		BC44DBEB238FA99000412F08 /* ResponseAPIContentBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseAPIContentBlock.swift; sourceTree = "<group>"; };
+		BC44DBD7238FA44300412F08 /* ResponseAPIContentGetComment+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ResponseAPIContentGetComment+Extensions.swift"; sourceTree = "<group>"; };
+		BC44DBDF238FA5C900412F08 /* ResponseAPIContentGetPost+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ResponseAPIContentGetPost+Extensions.swift"; sourceTree = "<group>"; };
+		BC44DBEB238FA99000412F08 /* ResponseAPIContentBlock+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPIContentBlock+Extensions.swift"; sourceTree = "<group>"; };
 		BC4692B52390BAFA0064A38B /* UIApplication+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Extensions.swift"; sourceTree = "<group>"; };
-		BC46931223978DDE0064A38B /* ResponseAPIContentResolveProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseAPIContentResolveProfile.swift; sourceTree = "<group>"; };
+		BC46931223978DDE0064A38B /* ResponseAPIContentResolveProfile+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPIContentResolveProfile+Extensions.swift"; sourceTree = "<group>"; };
 		BC48FC3B23667FB10049C4F4 /* ResponseAPI+Community.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Community.swift"; sourceTree = "<group>"; };
 		BC48FC3D236680740049C4F4 /* RAM+Community.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Community.swift"; sourceTree = "<group>"; };
 		BC518BD723D699390090E145 /* RAM+Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Device.swift"; sourceTree = "<group>"; };
@@ -407,11 +407,11 @@
 		BC44DBD2238FA3C700412F08 /* ResponseAPI */ = {
 			isa = PBXGroup;
 			children = (
-				BC44DBD7238FA44300412F08 /* ResponseAPIContentGetComment.swift */,
-				BC46931223978DDE0064A38B /* ResponseAPIContentResolveProfile.swift */,
-				BC44DBDF238FA5C900412F08 /* ResponseAPIContentGetPost.swift */,
-				BC44DBEB238FA99000412F08 /* ResponseAPIContentBlock.swift */,
-				BC08E8BD2403769A00436A5C /* ResponseAPIContentGetCommunity.swift */,
+				BC44DBD7238FA44300412F08 /* ResponseAPIContentGetComment+Extensions.swift */,
+				BC46931223978DDE0064A38B /* ResponseAPIContentResolveProfile+Extensions.swift */,
+				BC44DBDF238FA5C900412F08 /* ResponseAPIContentGetPost+Extensions.swift */,
+				BC44DBEB238FA99000412F08 /* ResponseAPIContentBlock+Extensions.swift */,
+				BC08E8BD2403769A00436A5C /* ResponseAPIContentGetCommunity+Extensions.swift */,
 			);
 			path = ResponseAPI;
 			sourceTree = "<group>";
@@ -640,7 +640,7 @@
 				3BF3A6B822F1D48E00A6916E /* EOSTransaction+Actions.swift in Sources */,
 				ACFA282223AA99AA009B77A6 /* EOSArgument.swift in Sources */,
 				B1F7B44A229FB5A4005492DD /* UIImage+Extensions.swift in Sources */,
-				BC44DBE0238FA5C900412F08 /* ResponseAPIContentGetPost.swift in Sources */,
+				BC44DBE0238FA5C900412F08 /* ResponseAPIContentGetPost+Extensions.swift in Sources */,
 				B179917A2269B4560014CB44 /* Secp256k1.swift in Sources */,
 				B1C3F869223F9907005711EF /* ErrorAPI.swift in Sources */,
 				BC4692B62390BAFA0064A38B /* UIApplication+Extensions.swift in Sources */,
@@ -664,7 +664,7 @@
 				BC06A99D23E7C6A8000B690E /* RAM+Search.swift in Sources */,
 				B1EA02CE22895EB400835244 /* UIButton+Extensions.swift in Sources */,
 				BCCE0A9E2367DD3A00A183AA /* RAM+Profile.swift in Sources */,
-				BC46931323978DDE0064A38B /* ResponseAPIContentResolveProfile.swift in Sources */,
+				BC46931323978DDE0064A38B /* ResponseAPIContentResolveProfile+Extensions.swift in Sources */,
 				BC286C3923A2371600801A26 /* UIImageCodable+Extensions.swift in Sources */,
 				BC44DBAB238F716300412F08 /* ResponseAPI+Config.swift in Sources */,
 				ACD76C8C23B117F8001FAECD /* BlockchainManager.swift in Sources */,
@@ -681,7 +681,7 @@
 				3BE3666722E5CE7C00F84A04 /* SocketManager.swift in Sources */,
 				3BB342B622CB7591009546B2 /* CurrentUser.swift in Sources */,
 				BC52913E2378FE910022EC7F /* RAM+Content.swift in Sources */,
-				BC44DBEC238FA99000412F08 /* ResponseAPIContentBlock.swift in Sources */,
+				BC44DBEC238FA99000412F08 /* ResponseAPIContentBlock+Extensions.swift in Sources */,
 				B1C3F858223F98B1005711EF /* Config.swift in Sources */,
 				BC48FC3C23667FB10049C4F4 /* ResponseAPI+Community.swift in Sources */,
 				B1EA0319228A985400835244 /* UIView+Extensions.swift in Sources */,
@@ -689,7 +689,7 @@
 				B154D8BB237A97E70042E991 /* UITextView+Extensions.swift in Sources */,
 				3B1E901822CDF16B00D7A0C1 /* ICloudManager.swift in Sources */,
 				BC9066E923A9D515000F9A3B /* ResponseAPI+Wallet.swift in Sources */,
-				BC44DBD8238FA44300412F08 /* ResponseAPIContentGetComment.swift in Sources */,
+				BC44DBD8238FA44300412F08 /* ResponseAPIContentGetComment+Extensions.swift in Sources */,
 				B1EA02CD22895EB400835244 /* UILabel+Extensions.swift in Sources */,
 				3B3016B922F1FDAA003CD1BD /* ReachabilityManager.swift in Sources */,
 				BCA97132236178E600AE37E1 /* ResponseAPIContent.swift in Sources */,
@@ -701,7 +701,7 @@
 				BCCF8AC223E2C11B004892FF /* RAM+Rewards.swift in Sources */,
 				B17991702269B4070014CB44 /* Array+Extensions.swift in Sources */,
 				B1C3F868223F9907005711EF /* RequestAPI.swift in Sources */,
-				BC08E8BE2403769A00436A5C /* ResponseAPIContentGetCommunity.swift in Sources */,
+				BC08E8BE2403769A00436A5C /* ResponseAPIContentGetCommunity+Extensions.swift in Sources */,
 				B1677C66223F9BD7005FB286 /* RestAPIManager.swift in Sources */,
 				BC48FC3E236680740049C4F4 /* RAM+Community.swift in Sources */,
 				BC9066FC23AA106D000F9A3B /* RAM+Wallet.swift in Sources */,
