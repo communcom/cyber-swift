@@ -12,7 +12,7 @@ import RxSwift
 extension RestAPIManager {
     static func fixedPhoneNumber(phone: String?) -> String {
         guard let phone = phone else {return ""}
-        return phone.components(separatedBy: CharacterSet.decimalDigits.inverted).joined(separator: "").trimSpaces()
+        return "+" + phone.components(separatedBy: CharacterSet.decimalDigits.inverted).joined(separator: "").trimSpaces()
     }
     
     // MARK: - Public function
