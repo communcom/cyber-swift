@@ -16,7 +16,7 @@ extension RestAPIManager {
         limit: UInt
     ) -> Single<ResponseAPIContentEntitySearch> {
         let methodAPIType = MethodAPIType.quickSearch(queryString: queryString, entities: entities, limit: limit)
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
     
     public func extendedSearch(
@@ -24,7 +24,7 @@ extension RestAPIManager {
         entities: [SearchEntityType: [String: UInt]]
     ) -> Single<ResponseAPIContentExtendedSearch> {
         let methodAPIType = MethodAPIType.extendedSearch(queryString: queryString, entities: entities)
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
     
     public func entitySearch(
@@ -34,6 +34,6 @@ extension RestAPIManager {
         offset: UInt
     ) -> Single<ResponseAPIContentEntitySearch> {
         let methodAPIType = MethodAPIType.entitySearch(queryString: queryString, entity: entity, limit: limit, offset: offset)
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
 }

@@ -13,7 +13,7 @@ extension RestAPIManager {
     // API `content.resolveProfile`
     public func resolveProfile(username: String) -> Single<ResponseAPIContentGetProfile> {
         let methodAPIType = MethodAPIType.resolveProfile(username: username)
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
     
     // API `content.getProfile`
@@ -28,7 +28,7 @@ extension RestAPIManager {
         
         let methodAPIType = MethodAPIType.getProfile(user: user)
 
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
     
     // API `content.getComments` by user
@@ -54,7 +54,7 @@ extension RestAPIManager {
             parentComment: nil,
             resolveNestedComments: false)
         
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
     
     // API basic `options.set`
@@ -64,7 +64,7 @@ extension RestAPIManager {
 
         let methodAPIType = MethodAPIType.setBasicOptions(nsfw: nsfwContent.rawValue)
         
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
     
     // API `favorites.get`
@@ -74,7 +74,7 @@ extension RestAPIManager {
 
         let methodAPIType = MethodAPIType.getFavorites
         
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
 
     // API `favorites.add`
@@ -84,7 +84,7 @@ extension RestAPIManager {
 
         let methodAPIType = MethodAPIType.addFavorites(permlink: permlink)
         
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
 
     // API `favorites.remove`
@@ -94,7 +94,7 @@ extension RestAPIManager {
         
         let methodAPIType = MethodAPIType.removeFavorites(permlink: permlink)
         
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
     
     // MARK: - Subscribers
@@ -105,7 +105,7 @@ extension RestAPIManager {
         limit: Int              = 10
     ) -> Single<ResponseAPIContentGetSubscribers> {
         let methodAPIType = MethodAPIType.getSubscribers(userId: userId, communityId: communityId, offset: offset, limit: limit)
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
     
     // MARK: - Subscriptions
@@ -116,7 +116,7 @@ extension RestAPIManager {
         limit: Int              = 10
     ) -> Single<ResponseAPIContentGetSubscriptions> {
         let methodAPIType = MethodAPIType.getSubscriptions(userId: userId, type: type, offset: offset, limit: limit)
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
     
     // MARK: - Blacklist
@@ -127,6 +127,6 @@ extension RestAPIManager {
         limit: Int              = 10
     ) -> Single<ResponseAPIContentGetBlacklist> {
         let methodAPIType = MethodAPIType.getBlacklist(userId: userId, type: type, limit: limit, offset: offset)
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
 }

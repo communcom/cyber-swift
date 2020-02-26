@@ -12,7 +12,7 @@ import RxSwift
 extension RestAPIManager {
     public func getConfig() -> Single<ResponseAPIGetConfig> {
         let methodAPIType = MethodAPIType.getConfig
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
             .do(onSuccess: { (config) in
                 Config.appConfig = config
             })

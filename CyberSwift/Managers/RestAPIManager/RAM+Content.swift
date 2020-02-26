@@ -25,7 +25,7 @@ extension RestAPIManager {
     ) -> Single<ResponseAPIContentGetPosts> {
         let methodAPIType = MethodAPIType.getPosts(userId: userId, communityId: communityId, communityAlias: communityAlias, allowNsfw: allowNsfw, type: type, sortBy: sortBy, sortType: sortType, limit: limit, offset: offset)
         
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
     
     // API `content.getPost`
@@ -33,7 +33,7 @@ extension RestAPIManager {
         
         let methodAPIType = MethodAPIType.getPost(userId: userId, username: username, permlink: permlink, communityId: communityId, communityAlias: communityAlias)
         
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
     
     // API `content.getComments` by post
@@ -73,7 +73,7 @@ extension RestAPIManager {
             parentComment: parentComment,
             resolveNestedComments: resolveNestedComments)
         
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
     
     // API `meta.recordPostView`
@@ -83,7 +83,7 @@ extension RestAPIManager {
 
         let methodAPIType = MethodAPIType.recordPostView(permlink: permlink)
         
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
     
     // MARK: - Comments
@@ -107,6 +107,6 @@ extension RestAPIManager {
                 "permlink": parentComment.permlink
             ],
             resolveNestedComments: nil)
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
 }

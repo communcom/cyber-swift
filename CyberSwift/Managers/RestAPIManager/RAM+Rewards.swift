@@ -12,6 +12,6 @@ import RxSwift
 extension RestAPIManager {
     public func rewardsGetStateBulk(posts: [RequestAPIContentId]) -> Single<ResponseAPIRewardsGetStateBulk> {
         let methodAPIType = MethodAPIType.rewardsGetStateBulk(posts: posts)
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
 }

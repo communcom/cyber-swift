@@ -12,7 +12,7 @@ import RxSwift
 extension RestAPIManager {
     public func getCurrenciesFull() -> Single<[ResponseAPIGetCurrency]> {
         let methodAPIType = MethodAPIType.getCurrenciesFull
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
     
     public func exchangeGetMinMaxAmount(
@@ -20,7 +20,7 @@ extension RestAPIManager {
         to: String
     ) -> Single<ResponseAPIGetMinMaxAmount> {
         let methodAPIType = MethodAPIType.getMinMaxAmount(from: from, to: to)
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
     
     public func getExchangeAmount(
@@ -29,7 +29,7 @@ extension RestAPIManager {
         amount: Double
     ) -> Single<String> {
         let methodAPIType = MethodAPIType.getExchangeAmount(from: from, to: to, amount: amount)
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
     
     public func createTransaction(
@@ -41,6 +41,6 @@ extension RestAPIManager {
         refundExtraId: String? = nil
     ) -> Single<ResponseAPICreateTransaction> {
         let methodAPIType = MethodAPIType.createTransaction(from: from, address: address, amount: amount, extraId: extraId, refundAddress: refundAddress, refundExtraId: refundExtraId)
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
 }

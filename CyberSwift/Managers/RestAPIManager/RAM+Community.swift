@@ -14,14 +14,14 @@ extension RestAPIManager {
         
         let methodAPIType = MethodAPIType.getCommunity(id: id)
         
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
     
     public func getCommunity(alias: String) -> Single<ResponseAPIContentGetCommunity> {
         
         let methodAPIType = MethodAPIType.getCommunity(alias: alias)
         
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
     
     public func getCommunities(
@@ -34,7 +34,7 @@ extension RestAPIManager {
         
         let methodAPIType = MethodAPIType.getCommunities(type: type, userId: userId, search: search, offset: offset, limit: limit)
         
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
     
     public func getLeaders(
@@ -45,6 +45,6 @@ extension RestAPIManager {
         query: String?          = nil
     ) -> Single<ResponseAPIContentGetLeaders> {
         let methodAPIType = MethodAPIType.getLeaders(communityId: communityId, communityAlias: communityAlias, sequenceKey: sequenceKey, limit: Int(limit), query: query)
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
 }

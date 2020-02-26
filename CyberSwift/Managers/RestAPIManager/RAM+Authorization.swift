@@ -21,7 +21,7 @@ extension RestAPIManager {
         
         let methodAPIType = MethodAPIType.getState(phone: RestAPIManager.fixedPhoneNumber(phone: phone))
         
-        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationGetState>)
+        return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationGetState>)
             .map { result in
                 // save state
                 var dataToSave = [String: Any]()
@@ -52,7 +52,7 @@ extension RestAPIManager {
         
         let methodAPIType = MethodAPIType.firstStep(phone: phone, captchaCode: captchaCode, isDebugMode: isDebugMode)
         
-        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationFirstStep>)
+        return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationFirstStep>)
             .map { result in
 
                 var data: [String: Any] = [
@@ -80,7 +80,7 @@ extension RestAPIManager {
         
         let methodAPIType = MethodAPIType.verify(phone: phone.trimSpaces(), code: code)
         
-        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationVerify>)
+        return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationVerify>)
             .map { result in
                 try KeychainManager.save([
                     Config.registrationStepKey: CurrentUserRegistrationStep.setUserName.rawValue,
@@ -100,7 +100,7 @@ extension RestAPIManager {
         
         let methodAPIType = MethodAPIType.resendSmsCode(phone: phone.trimSpaces())
         
-        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIResendSmsCode>)
+        return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIResendSmsCode>)
             .map { result in
                 try KeychainManager.save([
                     Config.registrationStepKey: result.currentState,
@@ -120,7 +120,7 @@ extension RestAPIManager {
         
         let methodAPIType = MethodAPIType.setUser(name: name, phone: phone.trimSpaces())
         
-        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationSetUsername>)
+        return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationSetUsername>)
             .map { result in
                 guard let userId = result.userId else {
                     throw ErrorAPI.registrationRequestFailed(message: ErrorAPI.Message.couldNotCreateUserId.rawValue, currentStep: result.currentState)
@@ -148,7 +148,7 @@ extension RestAPIManager {
         let userkeys = generateKeys(userId: userID, masterKey: masterKey)
         let methodAPIType = MethodAPIType.toBlockChain(phone: RestAPIManager.fixedPhoneNumber(phone: userPhone), userID: userID, userName: userName, keys: userkeys)
         
-        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationToBlockChain>)
+        return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationToBlockChain>)
             .map { result -> ResponseAPIRegistrationToBlockChain in
                 try KeychainManager.save([
                     Config.registrationStepKey: CurrentUserRegistrationStep.registered.rawValue,
@@ -171,7 +171,7 @@ extension RestAPIManager {
         guard let userId = Config.currentUser?.id else {return .error(ErrorAPI.unauthorized)}
         guard communityIds.count >= 3 else {return .error(ErrorAPI.other(message: "You must subscribe to at least 3 communities"))}
         let methodAPIType = MethodAPIType.onboardingCommunitySubscriptions(userId: userId, communityIds: communityIds)
-        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIStatus>)
+        return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIStatus>)
             .flatMapToCompletable()
     }
         
@@ -206,7 +206,7 @@ extension RestAPIManager {
                 let methodAPIType = MethodAPIType.authorize(username: login, activeKey: userKeys["active"]!.privateKey!)
                 
                 return self.generateSecret()
-                    .andThen(Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIAuthAuthorize>)
+                    .andThen(self.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIAuthAuthorize>)
             })
             .map {result in
                 
@@ -236,10 +236,10 @@ extension RestAPIManager {
         
         let methodAPIType = MethodAPIType.authorize(username: username, activeKey: activeKey)
         
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
             .do(onSuccess: { (_) in
                 let requestParamsType = MethodAPIType.notificationsSubscribe.introduced()
-                let requestMethodAPIType = Broadcast.instance.prepareGETRequest(requestParamsType: requestParamsType)
+                let requestMethodAPIType = self.prepareGETRequest(requestParamsType: requestParamsType)
                 SocketManager.shared.sendMessage(requestMethodAPIType.requestMessage!)
             })
     }
@@ -277,7 +277,7 @@ extension RestAPIManager {
         
         let methodAPIType = MethodAPIType.generateSecret
         
-        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIAuthGenerateSecret>)
+        return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIAuthGenerateSecret>)
             .flatMapCompletable {result in
                 Config.webSocketSecretKey = result.secret
                 return .empty()

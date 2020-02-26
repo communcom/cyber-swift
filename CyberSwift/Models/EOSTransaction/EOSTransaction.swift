@@ -44,7 +44,7 @@ public class EOSTransaction {
                     let methodAPIType = MethodAPIType.bandwidthProvide(chainID: chainID,
                             transaction: rrr)
 
-                    return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIBandwidthProvide>
+                    return RestAPIManager.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIBandwidthProvide>
                 }
                 .map { result -> String in
                     result.transaction_id

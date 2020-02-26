@@ -9,6 +9,9 @@
 
 import Foundation
 import RxSwift
+import Crashlytics
+
+public typealias RequestMethodAPIType   =   (id: Int, requestMessage: String?, methodAPIType: MethodAPIType, errorAPI: ErrorAPI?)
 
 public class RestAPIManager {
     #if APPSTORE
@@ -17,8 +20,102 @@ public class RestAPIManager {
         let isDebugMode = true
     #endif
     
-    // MARK: - Properties
+    // MARK: - Singleton
     public static let instance = RestAPIManager()
+    private init() {}
+    
+    var currentId = 0
+    
+    // MARK: - Helpers
+    /// Generating a unique ID for each request
+    ///  for content:                < 100
+    private func generateUniqueId() -> Int {
+        currentId += 1
+        if currentId == 100 {
+            currentId = 0
+        }
+        return currentId
+    }
+    
+    /// Prepare method request
+    func prepareGETRequest(requestParamsType: RequestMethodParameters) -> RequestMethodAPIType {
+        
+        let codeID              =   generateUniqueId()
+        
+        let requestAPI          =   RequestAPI(id: codeID,
+                                               method: String(format: "%@.%@", requestParamsType.methodGroup, requestParamsType.methodName),
+                                               jsonrpc: "2.0",
+                                               params: requestParamsType.parameters)
+        
+        do {
+            // Encode data
+            let jsonEncoder = JSONEncoder()
+            var jsonData = Data()
+            var jsonString: String
+            
+            jsonData    =   try jsonEncoder.encode(requestAPI)
+            jsonString  =   String(data: jsonData, encoding: .utf8)!
+            
+            // Template: { "id": 2, "jsonrpc": "2.0", "method": "content.getProfile", "params": { "userId": "tst3uuqzetwf" }}
+            return (id: codeID, requestMessage: jsonString, methodAPIType: requestParamsType.methodAPIType, errorAPI: nil)
+        } catch {
+            Crashlytics.sharedInstance().recordError(error)
+            Logger.log(message: "Error: \(error.localizedDescription)", event: .error)
+            
+            return (id: codeID, requestMessage: nil, methodAPIType: requestParamsType.methodAPIType, errorAPI: ErrorAPI.requestFailed(message: "Broadcast, line 406: \(error.localizedDescription)"))
+        }
+    }
+    
+    /// Rx method to deal with executeGetRequest
+    public func executeGetRequest<T: Decodable>(methodAPIType: MethodAPIType, timeout: RxSwift.RxTimeInterval = 10) -> Single<T> {
+        // Offline mode
+        if !Config.isNetworkAvailable {
+            return .error(ErrorAPI.disableInternetConnection(message: nil)) }
+        
+        // Prepare content request
+        let requestParamsType   =   methodAPIType.introduced()
+        let requestMethodAPIType = prepareGETRequest(requestParamsType: requestParamsType)
+
+        if let error = requestMethodAPIType.errorAPI {
+            Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["Method" : methodAPIType.introduced().methodName])
+            return .error(ErrorAPI.requestFailed(message: "Broadcast, line \(#line): \(error)"))
+        }
+        
+        Logger.log(message: "\nrequestMethodAPIType:\n\t\(requestMethodAPIType.requestMessage!)\n", event: .request, apiMethod: "\(requestParamsType.methodGroup).\(requestParamsType.methodName)")
+        
+        return SocketManager.shared.sendRequest(methodAPIType: requestMethodAPIType, timeout: timeout)
+            .catchError({ (error) -> Single<T> in
+                Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["Method" : methodAPIType.introduced().methodName])
+                if let errorAPI = error as? ErrorAPI {
+
+                    let message = errorAPI.caseInfo.message
+                    
+                    if message == "Unauthorized request: access denied" {
+                        return RestAPIManager.instance.authorize()
+                            .flatMap {_ in self.executeGetRequest(methodAPIType: methodAPIType)}
+                    }
+                    
+                    if message == "There is no secret stored for this channelId. Probably, client's already authorized" ||
+                        message == "Secret verification failed - access denied"{
+                        // retrieve secret
+                        return RestAPIManager.instance.generateSecret()
+                            .andThen(self.executeGetRequest(methodAPIType: methodAPIType))
+                    }
+                }
+                                
+                if let errorRx = error as? RxError {
+                    switch errorRx {
+                    case .timeout:
+                        throw ErrorAPI.requestFailed(message: "Request has timed out")
+                    default:
+                        break
+                    }
+                }
+                
+                throw error
+            })
+            .log(method: "\(requestParamsType.methodGroup).\(requestParamsType.methodName)")
+    }
 
     // MARK: - FACADE-SERVICE
     // API `content.waitForTransaction`
@@ -26,7 +123,7 @@ public class RestAPIManager {
 
         let methodAPIType = MethodAPIType.waitForTransaction(id: id)
 
-        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIContentWaitForTransaction>)
+        return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIContentWaitForTransaction>)
             .flatMapToCompletable()
     }
 
@@ -111,12 +208,12 @@ public class RestAPIManager {
     /// get embed content
     public func getEmbed(url: String) -> Single<ResponseAPIFrameGetEmbed> {
         let methodAPIType = MethodAPIType.getEmbed(url: url)
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
     
     public func sendMessageIgnoreResponse(methodAPIType: MethodAPIType) {
         let requestParamsType = methodAPIType.introduced()
-        let requestMethodAPIType = Broadcast.instance.prepareGETRequest(requestParamsType: requestParamsType)
+        let requestMethodAPIType = prepareGETRequest(requestParamsType: requestParamsType)
         SocketManager.shared.sendMessage(requestMethodAPIType.requestMessage!)
     }
 }

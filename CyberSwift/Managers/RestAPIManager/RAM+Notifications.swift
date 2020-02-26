@@ -23,37 +23,37 @@ extension RestAPIManager {
         filter: [String]? = nil
     ) -> Single<ResponseAPIGetNotifications> {
         let methodAPIType = MethodAPIType.getNotifications(limit: limit, beforeThan: beforeThan, filter: filter)
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
     
     // API `notifications.getStatus`
     public func notificationsGetStatus() -> Single<ResponseAPINotificationsStatusUpdated> {
         let methodAPIType = MethodAPIType.notificationsGetStatus
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
     
     // API `notifications.markAsRead`
     public func notificationsMarkAsRead(_ ids: [String]) -> Single<ResponseAPIStatus> {
         let methodAPIType = MethodAPIType.markAsRead(ids)
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
     
     // API `notifications.markAllAsViewed`
     public func notificationsMarkAllAsViewed(until: String) -> Single<ResponseAPIStatus> {
         let methodAPIType = MethodAPIType.markAllAsViewed(until: until)
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
     
     // API `settings.getPushSettings`
     public func notificationsGetPushSettings() -> Single<ResponseAPISettingsGetPushSettings> {
         let methodAPIType = MethodAPIType.getPushSettings
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
     
     // API `settings.setPushSettings`
     public func notificationsSetPushSettings(disable types: [String]) -> Single<ResponseAPIStatus> {
         let methodAPIType = MethodAPIType.setPushSettings(disabled: types)
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
     
     // MARK: - Old methods
@@ -62,7 +62,7 @@ extension RestAPIManager {
         
         let methodAPIType = MethodAPIType.getPushHistoryFresh
         
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
     
     // API `onlineNotify.historyFresh`
@@ -70,7 +70,7 @@ extension RestAPIManager {
         
         let methodAPIType = MethodAPIType.getOnlineNotifyHistoryFresh
         
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
 }
 
@@ -87,7 +87,7 @@ extension RestAPIManager {
         
         let methodAPIType = MethodAPIType.notifyPushOn(fcmToken: token, appProfileType: AppProfileType.golos)
         
-        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIStatus>)
+        return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIStatus>)
             .do(onSuccess: { _ in
                 UserDefaults.standard.set(true, forKey: Config.currentUserPushNotificationOn)
             })
@@ -106,7 +106,7 @@ extension RestAPIManager {
         
         let methodAPIType = MethodAPIType.notifyPushOff(appProfileType: AppProfileType.golos)
         
-        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIStatus>)
+        return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIStatus>)
             .do(onSuccess: { _ in
                 UserDefaults.standard.set(false, forKey: Config.currentUserPushNotificationOn)
             })
@@ -125,7 +125,7 @@ extension RestAPIManager {
         
         let methodAPIType = MethodAPIType.getOptions
         
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
     
     /// Turn specific notification types on or off
@@ -143,7 +143,7 @@ extension RestAPIManager {
         
         let methodAPIType = MethodAPIType.setNotice(options: options, type: type, appProfileType: appProfileType)
         
-        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIStatus>)
+        return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIStatus>)
             .flatMapToCompletable()
     }
 }

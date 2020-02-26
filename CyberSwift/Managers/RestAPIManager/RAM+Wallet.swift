@@ -20,7 +20,7 @@ extension RestAPIManager {
         limit: UInt = 20
     ) -> Single<ResponseAPIWalletGetTransferHistory> {
         let methodAPIType = MethodAPIType.getTransferHistory(userId: userId, direction: direction, transferType: transferType, symbol: symbol, rewards: reward, offset: offset, limit: limit)
-        return Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
     
     public func getBalance(
@@ -28,7 +28,7 @@ extension RestAPIManager {
         retried: Bool = false
     ) -> Single<ResponseAPIWalletGetBalances> {
         let methodAPIType = MethodAPIType.getBalance(userId: userId)
-        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIWalletGetBalances>)
+        return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIWalletGetBalances>)
             .flatMap { result -> Single<ResponseAPIWalletGetBalances> in
                 if userId != Config.currentUser?.id || retried {return .just(result)}
 
@@ -45,7 +45,7 @@ extension RestAPIManager {
         quantity: String
     ) -> Single<ResponseAPIWalletGetPrice> {
         let methodAPIType = MethodAPIType.getBuyPrice(pointSymbol: symbol, quantity: quantity)
-        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIWalletGetPrice>)
+        return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIWalletGetPrice>)
             .map { result in
                 var result = result
                 result.symbol = symbol
@@ -58,7 +58,7 @@ extension RestAPIManager {
         quantity: String
     ) -> Single<ResponseAPIWalletGetPrice> {
         let methodAPIType = MethodAPIType.getSellPrice(quantity: quantity)
-        return (Broadcast.instance.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIWalletGetPrice>)
+        return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIWalletGetPrice>)
             .map { result in
                 var result = result
                 result.quantity = quantity
