@@ -78,7 +78,7 @@ extension RestAPIManager {
             return .error(ErrorAPI.requestFailed(message: "Phone missing"))
         }
         
-        let methodAPIType = MethodAPIType.verify(phone: phone.trimSpaces(), code: code)
+        let methodAPIType = MethodAPIType.verify(phone: phone, code: code)
         
         return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationVerify>)
             .map { result in
@@ -98,7 +98,7 @@ extension RestAPIManager {
             return .error(ErrorAPI.requestFailed(message: "Phone missing"))
         }
         
-        let methodAPIType = MethodAPIType.resendSmsCode(phone: phone.trimSpaces())
+        let methodAPIType = MethodAPIType.resendSmsCode(phone: phone)
         
         return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIResendSmsCode>)
             .map { result in
@@ -118,7 +118,7 @@ extension RestAPIManager {
             return .error(ErrorAPI.requestFailed(message: "Phone missing"))
         }
         
-        let methodAPIType = MethodAPIType.setUser(name: name, phone: phone.trimSpaces())
+        let methodAPIType = MethodAPIType.setUser(name: name, phone: phone)
         
         return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationSetUsername>)
             .map { result in
@@ -128,7 +128,7 @@ extension RestAPIManager {
                 
                 try KeychainManager.save([
                     Config.registrationStepKey: CurrentUserRegistrationStep.toBlockChain.rawValue,
-                    Config.registrationUserPhoneKey: phone.trimSpaces(),
+                    Config.registrationUserPhoneKey: phone,
                     Config.currentUserNameKey: name,
                     Config.currentUserIDKey: userId
                 ])
