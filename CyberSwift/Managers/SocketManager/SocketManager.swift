@@ -229,6 +229,10 @@ extension SocketManager {
                 throw CMError.userNotFound
             }
             
+            if message == "Account already registered" {
+                throw CMError.registration(message: ErrorMessage.accountHasBeenRegistered.rawValue)
+            }
+            
             throw CMError.requestFailed(message: message, code: error.code)
         } else {
             throw CMError.invalidResponse(responseString: text)
