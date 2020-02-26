@@ -158,29 +158,6 @@ public struct ResponseAPIStatus: Decodable {
     public let status: String
 }
 
-// MARK: - API `onlineNotify.historyFresh`
-public struct ResponseAPIOnlineNotifyHistoryFresh: Decodable {
-    public let fresh: UInt16
-    public let freshByTypes: ResponseAPIOnlineNotifyHistoryFreshFreshByTypes
-}
-
-public struct ResponseAPIOnlineNotifyHistoryFreshFreshByTypes: Decodable {
-    public let summary: UInt16
-    public let upvote: UInt16
-    public let downvote: UInt16
-    public let transfer: UInt16
-    public let reply: UInt16
-    public let subscribe: UInt16
-    public let unsubscribe: UInt16?
-    public let mention: UInt16
-    public let repost: UInt16
-    public let reward: UInt16
-    public let curatorReward: UInt16
-    public let message: UInt16?
-    public let witnessVote: UInt16?
-    public let witnessCancelVote: UInt16?
-}
-
 // MARK: - API `options.get`
 public struct ResponseAPIGetOptions: Decodable {
     public let basic: ResponseAPIGetOptionsBasic?

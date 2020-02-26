@@ -55,23 +55,6 @@ extension RestAPIManager {
         let methodAPIType = MethodAPIType.setPushSettings(disabled: types)
         return executeGetRequest(methodAPIType: methodAPIType)
     }
-    
-    // MARK: - Old methods
-    // API `push.historyFresh`
-    public func getPushHistoryFresh() -> Single<ResponseAPIStatus> {
-        
-        let methodAPIType = MethodAPIType.getPushHistoryFresh
-        
-        return executeGetRequest(methodAPIType: methodAPIType)
-    }
-    
-    // API `onlineNotify.historyFresh`
-    public func getOnlineNotifyHistoryFresh() -> Single<ResponseAPIOnlineNotifyHistoryFresh> {
-        
-        let methodAPIType = MethodAPIType.getOnlineNotifyHistoryFresh
-        
-        return executeGetRequest(methodAPIType: methodAPIType)
-    }
 }
 
 extension RestAPIManager {
