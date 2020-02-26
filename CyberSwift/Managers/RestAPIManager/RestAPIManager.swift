@@ -86,20 +86,17 @@ public class RestAPIManager {
         return SocketManager.shared.sendRequest(methodAPIType: requestMethodAPIType, timeout: timeout)
             .catchError({ (error) -> Single<T> in
                 Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["Method": methodAPIType.introduced().methodName])
-                if let errorAPI = error as? ErrorAPI {
-
-                    let message = errorAPI.caseInfo.message
-                    
-                    if message == "Unauthorized request: access denied" {
+                if let error = error as? CMError {
+                    switch error {
+                    case .unauthorized:
                         return RestAPIManager.instance.authorize()
                             .flatMap {_ in self.executeGetRequest(methodAPIType: methodAPIType)}
-                    }
-                    
-                    if message == "There is no secret stored for this channelId. Probably, client's already authorized" ||
-                        message == "Secret verification failed - access denied"{
+                    case .secretVerificationFailed:
                         // retrieve secret
                         return RestAPIManager.instance.generateSecret()
                             .andThen(self.executeGetRequest(methodAPIType: methodAPIType))
+                    default:
+                        throw error
                     }
                 }
                                 

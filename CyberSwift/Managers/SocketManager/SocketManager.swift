@@ -205,18 +205,28 @@ extension SocketManager {
             return result
         } else if let error = response.error {
             let message = error.data?.error?.details?.first?.message.replacingOccurrences(of: "assertion failure with message: ", with: "") ?? error.data?.message ?? error.message
-
-            if message == "balance does not exist" {
-                throw ErrorAPI.balanceNotExist(message: message)
-            }
-
-            if message == ErrorAPI.Message.invalidStepTaken.rawValue, let currentState = error.currentState {
-                throw ErrorAPI.registrationRequestFailed(message: message, currentStep: currentState)
+            
+            if message == "Unauthorized request: access denied" {
+                throw CMError.unauthorized()
             }
             
-            throw ErrorAPI.requestFailed(message: message)
+            if message == "There is no secret stored for this channelId. Probably, client's already authorized" ||
+                message == "Secret verification failed - access denied"
+            {
+                throw CMError.secretVerificationFailed
+            }
+
+            if message == "balance does not exist" {
+                throw CMError.blockchainError(message: ErrorMessage.balanceNotExist.rawValue, code: error.code)
+            }
+
+            if message == ErrorMessage.invalidStepTaken.rawValue, let currentState = error.currentState {
+                throw CMError.registration(message: ErrorMessage.invalidStepTaken.rawValue, currentState: currentState)
+            }
+            
+            throw CMError.requestFailed(message: message, code: error.code)
         } else {
-            throw ErrorAPI.unknown
+            throw CMError.invalidResponse(responseString: text)
         }
     }
 }

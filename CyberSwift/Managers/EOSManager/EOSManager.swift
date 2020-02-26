@@ -247,11 +247,13 @@ extension EOSManager {
             let request = transaction.push(expirationDate: expiration, actions: actions, authorizingPrivateKey: privateKey)
 
             return request.catchError { (error) -> Single<String> in
-                if let error = error as? ErrorAPI {
+                if let error = error as? CMError {
                     switch error {
-                    case .balanceNotExist:
-                        return openBalance(args: args).flatMap { (_) -> Single<String> in
-                            return pushAuthorized(account: account, name: name, args: args, disableClientAuth: disableClientAuth, disableCyberBandwidth: disableCyberBandwidth)
+                    case .blockchainError(let message, _):
+                        if message == ErrorMessage.balanceNotExist.rawValue {
+                            return openBalance(args: args).flatMap { (_) -> Single<String> in
+                                return pushAuthorized(account: account, name: name, args: args, disableClientAuth: disableClientAuth, disableCyberBandwidth: disableCyberBandwidth)
+                            }
                         }
                     default:
                         break
