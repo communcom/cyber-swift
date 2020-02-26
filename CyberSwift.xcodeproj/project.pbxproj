@@ -88,7 +88,6 @@
 		BCCE0A9E2367DD3A00A183AA /* RAM+Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE0A9D2367DD3A00A183AA /* RAM+Profile.swift */; };
 		BCCF8AC023E2BDBD004892FF /* ResponseAPI+Rewards.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCF8ABF23E2BDBD004892FF /* ResponseAPI+Rewards.swift */; };
 		BCCF8AC223E2C11B004892FF /* RAM+Rewards.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCF8AC123E2C11B004892FF /* RAM+Rewards.swift */; };
-		BCE93909234D868E00226E39 /* ResponseAPI+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE93908234D868E00226E39 /* ResponseAPI+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -192,7 +191,6 @@
 		BCCE0A9D2367DD3A00A183AA /* RAM+Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Profile.swift"; sourceTree = "<group>"; };
 		BCCF8ABF23E2BDBD004892FF /* ResponseAPI+Rewards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Rewards.swift"; sourceTree = "<group>"; };
 		BCCF8AC123E2C11B004892FF /* RAM+Rewards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Rewards.swift"; sourceTree = "<group>"; };
-		BCE93908234D868E00226E39 /* ResponseAPI+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Extensions.swift"; sourceTree = "<group>"; };
 		F6ED672114DF191DC66860EA /* Pods_CyberSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CyberSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -429,7 +427,6 @@
 			children = (
 				BC44DBB1238FA1FD00412F08 /* ListItemType.swift */,
 				B1C3F866223F9906005711EF /* ResponseAPI.swift */,
-				BCE93908234D868E00226E39 /* ResponseAPI+Extensions.swift */,
 				BCA97131236178E600AE37E1 /* ResponseAPIContent.swift */,
 				BCA971332361798000AE37E1 /* ResponseAPI+Profile.swift */,
 				BC48FC3B23667FB10049C4F4 /* ResponseAPI+Community.swift */,
@@ -635,7 +632,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BCE93909234D868E00226E39 /* ResponseAPI+Extensions.swift in Sources */,
 				BC18FA1723D54B8B005DC7E3 /* RAM+Exchange.swift in Sources */,
 				3BF3A6B822F1D48E00A6916E /* EOSTransaction+Actions.swift in Sources */,
 				ACFA282223AA99AA009B77A6 /* EOSArgument.swift in Sources */,
