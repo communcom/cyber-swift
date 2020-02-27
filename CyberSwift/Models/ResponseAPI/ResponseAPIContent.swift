@@ -46,6 +46,8 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
     public let payout: ResponseAPIContentGetPostPayout?
     public var community: ResponseAPIContentGetCommunity?
     public let url: String?
+    public let textLength: Int64?
+    public let viewsCount: Int64?
 
     // Additional properties
     public var mosaic: ResponseAPIRewardsGetStateBulkMosaic?
@@ -66,6 +68,8 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
             payout: item.payout ?? self.payout,
             community: item.community ?? self.community,
             url: item.url ?? self.url,
+            textLength: item.textLength ?? self.textLength,
+            viewsCount: item.viewsCount ?? self.viewsCount,
             mosaic: item.mosaic ?? self.mosaic,
             sendingState: item.sendingState ?? self.sendingState
         )
@@ -211,7 +215,6 @@ public struct ResponseAPIContentGetPostStats: Decodable, Equatable {
     public let rShares: Conflicted?
     public let hot: Double?
     public let trending: Double?
-    public let viewCount: Int64?
 }
 
 public struct ResponseAPIContentGetPostStatsWilson: Decodable, Equatable {
