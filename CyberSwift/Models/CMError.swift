@@ -121,30 +121,7 @@ public enum CMError: Error, Equatable, CustomStringConvertible {
 
 extension CMError: LocalizedError {
     public var errorDescription: String? {
-        switch self {
-        case .userNotFound:
-            return ErrorMessage.userNotFound.rawValue
-        case .unauthorized(message: let message):
-            return "unauthorized".localized().uppercaseFirst + (message != nil ? ": \(message!.localized().uppercaseFirst)" : "")
-        case .secretVerificationFailed:
-            return "Secret verification failed - access denied"
-        case .noConnection:
-            return "no internet connection".localized().uppercaseFirst
-        case .invalidRequest(message: let message):
-            return "request is invalid with error".localized().uppercaseFirst + (message != nil ? ": \(message!.localized().uppercaseFirst)" : "")
-        case .invalidResponse(message: let message, responseString: let responseString):
-            return "response data is invalid with error".localized().uppercaseFirst + (message != nil ? ": \(message!.localized().uppercaseFirst)" : "") + "\n" + (responseString != nil ? ": \(responseString!.localized().uppercaseFirst)" : "")
-        case .requestFailed(message: let message, code: let code):
-            return "request failed with error".localized().uppercaseFirst + ": " + "code".localized() + ": " + "\(code)" + ", " + "message".localized() + ": " + message
-        case .blockchainError(message: let message, code: let code):
-            return "blockchain operation error".localized().uppercaseFirst + ": " + "code".localized() + ": " + "\(code)" + ": " + "message".localized() + ": " + message
-        case .registration(let message, _):
-            return "registration error".localized().uppercaseFirst + ": " + message
-        case .socketDisconnected:
-            return "socket disconnected".localized().uppercaseFirst
-        case .other(let errorMessage):
-            return errorMessage
-        }
+        message
     }
 }
 
