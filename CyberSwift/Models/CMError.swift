@@ -121,7 +121,7 @@ public enum CMError: Error, Equatable, CustomStringConvertible {
 
 extension CMError: LocalizedError {
     public var errorDescription: String? {
-        message
+        message.localized().uppercaseFirst
     }
 }
 
