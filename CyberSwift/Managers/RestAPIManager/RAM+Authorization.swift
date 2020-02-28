@@ -19,7 +19,8 @@ extension RestAPIManager {
     /// Get registration state
     public func getState(phone: String? = Config.currentUser?.phoneNumber) -> Single<ResponseAPIRegistrationGetState> {
         
-        let methodAPIType = MethodAPIType.getState(phone: fixedPhoneNumber(phone: phone))
+        let phone = fixedPhoneNumber(phone: phone)
+        let methodAPIType = MethodAPIType.getState(phone: phone)
         
         return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationGetState>)
             .map { result in
@@ -38,7 +39,7 @@ extension RestAPIManager {
                     dataToSave[Config.currentUserNameKey] = username
                 }
                 
-                if let phone = phone {
+                if !phone.isEmpty {
                     dataToSave[Config.registrationUserPhoneKey] = phone
                 }
                 
@@ -78,7 +79,7 @@ extension RestAPIManager {
     /// Verify code
     public func verify(code: UInt64) -> Single<ResponseAPIRegistrationVerify> {
         guard let phone = Config.currentUser?.phoneNumber else {
-            return .error(CMError.invalidRequest(message: ErrorMessage.phoneMissing.rawValue))
+            return .error(CMError.registration(message: ErrorMessage.phoneMissing.rawValue))
         }
         
         let methodAPIType = MethodAPIType.verify(phone: phone, code: code)
@@ -97,7 +98,7 @@ extension RestAPIManager {
     /// Resend sms code
     public func resendSmsCode() -> Single<ResponseAPIResendSmsCode> {
         guard let phone = Config.currentUser?.phoneNumber else {
-            return .error(CMError.invalidRequest(message: ErrorMessage.phoneMissing.rawValue))
+            return .error(CMError.registration(message: ErrorMessage.phoneMissing.rawValue))
         }
         
         let methodAPIType = MethodAPIType.resendSmsCode(phone: phone)
@@ -116,7 +117,7 @@ extension RestAPIManager {
     /// set userName
     public func setUserName(_ name: String) -> Single<ResponseAPIRegistrationSetUsername> {
         guard let phone = Config.currentUser?.phoneNumber else {
-            return .error(CMError.invalidRequest(message: ErrorMessage.phoneMissing.rawValue))
+            return .error(CMError.registration(message: ErrorMessage.phoneMissing.rawValue))
         }
         
         let methodAPIType = MethodAPIType.setUser(name: name, phone: phone)
@@ -141,7 +142,7 @@ extension RestAPIManager {
     /// Save user to blockchain
     public func toBlockChain() -> Completable {
         guard let userName = Config.currentUser?.name, let userID = Config.currentUser?.id, let userPhone = Config.currentUser?.phoneNumber else {
-            return .error(CMError.invalidRequest(message: ErrorMessage.userIdOrUsernameIsMissing.rawValue))
+            return .error(CMError.registration(message: ErrorMessage.userIdOrUsernameIsMissing.rawValue))
         }
         
         let masterKey = String.randomString(length: 51)
