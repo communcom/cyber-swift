@@ -30,7 +30,7 @@ extension UIImage {
             UIGraphicsEndImageContext()
         }
 
-        if let imageData = image.jpegData(compressionQuality: 0.6) {
+        if let imageData = image.jpegData(compressionQuality: 0.7) {
             let finalImage = UIImage(data: imageData) ?? image
             return finalImage
         }
