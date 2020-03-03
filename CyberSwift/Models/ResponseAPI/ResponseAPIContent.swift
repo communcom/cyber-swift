@@ -47,7 +47,7 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
     public var community: ResponseAPIContentGetCommunity?
     public let url: String?
     public let textLength: Int64?
-    public let viewsCount: Int64?
+    public var viewsCount: Int64?
 
     // Additional properties
     public var mosaic: ResponseAPIRewardsGetStateBulkMosaic?
