@@ -8,6 +8,7 @@
 
 import Foundation
 import RxDataSources
+import RxSwift
 
 extension ResponseAPIContentGetPost {
     public var content: [ResponseAPIContentBlock]? {
@@ -47,5 +48,14 @@ extension ResponseAPIContentGetPost {
         }
         
         return nil
+    }
+    
+    public func markAsViewed() -> Disposable {
+        RestAPIManager.instance.recordPostView(permlink: contentId.permlink)
+            .subscribe(onSuccess: { (_) in
+                var newPost = self
+                newPost.viewsCount = (newPost.viewsCount ?? 0) + 1
+                newPost.notifyChanged()
+            })
     }
 }
