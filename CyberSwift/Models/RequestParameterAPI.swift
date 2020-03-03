@@ -57,6 +57,7 @@ public struct RequestParameterAPI {
                 .replacingOccurrences(of: "],{", with: "],")
                 .replacingOccurrences(of: "}\"}", with: "}\"")
         } catch {
+            ErrorLogger.shared.recordError(error, additionalInfo: ["user": Config.currentUser?.id ?? "undefined"])
             Logger.log(message: "Error: \(error.localizedDescription)", event: .error)
             return nil
         }

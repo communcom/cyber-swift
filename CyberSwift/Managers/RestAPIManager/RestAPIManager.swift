@@ -61,7 +61,7 @@ public class RestAPIManager {
             // Template: { "id": 2, "jsonrpc": "2.0", "method": "content.getProfile", "params": { "userId": "tst3uuqzetwf" }}
             return (id: codeID, requestMessage: jsonString, methodAPIType: requestParamsType.methodAPIType, errorAPI: nil)
         } catch {
-            Crashlytics.sharedInstance().recordError(error)
+            ErrorLogger.shared.recordError(error, additionalInfo: ["user": Config.currentUser?.id ?? "undefined"])
             Logger.log(message: "Error: \(error.localizedDescription)", event: .error)
             
             return (id: codeID, requestMessage: nil, methodAPIType: requestParamsType.methodAPIType, errorAPI: CMError.invalidRequest(message: ErrorMessage.jsonConversionFailed.rawValue))
@@ -72,14 +72,16 @@ public class RestAPIManager {
     public func executeGetRequest<T: Decodable>(methodAPIType: MethodAPIType, timeout: RxSwift.RxTimeInterval = 10) -> Single<T> {
         // Offline mode
         if !Config.isNetworkAvailable {
-            return .error(CMError.noConnection) }
+            ErrorLogger.shared.recordError(CMError.noConnection, additionalInfo: ["user": Config.currentUser?.id ?? "undefined", "method": methodAPIType.introduced().methodName])
+            return .error(CMError.noConnection)
+        }
         
         // Prepare content request
         let requestParamsType   =   methodAPIType.introduced()
         let requestMethodAPIType = prepareGETRequest(requestParamsType: requestParamsType)
 
         if let error = requestMethodAPIType.errorAPI {
-            Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["Method": methodAPIType.introduced().methodName])
+            ErrorLogger.shared.recordError(error, additionalInfo: ["user": Config.currentUser?.id ?? "undefined", "method": methodAPIType.introduced().methodName])
             return .error(error)
         }
         
@@ -87,7 +89,7 @@ public class RestAPIManager {
         
         return SocketManager.shared.sendRequest(methodAPIType: requestMethodAPIType, timeout: timeout)
             .catchError({ (error) -> Single<T> in
-                Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["Method": methodAPIType.introduced().methodName])
+                ErrorLogger.shared.recordError(error, additionalInfo: ["user": Config.currentUser?.id ?? "undefined", "method": methodAPIType.introduced().methodName])
                 if let error = error as? CMError {
                     switch error {
                     case .unauthorized:
@@ -195,6 +197,7 @@ public class RestAPIManager {
                     errorHandling(CMError.requestFailed(message: ErrorMessage.jsonParsingFailed.rawValue, code: 0))
                 }
             } catch {
+                ErrorLogger.shared.recordError(error, additionalInfo: ["user": Config.currentUser?.id ?? "undefined"])
                 Logger.log(message: "\nAPI `posting image` response error: \n\"JSON Conversion Failure\"\n", event: .error)
                 errorHandling(CMError.requestFailed(message: ErrorMessage.jsonConversionFailed.rawValue, code: 0))
             }

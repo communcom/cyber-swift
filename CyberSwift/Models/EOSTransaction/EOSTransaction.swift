@@ -50,6 +50,7 @@ public class EOSTransaction {
                     result.transaction_id
                 }
                 .do(onError: { (error) in
+                    ErrorLogger.shared.recordError(error, additionalInfo: ["user": Config.currentUser?.id ?? "undefined"])
                     if let error = error as? ChainError {
                         Logger.log(message: "ChainAPI.getInfo error: \(error)", event: .debug)
                     }

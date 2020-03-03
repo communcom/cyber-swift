@@ -179,10 +179,12 @@ extension EOSManager {
 
         // Offline mode
         if !Config.isNetworkAvailable {
+            ErrorLogger.shared.recordError(CMError.noConnection, additionalInfo: ["user": Config.currentUser?.id ?? "undefined"])
             return .error(CMError.noConnection)
         }
 
         guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKeys?.privateKey else {
+            ErrorLogger.shared.recordError(CMError.unauthorized())
             return .error(CMError.unauthorized())
         }
 
@@ -259,7 +261,7 @@ extension EOSManager {
                         break
                     }
                 }
-                Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["account": account.stringValue, "name": name, "user": userID])
+                ErrorLogger.shared.recordError(error, additionalInfo: ["account": account.stringValue, "name": name, "user": userID])
                 return .error(error)
             }
         } catch {
@@ -315,7 +317,7 @@ extension EOSManager {
             let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
             return transaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [action1, action2], authorizingPrivateKey: privateKey)
         } catch {
-            Crashlytics.sharedInstance().recordError(error, withAdditionalUserInfo: ["account": "c.point", "name": "open", "user": userID])
+             ErrorLogger.shared.recordError(error, additionalInfo: ["account": "c.point", "name": "open", "user": userID])
             return .error(error)
         }
     }

@@ -121,6 +121,7 @@ public class KeychainManager {
             do {
                 try KeychainManager.save([Config.currentDeviceIdKey: id], account: Config.currentDeviceIdKey)
             } catch {
+                ErrorLogger.shared.recordError(error, additionalInfo: ["user": Config.currentUser?.id ?? "undefined"])
                 Logger.log(message: error.localizedDescription, event: .debug)
             }
         }
@@ -138,7 +139,7 @@ public class KeychainManager {
                 do {
                     try Locksmith.saveData(data: [Config.currentDeviceIdKey: currentKey], forUserAccount: Config.currentDeviceIdKey)
                 } catch {
-                    Crashlytics.sharedInstance().recordError(error)
+                    ErrorLogger.shared.recordError(error, additionalInfo: ["user": Config.currentUser?.id ?? "undefined"])
                 }
             }
             UserDefaults.standard.set(true, forKey: deviceIdMigrationKey)

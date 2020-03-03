@@ -22,6 +22,7 @@
 		3BE3666722E5CE7C00F84A04 /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE3666622E5CE7C00F84A04 /* SocketManager.swift */; };
 		3BF3A6B822F1D48E00A6916E /* EOSTransaction+Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF3A6B722F1D48E00A6916E /* EOSTransaction+Actions.swift */; };
 		7EF06C95D4BFFC91A593F720 /* Pods_CyberSwiftTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72FB95E5419699B77BD2F429 /* Pods_CyberSwiftTests.framework */; };
+		AC3EB80D240D196F00B853CC /* ErrorLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3EB80C240D196F00B853CC /* ErrorLogger.swift */; };
 		ACD76C8C23B117F8001FAECD /* BlockchainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD76C8A23B11684001FAECD /* BlockchainManager.swift */; };
 		ACFA282223AA99AA009B77A6 /* EOSArgument.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACFA282123AA99AA009B77A6 /* EOSArgument.swift */; };
 		B111B5BB224E1B5A00F84AD9 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B111B5BA224E1B5A00F84AD9 /* KeychainManager.swift */; };
@@ -120,6 +121,7 @@
 		6573AA23182BFAECEBF635F1 /* Pods-CyberSwiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CyberSwiftTests.release.xcconfig"; path = "../../Pods/Target Support Files/Pods-CyberSwiftTests/Pods-CyberSwiftTests.release.xcconfig"; sourceTree = "<group>"; };
 		72FB95E5419699B77BD2F429 /* Pods_CyberSwiftTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CyberSwiftTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AB2614591624246CBE93FA0 /* Pods-CyberSwiftTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CyberSwiftTests.debug.xcconfig"; path = "../../Pods/Target Support Files/Pods-CyberSwiftTests/Pods-CyberSwiftTests.debug.xcconfig"; sourceTree = "<group>"; };
+		AC3EB80C240D196F00B853CC /* ErrorLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorLogger.swift; sourceTree = "<group>"; };
 		ACD76C8A23B11684001FAECD /* BlockchainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockchainManager.swift; sourceTree = "<group>"; };
 		ACFA282123AA99AA009B77A6 /* EOSArgument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EOSArgument.swift; sourceTree = "<group>"; };
 		B111B5BA224E1B5A00F84AD9 /* KeychainManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
@@ -326,6 +328,7 @@
 			children = (
 				B1C3F855223F98B1005711EF /* Config.swift */,
 				B1C3F85D223F98DC005711EF /* Logger.swift */,
+				AC3EB80C240D196F00B853CC /* ErrorLogger.swift */,
 				B1C3F853223F98A6005711EF /* Extensions */,
 				B1C3F85A223F98C7005711EF /* Managers */,
 				B1C3F863223F98F4005711EF /* Models */,
@@ -686,6 +689,7 @@
 				BC9066E923A9D515000F9A3B /* ResponseAPI+Wallet.swift in Sources */,
 				BC51B48924062A1F009DFB48 /* CMError.swift in Sources */,
 				BC44DBD8238FA44300412F08 /* ResponseAPIContentGetComment+Extensions.swift in Sources */,
+				AC3EB80D240D196F00B853CC /* ErrorLogger.swift in Sources */,
 				B1EA02CD22895EB400835244 /* UILabel+Extensions.swift in Sources */,
 				3B3016B922F1FDAA003CD1BD /* ReachabilityManager.swift in Sources */,
 				BCA97132236178E600AE37E1 /* ResponseAPIContent.swift in Sources */,
