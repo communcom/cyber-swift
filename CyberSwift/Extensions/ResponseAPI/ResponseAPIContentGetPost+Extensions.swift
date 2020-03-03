@@ -56,6 +56,7 @@ extension ResponseAPIContentGetPost {
                 var newPost = self
                 newPost.viewsCount = (newPost.viewsCount ?? 0) + 1
                 newPost.notifyChanged()
+                RestAPIManager.instance.markedAsViewedPosts.insert(newPost.identity)
             })
     }
 }
