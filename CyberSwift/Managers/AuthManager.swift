@@ -14,7 +14,7 @@ public class AuthManager {
     // MARK: - Nested type
     public enum Status: Equatable {
         // login, register, boarding
-        case connecting
+        case initializing
         case registering(step: CurrentUserRegistrationStep)
         case boarding(step: CurrentUserSettingStep)
         
@@ -31,7 +31,7 @@ public class AuthManager {
     
     // MARK: - Properties
     let disposeBag = DisposeBag()
-    public let status = BehaviorRelay<Status>(value: .connecting)
+    public let status = BehaviorRelay<Status>(value: .initializing)
     
     // MARK: - Singleton
     public static let shared = AuthManager()
@@ -56,6 +56,9 @@ public class AuthManager {
             .debounce(1, scheduler: MainScheduler.instance)
             .subscribe(onNext: { (event) in
                 switch event {
+                case .connecting:
+                    // after logining, registering, boarding completed
+                    self.status.accept(.authorizing)
                 case .signed:
                     self.route()
                 case .disconnected(let error):
@@ -98,7 +101,7 @@ public class AuthManager {
 // MARK: - Helpers
 extension AuthManager {
     public func reload() {
-        self.status.accept(.connecting)
+        self.status.accept(.initializing)
         route()
     }
     
