@@ -12,9 +12,9 @@ import RxCocoa
 import Starscream
 import Reachability
 
-public class SocketManager {
+class SocketManager {
     // MARK: - Nested type
-    public enum Event: Equatable {
+    enum Event: Equatable {
         case connecting
         case connected
         case signed
@@ -24,8 +24,8 @@ public class SocketManager {
     // MARK: - Properties
     var socket: WebSocket
     
-    public let state = BehaviorRelay<Event>(value: .connecting)
-    public let textSubject = PublishSubject<String>()
+    let state = BehaviorRelay<Event>(value: .connecting)
+    let textSubject = PublishSubject<String>()
     
     let bag = DisposeBag()
     var reachability: Reachability!
@@ -34,7 +34,7 @@ public class SocketManager {
     public let newNotificationsRelay = BehaviorRelay<[ResponseAPIGetNotificationItem]>(value: [])
     
     // MARK: - Singleton
-    public static let shared = SocketManager()
+    static let shared = SocketManager()
     private init() {
         // Create device id
         KeychainManager.createDeviceId()
@@ -52,16 +52,16 @@ public class SocketManager {
     }
     
     // MARK: - Methods
-    public func connect() {
+    func connect() {
         state.accept(.connecting)
         socket.connect()
     }
     
-    public func disconnect() {
+    func disconnect() {
         socket.disconnect()
     }
     
-    public func reset() {
+    func reset() {
         if KeychainManager.currentDeviceId == nil
         {
             KeychainManager.createDeviceId()
@@ -131,7 +131,7 @@ public class SocketManager {
         reachability.stopNotifier()
     }
     
-    public func catchEvent<T: Decodable>(_ method: String, objectType: T.Type) -> Observable<T> {
+    func catchEvent<T: Decodable>(_ method: String, objectType: T.Type) -> Observable<T> {
         textSubject
             .filter { string in
                 guard let jsonData = string.data(using: .utf8),
