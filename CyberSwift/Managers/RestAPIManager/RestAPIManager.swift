@@ -85,8 +85,6 @@ public class RestAPIManager {
             return .error(error)
         }
         
-        Logger.log(message: "\nrequestMethodAPIType:\n\t\(requestMethodAPIType.requestMessage!)\n", event: .request, apiMethod: "\(requestParamsType.methodGroup).\(requestParamsType.methodName)")
-        
         return SocketManager.shared.sendRequest(methodAPIType: requestMethodAPIType, timeout: timeout, authorizationRequired: authorizationRequired)
             .catchError({ (error) -> Single<T> in
                 ErrorLogger.shared.recordError(error, additionalInfo: ["user": Config.currentUser?.id ?? "undefined", "method": methodAPIType.introduced().methodName])
@@ -216,6 +214,6 @@ public class RestAPIManager {
     public func sendMessageIgnoreResponse(methodAPIType: MethodAPIType, authorizationRequired: Bool = true) {
         let requestParamsType = methodAPIType.introduced()
         let requestMethodAPIType = prepareGETRequest(requestParamsType: requestParamsType)
-        SocketManager.shared.sendMessage(requestMethodAPIType.requestMessage!, authorizationRequired: authorizationRequired)
+        SocketManager.shared.sendMessage(requestMethodAPIType, authorizationRequired: authorizationRequired)
     }
 }

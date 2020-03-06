@@ -48,6 +48,7 @@ public class AuthManager {
     }
     
     public func disconnect() {
+        status.accept(.disconnected(nil))
         SocketManager.shared.disconnect()
     }
     

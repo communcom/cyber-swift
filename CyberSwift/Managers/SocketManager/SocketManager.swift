@@ -43,13 +43,6 @@ class SocketManager {
         
         // network monitoring
         monitorNetwork()
-        
-        // log state
-        state
-            .subscribe(onNext: { (state) in
-                Logger.log(message: "SocketManager.state = \(state)", event: .event)
-            })
-            .disposed(by: disposeBag)
     }
     
     // MARK: - Methods
@@ -76,7 +69,7 @@ class SocketManager {
     }
     
     func sendRequest<T: Decodable>(methodAPIType: RequestMethodAPIType, timeout: RxSwift.RxTimeInterval, authorizationRequired: Bool) -> Single<T> {
-        sendMessage(methodAPIType.requestMessage!, authorizationRequired: authorizationRequired)
+        sendMessage(methodAPIType, authorizationRequired: authorizationRequired)
         
         return textSubject
             .filter {self.compareMessageFromResponseText($0, to: methodAPIType.id)}
@@ -89,7 +82,15 @@ class SocketManager {
             .map {try self.transformMessage($0)}
     }
     
-    func sendMessage(_ message: String, authorizationRequired: Bool) {
+    func sendMessage(_ requestMethodAPIType: RequestMethodAPIType, authorizationRequired: Bool) {
+        // prepare variables
+        let requestParamsType = requestMethodAPIType.methodAPIType.introduced()
+        let methodGroup = requestParamsType.methodGroup
+        let methodName = requestParamsType.methodName
+        
+        let message = requestMethodAPIType.requestMessage!
+        
+        // check connection and send
         if !socket.isConnected {
             connect()
             if authorizationRequired {
@@ -97,9 +98,7 @@ class SocketManager {
                     .take(1)
                     .asSingle()
                     .subscribe(onSuccess: { (_) in
-                        Logger.log(message: "retry sending message after authorization: \n\t\(message)", event: .request)
-                        
-                        self.socket.write(string: message)
+                        self.writeAndLog(message: message, methodGroup: methodGroup, methodName: methodName)
                     })
                     .disposed(by: disposeBag)
             } else {
@@ -107,7 +106,7 @@ class SocketManager {
                     .take(1)
                     .asSingle()
                     .subscribe(onSuccess: {[weak self] _ in
-                        self?.socket.write(string: message)
+                        self?.writeAndLog(message: message, methodGroup: methodGroup, methodName: methodName)
                     })
                     .disposed(by: disposeBag)
             }
@@ -117,13 +116,18 @@ class SocketManager {
                     .take(1)
                     .asSingle()
                     .subscribe(onSuccess: { (_) in
-                        self.socket.write(string: message)
+                        self.writeAndLog(message: message, methodGroup: methodGroup, methodName: methodName)
                     })
                     .disposed(by: disposeBag)
             } else {
-                socket.write(string: message)
+                writeAndLog(message: message, methodGroup: methodGroup, methodName: methodName)
             }
         }
+    }
+    
+    private func writeAndLog(message: String, methodGroup: String, methodName: String) {
+        Logger.log(message: "\nrequestMethodAPIType:\n\t\(message)\n", event: .request, apiMethod: "\(methodGroup).\(methodName)")
+        socket.write(string: message)
     }
     
     func monitorNetwork() {
