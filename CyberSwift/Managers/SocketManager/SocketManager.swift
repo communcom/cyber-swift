@@ -15,10 +15,23 @@ import Reachability
 class SocketManager {
     // MARK: - Nested type
     enum Event: Equatable {
+        static func == (lhs: SocketManager.Event, rhs: SocketManager.Event) -> Bool {
+            switch (lhs, rhs) {
+            case (.connecting, .connecting):
+                return true
+            case (.connected, .connected):
+                return true
+            case (.disconnected(let error1), .disconnected(let error2)):
+                return error1?.localizedDescription == error2?.localizedDescription
+            default:
+                return false
+            }
+        }
+        
         case connecting
         case connected
         case signed
-        case disconnected(CMError)
+        case disconnected(Error?)
     }
     
     // MARK: - Properties
