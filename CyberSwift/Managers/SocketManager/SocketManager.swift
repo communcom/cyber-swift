@@ -83,7 +83,7 @@ class SocketManager {
     
     func sendMessage(_ message: String) {
         if !socket.isConnected {
-            state.accept(.connecting)
+            connect()
             state.filter {$0 == .signed}
                 .take(1)
                 .asSingle()
@@ -91,7 +91,6 @@ class SocketManager {
                     self?.socket.write(string: message)
                 })
                 .disposed(by: bag)
-            connect()
         } else {
             socket.write(string: message)
         }
