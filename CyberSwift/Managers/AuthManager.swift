@@ -25,7 +25,7 @@ public class AuthManager {
         case authorized
         
         // error
-        case error(error: CMError)
+        case error(CMError?)
     }
     
     // MARK: - Properties
@@ -59,7 +59,7 @@ public class AuthManager {
                 case .signed:
                     self.route()
                 case .disconnected(let error):
-                    self.status.accept(.error(error: error))
+                    self.status.accept(.error(error))
                 default:
                     return
                 }
