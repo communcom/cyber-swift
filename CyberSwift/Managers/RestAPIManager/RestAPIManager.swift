@@ -115,7 +115,7 @@ public class RestAPIManager {
                 
                 throw error
             })
-            .log(method: "\(requestParamsType.methodGroup).\(requestParamsType.methodName)")
+            .log(method: "\(requestParamsType.methodGroup).\(requestParamsType.methodName)", id: requestMethodAPIType.id)
     }
 
     // MARK: - FACADE-SERVICE
