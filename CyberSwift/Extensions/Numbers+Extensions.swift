@@ -10,11 +10,11 @@ import Foundation
 
 extension CGFloat {
     public static func adaptive(width: CGFloat) -> CGFloat {
-        return (width * Config.widthRatio).rounded(.down)
+        (width * Config.widthRatio).rounded(.down)
     }
 
     public static func adaptive(height: CGFloat) -> CGFloat {
-        return (height * Config.heightRatio).rounded(.down)
+        (height * Config.heightRatio).rounded(.down)
     }
 }
 
@@ -29,14 +29,14 @@ extension Formatter {
 
 extension UInt64 {
     public var formattedWithSeparator: String {
-        return Formatter.withSeparator.string(for: self) ?? ""
+        Formatter.withSeparator.string(for: self) ?? ""
     }
 }
 
 extension FloatingPoint {
     public var whole: Self { modf(self).0 }
     public var fraction: Self { modf(self).1 }
-    
+
     public var formattedWithSeparator: String {
         guard self >= 1_000 else { return "\(self)" }
         return Formatter.withSeparator.string(for: self) ?? ""
