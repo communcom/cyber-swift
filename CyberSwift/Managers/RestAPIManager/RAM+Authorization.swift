@@ -238,9 +238,8 @@ extension RestAPIManager {
         
         return executeGetRequest(methodAPIType: methodAPIType)
             .do(onSuccess: { (_) in
-                let requestParamsType = MethodAPIType.notificationsSubscribe.introduced()
-                let requestMethodAPIType = self.prepareGETRequest(requestParamsType: requestParamsType)
-                SocketManager.shared.sendMessage(requestMethodAPIType.requestMessage!)
+                let methodAPIType = MethodAPIType.notificationsSubscribe
+                self.sendMessageIgnoreResponse(methodAPIType: methodAPIType)
             })
     }
     
