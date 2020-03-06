@@ -27,7 +27,7 @@ class SocketManager {
     let state = BehaviorRelay<Event>(value: .connecting)
     let textSubject = PublishSubject<String>()
     
-    let bag = DisposeBag()
+    let disposeBag = DisposeBag()
     var reachability: Reachability!
     
     // MARK: - Singleton
@@ -43,6 +43,13 @@ class SocketManager {
         
         // network monitoring
         monitorNetwork()
+        
+        // log state
+        state
+            .subscribe(onNext: { (state) in
+                Logger.log(message: "SocketManager.state = \(state)", event: .event)
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Methods
@@ -52,6 +59,7 @@ class SocketManager {
     }
     
     func disconnect() {
+        state.accept(.disconnected(nil))
         socket.disconnect()
     }
     
@@ -89,9 +97,11 @@ class SocketManager {
                     .take(1)
                     .asSingle()
                     .subscribe(onSuccess: { (_) in
+                        Logger.log(message: "retry sending message after authorization: \n\t\(message)", event: .request)
+                        
                         self.socket.write(string: message)
                     })
-                    .disposed(by: bag)
+                    .disposed(by: disposeBag)
             } else {
                 state.filter {$0 == .signed}
                     .take(1)
@@ -99,7 +109,7 @@ class SocketManager {
                     .subscribe(onSuccess: {[weak self] _ in
                         self?.socket.write(string: message)
                     })
-                    .disposed(by: bag)
+                    .disposed(by: disposeBag)
             }
         } else {
             if authorizationRequired {
@@ -109,7 +119,7 @@ class SocketManager {
                     .subscribe(onSuccess: { (_) in
                         self.socket.write(string: message)
                     })
-                    .disposed(by: bag)
+                    .disposed(by: disposeBag)
             } else {
                 socket.write(string: message)
             }

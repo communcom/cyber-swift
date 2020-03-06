@@ -68,6 +68,12 @@ public class AuthManager {
                 }
             })
             .disposed(by: disposeBag)
+        
+        status
+            .subscribe(onNext: { (state) in
+                Logger.log(message: "AuthManager.status = \(state)", event: .event)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func route() {
