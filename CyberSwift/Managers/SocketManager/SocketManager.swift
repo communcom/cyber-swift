@@ -30,9 +30,6 @@ class SocketManager {
     let bag = DisposeBag()
     var reachability: Reachability!
     
-    public let unseenNotificationsRelay = BehaviorRelay<UInt64>(value: 0)
-    public let newNotificationsRelay = BehaviorRelay<[ResponseAPIGetNotificationItem]>(value: [])
-    
     // MARK: - Singleton
     static let shared = SocketManager()
     private init() {
@@ -43,9 +40,6 @@ class SocketManager {
         socket = WebSocket(url: URL(string: Config.gate_API_URL + "connect?platform=ios&deviceType=phone&clientType=app&version=\(UIApplication.appVersion)\((KeychainManager.currentDeviceId != nil) ? "&deviceId=\(KeychainManager.currentDeviceId!)" : "")")!)
         
         socket.delegate = self
-        
-        // sign when socket is connected
-        observeConnection()
         
         // network monitoring
         monitorNetwork()
@@ -101,22 +95,6 @@ class SocketManager {
         } else {
             socket.write(string: message)
         }
-    }
-    
-    func observeConnection() {
-        catchEvent("notifications.statusUpdated", objectType: ResponseAPINotificationsStatusUpdated.self)
-            .subscribe(onNext: { (status) in
-                self.unseenNotificationsRelay.accept(status.unseenCount)
-            })
-            .disposed(by: bag)
-        
-        catchEvent("notifications.newNotification", objectType: ResponseAPIGetNotificationItem.self)
-            .subscribe(onNext: { (item) in
-                var newNotifications = self.newNotificationsRelay.value
-                newNotifications.joinUnique([item])
-                self.newNotificationsRelay.accept(newNotifications.sortedByTimestamp)
-            })
-            .disposed(by: bag)
     }
     
     func monitorNetwork() {

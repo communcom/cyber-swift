@@ -80,6 +80,7 @@
 		BC51B48924062A1F009DFB48 /* CMError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC51B48824062A1E009DFB48 /* CMError.swift */; };
 		BC52913E2378FE910022EC7F /* RAM+Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52913D2378FE910022EC7F /* RAM+Content.swift */; };
 		BC7470BA2411FF8C00BD4CB3 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7470B92411FF8C00BD4CB3 /* AuthManager.swift */; };
+		BC7470BE2412029900BD4CB3 /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7470BD2412029900BD4CB3 /* NotificationsManager.swift */; };
 		BC9066E923A9D515000F9A3B /* ResponseAPI+Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9066E823A9D515000F9A3B /* ResponseAPI+Wallet.swift */; };
 		BC9066FC23AA106D000F9A3B /* RAM+Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9066FB23AA106D000F9A3B /* RAM+Wallet.swift */; };
 		BC99B65E23E185D2004AA74E /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC99B65D23E185D2004AA74E /* Double+Extensions.swift */; };
@@ -185,6 +186,7 @@
 		BC51B48824062A1E009DFB48 /* CMError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMError.swift; sourceTree = "<group>"; };
 		BC52913D2378FE910022EC7F /* RAM+Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Content.swift"; sourceTree = "<group>"; };
 		BC7470B92411FF8C00BD4CB3 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		BC7470BD2412029900BD4CB3 /* NotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
 		BC9066E823A9D515000F9A3B /* ResponseAPI+Wallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Wallet.swift"; sourceTree = "<group>"; };
 		BC9066FB23AA106D000F9A3B /* RAM+Wallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Wallet.swift"; sourceTree = "<group>"; };
 		BC99B65D23E185D2004AA74E /* Double+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extensions.swift"; sourceTree = "<group>"; };
@@ -387,6 +389,7 @@
 				3B1E901722CDF16B00D7A0C1 /* ICloudManager.swift */,
 				ACD76C8A23B11684001FAECD /* BlockchainManager.swift */,
 				BC7470B92411FF8C00BD4CB3 /* AuthManager.swift */,
+				BC7470BD2412029900BD4CB3 /* NotificationsManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -682,6 +685,7 @@
 				3B3016B722F1E4D3003CD1BD /* RequestAPITransaction.swift in Sources */,
 				3BE3666722E5CE7C00F84A04 /* SocketManager.swift in Sources */,
 				3BB342B622CB7591009546B2 /* CurrentUser.swift in Sources */,
+				BC7470BE2412029900BD4CB3 /* NotificationsManager.swift in Sources */,
 				BC52913E2378FE910022EC7F /* RAM+Content.swift in Sources */,
 				BC44DBEC238FA99000412F08 /* ResponseAPIContentBlock+Extensions.swift in Sources */,
 				B1C3F858223F98B1005711EF /* Config.swift in Sources */,
