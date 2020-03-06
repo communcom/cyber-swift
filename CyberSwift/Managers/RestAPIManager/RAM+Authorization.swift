@@ -265,8 +265,8 @@ extension RestAPIManager {
         UserDefaults.standard.set(nil, forKey: Config.currentDeviceDidSetInfo)
         
         // Remove old notifications
-        SocketManager.shared.newNotificationsRelay.accept([])
-        SocketManager.shared.unseenNotificationsRelay.accept(0)
+        NotificationsManager.shared.newNotificationsRelay.accept([])
+        NotificationsManager.shared.unseenNotificationsRelay.accept(0)
         
         // rerun socket
         SocketManager.shared.reset()
