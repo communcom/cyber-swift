@@ -25,7 +25,6 @@ public enum MethodAPIGroup: String {
     case notifications      =   "notifications"
     case push               =   "push"
     case notify             =   "notify"
-    case favorites          =   "favorites"
     case meta               =   "meta"
     case frame              =   "frame"
     case registration       =   "registration"
@@ -222,15 +221,6 @@ public indirect enum MethodAPIType {
 
     //  Record the fact of viewing the post
     case recordPostView(permlink: String)
-
-    //  Get current auth user posts
-    case getFavorites
-
-    //  Add post to favorites
-    case addFavorites(permlink: String)
-
-    //  Remove post from favorites
-    case removeFavorites(permlink: String)
     
     //  Get community
     case getCommunity(id: String? = nil, alias: String? = nil)
@@ -575,25 +565,6 @@ public indirect enum MethodAPIType {
                      parameters:        ["postLink": permlink, "fingerPrint": Config.currentDeviceType])
             
         //  Template { "id": 16, "jsonrpc": "2.0", "method": "favorites.get", "params": { "user": <userNickName> }}
-        case .getFavorites:
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.favorites.rawValue,
-                     methodName:        "get",
-                     parameters:        ["user": Config.currentUser?.id ?? ""])
-
-        //  Template { "id": 17, "jsonrpc": "2.0", "method": "favorites.add", "params": { "permlink": <selectedPostPermlink> }}
-        case .addFavorites(let permlink):
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.favorites.rawValue,
-                     methodName:        "add",
-                     parameters:        ["permlink": permlink])
-
-        //  Template { "id": 18, "jsonrpc": "2.0", "method": "favorites.remove", "params": { "permlink": <selectedPostPermlink> }}
-        case .removeFavorites(let permlink):
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.favorites.rawValue,
-                     methodName:        "remove",
-                     parameters:        ["permlink": permlink])
             
         case .getCommunity(let id, let alias):
             var params = [String: Encodable]()
