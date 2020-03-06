@@ -213,9 +213,9 @@ public class RestAPIManager {
         return executeGetRequest(methodAPIType: methodAPIType)
     }
     
-    public func sendMessageIgnoreResponse(methodAPIType: MethodAPIType) {
+    public func sendMessageIgnoreResponse(methodAPIType: MethodAPIType, authorizationRequired: Bool = true) {
         let requestParamsType = methodAPIType.introduced()
         let requestMethodAPIType = prepareGETRequest(requestParamsType: requestParamsType)
-        SocketManager.shared.sendMessage(requestMethodAPIType.requestMessage!)
+        SocketManager.shared.sendMessage(requestMethodAPIType.requestMessage!, authorizationRequired: authorizationRequired)
     }
 }

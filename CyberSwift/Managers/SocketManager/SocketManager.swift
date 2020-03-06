@@ -67,8 +67,8 @@ class SocketManager {
         socket.delegate = self
     }
     
-    func sendRequest<T: Decodable>(methodAPIType: RequestMethodAPIType, timeout: RxSwift.RxTimeInterval) -> Single<T> {
-        sendMessage(methodAPIType.requestMessage!)
+    func sendRequest<T: Decodable>(methodAPIType: RequestMethodAPIType, timeout: RxSwift.RxTimeInterval, authorizationRequired: Bool = true) -> Single<T> {
+        sendMessage(methodAPIType.requestMessage!, authorizationRequired: authorizationRequired)
         
         return textSubject
             .filter {self.compareMessageFromResponseText($0, to: methodAPIType.id)}
@@ -81,18 +81,38 @@ class SocketManager {
             .map {try self.transformMessage($0)}
     }
     
-    func sendMessage(_ message: String) {
+    func sendMessage(_ message: String, authorizationRequired: Bool) {
         if !socket.isConnected {
             connect()
-            state.filter {$0 == .signed}
-                .take(1)
-                .asSingle()
-                .subscribe(onSuccess: {[weak self] _ in
-                    self?.socket.write(string: message)
-                })
-                .disposed(by: bag)
+            if authorizationRequired {
+                AuthManager.shared.status.filter {$0 == .authorized}
+                    .take(1)
+                    .asSingle()
+                    .subscribe(onSuccess: { (_) in
+                        self.socket.write(string: message)
+                    })
+                    .disposed(by: bag)
+            } else {
+                state.filter {$0 == .signed}
+                    .take(1)
+                    .asSingle()
+                    .subscribe(onSuccess: {[weak self] _ in
+                        self?.socket.write(string: message)
+                    })
+                    .disposed(by: bag)
+            }
         } else {
-            socket.write(string: message)
+            if authorizationRequired {
+                AuthManager.shared.status.filter {$0 == .authorized}
+                    .take(1)
+                    .asSingle()
+                    .subscribe(onSuccess: { (_) in
+                        self.socket.write(string: message)
+                    })
+                    .disposed(by: bag)
+            } else {
+                socket.write(string: message)
+            }
         }
     }
     
