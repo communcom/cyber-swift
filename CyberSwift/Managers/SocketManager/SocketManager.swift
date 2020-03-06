@@ -67,7 +67,7 @@ class SocketManager {
         socket.delegate = self
     }
     
-    func sendRequest<T: Decodable>(methodAPIType: RequestMethodAPIType, timeout: RxSwift.RxTimeInterval, authorizationRequired: Bool = true) -> Single<T> {
+    func sendRequest<T: Decodable>(methodAPIType: RequestMethodAPIType, timeout: RxSwift.RxTimeInterval, authorizationRequired: Bool) -> Single<T> {
         sendMessage(methodAPIType.requestMessage!, authorizationRequired: authorizationRequired)
         
         return textSubject

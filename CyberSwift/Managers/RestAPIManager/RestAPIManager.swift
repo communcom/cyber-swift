@@ -69,7 +69,7 @@ public class RestAPIManager {
     }
     
     /// Rx method to deal with executeGetRequest
-    public func executeGetRequest<T: Decodable>(methodAPIType: MethodAPIType, timeout: RxSwift.RxTimeInterval = 10) -> Single<T> {
+    public func executeGetRequest<T: Decodable>(methodAPIType: MethodAPIType, timeout: RxSwift.RxTimeInterval = 10, authorizationRequired: Bool = true) -> Single<T> {
         // Offline mode
         if !Config.isNetworkAvailable {
             ErrorLogger.shared.recordError(CMError.noConnection, additionalInfo: ["user": Config.currentUser?.id ?? "undefined", "method": methodAPIType.introduced().methodName])
@@ -87,7 +87,7 @@ public class RestAPIManager {
         
         Logger.log(message: "\nrequestMethodAPIType:\n\t\(requestMethodAPIType.requestMessage!)\n", event: .request, apiMethod: "\(requestParamsType.methodGroup).\(requestParamsType.methodName)")
         
-        return SocketManager.shared.sendRequest(methodAPIType: requestMethodAPIType, timeout: timeout)
+        return SocketManager.shared.sendRequest(methodAPIType: requestMethodAPIType, timeout: timeout, authorizationRequired: authorizationRequired)
             .catchError({ (error) -> Single<T> in
                 ErrorLogger.shared.recordError(error, additionalInfo: ["user": Config.currentUser?.id ?? "undefined", "method": methodAPIType.introduced().methodName])
                 if let error = error as? CMError {

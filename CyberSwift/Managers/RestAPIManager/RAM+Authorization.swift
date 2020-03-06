@@ -236,10 +236,10 @@ extension RestAPIManager {
         
         let methodAPIType = MethodAPIType.authorize(username: username, activeKey: activeKey)
         
-        return executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false)
             .do(onSuccess: { (_) in
                 let methodAPIType = MethodAPIType.notificationsSubscribe
-                self.sendMessageIgnoreResponse(methodAPIType: methodAPIType)
+                self.sendMessageIgnoreResponse(methodAPIType: methodAPIType, authorizationRequired: false)
             })
     }
     
