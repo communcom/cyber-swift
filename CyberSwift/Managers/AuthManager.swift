@@ -13,11 +13,19 @@ import RxCocoa
 public class AuthManager {
     // MARK: - Nested type
     public enum Status: Equatable {
-        case authorizing
-        case boarding(step: CurrentUserSettingStep)
-        case authorized
+        // login, register, boarding
+        case reloading
         case registering(step: CurrentUserRegistrationStep)
-        case authorizingError(error: CMError)
+        case boarding(step: CurrentUserSettingStep)
+        
+        // authorize after signing socket
+        case authorizing
+        
+        // authorization completed
+        case authorized
+        
+        // error
+        case error(error: CMError)
     }
     
     // MARK: - Properties
@@ -27,7 +35,20 @@ public class AuthManager {
     // MARK: - Singleton
     public static let shared = AuthManager()
     private init() {
+        connect()
         bind()
+    }
+    
+    deinit {
+        disconnect()
+    }
+    
+    public func connect() {
+        SocketManager.shared.connect()
+    }
+    
+    public func disconnect() {
+        SocketManager.shared.disconnect()
     }
     
     private func bind() {
@@ -36,9 +57,9 @@ public class AuthManager {
             .subscribe(onNext: { (event) in
                 switch event {
                 case .signed:
-                    self.authorize()
+                    self.route()
                 case .disconnected(let error):
-                    self.status.accept(.authorizingError(error: error))
+                    self.status.accept(.error(error: error))
                 default:
                     return
                 }
@@ -46,7 +67,7 @@ public class AuthManager {
             .disposed(by: disposeBag)
     }
     
-    private func authorize() {
+    private func route() {
         let step = KeychainManager.currentUser()?.registrationStep ?? .firstStep
         if step == .registered || step == .relogined {
             // If first setting is uncompleted
@@ -55,12 +76,16 @@ public class AuthManager {
                 self.status.accept(.boarding(step: settingStep))
                 return
             } else {
+                // after logining, registering, boarding completed
+                self.status.accept(.authorizing)
+                
+                // authorizing
                 RestAPIManager.instance.authorize()
                     .subscribe(onSuccess: { (_) in
                         self.deviceSetInfo()
                         self.status.accept(.authorized)
                     }) { (error) in
-                        self.status.accept(.authorizingError(error: error.cmError))
+                        self.status.accept(.error(error: error.cmError))
                     }
                     .disposed(by: disposeBag)
             }
@@ -72,9 +97,9 @@ public class AuthManager {
 
 // MARK: - Helpers
 extension AuthManager {
-    public func forceReAuthorize() {
-        self.status.accept(.authorizing)
-        authorize()
+    public func reload() {
+        self.status.accept(.reloading)
+        route()
     }
     
     fileprivate func deviceSetInfo() {
