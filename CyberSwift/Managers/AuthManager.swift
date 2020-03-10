@@ -25,7 +25,6 @@ public class AuthManager {
         case authorized
         
         // error
-        case disconnected(CMError?)
         case error(CMError)
     }
     
@@ -49,7 +48,7 @@ public class AuthManager {
     }
     
     public func disconnect() {
-        status.accept(.disconnected(nil))
+        status.accept(.error(.socketConnectionError(message: nil)))
         SocketManager.shared.disconnect()
     }
     
@@ -64,7 +63,7 @@ public class AuthManager {
                 case .signed:
                     self.route()
                 case .disconnected(let error):
-                    self.status.accept(.disconnected(error))
+                    self.status.accept(.error(.socketConnectionError(message: error?.localizedDescription)))
                 default:
                     return
                 }

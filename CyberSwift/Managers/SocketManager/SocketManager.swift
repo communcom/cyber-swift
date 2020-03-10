@@ -135,6 +135,9 @@ class SocketManager {
         reachability.whenReachable = { _ in
             self.connect()
         }
+        reachability.whenUnreachable = { _ in
+            self.state.accept(.disconnected(.noConnection))
+        }
         try? reachability.startNotifier()
     }
     
