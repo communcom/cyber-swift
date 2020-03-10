@@ -256,7 +256,6 @@ extension RestAPIManager {
         
         // Remove UserDefaults
         UserDefaults.standard.set(nil, forKey: Config.currentUserAppLanguageKey)
-        UserDefaults.standard.set(nil, forKey: Config.currentUserThemeKey)
         UserDefaults.standard.set(nil, forKey: Config.currentUserAvatarUrlKey)
         UserDefaults.standard.set(nil, forKey: Config.currentUserBiometryAuthEnabled)
         UserDefaults.standard.set(nil, forKey: Config.currentUserDidSubscribeToMoreThan3Communities)
