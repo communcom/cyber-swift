@@ -29,12 +29,12 @@ extension RestAPIManager {
         userId: String? = Config.currentUser?.id,
         offset: Int?,
         limit: Int?,
-        search: String? = nil
+        authorizationRequired: Bool = true
     ) -> Single<ResponseAPIContentGetCommunities> {
         
-        let methodAPIType = MethodAPIType.getCommunities(type: type, userId: userId, search: search, offset: offset, limit: limit)
+        let methodAPIType = MethodAPIType.getCommunities(type: type, userId: userId, offset: offset, limit: limit)
         
-        return executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
     }
     
     public func getLeaders(

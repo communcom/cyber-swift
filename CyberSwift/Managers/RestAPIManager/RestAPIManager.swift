@@ -122,7 +122,7 @@ public class RestAPIManager {
 
         let methodAPIType = MethodAPIType.waitForTransaction(id: id)
 
-        return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIContentWaitForTransaction>)
+        return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIContentWaitForTransaction>)
             .flatMapToCompletable()
     }
 

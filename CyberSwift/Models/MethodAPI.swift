@@ -226,7 +226,7 @@ public indirect enum MethodAPIType {
     case getCommunity(id: String? = nil, alias: String? = nil)
     
     //  Get communities list
-    case getCommunities(type: GetCommunitiesType?, userId: String?, search: String?, offset: Int?, limit: Int?)
+    case getCommunities(type: GetCommunitiesType?, userId: String?, offset: Int?, limit: Int?)
     
     //  Get leaders
     case getLeaders(communityId: String?, communityAlias: String?, sequenceKey: String?, limit: Int, query: String?)
@@ -575,7 +575,7 @@ public indirect enum MethodAPIType {
                      methodName:        "getCommunity",
                      parameters:        params)
             
-        case .getCommunities(let type, let userId, let search, let offset, let limit):
+        case .getCommunities(let type, let userId, let offset, let limit):
             var params = [String: Encodable]()
             params["type"] = type?.rawValue
             if type == .user {
@@ -583,7 +583,6 @@ public indirect enum MethodAPIType {
             }
             params["offset"] = offset
             params["limit"] = limit
-            params["search"] = search
             
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
