@@ -107,8 +107,36 @@ public class AuthManager {
 
 // MARK: - Helpers
 extension AuthManager {
+    public func logout() {
+        // Reset FCM token
+        RestAPIManager.instance.sendMessageIgnoreResponse(methodAPIType: .deviceResetFcmToken, authorizationRequired: false)
+        
+        // logout
+        RestAPIManager.instance.sendMessageIgnoreResponse(methodAPIType: .logout, authorizationRequired: false)
+        
+        // Remove in keychain
+        try! KeychainManager.deleteUser()
+        
+        // Remove UserDefaults
+        UserDefaults.standard.set(nil, forKey: Config.currentUserAppLanguageKey)
+        UserDefaults.standard.set(nil, forKey: Config.currentUserAvatarUrlKey)
+        UserDefaults.standard.set(nil, forKey: Config.currentUserBiometryAuthEnabled)
+        UserDefaults.standard.set(nil, forKey: Config.currentUserDidSubscribeToMoreThan3Communities)
+        UserDefaults.standard.set(nil, forKey: Config.currentDeviceDidSendFCMToken)
+        UserDefaults.standard.set(nil, forKey: Config.currentDeviceDidSetInfo)
+        
+        // Remove old notifications
+        NotificationsManager.shared.flush()
+        
+        // resign status
+        status.accept(.initializing)
+        
+        // rerun socket
+        SocketManager.shared.reset()
+    }
+    
     public func reload() {
-        self.status.accept(.initializing)
+        status.accept(.initializing)
         route()
     }
     

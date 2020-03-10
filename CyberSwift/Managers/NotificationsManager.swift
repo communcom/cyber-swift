@@ -45,6 +45,11 @@ public class NotificationsManager {
             .disposed(by: disposeBag)
     }
     
+    func flush() {
+        newNotificationsRelay.accept([])
+        unseenNotificationsRelay.accept(0)
+    }
+    
     // MARK: - Helpers
     private func catchEvent<T: Decodable>(_ event: Event, objectType: T.Type) -> Observable<T> {
         SocketManager.shared

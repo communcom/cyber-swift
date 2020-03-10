@@ -243,35 +243,8 @@ extension RestAPIManager {
             })
     }
     
-    /// Logout user
-    public func logout() throws {
-        // Reset FCM token
-        sendMessageIgnoreResponse(methodAPIType: .deviceResetFcmToken, authorizationRequired: false)
-        
-        // logout
-        sendMessageIgnoreResponse(methodAPIType: .logout, authorizationRequired: false)
-        
-        // Remove in keychain
-        try KeychainManager.deleteUser()
-        
-        // Remove UserDefaults
-        UserDefaults.standard.set(nil, forKey: Config.currentUserAppLanguageKey)
-        UserDefaults.standard.set(nil, forKey: Config.currentUserAvatarUrlKey)
-        UserDefaults.standard.set(nil, forKey: Config.currentUserBiometryAuthEnabled)
-        UserDefaults.standard.set(nil, forKey: Config.currentUserDidSubscribeToMoreThan3Communities)
-        UserDefaults.standard.set(nil, forKey: Config.currentDeviceDidSendFCMToken)
-        UserDefaults.standard.set(nil, forKey: Config.currentDeviceDidSetInfo)
-        
-        // Remove old notifications
-        NotificationsManager.shared.newNotificationsRelay.accept([])
-        NotificationsManager.shared.unseenNotificationsRelay.accept(0)
-        
-        // rerun socket
-        SocketManager.shared.reset()
-    }
-    
     /// Generate secret
-    public func generateSecret() -> Completable {
+    func generateSecret() -> Completable {
         
         let methodAPIType = MethodAPIType.generateSecret
         
@@ -283,7 +256,7 @@ extension RestAPIManager {
     }
     
     // MARK: - Private functions
-    public func generateKeys(userId: String, masterKey: String) -> [String: UserKeys] {
+    private func generateKeys(userId: String, masterKey: String) -> [String: UserKeys] {
         var userKeys = [String: UserKeys]()
         
         // type
