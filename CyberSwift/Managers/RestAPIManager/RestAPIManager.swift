@@ -92,11 +92,11 @@ public class RestAPIManager {
                     switch error {
                     case .unauthorized:
                         return RestAPIManager.instance.authorize()
-                            .flatMap {_ in self.executeGetRequest(methodAPIType: methodAPIType)}
+                            .flatMap {_ in self.executeGetRequest(methodAPIType: methodAPIType, timeout: timeout, authorizationRequired: authorizationRequired)}
                     case .secretVerificationFailed:
                         // retrieve secret
                         return RestAPIManager.instance.generateSecret()
-                            .andThen(self.executeGetRequest(methodAPIType: methodAPIType))
+                            .andThen(self.executeGetRequest(methodAPIType: methodAPIType, timeout: timeout, authorizationRequired: authorizationRequired))
                     default:
                         throw error
                     }
