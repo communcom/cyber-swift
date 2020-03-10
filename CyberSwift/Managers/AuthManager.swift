@@ -32,6 +32,7 @@ public class AuthManager {
     // MARK: - Properties
     let disposeBag = DisposeBag()
     public let status = BehaviorRelay<Status>(value: .initializing)
+    public var isLoggedOut = false
     
     // MARK: - Singleton
     public static let shared = AuthManager()
@@ -94,6 +95,7 @@ public class AuthManager {
                     .subscribe(onSuccess: { (_) in
                         self.deviceSetInfo()
                         self.status.accept(.authorized)
+                        self.isLoggedOut = false
                     }) { (error) in
                         self.status.accept(.error(error.cmError))
                     }
@@ -127,6 +129,9 @@ extension AuthManager {
         
         // Remove old notifications
         NotificationsManager.shared.flush()
+        
+        // Assign loggedout
+        isLoggedOut = true
         
         // resign status
         status.accept(.initializing)
