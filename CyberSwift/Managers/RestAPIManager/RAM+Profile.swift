@@ -13,7 +13,7 @@ extension RestAPIManager {
     // API `content.resolveProfile`
     public func resolveProfile(username: String) -> Single<ResponseAPIContentGetProfile> {
         let methodAPIType = MethodAPIType.resolveProfile(username: username)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false)
     }
     
     // API `content.getProfile`

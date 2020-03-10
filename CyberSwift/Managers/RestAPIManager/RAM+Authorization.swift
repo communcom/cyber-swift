@@ -207,7 +207,7 @@ extension RestAPIManager {
                 let methodAPIType = MethodAPIType.authorize(username: login, activeKey: userKeys["active"]!.privateKey!)
                 
                 return self.generateSecret()
-                    .andThen(self.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIAuthAuthorize>)
+                    .andThen(self.executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIAuthAuthorize>)
             })
             .map {result in
                 
@@ -246,10 +246,10 @@ extension RestAPIManager {
     /// Logout user
     public func logout() throws {
         // Reset FCM token
-        sendMessageIgnoreResponse(methodAPIType: .deviceResetFcmToken)
+        sendMessageIgnoreResponse(methodAPIType: .deviceResetFcmToken, authorizationRequired: false)
         
         // logout
-        sendMessageIgnoreResponse(methodAPIType: .logout)
+        sendMessageIgnoreResponse(methodAPIType: .logout, authorizationRequired: false)
         
         // Remove in keychain
         try KeychainManager.deleteUser()
@@ -275,7 +275,7 @@ extension RestAPIManager {
         
         let methodAPIType = MethodAPIType.generateSecret
         
-        return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIAuthGenerateSecret>)
+        return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIAuthGenerateSecret>)
             .flatMapCompletable {result in
                 Config.webSocketSecretKey = result.secret
                 return .empty()
