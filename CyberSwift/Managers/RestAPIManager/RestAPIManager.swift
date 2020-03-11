@@ -69,7 +69,7 @@ public class RestAPIManager {
     }
     
     /// Rx method to deal with executeGetRequest
-    public func executeGetRequest<T: Decodable>(methodAPIType: MethodAPIType, timeout: RxSwift.RxTimeInterval = 10) -> Single<T> {
+    public func executeGetRequest<T: Decodable>(methodAPIType: MethodAPIType, timeout: RxSwift.RxTimeInterval = 10, authorizationRequired: Bool = true) -> Single<T> {
         // Offline mode
         if !Config.isNetworkAvailable {
             ErrorLogger.shared.recordError(CMError.noConnection, additionalInfo: ["user": Config.currentUser?.id ?? "undefined", "method": methodAPIType.introduced().methodName])
@@ -85,20 +85,18 @@ public class RestAPIManager {
             return .error(error)
         }
         
-        Logger.log(message: "\nrequestMethodAPIType:\n\t\(requestMethodAPIType.requestMessage!)\n", event: .request, apiMethod: "\(requestParamsType.methodGroup).\(requestParamsType.methodName)")
-        
-        return SocketManager.shared.sendRequest(methodAPIType: requestMethodAPIType, timeout: timeout)
+        return SocketManager.shared.sendRequest(methodAPIType: requestMethodAPIType, timeout: timeout, authorizationRequired: authorizationRequired)
             .catchError({ (error) -> Single<T> in
                 ErrorLogger.shared.recordError(error, additionalInfo: ["user": Config.currentUser?.id ?? "undefined", "method": methodAPIType.introduced().methodName])
                 if let error = error as? CMError {
                     switch error {
                     case .unauthorized:
                         return RestAPIManager.instance.authorize()
-                            .flatMap {_ in self.executeGetRequest(methodAPIType: methodAPIType)}
+                            .flatMap {_ in self.executeGetRequest(methodAPIType: methodAPIType, timeout: timeout, authorizationRequired: authorizationRequired)}
                     case .secretVerificationFailed:
                         // retrieve secret
                         return RestAPIManager.instance.generateSecret()
-                            .andThen(self.executeGetRequest(methodAPIType: methodAPIType))
+                            .andThen(self.executeGetRequest(methodAPIType: methodAPIType, timeout: timeout, authorizationRequired: authorizationRequired))
                     default:
                         throw error
                     }
@@ -115,7 +113,7 @@ public class RestAPIManager {
                 
                 throw error
             })
-            .log(method: "\(requestParamsType.methodGroup).\(requestParamsType.methodName)")
+            .log(method: "\(requestParamsType.methodGroup).\(requestParamsType.methodName)", id: requestMethodAPIType.id)
     }
 
     // MARK: - FACADE-SERVICE
@@ -124,7 +122,7 @@ public class RestAPIManager {
 
         let methodAPIType = MethodAPIType.waitForTransaction(id: id)
 
-        return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIContentWaitForTransaction>)
+        return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIContentWaitForTransaction>)
             .flatMapToCompletable()
     }
 
@@ -213,9 +211,9 @@ public class RestAPIManager {
         return executeGetRequest(methodAPIType: methodAPIType)
     }
     
-    public func sendMessageIgnoreResponse(methodAPIType: MethodAPIType) {
+    public func sendMessageIgnoreResponse(methodAPIType: MethodAPIType, authorizationRequired: Bool = true) {
         let requestParamsType = methodAPIType.introduced()
         let requestMethodAPIType = prepareGETRequest(requestParamsType: requestParamsType)
-        SocketManager.shared.sendMessage(requestMethodAPIType.requestMessage!)
+        SocketManager.shared.sendMessage(requestMethodAPIType, authorizationRequired: authorizationRequired)
     }
 }

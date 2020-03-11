@@ -17,19 +17,15 @@ public struct Config {
     public static let heightRatio: CGFloat = UIScreen.main.bounds.height / (UIApplication.shared.statusBarOrientation.isPortrait ? 812 : 375)
     public static let widthRatio: CGFloat = UIScreen.main.bounds.width / (UIApplication.shared.statusBarOrientation.isPortrait ? 375 : 812)
 
-    public static var isAppThemeDark: Bool {
-        return UserDefaults.standard.bool(forKey: Config.currentUserThemeKey)
-    }
-
     public static let currentDeviceType: String = {
-        return UIDevice.modelName.replacingOccurrences(of: " ", with: "-")
+        UIDevice.modelName.replacingOccurrences(of: " ", with: "-")
     }()
 
     /// Pagination
     public static let paginationLimit: Int8 = 20
 
     static let blocksBehind: Int = 3
-    public static let expireSeconds: Double = 30
+    public static let expireSeconds: Double = 30.0
 
     #if APPSTORE
         static let gate_API_URL: String = "wss://gate.commun.com/"
@@ -81,6 +77,7 @@ public struct Config {
 
     /// Keys
     static let userSecretKey: String = "userSecretKey"
+
     // CurrentUser keys
     public static let currentUserKey: String = "currentUserKey"
     public static let currentUserIDKey: String = "currentUserIDKey"
@@ -107,7 +104,6 @@ public struct Config {
     public static let currentUserCoverUrlKey: String = "currentUserCoverUrlKey"
     public static let currentUserBiographyKey: String = "currentUserBiographyKey"
 
-    public static let currentUserThemeKey: String = "currentUserThemeKey"
     public static let currentUserAppLanguageKey: String = "currentUserAppLanguageKey"
 
     public static let currentUserPushNotificationOn: String = "currentUserPushNotificationOn"

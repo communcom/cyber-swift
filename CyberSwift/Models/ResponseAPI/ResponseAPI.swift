@@ -158,11 +158,6 @@ public struct ResponseAPIStatus: Decodable {
     public let status: String
 }
 
-// MARK: - API `favorites.get`
-public struct ResponseAPIGetFavorites: Decodable {
-    public let list: [String?]
-}
-
 // MARK: - Generate new testnet accounts
 public struct ResponseAPICreateNewAccount: Decodable {
     public let active_key: String

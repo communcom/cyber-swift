@@ -26,7 +26,6 @@
 		ACD76C8C23B117F8001FAECD /* BlockchainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD76C8A23B11684001FAECD /* BlockchainManager.swift */; };
 		ACFA282223AA99AA009B77A6 /* EOSArgument.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACFA282123AA99AA009B77A6 /* EOSArgument.swift */; };
 		B111B5BB224E1B5A00F84AD9 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B111B5BA224E1B5A00F84AD9 /* KeychainManager.swift */; };
-		B154D8BB237A97E70042E991 /* UITextView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B154D8BA237A97E70042E991 /* UITextView+Extensions.swift */; };
 		B1677C66223F9BD7005FB286 /* RestAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1677C65223F9BD7005FB286 /* RestAPIManager.swift */; };
 		B179916E2269B3EB0014CB44 /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B179916D2269B3EA0014CB44 /* Data+Extensions.swift */; };
 		B17991702269B4070014CB44 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B179916F2269B4060014CB44 /* Array+Extensions.swift */; };
@@ -52,11 +51,6 @@
 		B1C3F868223F9907005711EF /* RequestAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3F864223F9906005711EF /* RequestAPI.swift */; };
 		B1C3F86A223F9907005711EF /* ResponseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3F866223F9906005711EF /* ResponseAPI.swift */; };
 		B1C3F86B223F9907005711EF /* MethodAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C3F867223F9907005711EF /* MethodAPI.swift */; };
-		B1EA02CD22895EB400835244 /* UILabel+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EA02CB22895EB300835244 /* UILabel+Extensions.swift */; };
-		B1EA02CE22895EB400835244 /* UIButton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EA02CC22895EB400835244 /* UIButton+Extensions.swift */; };
-		B1EA02D02289626D00835244 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EA02CF2289626D00835244 /* UIColor+Extensions.swift */; };
-		B1EA02F62289D3B400835244 /* UITextField+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EA02F52289D3B400835244 /* UITextField+Extensions.swift */; };
-		B1EA0319228A985400835244 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1EA0318228A985400835244 /* UIView+Extensions.swift */; };
 		B1F7B44A229FB5A4005492DD /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F7B449229FB5A4005492DD /* UIImage+Extensions.swift */; };
 		BC06A99B23E7C170000B690E /* ResponseAPI+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC06A99A23E7C170000B690E /* ResponseAPI+Search.swift */; };
 		BC06A99D23E7C6A8000B690E /* RAM+Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC06A99C23E7C6A8000B690E /* RAM+Search.swift */; };
@@ -79,6 +73,8 @@
 		BC518BD823D699390090E145 /* RAM+Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC518BD723D699390090E145 /* RAM+Device.swift */; };
 		BC51B48924062A1F009DFB48 /* CMError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC51B48824062A1E009DFB48 /* CMError.swift */; };
 		BC52913E2378FE910022EC7F /* RAM+Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52913D2378FE910022EC7F /* RAM+Content.swift */; };
+		BC7470BA2411FF8C00BD4CB3 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7470B92411FF8C00BD4CB3 /* AuthManager.swift */; };
+		BC7470BE2412029900BD4CB3 /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7470BD2412029900BD4CB3 /* NotificationsManager.swift */; };
 		BC9066E923A9D515000F9A3B /* ResponseAPI+Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9066E823A9D515000F9A3B /* ResponseAPI+Wallet.swift */; };
 		BC9066FC23AA106D000F9A3B /* RAM+Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9066FB23AA106D000F9A3B /* RAM+Wallet.swift */; };
 		BC99B65E23E185D2004AA74E /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC99B65D23E185D2004AA74E /* Double+Extensions.swift */; };
@@ -125,7 +121,6 @@
 		ACD76C8A23B11684001FAECD /* BlockchainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockchainManager.swift; sourceTree = "<group>"; };
 		ACFA282123AA99AA009B77A6 /* EOSArgument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EOSArgument.swift; sourceTree = "<group>"; };
 		B111B5BA224E1B5A00F84AD9 /* KeychainManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
-		B154D8BA237A97E70042E991 /* UITextView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extensions.swift"; sourceTree = "<group>"; };
 		B1677C65223F9BD7005FB286 /* RestAPIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestAPIManager.swift; sourceTree = "<group>"; };
 		B1677C6D223FAA5F005FB286 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		B179916D2269B3EA0014CB44 /* Data+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
@@ -156,11 +151,6 @@
 		B1C3F867223F9907005711EF /* MethodAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MethodAPI.swift; sourceTree = "<group>"; };
 		B1C3F86F223F993F005711EF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B1CE5CFB22677C0000731FD0 /* API.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = API.md; sourceTree = "<group>"; };
-		B1EA02CB22895EB300835244 /* UILabel+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+Extensions.swift"; sourceTree = "<group>"; };
-		B1EA02CC22895EB400835244 /* UIButton+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
-		B1EA02CF2289626D00835244 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
-		B1EA02F52289D3B400835244 /* UITextField+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+Extensions.swift"; sourceTree = "<group>"; };
-		B1EA0318228A985400835244 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		B1F7B449229FB5A4005492DD /* UIImage+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		BC06A99A23E7C170000B690E /* ResponseAPI+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Search.swift"; sourceTree = "<group>"; };
 		BC06A99C23E7C6A8000B690E /* RAM+Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Search.swift"; sourceTree = "<group>"; };
@@ -183,6 +173,8 @@
 		BC518BD723D699390090E145 /* RAM+Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Device.swift"; sourceTree = "<group>"; };
 		BC51B48824062A1E009DFB48 /* CMError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMError.swift; sourceTree = "<group>"; };
 		BC52913D2378FE910022EC7F /* RAM+Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Content.swift"; sourceTree = "<group>"; };
+		BC7470B92411FF8C00BD4CB3 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		BC7470BD2412029900BD4CB3 /* NotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
 		BC9066E823A9D515000F9A3B /* ResponseAPI+Wallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Wallet.swift"; sourceTree = "<group>"; };
 		BC9066FB23AA106D000F9A3B /* RAM+Wallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Wallet.swift"; sourceTree = "<group>"; };
 		BC99B65D23E185D2004AA74E /* Double+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extensions.swift"; sourceTree = "<group>"; };
@@ -359,14 +351,8 @@
 				B1C3715A23867AAF000BAE2F /* Numbers+Extensions.swift */,
 				3BBBE2992296A8A10029C9C9 /* RxSwift+Extensions.swift */,
 				B17991712269B4280014CB44 /* String+Extensions.swift */,
-				B1EA02CC22895EB400835244 /* UIButton+Extensions.swift */,
-				B1EA02CF2289626D00835244 /* UIColor+Extensions.swift */,
 				B19A28D5226087EE001C9F43 /* UIDevice+Extensions.swift */,
 				B1F7B449229FB5A4005492DD /* UIImage+Extensions.swift */,
-				B1EA02CB22895EB300835244 /* UILabel+Extensions.swift */,
-				B1EA02F52289D3B400835244 /* UITextField+Extensions.swift */,
-				B154D8BA237A97E70042E991 /* UITextView+Extensions.swift */,
-				B1EA0318228A985400835244 /* UIView+Extensions.swift */,
 				BC4692B52390BAFA0064A38B /* UIApplication+Extensions.swift */,
 				BC286C3823A2371600801A26 /* UIImageCodable+Extensions.swift */,
 				BC99B65D23E185D2004AA74E /* Double+Extensions.swift */,
@@ -384,6 +370,8 @@
 				B111B5BA224E1B5A00F84AD9 /* KeychainManager.swift */,
 				3B1E901722CDF16B00D7A0C1 /* ICloudManager.swift */,
 				ACD76C8A23B11684001FAECD /* BlockchainManager.swift */,
+				BC7470B92411FF8C00BD4CB3 /* AuthManager.swift */,
+				BC7470BD2412029900BD4CB3 /* NotificationsManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -655,15 +643,14 @@
 				3BDF4FAA22C229440029D616 /* BCResponseAPIError.swift in Sources */,
 				B179917C2269B4560014CB44 /* PrivateKey.swift in Sources */,
 				B1C3F857223F98B1005711EF /* Date+Extensions.swift in Sources */,
-				B1EA02D02289626D00835244 /* UIColor+Extensions.swift in Sources */,
 				BC44DBB2238FA1FD00412F08 /* ListItemType.swift in Sources */,
 				B1902AD622706F1E00661211 /* RequestParameterAPI.swift in Sources */,
 				3B5EDE3F22E0F10900897BF3 /* RAM+Notifications.swift in Sources */,
 				BC06A99D23E7C6A8000B690E /* RAM+Search.swift in Sources */,
-				B1EA02CE22895EB400835244 /* UIButton+Extensions.swift in Sources */,
 				BCCE0A9E2367DD3A00A183AA /* RAM+Profile.swift in Sources */,
 				BC46931323978DDE0064A38B /* ResponseAPIContentResolveProfile+Extensions.swift in Sources */,
 				BC286C3923A2371600801A26 /* UIImageCodable+Extensions.swift in Sources */,
+				BC7470BA2411FF8C00BD4CB3 /* AuthManager.swift in Sources */,
 				BC44DBAB238F716300412F08 /* ResponseAPI+Config.swift in Sources */,
 				ACD76C8C23B117F8001FAECD /* BlockchainManager.swift in Sources */,
 				3BBBE29A2296A8A10029C9C9 /* RxSwift+Extensions.swift in Sources */,
@@ -678,25 +665,22 @@
 				3B3016B722F1E4D3003CD1BD /* RequestAPITransaction.swift in Sources */,
 				3BE3666722E5CE7C00F84A04 /* SocketManager.swift in Sources */,
 				3BB342B622CB7591009546B2 /* CurrentUser.swift in Sources */,
+				BC7470BE2412029900BD4CB3 /* NotificationsManager.swift in Sources */,
 				BC52913E2378FE910022EC7F /* RAM+Content.swift in Sources */,
 				BC44DBEC238FA99000412F08 /* ResponseAPIContentBlock+Extensions.swift in Sources */,
 				B1C3F858223F98B1005711EF /* Config.swift in Sources */,
 				BC48FC3C23667FB10049C4F4 /* ResponseAPI+Community.swift in Sources */,
-				B1EA0319228A985400835244 /* UIView+Extensions.swift in Sources */,
 				B179917D2269B4560014CB44 /* GSBase58.swift in Sources */,
-				B154D8BB237A97E70042E991 /* UITextView+Extensions.swift in Sources */,
 				3B1E901822CDF16B00D7A0C1 /* ICloudManager.swift in Sources */,
 				BC9066E923A9D515000F9A3B /* ResponseAPI+Wallet.swift in Sources */,
 				BC51B48924062A1F009DFB48 /* CMError.swift in Sources */,
 				BC44DBD8238FA44300412F08 /* ResponseAPIContentGetComment+Extensions.swift in Sources */,
 				AC3EB80D240D196F00B853CC /* ErrorLogger.swift in Sources */,
-				B1EA02CD22895EB400835244 /* UILabel+Extensions.swift in Sources */,
 				3B3016B922F1FDAA003CD1BD /* ReachabilityManager.swift in Sources */,
 				BCA97132236178E600AE37E1 /* ResponseAPIContent.swift in Sources */,
 				BC06A99B23E7C170000B690E /* ResponseAPI+Search.swift in Sources */,
 				BC18FA1523D54B5A005DC7E3 /* ResponseAPI+Exchange.swift in Sources */,
 				B1A74A642243892B009D68E7 /* EOSTransaction.swift in Sources */,
-				B1EA02F62289D3B400835244 /* UITextField+Extensions.swift in Sources */,
 				B1C3715B23867AAF000BAE2F /* Numbers+Extensions.swift in Sources */,
 				BCCF8AC223E2C11B004892FF /* RAM+Rewards.swift in Sources */,
 				B17991702269B4070014CB44 /* Array+Extensions.swift in Sources */,

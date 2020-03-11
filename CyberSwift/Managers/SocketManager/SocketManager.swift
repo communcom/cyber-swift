@@ -12,29 +12,26 @@ import RxCocoa
 import Starscream
 import Reachability
 
-public class SocketManager {
+class SocketManager {
     // MARK: - Nested type
-    public enum Event: Equatable {
+    enum Event: Equatable {
         case connecting
         case connected
         case signed
-        case disconnected(CMError)
+        case disconnected(CMError?)
     }
     
     // MARK: - Properties
     var socket: WebSocket
     
-    public let state = BehaviorRelay<Event>(value: .connecting)
-    public let textSubject = PublishSubject<String>()
+    let state = BehaviorRelay<Event>(value: .connecting)
+    let textSubject = PublishSubject<String>()
     
-    let bag = DisposeBag()
+    let disposeBag = DisposeBag()
     var reachability: Reachability!
     
-    public let unseenNotificationsRelay = BehaviorRelay<UInt64>(value: 0)
-    public let newNotificationsRelay = BehaviorRelay<[ResponseAPIGetNotificationItem]>(value: [])
-    
     // MARK: - Singleton
-    public static let shared = SocketManager()
+    static let shared = SocketManager()
     private init() {
         // Create device id
         KeychainManager.createDeviceId()
@@ -44,24 +41,22 @@ public class SocketManager {
         
         socket.delegate = self
         
-        // sign when socket is connected
-        observeConnection()
-        
         // network monitoring
         monitorNetwork()
     }
     
     // MARK: - Methods
-    public func connect() {
+    func connect() {
         state.accept(.connecting)
         socket.connect()
     }
     
-    public func disconnect() {
+    func disconnect() {
+        state.accept(.disconnected(nil))
         socket.disconnect()
     }
     
-    public func reset() {
+    func reset() {
         if KeychainManager.currentDeviceId == nil
         {
             KeychainManager.createDeviceId()
@@ -73,8 +68,8 @@ public class SocketManager {
         socket.delegate = self
     }
     
-    func sendRequest<T: Decodable>(methodAPIType: RequestMethodAPIType, timeout: RxSwift.RxTimeInterval) -> Single<T> {
-        sendMessage(methodAPIType.requestMessage!)
+    func sendRequest<T: Decodable>(methodAPIType: RequestMethodAPIType, timeout: RxSwift.RxTimeInterval, authorizationRequired: Bool) -> Single<T> {
+        sendMessage(methodAPIType, authorizationRequired: authorizationRequired)
         
         return textSubject
             .filter {self.compareMessageFromResponseText($0, to: methodAPIType.id)}
@@ -87,42 +82,61 @@ public class SocketManager {
             .map {try self.transformMessage($0)}
     }
     
-    func sendMessage(_ message: String) {
+    func sendMessage(_ requestMethodAPIType: RequestMethodAPIType, authorizationRequired: Bool) {
+        // prepare variables
+        let requestParamsType = requestMethodAPIType.methodAPIType.introduced()
+        let methodGroup = requestParamsType.methodGroup
+        let methodName = requestParamsType.methodName
+        
+        let message = requestMethodAPIType.requestMessage!
+        
+        // check connection and send
         if !socket.isConnected {
-            state.accept(.connecting)
-            state.filter {$0 == .signed}
-                .take(1)
-                .asSingle()
-                .subscribe(onSuccess: {[weak self] _ in
-                    self?.socket.write(string: message)
-                })
-                .disposed(by: bag)
             connect()
+            if authorizationRequired {
+                AuthManager.shared.status.filter {$0 == .authorized}
+                    .take(1)
+                    .asSingle()
+                    .subscribe(onSuccess: { (_) in
+                        self.writeAndLog(message: message, methodGroup: methodGroup, methodName: methodName)
+                    })
+                    .disposed(by: disposeBag)
+            } else {
+                state.filter {$0 == .signed}
+                    .take(1)
+                    .asSingle()
+                    .subscribe(onSuccess: {[weak self] _ in
+                        self?.writeAndLog(message: message, methodGroup: methodGroup, methodName: methodName)
+                    })
+                    .disposed(by: disposeBag)
+            }
         } else {
-            socket.write(string: message)
+            if authorizationRequired {
+                AuthManager.shared.status.filter {$0 == .authorized}
+                    .take(1)
+                    .asSingle()
+                    .subscribe(onSuccess: { (_) in
+                        self.writeAndLog(message: message, methodGroup: methodGroup, methodName: methodName)
+                    })
+                    .disposed(by: disposeBag)
+            } else {
+                writeAndLog(message: message, methodGroup: methodGroup, methodName: methodName)
+            }
         }
     }
     
-    func observeConnection() {
-        catchEvent("notifications.statusUpdated", objectType: ResponseAPINotificationsStatusUpdated.self)
-            .subscribe(onNext: { (status) in
-                self.unseenNotificationsRelay.accept(status.unseenCount)
-            })
-            .disposed(by: bag)
-        
-        catchEvent("notifications.newNotification", objectType: ResponseAPIGetNotificationItem.self)
-            .subscribe(onNext: { (item) in
-                var newNotifications = self.newNotificationsRelay.value
-                newNotifications.joinUnique([item])
-                self.newNotificationsRelay.accept(newNotifications.sortedByTimestamp)
-            })
-            .disposed(by: bag)
+    private func writeAndLog(message: String, methodGroup: String, methodName: String) {
+        Logger.log(message: "\nrequestMethodAPIType:\n\t\(message)\n", event: .request, apiMethod: "\(methodGroup).\(methodName)")
+        socket.write(string: message)
     }
     
     func monitorNetwork() {
         reachability = Reachability()
         reachability.whenReachable = { _ in
             self.connect()
+        }
+        reachability.whenUnreachable = { _ in
+            self.state.accept(.disconnected(.noConnection))
         }
         try? reachability.startNotifier()
     }
@@ -131,7 +145,7 @@ public class SocketManager {
         reachability.stopNotifier()
     }
     
-    public func catchEvent<T: Decodable>(_ method: String, objectType: T.Type) -> Observable<T> {
+    func catchEvent<T: Decodable>(_ method: String, objectType: T.Type) -> Observable<T> {
         textSubject
             .filter { string in
                 guard let jsonData = string.data(using: .utf8),

@@ -55,8 +55,7 @@ public enum CMError: Error, Equatable, CustomStringConvertible {
     // MARK: - Registration errors
     case registration(message: String, currentState: String? = nil)
     
-    // MARK: - socket errors
-    case socketDisconnected
+    case socketConnectionError(message: String?)
     
     case other(message: String) // ErrorAPI.responseUnsuccessful(message: "POST Request Failed")
     
@@ -80,8 +79,8 @@ public enum CMError: Error, Equatable, CustomStringConvertible {
             return "blockchain operation error".localized().uppercaseFirst + ": " + "code".localized() + ": " + "\(code)" + ": " + "message".localized() + ": " + message
         case .registration(let message, _):
             return "registration error".localized().uppercaseFirst + ": " + message
-        case .socketDisconnected:
-            return "socket disconnected".localized().uppercaseFirst
+        case .socketConnectionError(let message):
+            return "socket connection error".localized().uppercaseFirst + (message != nil ? ": \(message!.localized().uppercaseFirst)" : "")
         case .other(let errorMessage):
             return errorMessage
         }
@@ -111,8 +110,8 @@ public enum CMError: Error, Equatable, CustomStringConvertible {
             return message
         case .registration(let message, _):
             return message
-        case .socketDisconnected:
-            return "socket disconnected"
+        case .socketConnectionError(let message):
+            return message ?? "Socket connection error"
         case .other(let errorMessage):
             return errorMessage
         }

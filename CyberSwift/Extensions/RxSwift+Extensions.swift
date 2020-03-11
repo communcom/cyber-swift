@@ -49,13 +49,13 @@ extension PrimitiveSequenceType where Self.TraitType == RxSwift.SingleTrait, Sel
 }
 
 extension PrimitiveSequenceType where Self.TraitType == RxSwift.SingleTrait, Self.ElementType: Decodable {
-    func log(method: String) -> Single<Self.ElementType> {
+    func log(method: String, id: Int) -> Single<Self.ElementType> {
         return self.do(
 //            onSuccess: { responseAPIResult in
 //                Logger.log(message: "\nAPI `\(method)` response result: \n\(responseAPIResult)\n", event: .info)
 //            },
             onError: { error in
-                Logger.log(message: "\nAPI `\(method)` response error: \n\(error)\n", event: .error, apiMethod: method)
+                Logger.log(message: "\nAPI `\(method)`, id = \(id) response error: \n\(error)\n", event: .error, apiMethod: method)
             }
         )
     }

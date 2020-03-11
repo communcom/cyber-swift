@@ -10,9 +10,9 @@ import Foundation
 
 extension UIApplication {
     public static var appVersion: String {
-        return Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+        Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
     }
-    
+
     public var statusBarView: UIView? {
         if #available(iOS 13.0, *) {
             let tag = 3848245
@@ -38,7 +38,7 @@ extension UIApplication {
                 return value(forKey: "statusBar") as? UIView
             }
         }
-        
+
         return nil
     }
 }

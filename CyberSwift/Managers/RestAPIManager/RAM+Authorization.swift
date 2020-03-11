@@ -22,7 +22,7 @@ extension RestAPIManager {
         let phone = fixedPhoneNumber(phone: phone)
         let methodAPIType = MethodAPIType.getState(phone: phone)
         
-        return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationGetState>)
+        return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIRegistrationGetState>)
             .map { result in
                 if result.currentState == "registered" {
                     throw CMError.registration(message: ErrorMessage.accountHasBeenRegistered.rawValue)
@@ -57,7 +57,7 @@ extension RestAPIManager {
         
         let methodAPIType = MethodAPIType.firstStep(phone: phone, captchaCode: captchaCode, isDebugMode: isDebugMode)
         
-        return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationFirstStep>)
+        return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIRegistrationFirstStep>)
             .map { result in
 
                 var data: [String: Any] = [
@@ -84,7 +84,7 @@ extension RestAPIManager {
         
         let methodAPIType = MethodAPIType.verify(phone: phone, code: code)
         
-        return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationVerify>)
+        return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIRegistrationVerify>)
             .map { result in
                 try KeychainManager.save([
                     Config.registrationStepKey: CurrentUserRegistrationStep.setUserName.rawValue,
@@ -103,7 +103,7 @@ extension RestAPIManager {
         
         let methodAPIType = MethodAPIType.resendSmsCode(phone: phone)
         
-        return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIResendSmsCode>)
+        return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIResendSmsCode>)
             .map { result in
                 try KeychainManager.save([
                     Config.registrationStepKey: result.currentState,
@@ -122,7 +122,7 @@ extension RestAPIManager {
         
         let methodAPIType = MethodAPIType.setUser(name: name, phone: phone)
         
-        return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationSetUsername>)
+        return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIRegistrationSetUsername>)
             .map { result in
                 guard let userId = result.userId else {
                     throw CMError.registration(message: ErrorMessage.couldNotCreateUserId.rawValue)
@@ -149,7 +149,7 @@ extension RestAPIManager {
         let userkeys = generateKeys(userId: userID, masterKey: masterKey)
         let methodAPIType = MethodAPIType.toBlockChain(phone: fixedPhoneNumber(phone: userPhone), userID: userID, userName: userName, keys: userkeys)
         
-        return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIRegistrationToBlockChain>)
+        return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIRegistrationToBlockChain>)
             .map { result -> ResponseAPIRegistrationToBlockChain in
                 try KeychainManager.save([
                     Config.registrationStepKey: CurrentUserRegistrationStep.registered.rawValue,
@@ -172,7 +172,7 @@ extension RestAPIManager {
         guard let userId = Config.currentUser?.id else {return .error(CMError.unauthorized())}
         guard communityIds.count >= 3 else {return .error(CMError.other(message: ErrorMessage.youMustSubscribeToAtLeast3Communities.rawValue))}
         let methodAPIType = MethodAPIType.onboardingCommunitySubscriptions(userId: userId, communityIds: communityIds)
-        return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIStatus>)
+        return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIStatus>)
             .flatMapToCompletable()
     }
         
@@ -207,7 +207,7 @@ extension RestAPIManager {
                 let methodAPIType = MethodAPIType.authorize(username: login, activeKey: userKeys["active"]!.privateKey!)
                 
                 return self.generateSecret()
-                    .andThen(self.executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIAuthAuthorize>)
+                    .andThen(self.executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIAuthAuthorize>)
             })
             .map {result in
                 
@@ -236,48 +236,19 @@ extension RestAPIManager {
         
         let methodAPIType = MethodAPIType.authorize(username: username, activeKey: activeKey)
         
-        return executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false)
             .do(onSuccess: { (_) in
-                let requestParamsType = MethodAPIType.notificationsSubscribe.introduced()
-                let requestMethodAPIType = self.prepareGETRequest(requestParamsType: requestParamsType)
-                SocketManager.shared.sendMessage(requestMethodAPIType.requestMessage!)
+                let methodAPIType = MethodAPIType.notificationsSubscribe
+                self.sendMessageIgnoreResponse(methodAPIType: methodAPIType, authorizationRequired: false)
             })
     }
     
-    /// Logout user
-    public func logout() throws {
-        // Reset FCM token
-        sendMessageIgnoreResponse(methodAPIType: .deviceResetFcmToken)
-        
-        // logout
-        sendMessageIgnoreResponse(methodAPIType: .logout)
-        
-        // Remove in keychain
-        try KeychainManager.deleteUser()
-        
-        // Remove UserDefaults
-        UserDefaults.standard.set(nil, forKey: Config.currentUserAppLanguageKey)
-        UserDefaults.standard.set(nil, forKey: Config.currentUserThemeKey)
-        UserDefaults.standard.set(nil, forKey: Config.currentUserAvatarUrlKey)
-        UserDefaults.standard.set(nil, forKey: Config.currentUserBiometryAuthEnabled)
-        UserDefaults.standard.set(nil, forKey: Config.currentUserDidSubscribeToMoreThan3Communities)
-        UserDefaults.standard.set(nil, forKey: Config.currentDeviceDidSendFCMToken)
-        UserDefaults.standard.set(nil, forKey: Config.currentDeviceDidSetInfo)
-        
-        // Remove old notifications
-        SocketManager.shared.newNotificationsRelay.accept([])
-        SocketManager.shared.unseenNotificationsRelay.accept(0)
-        
-        // rerun socket
-        SocketManager.shared.reset()
-    }
-    
     /// Generate secret
-    public func generateSecret() -> Completable {
+    func generateSecret() -> Completable {
         
         let methodAPIType = MethodAPIType.generateSecret
         
-        return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIAuthGenerateSecret>)
+        return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIAuthGenerateSecret>)
             .flatMapCompletable {result in
                 Config.webSocketSecretKey = result.secret
                 return .empty()
@@ -285,7 +256,7 @@ extension RestAPIManager {
     }
     
     // MARK: - Private functions
-    public func generateKeys(userId: String, masterKey: String) -> [String: UserKeys] {
+    func generateKeys(userId: String, masterKey: String) -> [String: UserKeys] {
         var userKeys = [String: UserKeys]()
         
         // type
