@@ -40,6 +40,7 @@ public enum CurrentUserRegistrationStep: String {
     case firstStep          =   "firstStep"
     case verify             =   "verify"
     case setUserName        =   "setUsername"
+    case setPassword        =   "setPassword"
     case toBlockChain       =   "toBlockChain"
     case registered         =   "registered"
     case relogined          =   "relogined"
