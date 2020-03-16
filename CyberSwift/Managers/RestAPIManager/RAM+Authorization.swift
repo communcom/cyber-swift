@@ -129,7 +129,7 @@ extension RestAPIManager {
                 }
                 
                 try KeychainManager.save([
-                    Config.registrationStepKey: CurrentUserRegistrationStep.setPassword.rawValue,
+                    Config.registrationStepKey: CurrentUserRegistrationStep.toBlockChain.rawValue,
                     Config.registrationUserPhoneKey: phone,
                     Config.currentUserNameKey: name,
                     Config.currentUserIDKey: userId
@@ -139,21 +139,13 @@ extension RestAPIManager {
         }
     }
     
-    /// Set password
-    public func setPassword(_ password: String) throws {
-        try KeychainManager.save([
-            Config.currentUserMasterKey: password,
-            Config.registrationStepKey: CurrentUserRegistrationStep.toBlockChain.rawValue
-        ])
-    }
-    
     /// Save user to blockchain
-    public func toBlockChain() -> Completable {
+    public func toBlockChain(password: String? = Config.currentUser?.masterKey) -> Completable {
         guard let userName = Config.currentUser?.name, let userID = Config.currentUser?.id, let userPhone = Config.currentUser?.phoneNumber else {
             return .error(CMError.registration(message: ErrorMessage.userIdOrUsernameIsMissing.rawValue))
         }
         
-        let masterKey = Config.currentUser?.masterKey ?? String.randomString(length: 51)
+        let masterKey = password ?? String.randomString(length: 51)
         let userkeys = generateKeys(userId: userID, masterKey: masterKey)
         let methodAPIType = MethodAPIType.toBlockChain(phone: fixedPhoneNumber(phone: userPhone), userID: userID, userName: userName, keys: userkeys)
         
