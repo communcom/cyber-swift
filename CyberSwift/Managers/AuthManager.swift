@@ -28,6 +28,9 @@ public class AuthManager {
         case error(CMError)
     }
     
+    // MARK: - Constants
+    public static let minPasswordLength = 8
+    
     // MARK: - Properties
     let disposeBag = DisposeBag()
     public let status = BehaviorRelay<Status>(value: .initializing)
