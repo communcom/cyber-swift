@@ -30,6 +30,7 @@ public class AuthManager {
     
     // MARK: - Constants
     public static let minPasswordLength = 8
+    public static let maxPasswordLength = 52
     
     // MARK: - Properties
     let disposeBag = DisposeBag()
