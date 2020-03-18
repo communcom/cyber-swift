@@ -40,11 +40,13 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
     // MARK: - Nested type
     public enum TopExplanationType: String, Codable {
         case reward = "reward-what-does-it-mean"
+        case hidden = "hidden"
     }
     public enum BottomExplanationType: String, Codable {
         case shareYourPost = "share-your-post"
         case rewardsForLikes = "rewards-for-likes"
         case rewardsForComments = "rewards-for-comment"
+        case hidden = "hidden"
     }
     
     public var document: ResponseAPIContentBlock?
