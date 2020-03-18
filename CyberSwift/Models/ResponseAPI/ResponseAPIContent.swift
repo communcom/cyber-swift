@@ -85,7 +85,9 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
             textLength: item.textLength ?? self.textLength,
             viewsCount: item.viewsCount ?? self.viewsCount,
             mosaic: item.mosaic ?? self.mosaic,
-            sendingState: item.sendingState ?? self.sendingState
+            sendingState: item.sendingState ?? self.sendingState,
+            topExplanation: item.topExplanation ?? self.topExplanation,
+            bottomExplanation: item.bottomExplanation ?? self.bottomExplanation
         )
     }
 }
