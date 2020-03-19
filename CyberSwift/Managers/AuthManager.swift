@@ -85,7 +85,7 @@ public class AuthManager {
         let step = KeychainManager.currentUser()?.registrationStep ?? .firstStep
         if step == .registered || step == .relogined {
             // If first setting is uncompleted
-            let settingStep = KeychainManager.currentUser()?.settingStep ?? .backUpICloud
+            let settingStep = KeychainManager.currentUser()?.settingStep ?? .setPasscode
             if settingStep != .completed {
                 self.status.accept(.boarding(step: settingStep))
                 return
