@@ -75,6 +75,8 @@
 		BC52913E2378FE910022EC7F /* RAM+Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC52913D2378FE910022EC7F /* RAM+Content.swift */; };
 		BC7470BA2411FF8C00BD4CB3 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7470B92411FF8C00BD4CB3 /* AuthManager.swift */; };
 		BC7470BE2412029900BD4CB3 /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7470BD2412029900BD4CB3 /* NotificationsManager.swift */; };
+		BC753FFA24235C10000616B5 /* ResponseAPI+Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC753FF924235C10000616B5 /* ResponseAPI+Settings.swift */; };
+		BC753FFC24235D3A000616B5 /* RAM+Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC753FFB24235D3A000616B5 /* RAM+Settings.swift */; };
 		BC9066E923A9D515000F9A3B /* ResponseAPI+Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9066E823A9D515000F9A3B /* ResponseAPI+Wallet.swift */; };
 		BC9066FC23AA106D000F9A3B /* RAM+Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9066FB23AA106D000F9A3B /* RAM+Wallet.swift */; };
 		BC99B65E23E185D2004AA74E /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC99B65D23E185D2004AA74E /* Double+Extensions.swift */; };
@@ -175,6 +177,8 @@
 		BC52913D2378FE910022EC7F /* RAM+Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Content.swift"; sourceTree = "<group>"; };
 		BC7470B92411FF8C00BD4CB3 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		BC7470BD2412029900BD4CB3 /* NotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
+		BC753FF924235C10000616B5 /* ResponseAPI+Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Settings.swift"; sourceTree = "<group>"; };
+		BC753FFB24235D3A000616B5 /* RAM+Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Settings.swift"; sourceTree = "<group>"; };
 		BC9066E823A9D515000F9A3B /* ResponseAPI+Wallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Wallet.swift"; sourceTree = "<group>"; };
 		BC9066FB23AA106D000F9A3B /* RAM+Wallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Wallet.swift"; sourceTree = "<group>"; };
 		BC99B65D23E185D2004AA74E /* Double+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extensions.swift"; sourceTree = "<group>"; };
@@ -233,6 +237,7 @@
 				BC518BD723D699390090E145 /* RAM+Device.swift */,
 				BCCF8AC123E2C11B004892FF /* RAM+Rewards.swift */,
 				BC06A99C23E7C6A8000B690E /* RAM+Search.swift */,
+				BC753FFB24235D3A000616B5 /* RAM+Settings.swift */,
 			);
 			path = RestAPIManager;
 			sourceTree = "<group>";
@@ -427,6 +432,7 @@
 				BC18FA1423D54B5A005DC7E3 /* ResponseAPI+Exchange.swift */,
 				BCCF8ABF23E2BDBD004892FF /* ResponseAPI+Rewards.swift */,
 				BC06A99A23E7C170000B690E /* ResponseAPI+Search.swift */,
+				BC753FF924235C10000616B5 /* ResponseAPI+Settings.swift */,
 			);
 			path = ResponseAPI;
 			sourceTree = "<group>";
@@ -646,6 +652,7 @@
 				BC44DBB2238FA1FD00412F08 /* ListItemType.swift in Sources */,
 				B1902AD622706F1E00661211 /* RequestParameterAPI.swift in Sources */,
 				3B5EDE3F22E0F10900897BF3 /* RAM+Notifications.swift in Sources */,
+				BC753FFA24235C10000616B5 /* ResponseAPI+Settings.swift in Sources */,
 				BC06A99D23E7C6A8000B690E /* RAM+Search.swift in Sources */,
 				BCCE0A9E2367DD3A00A183AA /* RAM+Profile.swift in Sources */,
 				BC46931323978DDE0064A38B /* ResponseAPIContentResolveProfile+Extensions.swift in Sources */,
@@ -669,6 +676,7 @@
 				BC52913E2378FE910022EC7F /* RAM+Content.swift in Sources */,
 				BC44DBEC238FA99000412F08 /* ResponseAPIContentBlock+Extensions.swift in Sources */,
 				B1C3F858223F98B1005711EF /* Config.swift in Sources */,
+				BC753FFC24235D3A000616B5 /* RAM+Settings.swift in Sources */,
 				BC48FC3C23667FB10049C4F4 /* ResponseAPI+Community.swift in Sources */,
 				B179917D2269B4560014CB44 /* GSBase58.swift in Sources */,
 				3B1E901822CDF16B00D7A0C1 /* ICloudManager.swift in Sources */,
