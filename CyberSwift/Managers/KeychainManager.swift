@@ -37,7 +37,10 @@ public class KeychainManager {
         
         let registrationStep = CurrentUserRegistrationStep(rawValue:
             data[Config.registrationStepKey] as? String ?? "firstStep")!
-        
+
+        let provider = data[Config.currentUserProviderKey] as? String
+        let identity = data[Config.currentUserIdentityKey] as? String
+
         let phone = data[Config.registrationUserPhoneKey] as? String
         let smsCode = data[Config.registrationSmsCodeKey] as? UInt64
         let smsRetryCode = data[Config.registrationSmsNextRetryKey] as? String
@@ -67,6 +70,8 @@ public class KeychainManager {
             masterKey: masterKey,
             registrationStep: registrationStep,
             phoneNumber: phone,
+            identity: identity,
+            provider: provider,
             smsCode: smsCode,
             smsNextRetry: smsRetryCode,
             settingStep: settingStep != nil ? CurrentUserSettingStep(rawValue: settingStep!) : nil,

@@ -240,7 +240,7 @@ public indirect enum MethodAPIType {
     
     /// REGISTRATION-SERVICE
     //  Get current registration status for user
-    case getState(phone: String?)
+    case getState(phone: String?, identity: String?)
     
     //  First step of registration
     //  Modify: add `captchaType` (https://github.com/communcom/commun/issues/929)
@@ -250,14 +250,14 @@ public indirect enum MethodAPIType {
     case verify(phone: String, code: UInt64)
     
     //  The third step of registration, account verification
-    case setUser(name: String, phone: String)
+    case setUser(name: String, phone: String?, identity: String?)
 
     //  Re-send of the confirmation code (for the smsToUser strategy)
     case resendSmsCode(phone: String)
     
     //  The last step of registration, entry in the blockchain
 //    case toBlockChain(user: String, keys: [String: UserKeys])
-    case toBlockChain(phone: String, userID: String, userName: String, keys: [String: UserKeys])
+    case toBlockChain(phone: String?, userID: String, userName: String, keys: [String: UserKeys], identity: String?)
     
     //  Onboarding step to force user to subscribe to at least 3 communities
     case onboardingCommunitySubscriptions(userId: String, communityIds: [String])
@@ -641,11 +641,15 @@ public indirect enum MethodAPIType {
 
         /// REGISTRATION-SERVICE
         //  Template { "id": 1, "jsonrpc": "2.0", "method": "registration.getState", "params": { "phone": "+70000000000" }}
-        case .getState(let phoneValue):
+        case .getState(let phoneValue, let identity):
             var parameters = [String: Encodable]()
             
-            if phoneValue != nil {
-                parameters["phone"] = phoneValue!
+            if let phone = phoneValue {
+                parameters["phone"] = phone
+            }
+
+            if let identity = identity {
+                parameters["identity"] = identity
             }
 
             return  (methodAPIType:     self,
@@ -675,11 +679,21 @@ public indirect enum MethodAPIType {
                      parameters:        ["phone": phoneValue, "code": codeValue])
             
         //  { "id": 4, "jsonrpc": "2.0", "method": "registration.setUsername", "params": { "username": "tester", "phone": "+70000000000" }}
-        case .setUser(let name, let phoneValue):
+        case .setUser(let name, let phoneValue, let identity):
+            var params = ["username": name]
+
+            if let phone = phoneValue {
+                params["phone"] = phone
+            }
+
+            if let identity = identity {
+                params["identity"] = identity
+            }
+
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.registration.rawValue,
                      methodName:        "setUsername",
-                     parameters:        ["phone": phoneValue, "username": name])
+                     parameters:        params)
 
         //  Debug template      { "id": 5, "jsonrpc": "2.0", "method": "registration.resendSmsCode", "params": { "phone": "+70000000000", "testingPass": "DpQad16yDlllEy6" }}
         //  Release template    { "id": 5, "jsonrpc": "2.0", "method": "registration.resendSmsCode", "params": { "phone": "+70000000000" }}
@@ -690,8 +704,16 @@ public indirect enum MethodAPIType {
                      parameters:        ["phone": phoneValue])
 
         //  Template    { "id": 6, "jsonrpc": "2.0", "method": "registration.toBlockChain", "params": { "user": "tester", "owber": "5HtBPHEhgRmZpAR7EtF3NwG5wVzotNGHBBFo8CF6kucwqeiatpw", "active": "5K4bqcDKtveY8JA3saNkqmCsv18JQsxKf7LGU27nLPzigCmCK69", "posting": "5KPcWDsxka9MEZYBspFqFJueq2L7hgFxWTNkhxoqf1iFYJwZXYD", "memo": "5Kgn17ZFaJVzYVY3Mc8H99MuwqhECA7EWwkbDC7EZgFAjHAEtvS" }}
-        case .toBlockChain(let phoneValue, let userIdValue, let userNameValue, let keysValues):
-            var parameters = ["phone": phoneValue, "userId": userIdValue, "username": userNameValue]
+        case .toBlockChain(let phoneValue, let userIdValue, let userNameValue, let keysValues, let identity):
+            var parameters = ["userId": userIdValue, "username": userNameValue]
+
+            if let phone = phoneValue {
+                parameters["phone"] = phone
+            }
+
+            if let identity = identity {
+                parameters["identity"] = identity
+            }
 
             if let ownerUserKey = keysValues["owner"] {
                 parameters["publicOwnerKey"] = ownerUserKey.publicKey
