@@ -18,4 +18,17 @@ public struct ResponseAPIRewardsGetStateBulkMosaic: Decodable, Equatable {
     public let reward: String
     public let isClosed: Bool
     public let contentId: ResponseAPIContentId
+    
+    public var isRewarded: Bool {
+        topCount > 0 && rewardDouble > 0
+    }
+    
+    public var rewardDouble: Double {
+        guard let string = reward.components(separatedBy: " ").first,
+            let double = Double(string)
+        else {
+            return 0
+        }
+        return double
+    }
 }
