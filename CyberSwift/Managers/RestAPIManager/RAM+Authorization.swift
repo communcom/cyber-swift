@@ -140,12 +140,12 @@ extension RestAPIManager {
     }
     
     /// Save user to blockchain
-    public func toBlockChain() -> Completable {
+    public func toBlockChain(password: String? = Config.currentUser?.masterKey) -> Completable {
         guard let userName = Config.currentUser?.name, let userID = Config.currentUser?.id, let userPhone = Config.currentUser?.phoneNumber else {
             return .error(CMError.registration(message: ErrorMessage.userIdOrUsernameIsMissing.rawValue))
         }
         
-        let masterKey = String.randomString(length: 51)
+        let masterKey = password ?? String.randomString(length: 51)
         let userkeys = generateKeys(userId: userID, masterKey: masterKey)
         let methodAPIType = MethodAPIType.toBlockChain(phone: fixedPhoneNumber(phone: userPhone), userID: userID, userName: userName, keys: userkeys)
         

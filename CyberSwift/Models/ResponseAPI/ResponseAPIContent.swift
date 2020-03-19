@@ -37,6 +37,18 @@ public struct ResponseAPIContentGetPosts: Decodable {
 }
 
 public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
+    // MARK: - Nested type
+    public enum TopExplanationType: String, Codable {
+        case reward = "reward-what-does-it-mean"
+        case hidden = "hidden"
+    }
+    public enum BottomExplanationType: String, Codable {
+        case shareYourPost = "share-your-post"
+        case rewardsForLikes = "rewards-for-likes"
+        case rewardsForComments = "rewards-for-comment"
+        case hidden = "hidden"
+    }
+    
     public var document: ResponseAPIContentBlock?
     public var votes: ResponseAPIContentVotes
     public let meta: ResponseAPIContentMeta
@@ -52,6 +64,10 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
     // Additional properties
     public var mosaic: ResponseAPIRewardsGetStateBulkMosaic?
     public var sendingState: MessageSendingState? = MessageSendingState.none
+    
+    // Explanation
+    public var topExplanation: TopExplanationType?
+    public var bottomExplanation: BottomExplanationType?
     
     public var identity: String {
         return self.contentId.userId + "/" + self.contentId.permlink
@@ -71,7 +87,9 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
             textLength: item.textLength ?? self.textLength,
             viewsCount: item.viewsCount ?? self.viewsCount,
             mosaic: item.mosaic ?? self.mosaic,
-            sendingState: item.sendingState ?? self.sendingState
+            sendingState: item.sendingState ?? self.sendingState,
+            topExplanation: item.topExplanation ?? self.topExplanation,
+            bottomExplanation: item.bottomExplanation ?? self.bottomExplanation
         )
     }
 }

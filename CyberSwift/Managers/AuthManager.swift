@@ -28,6 +28,10 @@ public class AuthManager {
         case error(CMError)
     }
     
+    // MARK: - Constants
+    public static let minPasswordLength = 8
+    public static let maxPasswordLength = 52
+    
     // MARK: - Properties
     let disposeBag = DisposeBag()
     public let status = BehaviorRelay<Status>(value: .initializing)
@@ -48,14 +52,14 @@ public class AuthManager {
     }
     
     public func disconnect() {
-        status.accept(.error(.socketConnectionError(message: nil)))
         SocketManager.shared.disconnect()
     }
     
     private func bind() {
         SocketManager.shared.state
-            .debounce(1, scheduler: MainScheduler.instance)
+            .distinctUntilChanged()
             .subscribe(onNext: { (event) in
+                Logger.log(message: "SocketManager.state = \(event)", event: .event)
                 switch event {
                 case .connecting:
                     // after logining, registering, boarding completed
