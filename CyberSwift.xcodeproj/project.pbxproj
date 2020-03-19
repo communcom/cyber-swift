@@ -77,6 +77,7 @@
 		BC7470BE2412029900BD4CB3 /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC7470BD2412029900BD4CB3 /* NotificationsManager.swift */; };
 		BC753FFA24235C10000616B5 /* ResponseAPI+Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC753FF924235C10000616B5 /* ResponseAPI+Settings.swift */; };
 		BC753FFC24235D3A000616B5 /* RAM+Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC753FFB24235D3A000616B5 /* RAM+Settings.swift */; };
+		BC753FFE24236242000616B5 /* RAM+Airdrop.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC753FFD24236242000616B5 /* RAM+Airdrop.swift */; };
 		BC9066E923A9D515000F9A3B /* ResponseAPI+Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9066E823A9D515000F9A3B /* ResponseAPI+Wallet.swift */; };
 		BC9066FC23AA106D000F9A3B /* RAM+Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9066FB23AA106D000F9A3B /* RAM+Wallet.swift */; };
 		BC99B65E23E185D2004AA74E /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC99B65D23E185D2004AA74E /* Double+Extensions.swift */; };
@@ -179,6 +180,7 @@
 		BC7470BD2412029900BD4CB3 /* NotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
 		BC753FF924235C10000616B5 /* ResponseAPI+Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Settings.swift"; sourceTree = "<group>"; };
 		BC753FFB24235D3A000616B5 /* RAM+Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Settings.swift"; sourceTree = "<group>"; };
+		BC753FFD24236242000616B5 /* RAM+Airdrop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Airdrop.swift"; sourceTree = "<group>"; };
 		BC9066E823A9D515000F9A3B /* ResponseAPI+Wallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Wallet.swift"; sourceTree = "<group>"; };
 		BC9066FB23AA106D000F9A3B /* RAM+Wallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Wallet.swift"; sourceTree = "<group>"; };
 		BC99B65D23E185D2004AA74E /* Double+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extensions.swift"; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 				BCCF8AC123E2C11B004892FF /* RAM+Rewards.swift */,
 				BC06A99C23E7C6A8000B690E /* RAM+Search.swift */,
 				BC753FFB24235D3A000616B5 /* RAM+Settings.swift */,
+				BC753FFD24236242000616B5 /* RAM+Airdrop.swift */,
 			);
 			path = RestAPIManager;
 			sourceTree = "<group>";
@@ -690,6 +693,7 @@
 				BC18FA1523D54B5A005DC7E3 /* ResponseAPI+Exchange.swift in Sources */,
 				B1A74A642243892B009D68E7 /* EOSTransaction.swift in Sources */,
 				B1C3715B23867AAF000BAE2F /* Numbers+Extensions.swift in Sources */,
+				BC753FFE24236242000616B5 /* RAM+Airdrop.swift in Sources */,
 				BCCF8AC223E2C11B004892FF /* RAM+Rewards.swift in Sources */,
 				B17991702269B4070014CB44 /* Array+Extensions.swift in Sources */,
 				B1C3F868223F9907005711EF /* RequestAPI.swift in Sources */,

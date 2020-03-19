@@ -38,6 +38,7 @@ public enum MethodAPIGroup: String {
     case device             =   "device"
     case settings           =   "settings"
     case rewards            =   "rewards"
+    case airdrop            =   "airdrop"
 }
 
 public enum FeedTypeMode: String {
@@ -300,6 +301,9 @@ public indirect enum MethodAPIType {
     
     /// SETTINGS
     case getUserSettings
+    
+    /// AIRDROP
+    case getAirdrop(communityId: String)
 
     /// CHAIN-SERVICE
     case bandwidthProvide(chainID: String, transaction: RequestAPITransaction)
@@ -840,6 +844,12 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.settings.rawValue,
                      methodName:        "getUserSettings",
                      parameters:        [:])
+            
+        case .getAirdrop(let id):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.airdrop.rawValue,
+                     methodName:        "getAirdrop",
+                     parameters:        ["communityId": id])
             
         // Template: missing
         case .bandwidthProvide(let chainID, let transaction):
