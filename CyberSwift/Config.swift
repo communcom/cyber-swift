@@ -82,7 +82,6 @@ public struct Config {
     public static let currentUserKey: String = "currentUserKey"
     public static let currentUserIDKey: String = "currentUserIDKey"
     public static let currentUserIdentityKey: String = "currentUserIdentityKey"
-    public static let currentUserProviderKey: String = "currentUserProviderKey"
     public static let currentUserNameKey: String = "currentUserNameKey"
     public static let currentUserMasterKey: String = "currentUserMasterKey"
     public static let registrationStepKey: String = "registrationStepKey"
