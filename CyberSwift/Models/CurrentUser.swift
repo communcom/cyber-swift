@@ -49,7 +49,6 @@ public enum CurrentUserSettingStep: String {
     case setPasscode        =   "setPasscode"
     case setFaceId          =   "setFaceId"
     case ftue               =   "ftue"
-    case backUpICloud       =   "backUpICloud"
     case setAvatar          =   "setAvatar"
     case setBio             =   "setBio"
     case completed          =   "completed"
