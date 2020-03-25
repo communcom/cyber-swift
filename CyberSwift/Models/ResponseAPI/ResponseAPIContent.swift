@@ -361,3 +361,8 @@ public struct ResponseAPIContentGetCommentParentPostCommunity: Decodable {
     public let name: String
     public let avatarUrl: String?
 }
+
+// MARK: - API `content.getReferralUsers`
+public struct ResponseAPIContentGetReferralUsers: Decodable {
+    public let items: [ResponseAPIContentGetProfile]
+}
