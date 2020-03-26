@@ -31,8 +31,8 @@ public struct Config {
         static let gate_API_URL: String = "wss://gate.commun.com/"
         static let blockchain_API_URL: String = "https://node.commun.com/"
     #else
-        static let gate_API_URL: String = "wss://dev-3-gate.commun.com/"
-        static let blockchain_API_URL: String = "https://dev-3-node.commun.com/"
+        static let gate_API_URL: String = "wss://dev-gate.commun.com/"
+        static let blockchain_API_URL: String = "https://dev-node.commun.com/"
     #endif
 
     static let imageHost: String = "https://img.commun.com/upload"
