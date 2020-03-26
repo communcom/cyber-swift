@@ -20,7 +20,7 @@ extension RestAPIManager {
     public func getState(phone: String? = Config.currentUser?.phoneNumber) -> Single<ResponseAPIRegistrationGetState> {
         
         let phone = fixedPhoneNumber(phone: phone)
-        let methodAPIType = MethodAPIType.getState(phone: phone)
+        let methodAPIType = MethodAPIType.getState(phone: phone, identity: Config.currentUser?.identity)
         
         return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIRegistrationGetState>)
             .map { result in
@@ -116,11 +116,14 @@ extension RestAPIManager {
     
     /// set userName
     public func setUserName(_ name: String) -> Single<ResponseAPIRegistrationSetUsername> {
-        guard let phone = Config.currentUser?.phoneNumber else {
+        let phone: String? = Config.currentUser?.phoneNumber
+        let identity: String? = Config.currentUser?.identity
+
+        if phone == nil && identity == nil {
             return .error(CMError.registration(message: ErrorMessage.phoneMissing.rawValue))
         }
         
-        let methodAPIType = MethodAPIType.setUser(name: name, phone: phone)
+        let methodAPIType = MethodAPIType.setUser(name: name, phone: phone, identity: identity)
         
         return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIRegistrationSetUsername>)
             .map { result in
@@ -141,13 +144,24 @@ extension RestAPIManager {
     
     /// Save user to blockchain
     public func toBlockChain(password: String? = Config.currentUser?.masterKey) -> Completable {
-        guard let userName = Config.currentUser?.name, let userID = Config.currentUser?.id, let userPhone = Config.currentUser?.phoneNumber else {
+        guard let userName = Config.currentUser?.name, let userID = Config.currentUser?.id else {
             return .error(CMError.registration(message: ErrorMessage.userIdOrUsernameIsMissing.rawValue))
+        }
+
+        var phone: String? = Config.currentUser?.phoneNumber
+        let identity: String? = Config.currentUser?.identity
+
+        if phone == nil && identity == nil {
+            return .error(CMError.registration(message: ErrorMessage.userIdOrUsernameIsMissing.rawValue))
+        }
+
+        if let userPhone = phone {
+            phone = fixedPhoneNumber(phone: userPhone)
         }
         
         let masterKey = password ?? String.randomString(length: 51)
         let userkeys = generateKeys(userId: userID, masterKey: masterKey)
-        let methodAPIType = MethodAPIType.toBlockChain(phone: fixedPhoneNumber(phone: userPhone), userID: userID, userName: userName, keys: userkeys)
+        let methodAPIType = MethodAPIType.toBlockChain(phone: phone, userID: userID, userName: userName, keys: userkeys, identity: identity)
         
         return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIRegistrationToBlockChain>)
             .map { result -> ResponseAPIRegistrationToBlockChain in

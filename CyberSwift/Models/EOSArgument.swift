@@ -139,6 +139,19 @@ struct EOSArgument {
         let telegram: String?
         let whatsapp: String?
         let wechat: String?
+        #if !APPSTORE
+        let first_name: String?
+        let last_name: String?
+        let country: String?
+        let city: String?
+        let birth_date_disable: UInt8 = 0
+        let birth_date: UInt64? // change to string after update contract
+        let instagram: String?
+        let linkedin: String?
+        let twitter: String?
+        let github: String?
+        let website_url: String?
+        #endif
 
         // MARK: - Initialization
         init(json: [String: String?]) {
@@ -149,6 +162,18 @@ struct EOSArgument {
             self.telegram = json["telegram"] ?? nil
             self.whatsapp = json["whatsapp"] ?? nil
             self.wechat = json["wechat"] ?? nil
+            #if !APPSTORE
+            self.first_name = json["first_name"] ?? nil
+            self.last_name = json["last_name"] ?? nil
+            self.country = json["country"] ?? nil
+            self.city = json["city"] ?? nil
+            self.birth_date = nil //json["birth_date"] ?? nil
+            self.instagram = json["instagram"] ?? nil
+            self.linkedin = json["linkedin"] ?? nil
+            self.twitter = json["twitter"] ?? nil
+            self.github = json["github"] ?? nil
+            self.website_url = json["website_url"] ?? nil
+            #endif
         }
     }
 

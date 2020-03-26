@@ -45,7 +45,7 @@ extension RestAPIManager {
     }
     
     // API `settings.getPushSettings`
-    public func notificationsGetPushSettings() -> Single<ResponseAPISettingsGetPushSettings> {
+    public func notificationsGetPushSettings() -> Single<       ResponseAPISettingsGetPushSettings> {
         let methodAPIType = MethodAPIType.getPushSettings
         return executeGetRequest(methodAPIType: methodAPIType)
     }

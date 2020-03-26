@@ -82,5 +82,5 @@ public struct ResponseAPINotificationsStatusUpdated: Decodable, Equatable {
 
 // MARK: - pushSettings
 public struct ResponseAPISettingsGetPushSettings: Decodable, Equatable {
-    public var disabled: [String]
+    public var disabled: [String]?
 }
