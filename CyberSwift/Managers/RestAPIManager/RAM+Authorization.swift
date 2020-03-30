@@ -17,10 +17,10 @@ extension RestAPIManager {
     
     // MARK: - Public function
     /// Get registration state
-    public func getState(phone: String? = Config.currentUser?.phoneNumber) -> Single<ResponseAPIRegistrationGetState> {
+    public func getState(phone: String? = Config.currentUser?.phoneNumber, identity: String? = Config.currentUser?.identity, email: String? = Config.currentUser?.email) -> Single<ResponseAPIRegistrationGetState> {
         
         let phone = fixedPhoneNumber(phone: phone)
-        let methodAPIType = MethodAPIType.getState(phone: phone, identity: Config.currentUser?.identity)
+        let methodAPIType = MethodAPIType.getState(phone: phone, identity: identity, email: email)
         
         return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIRegistrationGetState>)
             .map { result in
@@ -76,6 +76,25 @@ extension RestAPIManager {
         }
     }
     
+    public func firstStepEmail(_ email: String, captcha: String) -> Single<ResponseAPIRegistrationFirstStepEmail> {
+        let methodAPIType = MethodAPIType.firstStepEmail(email: email, captcha: captcha, isDebugMode: isDebugMode)
+        return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIRegistrationFirstStepEmail>)
+            .map {result in
+                var data: [String: Any] = [
+                    Config.registrationStepKey: CurrentUserRegistrationStep.verifyEmail.rawValue,
+                    Config.currentUserEmailKey: email,
+                    Config.registrationEmailNextRetryKey: result.nextEmailRetry
+                ]
+                if let code = result.code {
+                    data[Config.registrationEmailCodeKey] = code
+                }
+                
+                try KeychainManager.save(data)
+                
+                return result
+            }
+    }
+    
     /// Verify code
     public func verify(code: UInt64) -> Single<ResponseAPIRegistrationVerify> {
         guard let phone = Config.currentUser?.phoneNumber else {
@@ -95,6 +114,24 @@ extension RestAPIManager {
         }
     }
     
+    public func verifyEmail(code: UInt64) -> Single<ResponseAPIRegistrationVerify> {
+        guard let email = Config.currentUser?.email else {
+            return .error(CMError.registration(message: ErrorMessage.emailMissing.rawValue))
+        }
+        
+        let methodAPIType = MethodAPIType.verifyEmail(email: email, code: code)
+        
+        return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIRegistrationVerify>)
+            .map {result in
+                try KeychainManager.save([
+                    Config.registrationStepKey: CurrentUserRegistrationStep.setUserName.rawValue,
+                    Config.registrationEmailCodeKey: code
+                ])
+                
+                return result
+            }
+    }
+    
     /// Resend sms code
     public func resendSmsCode() -> Single<ResponseAPIResendSmsCode> {
         guard let phone = Config.currentUser?.phoneNumber else {
@@ -108,6 +145,24 @@ extension RestAPIManager {
                 try KeychainManager.save([
                     Config.registrationStepKey: result.currentState,
                     Config.registrationSmsNextRetryKey: result.nextSmsRetry
+                ])
+                
+                return result
+        }
+    }
+    
+    public func resendEmailCode() -> Single<ResponseAPIResendEmailCode> {
+        guard let email = Config.currentUser?.email else {
+            return .error(CMError.registration(message: ErrorMessage.emailMissing.rawValue))
+        }
+        
+        let methodAPIType = MethodAPIType.resendEmailCode(email: email)
+        
+        return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIResendEmailCode>)
+            .map { result in
+                try KeychainManager.save([
+                    Config.registrationStepKey: result.currentState,
+                    Config.registrationEmailNextRetryKey: result.nextEmailRetry
                 ])
                 
                 return result

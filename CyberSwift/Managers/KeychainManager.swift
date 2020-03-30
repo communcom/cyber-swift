@@ -44,6 +44,10 @@ public class KeychainManager {
         let smsCode = data[Config.registrationSmsCodeKey] as? UInt64
         let smsRetryCode = data[Config.registrationSmsNextRetryKey] as? String
         
+        let email = data[Config.currentUserEmailKey] as? String
+        let emailCode = data[Config.registrationEmailCodeKey] as? UInt64
+        let emailNextRetry = data[Config.registrationEmailNextRetryKey] as? String
+        
         let settingStep = data[Config.settingStepKey] as? String
         let passcode = data[Config.currentUserPasscodeKey] as? String
         
@@ -72,6 +76,9 @@ public class KeychainManager {
             identity: identity,
             smsCode: smsCode,
             smsNextRetry: smsRetryCode,
+            email: email,
+            emailCode: emailCode,
+            emailNextRetry: emailNextRetry,
             settingStep: settingStep != nil ? CurrentUserSettingStep(rawValue: settingStep!) : nil,
             passcode: passcode,
             memoKeys: memoKeys,

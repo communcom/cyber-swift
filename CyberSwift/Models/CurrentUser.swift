@@ -21,6 +21,10 @@ public struct CurrentUser {
     public let smsCode: UInt64?
     public let smsNextRetry: String?
     
+    public let email: String?
+    public let emailCode: UInt64?
+    public let emailNextRetry: String?
+    
     // Settings step
     public let settingStep: CurrentUserSettingStep?
     public let passcode: String?
@@ -40,6 +44,8 @@ public struct UserKeys {
 public enum CurrentUserRegistrationStep: String {
     case firstStep          =   "firstStep"
     case verify             =   "verify"
+    case firstStepEmail     =   "firstStepEmail"
+    case verifyEmail        =   "verifyEmail"
     case setUserName        =   "setUsername"
     case toBlockChain       =   "toBlockChain"
     case registered         =   "registered"

@@ -243,20 +243,26 @@ public indirect enum MethodAPIType {
     
     /// REGISTRATION-SERVICE
     //  Get current registration status for user
-    case getState(phone: String?, identity: String?)
+    case getState(phone: String?, identity: String?, email: String?)
     
     //  First step of registration
     //  Modify: add `captchaType` (https://github.com/communcom/commun/issues/929)
     case firstStep(phone: String, captchaCode: String, isDebugMode: Bool)
     
+    case firstStepEmail(email: String, captcha: String, isDebugMode: Bool)
+    
     //  Second registration step, account verification
     case verify(phone: String, code: UInt64)
+    
+    case verifyEmail(email: String, code: UInt64)
     
     //  The third step of registration, account verification
     case setUser(name: String, phone: String?, identity: String?)
 
     //  Re-send of the confirmation code (for the smsToUser strategy)
     case resendSmsCode(phone: String)
+    
+    case resendEmailCode(email: String)
     
     //  The last step of registration, entry in the blockchain
 //    case toBlockChain(user: String, keys: [String: UserKeys])
@@ -650,7 +656,7 @@ public indirect enum MethodAPIType {
 
         /// REGISTRATION-SERVICE
         //  Template { "id": 1, "jsonrpc": "2.0", "method": "registration.getState", "params": { "phone": "+70000000000" }}
-        case .getState(let phoneValue, let identity):
+        case .getState(let phoneValue, let identity, let email):
             var parameters = [String: Encodable]()
             
             if let phone = phoneValue {
@@ -659,6 +665,10 @@ public indirect enum MethodAPIType {
 
             if let identity = identity {
                 parameters["identity"] = identity
+            }
+            
+            if let email = email {
+                parameters["email"] = email
             }
 
             return  (methodAPIType:     self,
@@ -679,6 +689,18 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.registration.rawValue,
                      methodName:        "firstStep",
                      parameters:        parameters)
+            
+        case .firstStepEmail(let email, let captcha, let isDebugMode):
+            var parameters = ["email": email, "captcha": captcha, "captchaType": "ios" ]
+
+            if isDebugMode {
+                parameters["testingPass"]   =   Config.testingPassword
+            }
+            
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.registration.rawValue,
+                     methodName:        "firstStepEmail",
+                     parameters:        parameters)
 
         //  { "id": 3, "jsonrpc": "2.0", "method": "registration.verify", "params": { "phone": "+70000000000", "code": "1563" }}
         case .verify(let phoneValue, let codeValue):
@@ -686,6 +708,12 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.registration.rawValue,
                      methodName:        "verify",
                      parameters:        ["phone": phoneValue, "code": codeValue])
+            
+        case .verifyEmail(let email, let code):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.registration.rawValue,
+                     methodName:        "verifyEmail",
+                     parameters:        ["email": email, "code": code])
             
         //  { "id": 4, "jsonrpc": "2.0", "method": "registration.setUsername", "params": { "username": "tester", "phone": "+70000000000" }}
         case .setUser(let name, let phoneValue, let identity):
@@ -713,6 +741,12 @@ public indirect enum MethodAPIType {
                      parameters:        ["phone": phoneValue])
 
         //  Template    { "id": 6, "jsonrpc": "2.0", "method": "registration.toBlockChain", "params": { "user": "tester", "owber": "5HtBPHEhgRmZpAR7EtF3NwG5wVzotNGHBBFo8CF6kucwqeiatpw", "active": "5K4bqcDKtveY8JA3saNkqmCsv18JQsxKf7LGU27nLPzigCmCK69", "posting": "5KPcWDsxka9MEZYBspFqFJueq2L7hgFxWTNkhxoqf1iFYJwZXYD", "memo": "5Kgn17ZFaJVzYVY3Mc8H99MuwqhECA7EWwkbDC7EZgFAjHAEtvS" }}
+            
+        case .resendEmailCode(let email):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.registration.rawValue,
+                     methodName:        "resendEmailCode",
+                     parameters:        ["email": email])
         case .toBlockChain(let phoneValue, let userIdValue, let userNameValue, let keysValues, let identity):
             var parameters = ["userId": userIdValue, "username": userNameValue]
 

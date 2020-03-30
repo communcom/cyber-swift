@@ -126,6 +126,12 @@ public struct ResponseAPIRegistrationFirstStep: Decodable {
     public let nextSmsRetry: String
 }
 
+public struct ResponseAPIRegistrationFirstStepEmail: Decodable {
+    public let nextEmailRetry: String
+    public let currentState: String
+    public let code: UInt64?
+}
+
 // MARK: - API `registration.verify`
 // {"jsonrpc":"2.0","id":3,"result":{"currentState":"setUsername"}}
 public struct ResponseAPIRegistrationVerify: Decodable {
@@ -143,6 +149,11 @@ public struct ResponseAPIRegistrationSetUsername: Decodable {
 // {"jsonrpc":"2.0","id":3,"result":{"nextSmsRetry":"2019-10-30T10:05:08.338Z","currentState":"verify"}}
 public struct ResponseAPIResendSmsCode: Decodable {
     public let nextSmsRetry: String
+    public let currentState: String
+}
+
+public struct ResponseAPIResendEmailCode: Decodable {
+    public let nextEmailRetry: String
     public let currentState: String
 }
 

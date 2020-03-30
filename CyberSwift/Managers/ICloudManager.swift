@@ -20,6 +20,8 @@ public struct ICloudManager {
         keyStore.set(user.masterKey, forKey: Config.currentUserMasterKey)
         
         keyStore.set(user.phoneNumber, forKey: Config.registrationUserPhoneKey)
+        keyStore.set(user.identity, forKey: Config.currentUserIdentityKey)
+        keyStore.set(user.email, forKey: Config.currentUserEmailKey)
         
         keyStore.set(user.memoKeys?.privateKey, forKey: Config.currentUserPrivateMemoKey)
         keyStore.set(user.memoKeys?.publicKey, forKey: Config.currentUserPublickMemoKey)

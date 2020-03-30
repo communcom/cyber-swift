@@ -15,6 +15,7 @@ public enum ErrorMessage: String {
     case couldNotResizeImage = "could not resize image"
     case couldNotRetrieveChainInfo = "could not retrieve chain info"
     case couldNotRetrieveUserIdentity = "could not retrieve user identity"
+    case emailMissing = "email missing"
     case invalidStepTaken = "Invalid step taken"
     case jsonConversionFailed = "JSON conversion failed"
     case jsonParsingFailed = "JSON parsing failed"
