@@ -10,8 +10,8 @@ import Foundation
 import RxSwift
 
 extension RestAPIManager {
-    private func fixedPhoneNumber(phone: String?) -> String {
-        guard let phone = phone else {return ""}
+    private func fixedPhoneNumber(phone: String?) -> String? {
+        guard let phone = phone else {return nil}
         return "+" + phone.components(separatedBy: CharacterSet.decimalDigits.inverted).joined(separator: "").trimSpaces()
     }
     
@@ -39,7 +39,7 @@ extension RestAPIManager {
                     dataToSave[Config.currentUserNameKey] = username
                 }
                 
-                if !phone.isEmpty {
+                if let phone = phone {
                     dataToSave[Config.registrationUserPhoneKey] = phone
                 }
                 
@@ -53,7 +53,9 @@ extension RestAPIManager {
     
     /// First step of registration
     public func firstStep(phone: String, captchaCode: String) -> Single<ResponseAPIRegistrationFirstStep> {
-        let phone = fixedPhoneNumber(phone: phone)
+        guard let phone = fixedPhoneNumber(phone: phone) else {
+            return .error(CMError.registration(message: ErrorMessage.phoneMissing.rawValue))
+        }
         
         let methodAPIType = MethodAPIType.firstStep(phone: phone, captchaCode: captchaCode, isDebugMode: isDebugMode)
         
