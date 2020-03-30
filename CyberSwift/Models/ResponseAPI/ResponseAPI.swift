@@ -129,7 +129,7 @@ public struct ResponseAPIRegistrationFirstStep: Decodable {
 public struct ResponseAPIRegistrationFirstStepEmail: Decodable {
     public let nextEmailRetry: String
     public let currentState: String
-    public let code: UInt64?
+    public let code: String?
 }
 
 // MARK: - API `registration.verify`
