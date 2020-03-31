@@ -173,14 +173,15 @@ extension RestAPIManager {
     
     /// set userName
     public func setUserName(_ name: String) -> Single<ResponseAPIRegistrationSetUsername> {
-        let phone: String? = Config.currentUser?.phoneNumber
-        let identity: String? = Config.currentUser?.identity
+        let phone = Config.currentUser?.phoneNumber
+        let identity = Config.currentUser?.identity
+        let email = Config.currentUser?.email
 
-        if phone == nil && identity == nil {
-            return .error(CMError.registration(message: ErrorMessage.phoneMissing.rawValue))
+        if phone == nil && identity == nil && email == nil {
+            return .error(CMError.registration(message: ErrorMessage.identityMissing.rawValue))
         }
         
-        let methodAPIType = MethodAPIType.setUser(name: name, phone: phone, identity: identity)
+        let methodAPIType = MethodAPIType.setUser(name: name, phone: phone, identity: identity, email: email)
         
         return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIRegistrationSetUsername>)
             .map { result in
@@ -188,12 +189,17 @@ extension RestAPIManager {
                     throw CMError.registration(message: ErrorMessage.couldNotCreateUserId.rawValue)
                 }
                 
-                try KeychainManager.save([
+                var dataToSave: [String: Any] = [
                     Config.registrationStepKey: CurrentUserRegistrationStep.toBlockChain.rawValue,
-                    Config.registrationUserPhoneKey: phone,
                     Config.currentUserNameKey: name,
                     Config.currentUserIDKey: userId
-                ])
+                ]
+                
+                dataToSave[Config.registrationUserPhoneKey] = phone
+                dataToSave[Config.currentUserEmailKey] = email
+                dataToSave[Config.currentUserIdentityKey] = identity
+                
+                try KeychainManager.save(dataToSave)
 
                 return result
         }
@@ -205,11 +211,12 @@ extension RestAPIManager {
             return .error(CMError.registration(message: ErrorMessage.userIdOrUsernameIsMissing.rawValue))
         }
 
-        var phone: String? = Config.currentUser?.phoneNumber
-        let identity: String? = Config.currentUser?.identity
+        var phone = Config.currentUser?.phoneNumber
+        let identity = Config.currentUser?.identity
+        let email = Config.currentUser?.email
 
-        if phone == nil && identity == nil {
-            return .error(CMError.registration(message: ErrorMessage.userIdOrUsernameIsMissing.rawValue))
+        if phone == nil && identity == nil && email == nil {
+            return .error(CMError.registration(message: ErrorMessage.identityMissing.rawValue))
         }
 
         if let userPhone = phone {
@@ -218,7 +225,7 @@ extension RestAPIManager {
         
         let masterKey = password ?? String.randomString(length: 51)
         let userkeys = generateKeys(userId: userID, masterKey: masterKey)
-        let methodAPIType = MethodAPIType.toBlockChain(phone: phone, userID: userID, userName: userName, keys: userkeys, identity: identity)
+        let methodAPIType = MethodAPIType.toBlockChain(phone: phone, userID: userID, userName: userName, keys: userkeys, identity: identity, email: email)
         
         return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIRegistrationToBlockChain>)
             .map { result -> ResponseAPIRegistrationToBlockChain in

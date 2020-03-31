@@ -16,6 +16,7 @@ public enum ErrorMessage: String {
     case couldNotRetrieveChainInfo = "could not retrieve chain info"
     case couldNotRetrieveUserIdentity = "could not retrieve user identity"
     case emailMissing = "email missing"
+    case identityMissing = "identity missing"
     case invalidStepTaken = "Invalid step taken"
     case jsonConversionFailed = "JSON conversion failed"
     case jsonParsingFailed = "JSON parsing failed"

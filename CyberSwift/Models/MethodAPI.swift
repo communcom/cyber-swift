@@ -257,7 +257,7 @@ public indirect enum MethodAPIType {
     case verifyEmail(email: String, code: String)
     
     //  The third step of registration, account verification
-    case setUser(name: String, phone: String?, identity: String?)
+    case setUser(name: String, phone: String?, identity: String?, email: String?)
 
     //  Re-send of the confirmation code (for the smsToUser strategy)
     case resendSmsCode(phone: String)
@@ -266,7 +266,7 @@ public indirect enum MethodAPIType {
     
     //  The last step of registration, entry in the blockchain
 //    case toBlockChain(user: String, keys: [String: UserKeys])
-    case toBlockChain(phone: String?, userID: String, userName: String, keys: [String: UserKeys], identity: String?)
+    case toBlockChain(phone: String?, userID: String, userName: String, keys: [String: UserKeys], identity: String?, email: String?)
     
     //  Onboarding step to force user to subscribe to at least 3 communities
     case onboardingCommunitySubscriptions(userId: String, communityIds: [String])
@@ -716,16 +716,11 @@ public indirect enum MethodAPIType {
                      parameters:        ["email": email, "code": code])
             
         //  { "id": 4, "jsonrpc": "2.0", "method": "registration.setUsername", "params": { "username": "tester", "phone": "+70000000000" }}
-        case .setUser(let name, let phoneValue, let identity):
+        case .setUser(let name, let phone, let identity, let email):
             var params = ["username": name]
-
-            if let phone = phoneValue {
-                params["phone"] = phone
-            }
-
-            if let identity = identity {
-                params["identity"] = identity
-            }
+            params["phone"] = phone
+            params["identity"] = identity
+            params["email"] = email
 
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.registration.rawValue,
@@ -747,16 +742,13 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.registration.rawValue,
                      methodName:        "resendEmailCode",
                      parameters:        ["email": email])
-        case .toBlockChain(let phoneValue, let userIdValue, let userNameValue, let keysValues, let identity):
+            
+        case .toBlockChain(let phone, let userIdValue, let userNameValue, let keysValues, let identity, let email):
             var parameters = ["userId": userIdValue, "username": userNameValue]
-
-            if let phone = phoneValue {
-                parameters["phone"] = phone
-            }
-
-            if let identity = identity {
-                parameters["identity"] = identity
-            }
+            
+            parameters["phone"] = phone
+            parameters["identity"] = identity
+            parameters["email"] = email
 
             if let ownerUserKey = keysValues["owner"] {
                 parameters["publicOwnerKey"] = ownerUserKey.publicKey
