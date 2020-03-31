@@ -254,7 +254,7 @@ public indirect enum MethodAPIType {
     //  Second registration step, account verification
     case verify(phone: String, code: UInt64)
     
-    case verifyEmail(email: String, code: UInt64)
+    case verifyEmail(email: String, code: String)
     
     //  The third step of registration, account verification
     case setUser(name: String, phone: String?, identity: String?)

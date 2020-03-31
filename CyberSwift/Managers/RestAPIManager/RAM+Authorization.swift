@@ -116,7 +116,7 @@ extension RestAPIManager {
         }
     }
     
-    public func verifyEmail(code: UInt64) -> Single<ResponseAPIRegistrationVerify> {
+    public func verifyEmail(code: String) -> Single<ResponseAPIRegistrationVerify> {
         guard let email = Config.currentUser?.email else {
             return .error(CMError.registration(message: ErrorMessage.emailMissing.rawValue))
         }
