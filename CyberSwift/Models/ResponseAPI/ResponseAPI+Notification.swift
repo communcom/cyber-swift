@@ -16,7 +16,7 @@ public struct ResponseAPIGetNotifications: Decodable {
 
 public struct ResponseAPIGetNotificationItem: ListItemType {
     public static var empty: ResponseAPIGetNotificationItem {
-        ResponseAPIGetNotificationItem(id: "", eventType: "", timestamp: "", community: nil, userId: nil, author: nil, user: nil, isNew: false, voter: nil, entityType: nil, post: nil, comment: nil, from: nil, amount: nil, pointType: nil, tracery: nil)
+        ResponseAPIGetNotificationItem(id: "", eventType: "", timestamp: "", community: nil, userId: nil, author: nil, user: nil, referral: nil, isNew: false, voter: nil, entityType: nil, post: nil, comment: nil, from: nil, amount: nil, pointType: nil, tracery: nil, percent: nil)
     }
     
     public let id: String
@@ -26,6 +26,7 @@ public struct ResponseAPIGetNotificationItem: ListItemType {
     public let userId: String?
     public let author: ResponseAPIContentGetProfile?
     public let user: ResponseAPIContentGetProfile?
+    public let referral: From?
     public var isNew: Bool
     public let voter: ResponseAPIContentGetProfile?
     public let entityType: String?
@@ -35,12 +36,13 @@ public struct ResponseAPIGetNotificationItem: ListItemType {
     public let amount: String?
     public let pointType: String?
     public let tracery: String?
+    public let percent: Int?
     
     public var identity: String {id}
     
     public func newUpdatedItem(from item: ResponseAPIGetNotificationItem) -> ResponseAPIGetNotificationItem? {
         guard item.identity == self.identity else {return nil}
-        return ResponseAPIGetNotificationItem(id: id, eventType: item.eventType, timestamp: item.timestamp, community: item.community ?? community, userId: item.userId ?? userId, author: item.author ?? author, user: item.user ?? self.user, isNew: item.isNew, voter: item.voter ?? self.voter, entityType: item.entityType ?? entityType, post: item.post ?? post, comment: item.comment ?? comment, from: item.from ?? self.from, amount: item.amount ?? self.amount, pointType: item.pointType ?? self.pointType, tracery: item.tracery ?? self.tracery)
+        return ResponseAPIGetNotificationItem(id: id, eventType: item.eventType, timestamp: item.timestamp, community: item.community ?? community, userId: item.userId ?? userId, author: item.author ?? author, user: item.user ?? self.user, referral: self.referral, isNew: item.isNew, voter: item.voter ?? self.voter, entityType: item.entityType ?? entityType, post: item.post ?? post, comment: item.comment ?? comment, from: item.from ?? self.from, amount: item.amount ?? self.amount, pointType: item.pointType ?? self.pointType, tracery: item.tracery ?? self.tracery, percent: self.percent)
     }
 
     public struct From: Encodable, ListItemType {
