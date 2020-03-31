@@ -36,6 +36,7 @@ public enum ErrorMessage: String {
     case userNotFound = "user not found"
     case unsupportedDataType = "unsupported data type"
     case unsupportedTypeOfPost = "unsupported type of post"
+    case wrongVerificationCode = "wrong verification code"
     case youMustSubscribeToAtLeast3Communities = "you must subscribe to at least 3 communities"
 }
 
