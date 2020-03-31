@@ -83,6 +83,7 @@
 		BC99B65E23E185D2004AA74E /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC99B65D23E185D2004AA74E /* Double+Extensions.swift */; };
 		BCA97132236178E600AE37E1 /* ResponseAPIContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA97131236178E600AE37E1 /* ResponseAPIContent.swift */; };
 		BCA971342361798000AE37E1 /* ResponseAPI+Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA971332361798000AE37E1 /* ResponseAPI+Profile.swift */; };
+		BCAB47092433549B00912D20 /* RAM+Referral.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAB47082433549B00912D20 /* RAM+Referral.swift */; };
 		BCB2A6F4235588EA00B3582B /* ResponseAPIContentGetComments.json in Resources */ = {isa = PBXBuildFile; fileRef = BCB2A6F3235588EA00B3582B /* ResponseAPIContentGetComments.json */; };
 		BCB2A6F62355897A00B3582B /* Decodable+MockObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB2A6F52355897A00B3582B /* Decodable+MockObjects.swift */; };
 		BCCE0A9E2367DD3A00A183AA /* RAM+Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE0A9D2367DD3A00A183AA /* RAM+Profile.swift */; };
@@ -187,6 +188,7 @@
 		BC99B65D23E185D2004AA74E /* Double+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extensions.swift"; sourceTree = "<group>"; };
 		BCA97131236178E600AE37E1 /* ResponseAPIContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseAPIContent.swift; sourceTree = "<group>"; };
 		BCA971332361798000AE37E1 /* ResponseAPI+Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Profile.swift"; sourceTree = "<group>"; };
+		BCAB47082433549B00912D20 /* RAM+Referral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Referral.swift"; sourceTree = "<group>"; };
 		BCB2A6F3235588EA00B3582B /* ResponseAPIContentGetComments.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ResponseAPIContentGetComments.json; sourceTree = "<group>"; };
 		BCB2A6F52355897A00B3582B /* Decodable+MockObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+MockObjects.swift"; sourceTree = "<group>"; };
 		BCCE0A9D2367DD3A00A183AA /* RAM+Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Profile.swift"; sourceTree = "<group>"; };
@@ -243,6 +245,7 @@
 				BC06A99C23E7C6A8000B690E /* RAM+Search.swift */,
 				BC753FFB24235D3A000616B5 /* RAM+Settings.swift */,
 				BC753FFD24236242000616B5 /* RAM+Airdrop.swift */,
+				BCAB47082433549B00912D20 /* RAM+Referral.swift */,
 			);
 			path = RestAPIManager;
 			sourceTree = "<group>";
@@ -678,6 +681,7 @@
 				B17991722269B4290014CB44 /* String+Extensions.swift in Sources */,
 				3B3016B722F1E4D3003CD1BD /* RequestAPITransaction.swift in Sources */,
 				3BE3666722E5CE7C00F84A04 /* SocketManager.swift in Sources */,
+				BCAB47092433549B00912D20 /* RAM+Referral.swift in Sources */,
 				3BB342B622CB7591009546B2 /* CurrentUser.swift in Sources */,
 				BC7470BE2412029900BD4CB3 /* NotificationsManager.swift in Sources */,
 				BC52913E2378FE910022EC7F /* RAM+Content.swift in Sources */,

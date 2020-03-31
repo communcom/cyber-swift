@@ -109,13 +109,4 @@ extension RestAPIManager {
             resolveNestedComments: nil)
         return executeGetRequest(methodAPIType: methodAPIType)
     }
-    
-    // MARK: - Referal
-    public func getReferralUsers(
-        offset: UInt                    = 0,
-        limit: UInt                     = UInt(Config.paginationLimit)
-    ) -> Single<ResponseAPIContentGetReferralUsers> {
-        let methodAPIType = MethodAPIType.getReferralUsers(limit: limit, offset: offset)
-        return executeGetRequest(methodAPIType: methodAPIType)
-    }
 }
