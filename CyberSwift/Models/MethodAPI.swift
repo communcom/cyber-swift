@@ -41,7 +41,7 @@ public enum MethodAPIGroup: String {
     case airdrop            =   "airdrop"
 }
 
-public enum FeedTypeMode: String {
+public enum FeedTypeMode: String, Codable {
     case new                    =   "new"
     case community              =   "community"
     case subscriptions          =   "subscriptions"
@@ -68,7 +68,7 @@ public enum FeedTypeMode: String {
     }
 }
 
-public enum FeedTimeFrameMode: String {
+public enum FeedTimeFrameMode: String, Codable {
     case day                =   "day"
     case week               =   "week"
     case month              =   "month"
@@ -91,7 +91,7 @@ public enum FeedTimeFrameMode: String {
     }
 }
 
-public enum FeedSortMode: String {
+public enum FeedSortMode: String, Codable {
     case time               =   "time"
     case timeDesc           =   "timeDesc"
 }
@@ -345,7 +345,6 @@ public indirect enum MethodAPIType {
                      methodName:        "getProfile",
                      parameters:        params)
 
-            //TODO: offset and limit should be added?
         case .getBlacklist(let userId, let type, _, _):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
@@ -437,7 +436,7 @@ public indirect enum MethodAPIType {
                      parameters:        ["limit": limit, "offset": offset])
             
         case .appendReferralParent(let refferalId, let phone, let identity, let email, let userId):
-            var params: [String: Encodable] = ["referralId" : refferalId]
+            var params: [String: Encodable] = ["referralId": refferalId]
             params["phone"] = phone
             params["identity"] = identity
             params["email"] = email
