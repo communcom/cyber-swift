@@ -268,6 +268,8 @@ public struct ResponseAPIContentId: Decodable, Equatable {
 
 public struct ResponseAPIContentMeta: Decodable, Equatable {
     public let creationTime: String
+    public let updateTime: String?
+    public let trxId: String?
 }
 
 // MARK: - API `content.waitForTransaction`
