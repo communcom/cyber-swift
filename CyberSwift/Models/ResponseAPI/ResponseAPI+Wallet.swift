@@ -67,8 +67,8 @@ public struct ResponseAPIWalletGetTransferHistory: Decodable {
 
 public struct ResponseAPIWalletGetTransferHistoryItem: ListItemType {
     public let id: String
-    public let sender: ResponseAPIWalletGetTransferHistorySender
-    public let receiver: ResponseAPIWalletGetTransferHistoryReceiver
+    public let sender: ResponseAPIWalletGetTransferHistoryProfile
+    public let receiver: ResponseAPIWalletGetTransferHistoryProfile
     public let quantity: String
     public let symbol: String
     public let point: ResponseAPIWalletGetTransferHistoryPoint
@@ -76,13 +76,14 @@ public struct ResponseAPIWalletGetTransferHistoryItem: ListItemType {
     public let memo: String?
     public let timestamp: String
     public let meta: ResponseAPIWalletGetTransferHistoryMeta
+    public let referral: ResponseAPIWalletGetTransferHistoryProfile?
     
     public var identity: String {
         return id
     }
     
     public func newUpdatedItem(from item: ResponseAPIWalletGetTransferHistoryItem) -> ResponseAPIWalletGetTransferHistoryItem? {
-        ResponseAPIWalletGetTransferHistoryItem(id: item.id, sender: item.sender, receiver: item.receiver, quantity: item.quantity, symbol: item.symbol, point: item.point, trxId: item.trxId, memo: item.memo, timestamp: item.timestamp, meta: item.meta)
+        ResponseAPIWalletGetTransferHistoryItem(id: item.id, sender: item.sender, receiver: item.receiver, quantity: item.quantity, symbol: item.symbol, point: item.point, trxId: item.trxId, memo: item.memo ?? self.memo, timestamp: item.timestamp, meta: item.meta, referral: item.referral ?? self.referral)
     }
     
     public var quantityValue: Double {
@@ -90,13 +91,7 @@ public struct ResponseAPIWalletGetTransferHistoryItem: ListItemType {
     }
 }
 
-public struct ResponseAPIWalletGetTransferHistorySender: Codable, Equatable {
-    public let userId: String
-    public let username: String?
-    public let avatarUrl: String?
-}
-
-public struct ResponseAPIWalletGetTransferHistoryReceiver: Codable, Equatable {
+public struct ResponseAPIWalletGetTransferHistoryProfile: Codable, Equatable {
     public let userId: String
     public let username: String?
     public let avatarUrl: String?
