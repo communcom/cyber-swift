@@ -21,7 +21,7 @@ extension ResponseAPIContentGetComment {
         let votes = ResponseAPIContentVotes(upCount: 0, downCount: 0)
         self.votes = votes
 
-        let meta = ResponseAPIContentMeta(creationTime: Date().toString())
+        let meta = ResponseAPIContentMeta(creationTime: Date().toString(), updateTime: nil, trxId: nil)
         self.meta = meta
 
         self.childCommentsCount = 0
