@@ -75,6 +75,14 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
     
     public func newUpdatedItem(from item: ResponseAPIContentGetPost) -> ResponseAPIContentGetPost? {
         guard self.identity == item.identity else {return nil}
+        var topExplanation = self.topExplanation
+        if topExplanation != .hidden {
+            topExplanation = item.topExplanation ?? self.topExplanation
+        }
+        var bottomExplanation = self.bottomExplanation
+        if bottomExplanation != .hidden {
+            bottomExplanation = item.bottomExplanation ?? self.bottomExplanation
+        }
         return ResponseAPIContentGetPost(
             document: item.document,
             votes: item.votes,
@@ -88,8 +96,8 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
             viewsCount: item.viewsCount ?? self.viewsCount,
             mosaic: item.mosaic ?? self.mosaic,
             sendingState: item.sendingState ?? self.sendingState,
-            topExplanation: item.topExplanation ?? self.topExplanation,
-            bottomExplanation: item.bottomExplanation ?? self.bottomExplanation
+            topExplanation: topExplanation,
+            bottomExplanation: bottomExplanation
         )
     }
 }
@@ -260,6 +268,8 @@ public struct ResponseAPIContentId: Decodable, Equatable {
 
 public struct ResponseAPIContentMeta: Decodable, Equatable {
     public let creationTime: String
+    public let updateTime: String?
+    public let trxId: String?
 }
 
 // MARK: - API `content.waitForTransaction`
