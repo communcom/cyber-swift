@@ -362,7 +362,7 @@ public indirect enum MethodAPIType {
             if type != .new {
                 parameters["sortBy"]        = sortBy?.rawValue
             }
-            if type == .topLikes || type == .topComments || type == .topRewards {
+            if type == .topLikes || type == .topComments || type == .topRewards || type == .subscriptionsPopular {
                 parameters["timeframe"]     = timeframe?.rawValue
             }
             parameters["limit"]             = limit
