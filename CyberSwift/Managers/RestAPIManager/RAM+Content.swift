@@ -13,7 +13,7 @@ extension RestAPIManager {
     // MARK: - Posts
     // API `content.getPosts`
     public func getPosts(
-        userId: String?,
+        userId: String? = Config.currentUser?.id,
         communityId: String?,
         communityAlias: String? = nil,
         allowNsfw: Bool = false,
