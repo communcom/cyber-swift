@@ -24,7 +24,7 @@ public class RestAPIManager {
     public static let instance = RestAPIManager()
     private init() {}
     
-    public lazy var markedAsViewedPosts = Set<ResponseAPIContentGetPost.Identity>()
+        public lazy var markedAsViewedPosts = Set<ResponseAPIContentGetPost.Identity>()
     
     var currentId = 0
     
