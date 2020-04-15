@@ -366,8 +366,7 @@ extension BlockchainManager {
                 message.notifyChanged()
             })
     }
-    
-    
+        
     // MARK: - Helpers
     private func deleteMessageWithCommunCode(_ communCode: String, permlink: String) -> Completable {
         guard let author = Config.currentUser?.id else {
@@ -382,10 +381,11 @@ extension BlockchainManager {
             .observeOn(MainScheduler.instance)
     }
     
-    private func vote(voteType: VoteActionType,
-                     communityId: String,
-                     author: String,
-                     permlink: String) -> Completable {
+    private func vote(
+        voteType: VoteActionType,
+        communityId: String,
+        author: String,permlink: String
+    ) -> Completable {
         return EOSManager.vote(voteType: voteType,
                                communityId: communityId,
                                author: author,
