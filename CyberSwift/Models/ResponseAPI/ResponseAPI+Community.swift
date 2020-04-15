@@ -161,3 +161,10 @@ public struct ResponseAPIContentGetLeader: ListItemType {
         )
     }
 }
+
+extension ResponseAPIContentGetLeader {
+    mutating func setIsVoted(_ value: Bool) {
+        guard value != isVoted else {return}
+        isVoted = value
+    }
+}

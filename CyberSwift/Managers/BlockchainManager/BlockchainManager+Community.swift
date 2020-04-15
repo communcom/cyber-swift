@@ -88,6 +88,44 @@ extension BlockchainManager {
         return EOSManager.unhideCommunity(args)
     }
     
+    // MARK: - Leaders
+    public func toggleVoteLeader(leader: ResponseAPIContentGetLeader) -> Completable {
+        let originIsVoted = leader.isVoted ?? false
+        
+        // set value
+        var leader = leader
+        leader.setIsVoted(!originIsVoted)
+        leader.isBeingVoted = true
+        
+        // notify change
+        leader.notifyChanged()
+        
+        // send request
+        let request: Single<String>
+//        request = Single<String>.just("")
+//            .delay(0.8, scheduler: MainScheduler.instance)
+        if originIsVoted {
+            // unvote
+            request = BlockchainManager.instance.unvoteLeader(communityId: leader.communityId ?? "", leader: leader.userId)
+        } else {
+            request = BlockchainManager.instance.voteLeader(communityId: leader.communityId ?? "", leader: leader.userId)
+        }
+        
+        return request
+            .flatMapCompletable { RestAPIManager.instance.waitForTransactionWith(id: $0) }
+            .do(onError: { (_) in
+                // reverse change
+                // re-enable state
+                leader.setIsVoted(originIsVoted)
+                leader.isBeingVoted = false
+                leader.notifyChanged()
+            }, onCompleted: {
+                // re-enable state
+                leader.isBeingVoted = false
+                leader.notifyChanged()
+            })
+    }
+    
     // MARK: - Helpers
     private func followCommunity(_ communityId: String) -> Single<String> {
         // Check user authorize
