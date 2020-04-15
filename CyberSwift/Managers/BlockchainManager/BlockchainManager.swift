@@ -18,31 +18,6 @@ public class BlockchainManager {
     private let communCurrencyName = Config.defaultSymbol
 
     // MARK: - Users Contracts
-    public func updateProfile(params: [String: String], waitForTransaction: Bool = true) -> Completable {
-        // Check user authorize
-        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
-            return .error(CMError.unauthorized())
-        }
-
-        let userProfileAccountmetaArgs = EOSArgument.UserProfileAccountmetaArgs(json: params)
-
-        let userProfileMetaArgs = EOSArgument.UpdateUser(accountValue: userID,
-                                                                           metaValue: userProfileAccountmetaArgs)
-
-        return EOSManager.update(userProfileMetaArgs: userProfileMetaArgs)
-            .do(onSuccess: { _ in
-                // update profile
-                if let url = params["avatar_url"] {
-                    UserDefaults.standard.set(url, forKey: Config.currentUserAvatarUrlKey)
-                }
-            })
-            .flatMapCompletable({ (transaction) -> Completable in
-                if !waitForTransaction {return .empty()}
-                return RestAPIManager.instance.waitForTransactionWith(id: transaction)
-            })
-            .observeOn(MainScheduler.instance)
-    }
-
     public func follow(_ userToFollow: String, isUnfollow: Bool = false) -> Single<String> {
         // Check user authorize
         guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {

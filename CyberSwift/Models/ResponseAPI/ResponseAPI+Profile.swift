@@ -7,6 +7,48 @@
 //
 
 import Foundation
+import RxSwift
+
+public protocol ProfileType: ListItemType {
+    var userId: String {get}
+    var username: String {get}
+    var isSubscribed: Bool? {get set}
+    var subscribersCount: Int64? {get set}
+    var identity: String {get}
+    var isBeingToggledFollow: Bool? {get set}
+    var isInBlacklist: Bool? {get set}
+}
+
+extension ProfileType {
+    static var followedEventName: String {"Followed"}
+    static var unfollowedEventName: String {"Unfollowed"}
+    
+    mutating func setIsSubscribed(_ value: Bool) {
+        guard value != isSubscribed
+        else {return}
+        isSubscribed = value
+        var subscribersCount: Int64 = (self.subscribersCount ?? 0)
+        if value == false && subscribersCount == 0 {subscribersCount = 0} else {
+            if value == true {
+                subscribersCount += 1
+            } else {
+                subscribersCount -= 1
+            }
+        }
+        self.subscribersCount = subscribersCount
+    }
+    
+    public static func observeProfileFollowed() -> Observable<Self> {
+        observeEvent(eventName: followedEventName)
+    }
+    
+    public static func observeProfileUnfollowed() -> Observable<Self> {
+        observeEvent(eventName: unfollowedEventName)
+    }
+}
+
+extension ResponseAPIContentGetProfile: ProfileType {}
+extension ResponseAPIContentGetLeader: ProfileType {}
 
 // MARK: - QrCode
 public struct QrCodeDecodedProfile: Decodable {
