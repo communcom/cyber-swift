@@ -324,6 +324,12 @@ public class BlockchainManager {
                                                                            metaValue: userProfileAccountmetaArgs)
 
         return EOSManager.update(userProfileMetaArgs: userProfileMetaArgs)
+            .do(onSuccess: { _ in
+                // update profile
+                if let url = userProfile["avatar_url"] {
+                    UserDefaults.standard.set(url, forKey: Config.currentUserAvatarUrlKey)
+                }
+            })
     }
 
     public func follow(_ userToFollow: String, isUnfollow: Bool = false) -> Single<String> {

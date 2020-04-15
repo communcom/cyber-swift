@@ -29,6 +29,13 @@ extension RestAPIManager {
         let methodAPIType = MethodAPIType.getProfile(user: user)
 
         return executeGetRequest(methodAPIType: methodAPIType)
+            .do(onSuccess: { (profile) in
+                if profile.userId == Config.currentUser?.id,
+                    let urlString = profile.avatarUrl
+                {
+                    UserDefaults.standard.set(urlString, forKey: Config.currentUserAvatarUrlKey)
+                }
+            })
     }
     
     // API `content.getComments` by user
