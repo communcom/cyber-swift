@@ -384,7 +384,8 @@ extension BlockchainManager {
     private func vote(
         voteType: VoteActionType,
         communityId: String,
-        author: String,permlink: String
+        author: String,
+        permlink: String
     ) -> Completable {
         return EOSManager.vote(voteType: voteType,
                                communityId: communityId,

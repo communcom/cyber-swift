@@ -80,6 +80,36 @@ extension BlockchainManager {
             })
     }
     
-    // MARK: - Helpers
+    // MARK: - Block
+    public func block(_ userToBlock: String) -> Single<String> {
+        // Check user authorize
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
+            return .error(CMError.unauthorized())
+        }
+
+        let args = EOSArgument.BlockUser(blocker: userID, blocking: userToBlock)
+        return follow(userToBlock, isUnfollow: true)
+            .flatMap {_ in EOSManager.block(args: args)}
+    }
     
+    public func unblock(_ userToUnblock: String) -> Single<String> {
+        // Check user authorize
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
+            return .error(CMError.unauthorized())
+        }
+
+        let args = EOSArgument.BlockUser(blocker: userID, blocking: userToUnblock)
+        return EOSManager.unblock(args: args)
+    }
+    
+    // MARK: - Helpers
+    private func follow(_ userToFollow: String, isUnfollow: Bool = false) -> Single<String> {
+        // Check user authorize
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
+            return .error(CMError.unauthorized())
+        }
+
+        let pinArgs = EOSArgument.PinUser(pinnerValue: userID, pinningValue: userToFollow)
+        return EOSManager.updateUserProfile(pinArgs: pinArgs, isUnpin: isUnfollow)
+    }
 }
