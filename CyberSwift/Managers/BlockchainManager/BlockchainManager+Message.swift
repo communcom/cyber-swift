@@ -314,7 +314,7 @@ extension BlockchainManager {
         message.notifyChanged()
         
         // send request
-        return BlockchainManager.instance.vote(
+        return vote(
             voteType: originHasUpVote ? .unvote: .upvote,
             communityId: message.community?.communityId ?? "",
             author: message.contentId.userId,
@@ -348,7 +348,7 @@ extension BlockchainManager {
         message.notifyChanged()
         
         // send request
-        return BlockchainManager.instance.vote(
+        return vote(
             voteType: originHasDownVote ? .unvote: .downvote,
             communityId: message.community?.communityId ?? "",
             author: message.contentId.userId,
