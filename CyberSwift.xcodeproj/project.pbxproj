@@ -57,6 +57,7 @@
 		BC08E8BE2403769A00436A5C /* ResponseAPIContentGetCommunity+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC08E8BD2403769A00436A5C /* ResponseAPIContentGetCommunity+Extensions.swift */; };
 		BC0AE7382446B176005EFF02 /* BlockchainManager+Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0AE7372446B176005EFF02 /* BlockchainManager+Message.swift */; };
 		BC0AE73C2446BB33005EFF02 /* BlockchainManager+Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0AE73B2446BB33005EFF02 /* BlockchainManager+Profile.swift */; };
+		BC0AE73E2446C054005EFF02 /* BlockchainManager+Community.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0AE73D2446C054005EFF02 /* BlockchainManager+Community.swift */; };
 		BC18FA1523D54B5A005DC7E3 /* ResponseAPI+Exchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC18FA1423D54B5A005DC7E3 /* ResponseAPI+Exchange.swift */; };
 		BC18FA1723D54B8B005DC7E3 /* RAM+Exchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC18FA1623D54B8B005DC7E3 /* RAM+Exchange.swift */; };
 		BC286C3923A2371600801A26 /* UIImageCodable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC286C3823A2371600801A26 /* UIImageCodable+Extensions.swift */; };
@@ -164,6 +165,7 @@
 		BC08E8BD2403769A00436A5C /* ResponseAPIContentGetCommunity+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPIContentGetCommunity+Extensions.swift"; sourceTree = "<group>"; };
 		BC0AE7372446B176005EFF02 /* BlockchainManager+Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BlockchainManager+Message.swift"; sourceTree = "<group>"; };
 		BC0AE73B2446BB33005EFF02 /* BlockchainManager+Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BlockchainManager+Profile.swift"; sourceTree = "<group>"; };
+		BC0AE73D2446C054005EFF02 /* BlockchainManager+Community.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BlockchainManager+Community.swift"; sourceTree = "<group>"; };
 		BC18FA1423D54B5A005DC7E3 /* ResponseAPI+Exchange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Exchange.swift"; sourceTree = "<group>"; };
 		BC18FA1623D54B8B005DC7E3 /* RAM+Exchange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Exchange.swift"; sourceTree = "<group>"; };
 		BC286C3823A2371600801A26 /* UIImageCodable+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageCodable+Extensions.swift"; sourceTree = "<group>"; };
@@ -417,6 +419,7 @@
 				ACD76C8A23B11684001FAECD /* BlockchainManager.swift */,
 				BC0AE7372446B176005EFF02 /* BlockchainManager+Message.swift */,
 				BC0AE73B2446BB33005EFF02 /* BlockchainManager+Profile.swift */,
+				BC0AE73D2446C054005EFF02 /* BlockchainManager+Community.swift */,
 			);
 			path = BlockchainManager;
 			sourceTree = "<group>";
@@ -703,6 +706,7 @@
 				BC44DBEC238FA99000412F08 /* ResponseAPIContentBlock+Extensions.swift in Sources */,
 				B1C3F858223F98B1005711EF /* Config.swift in Sources */,
 				BC753FFC24235D3A000616B5 /* RAM+Settings.swift in Sources */,
+				BC0AE73E2446C054005EFF02 /* BlockchainManager+Community.swift in Sources */,
 				BC48FC3C23667FB10049C4F4 /* ResponseAPI+Community.swift in Sources */,
 				B179917D2269B4560014CB44 /* GSBase58.swift in Sources */,
 				3B1E901822CDF16B00D7A0C1 /* ICloudManager.swift in Sources */,

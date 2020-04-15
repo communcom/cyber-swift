@@ -78,6 +78,23 @@ public struct ResponseAPIContentGetCommunity: Encodable, ListItemType {
     }
 }
 
+extension ResponseAPIContentGetCommunity {
+    mutating func setIsSubscribed(_ value: Bool) {
+        guard value != isSubscribed
+        else {return}
+        isSubscribed = value
+        var subscribersCount: Int64 = (self.subscribersCount ?? 0)
+        if value == false && subscribersCount == 0 {subscribersCount = 0} else {
+            if value == true {
+                subscribersCount += 1
+            } else {
+                subscribersCount -= 1
+            }
+        }
+        self.subscribersCount = subscribersCount
+    }
+}
+
 public struct ResponseAPIContentGetCommunityRule: Codable, Equatable {
     public let id: String?
     public let title: String?

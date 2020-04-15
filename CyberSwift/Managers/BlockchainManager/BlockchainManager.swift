@@ -18,63 +18,6 @@ public class BlockchainManager {
     private let communCurrencyName = Config.defaultSymbol
 
     // MARK: - Communities Contracts
-    public func followCommunity(_ communityId: String) -> Single<String> {
-        // Check user authorize
-        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
-            return .error(CMError.unauthorized())
-        }
-
-        let followArgs = EOSArgument.FollowUser(
-            communCode: CyberSymbolWriterValue(name: communityId),
-            follower: AccountNameWriterValue(name: userID)
-        )
-
-        return EOSManager.followCommunity(followArgs)
-    }
-
-    public func unfollowCommunity(_ communityId: String) -> Single<String> {
-        // Check user authorize
-        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
-            return .error(CMError.unauthorized())
-        }
-
-        let unFollowArgs = EOSArgument.FollowUser(
-            communCode: CyberSymbolWriterValue(name: communityId),
-            follower: AccountNameWriterValue(name: userID)
-        )
-
-        return EOSManager.unfollowCommunity(unFollowArgs)
-    }
-
-    public func hideCommunity(_ communityId: String) -> Single<String> {
-        // Check user authorize
-        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
-            return .error(CMError.unauthorized())
-        }
-
-        let args = EOSArgument.FollowUser(
-            communCode: CyberSymbolWriterValue(name: communityId),
-            follower: AccountNameWriterValue(name: userID)
-        )
-
-        return unfollowCommunity(communityId)
-            .flatMap {_ in EOSManager.hideCommunity(args)}
-    }
-
-    public func unhideCommunity(_ communityId: String) -> Single<String> {
-        // Check user authorize
-        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
-            return .error(CMError.unauthorized())
-        }
-
-        let args = EOSArgument.FollowUser(
-            communCode: CyberSymbolWriterValue(name: communityId),
-            follower: AccountNameWriterValue(name: userID)
-        )
-
-        return EOSManager.unhideCommunity(args)
-    }
-
     public func voteLeader(communityId: String, leader: String) -> Single<String> {
         // Check user authorize
         guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
