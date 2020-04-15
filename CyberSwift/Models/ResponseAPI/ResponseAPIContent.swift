@@ -30,6 +30,26 @@ public protocol ResponseAPIContentMessageType: ListItemType {
     var sendingState: MessageSendingState? {get set}
 }
 
+extension ResponseAPIContentMessageType {
+    mutating func setHasVote(_ value: Bool, for type: VoteActionType) {
+        // return if nothing changes
+        if type == .upvote && value == votes.hasUpVote {return}
+        if type == .downvote && value == votes.hasDownVote {return}
+        
+        if type == .upvote {
+            let voted = !(votes.hasUpVote ?? false)
+            votes.hasUpVote = voted
+            votes.upCount = (votes.upCount ?? 0) + (voted ? 1: -1)
+        }
+        
+        if type == .downvote {
+            let downVoted = !(votes.hasDownVote ?? false)
+            votes.hasDownVote = downVoted
+            votes.downCount = (votes.downCount ?? 0) + (downVoted ? 1: -1)
+        }
+    }
+}
+
 // MARK: - API `content.getPosts`
 public struct ResponseAPIContentGetPosts: Decodable {
     public let items: [ResponseAPIContentGetPost]?

@@ -299,15 +299,74 @@ extension BlockchainManager {
     }
     
     // MARK: - Vote
-    public func vote(voteType: VoteActionType,
-                     communityId: String,
-                     author: String,
-                     permlink: String) -> Completable {
-        return EOSManager.vote(voteType: voteType,
-                               communityId: communityId,
-                               author: author,
-                               permlink: permlink)
+    public func upvoteMessage<T: ResponseAPIContentMessageType>(
+        _ message: T
+    ) -> Completable {
+        // save original state
+        let originHasUpVote = message.votes.hasUpVote ?? false
+        let originHasDownVote = message.votes.hasDownVote ?? false
+        
+        // change state
+        var message = message
+        message.setHasVote(originHasUpVote ? false: true, for: .upvote)
+        message.setHasVote(false, for: .downvote)
+        message.votes.isBeingVoted = true
+        message.notifyChanged()
+        
+        // send request
+        return BlockchainManager.instance.vote(
+            voteType: originHasUpVote ? .unvote: .upvote,
+            communityId: message.community?.communityId ?? "",
+            author: message.contentId.userId,
+            permlink: message.contentId.permlink
+        )
+            .observeOn(MainScheduler.instance)
+            .do(onError: { (_) in
+                message.setHasVote(originHasUpVote, for: .upvote)
+                message.setHasVote(originHasDownVote, for: .downvote)
+                message.votes.isBeingVoted = false
+                message.notifyChanged()
+            }, onCompleted: {
+                // re-enable state
+                message.votes.isBeingVoted = false
+                message.notifyChanged()
+            })
     }
+    
+    public func downvoteMessage<T: ResponseAPIContentMessageType>(
+        _ message: T
+    ) -> Completable {
+        // save original state
+        let originHasUpVote = message.votes.hasUpVote ?? false
+        let originHasDownVote = message.votes.hasDownVote ?? false
+        
+        // change state
+        var message = message
+        message.setHasVote(originHasDownVote ? false: true, for: .downvote)
+        message.setHasVote(false, for: .upvote)
+        message.votes.isBeingVoted = true
+        message.notifyChanged()
+        
+        // send request
+        return BlockchainManager.instance.vote(
+            voteType: originHasDownVote ? .unvote: .downvote,
+            communityId: message.community?.communityId ?? "",
+            author: message.contentId.userId,
+            permlink: message.contentId.permlink
+        )
+            .observeOn(MainScheduler.instance)
+            .do(onError: { (_) in
+                message.setHasVote(originHasUpVote, for: .upvote)
+                message.setHasVote(originHasDownVote, for: .downvote)
+                message.votes.isBeingVoted = false
+                message.notifyChanged()
+            }, onCompleted: {
+                // re-enable state
+                message.votes.isBeingVoted = false
+                message.notifyChanged()
+            })
+    }
+    
     
     // MARK: - Helpers
     private func deleteMessageWithCommunCode(_ communCode: String, permlink: String) -> Completable {
@@ -321,5 +380,15 @@ extension BlockchainManager {
         )
         return EOSManager.delete(messageArgs: messageDeleteArgs)
             .observeOn(MainScheduler.instance)
+    }
+    
+    private func vote(voteType: VoteActionType,
+                     communityId: String,
+                     author: String,
+                     permlink: String) -> Completable {
+        return EOSManager.vote(voteType: voteType,
+                               communityId: communityId,
+                               author: author,
+                               permlink: permlink)
     }
 }
