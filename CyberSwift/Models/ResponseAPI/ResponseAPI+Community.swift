@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxDataSources
 
 // MARK: - API `content.getCommunities`
 public struct ResponseAPIContentGetCommunities: Decodable {
@@ -95,13 +96,18 @@ extension ResponseAPIContentGetCommunity {
     }
 }
 
-public struct ResponseAPIContentGetCommunityRule: Codable, Equatable {
+public struct ResponseAPIContentGetCommunityRule: Encodable, ListItemType {
     public let id: String?
     public let title: String?
     public let text: String?
+    public var isExpanded: Bool? = false
     
     public var identity: String {
-        return id ?? "\(Int.random(in: 0..<100))"
+        return "Rule#\(id ?? "\(Int.random(in: 0..<100))")"
+    }
+    
+    public func newUpdatedItem(from item: ResponseAPIContentGetCommunityRule) -> ResponseAPIContentGetCommunityRule? {
+        ResponseAPIContentGetCommunityRule(id: item.id ?? id, title: item.title ?? title, text: item.text ?? text, isExpanded: item.isExpanded ?? isExpanded)
     }
 }
 
