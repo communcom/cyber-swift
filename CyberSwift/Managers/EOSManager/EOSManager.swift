@@ -127,7 +127,7 @@ class EOSManager {
 
     // MARK: - c.list
     static func followCommunity(_ followArgs: EOSArgument.FollowUser) -> Single<String> {
-        pushAuthorized(account: .list, name: "follow".localized(), args: followArgs)
+        pushAuthorized(account: .list, name: "follow", args: followArgs)
     }
 
     static func unfollowCommunity(_ unfollowArgs: EOSArgument.FollowUser) -> Single<String> {
