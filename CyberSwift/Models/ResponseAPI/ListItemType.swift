@@ -38,6 +38,7 @@ public extension ListItemType {
                 return true
             }
             .map {$0.object as! Self}
+            .observeOn(MainScheduler.instance)
     }
     
     static func observeItemChanged() -> Observable<Self> {
