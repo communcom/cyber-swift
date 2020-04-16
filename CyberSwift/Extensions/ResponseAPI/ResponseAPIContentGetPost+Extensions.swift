@@ -51,7 +51,6 @@ extension ResponseAPIContentGetPost {
     }
     
     public func markAsViewed() -> Disposable {
-        // communityID / userID / permlink
         RestAPIManager.instance.recordPostView(permlink: contentId.permlink)
             .subscribe(onSuccess: { (_) in
                 let newPost = self
