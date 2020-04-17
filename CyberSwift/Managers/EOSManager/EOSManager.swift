@@ -52,7 +52,7 @@ class EOSManager {
     static func vote(voteType: VoteActionType,
                      communityId: String,
                      author: String,
-                     permlink: String) -> Completable {
+                     permlink: String) -> Single<String> {
         guard let userID = Config.currentUser?.id else {
             return .error(CMError.unauthorized())
         }
@@ -63,7 +63,6 @@ class EOSManager {
                 permlinkValue: permlink)
 
         return pushAuthorized(account: .gallery, name: voteType.rawValue, args: voteArgs)
-                .flatMapToCompletable()
     }
 
     static func create(messageCreateArgs: EOSArgument.CreateContent) -> Single<String> {

@@ -90,7 +90,7 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
     public var bottomExplanation: BottomExplanationType?
     
     public var identity: String {
-        return self.contentId.userId + "/" + self.contentId.permlink
+        return self.contentId.userId + "/" + self.contentId.permlink + "/" + (self.community?.communityId ?? "")
     }
     
     public func newUpdatedItem(from item: ResponseAPIContentGetPost) -> ResponseAPIContentGetPost? {
@@ -123,7 +123,7 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
 }
 
 public struct ResponseAPIContentBlock: Codable, Equatable {
-    public let id: UInt64
+    public let id: UInt64?
     public let type: String
     public var attributes: ResponseAPIContentBlockAttributes?
     public var content: ResponseAPIContentBlockContent
