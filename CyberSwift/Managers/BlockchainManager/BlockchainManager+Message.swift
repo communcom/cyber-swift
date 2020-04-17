@@ -391,6 +391,6 @@ extension BlockchainManager {
                                communityId: communityId,
                                author: author,
                                permlink: permlink)
-            .flatMapCompletable {RestAPIManager.instance.waitForTransactionWith(id: $0)}
+            .flatMapToCompletable() //{RestAPIManager.instance.waitForTransactionWith(id: $0)}
     }
 }

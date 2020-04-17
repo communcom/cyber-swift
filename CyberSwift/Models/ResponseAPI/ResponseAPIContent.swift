@@ -105,7 +105,7 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
         }
         return ResponseAPIContentGetPost(
             document: item.document,
-            votes: item.votes,
+            votes: votes.newUpdatedItem(from: item.votes),
             meta: item.meta, contentId: item.contentId,
             author: item.author ?? self.author,
             stats: item.stats ?? self.stats,
@@ -253,6 +253,10 @@ public struct ResponseAPIContentVotes: Decodable, Equatable {
     public var hasUpVote: Bool? = false
     public var hasDownVote: Bool? = false
     public var isBeingVoted: Bool? = false
+    
+    public func newUpdatedItem(from item: ResponseAPIContentVotes) -> ResponseAPIContentVotes {
+        ResponseAPIContentVotes(upCount: item.upCount ?? upCount, downCount: item.downCount ?? downCount, hasUpVote: item.hasUpVote ?? hasUpVote, hasDownVote: item.hasDownVote ?? hasDownVote, isBeingVoted: item.isBeingVoted ?? isBeingVoted)
+    }
 }
 
 public struct ResponseAPIContentGetPostStats: Decodable, Equatable {
@@ -324,7 +328,7 @@ public struct ResponseAPIContentGetComment: ResponseAPIContentMessageType {
     public func newUpdatedItem(from item: ResponseAPIContentGetComment) -> ResponseAPIContentGetComment? {
         guard item.identity == self.identity else {return nil}
         return ResponseAPIContentGetComment(
-            votes: item.votes,
+            votes: votes.newUpdatedItem(from: item.votes),
             meta: item.meta,
             childCommentsCount: item.childCommentsCount,
             contentId: item.contentId,
