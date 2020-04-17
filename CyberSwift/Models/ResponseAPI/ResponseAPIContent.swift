@@ -255,7 +255,11 @@ public struct ResponseAPIContentVotes: Decodable, Equatable {
     public var isBeingVoted: Bool? = false
     
     public func newUpdatedItem(from item: ResponseAPIContentVotes) -> ResponseAPIContentVotes {
-        ResponseAPIContentVotes(upCount: item.upCount ?? upCount, downCount: item.downCount ?? downCount, hasUpVote: item.hasUpVote ?? hasUpVote, hasDownVote: item.hasDownVote ?? hasDownVote, isBeingVoted: item.isBeingVoted ?? isBeingVoted)
+        if item.isBeingVoted == nil && isBeingVoted == true {
+            return self
+        }
+        
+        return ResponseAPIContentVotes(upCount: item.upCount ?? upCount, downCount: item.downCount ?? downCount, hasUpVote: item.hasUpVote ?? hasUpVote, hasDownVote: item.hasDownVote ?? hasDownVote, isBeingVoted: item.isBeingVoted ?? isBeingVoted)
     }
 }
 
