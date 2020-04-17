@@ -34,7 +34,6 @@ extension RestAPIManager {
         let methodAPIType = MethodAPIType.getPost(userId: userId, username: username, permlink: permlink, communityId: communityId, communityAlias: communityAlias)
         
         return executeGetRequest(methodAPIType: methodAPIType)
-            .do(onSuccess: {$0.notifyChanged()})
     }
     
     // API `content.getComments` by post
