@@ -124,7 +124,7 @@ extension BlockchainManager {
                 leader.isBeingVoted = false
                 leader.notifyChanged()
             })
-            .subscribeOn(MainScheduler.instance)
+            .observeOn(MainScheduler.instance)
     }
     
     // MARK: - Helpers
