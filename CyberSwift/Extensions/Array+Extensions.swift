@@ -29,6 +29,9 @@ extension Sequence where Iterator.Element == ResponseAPIWalletGetBalance {
     public var enquityCommunValue: Double {
         reduce(0, {$0 + $1.communValue})
     }
+    public var equityUSDValue: Double {
+        enquityCommunValue * 0.015
+    }
 }
 
 extension RangeReplaceableCollection where Element: IdentifiableType {

@@ -121,4 +121,6 @@ public struct Config {
     public static let currentDeviceDidSetInfo = "currentDeviceDidSetInfo"
 
     public static let currentDeviceFcmTokenKey = "fcmToken"
+    
+    public static let currentEquityValueIsShowingCMN = "currentEquityValueIsShowingCMN"
 }
