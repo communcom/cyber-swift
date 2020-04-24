@@ -51,8 +51,8 @@ extension RestAPIManager {
         parentCommentPermlink: String?  = nil,
         resolveNestedComments: Bool     = false
     ) -> Single<ResponseAPIContentGetComments> {
-        
         var parentComment: [String: String]?
+        
         if let parentCommentUserId = parentCommentUserId,
             let parentCommentPermlink = parentCommentPermlink {
             parentComment = [
@@ -78,12 +78,12 @@ extension RestAPIManager {
     }
     
     // API `meta.recordPostView`
-    public func recordPostView(permlink: String) -> Single<ResponseAPIStatus> {
+    public func recordPostView(communityID: String, userID: String, permlink: String) -> Single<ResponseAPIStatus> {
         // Check user authorize
-        guard Config.currentUser?.id != nil else { return .error(CMError.unauthorized())}
+        guard Config.currentUser?.id != nil else { return .error(CMError.unauthorized()) }
 
-        let methodAPIType = MethodAPIType.recordPostView(permlink: permlink)
-        
+        let methodAPIType = MethodAPIType.recordPostView(permlink: String(format: "%@/%@/%@", communityID, userID, permlink))
+
         return executeGetRequest(methodAPIType: methodAPIType)
     }
     

@@ -19,6 +19,7 @@ extension ResponseAPIContentGetPost {
     
     public mutating func notifyCommentAdded(_ comment: ResponseAPIContentGetComment) {
         let commentCount = (stats?.commentsCount ?? 0) + 1
+        
         self.stats?.commentsCount = commentCount
         notifyEvent(eventName: Self.commentAddedEventName, object: comment)
         notifyChanged()
@@ -26,6 +27,7 @@ extension ResponseAPIContentGetPost {
     
     public var attachments: [ResponseAPIContentBlock] {
         let type = document?.attributes?.type
+        
         if type == "basic" {
             return content?.first(where: {$0.type == "attachments"})?.content.arrayValue ?? []
         }
@@ -39,6 +41,7 @@ extension ResponseAPIContentGetPost {
     
     public var firstEmbedImageURL: String? {
         let type = document?.attributes?.type
+        
         if type == "basic" {
             return content?.first(where: {$0.type == "attachments"})?.content.arrayValue?.first?.attributes?.thumbnailUrl
         }
@@ -51,12 +54,9 @@ extension ResponseAPIContentGetPost {
     }
     
     public func markAsViewed() -> Disposable {
-        RestAPIManager.instance.recordPostView(permlink: contentId.permlink)
+        RestAPIManager.instance.recordPostView(communityID: contentId.communityId ?? Config.defaultSymbol, userID: contentId.userId, permlink: contentId.permlink)
             .subscribe(onSuccess: { (_) in
-                let newPost = self
-//                newPost.viewsCount = (newPost.viewsCount ?? 0) + 1
-                newPost.notifyChanged()
-                RestAPIManager.instance.markedAsViewedPosts.insert(newPost.identity)
+                self.notifyChanged()
             })
     }
 }
