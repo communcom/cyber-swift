@@ -180,6 +180,9 @@ public indirect enum MethodAPIType {
     
     //  Log out
     case logout
+    
+    //  Sign out??
+    case signout
 
     //  Get the secret authorization to sign
     case generateSecret
@@ -458,6 +461,12 @@ public indirect enum MethodAPIType {
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.auth.rawValue,
                      methodName:        "logout",
+                     parameters:        ["": ""])
+            
+        case .signout:
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.auth.rawValue,
+                     methodName:        "signOut",
                      parameters:        ["": ""])
 
         //  Template { "id": 7, "jsonrpc": "2.0", "method": "auth.generateSecret", "params": { "": "" }}
