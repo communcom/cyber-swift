@@ -90,12 +90,9 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
     public var bottomExplanation: BottomExplanationType?
     
     // Donation
-    public var donations: ResponseAPIWalletGetDonationsBulk?
+    public var donations: ResponseAPIWalletGetDonationsBulkItem?
     public var donationsCount: Int64 {
-        guard let donations = donations else {return 0}
-        return donations.items.reduce(0) { (donationsCount, item) -> Int64 in
-            donationsCount + item.totalAmount
-        }
+        donations?.totalAmount ?? 0
     }
     
     public var identity: String {
