@@ -119,6 +119,8 @@ extension AuthManager {
         // logout
         RestAPIManager.instance.sendMessageIgnoreResponse(methodAPIType: .logout, authorizationRequired: false)
         
+        RestAPIManager.instance.sendMessageIgnoreResponse(methodAPIType: .signout, authorizationRequired: false)
+        
         // Remove in keychain
         try! KeychainManager.deleteUser()
         
