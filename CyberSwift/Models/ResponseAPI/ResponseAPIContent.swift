@@ -91,6 +91,12 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
     
     // Donation
     public var donations: ResponseAPIWalletGetDonationsBulk?
+    public var donationsCount: Int64 {
+        guard let donations = donations else {return 0}
+        return donations.items.reduce(0) { (donationsCount, item) -> Int64 in
+            donationsCount + item.totalAmount
+        }
+    }
     
     public var identity: String {
         return self.contentId.userId + "/" + self.contentId.permlink + "/" + (self.community?.communityId ?? "")
