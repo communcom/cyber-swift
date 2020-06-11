@@ -90,8 +90,7 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
     public var bottomExplanation: BottomExplanationType?
     
     // Donation
-    public var donationCount: Int64?
-    public var donations: [ResponseAPIContentGetProfile]?
+    public var donations: ResponseAPIWalletGetDonationsBulk?
     
     public var identity: String {
         return self.contentId.userId + "/" + self.contentId.permlink + "/" + (self.community?.communityId ?? "")
@@ -122,7 +121,6 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
             sendingState: item.sendingState ?? self.sendingState,
             topExplanation: topExplanation,
             bottomExplanation: bottomExplanation,
-            donationCount: item.donationCount ?? donationCount,
             donations: item.donations ?? donations
         )
     }

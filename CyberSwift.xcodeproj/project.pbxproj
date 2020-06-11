@@ -92,7 +92,6 @@
 		BCCE0A9E2367DD3A00A183AA /* RAM+Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE0A9D2367DD3A00A183AA /* RAM+Profile.swift */; };
 		BCCE66942428BB4C004F47DC /* UIScreen+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE66932428BB4C004F47DC /* UIScreen+Extensions.swift */; };
 		BCCF8AC023E2BDBD004892FF /* ResponseAPI+Rewards.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCF8ABF23E2BDBD004892FF /* ResponseAPI+Rewards.swift */; };
-		BCCF8AC223E2C11B004892FF /* RAM+Rewards.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCF8AC123E2C11B004892FF /* RAM+Rewards.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -200,7 +199,6 @@
 		BCCE0A9D2367DD3A00A183AA /* RAM+Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Profile.swift"; sourceTree = "<group>"; };
 		BCCE66932428BB4C004F47DC /* UIScreen+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScreen+Extensions.swift"; sourceTree = "<group>"; };
 		BCCF8ABF23E2BDBD004892FF /* ResponseAPI+Rewards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Rewards.swift"; sourceTree = "<group>"; };
-		BCCF8AC123E2C11B004892FF /* RAM+Rewards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Rewards.swift"; sourceTree = "<group>"; };
 		F6ED672114DF191DC66860EA /* Pods_CyberSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CyberSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -247,7 +245,6 @@
 				BC9066FB23AA106D000F9A3B /* RAM+Wallet.swift */,
 				BC18FA1623D54B8B005DC7E3 /* RAM+Exchange.swift */,
 				BC518BD723D699390090E145 /* RAM+Device.swift */,
-				BCCF8AC123E2C11B004892FF /* RAM+Rewards.swift */,
 				BC06A99C23E7C6A8000B690E /* RAM+Search.swift */,
 				BC753FFB24235D3A000616B5 /* RAM+Settings.swift */,
 				BC753FFD24236242000616B5 /* RAM+Airdrop.swift */,
@@ -721,7 +718,6 @@
 				B1A74A642243892B009D68E7 /* EOSTransaction.swift in Sources */,
 				B1C3715B23867AAF000BAE2F /* Numbers+Extensions.swift in Sources */,
 				BC753FFE24236242000616B5 /* RAM+Airdrop.swift in Sources */,
-				BCCF8AC223E2C11B004892FF /* RAM+Rewards.swift in Sources */,
 				B17991702269B4070014CB44 /* Array+Extensions.swift in Sources */,
 				B1C3F868223F9907005711EF /* RequestAPI.swift in Sources */,
 				BC08E8BE2403769A00436A5C /* ResponseAPIContentGetCommunity+Extensions.swift in Sources */,
