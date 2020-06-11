@@ -307,6 +307,9 @@ public indirect enum MethodAPIType {
     /// REWARDS
     case rewardsGetStateBulk(posts: [RequestAPIContentId])
     
+    /// DONATIONS
+    case getDonationsBulk(posts: [RequestAPIContentId])
+    
     /// SEARCH
     case quickSearch(queryString: String, entities: [SearchEntityType], limit: UInt)
     
@@ -891,6 +894,13 @@ public indirect enum MethodAPIType {
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.rewards.rawValue,
                      methodName:        "getStateBulk",
+                     parameters:        ["posts": posts])
+            
+        /// DONATIONS
+        case .getDonationsBulk(let posts):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.wallet.rawValue,
+                     methodName:        "getDonationsBulk",
                      parameters:        ["posts": posts])
             
         /// SEARCH
