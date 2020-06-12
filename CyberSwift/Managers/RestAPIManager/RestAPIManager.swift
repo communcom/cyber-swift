@@ -40,9 +40,8 @@ public class RestAPIManager {
     }
     
     /// Prepare method request
-    func prepareGETRequest(requestParamsType: RequestMethodParameters) -> RequestMethodAPIType {
-        
-        let codeID              =   generateUniqueId()
+    func prepareGETRequest(id: Int, requestParamsType: RequestMethodParameters) -> RequestMethodAPIType {
+        let codeID              =   id
         
         let requestAPI          =   RequestAPI(id: codeID,
                                                method: String(format: "%@.%@", requestParamsType.methodGroup, requestParamsType.methodName),
@@ -61,10 +60,19 @@ public class RestAPIManager {
             // Template: { "id": 2, "jsonrpc": "2.0", "method": "content.getProfile", "params": { "userId": "tst3uuqzetwf" }}
             return (id: codeID, requestMessage: jsonString, methodAPIType: requestParamsType.methodAPIType, errorAPI: nil)
         } catch {
-            ErrorLogger.shared.recordError(error, additionalInfo: ["user": Config.currentUser?.id ?? "undefined"])
-            Logger.log(message: "Error: \(error.localizedDescription)", event: .error)
-            
             return (id: codeID, requestMessage: nil, methodAPIType: requestParamsType.methodAPIType, errorAPI: CMError.invalidRequest(message: ErrorMessage.jsonConversionFailed.rawValue))
+        }
+    }
+    
+    func prepareGETRequestSingle(id: Int, requestParamsType: RequestMethodParameters) -> Single<RequestMethodAPIType> {
+        Single.create { single -> Disposable in
+            let requestMethodAPIType = self.prepareGETRequest(id: id, requestParamsType: requestParamsType)
+            if let error = requestMethodAPIType.errorAPI {
+                single(.error(error))
+            } else {
+                single(.success(requestMethodAPIType))
+            }
+            return Disposables.create()
         }
     }
     
@@ -78,14 +86,10 @@ public class RestAPIManager {
         
         // Prepare content request
         let requestParamsType   =   methodAPIType.introduced()
-        let requestMethodAPIType = prepareGETRequest(requestParamsType: requestParamsType)
-
-        if let error = requestMethodAPIType.errorAPI {
-            ErrorLogger.shared.recordError(error, additionalInfo: ["user": Config.currentUser?.id ?? "undefined", "method": methodAPIType.introduced().methodName])
-            return .error(error)
-        }
         
-        return SocketManager.shared.sendRequest(methodAPIType: requestMethodAPIType, timeout: timeout, authorizationRequired: authorizationRequired)
+        let id = generateUniqueId()
+        return prepareGETRequestSingle(id: id, requestParamsType: requestParamsType)
+            .flatMap {SocketManager.shared.sendRequest(methodAPIType: $0, timeout: timeout, authorizationRequired: authorizationRequired)}
             .catchError({ (error) -> Single<T> in
                 ErrorLogger.shared.recordError(error, additionalInfo: ["user": Config.currentUser?.id ?? "undefined", "method": methodAPIType.introduced().methodName])
                 if let error = error as? CMError {
@@ -113,7 +117,9 @@ public class RestAPIManager {
                 
                 throw error
             })
-            .log(method: "\(requestParamsType.methodGroup).\(requestParamsType.methodName)", id: requestMethodAPIType.id)
+            .log(method: "\(requestParamsType.methodGroup).\(requestParamsType.methodName)", id: id)
+            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .userInteractive))
+            .observeOn(MainScheduler.instance)
     }
 
     // MARK: - FACADE-SERVICE
@@ -213,7 +219,8 @@ public class RestAPIManager {
     
     public func sendMessageIgnoreResponse(methodAPIType: MethodAPIType, authorizationRequired: Bool = true) {
         let requestParamsType = methodAPIType.introduced()
-        let requestMethodAPIType = prepareGETRequest(requestParamsType: requestParamsType)
+        let id = generateUniqueId()
+        let requestMethodAPIType = prepareGETRequest(id: id, requestParamsType: requestParamsType)
         SocketManager.shared.sendMessage(requestMethodAPIType, authorizationRequired: authorizationRequired)
     }
 }
