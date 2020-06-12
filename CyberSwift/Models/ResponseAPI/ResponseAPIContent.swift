@@ -89,6 +89,12 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
     public var topExplanation: TopExplanationType?
     public var bottomExplanation: BottomExplanationType?
     
+    // Donation
+    public var donations: ResponseAPIWalletGetDonationsBulkItem?
+    public var donationsCount: Double {
+        donations?.totalAmount ?? 0
+    }
+    
     public var identity: String {
         return self.contentId.userId + "/" + self.contentId.permlink + "/" + (self.community?.communityId ?? "")
     }
@@ -117,7 +123,8 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
             mosaic: item.mosaic ?? self.mosaic,
             sendingState: item.sendingState ?? self.sendingState,
             topExplanation: topExplanation,
-            bottomExplanation: bottomExplanation
+            bottomExplanation: bottomExplanation,
+            donations: item.donations ?? donations
         )
     }
 }

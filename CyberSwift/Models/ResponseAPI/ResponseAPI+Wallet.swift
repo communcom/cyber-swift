@@ -124,3 +124,19 @@ public struct ResponseAPIWalletGetPrice: Codable, Equatable {
         return Double(string) ?? 0
     }
 }
+
+// MARK: - getDonationsBulk
+public struct ResponseAPIWalletGetDonationsBulk: Decodable, Equatable {
+    public var items: [ResponseAPIWalletGetDonationsBulkItem]
+}
+
+public struct ResponseAPIWalletGetDonationsBulkItem: Decodable, Equatable {
+    public var contentId: ResponseAPIContentId
+    public var donations: [ResponseAPIWalletDonation]
+    public var totalAmount: Double
+}
+
+public struct ResponseAPIWalletDonation: Decodable, Equatable {
+    public var quantity: String
+    public var sender: ResponseAPIContentGetProfile
+}
