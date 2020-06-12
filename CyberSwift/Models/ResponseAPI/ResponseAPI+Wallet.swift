@@ -133,11 +133,10 @@ public struct ResponseAPIWalletGetDonationsBulk: Decodable, Equatable {
 public struct ResponseAPIWalletGetDonationsBulkItem: Decodable, Equatable {
     public var contentId: ResponseAPIContentId
     public var donations: [ResponseAPIWalletDonation]
-    public var totalAmount: Int64
+    public var totalAmount: Double
 }
 
 public struct ResponseAPIWalletDonation: Decodable, Equatable {
     public var quantity: String
     public var sender: ResponseAPIContentGetProfile
 }
-

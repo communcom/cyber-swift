@@ -91,7 +91,7 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
     
     // Donation
     public var donations: ResponseAPIWalletGetDonationsBulkItem?
-    public var donationsCount: Int64 {
+    public var donationsCount: Double {
         donations?.totalAmount ?? 0
     }
     
