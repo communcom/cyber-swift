@@ -73,7 +73,7 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
     public var votes: ResponseAPIContentVotes
     public let meta: ResponseAPIContentMeta
     public let contentId: ResponseAPIContentId
-    public let author: ResponseAPIAuthor?
+    public let author: ResponseAPIContentGetProfile?
     public var stats: ResponseAPIContentGetPostStats?
     public let payout: ResponseAPIContentGetPostPayout?
     public var community: ResponseAPIContentGetCommunity?
@@ -324,7 +324,7 @@ public struct ResponseAPIContentGetComment: ResponseAPIContentMessageType {
     public let contentId: ResponseAPIContentId
     public let parents: ResponseAPIContentGetCommentParent
     public var document: ResponseAPIContentBlock?
-    public let author: ResponseAPIAuthor?
+    public let author: ResponseAPIContentGetProfile?
     public let community: ResponseAPIContentGetCommunity?
     public var children: [ResponseAPIContentGetComment]?
     
@@ -356,26 +356,6 @@ public struct ResponseAPIContentGetComment: ResponseAPIContentMessageType {
 
 public struct ResponseAPIContentGetCommentPayout: Decodable {
     public let rShares: UInt64?
-}
-
-public struct ResponseAPIAuthor: Decodable, Equatable {
-    public let userId: String
-    public let username: String?
-    public let avatarUrl: String?
-    public let stats: ResponseAPIAuthorStats?
-    public var isSubscribed: Bool?
-    
-    public init(userId: String, username: String?, avatarUrl: String?, stats: ResponseAPIAuthorStats?, isSubscribed: Bool?) {
-        self.userId = userId
-        self.username = username
-        self.avatarUrl = avatarUrl
-        self.stats = ResponseAPIAuthorStats(reputation: nil)
-        self.isSubscribed = isSubscribed
-    }
-}
-
-public struct ResponseAPIAuthorStats: Decodable, Equatable {
-    public let reputation: Int64?
 }
 
 public struct ResponseAPIContentGetCommentParent: Decodable, Equatable {

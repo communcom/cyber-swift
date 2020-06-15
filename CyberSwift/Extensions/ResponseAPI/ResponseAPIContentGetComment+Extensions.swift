@@ -14,7 +14,7 @@ extension ResponseAPIContentGetComment {
         contentId: ResponseAPIContentId,
         parents: ResponseAPIContentGetCommentParent,
         document: ResponseAPIContentBlock,
-        author: ResponseAPIAuthor,
+        author: ResponseAPIContentGetProfile,
         community: ResponseAPIContentGetCommunity?,
         placeHolderImage: UIImage? = nil
     ) {

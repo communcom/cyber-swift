@@ -114,6 +114,11 @@ public struct ResponseAPIContentGetProfile: Encodable, ListItemType {
             isBeingUnblocked: item.isBeingUnblocked ?? self.isBeingUnblocked
         )
     }
+    
+    public static func with(userId: String, username: String, avatarUrl: String?, stats: ResponseAPIContentGetProfileStat?, isSubscribed: Bool?) -> ResponseAPIContentGetProfile {
+        ResponseAPIContentGetProfile(stats: stats, leaderIn: nil, userId: userId, username: username, avatarUrl: avatarUrl, coverUrl: nil, registration: nil, subscriptions: nil, personal: nil, isSubscribed: isSubscribed)
+    }
+
 }
 
 public struct ResponseAPIContentGetProfileSubscription: Codable, Equatable {
@@ -126,9 +131,9 @@ public struct ResponseAPIContentGetProfileRegistration: Codable, Equatable {
 }
 
 public struct ResponseAPIContentGetProfileStat: Codable, Equatable {
-    public let reputation: Int64
-    public let postsCount: Int64
-    public let commentsCount: Int64
+    public let reputation: Int64?
+    public let postsCount: Int64?
+    public let commentsCount: Int64?
 }
 
 public struct ResponseAPIContentGetProfilePersonal: Codable, Equatable {
