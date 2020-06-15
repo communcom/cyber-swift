@@ -94,6 +94,8 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
     public var donationsCount: Double {
         donations?.totalAmount ?? 0
     }
+    public var showDonator: Bool? = false
+    public var showDonationButtons: Bool? = false
     
     public var identity: String {
         return self.contentId.userId + "/" + self.contentId.permlink + "/" + (self.community?.communityId ?? "")
@@ -124,7 +126,9 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
             sendingState: item.sendingState ?? self.sendingState,
             topExplanation: topExplanation,
             bottomExplanation: bottomExplanation,
-            donations: item.donations ?? donations
+            donations: item.donations ?? donations,
+            showDonator: item.showDonator ?? showDonator,
+            showDonationButtons: item.showDonationButtons ?? showDonationButtons
         )
     }
 }
