@@ -55,12 +55,13 @@ public class BlockchainManager {
     // MARK: - Wallet Contracts
     public func transferPoints(to: String,
                                number: Double,
-                               currency: String) -> Single<String> {
+                               currency: String,
+                               memo: String = "") -> Single<String> {
         guard let userID = Config.currentUser?.id else {
             return .error(CMError.unauthorized())
         }
 
-        let args = EOSArgument.Transfer(fromValue: userID, toValue: to, quantityValue: quantityFormatter(number: number, currency: currency), memoValue: "")
+        let args = EOSArgument.Transfer(fromValue: userID, toValue: to, quantityValue: quantityFormatter(number: number, currency: currency), memoValue: memo)
 
         if currency == communCurrencyName {
             return EOSManager.transferCommunToken(args)
