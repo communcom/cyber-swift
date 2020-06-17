@@ -82,7 +82,7 @@ extension RestAPIManager {
         // Check user authorize
         guard Config.currentUser?.id != nil else { return .error(CMError.unauthorized()) }
 
-        let methodAPIType = MethodAPIType.recordPostView(permlink: String(format: "%@/%@/%@", communityID, userID, permlink))
+        let methodAPIType = MethodAPIType.recordPostView(permlink: communityID + "/" + userID + "/" + permlink)
 
         return executeGetRequest(methodAPIType: methodAPIType)
     }
