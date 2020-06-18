@@ -111,6 +111,10 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
         if bottomExplanation != .hidden {
             bottomExplanation = item.bottomExplanation ?? self.bottomExplanation
         }
+        var showDonationButtons = self.showDonationButtons
+        if showDonationButtons != false {
+            showDonationButtons = item.showDonationButtons ?? self.showDonationButtons
+        }
         return ResponseAPIContentGetPost(
             document: item.document,
             votes: votes.newUpdatedItem(from: item.votes),
@@ -128,7 +132,7 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
             bottomExplanation: bottomExplanation,
             donations: item.donations ?? donations,
             showDonator: item.showDonator ?? showDonator,
-            showDonationButtons: item.showDonationButtons ?? showDonationButtons
+            showDonationButtons: showDonationButtons
         )
     }
 }
