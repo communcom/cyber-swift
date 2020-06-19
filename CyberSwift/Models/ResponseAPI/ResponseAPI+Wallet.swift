@@ -11,7 +11,7 @@ import Foundation
 // MARK: - getBalance
 public struct ResponseAPIWalletGetBalances: Decodable {
     public let userId: String
-    public let balances: [ResponseAPIWalletGetBalance]
+    public var balances: [ResponseAPIWalletGetBalance]
 }
 
 public struct ResponseAPIWalletGetBalance: ListItemType {

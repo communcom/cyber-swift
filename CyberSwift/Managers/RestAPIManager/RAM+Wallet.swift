@@ -33,9 +33,18 @@ extension RestAPIManager {
                 if userId != Config.currentUser?.id || retried {return .just(result)}
 
 //                 open balance when CMN is missing
-                if result.balances.first(where: { $0.symbol == Config.defaultSymbol }) != nil {
+                var result = result
+                if let cmnIndex = result.balances.firstIndex(where: { $0.symbol == Config.defaultSymbol }) {
+                    if cmnIndex > 0 {
+                        let element = result.balances[cmnIndex]
+                        result.balances.remove(at: cmnIndex)
+                        result.balances.insert(element, at: 0)
+                    }
+                } else {
                     BlockchainManager.instance.openCommunityBalance(communityCode: Config.defaultSymbol).subscribe().dispose()
+                    result.balances.insert(ResponseAPIWalletGetBalance(symbol: Config.defaultSymbol, balance: "0", logo: nil, name: nil, frozen: nil, price: nil), at: 0)
                 }
+                
                 return .just(result)
             }
     }
