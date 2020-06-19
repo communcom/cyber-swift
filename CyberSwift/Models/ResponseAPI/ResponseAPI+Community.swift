@@ -51,8 +51,28 @@ public struct ResponseAPIContentGetCommunity: Encodable, ListItemType {
     
     public func newUpdatedItem(from item: ResponseAPIContentGetCommunity) -> ResponseAPIContentGetCommunity? {
         guard item.identity == self.identity else {return nil}
+        
+        // modify community's member count
+        var subscriberCount = max(item.subscribersCount ?? 0, self.subscribersCount ?? 0)
+        if item.isSubscribed == false && isSubscribed == true {
+            if item.subscribersCount == (subscribersCount ?? 0) - 1 {
+                subscriberCount = item.subscribersCount ?? 0
+            } else {
+                subscriberCount -= 1
+            }
+        }
+        
+        if item.isSubscribed == true && isSubscribed == false {
+            if item.subscribersCount == (subscribersCount ?? 0) + 1 {
+                subscriberCount = item.subscribersCount ?? 0
+            } else {
+                subscriberCount += 1
+            }
+        }
+        
+        if subscriberCount < 0 {subscriberCount = 0}
         return ResponseAPIContentGetCommunity(
-            subscribersCount: item.subscribersCount ?? self.subscribersCount,
+            subscribersCount: subscriberCount,
             leadersCount: item.leadersCount ?? self.leadersCount,
             postsCount: item.postsCount ?? self.postsCount,
             communityId: item.communityId,
