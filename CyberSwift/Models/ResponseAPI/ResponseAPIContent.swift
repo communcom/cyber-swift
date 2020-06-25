@@ -28,6 +28,9 @@ public protocol ResponseAPIContentMessageType: ListItemType {
     var community: ResponseAPIContentGetCommunity? {get}
     var contentId: ResponseAPIContentId {get}
     var sendingState: MessageSendingState? {get set}
+    var showDonator: Bool? {get set}
+    var showDonationButtons: Bool? {get set}
+    var donations: ResponseAPIWalletGetDonationsBulkItem? {get set}
 }
 
 extension ResponseAPIContentMessageType {
@@ -47,6 +50,10 @@ extension ResponseAPIContentMessageType {
             votes.hasDownVote = downVoted
             votes.downCount = (votes.downCount ?? 0) + (downVoted ? 1: -1)
         }
+    }
+    
+    public var donationsCount: Double {
+        donations?.totalAmount ?? 0
     }
 }
 
@@ -91,9 +98,6 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
     
     // Donation
     public var donations: ResponseAPIWalletGetDonationsBulkItem?
-    public var donationsCount: Double {
-        donations?.totalAmount ?? 0
-    }
     public var showDonator: Bool? = false
     public var showDonationButtons: Bool? = false
     
@@ -340,12 +344,21 @@ public struct ResponseAPIContentGetComment: ResponseAPIContentMessageType {
     public var placeHolderImage: UIImageDumbDecodable?
     public var sendingState: MessageSendingState? = MessageSendingState.none
     
+    public var donations: ResponseAPIWalletGetDonationsBulkItem?
+    public var showDonator: Bool? = false
+    public var showDonationButtons: Bool? = false
+    
     public var identity: String {
         return self.contentId.userId + "/" + self.contentId.permlink
     }
     
     public func newUpdatedItem(from item: ResponseAPIContentGetComment) -> ResponseAPIContentGetComment? {
         guard item.identity == self.identity else {return nil}
+        var showDonationButtons = self.showDonationButtons
+        if showDonationButtons != false {
+            showDonationButtons = item.showDonationButtons ?? self.showDonationButtons
+        }
+        
         return ResponseAPIContentGetComment(
             votes: votes.newUpdatedItem(from: item.votes),
             meta: item.meta,
@@ -357,7 +370,9 @@ public struct ResponseAPIContentGetComment: ResponseAPIContentMessageType {
             community: item.community ?? self.community,
             children: item.children ?? self.children,
             placeHolderImage: item.placeHolderImage ?? self.placeHolderImage,
-            sendingState: item.sendingState ?? self.sendingState
+            sendingState: item.sendingState ?? self.sendingState,
+            showDonator: item.showDonator ?? self.showDonator,
+            showDonationButtons: showDonationButtons
         )
     }
 }
