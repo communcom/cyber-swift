@@ -59,27 +59,4 @@ extension ResponseAPIContentGetPost {
 //                self.notifyChanged()
             })
     }
-    
-    public func upVote() -> Completable {
-        if contentId.userId == Config.currentUser?.id {
-            return .error(CMError.invalidRequest(message: "can't cancel vote on own publication"))
-        }
-        
-        var modifiedPost = self
-        if modifiedPost.votes.hasUpVote != true {
-            // show donationButtons
-            modifiedPost.showDonationButtons = true
-            modifiedPost.notifyChanged()
-        }
-        
-        return BlockchainManager.instance.upvoteMessage(modifiedPost)
-    }
-    
-    public func downVote() -> Completable {
-        if contentId.userId == Config.currentUser?.id {
-            return .error(CMError.invalidRequest(message: "can't cancel vote on own publication"))
-        }
-        
-        return BlockchainManager.instance.downvoteMessage(self)
-    }
 }
