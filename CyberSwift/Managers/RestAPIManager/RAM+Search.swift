@@ -31,9 +31,10 @@ extension RestAPIManager {
         queryString: String,
         entity: SearchEntityType,
         limit: UInt,
-        offset: UInt
+        offset: UInt,
+        authorizationRequired: Bool = true
     ) -> Single<ResponseAPIContentEntitySearch> {
         let methodAPIType = MethodAPIType.entitySearch(queryString: queryString, entity: entity, limit: limit, offset: offset)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
     }
 }
