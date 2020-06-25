@@ -371,6 +371,7 @@ public struct ResponseAPIContentGetComment: ResponseAPIContentMessageType {
             children: item.children ?? self.children,
             placeHolderImage: item.placeHolderImage ?? self.placeHolderImage,
             sendingState: item.sendingState ?? self.sendingState,
+            donations: item.donations ?? donations,
             showDonator: item.showDonator ?? self.showDonator,
             showDonationButtons: showDonationButtons
         )
