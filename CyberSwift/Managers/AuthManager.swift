@@ -58,6 +58,7 @@ public class AuthManager {
     private func bind() {
         SocketManager.shared.state
             .distinctUntilChanged()
+            .observeOn(MainScheduler.instance)
             .subscribe(onNext: { (event) in
                 Logger.log(message: "SocketManager.state = \(event)", event: .event)
                 switch event {
