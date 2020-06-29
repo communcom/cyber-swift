@@ -630,6 +630,7 @@ public indirect enum MethodAPIType {
             }
             params["offset"] = offset
             params["limit"] = limit
+            params["allowedLanguages"] = ["all"]
             
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
