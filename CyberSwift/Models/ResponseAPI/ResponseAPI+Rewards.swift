@@ -18,6 +18,7 @@ public struct ResponseAPIRewardsGetStateBulkMosaic: Decodable, Equatable {
     public let reward: String
     public let isClosed: Bool
     public let contentId: ResponseAPIContentId
+    public let convertedReward: ResponseAPIRewardsGetStateBulkMosaicConvertedReward?
     
     public var isRewarded: Bool {
         topCount > 0 && rewardDouble > 0
@@ -31,4 +32,9 @@ public struct ResponseAPIRewardsGetStateBulkMosaic: Decodable, Equatable {
         }
         return double
     }
+}
+
+public struct ResponseAPIRewardsGetStateBulkMosaicConvertedReward: Decodable, Equatable {
+    public let usd: String?
+    public let cmn: String?
 }
