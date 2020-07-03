@@ -123,5 +123,5 @@ public struct Config {
     public static let currentDeviceFcmTokenKey = "fcmToken"
     
     public static let currentEquityValueIsShowingCMN = "currentEquityValueIsShowingCMN"
-    public static let currentRewardIsShowingUSD = "currentRewardIsShowingUSD"
+    public static let currentRewardShownSymbol = "currentRewardShownSymbol"
 }
