@@ -21,11 +21,12 @@ extension RestAPIManager {
         sortBy: FeedSortMode? = nil,
         timeframe: FeedTimeFrameMode? = nil,
         limit: UInt = UInt(Config.paginationLimit),
-        offset: UInt = 0
+        offset: UInt = 0,
+        authorizationRequired: Bool = true
     ) -> Single<ResponseAPIContentGetPosts> {
         let methodAPIType = MethodAPIType.getPosts(userId: userId, communityId: communityId, communityAlias: communityAlias, allowNsfw: allowNsfw, type: type, sortBy: sortBy, timeframe: timeframe, limit: limit, offset: offset)
         
-        return executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
     }
     
     // API `content.getPost`
