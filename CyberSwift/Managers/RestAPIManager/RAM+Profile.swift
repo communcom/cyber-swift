@@ -19,7 +19,8 @@ extension RestAPIManager {
     // API `content.getProfile`
     public func getProfile(
         user: String? = nil,
-        appProfileType: AppProfileType = .cyber
+        appProfileType: AppProfileType = .cyber,
+        authorizationRequired: Bool = true
     ) -> Single<ResponseAPIContentGetProfile> {
         
         if user == nil {
@@ -28,7 +29,7 @@ extension RestAPIManager {
         
         let methodAPIType = MethodAPIType.getProfile(user: user)
 
-        return executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
             .do(onSuccess: { (profile) in
                 if profile.userId == Config.currentUser?.id,
                     let urlString = profile.avatarUrl
