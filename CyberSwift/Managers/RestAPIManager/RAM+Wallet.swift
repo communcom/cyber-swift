@@ -51,10 +51,11 @@ extension RestAPIManager {
     
     public func getBuyPrice(
         symbol: String,
-        quantity: String
+        quantity: String,
+        authorizationRequired: Bool = true
     ) -> Single<ResponseAPIWalletGetPrice> {
         let methodAPIType = MethodAPIType.getBuyPrice(pointSymbol: symbol, quantity: quantity)
-        return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIWalletGetPrice>)
+        return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired) as Single<ResponseAPIWalletGetPrice>)
             .map { result in
                 var result = result
                 result.symbol = symbol
