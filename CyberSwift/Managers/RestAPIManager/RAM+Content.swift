@@ -94,7 +94,8 @@ extension RestAPIManager {
         forPost post: ResponseAPIContentId,
         parentComment: ResponseAPIContentId,
         offset: UInt                    = 0,
-        limit: UInt                     = UInt(Config.paginationLimit)
+        limit: UInt                     = UInt(Config.paginationLimit),
+        authorizationRequired: Bool     = true
     ) -> Single<ResponseAPIContentGetComments> {
         let methodAPIType = MethodAPIType.getComments(
             sortBy: .timeDesc,
@@ -110,6 +111,6 @@ extension RestAPIManager {
                 "permlink": parentComment.permlink
             ],
             resolveNestedComments: nil)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
     }
 }
