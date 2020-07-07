@@ -43,7 +43,8 @@ extension RestAPIManager {
         sortBy: CommentSortMode = .time,
         offset: UInt            = 0,
         limit: UInt             = UInt(Config.paginationLimit),
-        userId: String?
+        userId: String?,
+        authorizationRequired: Bool = true
     ) -> Single<ResponseAPIContentGetComments> {
         guard let userId = userId ?? Config.currentUser?.id else {
             return .error(CMError.unauthorized())
@@ -61,7 +62,7 @@ extension RestAPIManager {
             parentComment: nil,
             resolveNestedComments: false)
         
-        return executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
     }
     
     // API basic `options.set`

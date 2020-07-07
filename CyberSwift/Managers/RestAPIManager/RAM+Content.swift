@@ -50,7 +50,8 @@ extension RestAPIManager {
         communityAlias: String?         = nil,
         parentCommentUserId: String?    = nil,
         parentCommentPermlink: String?  = nil,
-        resolveNestedComments: Bool     = false
+        resolveNestedComments: Bool     = false,
+        authorizationRequired: Bool     = true
     ) -> Single<ResponseAPIContentGetComments> {
         var parentComment: [String: String]?
         
@@ -75,7 +76,7 @@ extension RestAPIManager {
             parentComment: parentComment,
             resolveNestedComments: resolveNestedComments)
         
-        return executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
     }
     
     // API `meta.recordPostView`
