@@ -30,11 +30,11 @@ extension RestAPIManager {
     }
     
     // API `content.getPost`
-    public func loadPost(userId: String? = nil, username: String? = nil, permlink: String, communityId: String? = nil, communityAlias: String? = nil) -> Single<ResponseAPIContentGetPost> {
+    public func loadPost(userId: String? = nil, username: String? = nil, permlink: String, communityId: String? = nil, communityAlias: String? = nil, authorizationRequired: Bool = true) -> Single<ResponseAPIContentGetPost> {
         
         let methodAPIType = MethodAPIType.getPost(userId: userId, username: username, permlink: permlink, communityId: communityId, communityAlias: communityAlias)
         
-        return executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
             .do(onSuccess: {$0.notifyChanged()})
     }
     
