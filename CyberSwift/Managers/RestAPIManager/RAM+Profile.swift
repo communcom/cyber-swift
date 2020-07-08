@@ -92,10 +92,11 @@ extension RestAPIManager {
         userId: String?         = Config.currentUser?.id,
         type: GetSubscriptionsType,
         offset: Int             = 0,
-        limit: Int              = 10
+        limit: Int              = 10,
+        authorizationRequired: Bool = true
     ) -> Single<ResponseAPIContentGetSubscriptions> {
         let methodAPIType = MethodAPIType.getSubscriptions(userId: userId, type: type, offset: offset, limit: limit)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
     }
     
     // MARK: - Blacklist
