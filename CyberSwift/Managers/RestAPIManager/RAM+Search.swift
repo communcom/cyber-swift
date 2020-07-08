@@ -13,18 +13,20 @@ extension RestAPIManager {
     public func quickSearch(
         queryString: String,
         entities: [SearchEntityType],
-        limit: UInt
+        limit: UInt,
+        authorizationRequired: Bool = true
     ) -> Single<ResponseAPIContentEntitySearch> {
         let methodAPIType = MethodAPIType.quickSearch(queryString: queryString, entities: entities, limit: limit)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
     }
     
     public func extendedSearch(
         queryString: String,
-        entities: [SearchEntityType: [String: UInt]]
+        entities: [SearchEntityType: [String: UInt]],
+        authorizationRequired: Bool = true
     ) -> Single<ResponseAPIContentExtendedSearch> {
         let methodAPIType = MethodAPIType.extendedSearch(queryString: queryString, entities: entities)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
     }
     
     public func entitySearch(
