@@ -79,12 +79,12 @@ extension RestAPIManager {
     // MARK: - Rewards
     public func rewardsGetStateBulk(posts: [RequestAPIContentId]) -> Single<ResponseAPIRewardsGetStateBulk> {
         let methodAPIType = MethodAPIType.rewardsGetStateBulk(posts: posts)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false)
     }
     
     // MARK: - Donations
     public func getDonationsBulk(posts: [RequestAPIContentId]) -> Single<ResponseAPIWalletGetDonationsBulk> {
         let methodAPIType = MethodAPIType.getDonationsBulk(posts: posts)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false)
     }
 }
