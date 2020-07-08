@@ -124,4 +124,5 @@ public struct Config {
     
     public static let currentEquityValueIsShowingCMN = "currentEquityValueIsShowingCMN"
     public static let currentRewardShownSymbol = "currentRewardShownSymbol"
+    public static let currentUserDidShowWelcomeScreen: String = "currentUserDidShowWelcomeScreen"
 }
