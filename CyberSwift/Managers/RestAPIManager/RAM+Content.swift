@@ -22,9 +22,10 @@ extension RestAPIManager {
         timeframe: FeedTimeFrameMode? = nil,
         limit: UInt = UInt(Config.paginationLimit),
         offset: UInt = 0,
-        authorizationRequired: Bool = true
+        authorizationRequired: Bool = true,
+        allowedLanguages: [String] = []
     ) -> Single<ResponseAPIContentGetPosts> {
-        let methodAPIType = MethodAPIType.getPosts(userId: userId, communityId: communityId, communityAlias: communityAlias, allowNsfw: allowNsfw, type: type, sortBy: sortBy, timeframe: timeframe, limit: limit, offset: offset)
+        let methodAPIType = MethodAPIType.getPosts(userId: userId, communityId: communityId, communityAlias: communityAlias, allowNsfw: allowNsfw, type: type, sortBy: sortBy, timeframe: timeframe, limit: limit, offset: offset, allowedLanguages: allowedLanguages)
         
         return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
     }
