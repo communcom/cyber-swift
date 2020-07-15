@@ -21,19 +21,21 @@ extension RestAPIManager {
         sortBy: FeedSortMode? = nil,
         timeframe: FeedTimeFrameMode? = nil,
         limit: UInt = UInt(Config.paginationLimit),
-        offset: UInt = 0
+        offset: UInt = 0,
+        authorizationRequired: Bool = true,
+        allowedLanguages: [String] = []
     ) -> Single<ResponseAPIContentGetPosts> {
-        let methodAPIType = MethodAPIType.getPosts(userId: userId, communityId: communityId, communityAlias: communityAlias, allowNsfw: allowNsfw, type: type, sortBy: sortBy, timeframe: timeframe, limit: limit, offset: offset)
+        let methodAPIType = MethodAPIType.getPosts(userId: userId, communityId: communityId, communityAlias: communityAlias, allowNsfw: allowNsfw, type: type, sortBy: sortBy, timeframe: timeframe, limit: limit, offset: offset, allowedLanguages: allowedLanguages)
         
-        return executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
     }
     
     // API `content.getPost`
-    public func loadPost(userId: String? = nil, username: String? = nil, permlink: String, communityId: String? = nil, communityAlias: String? = nil) -> Single<ResponseAPIContentGetPost> {
+    public func loadPost(userId: String? = nil, username: String? = nil, permlink: String, communityId: String? = nil, communityAlias: String? = nil, authorizationRequired: Bool = true) -> Single<ResponseAPIContentGetPost> {
         
         let methodAPIType = MethodAPIType.getPost(userId: userId, username: username, permlink: permlink, communityId: communityId, communityAlias: communityAlias)
         
-        return executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
             .do(onSuccess: {$0.notifyChanged()})
     }
     
@@ -49,7 +51,8 @@ extension RestAPIManager {
         communityAlias: String?         = nil,
         parentCommentUserId: String?    = nil,
         parentCommentPermlink: String?  = nil,
-        resolveNestedComments: Bool     = false
+        resolveNestedComments: Bool     = false,
+        authorizationRequired: Bool     = true
     ) -> Single<ResponseAPIContentGetComments> {
         var parentComment: [String: String]?
         
@@ -74,7 +77,7 @@ extension RestAPIManager {
             parentComment: parentComment,
             resolveNestedComments: resolveNestedComments)
         
-        return executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
     }
     
     // API `meta.recordPostView`
@@ -92,7 +95,8 @@ extension RestAPIManager {
         forPost post: ResponseAPIContentId,
         parentComment: ResponseAPIContentId,
         offset: UInt                    = 0,
-        limit: UInt                     = UInt(Config.paginationLimit)
+        limit: UInt                     = UInt(Config.paginationLimit),
+        authorizationRequired: Bool     = true
     ) -> Single<ResponseAPIContentGetComments> {
         let methodAPIType = MethodAPIType.getComments(
             sortBy: .timeDesc,
@@ -108,6 +112,6 @@ extension RestAPIManager {
                 "permlink": parentComment.permlink
             ],
             resolveNestedComments: nil)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
     }
 }

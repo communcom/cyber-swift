@@ -19,7 +19,8 @@ extension RestAPIManager {
     // API `content.getProfile`
     public func getProfile(
         user: String? = nil,
-        appProfileType: AppProfileType = .cyber
+        appProfileType: AppProfileType = .cyber,
+        authorizationRequired: Bool = true
     ) -> Single<ResponseAPIContentGetProfile> {
         
         if user == nil {
@@ -28,7 +29,7 @@ extension RestAPIManager {
         
         let methodAPIType = MethodAPIType.getProfile(user: user)
 
-        return executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
             .do(onSuccess: { (profile) in
                 if profile.userId == Config.currentUser?.id,
                     let urlString = profile.avatarUrl
@@ -43,7 +44,8 @@ extension RestAPIManager {
         sortBy: CommentSortMode = .time,
         offset: UInt            = 0,
         limit: UInt             = UInt(Config.paginationLimit),
-        userId: String?
+        userId: String?,
+        authorizationRequired: Bool = true
     ) -> Single<ResponseAPIContentGetComments> {
         guard let userId = userId ?? Config.currentUser?.id else {
             return .error(CMError.unauthorized())
@@ -61,7 +63,7 @@ extension RestAPIManager {
             parentComment: nil,
             resolveNestedComments: false)
         
-        return executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
     }
     
     // API basic `options.set`
