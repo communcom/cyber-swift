@@ -106,6 +106,7 @@ extension BlockchainManager {
         case violence = "Violence"
         case falseNews = "False News"
         case terrorism = "Terrorism"
+        case breaksCommunityRules = "Breaks Community rules"
         case hateSpeech = "Hate Speech"
         case unauthorizedSales = "Unauthorized Sales"
         case abuse = "Attempt to abuse"
