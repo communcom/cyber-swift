@@ -31,6 +31,7 @@ public protocol ResponseAPIContentMessageType: ListItemType {
     var showDonator: Bool? {get set}
     var showDonationButtons: Bool? {get set}
     var donations: ResponseAPIWalletGetDonationsBulkItem? {get set}
+    var author: ResponseAPIContentGetProfile? {get}
 }
 
 extension ResponseAPIContentMessageType {
