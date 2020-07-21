@@ -109,7 +109,7 @@ extension BlockchainManager {
         case breaksCommunityRules = "Breaks Community rules"
         case hateSpeech = "Hate Speech"
         case unauthorizedSales = "Unauthorized Sales"
-        case abuse = "Attempt to abuse"
+        case abuse = "Abuse"
         case other = "Other"
     }
 }
