@@ -126,4 +126,6 @@ public struct Config {
     public static let currentRewardShownSymbol = "currentRewardShownSymbol"
     public static let currentUserDidShowWelcomeScreen = "currentUserDidShowWelcomeScreen"
     public static let currentUserFeedLanguage = "currentUserFeedLanguage"
+    
+    public static let currentUserGetProfileKey = "currentUserGetProfileKey"
 }
