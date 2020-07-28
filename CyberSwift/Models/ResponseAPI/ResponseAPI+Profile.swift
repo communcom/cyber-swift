@@ -164,6 +164,8 @@ public struct ResponseAPIContentGetProfileContact: Codable, Equatable {
     public var facetime: String?
     public var facebookMessenger: String?
     public var linkedIn: String?
+    
+    public init() {}
 }
 
 public struct ResponseAPIContentGetProfileSubscribers: Decodable {
