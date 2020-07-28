@@ -152,18 +152,18 @@ public struct ResponseAPIContentGetProfileBlacklist: Decodable {
 }
 
 public struct ResponseAPIContentGetProfileContact: Codable, Equatable {
-    public let facebook: String?
-    public let telegram: String?
-    public let whatsApp: String?
-    public let weChat: String?
-    public let twitter: String?
-    public let youtube: String?
-    public let instagram: String?
-    public let github: String?
-    public let email: String?
-    public let facetime: String?
-    public let facebookMessenger: String?
-    public let linkedIn: String?
+    public var facebook: String?
+    public var telegram: String?
+    public var whatsApp: String?
+    public var weChat: String?
+    public var twitter: String?
+    public var youtube: String?
+    public var instagram: String?
+    public var github: String?
+    public var email: String?
+    public var facetime: String?
+    public var facebookMessenger: String?
+    public var linkedIn: String?
 }
 
 public struct ResponseAPIContentGetProfileSubscribers: Decodable {
