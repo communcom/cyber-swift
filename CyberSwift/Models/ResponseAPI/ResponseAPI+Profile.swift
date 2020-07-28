@@ -156,6 +156,14 @@ public struct ResponseAPIContentGetProfileContact: Codable, Equatable {
     public let telegram: String?
     public let whatsApp: String?
     public let weChat: String?
+    public let twitter: String?
+    public let youtube: String?
+    public let instagram: String?
+    public let github: String?
+    public let email: String?
+    public let facetime: String?
+    public let facebookMessenger: String?
+    public let linkedIn: String?
 }
 
 public struct ResponseAPIContentGetProfileSubscribers: Decodable {
