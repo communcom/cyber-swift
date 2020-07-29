@@ -137,7 +137,7 @@ public struct ResponseAPIContentGetProfileStat: Codable, Equatable {
 }
 
 public struct ResponseAPIContentGetProfilePersonal: Codable, Equatable {
-    public let contacts: ResponseAPIContentGetProfileContact?
+    public let contacts: ResponseAPIContentGetProfileContacts?
     public let biography: String?
 }
 
@@ -151,21 +151,68 @@ public struct ResponseAPIContentGetProfileBlacklist: Decodable {
     public var communityIds: [String]
 }
 
-public struct ResponseAPIContentGetProfileContact: Codable, Equatable {
-    public var facebook: String?
-    public var telegram: String?
-    public var whatsApp: String?
-    public var weChat: String?
-    public var twitter: String?
-    public var youtube: String?
-    public var instagram: String?
-    public var github: String?
+public struct ResponseAPIContentGetProfileContacts: Codable, Equatable {
+    public var facebook: ResponseAPIContentGetProfileContact?
+    public var telegram: ResponseAPIContentGetProfileContact?
+    public var whatsApp: ResponseAPIContentGetProfileContact?
+    public var weChat: ResponseAPIContentGetProfileContact?
+    public var firstName: String?
+    public var lastName: String?
+    public var country: String?
+    public var city: String?
+    public var birthDate: String?
+    public var instagram: ResponseAPIContentGetProfileContact?
+    public var linkedin: ResponseAPIContentGetProfileContact?
+    public var twitter: ResponseAPIContentGetProfileContact?
+    public var gitHub: ResponseAPIContentGetProfileContact?
+    public var websiteUrl: String?
+    public var youtube: ResponseAPIContentGetProfileContact?
     public var email: String?
-    public var facetime: String?
-    public var facebookMessenger: String?
-    public var linkedIn: String?
+    public var facetime: ResponseAPIContentGetProfileContact?
+    public var facebookMessenger: ResponseAPIContentGetProfileContact?
     
     public init() {}
+}
+
+public struct ResponseAPIContentGetProfileContact: Codable, Equatable {
+    public var stringValue: String?
+    public var value: String?
+    public var `default`: Bool?
+    
+    // Where we determine what type the value is
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let string = try container.decode(String.self)
+        
+        let properString = string.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+        
+        if let data = properString.data(using: .utf8),
+            let dict = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+        {
+            value = dict["value"] as? String
+            `default` = dict["default"] as? Bool
+            return
+        }
+        
+        stringValue = string
+    }
+    
+    // We need to go back to a dynamic type, so based on the data we have stored, encode to the proper type
+    enum CodingKeys: String, CodingKey {
+        case value
+        case `default`
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        if let string = stringValue {
+            var container = encoder.singleValueContainer()
+            try container.encode(string)
+        }
+        
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(value, forKey: .value)
+        try container.encode(`default`, forKey: .default)
+    }
 }
 
 public struct ResponseAPIContentGetProfileSubscribers: Decodable {
