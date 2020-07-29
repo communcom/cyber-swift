@@ -132,6 +132,25 @@ public struct ResponseAPIContentGetProfile: Encodable, ListItemType {
         UserDefaults.standard.rx.observe(Data.self, Config.currentUserGetProfileKey)
             .map {$0 == nil ? nil : try? JSONDecoder().decode(ResponseAPIContentGetProfile.self, from: $0!)}
     }
+    
+    public static func updateCurrentUserProfile(
+        avatarUrl: String? = nil,
+        coverUrl: String? = nil,
+        bio: String? = nil
+    ) {
+        var profile = ResponseAPIContentGetProfile.current
+        if let avatarUrl = avatarUrl {
+            profile?.avatarUrl = avatarUrl
+        }
+        if let coverUrl = coverUrl {
+            profile?.coverUrl = coverUrl
+        }
+        if let bio = bio {
+            profile?.personal?.biography = bio
+        }
+        guard let data = try? JSONEncoder().encode(profile) else {return}
+        UserDefaults.standard.set(data, forKey: Config.currentUserGetProfileKey)
+    }
 }
 
 public struct ResponseAPIContentGetProfileSubscription: Codable, Equatable {
