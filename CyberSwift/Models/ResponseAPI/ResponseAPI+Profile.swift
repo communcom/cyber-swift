@@ -119,6 +119,14 @@ public struct ResponseAPIContentGetProfile: Encodable, ListItemType {
         ResponseAPIContentGetProfile(stats: stats, leaderIn: nil, userId: userId, username: username, avatarUrl: avatarUrl, coverUrl: nil, registration: nil, subscriptions: nil, personal: nil, isSubscribed: isSubscribed)
     }
 
+    public static var current: ResponseAPIContentGetProfile? {
+        guard let data = UserDefaults.standard.data(forKey: Config.currentUserGetProfileKey),
+            let profile = try? JSONDecoder().decode(ResponseAPIContentGetProfile.self, from: data)
+        else {
+            return nil
+        }
+        return profile
+    }
 }
 
 public struct ResponseAPIContentGetProfileSubscription: Codable, Equatable {
