@@ -139,6 +139,17 @@ public struct ResponseAPIContentGetProfileStat: Codable, Equatable {
 public struct ResponseAPIContentGetProfilePersonal: Codable, Equatable {
     public var contacts: ResponseAPIContentGetProfileContacts?
     public var biography: String?
+    public var firstName: String?
+    public var lastName: String?
+    public var country: String?
+    public var city: String?
+    public var birthDate: String?
+    
+    public var fullName: String? {
+        if firstName == nil && lastName == nil {return nil}
+        if firstName == nil {return lastName}
+        return firstName! + (lastName == nil ? "" : " \(lastName!)")
+    }
 }
 
 public struct ResponseAPIContentGetProfileSubscriber: Codable, Equatable {
@@ -156,11 +167,6 @@ public struct ResponseAPIContentGetProfileContacts: Codable, Equatable {
     public var telegram: ResponseAPIContentGetProfileContact?
     public var whatsApp: ResponseAPIContentGetProfileContact?
     public var weChat: ResponseAPIContentGetProfileContact?
-    public var firstName: String?
-    public var lastName: String?
-    public var country: String?
-    public var city: String?
-    public var birthDate: String?
     public var instagram: ResponseAPIContentGetProfileContact?
     public var linkedin: ResponseAPIContentGetProfileContact?
     public var twitter: ResponseAPIContentGetProfileContact?
@@ -170,12 +176,6 @@ public struct ResponseAPIContentGetProfileContacts: Codable, Equatable {
     public var email: ResponseAPIContentGetProfileContact?
     public var facetime: ResponseAPIContentGetProfileContact?
     public var facebookMessenger: ResponseAPIContentGetProfileContact?
-    
-    public var fullName: String? {
-        if firstName == nil && lastName == nil {return nil}
-        if firstName == nil {return lastName}
-        return firstName! + (lastName == nil ? "" : " \(lastName!)")
-    }
     
     public init() {}
 }
