@@ -127,6 +127,11 @@ public struct ResponseAPIContentGetProfile: Encodable, ListItemType {
         }
         return profile
     }
+    
+    public static var observeCurrentProfile: Observable<ResponseAPIContentGetProfile?> {
+        UserDefaults.standard.rx.observe(Data.self, Config.currentUserGetProfileKey)
+            .map {$0 == nil ? nil : try? JSONDecoder().decode(ResponseAPIContentGetProfile.self, from: $0!)}
+    }
 }
 
 public struct ResponseAPIContentGetProfileSubscription: Codable, Equatable {
