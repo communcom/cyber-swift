@@ -171,6 +171,12 @@ public struct ResponseAPIContentGetProfileContacts: Codable, Equatable {
     public var facetime: ResponseAPIContentGetProfileContact?
     public var facebookMessenger: ResponseAPIContentGetProfileContact?
     
+    public var fullName: String? {
+        if firstName == nil && lastName == nil {return nil}
+        if firstName == nil {return lastName}
+        return firstName! + (lastName == nil ? "" : " \(lastName!)")
+    }
+    
     public init() {}
 }
 
