@@ -185,6 +185,11 @@ public struct ResponseAPIContentGetProfileContact: Codable, Equatable {
     public var value: String?
     public var `default`: Bool?
     
+    public init(value: String?, default: Bool?) {
+        self.value = value
+        self.default = `default`
+    }
+    
     // Where we determine what type the value is
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
