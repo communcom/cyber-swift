@@ -64,8 +64,8 @@ public struct ResponseAPIContentGetProfile: Encodable, ListItemType {
     public let leaderIn: [String]?
     public let userId: String
     public let username: String
-    public let avatarUrl: String?
-    public let coverUrl: String?
+    public var avatarUrl: String?
+    public var coverUrl: String?
     public let registration: ResponseAPIContentGetProfileRegistration?
     public var subscribers: ResponseAPIContentGetProfileSubscriber?
     public let subscriptions: ResponseAPIContentGetProfileSubscription?
