@@ -144,6 +144,7 @@ public struct ResponseAPIContentGetProfilePersonal: Codable, Equatable {
     public var country: String?
     public var city: String?
     public var birthDate: String?
+    public var websiteUrl: String?
     
     public var fullName: String? {
         if firstName == nil && lastName == nil {return nil}
@@ -171,7 +172,6 @@ public struct ResponseAPIContentGetProfileContacts: Codable, Equatable {
     public var linkedin: ResponseAPIContentGetProfileContact?
     public var twitter: ResponseAPIContentGetProfileContact?
     public var gitHub: ResponseAPIContentGetProfileContact?
-    public var websiteUrl: ResponseAPIContentGetProfileContact?
     public var youtube: ResponseAPIContentGetProfileContact?
     public var email: ResponseAPIContentGetProfileContact?
     public var facetime: ResponseAPIContentGetProfileContact?
