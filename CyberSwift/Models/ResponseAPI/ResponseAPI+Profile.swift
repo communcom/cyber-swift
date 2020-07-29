@@ -69,7 +69,7 @@ public struct ResponseAPIContentGetProfile: Encodable, ListItemType {
     public let registration: ResponseAPIContentGetProfileRegistration?
     public var subscribers: ResponseAPIContentGetProfileSubscriber?
     public let subscriptions: ResponseAPIContentGetProfileSubscription?
-    public let personal: ResponseAPIContentGetProfilePersonal?
+    public var personal: ResponseAPIContentGetProfilePersonal?
     public var isInBlacklist: Bool?
     public var isSubscribed: Bool?
     public var isSubscription: Bool?
@@ -137,8 +137,8 @@ public struct ResponseAPIContentGetProfileStat: Codable, Equatable {
 }
 
 public struct ResponseAPIContentGetProfilePersonal: Codable, Equatable {
-    public let contacts: ResponseAPIContentGetProfileContacts?
-    public let biography: String?
+    public var contacts: ResponseAPIContentGetProfileContacts?
+    public var biography: String?
 }
 
 public struct ResponseAPIContentGetProfileSubscriber: Codable, Equatable {
