@@ -220,21 +220,21 @@ public struct ResponseAPIContentGetProfilePersonal: Codable, Equatable {
     
     public var filledLinks: [LinkType: ResponseAPIContentGetProfileContact] {
         var filledLinks = [LinkType: ResponseAPIContentGetProfileContact]()
-        filledLinks[.twitter] = twitter
-        filledLinks[.facebook] = facebook
-        filledLinks[.instagram] = instagram
-        filledLinks[.linkedin] = linkedin
-        filledLinks[.github] = gitHub
+        if twitter?.value != nil {filledLinks[.twitter] = twitter}
+        if facebook?.value != nil {filledLinks[.facebook] = facebook}
+        if instagram?.value != nil {filledLinks[.instagram] = instagram}
+        if linkedin?.value != nil {filledLinks[.linkedin] = linkedin}
+        if gitHub?.value != nil {filledLinks[.github] = gitHub}
         return filledLinks
     }
     
     public var unfilledLinks: [LinkType] {
         var unfilledLinks = [LinkType]()
-        if twitter == nil {unfilledLinks.append(.twitter)}
-        if facebook == nil {unfilledLinks.append(.facebook)}
-        if instagram == nil {unfilledLinks.append(.instagram)}
-        if linkedin == nil {unfilledLinks.append(.linkedin)}
-        if gitHub == nil {unfilledLinks.append(.github)}
+        if twitter?.value == nil {unfilledLinks.append(.twitter)}
+        if facebook?.value == nil {unfilledLinks.append(.facebook)}
+        if instagram?.value == nil {unfilledLinks.append(.instagram)}
+        if linkedin?.value == nil {unfilledLinks.append(.linkedin)}
+        if gitHub?.value == nil {unfilledLinks.append(.github)}
         return unfilledLinks
     }
     public init() {}
@@ -255,7 +255,6 @@ public struct ResponseAPIContentGetProfileContacts: Codable, Equatable {
     public var whatsApp: ResponseAPIContentGetProfileContact?
     public var weChat: ResponseAPIContentGetProfileContact?
 
-    
     public init() {}
 }
 
