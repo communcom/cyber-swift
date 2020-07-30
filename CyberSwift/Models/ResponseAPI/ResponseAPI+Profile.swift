@@ -169,34 +169,7 @@ public struct ResponseAPIContentGetProfileStat: Codable, Equatable {
 }
 
 public struct ResponseAPIContentGetProfilePersonal: Codable, Equatable {
-    public var contacts: ResponseAPIContentGetProfileContacts?
-    public var biography: String?
-    public var firstName: String?
-    public var lastName: String?
-    public var country: String?
-    public var city: String?
-    public var birthDate: String?
-    public var websiteUrl: String?
-    
-    public var fullName: String? {
-        if firstName == nil && lastName == nil {return nil}
-        if firstName == nil {return lastName}
-        return firstName! + (lastName == nil ? "" : " \(lastName!)")
-    }
-}
-
-public struct ResponseAPIContentGetProfileSubscriber: Codable, Equatable {
-    public var usersCount: Int64?
-    public let communitiesCount: Int64?
-}
-
-public struct ResponseAPIContentGetProfileBlacklist: Decodable {
-    public var userIds: [String]
-    public var communityIds: [String]
-}
-
-public struct ResponseAPIContentGetProfileContacts: Codable, Equatable {
-    public enum ContactType: String {
+    public enum LinkType: String {
         public enum IdentifyType: String {
             case phoneNumber = "phone number"
             case username = "username"
@@ -225,17 +198,28 @@ public struct ResponseAPIContentGetProfileContacts: Codable, Equatable {
         }
     }
     
+    public var contacts: ResponseAPIContentGetProfileContacts?
+    public var biography: String?
+    public var firstName: String?
+    public var lastName: String?
+    public var country: String?
+    public var city: String?
+    public var birthDate: String?
+    public var websiteUrl: String?
     public var facebook: ResponseAPIContentGetProfileContact?
-    public var telegram: ResponseAPIContentGetProfileContact?
-    public var whatsApp: ResponseAPIContentGetProfileContact?
-    public var weChat: ResponseAPIContentGetProfileContact?
+    public var twitter: ResponseAPIContentGetProfileContact?
     public var instagram: ResponseAPIContentGetProfileContact?
     public var linkedin: ResponseAPIContentGetProfileContact?
-    public var twitter: ResponseAPIContentGetProfileContact?
     public var gitHub: ResponseAPIContentGetProfileContact?
     
-    public var filledLinks: [ContactType: ResponseAPIContentGetProfileContact] {
-        var filledLinks = [ContactType: ResponseAPIContentGetProfileContact]()
+    public var fullName: String? {
+        if firstName == nil && lastName == nil {return nil}
+        if firstName == nil {return lastName}
+        return firstName! + (lastName == nil ? "" : " \(lastName!)")
+    }
+    
+    public var filledLinks: [LinkType: ResponseAPIContentGetProfileContact] {
+        var filledLinks = [LinkType: ResponseAPIContentGetProfileContact]()
         filledLinks[.twitter] = twitter
         filledLinks[.facebook] = facebook
         filledLinks[.instagram] = instagram
@@ -244,8 +228,8 @@ public struct ResponseAPIContentGetProfileContacts: Codable, Equatable {
         return filledLinks
     }
     
-    public var unfilledLinks: [ContactType] {
-        var unfilledLinks = [ContactType]()
+    public var unfilledLinks: [LinkType] {
+        var unfilledLinks = [LinkType]()
         if twitter == nil {unfilledLinks.append(.twitter)}
         if facebook == nil {unfilledLinks.append(.facebook)}
         if instagram == nil {unfilledLinks.append(.instagram)}
@@ -253,6 +237,24 @@ public struct ResponseAPIContentGetProfileContacts: Codable, Equatable {
         if gitHub == nil {unfilledLinks.append(.github)}
         return unfilledLinks
     }
+    public init() {}
+}
+
+public struct ResponseAPIContentGetProfileSubscriber: Codable, Equatable {
+    public var usersCount: Int64?
+    public let communitiesCount: Int64?
+}
+
+public struct ResponseAPIContentGetProfileBlacklist: Decodable {
+    public var userIds: [String]
+    public var communityIds: [String]
+}
+
+public struct ResponseAPIContentGetProfileContacts: Codable, Equatable {
+    public var telegram: ResponseAPIContentGetProfileContact?
+    public var whatsApp: ResponseAPIContentGetProfileContact?
+    public var weChat: ResponseAPIContentGetProfileContact?
+
     
     public init() {}
 }
