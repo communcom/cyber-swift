@@ -204,10 +204,6 @@ public struct ResponseAPIContentGetProfileContacts: Codable, Equatable {
     public var linkedin: ResponseAPIContentGetProfileContact?
     public var twitter: ResponseAPIContentGetProfileContact?
     public var gitHub: ResponseAPIContentGetProfileContact?
-    public var youtube: ResponseAPIContentGetProfileContact?
-    public var email: ResponseAPIContentGetProfileContact?
-    public var facetime: ResponseAPIContentGetProfileContact?
-    public var facebookMessenger: ResponseAPIContentGetProfileContact?
     
     public init() {}
 }
