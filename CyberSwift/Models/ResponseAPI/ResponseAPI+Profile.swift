@@ -196,6 +196,35 @@ public struct ResponseAPIContentGetProfileBlacklist: Decodable {
 }
 
 public struct ResponseAPIContentGetProfileContacts: Codable, Equatable {
+    public enum ContactType: String {
+        public enum IdentifyType: String {
+            case phoneNumber = "phone number"
+            case username = "username"
+            case link = "link"
+        }
+        
+        case wechat
+        case facebook
+        case telegram
+        case whatsapp
+        case instagram
+        case linkedin
+        case twitter
+        case github
+        case website_url
+        
+        public var identifiedBy: IdentifyType {
+            switch self {
+            case .wechat, .facebook, .instagram, .linkedin, .twitter, .github:
+                return .username
+            case .telegram, .whatsapp:
+                return .phoneNumber
+            case .website_url:
+                return .link
+            }
+        }
+    }
+    
     public var facebook: ResponseAPIContentGetProfileContact?
     public var telegram: ResponseAPIContentGetProfileContact?
     public var whatsApp: ResponseAPIContentGetProfileContact?
@@ -204,6 +233,26 @@ public struct ResponseAPIContentGetProfileContacts: Codable, Equatable {
     public var linkedin: ResponseAPIContentGetProfileContact?
     public var twitter: ResponseAPIContentGetProfileContact?
     public var gitHub: ResponseAPIContentGetProfileContact?
+    
+    public var filledContacts: [ContactType: ResponseAPIContentGetProfileContact] {
+        var filledContacts = [ContactType: ResponseAPIContentGetProfileContact]()
+        filledContacts[.twitter] = twitter
+        filledContacts[.facebook] = facebook
+        filledContacts[.instagram] = instagram
+        filledContacts[.linkedin] = linkedin
+        filledContacts[.github] = gitHub
+        return filledContacts
+    }
+    
+    public var unfilledContacts: [ContactType] {
+        var unfilledContacts = [ContactType]()
+        if twitter == nil {unfilledContacts.append(.twitter)}
+        if facebook == nil {unfilledContacts.append(.facebook)}
+        if instagram == nil {unfilledContacts.append(.instagram)}
+        if linkedin == nil {unfilledContacts.append(.linkedin)}
+        if gitHub == nil {unfilledContacts.append(.github)}
+        return unfilledContacts
+    }
     
     public init() {}
 }
