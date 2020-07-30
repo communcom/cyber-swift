@@ -169,7 +169,7 @@ public struct ResponseAPIContentGetProfileStat: Codable, Equatable {
 }
 
 public struct ResponseAPIContentGetProfilePersonal: Codable, Equatable {
-    public enum LinkType: String, CaseIterable {
+    public enum LinkType: String {
         public enum IdentifyType: String {
             case phoneNumber = "phone number"
             case username = "username"
@@ -220,17 +220,22 @@ public struct ResponseAPIContentGetProfilePersonal: Codable, Equatable {
     
     public var filledLinks: [LinkType: ResponseAPIContentGetProfileContact] {
         var filledLinks = [LinkType: ResponseAPIContentGetProfileContact]()
-        if twitter?.value?.isEmpty == false {filledLinks[.twitter] = twitter}
-        if facebook?.value?.isEmpty == false {filledLinks[.facebook] = facebook}
-        if instagram?.value?.isEmpty == false {filledLinks[.instagram] = instagram}
-        if linkedin?.value?.isEmpty == false {filledLinks[.linkedin] = linkedin}
-        if gitHub?.value?.isEmpty == false {filledLinks[.github] = gitHub}
+        if twitter?.value != nil {filledLinks[.twitter] = twitter}
+        if facebook?.value != nil {filledLinks[.facebook] = facebook}
+        if instagram?.value != nil {filledLinks[.instagram] = instagram}
+        if linkedin?.value != nil {filledLinks[.linkedin] = linkedin}
+        if gitHub?.value != nil {filledLinks[.github] = gitHub}
         return filledLinks
     }
     
     public var unfilledLinks: [LinkType] {
-        let filledLinks = self.filledLinks
-        return LinkType.allCases.filter {!filledLinks.keys.contains($0)}
+        var unfilledLinks = [LinkType]()
+        if twitter?.value == nil {unfilledLinks.append(.twitter)}
+        if facebook?.value == nil {unfilledLinks.append(.facebook)}
+        if instagram?.value == nil {unfilledLinks.append(.instagram)}
+        if linkedin?.value == nil {unfilledLinks.append(.linkedin)}
+        if gitHub?.value == nil {unfilledLinks.append(.github)}
+        return unfilledLinks
     }
     public init() {}
 }
