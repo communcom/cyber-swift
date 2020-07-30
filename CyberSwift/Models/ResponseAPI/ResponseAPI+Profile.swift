@@ -294,11 +294,13 @@ public struct ResponseAPIContentGetProfileContact: Codable, Equatable {
     }
     
     public func encode(to encoder: Encoder) throws {
-        let boolValue = self.default == true ? "true": "false"
-        let string = stringValue ?? "{\"value\":  \"\(value ?? "")\",\"default\": \(boolValue)}"
-        
         var container = encoder.singleValueContainer()
-        try container.encode(string)
+        try container.encode(encodedString)
+    }
+    
+    public var encodedString: String {
+        let boolValue = self.default == true ? "true": "false"
+        return stringValue ?? "{\"value\":\"\(value ?? "")\",\"default\":\(boolValue)}"
     }
 }
 
