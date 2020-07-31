@@ -25,8 +25,6 @@ extension RestAPIManager {
         authorizationRequired: Bool = true,
         allowedLanguages: [String] = []
     ) -> Single<ResponseAPIContentGetPosts> {
-        let allowedLanguages = allowedLanguages.filterOut(["all"])
-        
         let methodAPIType = MethodAPIType.getPosts(userId: userId, communityId: communityId, communityAlias: communityAlias, allowNsfw: allowNsfw, type: type, sortBy: sortBy, timeframe: timeframe, limit: limit, offset: offset, allowedLanguages: allowedLanguages)
         
         return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)

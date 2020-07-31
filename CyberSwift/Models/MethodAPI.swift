@@ -373,7 +373,9 @@ public indirect enum MethodAPIType {
             }
             parameters["limit"]             = limit
             parameters["offset"]            = offset
-            parameters["allowedLanguages"] = allowedLanguages
+            
+            let languages = allowedLanguages.filterOut(["all"])
+            parameters["allowedLanguages"] = languages
             
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
