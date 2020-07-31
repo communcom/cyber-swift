@@ -373,10 +373,7 @@ public indirect enum MethodAPIType {
             }
             parameters["limit"]             = limit
             parameters["offset"]            = offset
-            if allowedLanguages.count > 0 {
-                parameters["allowedLanguages"] = allowedLanguages
-            }
-            
+            parameters["allowedLanguages"] = allowedLanguages
             
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
