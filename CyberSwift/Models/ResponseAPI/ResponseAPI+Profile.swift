@@ -237,6 +237,29 @@ public struct ResponseAPIContentGetProfilePersonal: Codable, Equatable {
         if gitHub?.value == nil {unfilledLinks.append(.github)}
         return unfilledLinks
     }
+    
+    public func getContact(contactType: LinkType) -> ResponseAPIContentGetProfileContact? {
+        switch contactType {
+        case .wechat:
+            return contacts?.weChat
+        case .facebook:
+            return facebook
+        case .telegram:
+            return contacts?.telegram
+        case .whatsapp:
+            return contacts?.whatsApp
+        case .instagram:
+            return instagram
+        case .linkedin:
+            return linkedin
+        case .twitter:
+            return twitter
+        case .github:
+            return gitHub
+        case .website_url:
+            return nil
+        }
+    }
     public init() {}
 }
 
