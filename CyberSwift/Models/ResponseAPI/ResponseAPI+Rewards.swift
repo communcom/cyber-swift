@@ -15,7 +15,8 @@ public struct ResponseAPIRewardsGetStateBulk: Decodable {
 public struct ResponseAPIRewardsGetStateBulkMosaic: Decodable, Equatable {
     public let topCount: Int64
     public let collectionEnd: String
-    public let reward: String
+    public let reward: String?
+    public let displayReward: String?
     public let isClosed: Bool
     public let contentId: ResponseAPIContentId
     public let convertedReward: ResponseAPIRewardsGetStateBulkMosaicConvertedReward?
@@ -25,7 +26,7 @@ public struct ResponseAPIRewardsGetStateBulkMosaic: Decodable, Equatable {
     }
     
     public var rewardDouble: Double {
-        guard let string = reward.components(separatedBy: " ").first,
+        guard let string = (displayReward ?? reward)?.components(separatedBy: " ").first,
             let double = Double(string)
         else {
             return 0
