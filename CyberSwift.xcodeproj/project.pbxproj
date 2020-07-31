@@ -84,6 +84,8 @@
 		BC9066E923A9D515000F9A3B /* ResponseAPI+Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9066E823A9D515000F9A3B /* ResponseAPI+Wallet.swift */; };
 		BC9066FC23AA106D000F9A3B /* RAM+Wallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9066FB23AA106D000F9A3B /* RAM+Wallet.swift */; };
 		BC99B65E23E185D2004AA74E /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC99B65D23E185D2004AA74E /* Double+Extensions.swift */; };
+		BC9A1F1224D11D37007BDB3A /* ResponseAPIContentGetProfileContactTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9A1F1124D11D37007BDB3A /* ResponseAPIContentGetProfileContactTests.swift */; };
+		BC9A1F1624D120D6007BDB3A /* ResponseAPIContentGetProfileContacts.json in Resources */ = {isa = PBXBuildFile; fileRef = BC9A1F1524D120D6007BDB3A /* ResponseAPIContentGetProfileContacts.json */; };
 		BCA97132236178E600AE37E1 /* ResponseAPIContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA97131236178E600AE37E1 /* ResponseAPIContent.swift */; };
 		BCA971342361798000AE37E1 /* ResponseAPI+Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA971332361798000AE37E1 /* ResponseAPI+Profile.swift */; };
 		BCAB47092433549B00912D20 /* RAM+Referral.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCAB47082433549B00912D20 /* RAM+Referral.swift */; };
@@ -192,6 +194,8 @@
 		BC9066E823A9D515000F9A3B /* ResponseAPI+Wallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Wallet.swift"; sourceTree = "<group>"; };
 		BC9066FB23AA106D000F9A3B /* RAM+Wallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Wallet.swift"; sourceTree = "<group>"; };
 		BC99B65D23E185D2004AA74E /* Double+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extensions.swift"; sourceTree = "<group>"; };
+		BC9A1F1124D11D37007BDB3A /* ResponseAPIContentGetProfileContactTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseAPIContentGetProfileContactTests.swift; sourceTree = "<group>"; };
+		BC9A1F1524D120D6007BDB3A /* ResponseAPIContentGetProfileContacts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ResponseAPIContentGetProfileContacts.json; sourceTree = "<group>"; };
 		BCA97131236178E600AE37E1 /* ResponseAPIContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseAPIContent.swift; sourceTree = "<group>"; };
 		BCA971332361798000AE37E1 /* ResponseAPI+Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ResponseAPI+Profile.swift"; sourceTree = "<group>"; };
 		BCAB47082433549B00912D20 /* RAM+Referral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Referral.swift"; sourceTree = "<group>"; };
@@ -260,7 +264,9 @@
 			children = (
 				3BD1331322F850770006C70F /* GenerateKeysTests.swift */,
 				BC3D9762235040B500421718 /* ResponseAPIContentGetCommentsTests.swift */,
+				BC9A1F1124D11D37007BDB3A /* ResponseAPIContentGetProfileContactTests.swift */,
 				3BD1331522F850770006C70F /* Info.plist */,
+				BC9A1F1524D120D6007BDB3A /* ResponseAPIContentGetProfileContacts.json */,
 				BCB2A6F3235588EA00B3582B /* ResponseAPIContentGetComments.json */,
 				BCB2A6F52355897A00B3582B /* Decodable+MockObjects.swift */,
 			);
@@ -562,6 +568,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCB2A6F4235588EA00B3582B /* ResponseAPIContentGetComments.json in Resources */,
+				BC9A1F1624D120D6007BDB3A /* ResponseAPIContentGetProfileContacts.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -646,6 +653,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCB2A6F62355897A00B3582B /* Decodable+MockObjects.swift in Sources */,
+				BC9A1F1224D11D37007BDB3A /* ResponseAPIContentGetProfileContactTests.swift in Sources */,
 				3BD1331422F850770006C70F /* GenerateKeysTests.swift in Sources */,
 				BC3D9763235040B500421718 /* ResponseAPIContentGetCommentsTests.swift in Sources */,
 			);

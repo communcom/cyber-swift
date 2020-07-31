@@ -24,7 +24,7 @@ class GenerateKeysTests: XCTestCase {
         let masterKey = "88fc6b4a77a2454daa23a39d23df869a52a45b920c024c82b50"
         
         let ram = RestAPIManager.instance
-        let keys = ram.rx.generateKeys(login: login, masterKey: masterKey)
+        let keys = ram.generateKeys(userId: login, masterKey: masterKey)
         
         XCTAssertEqual(keys["owner"]?.publicKey, "GLS8cRo2ojy2XYTKxHhrbu3WxDHv4YAk3Zc8nuaeygEQYoFRTcpD8")
         XCTAssertEqual(keys["owner"]?.privateKey, "5JbWmTCRoTKdPDotGDYtSG7TKYFrFAswGek3dgKMmF6cNYNkSH2")
@@ -44,7 +44,7 @@ class GenerateKeysTests: XCTestCase {
         let masterKey = "08b16023da8543d69f09bbfa2a6e3ed4131bfa837bfd4c98a62"
         
         let ram = RestAPIManager.instance
-        let keys = ram.rx.generateKeys(login: login, masterKey: masterKey)
+        let keys = ram.generateKeys(userId: login, masterKey: masterKey)
         
         XCTAssertEqual(keys["owner"]?.publicKey, "GLS7NdnpF38MHFRG8jC1sAU2P7PL3gobuhkcRzCPqT81hNwvAkMA4")
         XCTAssertEqual(keys["owner"]?.privateKey, "5Jp6LaVXQf94w48LZ5xMGaaWzKuQBaUs2JhyzoSGPSu3G5V2to4")

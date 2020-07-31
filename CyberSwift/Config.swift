@@ -104,10 +104,6 @@ public struct Config {
     public static let currentUserPrivateMemoKey: String = "currentUserPrivateMemoKey"
     public static let currentUserPublickMemoKey: String = "currentUserPublickMemoKey"
 
-    public static let currentUserAvatarUrlKey: String = "currentUserAvatarUrlKey"
-    public static let currentUserCoverUrlKey: String = "currentUserCoverUrlKey"
-    public static let currentUserBiographyKey: String = "currentUserBiographyKey"
-
     public static let currentUserAppLanguageKey: String = "currentUserAppLanguageKey"
 
     public static let currentUserPushNotificationOn: String = "currentUserPushNotificationOn"

@@ -59,7 +59,7 @@ extension BlockchainManager {
                     contentId: ResponseAPIContentId(userId: userId, permlink: permlink, communityId: communCode),
                     parents: ResponseAPIContentGetCommentParent(post: ResponseAPIContentId(userId: parentAuthor ?? "", permlink: parentPermlink ?? "", communityId: communCode), comment: nil),
                     document: block,
-                    author: ResponseAPIContentGetProfile.with(userId: userId, username: Config.currentUser?.name ?? "", avatarUrl: UserDefaults.standard.string(forKey: Config.currentUserAvatarUrlKey), stats: nil, isSubscribed: nil),
+                    author: ResponseAPIContentGetProfile.with(userId: userId, username: Config.currentUser?.name ?? "", avatarUrl: ResponseAPIContentGetProfile.current?.avatarUrl, stats: nil, isSubscribed: nil),
                     community: parentPost?.community,
                     placeHolderImage: uploadingImage
                 )
@@ -74,7 +74,7 @@ extension BlockchainManager {
                     contentId: ResponseAPIContentId(userId: userId, permlink: permlink, communityId: parentPost?.community?.communityId ?? ""),
                     parents: ResponseAPIContentGetCommentParent(post: nil, comment: parentComment?.contentId),
                     document: block,
-                    author: ResponseAPIContentGetProfile.with(userId: userId, username: Config.currentUser?.name ?? "", avatarUrl: UserDefaults.standard.string(forKey: Config.currentUserAvatarUrlKey), stats: nil, isSubscribed: nil),
+                    author: ResponseAPIContentGetProfile.with(userId: userId, username: Config.currentUser?.name ?? "", avatarUrl: ResponseAPIContentGetProfile.current?.avatarUrl, stats: nil, isSubscribed: nil),
                     community: parentPost?.community,
                     placeHolderImage: uploadingImage
                 )

@@ -23,12 +23,6 @@ extension BlockchainManager {
                                                                            metaValue: userProfileAccountmetaArgs)
 
         return EOSManager.update(userProfileMetaArgs: userProfileMetaArgs)
-            .do(onSuccess: { _ in
-                // update profile
-                if let url = params["avatar_url"] {
-                    UserDefaults.standard.set(url, forKey: Config.currentUserAvatarUrlKey)
-                }
-            })
             .flatMapCompletable({ (transaction) -> Completable in
                 if !waitForTransaction {return .empty()}
                 return RestAPIManager.instance.waitForTransactionWith(id: transaction)

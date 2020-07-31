@@ -1,0 +1,20 @@
+{
+"jsonrpc": "2.0",
+"id": 1,
+"result": {
+   "facebook": "{\"value\": \"bender\",\"default\": false}",
+   "telegram":"{\"value\": \"bender\",\"default\": true}",
+   "whatsApp":"{\"value\": \"bender\",\"default\": false}",
+   "weChat":"{\"value\": \"bender\",\"default\": false}",
+   "firstName":"Bender",
+   "lastName":"Rodriguez",
+   "country":"United States",
+   "city": "Las Vegas",
+   "birthDate":"23-03-1970",
+   "instagram":"{\"value\": \"bender\",\"default\": false}",
+   "linkedin":"{\"value\": \"bender\",\"default\": false}",
+   "twitter":"{\"value\": \"bender\",\"default\": false}",
+   "gitHub":"{\"value\": \"bender\",\"default\": false}",
+   "websiteUrl":"{\"value\": \"bender\",\"default\": false}",
+}
+}

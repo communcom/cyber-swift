@@ -64,12 +64,12 @@ public struct ResponseAPIContentGetProfile: Encodable, ListItemType {
     public let leaderIn: [String]?
     public let userId: String
     public let username: String
-    public let avatarUrl: String?
-    public let coverUrl: String?
+    public var avatarUrl: String?
+    public var coverUrl: String?
     public let registration: ResponseAPIContentGetProfileRegistration?
     public var subscribers: ResponseAPIContentGetProfileSubscriber?
     public let subscriptions: ResponseAPIContentGetProfileSubscription?
-    public let personal: ResponseAPIContentGetProfilePersonal?
+    public var personal: ResponseAPIContentGetProfilePersonal?
     public var isInBlacklist: Bool?
     public var isSubscribed: Bool?
     public var isSubscription: Bool?
@@ -119,6 +119,38 @@ public struct ResponseAPIContentGetProfile: Encodable, ListItemType {
         ResponseAPIContentGetProfile(stats: stats, leaderIn: nil, userId: userId, username: username, avatarUrl: avatarUrl, coverUrl: nil, registration: nil, subscriptions: nil, personal: nil, isSubscribed: isSubscribed)
     }
 
+    public static var current: ResponseAPIContentGetProfile? {
+        guard let data = UserDefaults.standard.data(forKey: Config.currentUserGetProfileKey),
+            let profile = try? JSONDecoder().decode(ResponseAPIContentGetProfile.self, from: data)
+        else {
+            return nil
+        }
+        return profile
+    }
+    
+    public static var observeCurrentProfile: Observable<ResponseAPIContentGetProfile?> {
+        UserDefaults.standard.rx.observe(Data.self, Config.currentUserGetProfileKey)
+            .map {$0 == nil ? nil : try? JSONDecoder().decode(ResponseAPIContentGetProfile.self, from: $0!)}
+    }
+    
+    public static func updateCurrentUserProfile(
+        avatarUrl: String? = nil,
+        coverUrl: String? = nil,
+        bio: String? = nil
+    ) {
+        var profile = ResponseAPIContentGetProfile.current
+        if let avatarUrl = avatarUrl {
+            profile?.avatarUrl = avatarUrl
+        }
+        if let coverUrl = coverUrl {
+            profile?.coverUrl = coverUrl
+        }
+        if let bio = bio {
+            profile?.personal?.biography = bio
+        }
+        guard let data = try? JSONEncoder().encode(profile) else {return}
+        UserDefaults.standard.set(data, forKey: Config.currentUserGetProfileKey)
+    }
 }
 
 public struct ResponseAPIContentGetProfileSubscription: Codable, Equatable {
@@ -137,8 +169,98 @@ public struct ResponseAPIContentGetProfileStat: Codable, Equatable {
 }
 
 public struct ResponseAPIContentGetProfilePersonal: Codable, Equatable {
-    public let contacts: ResponseAPIContentGetProfileContact?
-    public let biography: String?
+    public enum LinkType: String {
+        public enum IdentifyType: String {
+            case phoneNumber = "phone number"
+            case username = "username"
+            case link = "link"
+        }
+        
+        case wechat
+        case facebook
+        case telegram
+        case whatsapp
+        case instagram
+        case linkedin
+        case twitter
+        case github
+        case website_url
+        
+        public var identifiedBy: IdentifyType {
+            switch self {
+            case .wechat, .facebook, .instagram, .linkedin, .twitter, .github:
+                return .username
+            case .telegram, .whatsapp:
+                return .phoneNumber
+            case .website_url:
+                return .link
+            }
+        }
+    }
+    
+    public var contacts: ResponseAPIContentGetProfileContacts?
+    public var biography: String?
+    public var firstName: String?
+    public var lastName: String?
+    public var country: String?
+    public var city: String?
+    public var birthDate: String?
+    public var websiteUrl: String?
+    public var facebook: ResponseAPIContentGetProfileContact?
+    public var twitter: ResponseAPIContentGetProfileContact?
+    public var instagram: ResponseAPIContentGetProfileContact?
+    public var linkedin: ResponseAPIContentGetProfileContact?
+    public var gitHub: ResponseAPIContentGetProfileContact?
+    
+    public var fullName: String? {
+        if firstName == nil && lastName == nil {return nil}
+        if firstName == nil {return lastName}
+        return firstName! + (lastName == nil ? "" : " \(lastName!)")
+    }
+    
+    public var filledLinks: [LinkType: ResponseAPIContentGetProfileContact] {
+        var filledLinks = [LinkType: ResponseAPIContentGetProfileContact]()
+        if twitter?.value != nil {filledLinks[.twitter] = twitter}
+        if facebook?.value != nil {filledLinks[.facebook] = facebook}
+        if instagram?.value != nil {filledLinks[.instagram] = instagram}
+        if linkedin?.value != nil {filledLinks[.linkedin] = linkedin}
+        if gitHub?.value != nil {filledLinks[.github] = gitHub}
+        return filledLinks
+    }
+    
+    public var unfilledLinks: [LinkType] {
+        var unfilledLinks = [LinkType]()
+        if twitter?.value == nil {unfilledLinks.append(.twitter)}
+        if facebook?.value == nil {unfilledLinks.append(.facebook)}
+        if instagram?.value == nil {unfilledLinks.append(.instagram)}
+        if linkedin?.value == nil {unfilledLinks.append(.linkedin)}
+        if gitHub?.value == nil {unfilledLinks.append(.github)}
+        return unfilledLinks
+    }
+    
+    public func getContact(contactType: LinkType) -> ResponseAPIContentGetProfileContact? {
+        switch contactType {
+        case .wechat:
+            return contacts?.weChat
+        case .facebook:
+            return facebook
+        case .telegram:
+            return contacts?.telegram
+        case .whatsapp:
+            return contacts?.whatsApp
+        case .instagram:
+            return instagram
+        case .linkedin:
+            return linkedin
+        case .twitter:
+            return twitter
+        case .github:
+            return gitHub
+        case .website_url:
+            return nil
+        }
+    }
+    public init() {}
 }
 
 public struct ResponseAPIContentGetProfileSubscriber: Codable, Equatable {
@@ -151,21 +273,57 @@ public struct ResponseAPIContentGetProfileBlacklist: Decodable {
     public var communityIds: [String]
 }
 
-public struct ResponseAPIContentGetProfileContact: Codable, Equatable {
-    public var facebook: String?
-    public var telegram: String?
-    public var whatsApp: String?
-    public var weChat: String?
-    public var twitter: String?
-    public var youtube: String?
-    public var instagram: String?
-    public var github: String?
-    public var email: String?
-    public var facetime: String?
-    public var facebookMessenger: String?
-    public var linkedIn: String?
-    
+public struct ResponseAPIContentGetProfileContacts: Codable, Equatable {
+    public var telegram: ResponseAPIContentGetProfileContact?
+    public var whatsApp: ResponseAPIContentGetProfileContact?
+    public var weChat: ResponseAPIContentGetProfileContact?
+
     public init() {}
+}
+
+public struct ResponseAPIContentGetProfileContact: Codable, Equatable {
+    public var stringValue: String?
+    public var value: String?
+    public var `default`: Bool?
+    
+    public init(value: String?, default: Bool?) {
+        self.value = value
+        self.default = `default`
+    }
+    
+    // Where we determine what type the value is
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let string = try container.decode(String.self)
+        
+        let properString = string.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
+        
+        if let data = properString.data(using: .utf8),
+            let dict = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+        {
+            value = dict["value"] as? String
+            `default` = dict["default"] as? Bool
+            return
+        }
+        
+        stringValue = string
+    }
+    
+    // We need to go back to a dynamic type, so based on the data we have stored, encode to the proper type
+    enum CodingKeys: String, CodingKey {
+        case value
+        case `default`
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(encodedString)
+    }
+    
+    public var encodedString: String {
+        let boolValue = self.default == true ? "true": "false"
+        return stringValue ?? "{\"value\":\"\(value ?? "")\",\"default\":\(boolValue)}"
+    }
 }
 
 public struct ResponseAPIContentGetProfileSubscribers: Decodable {
