@@ -233,4 +233,24 @@ struct EOSArgument {
             self.ramPayer = NameWriterValue(name: ramPayer)
         }
     }
+
+    // MARK: - Change password
+    struct Password: Encodable {
+        let account: NameWriterValue
+        let permission: NameWriterValue
+        let parent: NameWriterValue
+        let auth: Auth
+
+        struct Auth: Encodable {
+            let threshold: Int32
+            let keys: [Keys]
+            let accounts: [NameWriterValue]
+            let waits: [NameWriterValue]
+        }
+
+        struct Keys: Encodable {
+            let key: PublicKeyWriterValue
+            let weight: Int16
+        }
+    }
 }

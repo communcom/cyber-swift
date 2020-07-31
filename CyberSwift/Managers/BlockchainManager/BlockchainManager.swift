@@ -17,6 +17,41 @@ public class BlockchainManager {
     public static let instance = BlockchainManager()
     private let communCurrencyName = Config.defaultSymbol
 
+    // MARK: - Updateauth Contracts
+    public func changePassword(_ password: String) -> Single<String> {
+        // Check user authorize
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
+            return .error(CMError.unauthorized())
+        }
+
+        let keys = RestAPIManager.instance.generateKeys(userId: userID, masterKey: password)
+        guard let activeKey = try? EOSPublicKey(base58: keys["active"]!.publicKey!),
+            let ownerKey = try? EOSPublicKey(base58: keys["owner"]!.publicKey!) else {
+            return .error(CMError.unknown)
+        }
+
+        let activeWriter = PublicKeyWriterValue(publicKey: activeKey, isCurveParamK1: true)
+        let ownerWriter = PublicKeyWriterValue(publicKey: ownerKey, isCurveParamK1: true)
+
+        let active = EOSArgument.Password(account: NameWriterValue(name: userID),
+                                          permission: NameWriterValue(name: "owner"),
+                                          parent: NameWriterValue(name: "owner"),
+                                          auth: EOSArgument.Password.Auth(threshold: 1,
+                                                                          keys: [EOSArgument.Password.Keys(key: activeWriter, weight: 1)],
+                                                                          accounts: [], waits: []))
+
+        let owner = EOSArgument.Password(account: NameWriterValue(name: userID),
+                                          permission: NameWriterValue(name: "owner"),
+                                          parent: NameWriterValue(name: ""),
+                                          auth: EOSArgument.Password.Auth(threshold: 1,
+                                                                          keys: [EOSArgument.Password.Keys(key: ownerWriter, weight: 1)],
+                                                                          accounts: [],
+                                                                          waits: []))
+
+        let args =  [active, owner]
+        return EOSManager.pushAuthorized(account: .cyber, name: "updateauth", arguments: args, disableClientAuth: true, disableCyberBandwidth: true)
+    }
+
     // MARK: - Communities Contracts
     public func voteLeader(communityId: String, leader: String) -> Single<String> {
         // Check user authorize

@@ -9,6 +9,7 @@
 import Foundation
 
 public enum ErrorMessage: String {
+    case balanceNotOpened = "balance of from not opened"
     case balanceNotExist = "balance does not exist"
     case bodyIsInvalid = "body is invalid"
     case couldNotCreateUserId = "could not create user id"

@@ -19,8 +19,13 @@ enum BCAccountName: String {
     case gallery
     case social
     case token
+    case cyber
 
     var stringValue: String {
+        if self == .cyber {
+            return "cyber"
+        }
+
         let prefix = self == .token ? "cyber" : "c"
         return prefix + "." + rawValue
     }
@@ -171,10 +176,15 @@ extension EOSManager {
                                disableClientAuth: Bool = false,
                                disableCyberBandwidth: Bool = false,
                                disableProvidebw: Bool = false) -> Single<String> {
+        return pushAuthorized(account: account, name: name, arguments: [args], disableClientAuth: disableClientAuth, disableCyberBandwidth: disableCyberBandwidth, disableProvidebw: disableProvidebw)
+    }
 
-        let expiration = Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds)
-
-        Logger.log(message: args.convertToJSON(), event: .request)
+    static func pushAuthorized(account: BCAccountName,
+                               name: String,
+                               arguments: [Encodable],
+                               disableClientAuth: Bool = false,
+                               disableCyberBandwidth: Bool = false,
+                               disableProvidebw: Bool = false) -> Single<String> {
 
         // Offline mode
         if !Config.isNetworkAvailable {
@@ -182,7 +192,7 @@ extension EOSManager {
             return .error(CMError.noConnection)
         }
 
-        guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKeys?.privateKey else {
+        guard let userID = Config.currentUser?.id else {
             ErrorLogger.shared.recordError(CMError.unauthorized())
             return .error(CMError.unauthorized())
         }
@@ -201,26 +211,27 @@ extension EOSManager {
             auth.removeLast()
         }
 
-        let action1 = ActionAbi(
-                account: AccountNameWriterValue(name: account.stringValue),
-                name: AccountNameWriterValue(name: name),
-                authorization: auth,
-                data: DataWriterValue(hex: args.toHex()))
+        var actions: [ActionAbi] = []
+        for arg in arguments {
+            Logger.log(message: arg.convertToJSON(), event: .request)
+            let action = ActionAbi(account: AccountNameWriterValue(name: account.stringValue),
+                                    name: AccountNameWriterValue(name: name),
+                                    authorization: auth,
+                                    data: DataWriterValue(hex: arg.toHex()))
+            actions.append(action)
+        }
+
         // Action 2
+        let action2 = providebwAction(userID: userID)
+        if !disableProvidebw {
+            actions.append(action2)
+        }
+
+        // Action 3
         let transactionAuthorizationAbiBandwidth = TransactionAuthorizationAbi(
                 actor: AccountNameWriterValue(name: "c"),
                 permission: AccountNameWriterValue(name: "providebw"))
 
-        let args2 = TransactionAuthorizationAbi(
-                actor: AccountNameWriterValue(name: "c"),
-                permission: AccountNameWriterValue(name: userID))
-
-        let action2 = ActionAbi(account: AccountNameWriterValue(name: "cyber"),
-                name: AccountNameWriterValue(name: "providebw"),
-                authorization: [transactionAuthorizationAbiBandwidth],
-                data: DataWriterValue(hex: args2.toHex()))
-
-        // Action 3
         let args3 = TransactionAuthorizationAbi(
                 actor: AccountNameWriterValue(name: "c"),
                 permission: AccountNameWriterValue(name: account.stringValue))
@@ -230,41 +241,26 @@ extension EOSManager {
                 name: AccountNameWriterValue(name: "providebw"),
                 authorization: [transactionAuthorizationAbiBandwidth],
                 data: DataWriterValue(hex: args3.toHex()))
-
-        let transaction = EOSTransaction(chainApi: EOSManager.chainApi)
+        if !disableCyberBandwidth {
+            actions.append(action3)
+        }
 
         do {
-            let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
-            var actions = [action1]
-
-            if !disableProvidebw {
-                actions.append(action2)
-            }
-
-            if !disableCyberBandwidth {
-                actions.append(action3)
-            }
-
-            let request = transaction.push(expirationDate: expiration, actions: actions, authorizingPrivateKey: privateKey)
-
-            return request.catchError { (error) -> Single<String> in
+            return push(actions: actions).catchError { (error) in
                 if let error = error as? CMError {
                     switch error {
                     case .blockchainError(let message, _):
-                        if message == ErrorMessage.balanceNotExist.rawValue {
-                            return openBalance(args: args).flatMap { (_) -> Single<String> in
-                                return pushAuthorized(account: account, name: name, args: args, disableClientAuth: disableClientAuth, disableCyberBandwidth: disableCyberBandwidth)
+                        if message == ErrorMessage.balanceNotExist.rawValue || message ==  ErrorMessage.balanceNotOpened.rawValue {
+                            return openBalance(args: arguments.first).flatMap { (_) -> Single<String> in
+                                return push(actions: actions)
                             }
                         }
                     default:
                         break
                     }
                 }
-                ErrorLogger.shared.recordError(error, additionalInfo: ["account": account.stringValue, "name": name, "user": userID])
                 return .error(error)
             }
-        } catch {
-            return .error(error)
         }
     }
 
@@ -280,10 +276,11 @@ extension EOSManager {
             return .error(CMError.invalidRequest(message: ErrorMessage.balanceNotExist.rawValue))
         }
 
-        guard let userID = Config.currentUser?.id, let userActiveKey = Config.currentUser?.activeKeys?.privateKey else {
+        guard let userID = Config.currentUser?.id else {
             return .error(CMError.unauthorized())
         }
 
+        // action 1
         let transactionAuthorizationAbiActive = TransactionAuthorizationAbi(
                 actor: AccountNameWriterValue(name: userID),
                 permission: AccountNameWriterValue(name: "active"))
@@ -292,32 +289,55 @@ extension EOSManager {
                 communCode: code,
                 ramPayer: NameWriterValue(name: userID))
 
-        let transactionAuthorizationAbiBandwidth = TransactionAuthorizationAbi(
-                actor: AccountNameWriterValue(name: "c"),
-                permission: AccountNameWriterValue(name: "providebw"))
-
         let action1 = ActionAbi(account: AccountNameWriterValue(name: BCAccountName.point.stringValue),
                                 name: AccountNameWriterValue(name: "open"),
                                 authorization: [transactionAuthorizationAbiActive],
                                 data: DataWriterValue(hex: balanceArgs.toHex()))
 
-        let args2 = EOSArgument.CommunBandwidthProvider(
+        // action 2
+        let action2 = providebwAction(userID: userID)
+
+        return push(actions: [action1, action2])
+    }
+
+    static func push(actions: [ActionAbi]) -> Single<String> {
+        // check internet connection
+        if !Config.isNetworkAvailable {
+            ErrorLogger.shared.recordError(CMError.noConnection, additionalInfo: ["user": Config.currentUser?.id ?? "undefined"])
+            return .error(CMError.noConnection)
+        }
+
+        // check active key
+        guard let userActiveKey = Config.currentUser?.activeKeys?.privateKey else {
+            ErrorLogger.shared.recordError(CMError.unauthorized())
+            return .error(CMError.unauthorized())
+        }
+
+        do {
+            let transaction = EOSTransaction(chainApi: EOSManager.chainApi)
+            let expiration = Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds)
+            let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
+
+            return transaction.push(expirationDate: expiration, actions: actions, authorizingPrivateKey: privateKey)
+        } catch {
+            return .error(error)
+        }
+    }
+
+    static func providebwAction(userID: String) -> ActionAbi {
+        let args = EOSArgument.CommunBandwidthProvider(
                 provider: AccountNameWriterValue(name: "c"),
                 account: AccountNameWriterValue(name: userID))
 
-        let action2 = ActionAbi(account: AccountNameWriterValue(name: "cyber"),
+        let transactionAuthorizationAbiBandwidth = TransactionAuthorizationAbi(
+                actor: AccountNameWriterValue(name: "c"),
+                permission: AccountNameWriterValue(name: "providebw"))
+
+        let action = ActionAbi(account: AccountNameWriterValue(name: "cyber"),
                 name: AccountNameWriterValue(name: "providebw"),
                 authorization: [transactionAuthorizationAbiBandwidth],
-                data: DataWriterValue(hex: args2.toHex()))
+                data: DataWriterValue(hex: args.toHex()))
 
-        let transaction = EOSTransaction(chainApi: EOSManager.chainApi)
-        print("action1 hex: \(action1.toHex())")
-        do {
-            let privateKey = try EOSPrivateKey.init(base58: userActiveKey)
-            return transaction.push(expirationDate: Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds), actions: [action1, action2], authorizingPrivateKey: privateKey)
-        } catch {
-             ErrorLogger.shared.recordError(error, additionalInfo: ["account": "c.point", "name": "open", "user": userID])
-            return .error(error)
-        }
+        return action
     }
 }
