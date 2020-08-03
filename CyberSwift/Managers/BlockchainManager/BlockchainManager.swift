@@ -50,6 +50,15 @@ public class BlockchainManager {
 
         let args =  [active, owner]
         return EOSManager.pushAuthorized(account: .cyber, name: "updateauth", arguments: args, disableClientAuth: true, disableCyberBandwidth: true)
+            .do(onSuccess: { (_) in
+                try? KeychainManager.save([
+                    Config.currentUserMasterKey: password,
+                    Config.currentUserPublicActiveKey: keys["active"]!.publicKey!,
+                    Config.currentUserPrivateActiveKey: keys["active"]!.privateKey!,
+                    Config.currentUserPublicOwnerKey: keys["owner"]!.publicKey!,
+                    Config.currentUserPrivateOwnerKey: keys["owner"]!.privateKey!
+                ])
+            })
     }
 
     // MARK: - Communities Contracts
