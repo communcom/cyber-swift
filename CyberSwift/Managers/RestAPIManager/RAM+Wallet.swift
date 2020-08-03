@@ -41,7 +41,7 @@ extension RestAPIManager {
                         result.balances.insert(element, at: 0)
                     }
                 } else {
-                    BlockchainManager.instance.openCommunityBalance(communityCode: Config.defaultSymbol).subscribe().dispose()
+                    BlockchainManager.instance.openCMNBalance().subscribe().dispose()
                     result.balances.insert(ResponseAPIWalletGetBalance(symbol: Config.defaultSymbol, balance: "0", logo: nil, name: nil, frozen: nil, price: nil), at: 0)
                 }
                 

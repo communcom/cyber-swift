@@ -275,18 +275,22 @@ extension EOSManager {
         } else {
             return .error(CMError.invalidRequest(message: ErrorMessage.balanceNotExist.rawValue))
         }
-
+        
+        return openBalance(communityCode: code)
+    }
+    
+    static func openBalance(communityCode: CyberSymbolWriterValue) -> Single<String> {
         guard let userID = Config.currentUser?.id else {
             return .error(CMError.unauthorized())
         }
-
+        
         // action 1
         let transactionAuthorizationAbiActive = TransactionAuthorizationAbi(
                 actor: AccountNameWriterValue(name: userID),
                 permission: AccountNameWriterValue(name: "active"))
         
         let balanceArgs = EOSArgument.OpenBalance(owner: NameWriterValue(name: userID),
-                communCode: code,
+                communCode: communityCode,
                 ramPayer: NameWriterValue(name: userID))
 
         let action1 = ActionAbi(account: AccountNameWriterValue(name: BCAccountName.point.stringValue),
