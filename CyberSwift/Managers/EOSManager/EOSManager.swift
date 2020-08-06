@@ -184,7 +184,8 @@ extension EOSManager {
                                arguments: [Encodable],
                                disableClientAuth: Bool = false,
                                disableCyberBandwidth: Bool = false,
-                               disableProvidebw: Bool = false) -> Single<String> {
+                               disableProvidebw: Bool = false,
+                               authPermissionIsOwner: Bool = false) -> Single<String> {
 
         // Offline mode
         if !Config.isNetworkAvailable {
@@ -198,9 +199,10 @@ extension EOSManager {
         }
 
         // Action 1
+        let namePermission = authPermissionIsOwner ? "owner" : "active"
         let transactionAuthorizationAbiActive = TransactionAuthorizationAbi(
                 actor: AccountNameWriterValue(name: userID),
-                permission: AccountNameWriterValue(name: "active"))
+                permission: AccountNameWriterValue(name: namePermission))
 
         let transactionAuthorizationAbiClient = TransactionAuthorizationAbi(
                 actor: AccountNameWriterValue(name: account.stringValue),
@@ -246,7 +248,7 @@ extension EOSManager {
         }
 
         do {
-            return push(actions: actions).catchError { (error) in
+            return push(actions: actions, authPermissionIsOwner: authPermissionIsOwner).catchError { (error) in
                 if let error = error as? CMError {
                     switch error {
                     case .blockchainError(let message, _):
@@ -304,15 +306,16 @@ extension EOSManager {
         return push(actions: [action1, action2])
     }
 
-    static func push(actions: [ActionAbi]) -> Single<String> {
+    static func push(actions: [ActionAbi], authPermissionIsOwner: Bool = false) -> Single<String> {
         // check internet connection
         if !Config.isNetworkAvailable {
             ErrorLogger.shared.recordError(CMError.noConnection, additionalInfo: ["user": Config.currentUser?.id ?? "undefined"])
             return .error(CMError.noConnection)
         }
 
-        // check active key
-        guard let userActiveKey = Config.currentUser?.activeKeys?.privateKey else {
+        // check key
+        let key = authPermissionIsOwner ? Config.currentUser?.ownerKeys?.privateKey : Config.currentUser?.activeKeys?.privateKey
+        guard let userActiveKey = key else {
             ErrorLogger.shared.recordError(CMError.unauthorized())
             return .error(CMError.unauthorized())
         }

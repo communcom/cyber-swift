@@ -81,8 +81,8 @@ public class BlockchainManager {
         return EOSManager.unvoteLeader(args: args)
     }
     
-    public func openCMNBalance() -> Single<String> {
-        let communityCode = Config.defaultSymbol
+    public func openCommunityBalance(communityCode: String) -> Single<String> {
+
         // Check user authorize
         guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
             return .error(CMError.unauthorized())
@@ -97,8 +97,9 @@ public class BlockchainManager {
         return EOSManager.openTokenBalance(args)
     }
 
-    public func openCommunityBalance(communityCode: String) -> Single<String> {
-        return EOSManager.openBalance(communityCode: CyberSymbolWriterValue(name: communityCode))
+    public func openCMNBalance() -> Single<String> {
+        let communityCode = Config.defaultSymbol
+        return EOSManager.openBalance(args: CyberSymbolWriterValue(name: communityCode))
     }
 
     // MARK: - Wallet Contracts
