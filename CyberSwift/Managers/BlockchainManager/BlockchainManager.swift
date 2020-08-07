@@ -34,7 +34,7 @@ public class BlockchainManager {
         let ownerWriter = PublicKeyWriterValue(publicKey: ownerKey, isCurveParamK1: true)
 
         let active = EOSArgument.Password(account: NameWriterValue(name: userID),
-                                          permission: NameWriterValue(name: "owner"),
+                                          permission: NameWriterValue(name: "active"),
                                           parent: NameWriterValue(name: "owner"),
                                           auth: EOSArgument.Password.Auth(threshold: 1,
                                                                           keys: [EOSArgument.Password.Keys(key: activeWriter, weight: 1)],
