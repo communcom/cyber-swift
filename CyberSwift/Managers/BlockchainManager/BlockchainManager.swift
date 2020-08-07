@@ -49,7 +49,7 @@ public class BlockchainManager {
                                                                           waits: []))
 
         let args =  [active, owner]
-        return EOSManager.pushAuthorized(account: .cyber, name: "updateauth", arguments: args, disableClientAuth: true, disableCyberBandwidth: true)
+        return EOSManager.pushAuthorized(account: .cyber, name: "updateauth", arguments: args, disableClientAuth: true, disableCyberBandwidth: true, authPermissionIsOwner: true)
             .do(onSuccess: { (_) in
                 try? KeychainManager.save([
                     Config.currentUserMasterKey: password,
