@@ -13,13 +13,16 @@ extension RestAPIManager {
     public func getTransferHistory(
         userId: String? = nil,
         direction: String = "all",
-        transferType: String? = nil,
+        transferType: String? = "all",
         symbol: String? = nil,
-        reward: String? = nil,
+        reward: String? = "all",
+        donation: String? = "all",
+        claim: String? = "all",
+        holdType: String? = "like",
         offset: UInt = 0,
         limit: UInt = 20
     ) -> Single<ResponseAPIWalletGetTransferHistory> {
-        let methodAPIType = MethodAPIType.getTransferHistory(userId: userId, direction: direction, transferType: transferType, symbol: symbol, rewards: reward, offset: offset, limit: limit)
+        let methodAPIType = MethodAPIType.getTransferHistory(userId: userId, direction: direction, transferType: transferType, symbol: symbol, rewards: reward, donation: donation, claim: claim, holdType: holdType, offset: offset, limit: limit)
         return executeGetRequest(methodAPIType: methodAPIType)
     }
     

@@ -281,7 +281,7 @@ public indirect enum MethodAPIType {
     case getConfig
     
     /// WALLET
-    case getTransferHistory(userId: String?, direction: String, transferType: String?, symbol: String?, rewards: String?, offset: UInt, limit: UInt)
+    case getTransferHistory(userId: String?, direction: String, transferType: String?, symbol: String?, rewards: String?, donation: String?, claim: String?, holdType: String?, offset: UInt, limit: UInt)
     
     case getBalance(userId: String?)
     
@@ -806,13 +806,16 @@ public indirect enum MethodAPIType {
                      methodName:        "getConfig",
                      parameters:        [:])
             
-        case .getTransferHistory(let userId, let direction, let transferType, let symbol, let rewards, let offset, let limit):
+        case .getTransferHistory(let userId, let direction, let transferType, let symbol, let rewards, let donation, let claim, let holdType, let offset, let limit):
             var parameters = [String: Encodable]()
             parameters["userId"] = userId
             parameters["direction"] = direction
             parameters["transferType"] = transferType
             parameters["symbol"] = symbol
             parameters["rewards"] = rewards
+            parameters["claim"] = claim
+            parameters["donation"] = donation
+            parameters["holdType"] = holdType
             parameters["offset"] = offset
             parameters["limit"] = limit
             return  (methodAPIType:     self,
