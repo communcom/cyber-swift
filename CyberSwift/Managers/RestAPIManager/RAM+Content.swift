@@ -18,7 +18,7 @@ extension RestAPIManager {
         communityAlias: String? = nil,
         allowNsfw: Bool = false,
         type: FeedTypeMode,
-        sortBy: FeedSortMode? = nil,
+        sortBy: SortBy? = nil,
         timeframe: FeedTimeFrameMode? = nil,
         limit: UInt = UInt(Config.paginationLimit),
         offset: UInt = 0,
