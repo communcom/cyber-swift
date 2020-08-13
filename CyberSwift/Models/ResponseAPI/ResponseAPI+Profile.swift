@@ -11,7 +11,7 @@ import RxSwift
 
 public protocol ProfileType: ListItemType {
     var userId: String {get}
-    var username: String {get}
+    var username: String? {get}
     var isSubscribed: Bool? {get set}
     var subscribersCount: Int64? {get set}
     var identity: String {get}
@@ -63,7 +63,7 @@ public struct ResponseAPIContentGetProfile: Encodable, ListItemType {
     public let stats: ResponseAPIContentGetProfileStat?
     public let leaderIn: [String]?
     public let userId: String
-    public let username: String
+    public let username: String?
     public var avatarUrl: String?
     public var coverUrl: String?
     public let registration: ResponseAPIContentGetProfileRegistration?
@@ -86,7 +86,7 @@ public struct ResponseAPIContentGetProfile: Encodable, ListItemType {
     public var isBeingUnblocked: Bool? = false
     
     public var identity: String {
-        return userId + "/" + username
+        return userId + "/" + (username ?? "")
     }
     
     public func newUpdatedItem(from item: ResponseAPIContentGetProfile) -> ResponseAPIContentGetProfile? {

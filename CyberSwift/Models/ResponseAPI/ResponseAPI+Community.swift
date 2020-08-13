@@ -147,7 +147,7 @@ public struct ResponseAPIContentGetLeader: ListItemType {
     public var isVoted: Bool?
     public let ratingPercent: Double
     public var isSubscribed: Bool?
-    public let username: String
+    public let username: String?
     public let avatarUrl: String?
     
     public var subscribersCount: Int64?

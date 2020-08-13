@@ -8,6 +8,7 @@
 
 import Foundation
 
+// MARK: - content.getProposals
 public struct ResponseAPIContentGetProposals: Decodable {
     public let items: [ResponseAPIContentGetProposal]
     public let proposalsCount: UInt64
@@ -75,4 +76,68 @@ public struct ResponseAPIContentGetProposalChange: Decodable, Equatable {
     public let type: String?
     public let old: String?
     public let new: String?
+}
+
+// MARK: - content.getReportsList
+public struct ResponseAPIContentGetReportsList: Decodable {
+    public let items: [ResponseAPIContentGetReport]
+    public let reportsCount: UInt64
+}
+
+public struct ResponseAPIContentGetReport: ListItemType {
+    public let document: ResponseAPIContentBlock?
+    public let votes: ResponseAPIContentGetReportVotes?
+    public let reports: ResponseAPIContentGetReportReports?
+    public let stats: ResponseAPIContentGetReportStats?
+    public let meta: ResponseAPIContentGetReportMeta?
+    public let contentId: ResponseAPIContentId?
+    public let author: ResponseAPIContentGetProfile?
+    public let community: ResponseAPIContentGetCommunity?
+    public let type: String?
+    public let textLength: UInt64?
+    public let proposal: ResponseAPIContentGetProposal?
+    public let viewsCount: UInt64?
+    
+    public var identity: String {
+        (contentId?.userId ?? "") + (contentId?.communityId ?? "") + (contentId?.permlink ?? "")
+    }
+    
+    public func newUpdatedItem(from item: ResponseAPIContentGetReport) -> ResponseAPIContentGetReport? {
+        ResponseAPIContentGetReport(
+            document: item.document ?? document,
+            votes: item.votes ?? votes,
+            reports: item.reports ?? reports,
+            stats: item.stats ?? stats,
+            meta: item.meta ?? meta,
+            contentId: item.contentId ?? contentId,
+            author: item.author ?? author,
+            community: item.community ?? community,
+            type: item.type ?? type,
+            textLength: item.textLength ?? textLength,
+            proposal: item.proposal ?? proposal,
+            viewsCount: item.viewsCount ?? viewsCount
+        )
+    }
+}
+
+public struct ResponseAPIContentGetReportVotes: Decodable, Equatable {
+    public let upVotes: [ResponseAPIContentGetProfile]
+    public let upCount: UInt64
+    public let downVotes: [ResponseAPIContentGetProfile]
+    public let downCount: UInt64
+}
+
+public struct ResponseAPIContentGetReportReports: Decodable, Equatable {
+    public let reportsCount: UInt64
+}
+
+public struct ResponseAPIContentGetReportStats: Decodable, Equatable {
+    public let commentsCount: UInt64?
+    public let selfCommentsCount: UInt64?
+}
+
+public struct ResponseAPIContentGetReportMeta: Decodable, Equatable {
+    public let trxId: String?
+    public let creationTime: String?
+    public let updateTime: String?
 }
