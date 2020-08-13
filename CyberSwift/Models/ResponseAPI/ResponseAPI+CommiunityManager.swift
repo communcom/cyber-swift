@@ -31,6 +31,10 @@ public struct ResponseAPIContentGetProposal: ListItemType {
     public let approvesNeed: UInt64?
     public let change: ResponseAPIContentGetProposalChange?
     
+    // MARK: - Additional properties
+    public var post: ResponseAPIContentGetPost?
+    public var comment: ResponseAPIContentGetComment?
+    
     public var identity: String {
         proposalId
     }
@@ -51,7 +55,9 @@ public struct ResponseAPIContentGetProposal: ListItemType {
             isApproved: item.isApproved ?? isApproved,
             approvesCount: item.approvesCount ?? approvesCount,
             approvesNeed: item.approvesNeed ?? approvesNeed,
-            change: item.change ?? change
+            change: item.change ?? change,
+            post: item.post ?? post,
+            comment: item.comment ?? comment
         )
     }
 }
