@@ -11,7 +11,7 @@ import Foundation
 // MARK: - content.getProposals
 public struct ResponseAPIContentGetProposals: Decodable {
     public let items: [ResponseAPIContentGetProposal]
-    public let proposalsCount: UInt64
+    public let proposalsCount: UInt64?
 }
 
 public struct ResponseAPIContentGetProposal: ListItemType {
@@ -80,14 +80,39 @@ public struct ResponseAPIContentGetProposalDataMessageId: Decodable, Equatable {
 
 public struct ResponseAPIContentGetProposalChange: Decodable, Equatable {
     public let type: String?
-    public let old: String?
-    public let new: String?
+    public let subType: String?
+    public let old: ResponseAPIContentGetProposalChangeData?
+    public let new: ResponseAPIContentGetProposalChangeData?
+}
+
+public struct ResponseAPIContentGetProposalChangeData: Decodable, Equatable {
+    public var string: String?
+    public var rules: ResponseAPIGetCommunityRule?
+    
+    // Where we determine what type the value is
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        
+        if let rules = try? container.decode(ResponseAPIGetCommunityRule.self) {
+            self.rules = rules
+            return
+        }
+        
+        string = try? container.decode(String.self)
+    }
+}
+
+public struct ResponseAPIGetCommunityRule: Decodable, Equatable {
+    public let _id: String?
+    public let id: String?
+    public let title: String?
+    public let text: String?
 }
 
 // MARK: - content.getReportsList
 public struct ResponseAPIContentGetReportsList: Decodable {
     public let items: [ResponseAPIContentGetReport]
-    public let reportsCount: UInt64
+    public let reportsCount: UInt64?
 }
 
 public struct ResponseAPIContentGetReport: ListItemType {
