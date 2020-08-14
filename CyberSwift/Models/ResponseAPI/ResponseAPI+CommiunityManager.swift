@@ -29,7 +29,7 @@ public struct ResponseAPIContentGetProposal: ListItemType {
     public let isApproved: Bool?
     public let approvesCount: UInt64?
     public let approvesNeed: UInt64?
-    public let change: ResponseAPIContentGetProposalChange?
+    public var change: ResponseAPIContentGetProposalChange?
     
     // MARK: - Additional properties
     public var post: ResponseAPIContentGetPost?
@@ -83,6 +83,9 @@ public struct ResponseAPIContentGetProposalChange: Decodable, Equatable {
     public let subType: String?
     public let old: ResponseAPIContentGetProposalChangeData?
     public let new: ResponseAPIContentGetProposalChangeData?
+    
+    // MARK: - Additional property
+    public var isOldRuleCollapsed: Bool? = true
 }
 
 public struct ResponseAPIContentGetProposalChangeData: Decodable, Equatable {
