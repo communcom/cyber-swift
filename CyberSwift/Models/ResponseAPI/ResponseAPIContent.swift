@@ -342,6 +342,7 @@ public struct ResponseAPIContentGetComments: Decodable {
 
 public struct ResponseAPIContentGetComment: ResponseAPIContentMessageType {
     public var votes: ResponseAPIContentVotes
+    public var reports: ResponseAPIContentReports?
     public let meta: ResponseAPIContentMeta
     public var childCommentsCount: UInt
     public let contentId: ResponseAPIContentId
