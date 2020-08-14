@@ -79,6 +79,7 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
     
     public var document: ResponseAPIContentBlock?
     public var votes: ResponseAPIContentVotes
+    public var reports: ResponseAPIContentReports?
     public let meta: ResponseAPIContentMeta
     public let contentId: ResponseAPIContentId
     public let author: ResponseAPIContentGetProfile?
@@ -272,6 +273,10 @@ public struct ResponseAPIContentVotes: Decodable, Equatable {
     public var downCount: Int64?
     public var hasUpVote: Bool? = false
     public var hasDownVote: Bool? = false
+    public var upVotes: [ResponseAPIContentGetProfile]?
+    public var downVotes: [ResponseAPIContentGetProfile]?
+    
+    // MARK: - Additional
     public var isBeingVoted: Bool? = false
     
     public func newUpdatedItem(from item: ResponseAPIContentVotes) -> ResponseAPIContentVotes {
@@ -283,12 +288,17 @@ public struct ResponseAPIContentVotes: Decodable, Equatable {
     }
 }
 
+public struct ResponseAPIContentReports: Decodable, Equatable {
+    public let reportsCount: UInt64?
+}
+
 public struct ResponseAPIContentGetPostStats: Decodable, Equatable {
     public let wilson: ResponseAPIContentGetPostStatsWilson?
     public var commentsCount: Int64
     public let rShares: Conflicted?
     public let hot: Double?
     public let trending: Double?
+    public var selfCommentsCount: Int64?
 }
 
 public struct ResponseAPIContentGetPostStatsWilson: Decodable, Equatable {

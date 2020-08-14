@@ -122,59 +122,47 @@ public struct ResponseAPIContentGetReportsList: Decodable {
 }
 
 public struct ResponseAPIContentGetReport: ListItemType {
-    public let document: ResponseAPIContentBlock?
-    public let votes: ResponseAPIContentGetReportVotes?
-    public let reports: ResponseAPIContentGetReportReports?
-    public let stats: ResponseAPIContentGetReportStats?
-    public let meta: ResponseAPIContentGetReportMeta?
-    public let contentId: ResponseAPIContentId?
-    public let author: ResponseAPIContentGetProfile?
-    public let community: ResponseAPIContentGetCommunity?
-    public let type: String?
-    public let textLength: UInt64?
-    public let proposal: ResponseAPIContentGetProposal?
-    public let viewsCount: UInt64?
+    init(type: String, post: ResponseAPIContentGetPost?, comment: ResponseAPIContentGetComment?) {
+        self.type = type
+        self.post = post
+        self.comment = comment
+    }
+    
+    public let type: String
+    public var post: ResponseAPIContentGetPost?
+    public var comment: ResponseAPIContentGetComment?
     
     public var identity: String {
-        (contentId?.userId ?? "") + (contentId?.communityId ?? "") + (contentId?.permlink ?? "")
+        post?.identity ?? comment?.identity ?? String.randomString(length: 7)
+    }
+    
+    enum CodingKeys: String, CodingKey  {
+        case type
+    }
+    enum ParseError: Error {
+        case notRecognizedType(Any)
+    }
+    
+    // Where we determine what type the value is
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        type = try container.decode(String.self, forKey: .type)
+        
+        let container2 = try decoder.singleValueContainer()
+        switch type {
+        case "post":
+            post = try container2.decode(ResponseAPIContentGetPost.self)
+        case "comment":
+            comment = try container2.decode(ResponseAPIContentGetComment.self)
+        default:
+            throw ParseError.notRecognizedType(type)
+        }
+        
     }
     
     public func newUpdatedItem(from item: ResponseAPIContentGetReport) -> ResponseAPIContentGetReport? {
-        ResponseAPIContentGetReport(
-            document: item.document ?? document,
-            votes: item.votes ?? votes,
-            reports: item.reports ?? reports,
-            stats: item.stats ?? stats,
-            meta: item.meta ?? meta,
-            contentId: item.contentId ?? contentId,
-            author: item.author ?? author,
-            community: item.community ?? community,
-            type: item.type ?? type,
-            textLength: item.textLength ?? textLength,
-            proposal: item.proposal ?? proposal,
-            viewsCount: item.viewsCount ?? viewsCount
-        )
+        guard item.type == type else {return nil}
+        return ResponseAPIContentGetReport(type: item.type, post: item.post ?? post, comment: item.comment ?? comment)
     }
 }
 
-public struct ResponseAPIContentGetReportVotes: Decodable, Equatable {
-    public let upVotes: [ResponseAPIContentGetProfile]
-    public let upCount: UInt64
-    public let downVotes: [ResponseAPIContentGetProfile]
-    public let downCount: UInt64
-}
-
-public struct ResponseAPIContentGetReportReports: Decodable, Equatable {
-    public let reportsCount: UInt64
-}
-
-public struct ResponseAPIContentGetReportStats: Decodable, Equatable {
-    public let commentsCount: UInt64?
-    public let selfCommentsCount: UInt64?
-}
-
-public struct ResponseAPIContentGetReportMeta: Decodable, Equatable {
-    public let trxId: String?
-    public let creationTime: String?
-    public let updateTime: String?
-}
