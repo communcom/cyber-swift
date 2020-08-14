@@ -114,4 +114,9 @@ extension RestAPIManager {
             resolveNestedComments: nil)
         return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
     }
+    
+    public func loadComment(userId: String, permlink: String, communityId: String) -> Single<ResponseAPIContentGetComment> {
+        let methodAPIType = MethodAPIType.getComment(userId: userId, permlink: permlink, communityId: communityId)
+        return executeGetRequest(methodAPIType: methodAPIType)
+    }
 }

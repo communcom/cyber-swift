@@ -169,6 +169,8 @@ public indirect enum MethodAPIType {
     //  Getting user comments feed
     case getComments(sortBy: CommentSortMode?, offset: UInt, limit: UInt, type: GetCommentsType, userId: String?, username: String? = nil, permlink: String?, communityId: String?, communityAlias: String?, parentComment: [String: String]?, resolveNestedComments: Bool?)
     
+    case getComment(userId: String, permlink: String, communityId: String)
+    
     //  Get referral users
     case getReferralUsers(limit: UInt, offset: UInt)
     
@@ -441,6 +443,12 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getComments",
                      parameters:        parameters)
+            
+        case .getComment(let userId, let permlink, let communityId):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.content.rawValue,
+                     methodName:        "getComment",
+                     parameters:        ["userId": userId, "permlink": permlink, "communityId": communityId])
             
         case .getReferralUsers(let limit, let offset):
             return  (methodAPIType:     self,
