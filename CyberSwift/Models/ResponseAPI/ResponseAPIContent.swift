@@ -290,6 +290,7 @@ public struct ResponseAPIContentVotes: Decodable, Equatable {
 
 public struct ResponseAPIContentReports: Decodable, Equatable {
     public let reportsCount: UInt64?
+    public var items: [ResponseAPIContentGetEntityReport]?
 }
 
 public struct ResponseAPIContentGetPostStats: Decodable, Equatable {

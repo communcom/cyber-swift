@@ -166,3 +166,11 @@ public struct ResponseAPIContentGetReport: ListItemType {
     }
 }
 
+public struct ResponseAPIContentGetEntityReports: Decodable, Equatable {
+    public let items: [ResponseAPIContentGetEntityReport]
+}
+
+public struct ResponseAPIContentGetEntityReport: Decodable, Equatable {
+    public let reason: String
+    public let author: ResponseAPIContentGetProfile
+}

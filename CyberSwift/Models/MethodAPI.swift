@@ -336,6 +336,8 @@ public indirect enum MethodAPIType {
     
     case getReportsList(communityIds: [String], contentType: String, status: String, sortBy: SortBy, limit: Int, offset: Int)
     
+    case getEntityReports(userId: String, communityId: String, permlink: String, limit: Int, offset: Int)
+    
     /// This method return request parameters from selected enum case.
     func introduced() -> RequestMethodParameters {
         switch self {
@@ -987,6 +989,12 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getReportsList",
                      parameters:        ["communityIds": communityIds, "contentType": contentType, "status": status, "sortBy": sortBy.rawValue, "limit": limit, "offset": offset ])
+            
+        case .getEntityReports(let userId, let communityId, let permlink, let limit, let offset):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.content.rawValue,
+                     methodName:        "getEntityReports",
+                     parameters:        ["userId": userId, "communityId": communityId, "permlink": permlink, "limit": limit, "offset": offset ])
             
         } // switch
     }

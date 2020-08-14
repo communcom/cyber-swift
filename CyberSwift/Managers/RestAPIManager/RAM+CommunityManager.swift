@@ -19,4 +19,9 @@ extension RestAPIManager {
         let methodAPIType = MethodAPIType.getReportsList(communityIds: communityIds, contentType: contentType, status: status, sortBy: sortBy, limit: limit, offset: offset)
         return executeGetRequest(methodAPIType: methodAPIType)
     }
+    
+    public func getEntityReports(userId: String, communityId: String, permlink: String, limit: Int, offset: Int) -> Single<ResponseAPIContentGetEntityReports> {
+        let methodAPIType = MethodAPIType.getEntityReports(userId: userId, communityId: communityId, permlink: permlink, limit: limit, offset: offset)
+        return executeGetRequest(methodAPIType: methodAPIType)
+    }
 }
