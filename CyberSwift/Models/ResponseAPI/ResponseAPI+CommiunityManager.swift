@@ -35,6 +35,8 @@ public struct ResponseAPIContentGetProposal: ListItemType {
     public var post: ResponseAPIContentGetPost?
     public var comment: ResponseAPIContentGetComment?
     
+    public var postLoadingError: String?
+    
     public var identity: String {
         proposalId
     }
@@ -57,7 +59,8 @@ public struct ResponseAPIContentGetProposal: ListItemType {
             approvesNeed: item.approvesNeed ?? approvesNeed,
             change: item.change ?? change,
             post: item.post ?? post,
-            comment: item.comment ?? comment
+            comment: item.comment ?? comment,
+            postLoadingError: item.postLoadingError
         )
     }
 }
