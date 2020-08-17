@@ -132,6 +132,9 @@ public struct ResponseAPIContentGetReport: ListItemType {
     public var post: ResponseAPIContentGetPost?
     public var comment: ResponseAPIContentGetComment?
     
+    // additional properties
+    public var downloadingReports: Bool? = false
+    
     public var identity: String {
         post?.identity ?? comment?.identity ?? String.randomString(length: 7)
     }
