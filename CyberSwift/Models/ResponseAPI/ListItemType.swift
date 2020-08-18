@@ -49,3 +49,31 @@ public extension ListItemType {
         observeEvent(eventName: deletedEventName)
     }
 }
+
+public protocol CachedHeightItemType: ListItemType {
+    var height: CGFloat? {get set}
+}
+
+public extension CachedHeightItemType {
+    static var heightChangedEventName: String {"HeightDidChange"}
+    func heightDidChange(newHeight: CGFloat) {
+        var item = self
+        item.height = newHeight
+        item.notifyChanged()
+    }
+    
+    static func height(of item: Self.Identity, didChangeTo newHeight: CGFloat) {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "\(Self.self)\(heightChangedEventName)"), object: [item: newHeight])
+    }
+    
+    static func observeItemHeightChanged() -> Observable<([Self.Identity: CGFloat])> {
+        NotificationCenter.default.rx.notification(.init(rawValue: "\(Self.self)\(heightChangedEventName)"))
+            .filter { notification in
+                guard (notification.object as? [Self.Identity: CGFloat]) != nil
+                    else {return false}
+                return true
+            }
+            .map {$0.object as! [Self.Identity: CGFloat]}
+            .observeOn(MainScheduler.instance)
+    }
+}

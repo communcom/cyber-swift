@@ -14,7 +14,7 @@ public struct ResponseAPIContentGetProposals: Decodable {
     public let proposalsCount: UInt64?
 }
 
-public struct ResponseAPIContentGetProposal: ListItemType {
+public struct ResponseAPIContentGetProposal: CachedHeightItemType {
     public let proposer: ResponseAPIContentGetProfile?
     public let proposalId: String
     public let type: String?
@@ -38,6 +38,8 @@ public struct ResponseAPIContentGetProposal: ListItemType {
     public var postLoadingError: String?
     
     public var isBeingApproved: Bool?
+    
+    public var height: CGFloat?
     
     public var identity: String {
         proposalId
@@ -63,7 +65,8 @@ public struct ResponseAPIContentGetProposal: ListItemType {
             post: item.post ?? post,
             comment: item.comment ?? comment,
             postLoadingError: item.postLoadingError,
-            isBeingApproved: item.isBeingApproved ?? isBeingApproved
+            isBeingApproved: item.isBeingApproved ?? isBeingApproved,
+            height: item.height ?? height
         )
     }
 }
