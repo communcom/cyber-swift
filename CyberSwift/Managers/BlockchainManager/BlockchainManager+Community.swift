@@ -155,4 +155,32 @@ extension BlockchainManager {
 
         return EOSManager.unfollowCommunity(unFollowArgs)
     }
+
+    // MARK: - Managment
+    public func approveProposal(_ proposalName: String) -> Single<String> {
+        // Check user authorize
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
+            return .error(CMError.unauthorized())
+        }
+
+        let args = EOSArgument.ProposalApprove(proposer: userID,
+                                               proposalName: proposalName,
+                                               approver: userID)
+
+        return EOSManager.approveProposal(args: args)
+    }
+
+    public func unapproveProposal(_ proposalName: String) -> Single<String> {
+        // Check user authorize
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
+            return .error(CMError.unauthorized())
+        }
+
+        let args = EOSArgument.ProposalApprove(proposer: userID,
+                                               proposalName: proposalName,
+                                               approver: userID)
+
+        return EOSManager.unapproveProposal(args: args)
+    }
+
 }

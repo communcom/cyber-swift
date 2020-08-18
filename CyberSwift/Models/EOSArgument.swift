@@ -253,4 +253,34 @@ struct EOSArgument {
             let weight: Int16
         }
     }
+
+    // MARK: - Approve proposal
+    struct ProposalApprove: Encodable {
+        let proposer: NameWriterValue
+        let proposalName: NameWriterValue
+        let approver: NameWriterValue
+
+        init(proposer: String, proposalName: String, approver: String) {
+            self.proposer = NameWriterValue(name: proposer)
+            self.proposalName = NameWriterValue(name: proposalName)
+            self.approver = NameWriterValue(name: approver)
+        }
+    }
+
+    // MARK: - Propose ban
+    struct Propose: Encodable, EOSArgumentCodeProtocol {
+        let communCode: CyberSymbolWriterValue
+        let proposer: NameWriterValue
+        let proposalName: NameWriterValue
+        let permission: NameWriterValue
+        let trx: TransactionAbi
+
+        init(communCode: String, proposer: String, proposalName: String, trx: TransactionAbi) {
+            self.communCode = CyberSymbolWriterValue(name: communCode)
+            self.proposer = NameWriterValue(name: proposer)
+            self.proposalName = NameWriterValue(name: proposalName)
+            self.permission = NameWriterValue(name: "lead.minor")
+            self.trx = trx
+        }
+    }
 }
