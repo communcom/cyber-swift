@@ -18,7 +18,7 @@ extension RestAPIManager {
         communityAlias: String? = nil,
         allowNsfw: Bool = false,
         type: FeedTypeMode,
-        sortBy: FeedSortMode? = nil,
+        sortBy: SortBy? = nil,
         timeframe: FeedTimeFrameMode? = nil,
         limit: UInt = UInt(Config.paginationLimit),
         offset: UInt = 0,
@@ -113,5 +113,10 @@ extension RestAPIManager {
             ],
             resolveNestedComments: nil)
         return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
+    }
+    
+    public func loadComment(userId: String, permlink: String, communityId: String) -> Single<ResponseAPIContentGetComment> {
+        let methodAPIType = MethodAPIType.getComment(userId: userId, permlink: permlink, communityId: communityId)
+        return executeGetRequest(methodAPIType: methodAPIType)
     }
 }

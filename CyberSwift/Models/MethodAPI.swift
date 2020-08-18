@@ -91,7 +91,7 @@ public enum FeedTimeFrameMode: String, Codable {
     }
 }
 
-public enum FeedSortMode: String, Codable {
+public enum SortBy: String, Codable {
     case time               =   "time"
     case timeDesc           =   "timeDesc"
 }
@@ -158,7 +158,7 @@ public indirect enum MethodAPIType {
     case getBlacklist(userId: String?, type: GetBlacklistType, limit: Int, offset: Int)
     
     //  Get posts
-    case getPosts(userId: String?, communityId: String?, communityAlias: String? = nil, allowNsfw: Bool?, type: FeedTypeMode, sortBy: FeedSortMode?, timeframe: FeedTimeFrameMode?, limit: UInt, offset: UInt, allowedLanguages: [String])
+    case getPosts(userId: String?, communityId: String?, communityAlias: String? = nil, allowNsfw: Bool?, type: FeedTypeMode, sortBy: SortBy?, timeframe: FeedTimeFrameMode?, limit: UInt, offset: UInt, allowedLanguages: [String])
     
     //  Getting selected post
     case getPost(userId: String?, username: String?, permlink: String, communityId: String?, communityAlias: String?)
@@ -168,6 +168,8 @@ public indirect enum MethodAPIType {
     
     //  Getting user comments feed
     case getComments(sortBy: CommentSortMode?, offset: UInt, limit: UInt, type: GetCommentsType, userId: String?, username: String? = nil, permlink: String?, communityId: String?, communityAlias: String?, parentComment: [String: String]?, resolveNestedComments: Bool?)
+    
+    case getComment(userId: String, permlink: String, communityId: String)
     
     //  Get referral users
     case getReferralUsers(limit: UInt, offset: UInt)
@@ -329,6 +331,13 @@ public indirect enum MethodAPIType {
     /// OTHER
     case getEmbed(url: String)
     
+    /// COMMUNITY MANAGER
+    case getProposals(communityIds: [String], limit: Int, offset: Int)
+    
+    case getReportsList(communityIds: [String], contentType: String, status: String, sortBy: SortBy, limit: Int, offset: Int)
+    
+    case getEntityReports(userId: String, communityId: String, permlink: String, limit: Int, offset: Int)
+    
     /// This method return request parameters from selected enum case.
     func introduced() -> RequestMethodParameters {
         switch self {
@@ -436,6 +445,12 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getComments",
                      parameters:        parameters)
+            
+        case .getComment(let userId, let permlink, let communityId):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.content.rawValue,
+                     methodName:        "getComment",
+                     parameters:        ["userId": userId, "permlink": permlink, "communityId": communityId])
             
         case .getReferralUsers(let limit, let offset):
             return  (methodAPIType:     self,
@@ -962,6 +977,24 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.frame.rawValue,
                      methodName:        "getEmbed",
                      parameters:        [ "type": "oembed", "url": url ])
+            
+        case .getProposals(let communityIds, let limit, let offset):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.content.rawValue,
+                     methodName:        "getProposals",
+                     parameters:        ["communityIds": communityIds, "limit": limit, "offset": offset ])
+            
+        case .getReportsList(let communityIds, let contentType, let status, let sortBy, let limit, let offset):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.content.rawValue,
+                     methodName:        "getReportsList",
+                     parameters:        ["communityIds": communityIds, "contentType": contentType, "status": status, "sortBy": sortBy.rawValue, "limit": limit, "offset": offset ])
+            
+        case .getEntityReports(let userId, let communityId, let permlink, let limit, let offset):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.content.rawValue,
+                     methodName:        "getEntityReports",
+                     parameters:        ["userId": userId, "communityId": communityId, "permlink": permlink, "limit": limit, "offset": offset ])
             
         } // switch
     }
