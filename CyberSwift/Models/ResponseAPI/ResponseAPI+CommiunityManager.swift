@@ -128,10 +128,11 @@ public struct ResponseAPIContentGetReportsList: Decodable {
 }
 
 public struct ResponseAPIContentGetReport: ListItemType {
-    init(type: String, post: ResponseAPIContentGetPost?, comment: ResponseAPIContentGetComment?) {
+    init(type: String, post: ResponseAPIContentGetPost?, comment: ResponseAPIContentGetComment?, downloadingReports: Bool?) {
         self.type = type
         self.post = post
         self.comment = comment
+        self.downloadingReports = downloadingReports
     }
     
     public let type: String
@@ -171,7 +172,7 @@ public struct ResponseAPIContentGetReport: ListItemType {
     
     public func newUpdatedItem(from item: ResponseAPIContentGetReport) -> ResponseAPIContentGetReport? {
         guard item.type == type else {return nil}
-        return ResponseAPIContentGetReport(type: item.type, post: item.post ?? post, comment: item.comment ?? comment)
+        return ResponseAPIContentGetReport(type: item.type, post: item.post ?? post, comment: item.comment ?? comment, downloadingReports: item.downloadingReports ?? downloadingReports)
     }
 }
 
