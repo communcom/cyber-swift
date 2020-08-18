@@ -26,7 +26,7 @@ public struct ResponseAPIContentGetProposal: ListItemType {
     public let data: ResponseAPIContentGetProposalData?
     public let contentType: String?
     public let community: ResponseAPIContentGetCommunity?
-    public let isApproved: Bool?
+    public var isApproved: Bool?
     public let approvesCount: UInt64?
     public let approvesNeed: UInt64?
     public var change: ResponseAPIContentGetProposalChange?
@@ -36,6 +36,8 @@ public struct ResponseAPIContentGetProposal: ListItemType {
     public var comment: ResponseAPIContentGetComment?
     
     public var postLoadingError: String?
+    
+    public var isBeingApproved: Bool?
     
     public var identity: String {
         proposalId
@@ -60,7 +62,8 @@ public struct ResponseAPIContentGetProposal: ListItemType {
             change: item.change ?? change,
             post: item.post ?? post,
             comment: item.comment ?? comment,
-            postLoadingError: item.postLoadingError
+            postLoadingError: item.postLoadingError,
+            isBeingApproved: item.isBeingApproved ?? isBeingApproved
         )
     }
 }
