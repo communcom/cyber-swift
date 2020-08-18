@@ -76,6 +76,7 @@ public struct ResponseAPIContentGetProfile: Encodable, ListItemType {
     public var isBlocked: Bool?
     public var highlightCommunitiesCount: Int64?
     public var highlightCommunities: [ResponseAPIContentGetCommunity]?
+    public var commonCommunitiesCount: Int64?
     
     // content.resolveProfile
     public var postsCount: Int64?
