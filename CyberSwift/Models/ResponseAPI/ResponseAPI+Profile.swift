@@ -170,36 +170,9 @@ public struct ResponseAPIContentGetProfileStat: Codable, Equatable {
 }
 
 public struct ResponseAPIContentGetProfilePersonal: Codable, Equatable {
-    public enum LinkType: String {
-        public enum IdentifyType: String {
-            case phoneNumber = "phone number"
-            case username = "username"
-            case link = "link"
-        }
-        
-        case wechat
-        case facebook
-        case telegram
-        case whatsapp
-        case instagram
-        case linkedin
-        case twitter
-        case github
-        case website_url
-        
-        public var identifiedBy: IdentifyType {
-            switch self {
-            case .wechat, .facebook, .instagram, .linkedin, .twitter, .github:
-                return .username
-            case .telegram, .whatsapp:
-                return .phoneNumber
-            case .website_url:
-                return .link
-            }
-        }
-    }
-    
-    public var contacts: ResponseAPIContentGetProfileContacts?
+    public var defaultContacts: [String]?
+    public var messengers: ResponseAPIContentGetProfilePersonalMessengers?
+    public var links: ResponseAPIContentGetProfilePersonalLinks?
     public var biography: String?
     public var firstName: String?
     public var lastName: String?
@@ -207,25 +180,36 @@ public struct ResponseAPIContentGetProfilePersonal: Codable, Equatable {
     public var city: String?
     public var birthDate: String?
     public var websiteUrl: String?
-    public var facebook: ResponseAPIContentGetProfileContact?
-    public var twitter: ResponseAPIContentGetProfileContact?
-    public var instagram: ResponseAPIContentGetProfileContact?
-    public var linkedin: ResponseAPIContentGetProfileContact?
-    public var gitHub: ResponseAPIContentGetProfileContact?
     
     public var fullName: String? {
         if firstName == nil && lastName == nil {return nil}
         if firstName == nil {return lastName}
         return firstName! + (lastName == nil ? "" : " \(lastName!)")
     }
+}
+
+public struct ResponseAPIContentGetProfilePersonalMessengers: Codable, Equatable {
+    public var whatsApp: ResponseAPIContentGetProfilePersonalLink?
+    public var telegram: ResponseAPIContentGetProfilePersonalLink?
+    public var weChat: ResponseAPIContentGetProfilePersonalLink?
+}
+
+public struct ResponseAPIContentGetProfilePersonalLinks: Codable, Equatable {
+    public enum LinkType: String {
+        case twitter
+        case gitHub
+        case facebook
+        case instagram
+        case linkedin
+    }
     
-    public var filledLinks: [LinkType: ResponseAPIContentGetProfileContact] {
-        var filledLinks = [LinkType: ResponseAPIContentGetProfileContact]()
+    public var filledLinks: [LinkType: ResponseAPIContentGetProfilePersonalLink] {
+        var filledLinks = [LinkType: ResponseAPIContentGetProfilePersonalLink]()
         if twitter?.value != nil {filledLinks[.twitter] = twitter}
         if facebook?.value != nil {filledLinks[.facebook] = facebook}
         if instagram?.value != nil {filledLinks[.instagram] = instagram}
         if linkedin?.value != nil {filledLinks[.linkedin] = linkedin}
-        if gitHub?.value != nil {filledLinks[.github] = gitHub}
+        if gitHub?.value != nil {filledLinks[.gitHub] = gitHub}
         return filledLinks
     }
     
@@ -235,33 +219,43 @@ public struct ResponseAPIContentGetProfilePersonal: Codable, Equatable {
         if facebook?.value == nil {unfilledLinks.append(.facebook)}
         if instagram?.value == nil {unfilledLinks.append(.instagram)}
         if linkedin?.value == nil {unfilledLinks.append(.linkedin)}
-        if gitHub?.value == nil {unfilledLinks.append(.github)}
+        if gitHub?.value == nil {unfilledLinks.append(.gitHub)}
         return unfilledLinks
     }
-    
-    public func getContact(contactType: LinkType) -> ResponseAPIContentGetProfileContact? {
-        switch contactType {
-        case .wechat:
-            return contacts?.weChat
+
+    public func getLink(linkType: LinkType) -> ResponseAPIContentGetProfilePersonalLink? {
+        switch linkType {
         case .facebook:
             return facebook
-        case .telegram:
-            return contacts?.telegram
-        case .whatsapp:
-            return contacts?.whatsApp
         case .instagram:
             return instagram
         case .linkedin:
             return linkedin
         case .twitter:
             return twitter
-        case .github:
+        case .gitHub:
             return gitHub
-        case .website_url:
-            return nil
         }
     }
+
+    public var twitter: ResponseAPIContentGetProfilePersonalLink?
+    public var facebook: ResponseAPIContentGetProfilePersonalLink?
+    public var gitHub: ResponseAPIContentGetProfilePersonalLink?
+    public var instagram: ResponseAPIContentGetProfilePersonalLink?
+    public var linkedin: ResponseAPIContentGetProfilePersonalLink?
     public init() {}
+}
+
+public struct ResponseAPIContentGetProfilePersonalLink: Codable, Equatable {
+    public var value: String?
+    public var `default`: Bool?
+    public var href: String?
+    
+    public init(value: String?, defaultValue: Bool?, href: String? = nil) {
+        self.value = value
+        self.default = defaultValue
+        self.href = href
+    }
 }
 
 public struct ResponseAPIContentGetProfileSubscriber: Codable, Equatable {
@@ -272,59 +266,6 @@ public struct ResponseAPIContentGetProfileSubscriber: Codable, Equatable {
 public struct ResponseAPIContentGetProfileBlacklist: Decodable {
     public var userIds: [String]
     public var communityIds: [String]
-}
-
-public struct ResponseAPIContentGetProfileContacts: Codable, Equatable {
-    public var telegram: ResponseAPIContentGetProfileContact?
-    public var whatsApp: ResponseAPIContentGetProfileContact?
-    public var weChat: ResponseAPIContentGetProfileContact?
-
-    public init() {}
-}
-
-public struct ResponseAPIContentGetProfileContact: Codable, Equatable {
-    public var stringValue: String?
-    public var value: String?
-    public var `default`: Bool?
-    
-    public init(value: String?, default: Bool?) {
-        self.value = value
-        self.default = `default`
-    }
-    
-    // Where we determine what type the value is
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        let string = try container.decode(String.self)
-        
-        let properString = string.replacingOccurrences(of: "\\", with: "", options: .literal, range: nil)
-        
-        if let data = properString.data(using: .utf8),
-            let dict = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-        {
-            value = dict["value"] as? String
-            `default` = dict["default"] as? Bool
-            return
-        }
-        
-        stringValue = string
-    }
-    
-    // We need to go back to a dynamic type, so based on the data we have stored, encode to the proper type
-    enum CodingKeys: String, CodingKey {
-        case value
-        case `default`
-    }
-    
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        try container.encode(encodedString)
-    }
-    
-    public var encodedString: String {
-        let boolValue = self.default == true ? "true": "false"
-        return stringValue ?? "{\"value\":\"\(value ?? "")\",\"default\":\(boolValue)}"
-    }
 }
 
 public struct ResponseAPIContentGetProfileSubscribers: Decodable {
