@@ -27,7 +27,7 @@ public struct ResponseAPIContentGetProposal: CachedHeightItemType {
     public let contentType: String?
     public let community: ResponseAPIContentGetCommunity?
     public var isApproved: Bool?
-    public let approvesCount: UInt64?
+    public var approvesCount: UInt64?
     public let approvesNeed: UInt64?
     public var change: ResponseAPIContentGetProposalChange?
     
