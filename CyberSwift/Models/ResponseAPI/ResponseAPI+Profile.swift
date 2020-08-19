@@ -256,6 +256,11 @@ public struct ResponseAPIContentGetProfilePersonalLink: Codable, Equatable {
         self.default = defaultValue
         self.href = href
     }
+    
+    public var encodedString: String {
+        let boolValue = self.default == true ? "true": "false"
+        return "{\"value\":\"\(value ?? "")\",\"default\":\(boolValue)}"
+    }
 }
 
 public struct ResponseAPIContentGetProfileSubscriber: Codable, Equatable {
