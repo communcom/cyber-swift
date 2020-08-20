@@ -70,8 +70,7 @@ extension BlockchainManager {
             follower: AccountNameWriterValue(name: userID)
         )
 
-        return unfollowCommunity(communityId)
-            .flatMap {_ in EOSManager.hideCommunity(args)}
+        return EOSManager.hideCommunity(args)
     }
     
     public func unhideCommunity(_ communityId: String) -> Single<String> {
