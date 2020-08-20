@@ -183,6 +183,9 @@ public enum ResponseAPIContentBlockContent: Codable, Equatable {
 }
 
 public struct ResponseAPIContentBlockAttributes: Codable, Equatable {
+    // App
+    public var app: ResponseAPIContentBlockAttributesApp?
+    
     // PostBlock
     public var title: String?
     public var type: String?
@@ -250,6 +253,11 @@ public struct ResponseAPIContentBlockAttributes: Codable, Equatable {
         self.width = width
         self.height = height
     }
+}
+
+public struct ResponseAPIContentBlockAttributesApp: Codable, Equatable {
+    public let platform: String?
+    public let version: String?
 }
 
 public struct ResponseAPIContentEmbedResult: Decodable {

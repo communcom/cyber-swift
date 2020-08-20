@@ -114,13 +114,14 @@ extension BlockchainManager {
         var finalBlock: ResponseAPIContentBlock?
         return (single ?? .just(block))
             .map {block -> EOSArgument.CreateContent in
-                guard let bodyString = try? block.jsonString() else {
+                finalBlock = block
+                finalBlock?.attributes?.app = ResponseAPIContentBlockAttributesApp(platform: "ios", version: UIApplication.appVersion)
+                
+                guard let bodyString = try? finalBlock!.jsonString() else {
                     throw CMError.invalidRequest(message: ErrorMessage.bodyIsInvalid.rawValue)
                 }
 
-                finalBlock = block
-
-                let tags = block.getTags()
+                let tags = finalBlock!.getTags()
                 return EOSArgument.CreateContent(
                     communCode: CyberSymbolWriterValue(name: communCode),
                     message_id: messageId,
