@@ -16,6 +16,11 @@ public class BlockchainManager {
     // MARK: - Properties
     public static let instance = BlockchainManager()
     private let communCurrencyName = Config.defaultSymbol
+    public let chainApi: ChainApi
+
+    init() {
+        chainApi = EOSManager.chainApi
+    }
 
     // MARK: - Updateauth Contracts
     public func changePassword(_ password: String) -> Single<String> {

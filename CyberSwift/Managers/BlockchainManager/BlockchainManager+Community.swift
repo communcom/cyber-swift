@@ -182,4 +182,56 @@ extension BlockchainManager {
         return EOSManager.unapproveProposal(args: args)
     }
 
+    public func banContent(_ proposalName: String, communityCode: String, commnityIssuer: String, permlink: String) -> Single<String> {
+
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
+            return .error(CMError.unauthorized())
+        }
+
+        return chainApi.getInfo().flatMap { info -> Single<String> in
+
+            guard info.success else {
+                throw CMError.blockchainError(message: ErrorMessage.couldNotRetrieveChainInfo.rawValue, code: 0)
+            }
+
+            let expiration = Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds)
+
+            let auth = TransactionAuthorizationAbi(
+                    actor: AccountNameWriterValue(name: commnityIssuer),
+                    permission: AccountNameWriterValue(name: "lead.minor"))
+
+            let data = EOSArgument.DeleteContent(communCode: CyberSymbolWriterValue(name: communityCode), messageID: EOSArgument.MessageIDContent(author: userID, permlink: permlink))
+
+            let action = ActionAbi(account: AccountNameWriterValue(name: "c.gallery"),
+                                    name: AccountNameWriterValue(name: "ban"),
+                                    authorization: [auth],
+                                    data: DataWriterValue(hex: data.toHex()))
+
+            let transactionAbi = self.createTransactionAbi(expirationDate: expiration,
+                    blockIdDetails: BlockIdDetails(blockId: info.body!.head_block_id),
+                    actions: [action])
+
+
+            let args = EOSArgument.Propose(communCode: communityCode, proposer: userID, proposalName: proposalName, trx: transactionAbi)
+
+            return EOSManager.banContnent(args: args)
+        }
+    }
+
+    private func createTransactionAbi(expirationDate: Date,
+                                      blockIdDetails: BlockIdDetails,
+                                      actions: [ActionAbi]) -> TransactionAbi {
+        TransactionAbi(expiration: TimestampWriterValue(date: expirationDate),
+                ref_block_num: BlockNumWriterValue(value: blockIdDetails.blockNum),
+                ref_block_prefix: BlockPrefixWriterValue(value: blockIdDetails.blockPrefix),
+                max_net_usage_words: 0,
+                max_cpu_usage_ms: 0,
+                max_ram_kbytes: 0,
+                max_storage_kbytes: 0,
+                delay_sec: 0,
+                context_free_actions: [],
+                actions: actions,
+                transaction_extensions: StringCollectionWriterValue(value: []))
+    }
+
 }
