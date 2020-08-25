@@ -128,11 +128,13 @@ public struct ResponseAPIContentGetReportsList: Decodable {
 }
 
 public struct ResponseAPIContentGetReport: ListItemType {
-    init(type: String, post: ResponseAPIContentGetPost?, comment: ResponseAPIContentGetComment?, downloadingReports: Bool?) {
+    init(type: String, post: ResponseAPIContentGetPost?, comment: ResponseAPIContentGetComment?, proposal: ResponseAPIContentGetProposal?, downloadingReports: Bool?, isPerformingAction: Bool?) {
         self.type = type
         self.post = post
         self.comment = comment
+        self.proposal = proposal
         self.downloadingReports = downloadingReports
+        self.isPerformingAction = isPerformingAction
     }
     
     public let type: String
@@ -142,6 +144,7 @@ public struct ResponseAPIContentGetReport: ListItemType {
     
     // additional properties
     public var downloadingReports: Bool? = false
+    public var isPerformingAction: Bool? = false
     
     public var identity: String {
         post?.identity ?? comment?.identity ?? String.randomString(length: 7)
@@ -159,7 +162,7 @@ public struct ResponseAPIContentGetReport: ListItemType {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         type = try container.decode(String.self, forKey: .type)
-        proposal = try container.decode(ResponseAPIContentGetProposal.self, forKey: .proposal)
+        proposal = try? container.decode(ResponseAPIContentGetProposal.self, forKey: .proposal)
         
         let container2 = try decoder.singleValueContainer()
         switch type {
@@ -175,7 +178,7 @@ public struct ResponseAPIContentGetReport: ListItemType {
     
     public func newUpdatedItem(from item: ResponseAPIContentGetReport) -> ResponseAPIContentGetReport? {
         guard item.type == type else {return nil}
-        return ResponseAPIContentGetReport(type: item.type, post: item.post ?? post, comment: item.comment ?? comment, downloadingReports: item.downloadingReports ?? downloadingReports)
+        return ResponseAPIContentGetReport(type: item.type, post: item.post ?? post, comment: item.comment ?? comment, proposal: item.proposal ?? proposal, downloadingReports: item.downloadingReports ?? downloadingReports, isPerformingAction: item.isPerformingAction ?? isPerformingAction)
     }
 }
 
