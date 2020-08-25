@@ -138,6 +138,7 @@ public struct ResponseAPIContentGetReport: ListItemType {
     public let type: String
     public var post: ResponseAPIContentGetPost?
     public var comment: ResponseAPIContentGetComment?
+    public var proposal: ResponseAPIContentGetProposal?
     
     // additional properties
     public var downloadingReports: Bool? = false
@@ -148,6 +149,7 @@ public struct ResponseAPIContentGetReport: ListItemType {
     
     enum CodingKeys: String, CodingKey  {
         case type
+        case proposal
     }
     enum ParseError: Error {
         case notRecognizedType(Any)
@@ -157,6 +159,7 @@ public struct ResponseAPIContentGetReport: ListItemType {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         type = try container.decode(String.self, forKey: .type)
+        proposal = try container.decode(ResponseAPIContentGetProposal.self, forKey: .proposal)
         
         let container2 = try decoder.singleValueContainer()
         switch type {
