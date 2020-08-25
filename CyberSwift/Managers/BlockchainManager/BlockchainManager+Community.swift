@@ -211,7 +211,6 @@ extension BlockchainManager {
                     blockIdDetails: BlockIdDetails(blockId: info.body!.head_block_id),
                     actions: [action])
 
-
             let args = EOSArgument.Propose(communCode: communityCode, proposer: userID, proposalName: proposalName, trx: transactionAbi)
 
             return EOSManager.banContnent(args: args)
