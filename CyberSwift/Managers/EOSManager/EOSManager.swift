@@ -153,6 +153,14 @@ class EOSManager {
                    disableCyberBandwidth: true)
     }
 
+    static func execProposal(args: EOSArgument.ProposalApprove) -> Single<String> {
+        pushAuthorized(account: .ctrl,
+                name: "exec",
+                args: args,
+                disableClientAuth: true,
+                disableCyberBandwidth: true)
+    }
+
     // MARK: - c.list
     static func followCommunity(_ followArgs: EOSArgument.FollowUser) -> Single<String> {
         pushAuthorized(account: .list, name: "follow", args: followArgs)
