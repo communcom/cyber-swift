@@ -24,8 +24,8 @@ extension String {
     public static var latinLettersAndNumbers =
         Set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 
-    public static func randomString(length: Int) -> String {
-        String((0..<length).map { _ in latinLettersAndNumbers.randomElement()! })
+    public static func randomString(length: Int, fromSet set: Set<String.Element> = latinLettersAndNumbers) -> String {
+        String((0..<length).map { _ in set.randomElement()! })
     }
 
     // For currency only
