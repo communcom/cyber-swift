@@ -195,9 +195,7 @@ extension BlockchainManager {
         return EOSManager.execProposal(args: args)
     }
 
-    public func createBanProposal(communityCode: String, commnityIssuer: String, permlink: String) -> Single<String> {
-
-        let proposalName = generateRandomProposalId()
+    public func createBanProposal(proposalId proposalName: String, communityCode: String, commnityIssuer: String, permlink: String) -> Single<String> {
         guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
             return .error(CMError.unauthorized())
         }
@@ -247,7 +245,7 @@ extension BlockchainManager {
                 transaction_extensions: StringCollectionWriterValue(value: []))
     }
 
-    private func generateRandomProposalId() -> String {
+    public func generateRandomProposalId() -> String {
         let prefix = "pri"
         return prefix + String.randomString(length: 11 - prefix.count, fromSet: Set("0123456789"))
     }

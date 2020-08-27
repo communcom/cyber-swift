@@ -69,6 +69,31 @@ public struct ResponseAPIContentGetProposal: CachedHeightItemType {
             height: item.height ?? height
         )
     }
+    
+    public func placeholder(proposalId: String, isApproved: Bool = true, approvesCount: UInt64 = 1, approvesNeed: UInt64) -> ResponseAPIContentGetProposal {
+        ResponseAPIContentGetProposal(
+            proposer: nil,
+            proposalId: proposalId,
+            type: nil,
+            contract: nil,
+            action: nil,
+            permission: nil,
+            blockTime: nil,
+            expiration: nil,
+            data: nil,
+            contentType: nil,
+            community: nil,
+            isApproved: isApproved,
+            approvesCount: approvesCount,
+            approvesNeed: approvesNeed,
+            change: nil,
+            post: nil,
+            comment: nil,
+            postLoadingError: nil,
+            isBeingApproved: nil,
+            height: nil
+        )
+    }
 }
 
 public struct ResponseAPIContentGetProposalData: Decodable, Equatable {
