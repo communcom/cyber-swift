@@ -50,6 +50,10 @@ public struct ResponseAPIWalletGetBalance: ListItemType {
         Double(price?.stringValue ?? "1") ?? 0
     }
     
+    public var unitType: String {
+        (symbol == "CMN") ? "token": "point"
+    }
+    
     public init(symbol: String, balance: String, logo: String?, name: String?, frozen: String?, price: Conflicted?) {
         self.symbol = symbol
         self.balance = balance
