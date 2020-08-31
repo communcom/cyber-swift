@@ -189,9 +189,42 @@ public struct ResponseAPIContentGetProfilePersonal: Codable, Equatable {
 }
 
 public struct ResponseAPIContentGetProfilePersonalMessengers: Codable, Equatable {
+    public enum MessengerType: String {
+        case whatsApp, telegram, weChat
+    }
+    
+    public var filledContacts: [MessengerType: ResponseAPIContentGetProfilePersonalLink] {
+        var filledContacts = [MessengerType: ResponseAPIContentGetProfilePersonalLink]()
+        if whatsApp?.value != nil {filledContacts[.whatsApp] = whatsApp}
+        if telegram?.value != nil {filledContacts[.telegram] = telegram}
+        if weChat?.value != nil {filledContacts[.weChat] = weChat}
+        return filledContacts
+    }
+    
+    public var unfilledContacts: [MessengerType: ResponseAPIContentGetProfilePersonalLink] {
+        var unfilledContacts = [MessengerType: ResponseAPIContentGetProfilePersonalLink]()
+        if whatsApp?.value == nil {unfilledContacts[.whatsApp] = whatsApp}
+        if telegram?.value == nil {unfilledContacts[.telegram] = telegram}
+        if weChat?.value == nil {unfilledContacts[.weChat] = weChat}
+        return unfilledContacts
+    }
+    
+    public func getContact(messengerType: MessengerType) -> ResponseAPIContentGetProfilePersonalLink? {
+        switch messengerType {
+        case .whatsApp:
+            return whatsApp
+        case .telegram:
+            return telegram
+        case .weChat:
+            return weChat
+        }
+    }
+    
     public var whatsApp: ResponseAPIContentGetProfilePersonalLink?
     public var telegram: ResponseAPIContentGetProfilePersonalLink?
     public var weChat: ResponseAPIContentGetProfilePersonalLink?
+    
+    public init() {}
 }
 
 public struct ResponseAPIContentGetProfilePersonalLinks: Codable, Equatable {
