@@ -192,13 +192,13 @@ public struct ResponseAPIContentGetProfilePersonalMessengers: Codable, Equatable
     public enum MessengerType: String {
         case whatsApp, telegram, weChat
         
-        enum IdentifyType: String {
+        public enum IdentifyType: String {
             case phoneNumber = "phone number"
             case username = "username"
             case link = "link"
         }
 
-        var identifiedBy: IdentifyType {
+        public var identifiedBy: IdentifyType {
             switch self {
             case .weChat:
                 return .username
