@@ -184,7 +184,9 @@ public struct ResponseAPIContentGetProfilePersonal: Codable, Equatable {
     public var fullName: String? {
         if firstName == nil && lastName == nil {return nil}
         if firstName == nil {return lastName}
-        return firstName! + (lastName == nil ? "" : " \(lastName!)")
+        let fullName = firstName! + (lastName == nil ? "" : " \(lastName!)")
+        if fullName.trimSpaces() == "" {return nil}
+        return fullName
     }
 }
 
