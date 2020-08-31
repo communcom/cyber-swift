@@ -200,13 +200,15 @@ public struct ResponseAPIContentGetProfilePersonalMessengers: Codable, Equatable
 
         public var identifiedBy: IdentifyType {
             switch self {
-            case .weChat:
+            case .weChat, .telegram:
                 return .username
-            case .telegram, .whatsApp:
+            case .whatsApp:
                 return .phoneNumber
             }
         }
     }
+    
+    var supportedContacts: [MessengerType] { [.telegram] } // REMOVE LATER
     
     public var filledContacts: [MessengerType: ResponseAPIContentGetProfilePersonalLink] {
         var filledContacts = [MessengerType: ResponseAPIContentGetProfilePersonalLink]()
@@ -214,6 +216,7 @@ public struct ResponseAPIContentGetProfilePersonalMessengers: Codable, Equatable
         if telegram?.value != nil {filledContacts[.telegram] = telegram}
         if weChat?.value != nil {filledContacts[.weChat] = weChat}
         return filledContacts
+            .filter {supportedContacts.contains($0.key)}
     }
     
     public var unfilledContacts: [MessengerType] {
@@ -222,6 +225,7 @@ public struct ResponseAPIContentGetProfilePersonalMessengers: Codable, Equatable
         if telegram?.value == nil {unfilledContacts.append(.telegram)}
         if weChat?.value == nil {unfilledContacts.append(.weChat)}
         return unfilledContacts
+            .filter {supportedContacts.contains($0)}
     }
     
     public func getContact(messengerType: MessengerType) -> ResponseAPIContentGetProfilePersonalLink? {
