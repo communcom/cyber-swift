@@ -216,11 +216,11 @@ public struct ResponseAPIContentGetProfilePersonalMessengers: Codable, Equatable
         return filledContacts
     }
     
-    public var unfilledContacts: [MessengerType: ResponseAPIContentGetProfilePersonalLink] {
-        var unfilledContacts = [MessengerType: ResponseAPIContentGetProfilePersonalLink]()
-        if whatsApp?.value == nil {unfilledContacts[.whatsApp] = whatsApp}
-        if telegram?.value == nil {unfilledContacts[.telegram] = telegram}
-        if weChat?.value == nil {unfilledContacts[.weChat] = weChat}
+    public var unfilledContacts: [MessengerType] {
+        var unfilledContacts = [MessengerType]()
+        if whatsApp?.value == nil {unfilledContacts.append(.whatsApp)}
+        if telegram?.value == nil {unfilledContacts.append(.telegram)}
+        if weChat?.value == nil {unfilledContacts.append(.weChat)}
         return unfilledContacts
     }
     
