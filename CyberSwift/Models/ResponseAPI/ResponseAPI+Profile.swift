@@ -191,6 +191,21 @@ public struct ResponseAPIContentGetProfilePersonal: Codable, Equatable {
 public struct ResponseAPIContentGetProfilePersonalMessengers: Codable, Equatable {
     public enum MessengerType: String {
         case whatsApp, telegram, weChat
+        
+        enum IdentifyType: String {
+            case phoneNumber = "phone number"
+            case username = "username"
+            case link = "link"
+        }
+
+        var identifiedBy: IdentifyType {
+            switch self {
+            case .weChat:
+                return .username
+            case .telegram, .whatsApp:
+                return .phoneNumber
+            }
+        }
     }
     
     public var filledContacts: [MessengerType: ResponseAPIContentGetProfilePersonalLink] {
