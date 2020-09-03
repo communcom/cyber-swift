@@ -86,6 +86,10 @@ public struct ResponseAPIContentGetProfile: Encodable, ListItemType {
     public var isBeingToggledFollow: Bool? = false
     public var isBeingUnblocked: Bool? = false
     
+    public var representationName: String? {
+        personal?.fullName ?? username ?? userId
+    }
+    
     public var identity: String {
         return userId + "/" + (username ?? "")
     }
