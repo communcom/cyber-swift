@@ -136,7 +136,7 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
             topExplanation: topExplanation,
             bottomExplanation: bottomExplanation,
             donations: item.donations ?? donations,
-            showDonationButtons: showDonationButtons
+            showDonationButtons: item.showDonationButtons ?? showDonationButtons
         )
     }
 }
