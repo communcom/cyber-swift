@@ -93,6 +93,7 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
     // Additional properties
     public var mosaic: ResponseAPIRewardsGetStateBulkMosaic?
     public var sendingState: MessageSendingState? = MessageSendingState.none
+    public var title: String? {document?.attributes?.title}
     
     // Explanation
     public var topExplanation: TopExplanationType?
