@@ -28,7 +28,6 @@ public protocol ResponseAPIContentMessageType: ListItemType {
     var community: ResponseAPIContentGetCommunity? {get}
     var contentId: ResponseAPIContentId {get}
     var sendingState: MessageSendingState? {get set}
-    var showDonator: Bool? {get set}
     var showDonationButtons: Bool? {get set}
     var donations: ResponseAPIWalletGetDonationsBulkItem? {get set}
     var author: ResponseAPIContentGetProfile? {get}
@@ -101,7 +100,6 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
     
     // Donation
     public var donations: ResponseAPIWalletGetDonationsBulkItem?
-    public var showDonator: Bool? = false
     public var showDonationButtons: Bool? = false
     
     public var identity: String {
@@ -138,7 +136,6 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
             topExplanation: topExplanation,
             bottomExplanation: bottomExplanation,
             donations: item.donations ?? donations,
-            showDonator: item.showDonator ?? showDonator,
             showDonationButtons: showDonationButtons
         )
     }
