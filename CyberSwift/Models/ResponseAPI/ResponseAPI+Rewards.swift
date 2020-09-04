@@ -21,6 +21,16 @@ public struct ResponseAPIRewardsGetStateBulkMosaic: Decodable, Equatable {
     public let contentId: ResponseAPIContentId
     public let convertedReward: ResponseAPIRewardsGetStateBulkMosaicConvertedReward?
     
+    public var formatedRewardsValue: String {
+        let symbol = UserDefaults.standard.string(forKey: Config.currentRewardShownSymbol)
+        if symbol == "USD" {
+            return ((convertedReward?.usd ?? "") + " $")
+        } else if symbol == "CMN" {
+            return ((convertedReward?.cmn ?? "") + " CMN")
+        }
+        return rewardDouble.currencyValueFormatted
+    }
+    
     public var isRewarded: Bool {
         topCount > 0 && rewardDouble > 0
     }
