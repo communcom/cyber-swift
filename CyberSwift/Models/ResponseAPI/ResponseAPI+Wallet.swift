@@ -138,6 +138,10 @@ public struct ResponseAPIWalletGetDonationsBulkItem: Decodable, Equatable {
     public var contentId: ResponseAPIContentId
     public var donations: [ResponseAPIWalletDonation]
     public var totalAmount: Double
+    
+    public var donators: [String] {
+        Array(Set(donations.compactMap {$0.sender.representationName}))
+    }
 }
 
 public struct ResponseAPIWalletDonation: Decodable, Equatable {
