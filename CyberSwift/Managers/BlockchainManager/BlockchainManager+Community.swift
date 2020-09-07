@@ -247,6 +247,6 @@ extension BlockchainManager {
 
     public func generateRandomProposalId() -> String {
         let prefix = "pri"
-        return prefix + String.randomString(length: 11 - prefix.count, fromSet: Set("0123456789"))
+        return prefix + String.randomString(length: 12 - prefix.count, fromSet: String.latinLetters)
     }
 }

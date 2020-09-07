@@ -23,6 +23,7 @@ extension String {
 
     public static var latinLettersAndNumbers =
         Set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+    public static var latinLetters = Set("abcdefghijklmnopqrstuvwxyz")
 
     public static func randomString(length: Int, fromSet set: Set<String.Element> = latinLettersAndNumbers) -> String {
         String((0..<length).map { _ in set.randomElement()! })
