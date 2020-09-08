@@ -215,6 +215,20 @@ struct EOSArgument {
         }
     }
 
+    struct RegLeader: Encodable, EOSArgumentCodeProtocol {
+        let communCode: CyberSymbolWriterValue
+        let leader: NameWriterValue
+        let url: String
+
+        init(communCode: String, leader: String, url: String) {
+            self.communCode = CyberSymbolWriterValue(name: communCode)
+            self.url = url
+            self.leader = NameWriterValue(name: leader)
+        }
+    }
+
+    
+
     struct OpenBalance: Encodable {
         let owner: NameWriterValue
         let communCode: CyberSymbolWriterValue

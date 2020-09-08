@@ -85,6 +85,15 @@ public class BlockchainManager {
         let args = EOSArgument.UnvoteLeader(communCode: communityId, voter: userID, leader: leader)
         return EOSManager.unvoteLeader(args: args)
     }
+
+    public func regLeader(communityId: String, url: String = "") -> Single<String> {
+        // Check user authorize
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
+            return .error(CMError.unauthorized())
+        }
+        let args = EOSArgument.RegLeader(communCode: communityId, leader: userID, url: url)
+        return EOSManager.regLeader(args: args)
+    }
     
     public func openCMNBalance() -> Single<String> {
         let communityCode = Config.defaultSymbol

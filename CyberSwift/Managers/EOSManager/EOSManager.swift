@@ -129,6 +129,14 @@ class EOSManager {
                 disableCyberBandwidth: true)
     }
 
+    static func regLeader(args: EOSArgument.RegLeader) -> Single<String> {
+        pushAuthorized(account: .ctrl,
+                name: "regleader",
+                args: args,
+                disableClientAuth: true,
+                disableCyberBandwidth: true)
+    }
+
     static func approveProposal(args: EOSArgument.ProposalApprove) -> Single<String> {
         pushAuthorized(account: .ctrl,
                     name: "approve",
