@@ -127,7 +127,7 @@ extension BlockchainManager {
     }
     
     // MARK: - Helpers
-    private func followCommunity(_ communityId: String) -> Single<String> {
+    public func followCommunity(_ communityId: String) -> Single<String> {
         // Check user authorize
         guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
             return .error(CMError.unauthorized())
