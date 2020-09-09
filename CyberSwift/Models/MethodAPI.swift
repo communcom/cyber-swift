@@ -39,6 +39,7 @@ public enum MethodAPIGroup: String {
     case settings           =   "settings"
     case rewards            =   "rewards"
     case airdrop            =   "airdrop"
+    case community          =   "community"
 }
 
 public enum FeedTypeMode: String, Codable {
@@ -337,6 +338,11 @@ public indirect enum MethodAPIType {
     case getReportsList(communityIds: [String], contentType: String, status: String, sortBy: SortBy, limit: Int, offset: Int)
     
     case getEntityReports(userId: String, communityId: String, permlink: String, limit: Int, offset: Int)
+    
+    /// COMMUNITY CREATION
+    case createNewCommunity(name: String)
+    
+    case communitySetSettings(name: String, avatarUrl: String, coverUrl: String, language: String, description: String, rules: String, subject: String, communityId: String)
     
     /// This method return request parameters from selected enum case.
     func introduced() -> RequestMethodParameters {
@@ -995,6 +1001,18 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getEntityReports",
                      parameters:        ["userId": userId, "communityId": communityId, "permlink": permlink, "limit": limit, "offset": offset ])
+            
+        case .createNewCommunity(let name):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.community.rawValue,
+                     methodName:        "createNewCommunity",
+                     parameters:        ["name": name])
+            
+        case .communitySetSettings(let name, let avatarUrl, let coverUrl, let language, let description, let rules, let subject, let communityId):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.community.rawValue,
+                     methodName:        "setSettings",
+                     parameters:        ["name": name, "avatarUrl": avatarUrl, "coverUrl": coverUrl, "language": language, "description": description, "rules": rules, "subject": subject, "communityId": communityId])
             
         } // switch
     }

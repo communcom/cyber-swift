@@ -194,3 +194,8 @@ extension ResponseAPIContentGetLeader {
         isVoted = value
     }
 }
+
+// MARK: - API `community.createNewCommunity`
+public struct ResponseAPICommunityCreateNewCommunity: Decodable {
+    public let community: ResponseAPIContentGetCommunity
+}
