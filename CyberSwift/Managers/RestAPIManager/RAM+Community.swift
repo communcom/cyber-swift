@@ -62,6 +62,6 @@ extension RestAPIManager {
     
     public func startCommunityCreation(communityId: String, transferTrxId: String?) -> Single<ResponseAPIStatus> {
         let methodAPIType = MethodAPIType.startCommunityCreation(communityId: communityId, transferTrxId: transferTrxId)
-        return executeGetRequest(methodAPIType: methodAPIType, timeout: 20)
+        return executeGetRequest(methodAPIType: methodAPIType, timeout: 10000)
     }
 }
