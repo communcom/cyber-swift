@@ -41,6 +41,10 @@ public struct ResponseAPIContentGetCommunity: Encodable, ListItemType {
     public var isLeader: Bool?
     public var isStoppedLeader: Bool?
     
+    // Create community
+    public let currentStep: String?
+    public let isDone: Bool?
+    
     // Additional field
     public var isBeingJoined: Bool? = false
     public var isBeingUnblocked: Bool? = false
@@ -198,4 +202,8 @@ extension ResponseAPIContentGetLeader {
 // MARK: - API `community.createNewCommunity`
 public struct ResponseAPICommunityCreateNewCommunity: Decodable {
     public let community: ResponseAPIContentGetCommunity
+}
+
+public struct ResponseAPIGetUserCommunities: Decodable {
+    public let communities: [ResponseAPIContentGetCommunity]?
 }

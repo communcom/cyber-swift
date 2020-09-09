@@ -346,6 +346,8 @@ public indirect enum MethodAPIType {
     
     case startCommunityCreation(communityId: String, transferTrxId: String?)
     
+    case getUsersCommunity
+    
     /// This method return request parameters from selected enum case.
     func introduced() -> RequestMethodParameters {
         switch self {
@@ -1023,6 +1025,12 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.community.rawValue,
                      methodName:        "startCommunityCreation",
                      parameters:        parameters)
+            
+        case .getUsersCommunity:
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.community.rawValue,
+                     methodName:        "getUsersCommunities",
+                     parameters:        [:])
             
         } // switch
     }
