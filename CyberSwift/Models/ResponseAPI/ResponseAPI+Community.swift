@@ -75,6 +75,7 @@ public struct ResponseAPIContentGetCommunity: Encodable, ListItemType {
         }
         
         if subscriberCount < 0 {subscriberCount = 0}
+        
         return ResponseAPIContentGetCommunity(
             subscribersCount: subscriberCount,
             leadersCount: item.leadersCount ?? self.leadersCount,
@@ -97,6 +98,8 @@ public struct ResponseAPIContentGetCommunity: Encodable, ListItemType {
             isInBlacklist: item.isInBlacklist ?? self.isInBlacklist,
             isLeader: item.isLeader ?? self.isLeader,
             isStoppedLeader: item.isStoppedLeader ?? self.isStoppedLeader,
+            currentStep: item.currentStep ?? self.currentStep,
+            isDone: item.isDone ?? self.isDone,
             isBeingJoined: item.isBeingJoined ?? self.isBeingJoined,
             isBeingUnblocked: item.isBeingUnblocked ?? self.isBeingUnblocked
         )
