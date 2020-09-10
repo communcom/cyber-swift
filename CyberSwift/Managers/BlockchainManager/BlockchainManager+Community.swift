@@ -195,7 +195,7 @@ extension BlockchainManager {
         return EOSManager.execProposal(args: args)
     }
 
-    public func createBanProposal(proposalId proposalName: String, communityCode: String, commnityIssuer: String, permlink: String) -> Single<String> {
+    public func createBanProposal(proposalId proposalName: String, communityCode: String, commnityIssuer: String, permlink: String, author: String) -> Single<String> {
         guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
             return .error(CMError.unauthorized())
         }
@@ -212,7 +212,7 @@ extension BlockchainManager {
                     actor: AccountNameWriterValue(name: commnityIssuer),
                     permission: AccountNameWriterValue(name: "lead.minor"))
 
-            let data = EOSArgument.DeleteContent(communCode: CyberSymbolWriterValue(name: communityCode), messageID: EOSArgument.MessageIDContent(author: userID, permlink: permlink))
+            let data = EOSArgument.DeleteContent(communCode: CyberSymbolWriterValue(name: communityCode), messageID: EOSArgument.MessageIDContent(author: author, permlink: permlink))
 
             let action = ActionAbi(account: AccountNameWriterValue(name: "c.gallery"),
                                     name: AccountNameWriterValue(name: "ban"),

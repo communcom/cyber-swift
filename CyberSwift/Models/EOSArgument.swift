@@ -297,4 +297,31 @@ struct EOSArgument {
             self.trx = trx
         }
     }
+
+    // MARK: - Set Community info
+    struct SetInfo: Encodable, EOSArgumentCodeProtocol {
+        let communCode: CyberSymbolWriterValue
+        let description: String?
+        let language: String?
+        let rules: String?
+        let avatarImage: String?
+        let coverImage: String?
+        let subject: String?
+
+        init(communCode: String,
+             description: String? = nil,
+             language: String? = nil,
+             rules: String? = nil,
+             avatarImage: String? = nil,
+             coverImage: String? = nil,
+             subject: String? = nil) {
+            self.communCode = CyberSymbolWriterValue(name: communCode)
+            self.description = description
+            self.language = language
+            self.rules = rules
+            self.avatarImage = avatarImage
+            self.coverImage = coverImage
+            self.subject = subject
+        }
+    }
 }
