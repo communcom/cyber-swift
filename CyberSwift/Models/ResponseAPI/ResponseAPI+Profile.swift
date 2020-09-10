@@ -86,6 +86,8 @@ public struct ResponseAPIContentGetProfile: Encodable, ListItemType {
     public var isBeingToggledFollow: Bool? = false
     public var isBeingUnblocked: Bool? = false
     
+    public var createdCommunities: [ResponseAPIContentGetCommunity]?
+    
     public var representationName: String? {
         personal?.fullName ?? username ?? userId
     }
@@ -116,21 +118,28 @@ public struct ResponseAPIContentGetProfile: Encodable, ListItemType {
             postsCount: item.postsCount ?? self.postsCount,
             subscribersCount: item.subscribersCount ?? self.subscribersCount,
             isBeingToggledFollow: item.isBeingToggledFollow ?? self.isBeingToggledFollow,
-            isBeingUnblocked: item.isBeingUnblocked ?? self.isBeingUnblocked
+            isBeingUnblocked: item.isBeingUnblocked ?? self.isBeingUnblocked,
+            createdCommunities: item.createdCommunities ?? self.createdCommunities
         )
     }
     
     public static func with(userId: String, username: String, avatarUrl: String?, stats: ResponseAPIContentGetProfileStat?, isSubscribed: Bool?) -> ResponseAPIContentGetProfile {
-        ResponseAPIContentGetProfile(stats: stats, leaderIn: nil, userId: userId, username: username, avatarUrl: avatarUrl, coverUrl: nil, registration: nil, subscriptions: nil, personal: nil, isSubscribed: isSubscribed)
+        ResponseAPIContentGetProfile(stats: stats, leaderIn: nil, userId: userId, username: username, avatarUrl: avatarUrl, coverUrl: nil, registration: nil, subscriptions: nil, personal: nil, isSubscribed: isSubscribed, createdCommunities: nil)
     }
 
     public static var current: ResponseAPIContentGetProfile? {
-        guard let data = UserDefaults.standard.data(forKey: Config.currentUserGetProfileKey),
-            let profile = try? JSONDecoder().decode(ResponseAPIContentGetProfile.self, from: data)
-        else {
-            return nil
+        get {
+            guard let data = UserDefaults.standard.data(forKey: Config.currentUserGetProfileKey),
+                let profile = try? JSONDecoder().decode(ResponseAPIContentGetProfile.self, from: data)
+            else {
+                return nil
+            }
+            return profile
         }
-        return profile
+        set {
+            guard let data = try? JSONEncoder().encode(newValue) else {return}
+            UserDefaults.standard.set(data, forKey: Config.currentUserGetProfileKey)
+        }
     }
     
     public static var observeCurrentProfile: Observable<ResponseAPIContentGetProfile?> {
@@ -153,8 +162,8 @@ public struct ResponseAPIContentGetProfile: Encodable, ListItemType {
         if let bio = bio {
             profile?.personal?.biography = bio
         }
-        guard let data = try? JSONEncoder().encode(profile) else {return}
-        UserDefaults.standard.set(data, forKey: Config.currentUserGetProfileKey)
+        
+        ResponseAPIContentGetProfile.current = profile
     }
 }
 
