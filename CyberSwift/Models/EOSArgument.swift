@@ -168,7 +168,7 @@ struct EOSArgument {
             self.instagram = json["instagram"] ?? nil
             self.linkedin = json["linkedin"] ?? nil
             self.twitter = json["twitter"] ?? nil
-            self.github = json["github"] ?? nil
+            self.github = json["gitHub"] ?? nil
             self.website_url = json["website_url"] ?? nil
         }
     }

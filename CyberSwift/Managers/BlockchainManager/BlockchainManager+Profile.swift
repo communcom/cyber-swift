@@ -20,7 +20,7 @@ extension BlockchainManager {
         let userProfileAccountmetaArgs = EOSArgument.UserProfileAccountmetaArgs(json: params)
 
         let userProfileMetaArgs = EOSArgument.UpdateUser(accountValue: userID,
-                                                                           metaValue: userProfileAccountmetaArgs)
+                                                         metaValue: userProfileAccountmetaArgs)
 
         return EOSManager.update(userProfileMetaArgs: userProfileMetaArgs)
             .flatMapCompletable({ (transaction) -> Completable in
