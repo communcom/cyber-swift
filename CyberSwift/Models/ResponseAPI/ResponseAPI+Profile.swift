@@ -129,12 +129,10 @@ public struct ResponseAPIContentGetProfile: Encodable, ListItemType {
 
     public static var current: ResponseAPIContentGetProfile? {
         get {
-            guard let data = UserDefaults.standard.data(forKey: Config.currentUserGetProfileKey),
-                let profile = try? JSONDecoder().decode(ResponseAPIContentGetProfile.self, from: data)
-            else {
+            guard let data = UserDefaults.standard.data(forKey: Config.currentUserGetProfileKey) else {
                 return nil
             }
-            return profile
+            return try? JSONDecoder().decode(ResponseAPIContentGetProfile.self, from: data)
         }
         set {
             guard let data = try? JSONEncoder().encode(newValue) else {return}
