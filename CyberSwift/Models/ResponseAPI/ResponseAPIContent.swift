@@ -364,7 +364,6 @@ public struct ResponseAPIContentGetComment: ResponseAPIContentMessageType {
     public var sendingState: MessageSendingState? = MessageSendingState.none
     
     public var donations: ResponseAPIWalletGetDonationsBulkItem?
-    public var showDonator: Bool? = false
     public var showDonationButtons: Bool? = false
     
     public var identity: String {
@@ -391,7 +390,6 @@ public struct ResponseAPIContentGetComment: ResponseAPIContentMessageType {
             placeHolderImage: item.placeHolderImage ?? self.placeHolderImage,
             sendingState: item.sendingState ?? self.sendingState,
             donations: item.donations ?? donations,
-            showDonator: item.showDonator ?? self.showDonator,
             showDonationButtons: showDonationButtons
         )
     }
