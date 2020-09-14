@@ -223,7 +223,42 @@ extension BlockchainManager {
                     blockIdDetails: BlockIdDetails(blockId: info.body!.head_block_id),
                     actions: [action])
 
-            let args = EOSArgument.Propose(communCode: communityCode, proposer: userID, proposalName: proposalName, trx: transactionAbi)
+            let args = EOSArgument.Propose(communCode: communityCode, proposer: userID, proposalName: proposalName, permission: "lead.minor", trx: transactionAbi)
+
+            return EOSManager.banContnent(args: args)
+        }
+    }
+
+    public func editCommunnity(_ proposalName: String, communityCode: String, commnityIssuer: String, description: String? = nil, language: String? = nil, rules: String? = nil, avatarImage: String? = nil, coverImage: String? = nil, subject: String? = nil) -> Single<String> {
+
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
+            return .error(CMError.unauthorized())
+        }
+
+        return chainApi.getInfo().flatMap { info -> Single<String> in
+
+            guard info.success else {
+                throw CMError.blockchainError(message: ErrorMessage.couldNotRetrieveChainInfo.rawValue, code: 0)
+            }
+
+            let expiration = Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds)
+
+            let auth = TransactionAuthorizationAbi(
+                    actor: AccountNameWriterValue(name: commnityIssuer),
+                    permission: AccountNameWriterValue(name: "active"))
+
+            let data = EOSArgument.SetInfo(communCode: communityCode, description: description, language: language, rules: rules, avatarImage: avatarImage, coverImage: coverImage, subject: subject)
+
+            let action = ActionAbi(account: AccountNameWriterValue(name: "c.list"),
+                                    name: AccountNameWriterValue(name: "setinfo"),
+                                    authorization: [auth],
+                                    data: DataWriterValue(hex: data.toHex()))
+
+            let transactionAbi = self.createTransactionAbi(expirationDate: expiration,
+                    blockIdDetails: BlockIdDetails(blockId: info.body!.head_block_id),
+                    actions: [action])
+
+            let args = EOSArgument.Propose(communCode: communityCode, proposer: userID, proposalName: proposalName, permission: "lead.smajor", trx: transactionAbi)
 
             return EOSManager.banContnent(args: args)
         }
