@@ -125,8 +125,8 @@ extension ResponseAPIContentGetCommunity {
 
 public struct ResponseAPIContentGetCommunityRule: Encodable, ListItemType {
     public let id: String?
-    public let title: String?
-    public let text: String?
+    public var title: String?
+    public var text: String?
     public var isExpanded: Bool? = false
     
     public var identity: String {
@@ -135,6 +135,10 @@ public struct ResponseAPIContentGetCommunityRule: Encodable, ListItemType {
     
     public func newUpdatedItem(from item: ResponseAPIContentGetCommunityRule) -> ResponseAPIContentGetCommunityRule? {
         ResponseAPIContentGetCommunityRule(id: item.id ?? id, title: item.title ?? title, text: item.text ?? text, isExpanded: item.isExpanded ?? isExpanded)
+    }
+    
+    public static func with(title: String, text: String?) -> ResponseAPIContentGetCommunityRule {
+        ResponseAPIContentGetCommunityRule(id: String.randomString(length: 8), title: title, text: text, isExpanded: nil)
     }
 }
 
