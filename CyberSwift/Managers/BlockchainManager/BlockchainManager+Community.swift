@@ -229,11 +229,13 @@ extension BlockchainManager {
         }
     }
 
-    public func editCommunnity(_ proposalName: String, communityCode: String, commnityIssuer: String, description: String? = nil, language: String? = nil, rules: String? = nil, avatarImage: String? = nil, coverImage: String? = nil, subject: String? = nil) -> Single<String> {
+    public func editCommunnity(_ proposalName: String? = nil, communityCode: String, commnityIssuer: String, description: String? = nil, language: String? = nil, rules: String? = nil, avatarImage: String? = nil, coverImage: String? = nil, subject: String? = nil) -> Single<String> {
 
         guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
             return .error(CMError.unauthorized())
         }
+        
+        let proposalName = proposalName ?? generateRandomProposalId()
 
         return chainApi.getInfo().flatMap { info -> Single<String> in
 
