@@ -208,7 +208,7 @@ extension BlockchainManager {
                 throw CMError.blockchainError(message: ErrorMessage.couldNotRetrieveChainInfo.rawValue, code: 0)
             }
 
-            let expiration = Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds)
+            let expiration = Date.defaultTransactionExpiry(expireSeconds: Config.expireProposalSeconds)
 
             let auth = TransactionAuthorizationAbi(
                     actor: AccountNameWriterValue(name: commnityIssuer),
@@ -245,7 +245,7 @@ extension BlockchainManager {
                 throw CMError.blockchainError(message: ErrorMessage.couldNotRetrieveChainInfo.rawValue, code: 0)
             }
 
-            let expiration = Date.defaultTransactionExpiry(expireSeconds: Config.expireSeconds)
+            let expiration = Date.defaultTransactionExpiry(expireSeconds: Config.expireProposalSeconds)
 
             let auth = TransactionAuthorizationAbi(
                     actor: AccountNameWriterValue(name: commnityIssuer),

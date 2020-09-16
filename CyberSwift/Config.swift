@@ -26,6 +26,7 @@ public struct Config {
 
     static let blocksBehind: Int = 3
     public static let expireSeconds: Double = 30.0
+    public static let expireProposalSeconds: Double = 2592000
 
     #if APPSTORE
         static let gate_API_URL: String = "wss://gate.commun.com/"
