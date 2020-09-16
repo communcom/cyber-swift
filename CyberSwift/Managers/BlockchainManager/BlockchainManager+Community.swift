@@ -195,10 +195,12 @@ extension BlockchainManager {
         return EOSManager.execProposal(args: args)
     }
 
-    public func createBanProposal(proposalId proposalName: String, communityCode: String, commnityIssuer: String, permlink: String, author: String) -> Single<String> {
+    public func createBanProposal(proposalId proposalName: String? = nil, communityCode: String, commnityIssuer: String, permlink: String, author: String) -> Single<String> {
         guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
             return .error(CMError.unauthorized())
         }
+        
+        let proposalName = proposalName ?? generateRandomProposalId()
 
         return chainApi.getInfo().flatMap { info -> Single<String> in
 
