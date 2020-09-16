@@ -54,3 +54,30 @@ public struct RequestAPIContentId: Encodable {
         self.permlink = responseAPI.permlink
     }
 }
+
+public struct RequestAPIRule: Encodable {
+    public let type = "patch"
+    public let actions: [RequestAPIRuleAction]
+    
+    public static func add(title: String, text: String? = nil) -> Self {
+        let rule = ResponseAPIContentGetCommunityRule.with(title: title, text: text)
+        let action = RequestAPIRuleAction(type: "add", data: rule)
+        return Self(actions: [action])
+    }
+    
+    public static func update(rule: ResponseAPIContentGetCommunityRule) -> Self {
+        let action = RequestAPIRuleAction(type: "update", data: rule)
+        return Self(actions: [action])
+    }
+    
+    public static func remove(id: String) -> Self {
+        let rule = ResponseAPIContentGetCommunityRule(id: id)
+        let action = RequestAPIRuleAction(type: "remove", data: rule)
+        return Self(actions: [action])
+    }
+}
+
+public struct RequestAPIRuleAction: Encodable {
+    public let type: String
+    public let data: ResponseAPIContentGetCommunityRule
+}
