@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Encodable {
+public extension Encodable {
     func convertToJSON() -> String {
         let jsonData = try! JSONEncoder().encode(self)
         let jsonString = String(data: jsonData, encoding: .utf8)!

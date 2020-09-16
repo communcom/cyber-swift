@@ -138,7 +138,11 @@ public struct ResponseAPIContentGetCommunityRule: Encodable, ListItemType {
     }
     
     public static func with(title: String, text: String?) -> ResponseAPIContentGetCommunityRule {
-        ResponseAPIContentGetCommunityRule(id: String.randomString(length: 8), title: title, text: text, isExpanded: nil)
+        ResponseAPIContentGetCommunityRule(id: String.randomString(length: 8, fromSet: String.latinLetters), title: title, text: text, isExpanded: nil)
+    }
+    
+    private enum CodingKeys: String, CodingKey {
+        case id, title, text
     }
 }
 
