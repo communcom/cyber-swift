@@ -366,6 +366,7 @@ public struct ResponseAPIContentGetComment: ResponseAPIContentMessageType {
     
     public var donations: ResponseAPIWalletGetDonationsBulkItem?
     public var showDonationButtons: Bool? = false
+    public var isExpanded: Bool? = false
     
     public var identity: String {
         return self.contentId.userId + "/" + self.contentId.permlink
@@ -391,7 +392,8 @@ public struct ResponseAPIContentGetComment: ResponseAPIContentMessageType {
             placeHolderImage: item.placeHolderImage ?? self.placeHolderImage,
             sendingState: item.sendingState ?? self.sendingState,
             donations: item.donations ?? donations,
-            showDonationButtons: showDonationButtons
+            showDonationButtons: showDonationButtons,
+            isExpanded: item.isExpanded ?? isExpanded
         )
     }
 }
