@@ -28,7 +28,6 @@ public protocol ResponseAPIContentMessageType: ListItemType {
     var community: ResponseAPIContentGetCommunity? {get}
     var contentId: ResponseAPIContentId {get}
     var sendingState: MessageSendingState? {get set}
-    var showDonationButtons: Bool? {get set}
     var donations: ResponseAPIWalletGetDonationsBulkItem? {get set}
     var author: ResponseAPIContentGetProfile? {get}
     var meta: ResponseAPIContentMeta {get}
@@ -101,7 +100,6 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
     
     // Donation
     public var donations: ResponseAPIWalletGetDonationsBulkItem?
-    public var showDonationButtons: Bool? = false
     
     public var identity: String {
         return self.contentId.userId + "/" + self.contentId.permlink + "/" + (self.community?.communityId ?? "")
@@ -116,10 +114,6 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
         var bottomExplanation = self.bottomExplanation
         if bottomExplanation != .hidden {
             bottomExplanation = item.bottomExplanation ?? self.bottomExplanation
-        }
-        var showDonationButtons = self.showDonationButtons
-        if showDonationButtons != false {
-            showDonationButtons = item.showDonationButtons ?? self.showDonationButtons
         }
         return ResponseAPIContentGetPost(
             document: item.document,
@@ -136,8 +130,7 @@ public struct ResponseAPIContentGetPost: ResponseAPIContentMessageType {
             sendingState: item.sendingState ?? self.sendingState,
             topExplanation: topExplanation,
             bottomExplanation: bottomExplanation,
-            donations: item.donations ?? donations,
-            showDonationButtons: item.showDonationButtons ?? showDonationButtons
+            donations: item.donations ?? donations
         )
     }
 }
@@ -365,7 +358,6 @@ public struct ResponseAPIContentGetComment: ResponseAPIContentMessageType {
     public var sendingState: MessageSendingState? = MessageSendingState.none
     
     public var donations: ResponseAPIWalletGetDonationsBulkItem?
-    public var showDonationButtons: Bool? = false
     public var isExpanded: Bool? = false
     
     public var identity: String {
@@ -374,10 +366,6 @@ public struct ResponseAPIContentGetComment: ResponseAPIContentMessageType {
     
     public func newUpdatedItem(from item: ResponseAPIContentGetComment) -> ResponseAPIContentGetComment? {
         guard item.identity == self.identity else {return nil}
-        var showDonationButtons = self.showDonationButtons
-        if showDonationButtons != false {
-            showDonationButtons = item.showDonationButtons ?? self.showDonationButtons
-        }
         
         return ResponseAPIContentGetComment(
             votes: votes.newUpdatedItem(from: item.votes),
@@ -392,7 +380,6 @@ public struct ResponseAPIContentGetComment: ResponseAPIContentMessageType {
             placeHolderImage: item.placeHolderImage ?? self.placeHolderImage,
             sendingState: item.sendingState ?? self.sendingState,
             donations: item.donations ?? donations,
-            showDonationButtons: showDonationButtons,
             isExpanded: item.isExpanded ?? isExpanded
         )
     }

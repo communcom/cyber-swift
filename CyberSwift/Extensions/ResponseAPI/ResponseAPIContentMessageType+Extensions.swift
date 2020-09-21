@@ -15,14 +15,7 @@ extension ResponseAPIContentMessageType {
             return .error(CMError.invalidRequest(message: "can't cancel vote on own publication"))
         }
         
-        var modifiedMessage = self
-        if modifiedMessage.votes.hasUpVote != true {
-            // show donationButtons
-            modifiedMessage.showDonationButtons = true
-            modifiedMessage.notifyChanged()
-        }
-        
-        return BlockchainManager.instance.upvoteMessage(modifiedMessage)
+        return BlockchainManager.instance.upvoteMessage(self)
     }
     
     public func downVote() -> Completable {
