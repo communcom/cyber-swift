@@ -121,7 +121,7 @@ extension BlockchainManager {
                     throw CMError.invalidRequest(message: ErrorMessage.bodyIsInvalid.rawValue)
                 }
 
-                let tags = finalBlock!.getTags()
+                let tags = finalBlock!.getTags().map{ $0.lowercased() }
                 return EOSArgument.CreateContent(
                     communCode: CyberSymbolWriterValue(name: communCode),
                     message_id: messageId,
