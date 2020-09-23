@@ -71,8 +71,8 @@ public struct ResponseAPIWalletGetTransferHistory: Decodable {
 
 public struct ResponseAPIWalletGetTransferHistoryItem: ListItemType {
     public let id: String
-    public let sender: ResponseAPIWalletGetTransferHistoryProfile
-    public let receiver: ResponseAPIWalletGetTransferHistoryProfile
+    public let sender: ResponseAPIContentGetProfile
+    public let receiver: ResponseAPIContentGetProfile
     public let quantity: String
     public let symbol: String
     public let point: ResponseAPIWalletGetTransferHistoryPoint
@@ -80,7 +80,7 @@ public struct ResponseAPIWalletGetTransferHistoryItem: ListItemType {
     public let memo: String?
     public let timestamp: String
     public let meta: ResponseAPIWalletGetTransferHistoryMeta
-    public let referral: ResponseAPIWalletGetTransferHistoryProfile?
+    public let referral: ResponseAPIContentGetProfile?
     
     public var identity: String {
         return id
@@ -93,12 +93,6 @@ public struct ResponseAPIWalletGetTransferHistoryItem: ListItemType {
     public var quantityValue: Double {
         (Double(quantity) ?? 0)
     }
-}
-
-public struct ResponseAPIWalletGetTransferHistoryProfile: Codable, Equatable {
-    public let userId: String
-    public let username: String?
-    public let avatarUrl: String?
 }
 
 public struct ResponseAPIWalletGetTransferHistoryPoint: Codable, Equatable {
