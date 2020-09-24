@@ -156,13 +156,13 @@ extension BlockchainManager {
     }
 
     // MARK: - Managment
-    public func approveProposal(_ proposalName: String) -> Single<String> {
+    public func approveProposal(_ proposalName: String, proposer: String) -> Single<String> {
         // Check user authorize
         guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
             return .error(CMError.unauthorized())
         }
 
-        let args = EOSArgument.ProposalApprove(proposer: userID,
+        let args = EOSArgument.ProposalApprove(proposer: proposer,
                                                proposalName: proposalName,
                                                approver: userID)
 
