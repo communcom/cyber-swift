@@ -21,8 +21,7 @@ extension RestAPIManager {
         return executeGetRequest(methodAPIType: methodAPIType)
     }
     
-    public func commmunitySetSettings(name: String, description: String, language: String, communityId: String, avatarUrl: String = "", coverUrl: String = "", subject: String = "") -> Single<ResponseAPIStatus> {
-        let rules = "[{\"title\":\"Content:\",\"text\":\"- Here you can publish all types of content, create original or publish links to other sources;\\n- Content must be relevant to the thematic of the community;\",\"id\":\"x61mry8E\"},{\"title\":\"PROHIBITED:\",\"text\":\"- Publishing of NSFW content without tagging it as NSFW;\\n- Publishing of disturbing content, spam or advertisement is strictly forbidden;\\n- Insulting users in comments or posts;\\n- Publishing of personal data of people without their agreement;\",\"id\":\"KjJEGHLq\"},{\"title\":\"Rules violation:\",\"text\":\"In case of violation of the rules, comments and posts with violations will be deprived of payments and excluded from displaying in community and general feed. Also, leaders have the right to limit your access to the community\",\"id\":\"fGsrOj4o\"}]"
+    public func commmunitySetSettings(name: String, description: String, language: String, communityId: String, avatarUrl: String = "", coverUrl: String = "", subject: String = "", rules: String) -> Single<ResponseAPIStatus> {
         let methodAPIType = MethodAPIType.communitySetSettings(name: name, avatarUrl: avatarUrl, coverUrl: coverUrl, language: language, description: description, rules: rules, subject: subject, communityId: communityId)
         return executeGetRequest(methodAPIType: methodAPIType)
     }
