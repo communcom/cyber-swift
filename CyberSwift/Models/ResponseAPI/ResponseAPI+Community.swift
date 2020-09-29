@@ -24,17 +24,17 @@ public struct ResponseAPIContentGetCommunity: Encodable, ListItemType {
     public let name: String
     public let code: String?
     public var isSubscribed: Bool?
-    public let avatarUrl: String?
-    public let coverUrl: String?
+    public var avatarUrl: String?
+    public var coverUrl: String?
     
     public let issuer: String?
     public let alias: String?
-    public let rules: [ResponseAPIContentGetCommunityRule]?
+    public var rules: [ResponseAPIContentGetCommunityRule]?
     public let registrationTime: String?
     
-    public let description: String?
+    public var description: String?
     public var subject: String?
-    public let language: String?
+    public var language: String?
     public var isBlocked: Bool?
     public let friendsCount: Int64?
     public var friends: [ResponseAPIContentGetProfile]?
