@@ -21,7 +21,7 @@ extension RestAPIManager {
         return executeGetRequest(methodAPIType: methodAPIType)
     }
     
-    public func commmunitySetSettings(name: String, description: String, language: String, communityId: String, avatarUrl: String = "", coverUrl: String = "", subject: String = "", rules: String) -> Single<ResponseAPIStatus> {
+    public func commmunitySetSettings(name: String, description: String, language: String, communityId: String, avatarUrl: String = "", coverUrl: String = "", subject: String, rules: String) -> Single<ResponseAPIStatus> {
         let methodAPIType = MethodAPIType.communitySetSettings(name: name, avatarUrl: avatarUrl, coverUrl: coverUrl, language: language, description: description, rules: rules, subject: subject, communityId: communityId)
         return executeGetRequest(methodAPIType: methodAPIType)
     }
