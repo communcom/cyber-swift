@@ -33,6 +33,7 @@ public struct ResponseAPIContentGetCommunity: Encodable, ListItemType {
     public let registrationTime: String?
     
     public let description: String?
+    public var subject: String?
     public let language: String?
     public var isBlocked: Bool?
     public let friendsCount: Int64?
@@ -51,6 +52,13 @@ public struct ResponseAPIContentGetCommunity: Encodable, ListItemType {
     
     public var identity: String {
         return communityId + "/" + name
+    }
+    
+    public func getTopics() -> [String] {
+        guard let data = subject?.data(using: .utf8),
+            let topics = try? JSONDecoder().decode([String].self, from: data)
+            else {return []}
+        return topics
     }
     
     public func newUpdatedItem(from item: ResponseAPIContentGetCommunity) -> ResponseAPIContentGetCommunity? {
