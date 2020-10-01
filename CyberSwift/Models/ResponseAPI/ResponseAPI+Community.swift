@@ -43,8 +43,11 @@ public struct ResponseAPIContentGetCommunity: Encodable, ListItemType {
     public var isStoppedLeader: Bool?
     
     // Create community
-    public let currentStep: String?
-    public let isDone: Bool?
+    public var currentStep: String?
+    public var isDone: Bool?
+    public var isBeingCreated: Bool {
+        isDone == false || currentStep == "settingUp"
+    }
     
     // Additional field
     public var isBeingJoined: Bool? = false
