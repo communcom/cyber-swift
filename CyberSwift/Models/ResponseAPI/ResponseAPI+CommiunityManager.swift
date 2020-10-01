@@ -70,9 +70,9 @@ public struct ResponseAPIContentGetProposal: CachedHeightItemType {
         )
     }
     
-    public static func placeholder(proposalId: String, isApproved: Bool = true, approvesCount: UInt64 = 1, approvesNeed: UInt64) -> ResponseAPIContentGetProposal {
+    public static func placeholder(proposer: ResponseAPIContentGetProfile?, proposalId: String, isApproved: Bool = true, approvesCount: UInt64 = 1, approvesNeed: UInt64) -> ResponseAPIContentGetProposal {
         ResponseAPIContentGetProposal(
-            proposer: nil,
+            proposer: proposer,
             proposalId: proposalId,
             type: nil,
             contract: nil,
