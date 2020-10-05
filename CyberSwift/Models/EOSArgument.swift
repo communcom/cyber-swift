@@ -324,4 +324,17 @@ struct EOSArgument {
             self.subject = subject
         }
     }
+
+    // MARK: - Propose ban
+    struct BanUser: Encodable, EOSArgumentCodeProtocol {
+        let communCode: CyberSymbolWriterValue
+        let account: NameWriterValue
+        let reason: String
+
+        init(communCode: String, account: String, reason: String) {
+            self.communCode = CyberSymbolWriterValue(name: communCode)
+            self.account = NameWriterValue(name: account)
+            self.reason = reason
+        }
+    }
 }

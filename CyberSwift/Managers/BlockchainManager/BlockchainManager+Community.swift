@@ -288,4 +288,23 @@ extension BlockchainManager {
         let prefix = "pri"
         return prefix + String.randomString(length: 12 - prefix.count, fromSet: String.latinLetters)
     }
+
+    public func banUser(_ communityCode: String, accountName: String, reason: String) -> Single<String> {
+
+        let args = EOSArgument.BanUser(communCode: communityCode,
+                                       account: accountName,
+                                       reason: reason)
+
+        return EOSManager.banUser(args: args)
+    }
+
+    public func unbanUser(_ communityCode: String, accountName: String, reason: String) -> Single<String> {
+
+        let args = EOSArgument.BanUser(communCode: communityCode,
+                                       account: accountName,
+                                       reason: reason)
+
+        return EOSManager.unbanUser(args: args)
+    }
 }
+
