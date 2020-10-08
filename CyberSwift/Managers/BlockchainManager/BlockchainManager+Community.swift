@@ -247,18 +247,23 @@ extension BlockchainManager {
             }
     }
 
-//    public func unbanUser(_ communityCode: String, proposer: String, accountName: String, reason: String) -> Single<String> {
-//
-//        let args = EOSArgument.UnbanUser(
-//            communCode: communityCode,
-//            proposer: proposer,
-//            account: accountName,
-////            reason: reason
-//        )
-//
-//        return EOSManager.unbanUser(args: args)
-//    }
-    
+    public func unbanUser(_ communityCode: String, commnityIssuer: String, proposalId: String? = nil, accountName: String, reason: String) -> Single<String> {
+        guard let proposer = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
+            return .error(CMError.unauthorized())
+        }
+        let proposalId = proposalId ?? generateRandomProposalId()
+        let data = EOSArgument.BanUser(communCode: communityCode,
+                                       account: accountName,
+                                       reason: reason)
+
+        return prepareTransactionAbiForCommunityIssuer(commnityIssuer, permission: .active, data: data, account: .list, contractName: "unban")
+            .flatMap {
+                let args = EOSArgument.Propose(communCode: communityCode, proposer: proposer, proposalName: proposalId, permission: .lead(.smajor), trx: $0)
+
+                return EOSManager.proposeAndApprove(args: args)
+            }
+    }
+
     // MARK: - Helpers
     private func prepareTransactionAbiForCommunityIssuer(_ communityIssuer: String,
                                                          permission: BCAccountPermission,
