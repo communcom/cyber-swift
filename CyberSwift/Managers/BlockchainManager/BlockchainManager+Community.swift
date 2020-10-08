@@ -238,9 +238,9 @@ extension BlockchainManager {
                                        proposalName: proposalId,
                                        account: accountName,
                                        reason: reason)
-        return prepareTransactionAbiForCommunityIssuer(commnityIssuer, permission: .lead(.minor), data: data, account: .list, contractName: "ban")
+        return prepareTransactionAbiForCommunityIssuer(commnityIssuer, permission: .active, data: data, account: .list, contractName: "ban")
             .flatMap {
-                let args = EOSArgument.Propose(communCode: communityCode, proposer: proposer, proposalName: proposalId, permission: .lead(.minor), trx: $0)
+                let args = EOSArgument.Propose(communCode: communityCode, proposer: proposer, proposalName: proposalId, permission: .active, trx: $0)
 
                 return EOSManager.propose(args: args)
             }
