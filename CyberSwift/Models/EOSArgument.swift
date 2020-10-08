@@ -289,11 +289,11 @@ struct EOSArgument {
         let permission: NameWriterValue
         let trx: TransactionAbi
 
-        init(communCode: String, proposer: String, proposalName: String, permission: String, trx: TransactionAbi) {
+        init(communCode: String, proposer: String, proposalName: String, permission: BCAccountPermission, trx: TransactionAbi) {
             self.communCode = CyberSymbolWriterValue(name: communCode)
             self.proposer = NameWriterValue(name: proposer)
             self.proposalName = NameWriterValue(name: proposalName)
-            self.permission = NameWriterValue(name: permission)
+            self.permission = NameWriterValue(name: permission.rawValue)
             self.trx = trx
         }
     }

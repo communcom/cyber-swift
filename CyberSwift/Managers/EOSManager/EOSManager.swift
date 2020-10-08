@@ -31,6 +31,23 @@ enum BCAccountName: String {
     }
 }
 
+enum BCAccountPermission {
+    enum Lead: String {
+        case smajor, minor
+    }
+    case lead(BCAccountPermission.Lead)
+    case active
+    
+    var rawValue: String {
+        switch self {
+        case .lead(let type):
+            return "lead." + type.rawValue
+        case .active:
+            return "active"
+        }
+    }
+}
+
 class EOSManager {
     // MARK: - Properties
     static let chainApi = ChainApiFactory.create(rootUrl: Config.blockchain_API_URL)

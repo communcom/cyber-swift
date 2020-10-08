@@ -204,9 +204,9 @@ extension BlockchainManager {
         
         let data = EOSArgument.DeleteContent(communCode: CyberSymbolWriterValue(name: communityCode), messageID: EOSArgument.MessageIDContent(author: author, permlink: permlink))
 
-        return prepareTransactionAbiForCommunityIssuer(commnityIssuer, permission: "lead.minor", data: data, account: "c.gallery", contractName: "ban")
+        return prepareTransactionAbiForCommunityIssuer(commnityIssuer, permission: .lead(.minor), data: data, account: .gallery, contractName: "ban")
             .flatMap {
-                let args = EOSArgument.Propose(communCode: communityCode, proposer: userID, proposalName: proposalName, permission: "lead.minor", trx: $0)
+                let args = EOSArgument.Propose(communCode: communityCode, proposer: userID, proposalName: proposalName, permission: .lead(.minor), trx: $0)
                 return EOSManager.propose(args: args)
             }
     }
@@ -221,9 +221,9 @@ extension BlockchainManager {
         
         let data = EOSArgument.SetInfo(communCode: communityCode, description: description, language: language, rules: rules, avatarImage: avatarImage, coverImage: coverImage, subject: subject)
 
-        return prepareTransactionAbiForCommunityIssuer(commnityIssuer, data: data, account: "c.list", contractName: "setinfo")
+        return prepareTransactionAbiForCommunityIssuer(commnityIssuer, data: data, account: .list, contractName: "setinfo")
             .flatMap {
-                let args = EOSArgument.Propose(communCode: communityCode, proposer: userID, proposalName: proposalId, permission: "lead.smajor", trx: $0)
+                let args = EOSArgument.Propose(communCode: communityCode, proposer: userID, proposalName: proposalId, permission: .lead(.smajor), trx: $0)
 
                 return EOSManager.propose(args: args)
             }
@@ -238,10 +238,9 @@ extension BlockchainManager {
                                        proposalName: proposalId,
                                        account: accountName,
                                        reason: reason)
-        let permission = "active"
-        return prepareTransactionAbiForCommunityIssuer(commnityIssuer, permission: permission, data: data, account: "c.list", contractName: "ban")
+        return prepareTransactionAbiForCommunityIssuer(commnityIssuer, data: data, account: .list, contractName: "ban")
             .flatMap {
-                let args = EOSArgument.Propose(communCode: communityCode, proposer: proposer, proposalName: proposalId, permission: permission, trx: $0)
+                let args = EOSArgument.Propose(communCode: communityCode, proposer: proposer, proposalName: proposalId, permission: .lead(.smajor), trx: $0)
 
                 return EOSManager.propose(args: args)
             }
@@ -260,7 +259,7 @@ extension BlockchainManager {
 //    }
     
     // MARK: - Helpers
-    private func prepareTransactionAbiForCommunityIssuer(_ communityIssuer: String, permission: String = "active", data: Encodable, account: String, contractName: String) -> Single<TransactionAbi> {
+    private func prepareTransactionAbiForCommunityIssuer(_ communityIssuer: String, permission: BCAccountPermission = .active, data: Encodable, account: BCAccountName, contractName: String) -> Single<TransactionAbi> {
         chainApi.getInfo().map { info in
             guard info.success else {
                 throw CMError.blockchainError(message: ErrorMessage.couldNotRetrieveChainInfo.rawValue, code: 0)
@@ -270,9 +269,9 @@ extension BlockchainManager {
 
             let auth = TransactionAuthorizationAbi(
                     actor: AccountNameWriterValue(name: communityIssuer),
-                    permission: AccountNameWriterValue(name: permission))
+                    permission: AccountNameWriterValue(name: permission.rawValue))
 
-            let action = ActionAbi(account: AccountNameWriterValue(name: account),
+            let action = ActionAbi(account: AccountNameWriterValue(name: account.stringValue),
                                     name: AccountNameWriterValue(name: contractName),
                                     authorization: [auth],
                                     data: DataWriterValue(hex: data.toHex()))
