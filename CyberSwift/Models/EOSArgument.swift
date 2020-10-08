@@ -328,13 +328,33 @@ struct EOSArgument {
     // MARK: - Propose ban
     struct BanUser: Encodable, EOSArgumentCodeProtocol {
         let communCode: CyberSymbolWriterValue
+        let proposalName: NameWriterValue
         let account: NameWriterValue
         let reason: String
 
-        init(communCode: String, account: String, reason: String) {
+        init(communCode: String, proposalName: String, account: String, reason: String) {
             self.communCode = CyberSymbolWriterValue(name: communCode)
+            self.proposalName = NameWriterValue(name: proposalName)
             self.account = NameWriterValue(name: account)
             self.reason = reason
+        }
+    }
+    
+    struct UnbanUser: Encodable, EOSArgumentCodeProtocol {
+        let communCode: CyberSymbolWriterValue
+        let proposer: NameWriterValue
+//        let proposalName: NameWriterValue
+        let account: NameWriterValue
+//        let reason: String
+//        let trx: TransactionAbi
+
+        init(communCode: String, proposer: String/*, proposalName: String*/, account: String/*, reason: String, trx: TransactionAbi*/) {
+            self.communCode = CyberSymbolWriterValue(name: communCode)
+            self.proposer = NameWriterValue(name: proposer)
+//            self.proposalName = NameWriterValue(name: proposalName)
+            self.account = NameWriterValue(name: account)
+//            self.reason = reason
+//            self.trx = trx
         }
     }
 }

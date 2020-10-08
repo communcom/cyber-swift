@@ -153,7 +153,7 @@ class EOSManager {
                 disableCyberBandwidth: true)
     }
 
-    static func banContnent(args: EOSArgument.Propose) -> Single<String> {
+    static func propose(args: EOSArgument.Propose) -> Single<String> {
            pushAuthorized(account: .ctrl,
                    name: "propose",
                    args: args,
@@ -388,19 +388,4 @@ extension EOSManager {
         return action
     }
 
-    static func banUser(args: EOSArgument.BanUser) -> Single<String> {
-        pushAuthorized(account: .list,
-                name: "ban",
-                args: args,
-                disableClientAuth: true,
-                disableCyberBandwidth: true)
-    }
-
-    static func unbanUser(args: EOSArgument.BanUser) -> Single<String> {
-        pushAuthorized(account: .list,
-                name: "unban",
-                args: args,
-                disableClientAuth: true,
-                disableCyberBandwidth: true)
-    }
 }
