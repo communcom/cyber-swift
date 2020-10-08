@@ -221,7 +221,7 @@ extension BlockchainManager {
         
         let data = EOSArgument.SetInfo(communCode: communityCode, description: description, language: language, rules: rules, avatarImage: avatarImage, coverImage: coverImage, subject: subject)
 
-        return prepareTransactionAbiForCommunityIssuer(commnityIssuer, data: data, account: .list, contractName: "setinfo")
+        return prepareTransactionAbiForCommunityIssuer(commnityIssuer, permission: .active, data: data, account: .list, contractName: "setinfo")
             .flatMap {
                 let args = EOSArgument.Propose(communCode: communityCode, proposer: userID, proposalName: proposalId, permission: .lead(.smajor), trx: $0)
 
@@ -238,9 +238,9 @@ extension BlockchainManager {
                                        proposalName: proposalId,
                                        account: accountName,
                                        reason: reason)
-        return prepareTransactionAbiForCommunityIssuer(commnityIssuer, data: data, account: .list, contractName: "ban")
+        return prepareTransactionAbiForCommunityIssuer(commnityIssuer, permission: .lead(.minor), data: data, account: .list, contractName: "ban")
             .flatMap {
-                let args = EOSArgument.Propose(communCode: communityCode, proposer: proposer, proposalName: proposalId, permission: .lead(.smajor), trx: $0)
+                let args = EOSArgument.Propose(communCode: communityCode, proposer: proposer, proposalName: proposalId, permission: .lead(.minor), trx: $0)
 
                 return EOSManager.propose(args: args)
             }
@@ -259,7 +259,7 @@ extension BlockchainManager {
 //    }
     
     // MARK: - Helpers
-    private func prepareTransactionAbiForCommunityIssuer(_ communityIssuer: String, permission: BCAccountPermission = .active, data: Encodable, account: BCAccountName, contractName: String) -> Single<TransactionAbi> {
+    private func prepareTransactionAbiForCommunityIssuer(_ communityIssuer: String, permission: BCAccountPermission, data: Encodable, account: BCAccountName, contractName: String) -> Single<TransactionAbi> {
         chainApi.getInfo().map { info in
             guard info.success else {
                 throw CMError.blockchainError(message: ErrorMessage.couldNotRetrieveChainInfo.rawValue, code: 0)
