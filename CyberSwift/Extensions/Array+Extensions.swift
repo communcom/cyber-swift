@@ -67,3 +67,24 @@ extension RangeReplaceableCollection where Element == ResponseAPIGetNotification
         }
     }
 }
+
+extension RangeReplaceableCollection where Element == BlockchainManager.ReportReason {
+    public func inlineString(otherReason: String? = nil, shouldNormalize: Bool = false) -> String {
+        var reasons = filter({$0 != BlockchainManager.ReportReason.other}).map { (reason) -> String in
+            if !shouldNormalize {
+                return reason.rawValue.localized()
+            }
+            let reasons = reason.rawValue.components(separatedBy: " ")
+            let normalizeTag = reasons.map({$0.lowercased()}).joined(separator: "")
+            return "\"\(normalizeTag)\""
+        }
+        if let message = otherReason {
+            if !shouldNormalize {
+                reasons.append(message)
+            } else {
+                reasons.append("\"other-\(message)\"")
+            }
+        }
+        return reasons.joined(separator: ", ")
+    }
+}

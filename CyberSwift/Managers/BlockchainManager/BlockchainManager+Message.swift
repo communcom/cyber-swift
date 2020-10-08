@@ -285,17 +285,9 @@ extension BlockchainManager {
         }
 
         // Change False News to falsenews
-        var stringReasons = reasons.filter({$0 != ReportReason.other}).map { (reason) -> String in
-            let reasons = reason.rawValue.components(separatedBy: " ")
-            let normalizeTag = reasons.map({$0.lowercased()}).joined(separator: "")
-            return "\"\(normalizeTag)\""
-        }
+        let stringReasons = reasons.inlineString(otherReason: message, shouldNormalize: true)
 
-        if let message = message {
-            stringReasons.append("\"other-\(message)\"")
-        }
-
-        let args = EOSArgument.ReportContent(communityID: communityID, userID: userID, authorID: autorID, permlink: permlink, reason: "[\(stringReasons.joined(separator: ", "))]")
+        let args = EOSArgument.ReportContent(communityID: communityID, userID: userID, authorID: autorID, permlink: permlink, reason: "[\(stringReasons)]")
         return EOSManager.report(args: args)
     }
     
