@@ -195,20 +195,21 @@ extension BlockchainManager {
         return EOSManager.execProposal(args: args)
     }
 
-    public func createBanProposal(proposalId proposalName: String? = nil, communityCode: String, commnityIssuer: String, permlink: String, author: String) -> Single<String> {
+    public func createBanProposal(proposalId: String? = nil, communityCode: String, commnityIssuer: String, permlink: String, author: String) -> Single<(String, String)> {
         guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
             return .error(CMError.unauthorized())
         }
         
-        let proposalName = proposalName ?? generateRandomProposalId()
+        let proposalName = proposalId ?? generateRandomProposalId()
         
         let data = EOSArgument.DeleteContent(communCode: CyberSymbolWriterValue(name: communityCode), messageID: EOSArgument.MessageIDContent(author: author, permlink: permlink))
 
         return prepareTransactionAbiForCommunityIssuer(commnityIssuer, permission: .lead(.minor), data: data, account: .gallery, contractName: "ban")
             .flatMap {
                 let args = EOSArgument.Propose(communCode: communityCode, proposer: userID, proposalName: proposalName, permission: .lead(.minor), trx: $0)
-                return EOSManager.propose(args: args)
+                return EOSManager.proposeAndApprove(args: args)
             }
+            .map {($0, proposalName)}
     }
     
     public func editCommunnity(_ proposalId: String? = nil, communityCode: String, commnityIssuer: String, description: String? = nil, language: String? = nil, rules: String? = nil, avatarImage: String? = nil, coverImage: String? = nil, subject: String? = nil) -> Single<String> {
@@ -225,7 +226,7 @@ extension BlockchainManager {
             .flatMap {
                 let args = EOSArgument.Propose(communCode: communityCode, proposer: userID, proposalName: proposalId, permission: .lead(.smajor), trx: $0)
 
-                return EOSManager.propose(args: args)
+                return EOSManager.proposeAndApprove(args: args)
             }
     }
 
@@ -242,7 +243,7 @@ extension BlockchainManager {
             .flatMap {
                 let args = EOSArgument.Propose(communCode: communityCode, proposer: proposer, proposalName: proposalId, permission: .active, trx: $0)
 
-                return EOSManager.propose(args: args)
+                return EOSManager.proposeAndApprove(args: args)
             }
     }
 

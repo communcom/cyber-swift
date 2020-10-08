@@ -170,12 +170,17 @@ class EOSManager {
                 disableCyberBandwidth: true)
     }
 
-    static func propose(args: EOSArgument.Propose) -> Single<String> {
-           pushAuthorized(account: .ctrl,
-                   name: "propose",
-                   args: args,
-                   disableClientAuth: true,
-                   disableCyberBandwidth: true)
+    static func proposeAndApprove(args: EOSArgument.Propose) -> Single<String> {
+        pushAuthorized(account: .ctrl,
+                name: "propose",
+                args: args,
+                disableClientAuth: true,
+                disableCyberBandwidth: true
+        )
+            .flatMap { _ in
+                let args = EOSArgument.ProposalApprove(proposer: args.proposer.name, proposalName: args.proposalName.name, approver: Config.currentUser?.id ?? "")
+                return EOSManager.approveProposal(args: args)
+            }
     }
 
     static func execProposal(args: EOSArgument.ProposalApprove) -> Single<String> {
@@ -330,7 +335,7 @@ extension EOSManager {
             guard let communCodeArgs = args as? EOSArgumentCodeProtocol else {
                 return .error(CMError.invalidRequest(message: ErrorMessage.balanceNotExist.rawValue))
             }
-            code = communCodeArgs.getCode()
+            code = communCodeArgs.communCode
         } else {
             return .error(CMError.invalidRequest(message: ErrorMessage.balanceNotExist.rawValue))
         }

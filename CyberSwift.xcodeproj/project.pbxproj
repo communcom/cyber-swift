@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		03329A709F0DA60180F91DBB /* Pods_CyberSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6ED672114DF191DC66860EA /* Pods_CyberSwift.framework */; };
 		3B1E901622CDEC6A00D7A0C1 /* RAM+Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1E901522CDEC6A00D7A0C1 /* RAM+Authorization.swift */; };
 		3B1E901822CDF16B00D7A0C1 /* ICloudManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B1E901722CDF16B00D7A0C1 /* ICloudManager.swift */; };
 		3B3016B722F1E4D3003CD1BD /* RequestAPITransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B3016B622F1E4D3003CD1BD /* RequestAPITransaction.swift */; };
@@ -22,6 +21,7 @@
 		3BE3666722E5CE7C00F84A04 /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BE3666622E5CE7C00F84A04 /* SocketManager.swift */; };
 		3BF3A6B822F1D48E00A6916E /* EOSTransaction+Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF3A6B722F1D48E00A6916E /* EOSTransaction+Actions.swift */; };
 		7EF06C95D4BFFC91A593F720 /* Pods_CyberSwiftTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72FB95E5419699B77BD2F429 /* Pods_CyberSwiftTests.framework */; };
+		9998FA32A141CE77AA9C14FB /* Pods_CyberSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6ED672114DF191DC66860EA /* Pods_CyberSwift.framework */; };
 		AC3EB80D240D196F00B853CC /* ErrorLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3EB80C240D196F00B853CC /* ErrorLogger.swift */; };
 		ACD76C8C23B117F8001FAECD /* BlockchainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD76C8A23B11684001FAECD /* BlockchainManager.swift */; };
 		ACFA282223AA99AA009B77A6 /* EOSArgument.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACFA282123AA99AA009B77A6 /* EOSArgument.swift */; };
@@ -110,7 +110,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		34491307AF58D97E2E29C420 /* Pods-CyberSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CyberSwift.debug.xcconfig"; path = "../../Pods/Target Support Files/Pods-CyberSwift/Pods-CyberSwift.debug.xcconfig"; sourceTree = "<group>"; };
+		2D0685823C41B437F5ED3919 /* Pods-CyberSwiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CyberSwiftTests.release.xcconfig"; path = "Target Support Files/Pods-CyberSwiftTests/Pods-CyberSwiftTests.release.xcconfig"; sourceTree = "<group>"; };
 		3B1E901522CDEC6A00D7A0C1 /* RAM+Authorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RAM+Authorization.swift"; sourceTree = "<group>"; };
 		3B1E901722CDF16B00D7A0C1 /* ICloudManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ICloudManager.swift; sourceTree = "<group>"; };
 		3B3016B622F1E4D3003CD1BD /* RequestAPITransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestAPITransaction.swift; sourceTree = "<group>"; };
@@ -125,10 +125,10 @@
 		3BE08B9622E6609D00BE6FCB /* SocketManager+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SocketManager+Rx.swift"; sourceTree = "<group>"; };
 		3BE3666622E5CE7C00F84A04 /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
 		3BF3A6B722F1D48E00A6916E /* EOSTransaction+Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EOSTransaction+Actions.swift"; sourceTree = "<group>"; };
-		4837076B0145B925ED946333 /* Pods-CyberSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CyberSwift.release.xcconfig"; path = "../../Pods/Target Support Files/Pods-CyberSwift/Pods-CyberSwift.release.xcconfig"; sourceTree = "<group>"; };
-		6573AA23182BFAECEBF635F1 /* Pods-CyberSwiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CyberSwiftTests.release.xcconfig"; path = "../../Pods/Target Support Files/Pods-CyberSwiftTests/Pods-CyberSwiftTests.release.xcconfig"; sourceTree = "<group>"; };
 		72FB95E5419699B77BD2F429 /* Pods_CyberSwiftTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CyberSwiftTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8AB2614591624246CBE93FA0 /* Pods-CyberSwiftTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CyberSwiftTests.debug.xcconfig"; path = "../../Pods/Target Support Files/Pods-CyberSwiftTests/Pods-CyberSwiftTests.debug.xcconfig"; sourceTree = "<group>"; };
+		758E813448B1367CD7EA240D /* Pods-CyberSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CyberSwift.debug.xcconfig"; path = "Target Support Files/Pods-CyberSwift/Pods-CyberSwift.debug.xcconfig"; sourceTree = "<group>"; };
+		78432D8156D47E3FFDE4760D /* Pods-CyberSwiftTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CyberSwiftTests.debug.xcconfig"; path = "Target Support Files/Pods-CyberSwiftTests/Pods-CyberSwiftTests.debug.xcconfig"; sourceTree = "<group>"; };
+		961ECEFD91087451508DA643 /* Pods-CyberSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CyberSwift.release.xcconfig"; path = "Target Support Files/Pods-CyberSwift/Pods-CyberSwift.release.xcconfig"; sourceTree = "<group>"; };
 		AC3EB80C240D196F00B853CC /* ErrorLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorLogger.swift; sourceTree = "<group>"; };
 		ACD76C8A23B11684001FAECD /* BlockchainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockchainManager.swift; sourceTree = "<group>"; };
 		ACFA282123AA99AA009B77A6 /* EOSArgument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EOSArgument.swift; sourceTree = "<group>"; };
@@ -226,7 +226,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				03329A709F0DA60180F91DBB /* Pods_CyberSwift.framework in Frameworks */,
+				9998FA32A141CE77AA9C14FB /* Pods_CyberSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,15 +297,16 @@
 			path = SocketManager;
 			sourceTree = "<group>";
 		};
-		75F3EB65C5A22587C3A36A98 /* Pods */ = {
+		667730AFB9BB6DF7ACA41FCC /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				34491307AF58D97E2E29C420 /* Pods-CyberSwift.debug.xcconfig */,
-				4837076B0145B925ED946333 /* Pods-CyberSwift.release.xcconfig */,
-				8AB2614591624246CBE93FA0 /* Pods-CyberSwiftTests.debug.xcconfig */,
-				6573AA23182BFAECEBF635F1 /* Pods-CyberSwiftTests.release.xcconfig */,
+				758E813448B1367CD7EA240D /* Pods-CyberSwift.debug.xcconfig */,
+				961ECEFD91087451508DA643 /* Pods-CyberSwift.release.xcconfig */,
+				78432D8156D47E3FFDE4760D /* Pods-CyberSwiftTests.debug.xcconfig */,
+				2D0685823C41B437F5ED3919 /* Pods-CyberSwiftTests.release.xcconfig */,
 			);
-			path = Pods;
+			name = Pods;
+			path = ../Pods;
 			sourceTree = "<group>";
 		};
 		B179916C2269A4B70014CB44 /* Golos */ = {
@@ -330,8 +331,8 @@
 				B18EBB2F223F8F8800F52D3C /* CyberSwift */,
 				3BD1331222F850770006C70F /* CyberSwiftTests */,
 				B18EBB2E223F8F8800F52D3C /* Products */,
-				75F3EB65C5A22587C3A36A98 /* Pods */,
 				09E1B2A3A59F37FF407AE3B2 /* Frameworks */,
+				667730AFB9BB6DF7ACA41FCC /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -774,7 +775,7 @@
 /* Begin XCBuildConfiguration section */
 		3BD1331922F850770006C70F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8AB2614591624246CBE93FA0 /* Pods-CyberSwiftTests.debug.xcconfig */;
+			baseConfigurationReference = 78432D8156D47E3FFDE4760D /* Pods-CyberSwiftTests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5G8856SBG8;
@@ -794,7 +795,7 @@
 		};
 		3BD1331A22F850770006C70F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6573AA23182BFAECEBF635F1 /* Pods-CyberSwiftTests.release.xcconfig */;
+			baseConfigurationReference = 2D0685823C41B437F5ED3919 /* Pods-CyberSwiftTests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5G8856SBG8;
@@ -938,7 +939,7 @@
 		};
 		B18EBB36223F8F8800F52D3C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 34491307AF58D97E2E29C420 /* Pods-CyberSwift.debug.xcconfig */;
+			baseConfigurationReference = 758E813448B1367CD7EA240D /* Pods-CyberSwift.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
@@ -980,7 +981,7 @@
 		};
 		B18EBB37223F8F8800F52D3C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4837076B0145B925ED946333 /* Pods-CyberSwift.release.xcconfig */;
+			baseConfigurationReference = 961ECEFD91087451508DA643 /* Pods-CyberSwift.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";

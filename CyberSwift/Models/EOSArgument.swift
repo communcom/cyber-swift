@@ -11,13 +11,6 @@ import eosswift
 
 protocol EOSArgumentCodeProtocol {
     var communCode: CyberSymbolWriterValue { get }
-    func getCode() -> CyberSymbolWriterValue
-}
-
-extension EOSArgumentCodeProtocol {
-    func getCode() -> CyberSymbolWriterValue {
-        communCode
-    }
 }
 
 struct EOSArgument {
