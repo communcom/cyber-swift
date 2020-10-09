@@ -111,9 +111,9 @@ public struct ResponseAPIContentGetProposalData: Decodable, Equatable {
     
     public func getReasonArray() -> [String] {
         guard let data = reason?.data(using: .utf8), let array = try? JSONDecoder().decode([String].self, from: data) else {
-            return reason?.components(separatedBy: ", ").map {$0.replacingOccurrences(of: "\"", with: "").replacingOccurrences(of: "other-", with: "")} ?? [reason ?? ""]
+            return reason?.components(separatedBy: ", ").map {$0.replacingOccurrences(of: "\"", with: "").replacingOccurrences(of: "other-", with: "")} ?? [reason?.replacingOccurrences(of: "other-", with: "") ?? ""]
         }
-        return array
+        return array.map {$0.replacingOccurrences(of: "other-", with: "")}
     }
 }
 
