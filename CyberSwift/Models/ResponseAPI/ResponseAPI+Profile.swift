@@ -59,7 +59,6 @@ public struct QrCodeDecodedProfile: Decodable {
 
 // MARK: - API `content.getProfile`
 public struct ResponseAPIContentGetProfile: Encodable, ListItemType {
-    // FIXME: - Be careful, mark new properties as optional, please!!!
     public let stats: ResponseAPIContentGetProfileStat?
     public let leaderIn: [String]?
     public let userId: String

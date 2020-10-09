@@ -33,7 +33,7 @@ public struct RequestParameterAPI {
         let propertiesNames = model.getPropertiesNames()
         
         do {
-            for (_, propertyName) in propertiesNames.enumerated() {
+            for propertyName in propertiesNames {
                 let propertyValue = properties.first(where: { $0.key == propertyName })!.value
                 
                 // Casting Types

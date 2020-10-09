@@ -37,6 +37,6 @@ public struct ICloudManager {
     }
     
     public static func deleteUser() {
-        // TODO: Remove from iCloud
+        // Remove from iCloud
     }
 }

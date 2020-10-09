@@ -220,8 +220,6 @@ struct EOSArgument {
         }
     }
 
-    
-
     struct OpenBalance: Encodable {
         let owner: NameWriterValue
         let communCode: CyberSymbolWriterValue
