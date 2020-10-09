@@ -682,7 +682,7 @@ public indirect enum MethodAPIType {
         case .getCommunityBlacklist(let communityId, let limit, let offset):
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.content.rawValue,
-                     methodName:        "getLeaders",
+                     methodName:        "getCommunityBlacklist",
                      parameters:        ["communityId": communityId, "limit": limit, "offset": offset])
             
         case .getSubscribers(let userId, let communityId, let offset, let limit):
