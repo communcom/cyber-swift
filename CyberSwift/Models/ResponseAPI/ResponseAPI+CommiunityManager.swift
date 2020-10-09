@@ -105,11 +105,35 @@ public struct ResponseAPIContentGetProposalData: Decodable, Equatable {
     public let avatar_image: String?
     public let cover_image: String?
     public let subject: String?
+    // userId is optional, so we won't use ResponseAPIContentGetProfile directly
+    public let account: ResponseAPIContentGetProposalDataAcount?
+    public let reason: String?
+    
+    public func getReasonArray() -> [String] {
+        guard let data = reason?.data(using: .utf8), let array = try? JSONDecoder().decode([String].self, from: data) else {
+            return reason?.components(separatedBy: ", ").map {$0.replacingOccurrences(of: "\"", with: "")} ?? [reason ?? ""]
+        }
+        return array
+    }
 }
 
 public struct ResponseAPIContentGetProposalDataMessageId: Decodable, Equatable {
     public let author: String?
     public let permlink: String?
+}
+
+public struct ResponseAPIContentGetProposalDataAcount: Decodable, Equatable {
+    public let userId: String?
+    public let username: String?
+    public let postsCount: Int64?
+    public let subscribersCount: Int64?
+    
+    public var profile: ResponseAPIContentGetProfile {
+        var profile = ResponseAPIContentGetProfile(stats: nil, leaderIn: nil, userId: userId ?? "", username: username, registration: nil, subscriptions: nil)
+        profile.postsCount = postsCount
+        profile.subscribersCount = subscribersCount
+        return profile
+    }
 }
 
 public struct ResponseAPIContentGetProposalChange: Decodable, Equatable {
