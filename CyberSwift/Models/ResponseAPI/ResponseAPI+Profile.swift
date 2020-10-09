@@ -120,6 +120,8 @@ public struct ResponseAPIContentGetProfile: Encodable, ListItemType {
             subscribersCount: item.subscribersCount ?? self.subscribersCount,
             isBeingToggledFollow: item.isBeingToggledFollow ?? self.isBeingToggledFollow,
             isBeingUnblocked: item.isBeingUnblocked ?? self.isBeingUnblocked,
+            isBanProposalCreated: item.isBanProposalCreated ?? self.isBanProposalCreated,
+            isUnBanProposalCreated: item.isUnBanProposalCreated ?? self.isUnBanProposalCreated,
             createdCommunities: item.createdCommunities ?? self.createdCommunities
         )
     }
