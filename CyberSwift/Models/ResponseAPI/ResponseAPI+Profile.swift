@@ -84,6 +84,8 @@ public struct ResponseAPIContentGetProfile: Encodable, ListItemType {
     // Additional properties
     public var isBeingToggledFollow: Bool? = false
     public var isBeingUnblocked: Bool? = false
+    public var isBanProposalCreated: Bool? = false
+    public var isUnBanProposalCreated: Bool? = false
     
     public var createdCommunities: [ResponseAPIContentGetCommunity]?
     
