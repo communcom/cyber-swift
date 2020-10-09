@@ -243,6 +243,9 @@ public indirect enum MethodAPIType {
     
     //  Get leaders
     case getLeaders(communityId: String?, communityAlias: String?, sequenceKey: String?, limit: Int, query: String?)
+    
+    //  Get community black list
+    case getCommunityBlacklist(communityId: String, limit: Int, offset: Int)
 
     //  Get subscribers
     case getSubscribers(userId: String?, communityId: String?, offset: Int, limit: Int)
@@ -676,6 +679,11 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getLeaders",
                      parameters:        params)
+        case .getCommunityBlacklist(let communityId, let limit, let offset):
+            return  (methodAPIType:     self,
+                     methodGroup:       MethodAPIGroup.content.rawValue,
+                     methodName:        "getLeaders",
+                     parameters:        ["communityId": communityId, "limit": limit, "offset": offset])
             
         case .getSubscribers(let userId, let communityId, let offset, let limit):
             var params: [String: Encodable] = [

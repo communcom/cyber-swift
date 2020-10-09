@@ -48,4 +48,9 @@ extension RestAPIManager {
         let methodAPIType = MethodAPIType.getLeaders(communityId: communityId, communityAlias: communityAlias, sequenceKey: sequenceKey, limit: Int(limit), query: query)
         return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
     }
+    
+    public func getCommunityBlacklist(communityId: String, limit: Int, offset: Int) -> Single<ResponseAPIContentGetSubscribers> {
+        let methodAPIType = MethodAPIType.getCommunityBlacklist(communityId: communityId, limit: limit, offset: offset)
+        return executeGetRequest(methodAPIType: methodAPIType)
+    }
 }
