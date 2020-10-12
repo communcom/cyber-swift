@@ -271,6 +271,19 @@ struct EOSArgument {
             self.approver = NameWriterValue(name: approver)
         }
     }
+    
+    // MARK: - Proposal cancel
+    struct ProposalCancel: Encodable {
+        let proposer: NameWriterValue
+        let proposalName: NameWriterValue
+        let canceler: NameWriterValue
+        
+        init(proposer: String, proposalName: String, canceler: String) {
+            self.proposer = NameWriterValue(name: proposer)
+            self.proposalName = NameWriterValue(name: proposalName)
+            self.canceler = NameWriterValue(name: canceler)
+        }
+    }
 
     // MARK: - Propose ban
     struct Propose: Encodable, EOSArgumentCodeProtocol {

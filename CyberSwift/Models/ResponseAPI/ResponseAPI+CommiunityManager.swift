@@ -39,6 +39,8 @@ public struct ResponseAPIContentGetProposal: CachedHeightItemType {
     
     public var isBeingApproved: Bool?
     
+    public var isDeleted: Bool?
+    
     public var height: CGFloat?
     
     public var identity: String {
@@ -66,6 +68,7 @@ public struct ResponseAPIContentGetProposal: CachedHeightItemType {
             comment: item.comment ?? comment,
             postLoadingError: item.postLoadingError,
             isBeingApproved: item.isBeingApproved ?? isBeingApproved,
+            isDeleted: item.isDeleted ?? isDeleted,
             height: item.height ?? height
         )
     }

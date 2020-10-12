@@ -169,6 +169,14 @@ class EOSManager {
                 disableClientAuth: true,
                 disableCyberBandwidth: true)
     }
+    
+    static func cancelProposal(args: EOSArgument.ProposalCancel) -> Single<String> {
+        pushAuthorized(account: .ctrl,
+                name: "cancel",
+                args: args,
+                disableClientAuth: true,
+                disableCyberBandwidth: true)
+    }
 
     static func proposeAndApprove(args: EOSArgument.Propose) -> Single<String> {
         pushAuthorized(account: .ctrl,

@@ -168,6 +168,19 @@ extension BlockchainManager {
 
         return EOSManager.approveProposal(args: args)
     }
+    
+    public func cancelProposal(_ proposalName: String, proposer: String) -> Single<String> {
+        // Check user authorize
+        guard let userID = Config.currentUser?.id, Config.currentUser?.activeKeys?.privateKey != nil else {
+            return .error(CMError.unauthorized())
+        }
+
+        let args = EOSArgument.ProposalCancel(proposer: proposer,
+                                               proposalName: proposalName,
+                                               canceler: userID)
+        
+        return EOSManager.cancelProposal(args: args)
+    }
 
     public func unapproveProposal(_ proposalName: String, proposer: String) -> Single<String> {
         // Check user authorize
