@@ -11,7 +11,6 @@ import RxSwift
 
 extension RestAPIManager {
     public func getAirdrop(communityId: String) -> Single<ResponseAPIStatus> {
-        let methodAPIType = MethodAPIType.getAirdrop(communityId: communityId)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        executeGetRequest(methodGroup: .airdrop, methodName: "getAirdrop", params: ["communityId": communityId])
     }
 }

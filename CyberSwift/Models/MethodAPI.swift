@@ -184,9 +184,6 @@ public indirect enum MethodAPIType {
     
     //  Set Push/Notify options
     case setNotice(options: RequestParameterAPI.NoticeOptions, type: NoticeType, appProfileType: AppProfileType)
-    
-    /// AIRDROP
-    case getAirdrop(communityId: String)
 
     /// CHAIN-SERVICE
     case bandwidthProvide(chainID: String, transaction: RequestAPITransaction)
@@ -308,11 +305,7 @@ public indirect enum MethodAPIType {
                      parameters:        parameters)
         
             
-        case .getAirdrop(let id):
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.airdrop.rawValue,
-                     methodName:        "getAirdrop",
-                     parameters:        ["communityId": id])
+        
             
         // Template: missing
         case .bandwidthProvide(let chainID, let transaction):
