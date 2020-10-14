@@ -21,11 +21,6 @@ extension RestAPIManager {
         appProfileType: AppProfileType = .cyber,
         authorizationRequired: Bool = true
     ) -> Single<ResponseAPIContentGetProfile> {
-//        return  (methodAPIType:     self,
-//                 methodGroup:       MethodAPIGroup.content.rawValue,
-//                 methodName:        "getProfile",
-//                 parameters:        params)
-        
         if user == nil {
             return .error(CMError.invalidRequest(message: ErrorMessage.userIdOrUsernameIsMissing.rawValue))
         }

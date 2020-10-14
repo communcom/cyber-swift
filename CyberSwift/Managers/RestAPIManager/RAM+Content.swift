@@ -71,10 +71,11 @@ extension RestAPIManager {
                 "offset": offset,
                 "limit": limit,
                 "userId": userId,
-                "username": username,
                 "permlink": permlink,
                 "parentComment": parentComment
             ]
+        
+        params["username"] = username
         
         if communityId == nil {
             params["communityAlias"] = communityAlias
@@ -105,43 +106,6 @@ extension RestAPIManager {
         limit: UInt                     = UInt(Config.paginationLimit),
         authorizationRequired: Bool     = true
     ) -> Single<ResponseAPIContentGetComments> {
-        /*
-         var parameters: [String: Encodable] =
-             [
-                 "type": type.rawValue,
-                 "sortBy": sortBy?.rawValue,
-                 "offset": offset,
-                 "limit": limit
-             ]
-         
-         switch type {
-         case .user:
-             parameters["userId"] = userId
-         case .post:
-             parameters["userId"] = userId
-             parameters["username"] = username
-             parameters["permlink"] = permlink
-             parameters["parentComment"] = parentComment
-         case .replies:
-             parameters["userId"] = userId
-             parameters["permlink"] = permlink
-         }
-         
-         if communityId == nil {
-             parameters["communityAlias"] = communityAlias
-         } else {
-             parameters["communityId"] = communityId
-         }
-         
-         parameters["resolveNestedComments"] = resolveNestedComments
-         
-         return  (methodAPIType:     self,
-                  methodGroup:       MethodAPIGroup.content.rawValue,
-                  methodName:        "getComments",
-                  parameters:        parameters)
-
-         */
-        
         let params: [String: Encodable] =
             [
                 "type": "post",
@@ -153,7 +117,8 @@ extension RestAPIManager {
                 "parentComment": [
                     "userId": parentComment.userId,
                     "permlink": parentComment.permlink
-                ]
+                ],
+                "communityId": post.communityId
             ]
         
         return executeGetRequest(methodGroup: .content, methodName: "getComments", params: params, authorizationRequired: authorizationRequired)
