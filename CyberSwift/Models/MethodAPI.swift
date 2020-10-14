@@ -185,18 +185,6 @@ public indirect enum MethodAPIType {
     //  Set Push/Notify options
     case setNotice(options: RequestParameterAPI.NoticeOptions, type: NoticeType, appProfileType: AppProfileType)
     
-    //  Get community
-    case getCommunity(id: String? = nil, alias: String? = nil)
-    
-    //  Get communities list
-    case getCommunities(type: GetCommunitiesType?, userId: String?, offset: Int?, limit: Int?)
-    
-    //  Get leaders
-    case getLeaders(communityId: String?, communityAlias: String?, sequenceKey: String?, limit: Int, query: String?)
-    
-    //  Get community black list
-    case getCommunityBlacklist(communityId: String, limit: Int, offset: Int)
-    
     /// REGISTRATION-SERVICE
     
     /// WALLET
@@ -376,51 +364,6 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.options.rawValue,
                      methodName:        "set",
                      parameters:        parameters)
-            
-            
-        //  Template { "id": 16, "jsonrpc": "2.0", "method": "favorites.get", "params": { "user": <userNickName> }}
-            
-        case .getCommunity(let id, let alias):
-            var params = [String: Encodable]()
-            params["communityId"] = id
-            params["communityAlias"] = alias
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.content.rawValue,
-                     methodName:        "getCommunity",
-                     parameters:        params)
-            
-        case .getCommunities(let type, let userId, let offset, let limit):
-            var params = [String: Encodable]()
-            params["type"] = type?.rawValue
-            if type == .user {
-                params["userId"] = userId
-            }
-            params["offset"] = offset
-            params["limit"] = limit
-            params["allowedLanguages"] = ["all"]
-            
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.content.rawValue,
-                     methodName:        "getCommunities",
-                     parameters:        params)
-            
-        case .getLeaders(let communityId, let communityAlias, let sequenceKey, let limit, let query):
-            var params = [String: Encodable]()
-            params["communityId"]       = communityId
-            params["communityAlias"]    = communityAlias
-            params["limit"]             = limit
-            params["sequenceKey"]       = sequenceKey
-            params["query"]             = query
-            
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.content.rawValue,
-                     methodName:        "getLeaders",
-                     parameters:        params)
-        case .getCommunityBlacklist(let communityId, let limit, let offset):
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.content.rawValue,
-                     methodName:        "getCommunityBlacklist",
-                     parameters:        ["communityId": communityId, "limit": limit, "offset": offset])
             
         case .getTransferHistory(let userId, let direction, let transferType, let symbol, let rewards, let donation, let claim, let holdType, let offset, let limit):
             var parameters = [String: Encodable]()
