@@ -76,6 +76,46 @@ public class RestAPIManager {
         }
     }
     
+    public func executeGetRequest<T: Decodable>(methodGroup: MethodAPIGroup, methodName: String, params: [String: Encodable], timeout: RxSwift.RxTimeInterval = 10, authorizationRequired: Bool = true) -> Single<T> {
+        // Offline mode
+        if !Config.isNetworkAvailable {
+            ErrorLogger.shared.recordError(CMError.noConnection, additionalInfo: ["user": Config.currentUser?.id ?? "undefined", "method": methodGroup.rawValue + "." + methodName])
+            return .error(CMError.noConnection)
+        }
+        let id = generateUniqueId()
+        return SocketManager.shared.sendRequest(id: id, methodGroup: methodGroup, methodName: methodName, params: params, timeout: timeout, authorizationRequired: authorizationRequired)
+            .catchError({ (error) -> Single<T> in
+                ErrorLogger.shared.recordError(error, additionalInfo: ["user": Config.currentUser?.id ?? "undefined", "method": methodGroup.rawValue + "." + methodName])
+                if let error = error as? CMError {
+                    switch error {
+                    case .unauthorized:
+                        return RestAPIManager.instance.authorize()
+                            .flatMap {_ in self.executeGetRequest(methodGroup: methodGroup, methodName: methodName, params: params, timeout: timeout, authorizationRequired: authorizationRequired)}
+                    case .secretVerificationFailed:
+                        // retrieve secret
+                        return RestAPIManager.instance.generateSecret()
+                            .andThen(self.executeGetRequest(methodGroup: methodGroup, methodName: methodName, params: params, timeout: timeout, authorizationRequired: authorizationRequired))
+                    default:
+                        throw error
+                    }
+                }
+                                
+                if let errorRx = error as? RxError {
+                    switch errorRx {
+                    case .timeout:
+                        throw CMError.requestFailed(message: ErrorMessage.requestHasTimedOut.rawValue, code: 0)
+                    default:
+                        break
+                    }
+                }
+                
+                throw error
+            })
+            .log(method: "\(methodGroup).\(methodName)", id: id)
+            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .userInteractive))
+            .observeOn(MainScheduler.instance)
+    }
+    
     /// Rx method to deal with executeGetRequest
     public func executeGetRequest<T: Decodable>(methodAPIType: MethodAPIType, timeout: RxSwift.RxTimeInterval = 10, authorizationRequired: Bool = true) -> Single<T> {
         // Offline mode

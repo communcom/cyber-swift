@@ -68,6 +68,7 @@ class SocketManager {
         socket.delegate = self
     }
     
+    @available(*, deprecated, message: "Use sendRequest(id:methodGroup:methodName:params:) instead")
     func sendRequest<T: Decodable>(methodAPIType: RequestMethodAPIType, timeout: RxSwift.RxTimeInterval, authorizationRequired: Bool) -> Single<T> {
         sendMessage(methodAPIType, authorizationRequired: authorizationRequired)
         
@@ -82,6 +83,37 @@ class SocketManager {
             .map {try self.transformMessage($0)}
     }
     
+    func sendRequest<T: Decodable>(id: Int, methodGroup: MethodAPIGroup, methodName: String, params: [String: Encodable], timeout: RxSwift.RxTimeInterval, authorizationRequired: Bool) -> Single<T> {
+        let requestAPI = RequestAPI(
+            id: id,
+            method: methodGroup.rawValue + "." + methodName,
+            jsonrpc: "2.0",
+            params: params
+        )
+        
+        do {
+            let jsonData = try JSONEncoder().encode(requestAPI)
+            guard let message = String(data: jsonData, encoding: .utf8) else {
+                throw CMError.invalidRequest(message: "could not encode request")
+            }
+            sendMessage(methodGroup: methodGroup, methodName: methodName, message: message, authorizationRequired: authorizationRequired)
+            
+            return textSubject
+                .filter {self.compareMessageFromResponseText($0, to: id)}
+                .timeout(timeout, scheduler: MainScheduler.instance)
+                .take(1)
+                .asSingle()
+                .do(onSuccess: { (text) in
+                    Logger.log(message: "websocketDidReceiveMessage: \n\t\(text)", event: .response, apiMethod: "\(methodGroup).\(methodName)")
+                })
+                .map {try self.transformMessage($0)}
+            
+        } catch {
+            return .error(error.cmError)
+        }
+    }
+    
+    @available(*, deprecated, message: "Use sendMessage(methodGroup:methodName:message:) instead")
     func sendMessage(_ requestMethodAPIType: RequestMethodAPIType, authorizationRequired: Bool) {
         // prepare variables
         let requestParamsType = requestMethodAPIType.methodAPIType.introduced()
@@ -121,6 +153,42 @@ class SocketManager {
                     .disposed(by: disposeBag)
             } else {
                 writeAndLog(message: message, methodGroup: methodGroup, methodName: methodName)
+            }
+        }
+    }
+    
+    func sendMessage(methodGroup: MethodAPIGroup, methodName: String, message: String, authorizationRequired: Bool) {
+        // check connection and send
+        if !socket.isConnected {
+            connect()
+            if authorizationRequired {
+                AuthManager.shared.status.filter {$0 == .authorized}
+                    .take(1)
+                    .asSingle()
+                    .subscribe(onSuccess: { (_) in
+                        self.writeAndLog(message: message, methodGroup: methodGroup.rawValue, methodName: methodName)
+                    })
+                    .disposed(by: disposeBag)
+            } else {
+                state.filter {$0 == .signed}
+                    .take(1)
+                    .asSingle()
+                    .subscribe(onSuccess: {[weak self] _ in
+                        self?.writeAndLog(message: message, methodGroup: methodGroup.rawValue, methodName: methodName)
+                    })
+                    .disposed(by: disposeBag)
+            }
+        } else {
+            if authorizationRequired {
+                AuthManager.shared.status.filter {$0 == .authorized}
+                    .take(1)
+                    .asSingle()
+                    .subscribe(onSuccess: { (_) in
+                        self.writeAndLog(message: message, methodGroup: methodGroup.rawValue, methodName: methodName)
+                    })
+                    .disposed(by: disposeBag)
+            } else {
+                writeAndLog(message: message, methodGroup: methodGroup.rawValue, methodName: methodName)
             }
         }
     }
