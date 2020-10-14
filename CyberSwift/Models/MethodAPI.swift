@@ -173,18 +173,6 @@ public indirect enum MethodAPIType {
     //  Subsribe to notification service
     case notificationsSubscribe
 
-    //  Receiving notifications
-    case getNotifications(limit: UInt, beforeThan: String?, filter: [String]?)
-    
-    //  Notification getStatus
-    case notificationsGetStatus
-    
-    //  Get Push notifications settings
-    case getPushSettings
-    
-    //  Set push notifications settings
-    case setPushSettings(disabled: [String])
-
     //  Receiving the number of unread notifications according to user settings
     case getPushHistoryFresh
     
@@ -196,12 +184,6 @@ public indirect enum MethodAPIType {
     
     //  Set Push/Notify options
     case setNotice(options: RequestParameterAPI.NoticeOptions, type: NoticeType, appProfileType: AppProfileType)
-    
-    //  Mark specified notifications as read
-    case markAsRead([String])
-    
-    //  Mark all as viewed
-    case markAllAsViewed(until: String)
     
     //  Get community
     case getCommunity(id: String? = nil, alias: String? = nil)
@@ -351,36 +333,6 @@ public indirect enum MethodAPIType {
                      methodName:        "subscribe",
                      parameters:        [:])
             
-        case .notificationsGetStatus:
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.notifications.rawValue,
-                     methodName:        "getStatus",
-                     parameters:        [:])
-            
-        case .getPushSettings:
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.settings.rawValue,
-                     methodName:        "getPushSettings",
-                     parameters:        [:])
-            
-        case .setPushSettings(let disabled):
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.settings.rawValue,
-                     methodName:        "setPushSettings",
-                     parameters:        ["disable": disabled])
-            
-        case .getNotifications(let limit, let beforeThan, let filter):
-            var params = [String: Encodable]()
-            params["limit"] = limit
-            params["beforeThan"] = beforeThan
-            if let filter = filter, filter.count > 0 {
-                params["filter"] = filter
-            }
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.notifications.rawValue,
-                     methodName:        "getNotifications",
-                     parameters:        params)
-            
         //  Template { "id": 8, "jsonrpc": "2.0", "method": "push.historyFresh", "params": { "profile": <userNickName-deviceUDID> }}
         case .getPushHistoryFresh:
             return  (methodAPIType:     self,
@@ -424,18 +376,7 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.options.rawValue,
                      methodName:        "set",
                      parameters:        parameters)
-
-        case .markAsRead(let notifies):
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.notifications.rawValue,
-                     methodName:        "markAsRead",
-                     parameters:        ["ids": notifies])
             
-        case .markAllAsViewed(let until):
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.notifications.rawValue,
-                     methodName:        "markAllAsViewed",
-                     parameters:        ["until": until])
             
         //  Template { "id": 16, "jsonrpc": "2.0", "method": "favorites.get", "params": { "user": <userNickName> }}
             
