@@ -40,11 +40,9 @@ public class EOSTransaction {
                     let rrr = RequestAPITransaction(signatures: [signature],
                             serializedTransaction: transactionAbi.toHex())
 
-                    // Prepare methodAPIType
-                    let methodAPIType = MethodAPIType.bandwidthProvide(chainID: chainID,
-                            transaction: rrr)
-
-                    return RestAPIManager.instance.executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIBandwidthProvide>
+                    var parameters: [String: Encodable] = ["chainId": chainID]
+                    parameters["transaction"] = rrr
+                    return RestAPIManager.instance.executeGetRequest(methodGroup: .bandwidth, methodName: "provide", params: parameters, authorizationRequired: false) as Single<ResponseAPIBandwidthProvide>
                 }
                 .map { result -> String in
                     result.transaction_id

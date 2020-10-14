@@ -12,38 +12,33 @@ import RxSwift
 extension RestAPIManager {
     // MARK: - Create community
     public func getCreatedCommunities() -> Single<ResponseAPIGetUserCommunities> {
-        let methodAPIType = MethodAPIType.getUsersCommunity
-        return executeGetRequest(methodAPIType: methodAPIType)
+        executeGetRequest(methodGroup: .community, methodName: "getUsersCommunities", params: [:])
     }
     
     public func createNewCommunity(name: String) -> Single<ResponseAPICommunityCreateNewCommunity> {
-        let methodAPIType = MethodAPIType.createNewCommunity(name: name)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        executeGetRequest(methodGroup: .community, methodName: "createNewCommunity", params: ["name": name])
     }
     
     public func commmunitySetSettings(name: String, description: String, language: String, communityId: String, avatarUrl: String = "", coverUrl: String = "", subject: String, rules: String) -> Single<ResponseAPIStatus> {
-        let methodAPIType = MethodAPIType.communitySetSettings(name: name, avatarUrl: avatarUrl, coverUrl: coverUrl, language: language, description: description, rules: rules, subject: subject, communityId: communityId)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        executeGetRequest(methodGroup: .community, methodName: "setSettings", params: ["name": name, "avatarUrl": avatarUrl, "coverUrl": coverUrl, "language": language, "description": description, "rules": rules, "subject": subject, "communityId": communityId])
     }
     
     public func startCommunityCreation(communityId: String, transferTrxId: String?) -> Single<ResponseAPIStatus> {
-        let methodAPIType = MethodAPIType.startCommunityCreation(communityId: communityId, transferTrxId: transferTrxId)
-        return executeGetRequest(methodAPIType: methodAPIType, timeout: 10000)
+        var parameters: [String: Encodable] = ["communityId": communityId]
+        parameters["transferTrxId"] = transferTrxId
+        return executeGetRequest(methodGroup: .community, methodName: "startCommunityCreation", params: parameters, timeout: 10000)
     }
     
     // MARK: - Manage community
     public func getProposals(communityIds: [String], limit: Int, offset: Int) -> Single<ResponseAPIContentGetProposals> {
-        let methodAPIType = MethodAPIType.getProposals(communityIds: communityIds, limit: limit, offset: offset)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        executeGetRequest(methodGroup: .content, methodName: "getProposals", params: ["communityIds": communityIds, "limit": limit, "offset": offset ])
     }
     
     public func getReportsList(communityIds: [String], contentType: String, status: String, sortBy: SortBy, limit: Int, offset: Int) -> Single<ResponseAPIContentGetReportsList> {
-        let methodAPIType = MethodAPIType.getReportsList(communityIds: communityIds, contentType: contentType, status: status, sortBy: sortBy, limit: limit, offset: offset)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        executeGetRequest(methodGroup: .content, methodName: "getReportsList", params: ["communityIds": communityIds, "contentType": contentType, "status": status, "sortBy": sortBy.rawValue, "limit": limit, "offset": offset ])
     }
     
     public func getEntityReports(userId: String, communityId: String, permlink: String, limit: Int, offset: Int) -> Single<ResponseAPIContentGetEntityReports> {
-        let methodAPIType = MethodAPIType.getEntityReports(userId: userId, communityId: communityId, permlink: permlink, limit: limit, offset: offset)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        executeGetRequest(methodGroup: .content, methodName: "getEntityReports", params: ["userId": userId, "communityId": communityId, "permlink": permlink, "limit": limit, "offset": offset ])
     }
 }

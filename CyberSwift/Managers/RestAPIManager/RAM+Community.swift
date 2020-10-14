@@ -11,17 +11,11 @@ import RxSwift
 
 extension RestAPIManager {
     public func getCommunity(id: String, authorizationRequired: Bool = true) -> Single<ResponseAPIContentGetCommunity> {
-        
-        let methodAPIType = MethodAPIType.getCommunity(id: id)
-        
-        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
+        executeGetRequest(methodGroup: .content, methodName: "getCommunity", params: ["communityId": id], authorizationRequired: authorizationRequired)
     }
     
     public func getCommunity(alias: String, authorizationRequired: Bool = true) -> Single<ResponseAPIContentGetCommunity> {
-        
-        let methodAPIType = MethodAPIType.getCommunity(alias: alias)
-        
-        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
+        executeGetRequest(methodGroup: .content, methodName: "getCommunity", params: ["communityAlias": alias], authorizationRequired: authorizationRequired)
     }
     
     public func getCommunities(
@@ -31,10 +25,15 @@ extension RestAPIManager {
         limit: Int?,
         authorizationRequired: Bool = true
     ) -> Single<ResponseAPIContentGetCommunities> {
-        
-        let methodAPIType = MethodAPIType.getCommunities(type: type, userId: userId, offset: offset, limit: limit)
-        
-        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
+        var params = [String: Encodable]()
+        params["type"] = type?.rawValue
+        if type == .user {
+            params["userId"] = userId
+        }
+        params["offset"] = offset
+        params["limit"] = limit
+        params["allowedLanguages"] = ["all"]
+        return executeGetRequest(methodGroup: .content, methodName: "getCommunities", params: params, authorizationRequired: authorizationRequired)
     }
     
     public func getLeaders(
@@ -45,12 +44,17 @@ extension RestAPIManager {
         query: String?          = nil,
         authorizationRequired: Bool = true
     ) -> Single<ResponseAPIContentGetLeaders> {
-        let methodAPIType = MethodAPIType.getLeaders(communityId: communityId, communityAlias: communityAlias, sequenceKey: sequenceKey, limit: Int(limit), query: query)
-        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
+        var params = [String: Encodable]()
+        params["communityId"]       = communityId
+        params["communityAlias"]    = communityAlias
+        params["limit"]             = limit
+        params["sequenceKey"]       = sequenceKey
+        params["query"]             = query
+        
+        return executeGetRequest(methodGroup: .content, methodName: "getLeaders", params: params, authorizationRequired: authorizationRequired)
     }
     
     public func getCommunityBlacklist(communityId: String, limit: Int, offset: Int) -> Single<ResponseAPIContentGetSubscribers> {
-        let methodAPIType = MethodAPIType.getCommunityBlacklist(communityId: communityId, limit: limit, offset: offset)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        executeGetRequest(methodGroup: .content, methodName: "getCommunityBlacklist", params: ["communityId": communityId, "limit": limit, "offset": offset])
     }
 }

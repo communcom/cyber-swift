@@ -11,17 +11,14 @@ import RxSwift
 
 extension RestAPIManager {
     public func deviceSetInfo(timeZoneOffset: Int) -> Single<ResponseAPIStatus> {
-        let methodAPIType = MethodAPIType.deviceSetInfo(timeZoneOffset: timeZoneOffset)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        executeGetRequest(methodGroup: .device, methodName: "setInfo", params: ["timeZoneOffset": timeZoneOffset])
     }
     
     public func deviceSetFcmToken(_ token: String) -> Single<ResponseAPIStatus> {
-        let methodAPIType = MethodAPIType.deviceSetFcmToken(token)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        executeGetRequest(methodGroup: .device, methodName: "setFcmToken", params: ["fcmToken": token])
     }
     
     public func deviceResetFcmToken() -> Single<ResponseAPIStatus> {
-        let methodAPIType = MethodAPIType.deviceResetFcmToken
-        return executeGetRequest(methodAPIType: methodAPIType)
+        executeGetRequest(methodGroup: .device, methodName: "resetFcmToken", params: [:])
     }
 }

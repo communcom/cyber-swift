@@ -11,16 +11,14 @@ import RxSwift
 
 extension RestAPIManager {
     public func getCurrenciesFull() -> Single<[ResponseAPIGetCurrency]> {
-        let methodAPIType = MethodAPIType.getCurrenciesFull
-        return executeGetRequest(methodAPIType: methodAPIType)
+        executeGetRequest(methodGroup: .exchange, methodName: "getCurrenciesFull", params: [:])
     }
     
     public func exchangeGetMinMaxAmount(
         from: String,
         to: String
     ) -> Single<ResponseAPIGetMinMaxAmount> {
-        let methodAPIType = MethodAPIType.getMinMaxAmount(from: from, to: to)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        executeGetRequest(methodGroup: .exchange, methodName: "getMinMaxAmount", params: ["from": from, "to": to])
     }
     
     public func getExchangeAmount(
@@ -28,8 +26,7 @@ extension RestAPIManager {
         to: String = "CMN",
         amount: Double
     ) -> Single<String> {
-        let methodAPIType = MethodAPIType.getExchangeAmount(from: from, to: to, amount: amount)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        executeGetRequest(methodGroup: .exchange, methodName: "getExchangeAmount", params: ["from": from, "to": to, "amount": amount])
     }
     
     public func createTransaction(
@@ -40,7 +37,13 @@ extension RestAPIManager {
         refundAddress: String? = nil,
         refundExtraId: String? = nil
     ) -> Single<ResponseAPICreateTransaction> {
-        let methodAPIType = MethodAPIType.createTransaction(from: from, address: address, amount: amount, extraId: extraId, refundAddress: refundAddress, refundExtraId: refundExtraId)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        var parameters = [String: Encodable]()
+        parameters["from"] = from
+        parameters["address"] = address
+        parameters["amount"] = amount
+        parameters["extraId"] = extraId
+        parameters["refundAddress"] = refundAddress
+        parameters["refundExtraId"] = refundExtraId
+        return executeGetRequest(methodGroup: .exchange, methodName: "createTransaction", params: parameters)
     }
 }

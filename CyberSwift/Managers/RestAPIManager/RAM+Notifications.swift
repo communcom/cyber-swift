@@ -22,37 +22,37 @@ extension RestAPIManager {
         beforeThan: String? = nil,
         filter: [String]? = nil
     ) -> Single<ResponseAPIGetNotifications> {
-        let methodAPIType = MethodAPIType.getNotifications(limit: limit, beforeThan: beforeThan, filter: filter)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        var params = [String: Encodable]()
+        params["limit"] = limit
+        params["beforeThan"] = beforeThan
+        if let filter = filter, filter.count > 0 {
+            params["filter"] = filter
+        }
+        return executeGetRequest(methodGroup: .notifications, methodName: "getNotifications", params: params)
     }
     
     // API `notifications.getStatus`
     public func notificationsGetStatus() -> Single<ResponseAPINotificationsStatusUpdated> {
-        let methodAPIType = MethodAPIType.notificationsGetStatus
-        return executeGetRequest(methodAPIType: methodAPIType)
+        executeGetRequest(methodGroup: .notifications, methodName: "getStatus", params: [:])
     }
     
     // API `notifications.markAsRead`
     public func notificationsMarkAsRead(_ ids: [String]) -> Single<ResponseAPIStatus> {
-        let methodAPIType = MethodAPIType.markAsRead(ids)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        executeGetRequest(methodGroup: .notifications, methodName: "markAsRead", params: ["ids": ids])
     }
     
     // API `notifications.markAllAsViewed`
     public func notificationsMarkAllAsViewed(until: String) -> Single<ResponseAPIStatus> {
-        let methodAPIType = MethodAPIType.markAllAsViewed(until: until)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        executeGetRequest(methodGroup: .notifications, methodName: "markAllAsViewed", params: ["until": until])
     }
     
     // API `settings.getPushSettings`
-    public func notificationsGetPushSettings() -> Single<       ResponseAPISettingsGetPushSettings> {
-        let methodAPIType = MethodAPIType.getPushSettings
-        return executeGetRequest(methodAPIType: methodAPIType)
+    public func notificationsGetPushSettings() -> Single<ResponseAPISettingsGetPushSettings> {
+        executeGetRequest(methodGroup: .settings, methodName: "getPushSettings", params: [:])
     }
     
     // API `settings.setPushSettings`
     public func notificationsSetPushSettings(disable types: [String]) -> Single<ResponseAPIStatus> {
-        let methodAPIType = MethodAPIType.setPushSettings(disabled: types)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        executeGetRequest(methodGroup: .settings, methodName: "setPushSettings", params: ["disable": types])
     }
 }

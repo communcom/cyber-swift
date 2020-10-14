@@ -25,17 +25,37 @@ extension RestAPIManager {
         authorizationRequired: Bool = true,
         allowedLanguages: [String] = []
     ) -> Single<ResponseAPIContentGetPosts> {
-        let methodAPIType = MethodAPIType.getPosts(userId: userId, communityId: communityId, communityAlias: communityAlias, allowNsfw: allowNsfw, type: type, sortBy: sortBy, timeframe: timeframe, limit: limit, offset: offset, allowedLanguages: allowedLanguages)
+        var parameters = [String: Encodable]()
+        parameters["userId"]            = userId
+        parameters["communityId"]       = communityId
+        parameters["communityAlias"]    = communityAlias
+        parameters["allowNsfw"]         = allowNsfw
+        parameters["type"]              = type.rawValue
+        if type != .new {
+            parameters["sortBy"]        = sortBy?.rawValue
+        }
+        if type == .topLikes || type == .topComments || type == .topRewards || type == .subscriptionsPopular {
+            parameters["timeframe"]     = timeframe?.rawValue
+        }
+        parameters["limit"]             = limit
+        parameters["offset"]            = offset
         
-        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
+        parameters["allowedLanguages"] = allowedLanguages
+        
+        return executeGetRequest(methodGroup: .content, methodName: "getPosts", params: parameters, authorizationRequired: authorizationRequired)
     }
     
     // API `content.getPost`
     public func loadPost(userId: String? = nil, username: String? = nil, permlink: String, communityId: String? = nil, communityAlias: String? = nil, authorizationRequired: Bool = true) -> Single<ResponseAPIContentGetPost> {
         
-        let methodAPIType = MethodAPIType.getPost(userId: userId, username: username, permlink: permlink, communityId: communityId, communityAlias: communityAlias)
+        var parameters = [String: Encodable]()
+        parameters["userId"] = userId
+        parameters["username"] = username
+        parameters["permlink"] = permlink
+        parameters["communityId"] = communityId
+        parameters["communityAlias"] = communityAlias
         
-        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
+        return executeGetRequest(methodGroup: .content, methodName: "getPost", params: parameters, authorizationRequired: authorizationRequired)
             .do(onSuccess: {$0.notifyChanged()})
     }
     
@@ -64,30 +84,35 @@ extension RestAPIManager {
             ]
         }
         
-        let methodAPIType = MethodAPIType.getComments(
-            sortBy: sortBy,
-            offset: offset,
-            limit: limit,
-            type: .post,
-            userId: userId,
-            username: username,
-            permlink: permlink,
-            communityId: communityId,
-            communityAlias: communityAlias,
-            parentComment: parentComment,
-            resolveNestedComments: resolveNestedComments)
+        var params: [String: Encodable] =
+            [
+                "type": "post",
+                "sortBy": sortBy.rawValue,
+                "offset": offset,
+                "limit": limit,
+                "userId": userId,
+                "permlink": permlink,
+                "parentComment": parentComment
+            ]
         
-        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
+        params["username"] = username
+        
+        if communityId == nil {
+            params["communityAlias"] = communityAlias
+        } else {
+            params["communityId"] = communityId
+        }
+        
+        params["resolveNestedComments"] = resolveNestedComments
+        
+        return executeGetRequest(methodGroup: .content, methodName: "getComments", params: params, authorizationRequired: authorizationRequired)
     }
     
     // API `meta.recordPostView`
     public func recordPostView(communityID: String, userID: String, permlink: String) -> Single<ResponseAPIStatus> {
         // Check user authorize
         guard Config.currentUser?.id != nil else { return .error(CMError.unauthorized()) }
-
-        let methodAPIType = MethodAPIType.recordPostView(permlink: communityID + "/" + userID + "/" + permlink)
-
-        return executeGetRequest(methodAPIType: methodAPIType)
+        return executeGetRequest(methodGroup: .meta, methodName: "recordPostView", params: ["postLink": communityID + "/" + userID + "/" + permlink, "fingerPrint": Config.currentDeviceType])
     }
     
     // MARK: - Comments
@@ -98,25 +123,25 @@ extension RestAPIManager {
         limit: UInt                     = UInt(Config.paginationLimit),
         authorizationRequired: Bool     = true
     ) -> Single<ResponseAPIContentGetComments> {
-        let methodAPIType = MethodAPIType.getComments(
-            sortBy: .timeDesc,
-            offset: offset,
-            limit: limit,
-            type: .post,
-            userId: post.userId,
-            permlink: post.permlink,
-            communityId: post.communityId,
-            communityAlias: nil,
-            parentComment: [
-                "userId": parentComment.userId,
-                "permlink": parentComment.permlink
-            ],
-            resolveNestedComments: nil)
-        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
+        let params: [String: Encodable] =
+            [
+                "type": "post",
+                "sortBy": CommentSortMode.timeDesc.rawValue,
+                "offset": offset,
+                "limit": limit,
+                "userId": post.userId,
+                "permlink": post.permlink,
+                "parentComment": [
+                    "userId": parentComment.userId,
+                    "permlink": parentComment.permlink
+                ],
+                "communityId": post.communityId
+            ]
+        
+        return executeGetRequest(methodGroup: .content, methodName: "getComments", params: params, authorizationRequired: authorizationRequired)
     }
     
     public func loadComment(userId: String, permlink: String, communityId: String) -> Single<ResponseAPIContentGetComment> {
-        let methodAPIType = MethodAPIType.getComment(userId: userId, permlink: permlink, communityId: communityId)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        executeGetRequest(methodGroup: .content, methodName: "getComment", params: ["userId": userId, "permlink": permlink, "communityId": communityId])
     }
 }

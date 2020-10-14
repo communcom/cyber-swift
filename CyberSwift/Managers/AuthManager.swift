@@ -115,12 +115,12 @@ public class AuthManager {
 extension AuthManager {
     public func logout() {
         // Reset FCM token
-        RestAPIManager.instance.sendMessageIgnoreResponse(methodAPIType: .deviceResetFcmToken, authorizationRequired: false)
+        RestAPIManager.instance.sendMessageIgnoreResponse(methodGroup: .device, methodName: "resetFcmToken", params: [:], authorizationRequired: false)
         
         // logout
-        RestAPIManager.instance.sendMessageIgnoreResponse(methodAPIType: .logout, authorizationRequired: false)
+        RestAPIManager.instance.sendMessageIgnoreResponse(methodGroup: .auth, methodName: "logout", params: ["":""], authorizationRequired: false)
         
-        RestAPIManager.instance.sendMessageIgnoreResponse(methodAPIType: .signout, authorizationRequired: false)
+        RestAPIManager.instance.sendMessageIgnoreResponse(methodGroup: .auth, methodName: "signOut", params: ["":""], authorizationRequired: false)
         
         // Remove in keychain
         try! KeychainManager.deleteUser()

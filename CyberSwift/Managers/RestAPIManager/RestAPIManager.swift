@@ -11,8 +11,6 @@ import Foundation
 import RxSwift
 import Crashlytics
 
-public typealias RequestMethodAPIType   =   (id: Int, requestMessage: String?, methodAPIType: MethodAPIType, errorAPI: CMError?)
-
 public class RestAPIManager {
     #if APPSTORE
         let isDebugMode = false
@@ -39,68 +37,25 @@ public class RestAPIManager {
         return currentId
     }
     
-    /// Prepare method request
-    func prepareGETRequest(id: Int, requestParamsType: RequestMethodParameters) -> RequestMethodAPIType {
-        let codeID              =   id
-        
-        let requestAPI          =   RequestAPI(id: codeID,
-                                               method: String(format: "%@.%@", requestParamsType.methodGroup, requestParamsType.methodName),
-                                               jsonrpc: "2.0",
-                                               params: requestParamsType.parameters)
-        
-        do {
-            // Encode data
-            let jsonEncoder = JSONEncoder()
-            var jsonData = Data()
-            var jsonString: String
-            
-            jsonData    =   try jsonEncoder.encode(requestAPI)
-            jsonString  =   String(data: jsonData, encoding: .utf8)!
-            
-            // Template: { "id": 2, "jsonrpc": "2.0", "method": "content.getProfile", "params": { "userId": "tst3uuqzetwf" }}
-            return (id: codeID, requestMessage: jsonString, methodAPIType: requestParamsType.methodAPIType, errorAPI: nil)
-        } catch {
-            return (id: codeID, requestMessage: nil, methodAPIType: requestParamsType.methodAPIType, errorAPI: CMError.invalidRequest(message: ErrorMessage.jsonConversionFailed.rawValue))
-        }
-    }
-    
-    func prepareGETRequestSingle(id: Int, requestParamsType: RequestMethodParameters) -> Single<RequestMethodAPIType> {
-        Single.create { single -> Disposable in
-            let requestMethodAPIType = self.prepareGETRequest(id: id, requestParamsType: requestParamsType)
-            if let error = requestMethodAPIType.errorAPI {
-                single(.error(error))
-            } else {
-                single(.success(requestMethodAPIType))
-            }
-            return Disposables.create()
-        }
-    }
-    
-    /// Rx method to deal with executeGetRequest
-    public func executeGetRequest<T: Decodable>(methodAPIType: MethodAPIType, timeout: RxSwift.RxTimeInterval = 10, authorizationRequired: Bool = true) -> Single<T> {
+    public func executeGetRequest<T: Decodable>(methodGroup: MethodAPIGroup, methodName: String, params: [String: Encodable], timeout: RxSwift.RxTimeInterval = 10, authorizationRequired: Bool = true) -> Single<T> {
         // Offline mode
         if !Config.isNetworkAvailable {
-            ErrorLogger.shared.recordError(CMError.noConnection, additionalInfo: ["user": Config.currentUser?.id ?? "undefined", "method": methodAPIType.introduced().methodName])
+            ErrorLogger.shared.recordError(CMError.noConnection, additionalInfo: ["user": Config.currentUser?.id ?? "undefined", "method": methodGroup.rawValue + "." + methodName])
             return .error(CMError.noConnection)
         }
-        
-        // Prepare content request
-        let requestParamsType   =   methodAPIType.introduced()
-        
         let id = generateUniqueId()
-        return prepareGETRequestSingle(id: id, requestParamsType: requestParamsType)
-            .flatMap {SocketManager.shared.sendRequest(methodAPIType: $0, timeout: timeout, authorizationRequired: authorizationRequired)}
+        return SocketManager.shared.sendRequest(id: id, methodGroup: methodGroup, methodName: methodName, params: params, timeout: timeout, authorizationRequired: authorizationRequired)
             .catchError({ (error) -> Single<T> in
-                ErrorLogger.shared.recordError(error, additionalInfo: ["user": Config.currentUser?.id ?? "undefined", "method": methodAPIType.introduced().methodName])
+                ErrorLogger.shared.recordError(error, additionalInfo: ["user": Config.currentUser?.id ?? "undefined", "method": methodGroup.rawValue + "." + methodName])
                 if let error = error as? CMError {
                     switch error {
                     case .unauthorized:
                         return RestAPIManager.instance.authorize()
-                            .flatMap {_ in self.executeGetRequest(methodAPIType: methodAPIType, timeout: timeout, authorizationRequired: authorizationRequired)}
+                            .flatMap {_ in self.executeGetRequest(methodGroup: methodGroup, methodName: methodName, params: params, timeout: timeout, authorizationRequired: authorizationRequired)}
                     case .secretVerificationFailed:
                         // retrieve secret
                         return RestAPIManager.instance.generateSecret()
-                            .andThen(self.executeGetRequest(methodAPIType: methodAPIType, timeout: timeout, authorizationRequired: authorizationRequired))
+                            .andThen(self.executeGetRequest(methodGroup: methodGroup, methodName: methodName, params: params, timeout: timeout, authorizationRequired: authorizationRequired))
                     default:
                         throw error
                     }
@@ -117,7 +72,7 @@ public class RestAPIManager {
                 
                 throw error
             })
-            .log(method: "\(requestParamsType.methodGroup).\(requestParamsType.methodName)", id: id)
+            .log(method: "\(methodGroup).\(methodName)", id: id)
             .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .userInteractive))
             .observeOn(MainScheduler.instance)
     }
@@ -125,10 +80,7 @@ public class RestAPIManager {
     // MARK: - FACADE-SERVICE
     // API `content.waitForTransaction`
     public func waitForTransactionWith(id: String) -> Completable {
-
-        let methodAPIType = MethodAPIType.waitForTransaction(id: id)
-
-        return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIContentWaitForTransaction>)
+        (executeGetRequest(methodGroup: .content, methodName: "waitForTransaction", params: ["transactionId": id], authorizationRequired: false) as Single<ResponseAPIContentWaitForTransaction>)
             .flatMapToCompletable()
     }
 
@@ -213,14 +165,24 @@ public class RestAPIManager {
     // MARK: - Others
     /// get embed content
     public func getEmbed(url: String) -> Single<ResponseAPIFrameGetEmbed> {
-        let methodAPIType = MethodAPIType.getEmbed(url: url)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        executeGetRequest(methodGroup: .frame, methodName: "getEmbed", params: [ "type": "oembed", "url": url])
     }
     
-    public func sendMessageIgnoreResponse(methodAPIType: MethodAPIType, authorizationRequired: Bool = true) {
-        let requestParamsType = methodAPIType.introduced()
+    public func sendMessageIgnoreResponse(methodGroup: MethodAPIGroup, methodName: String, params: [String: Encodable], authorizationRequired: Bool = true) {
         let id = generateUniqueId()
-        let requestMethodAPIType = prepareGETRequest(id: id, requestParamsType: requestParamsType)
-        SocketManager.shared.sendMessage(requestMethodAPIType, authorizationRequired: authorizationRequired)
+        let requestAPI = RequestAPI(
+            id: id,
+            method: methodGroup.rawValue + "." + methodName,
+            jsonrpc: "2.0",
+            params: params
+        )
+        
+        guard let jsonData = try? JSONEncoder().encode(requestAPI),
+              let message = String(data: jsonData, encoding: .utf8)
+        else {
+            return
+        }
+        
+        SocketManager.shared.sendMessage(methodGroup: methodGroup, methodName: methodName, message: message, authorizationRequired: authorizationRequired)
     }
 }

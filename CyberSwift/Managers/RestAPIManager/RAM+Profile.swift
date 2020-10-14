@@ -12,8 +12,7 @@ import RxSwift
 extension RestAPIManager {
     // API `content.resolveProfile`
     public func resolveProfile(username: String) -> Single<ResponseAPIContentGetProfile> {
-        let methodAPIType = MethodAPIType.resolveProfile(username: username)
-        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false)
+        executeGetRequest(methodGroup: .content, methodName: "resolveProfile", params: ["username": username], authorizationRequired: false)
     }
     
     // API `content.getProfile`
@@ -22,14 +21,15 @@ extension RestAPIManager {
         appProfileType: AppProfileType = .cyber,
         authorizationRequired: Bool = true
     ) -> Single<ResponseAPIContentGetProfile> {
-        
         if user == nil {
             return .error(CMError.invalidRequest(message: ErrorMessage.userIdOrUsernameIsMissing.rawValue))
         }
         
-        let methodAPIType = MethodAPIType.getProfile(user: user)
-
-        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
+        var params = [String: Encodable]()
+        params["user"] = user
+        params["userId"] = Config.currentUser?.id
+        
+        return executeGetRequest(methodGroup: .content, methodName: "getProfile", params: params)
     }
     
     // API `content.getComments` by user
@@ -40,33 +40,16 @@ extension RestAPIManager {
         userId: String?,
         authorizationRequired: Bool = true
     ) -> Single<ResponseAPIContentGetComments> {
-        guard let userId = userId ?? Config.currentUser?.id else {
-            return .error(CMError.unauthorized())
-        }
-        
-        let methodAPIType = MethodAPIType.getComments(
-            sortBy: sortBy,
-            offset: offset,
-            limit: limit,
-            type: .user,
-            userId: userId,
-            permlink: nil,
-            communityId: nil,
-            communityAlias: nil,
-            parentComment: nil,
-            resolveNestedComments: false)
-        
-        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
-    }
-    
-    // API basic `options.set`
-    public func setBasicOptions(nsfwContent: NsfwContentMode) -> Single<ResponseAPIStatus> {
-        // Check user authorize
-        guard Config.currentUser?.id != nil else { return .error(CMError.unauthorized())}
-
-        let methodAPIType = MethodAPIType.setBasicOptions(nsfw: nsfwContent.rawValue)
-        
-        return executeGetRequest(methodAPIType: methodAPIType)
+        let parameters: [String: Encodable] =
+            [
+                "type": "user",
+                "sortBy": sortBy.rawValue,
+                "offset": offset,
+                "limit": limit,
+                "userId": userId,
+                "resolveNestedComments": false
+            ]
+        return executeGetRequest(methodGroup: .content, methodName: "getComments", params: parameters, authorizationRequired: authorizationRequired)
     }
     
     // MARK: - Subscribers
@@ -76,8 +59,18 @@ extension RestAPIManager {
         offset: Int             = 0,
         limit: Int              = 10
     ) -> Single<ResponseAPIContentGetSubscribers> {
-        let methodAPIType = MethodAPIType.getSubscribers(userId: userId, communityId: communityId, offset: offset, limit: limit)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        var params: [String: Encodable] = [
+            "offset": offset,
+            "limit": limit
+        ]
+        
+        if let communityId = communityId {
+            params["communityId"]   = communityId
+        } else {
+            params["userId"]        = userId
+        }
+        
+        return executeGetRequest(methodGroup: .content, methodName: "getSubscribers", params: params)
     }
     
     // MARK: - Subscriptions
@@ -87,8 +80,14 @@ extension RestAPIManager {
         offset: Int             = 0,
         limit: Int              = 10
     ) -> Single<ResponseAPIContentGetSubscriptions> {
-        let methodAPIType = MethodAPIType.getSubscriptions(userId: userId, type: type, offset: offset, limit: limit)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        let params: [String: Encodable] = [
+            "offset": offset,
+            "limit": limit,
+            "type": type.rawValue,
+            "userId": userId
+        ]
+        
+        return executeGetRequest(methodGroup: .content, methodName: "getSubscriptions", params: params)
     }
     
     // MARK: - Blacklist
@@ -98,7 +97,6 @@ extension RestAPIManager {
         offset: Int             = 0,
         limit: Int              = 10
     ) -> Single<ResponseAPIContentGetBlacklist> {
-        let methodAPIType = MethodAPIType.getBlacklist(userId: userId, type: type, limit: limit, offset: offset)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        executeGetRequest(methodGroup: .content, methodName: "getBlacklist", params: ["userId": userId, "type": type.rawValue/*, "limit": limit, "offset": offset*/])
     }
 }

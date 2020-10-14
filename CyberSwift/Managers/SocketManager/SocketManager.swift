@@ -68,28 +68,37 @@ class SocketManager {
         socket.delegate = self
     }
     
-    func sendRequest<T: Decodable>(methodAPIType: RequestMethodAPIType, timeout: RxSwift.RxTimeInterval, authorizationRequired: Bool) -> Single<T> {
-        sendMessage(methodAPIType, authorizationRequired: authorizationRequired)
+    func sendRequest<T: Decodable>(id: Int, methodGroup: MethodAPIGroup, methodName: String, params: [String: Encodable], timeout: RxSwift.RxTimeInterval, authorizationRequired: Bool) -> Single<T> {
+        let requestAPI = RequestAPI(
+            id: id,
+            method: methodGroup.rawValue + "." + methodName,
+            jsonrpc: "2.0",
+            params: params
+        )
         
-        return textSubject
-            .filter {self.compareMessageFromResponseText($0, to: methodAPIType.id)}
-            .timeout(timeout, scheduler: MainScheduler.instance)
-            .take(1)
-            .asSingle()
-            .do(onSuccess: { (text) in
-                Logger.log(message: "websocketDidReceiveMessage: \n\t\(text)", event: .response, apiMethod: "\(methodAPIType.methodAPIType.introduced().methodGroup).\(methodAPIType.methodAPIType.introduced().methodName)")
-            })
-            .map {try self.transformMessage($0)}
+        do {
+            let jsonData = try JSONEncoder().encode(requestAPI)
+            guard let message = String(data: jsonData, encoding: .utf8) else {
+                throw CMError.invalidRequest(message: "could not encode request")
+            }
+            sendMessage(methodGroup: methodGroup, methodName: methodName, message: message, authorizationRequired: authorizationRequired)
+            
+            return textSubject
+                .filter {self.compareMessageFromResponseText($0, to: id)}
+                .timeout(timeout, scheduler: MainScheduler.instance)
+                .take(1)
+                .asSingle()
+                .do(onSuccess: { (text) in
+                    Logger.log(message: "websocketDidReceiveMessage: \n\t\(text)", event: .response, apiMethod: "\(methodGroup).\(methodName)")
+                })
+                .map {try self.transformMessage($0)}
+            
+        } catch {
+            return .error(error.cmError)
+        }
     }
     
-    func sendMessage(_ requestMethodAPIType: RequestMethodAPIType, authorizationRequired: Bool) {
-        // prepare variables
-        let requestParamsType = requestMethodAPIType.methodAPIType.introduced()
-        let methodGroup = requestParamsType.methodGroup
-        let methodName = requestParamsType.methodName
-        
-        let message = requestMethodAPIType.requestMessage!
-        
+    func sendMessage(methodGroup: MethodAPIGroup, methodName: String, message: String, authorizationRequired: Bool) {
         // check connection and send
         if !socket.isConnected {
             connect()
@@ -98,7 +107,7 @@ class SocketManager {
                     .take(1)
                     .asSingle()
                     .subscribe(onSuccess: { (_) in
-                        self.writeAndLog(message: message, methodGroup: methodGroup, methodName: methodName)
+                        self.writeAndLog(message: message, methodGroup: methodGroup.rawValue, methodName: methodName)
                     })
                     .disposed(by: disposeBag)
             } else {
@@ -106,7 +115,7 @@ class SocketManager {
                     .take(1)
                     .asSingle()
                     .subscribe(onSuccess: {[weak self] _ in
-                        self?.writeAndLog(message: message, methodGroup: methodGroup, methodName: methodName)
+                        self?.writeAndLog(message: message, methodGroup: methodGroup.rawValue, methodName: methodName)
                     })
                     .disposed(by: disposeBag)
             }
@@ -116,11 +125,11 @@ class SocketManager {
                     .take(1)
                     .asSingle()
                     .subscribe(onSuccess: { (_) in
-                        self.writeAndLog(message: message, methodGroup: methodGroup, methodName: methodName)
+                        self.writeAndLog(message: message, methodGroup: methodGroup.rawValue, methodName: methodName)
                     })
                     .disposed(by: disposeBag)
             } else {
-                writeAndLog(message: message, methodGroup: methodGroup, methodName: methodName)
+                writeAndLog(message: message, methodGroup: methodGroup.rawValue, methodName: methodName)
             }
         }
     }
