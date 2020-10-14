@@ -117,6 +117,7 @@ public class RestAPIManager {
     }
     
     /// Rx method to deal with executeGetRequest
+    @available(*, deprecated, message: "Use executeGetRequest(methodGroup:methodName:params:) instead")
     public func executeGetRequest<T: Decodable>(methodAPIType: MethodAPIType, timeout: RxSwift.RxTimeInterval = 10, authorizationRequired: Bool = true) -> Single<T> {
         // Offline mode
         if !Config.isNetworkAvailable {

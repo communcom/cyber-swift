@@ -167,17 +167,11 @@ public indirect enum MethodAPIType {
     //  Enter promo code
     case appendReferralParent(refferalId: String, phone: String?, identity: String?, email: String?, userId: String?)
     
-    //  Log in
-    case authorize(username: String, activeKey: String)
-    
     //  Log out
     case logout
     
     //  Sign out??
     case signout
-
-    //  Get the secret authorization to sign
-    case generateSecret
 
     //  Subscribe to push notifications
     case notifyPushOn(fcmToken: String, appProfileType: AppProfileType)
@@ -234,34 +228,6 @@ public indirect enum MethodAPIType {
     case getCommunityBlacklist(communityId: String, limit: Int, offset: Int)
     
     /// REGISTRATION-SERVICE
-    //  Get current registration status for user
-    case getState(phone: String?, identity: String?, email: String?)
-    
-    //  First step of registration
-    //  Modify: add `captchaType` (https://github.com/communcom/commun/issues/929)
-    case firstStep(phone: String, captchaCode: String, isDebugMode: Bool)
-    
-    case firstStepEmail(email: String, captcha: String, isDebugMode: Bool)
-    
-    //  Second registration step, account verification
-    case verify(phone: String, code: UInt64)
-    
-    case verifyEmail(email: String, code: String)
-    
-    //  The third step of registration, account verification
-    case setUser(name: String, phone: String?, identity: String?, email: String?)
-
-    //  Re-send of the confirmation code (for the smsToUser strategy)
-    case resendSmsCode(phone: String)
-    
-    case resendEmailCode(email: String)
-    
-    //  The last step of registration, entry in the blockchain
-//    case toBlockChain(user: String, keys: [String: UserKeys])
-    case toBlockChain(phone: String?, userID: String, userName: String, keys: [String: UserKeys], identity: String?, email: String?)
-    
-    //  Onboarding step to force user to subscribe to at least 3 communities
-    case onboardingCommunitySubscriptions(userId: String, communityIds: [String])
     
     /// WALLET
     case getTransferHistory(userId: String?, direction: String, transferType: String?, symbol: String?, rewards: String?, donation: String?, claim: String?, holdType: String?, offset: UInt, limit: UInt)
@@ -402,12 +368,6 @@ public indirect enum MethodAPIType {
                      methodName:        "appendReferralParent",
                      parameters:        params)
             
-        //  Template { "id": 6, "jsonrpc": "2.0", "method": "auth.authorize", "params": { "user": "tst1xrhojmka", "sign": "Cyberway" }}
-        case .authorize(let username, let activeKeyValue):
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.auth.rawValue,
-                     methodName:        "authorize",
-                     parameters:        ["user": username, "secret": Config.webSocketSecretKey, "sign": EOSManager.signWebSocketSecretKey(userActiveKey: activeKeyValue) ?? "Cyberway"])
             
         //  Template { "id": 6, "jsonrpc": "2.0", "method": "auth.logout", "params": { "": "" }}
         case .logout:
@@ -421,13 +381,6 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.auth.rawValue,
                      methodName:        "signOut",
                      parameters:        ["": ""])
-
-        //  Template { "id": 7, "jsonrpc": "2.0", "method": "auth.generateSecret", "params": { "": "" }}
-        case .generateSecret:
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.auth.rawValue,
-                     methodName:        "generateSecret",
-                     parameters:        [:])
 
         //  Template { "id": 71, "jsonrpc": "2.0", "method": "push.notifyOn", "params": { "key": <fcm_token>, "profile": <userNickName-deviceUDID>, "app": <gls> }}
         case .notifyPushOn(let fcmTokenValue, let appProfileType):
@@ -592,124 +545,6 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "getCommunityBlacklist",
                      parameters:        ["communityId": communityId, "limit": limit, "offset": offset])
-
-        /// REGISTRATION-SERVICE
-        //  Template { "id": 1, "jsonrpc": "2.0", "method": "registration.getState", "params": { "phone": "+70000000000" }}
-        case .getState(let phoneValue, let identity, let email):
-            var parameters = [String: Encodable]()
-            
-            if let phone = phoneValue {
-                parameters["phone"] = phone
-            }
-
-            if let identity = identity {
-                parameters["identity"] = identity
-            }
-            
-            if let email = email {
-                parameters["email"] = email
-            }
-
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.registration.rawValue,
-                     methodName:        "getState",
-                     parameters:        parameters)
-
-        //  Debug template      { "id": 2, "jsonrpc": "2.0", "method": "registration.firstStep", "params": { "phone": "+70000000000", "captcha": <captcha_code>, "captchaType": "ios", "testingPass": "DpQad16yDlllEy6" }}
-        //  Release template    { "id": 2, "jsonrpc": "2.0", "method": "registration.firstStep", "params": { "phone": "+70000000000", "captcha": <captcha_code>, "captchaType": "ios" }}
-        case .firstStep(let phoneValue, let captchaCode, let isDebugMode):
-            var parameters = ["phone": phoneValue, "captcha": captchaCode, "captchaType": "ios" ]
-
-            if isDebugMode {
-                parameters["testingPass"]   =   Config.testingPassword
-            }
-
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.registration.rawValue,
-                     methodName:        "firstStep",
-                     parameters:        parameters)
-            
-        case .firstStepEmail(let email, let captcha, let isDebugMode):
-            var parameters = ["email": email, "captcha": captcha, "captchaType": "ios" ]
-
-            if isDebugMode {
-                parameters["testingPass"]   =   Config.testingPassword
-            }
-            
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.registration.rawValue,
-                     methodName:        "firstStepEmail",
-                     parameters:        parameters)
-
-        //  { "id": 3, "jsonrpc": "2.0", "method": "registration.verify", "params": { "phone": "+70000000000", "code": "1563" }}
-        case .verify(let phoneValue, let codeValue):
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.registration.rawValue,
-                     methodName:        "verify",
-                     parameters:        ["phone": phoneValue, "code": codeValue])
-            
-        case .verifyEmail(let email, let code):
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.registration.rawValue,
-                     methodName:        "verifyEmail",
-                     parameters:        ["email": email, "code": code])
-            
-        //  { "id": 4, "jsonrpc": "2.0", "method": "registration.setUsername", "params": { "username": "tester", "phone": "+70000000000" }}
-        case .setUser(let name, let phone, let identity, let email):
-            var params = ["username": name]
-            params["phone"] = phone
-            params["identity"] = identity
-            params["email"] = email
-
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.registration.rawValue,
-                     methodName:        "setUsername",
-                     parameters:        params)
-
-        //  Debug template      { "id": 5, "jsonrpc": "2.0", "method": "registration.resendSmsCode", "params": { "phone": "+70000000000", "testingPass": "DpQad16yDlllEy6" }}
-        //  Release template    { "id": 5, "jsonrpc": "2.0", "method": "registration.resendSmsCode", "params": { "phone": "+70000000000" }}
-        case .resendSmsCode(let phoneValue):
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.registration.rawValue,
-                     methodName:        "resendSmsCode",
-                     parameters:        ["phone": phoneValue])
-
-        //  Template    { "id": 6, "jsonrpc": "2.0", "method": "registration.toBlockChain", "params": { "user": "tester", "owber": "5HtBPHEhgRmZpAR7EtF3NwG5wVzotNGHBBFo8CF6kucwqeiatpw", "active": "5K4bqcDKtveY8JA3saNkqmCsv18JQsxKf7LGU27nLPzigCmCK69", "posting": "5KPcWDsxka9MEZYBspFqFJueq2L7hgFxWTNkhxoqf1iFYJwZXYD", "memo": "5Kgn17ZFaJVzYVY3Mc8H99MuwqhECA7EWwkbDC7EZgFAjHAEtvS" }}
-            
-        case .resendEmailCode(let email):
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.registration.rawValue,
-                     methodName:        "resendEmailCode",
-                     parameters:        ["email": email])
-            
-        case .toBlockChain(let phone, let userIdValue, let userNameValue, let keysValues, let identity, let email):
-            var parameters = ["userId": userIdValue, "username": userNameValue]
-            
-            parameters["phone"] = phone
-            parameters["identity"] = identity
-            parameters["email"] = email
-
-            if let ownerUserKey = keysValues["owner"] {
-                parameters["publicOwnerKey"] = ownerUserKey.publicKey
-            }
-
-            if let activeUserKey = keysValues["active"] {
-                parameters["publicActiveKey"] = activeUserKey.publicKey
-            }
-
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.registration.rawValue,
-                     methodName:        CurrentUserRegistrationStep.toBlockChain.rawValue,
-                     parameters:        parameters)
-
-        case .onboardingCommunitySubscriptions(let userId, let communityIds):
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.registration.rawValue,
-                     methodName:        "onboardingCommunitySubscriptions",
-                     parameters:        [
-                        "userId": userId,
-                        "communityIds": communityIds
-                    ])
             
         case .getTransferHistory(let userId, let direction, let transferType, let symbol, let rewards, let donation, let claim, let holdType, let offset, let limit):
             var parameters = [String: Encodable]()

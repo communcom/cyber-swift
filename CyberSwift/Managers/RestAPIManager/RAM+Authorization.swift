@@ -20,9 +20,13 @@ extension RestAPIManager {
     public func getState(phone: String? = Config.currentUser?.phoneNumber, identity: String? = Config.currentUser?.identity, email: String? = Config.currentUser?.email) -> Single<ResponseAPIRegistrationGetState> {
         
         let phone = fixedPhoneNumber(phone: phone)
-        let methodAPIType = MethodAPIType.getState(phone: phone, identity: identity, email: email)
         
-        return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIRegistrationGetState>)
+        var parameters = [String: Encodable]()
+        parameters["phone"] = phone
+        parameters["identity"] = identity
+        parameters["email"] = email
+        
+        return (executeGetRequest(methodGroup: .registration, methodName: "getState", params: parameters, authorizationRequired: false) as Single<ResponseAPIRegistrationGetState>)
             .map { result in
                 if result.currentState == "registered" {
                     throw CMError.registration(message: ErrorMessage.accountHasBeenRegistered.rawValue)
@@ -57,9 +61,13 @@ extension RestAPIManager {
             return .error(CMError.registration(message: ErrorMessage.phoneMissing.rawValue))
         }
         
-        let methodAPIType = MethodAPIType.firstStep(phone: phone, captchaCode: captchaCode, isDebugMode: isDebugMode)
+        var parameters = ["phone": phone, "captcha": captchaCode, "captchaType": "ios" ]
+
+        if isDebugMode {
+            parameters["testingPass"] = Config.testingPassword
+        }
         
-        return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIRegistrationFirstStep>)
+        return (executeGetRequest(methodGroup: .registration, methodName: "firstStep", params: parameters, authorizationRequired: false) as Single<ResponseAPIRegistrationFirstStep>)
             .map { result in
 
                 var data: [String: Any] = [
@@ -79,8 +87,13 @@ extension RestAPIManager {
     }
     
     public func firstStepEmail(_ email: String, captcha: String) -> Single<ResponseAPIRegistrationFirstStepEmail> {
-        let methodAPIType = MethodAPIType.firstStepEmail(email: email, captcha: captcha, isDebugMode: isDebugMode)
-        return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIRegistrationFirstStepEmail>)
+        var parameters = ["email": email, "captcha": captcha, "captchaType": "ios" ]
+
+        if isDebugMode {
+            parameters["testingPass"]   =   Config.testingPassword
+        }
+        
+        return (executeGetRequest(methodGroup: .registration, methodName: "firstStepEmail", params: parameters, authorizationRequired: false) as Single<ResponseAPIRegistrationFirstStepEmail>)
             .map {result in
                 var data: [String: Any] = [
                     Config.registrationStepKey: CurrentUserRegistrationStep.verifyEmail.rawValue,
@@ -103,9 +116,7 @@ extension RestAPIManager {
             return .error(CMError.registration(message: ErrorMessage.phoneMissing.rawValue))
         }
         
-        let methodAPIType = MethodAPIType.verify(phone: phone, code: code)
-        
-        return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIRegistrationVerify>)
+        return (executeGetRequest(methodGroup: .registration, methodName: "verify", params: ["phone": phone, "code": code], authorizationRequired: false) as Single<ResponseAPIRegistrationVerify>)
             .map { result in
                 try KeychainManager.save([
                     Config.registrationStepKey: CurrentUserRegistrationStep.setUserName.rawValue,
@@ -121,9 +132,7 @@ extension RestAPIManager {
             return .error(CMError.registration(message: ErrorMessage.emailMissing.rawValue))
         }
         
-        let methodAPIType = MethodAPIType.verifyEmail(email: email, code: code)
-        
-        return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIRegistrationVerify>)
+        return (executeGetRequest(methodGroup: .registration, methodName: "verifyEmail", params: ["email": email, "code": code], authorizationRequired: false) as Single<ResponseAPIRegistrationVerify>)
             .map {result in
                 try KeychainManager.save([
                     Config.registrationStepKey: CurrentUserRegistrationStep.setUserName.rawValue,
@@ -140,9 +149,7 @@ extension RestAPIManager {
             return .error(CMError.registration(message: ErrorMessage.phoneMissing.rawValue))
         }
         
-        let methodAPIType = MethodAPIType.resendSmsCode(phone: phone)
-        
-        return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIResendSmsCode>)
+        return (executeGetRequest(methodGroup: .registration, methodName: "resendSmsCode", params: ["phone": phone], authorizationRequired: false) as Single<ResponseAPIResendSmsCode>)
             .map { result in
                 try KeychainManager.save([
                     Config.registrationStepKey: result.currentState,
@@ -158,9 +165,7 @@ extension RestAPIManager {
             return .error(CMError.registration(message: ErrorMessage.emailMissing.rawValue))
         }
         
-        let methodAPIType = MethodAPIType.resendEmailCode(email: email)
-        
-        return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIResendEmailCode>)
+        return (executeGetRequest(methodGroup: .registration, methodName: "resendEmailCode", params: ["email": email], authorizationRequired: false) as Single<ResponseAPIResendEmailCode>)
             .map { result in
                 try KeychainManager.save([
                     Config.registrationStepKey: result.currentState,
@@ -181,9 +186,12 @@ extension RestAPIManager {
             return .error(CMError.registration(message: ErrorMessage.identityMissing.rawValue))
         }
         
-        let methodAPIType = MethodAPIType.setUser(name: name, phone: phone, identity: identity, email: email)
+        var params = ["username": name]
+        params["phone"] = phone
+        params["identity"] = identity
+        params["email"] = email
         
-        return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIRegistrationSetUsername>)
+        return (executeGetRequest(methodGroup: .registration, methodName: "setUsername", params: params, authorizationRequired: false) as Single<ResponseAPIRegistrationSetUsername>)
             .map { result in
                 guard let userId = result.userId else {
                     throw CMError.registration(message: ErrorMessage.couldNotCreateUserId.rawValue)
@@ -225,9 +233,22 @@ extension RestAPIManager {
         
         let masterKey = password ?? String.randomString(length: 51)
         let userkeys = generateKeys(userId: userID, masterKey: masterKey)
-        let methodAPIType = MethodAPIType.toBlockChain(phone: phone, userID: userID, userName: userName, keys: userkeys, identity: identity, email: email)
         
-        return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIRegistrationToBlockChain>)
+        var parameters = ["userId": userID, "username": userName]
+        
+        parameters["phone"] = phone
+        parameters["identity"] = identity
+        parameters["email"] = email
+
+        if let ownerUserKey = userkeys["owner"] {
+            parameters["publicOwnerKey"] = ownerUserKey.publicKey
+        }
+
+        if let activeUserKey = userkeys["active"] {
+            parameters["publicActiveKey"] = activeUserKey.publicKey
+        }
+        
+        return (executeGetRequest(methodGroup: .registration, methodName: "toBlockChain", params: parameters, authorizationRequired: false) as Single<ResponseAPIRegistrationToBlockChain>)
             .map { result -> ResponseAPIRegistrationToBlockChain in
                 try KeychainManager.save([
                     Config.registrationStepKey: CurrentUserRegistrationStep.registered.rawValue,
@@ -249,8 +270,7 @@ extension RestAPIManager {
     ) -> Completable {
         guard let userId = Config.currentUser?.id else {return .error(CMError.unauthorized())}
         guard communityIds.count >= 3 else {return .error(CMError.other(message: ErrorMessage.youMustSubscribeToAtLeast3Communities.rawValue))}
-        let methodAPIType = MethodAPIType.onboardingCommunitySubscriptions(userId: userId, communityIds: communityIds)
-        return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIStatus>)
+        return (executeGetRequest(methodGroup: .registration, methodName: "onboardingCommunitySubscriptions", params: ["userId": userId,"communityIds": communityIds], authorizationRequired: false) as Single<ResponseAPIStatus>)
             .flatMapToCompletable()
     }
         
@@ -280,12 +300,18 @@ extension RestAPIManager {
             .flatMap({ (profile) -> Single<ResponseAPIAuthAuthorize> in
                 // Create 4 pairs of keys
                 userKeys = self.generateKeys(userId: profile.userId, masterKey: masterKey)
-                
-                // Authorize request with 1 of 4 keys
-                let methodAPIType = MethodAPIType.authorize(username: login, activeKey: userKeys["active"]!.privateKey!)
-                
+
                 return self.generateSecret()
-                    .andThen(self.executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIAuthAuthorize>)
+                    .andThen(self.executeGetRequest(
+                                methodGroup: .auth,
+                                methodName: "authorize",
+                                params: [
+                                    "user": login,
+                                    "secret": Config.webSocketSecretKey,
+                                    "sign": EOSManager.signWebSocketSecretKey(userActiveKey: userKeys["active"]!.privateKey!) ?? "Cyberway"
+                                ],
+                                authorizationRequired: false
+                    ) as Single<ResponseAPIAuthAuthorize>)
             })
             .map {result in
                 
@@ -312,9 +338,16 @@ extension RestAPIManager {
             return .error(CMError.invalidRequest(message: ErrorMessage.userIdOrActiveKeyMissing.rawValue))
         }
         
-        let methodAPIType = MethodAPIType.authorize(username: username, activeKey: activeKey)
-        
-        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false)
+        return executeGetRequest(
+            methodGroup: .auth,
+            methodName: "authorize",
+            params: [
+                "user": username,
+                "secret": Config.webSocketSecretKey,
+                "sign": EOSManager.signWebSocketSecretKey(userActiveKey: activeKey) ?? "Cyberway"
+            ],
+            authorizationRequired: false
+        )
             .do(onSuccess: { (_) in
                 let methodAPIType = MethodAPIType.notificationsSubscribe
                 self.sendMessageIgnoreResponse(methodAPIType: methodAPIType, authorizationRequired: false)
@@ -323,10 +356,7 @@ extension RestAPIManager {
     
     /// Generate secret
     func generateSecret() -> Completable {
-        
-        let methodAPIType = MethodAPIType.generateSecret
-        
-        return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false) as Single<ResponseAPIAuthGenerateSecret>)
+        (executeGetRequest(methodGroup: .auth, methodName: "generateSecret", params: [:], authorizationRequired: false) as Single<ResponseAPIAuthGenerateSecret>)
             .flatMapCompletable {result in
                 Config.webSocketSecretKey = result.secret
                 return .empty()
