@@ -148,18 +148,9 @@ public enum SearchEntityType: String, Encodable {
 }
 
 public indirect enum MethodAPIType {
-    /// FACADE-SERVICE
-    
-    //  Get posts
-    case getPosts(userId: String?, communityId: String?, communityAlias: String? = nil, allowNsfw: Bool?, type: FeedTypeMode, sortBy: SortBy?, timeframe: FeedTimeFrameMode?, limit: UInt, offset: UInt, allowedLanguages: [String])
-    
-    //  Getting selected post
-    case getPost(userId: String?, username: String?, permlink: String, communityId: String?, communityAlias: String?)
     
     //  Waiting for transaction
     case waitForTransaction(id: String)
-    
-    case getComment(userId: String, permlink: String, communityId: String)
     
     //  Get referral users
     case getReferralUsers(limit: UInt, offset: UInt)
@@ -211,9 +202,6 @@ public indirect enum MethodAPIType {
     
     //  Mark all as viewed
     case markAllAsViewed(until: String)
-
-    //  Record the fact of viewing the post
-    case recordPostView(permlink: String)
     
     //  Get community
     case getCommunity(id: String? = nil, alias: String? = nil)
@@ -297,44 +285,6 @@ public indirect enum MethodAPIType {
     /// This method return request parameters from selected enum case.
     func introduced() -> RequestMethodParameters {
         switch self {
-        /// FACADE-SERVICE
-
-        //  Template { "id": 2, "jsonrpc": "2.0", "method": "content.getFeed", "params": { "type": "community", "timeframe": "day", "sortBy": "popular", "limit": 20, "userId": "tst3uuqzetwf", "communityId": "gls" }}
-        case .getPosts(let userId, let communityId, let communityAlias, let allowNsfw, let type, let sortBy, let timeframe, let limit, let offset, let allowedLanguages):
-            var parameters = [String: Encodable]()
-            parameters["userId"]            = userId
-            parameters["communityId"]       = communityId
-            parameters["communityAlias"]    = communityAlias
-            parameters["allowNsfw"]         = allowNsfw ?? false
-            parameters["type"]              = type.rawValue
-            if type != .new {
-                parameters["sortBy"]        = sortBy?.rawValue
-            }
-            if type == .topLikes || type == .topComments || type == .topRewards || type == .subscriptionsPopular {
-                parameters["timeframe"]     = timeframe?.rawValue
-            }
-            parameters["limit"]             = limit
-            parameters["offset"]            = offset
-            
-            parameters["allowedLanguages"] = allowedLanguages
-            
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.content.rawValue,
-                     methodName:        "getPosts",
-                     parameters:        parameters)
-            
-        //  Template { "id": 3, "jsonrpc": "2.0", "method": "content.getPost", "params": { "userId": "tst2nbduouxh", "permlink": "hephaestusfightswithantigoneagainststyx", "refBlockNum": 381607 }}
-        case .getPost(let userId, let username, let permlink, let communityId, let communityAlias):
-            var parameters = [String: Encodable]()
-            parameters["userId"] = userId
-            parameters["username"] = username
-            parameters["permlink"] = permlink
-            parameters["communityId"] = communityId
-            parameters["communityAlias"] = communityAlias
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.content.rawValue,
-                     methodName:        "getPost",
-                     parameters:        parameters)
             
         //  Template { "id": 1, "jsonrpc": "2.0", "method": "content.waitForTransaction", "params": { "transactionId": "OdklASkljlAQafdlkjEoljmasdfkD" } }
         case .waitForTransaction(let id):
@@ -342,14 +292,6 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.content.rawValue,
                      methodName:        "waitForTransaction",
                      parameters:        ["transactionId": id])
-            
-        //  Template { "id": 4, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "user", "userId": "tst2nbduouxh", "sortBy": "time", "limit": 20 }}
-            
-        case .getComment(let userId, let permlink, let communityId):
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.content.rawValue,
-                     methodName:        "getComment",
-                     parameters:        ["userId": userId, "permlink": permlink, "communityId": communityId])
             
         case .getReferralUsers(let limit, let offset):
             return  (methodAPIType:     self,
@@ -494,13 +436,6 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.notifications.rawValue,
                      methodName:        "markAllAsViewed",
                      parameters:        ["until": until])
-            
-        //  Template { "id": 15, "jsonrpc": "2.0", "method": "meta.recordPostView", "params": { "postLink": <author.permlink>, "fingerPrint": <deviceUDID> }}
-        case .recordPostView(let permlink):
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.meta.rawValue,
-                     methodName:        "recordPostView",
-                     parameters:        ["postLink": permlink, "fingerPrint": Config.currentDeviceType])
             
         //  Template { "id": 16, "jsonrpc": "2.0", "method": "favorites.get", "params": { "user": <userNickName> }}
             
