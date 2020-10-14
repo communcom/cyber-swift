@@ -185,13 +185,6 @@ public indirect enum MethodAPIType {
     //  Set Push/Notify options
     case setNotice(options: RequestParameterAPI.NoticeOptions, type: NoticeType, appProfileType: AppProfileType)
     
-    /// SEARCH
-    case quickSearch(queryString: String, entities: [SearchEntityType], limit: UInt)
-    
-    case extendedSearch(queryString: String, entities: [SearchEntityType: [String: UInt]])
-    
-    case entitySearch(queryString: String, entity: SearchEntityType, limit: UInt, offset: UInt)
-    
     /// SETTINGS
     case getUserSettings
     
@@ -316,36 +309,9 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.options.rawValue,
                      methodName:        "set",
                      parameters:        parameters)
-            
-        
         
             
         
-            
-        /// SEARCH
-        case .quickSearch(let queryString, let entities, let limit):
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.content.rawValue,
-                     methodName:        "quickSearch",
-                     parameters:        ["queryString": queryString, "entities": entities, "limit": limit])
-            
-        case .extendedSearch(let queryString, let entities):
-            var modifiedEntity = [String: [String: UInt]]()
-            
-            for (key, value) in entities {
-                modifiedEntity[key.rawValue] = value
-            }
-            
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.content.rawValue,
-                     methodName:        "extendedSearch",
-                     parameters:        ["queryString": queryString, "entities": modifiedEntity])
-            
-        case .entitySearch(let queryString, let entity, let limit, let offset):
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.content.rawValue,
-                     methodName:        "entitySearch",
-                     parameters:        ["queryString": queryString, "entity": entity, "limit": limit, "offset": offset])
             
         case .getUserSettings:
             return  (methodAPIType:     self,

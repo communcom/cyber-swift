@@ -16,8 +16,7 @@ extension RestAPIManager {
         limit: UInt,
         authorizationRequired: Bool = true
     ) -> Single<ResponseAPIContentEntitySearch> {
-        let methodAPIType = MethodAPIType.quickSearch(queryString: queryString, entities: entities, limit: limit)
-        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
+        executeGetRequest(methodGroup: .content, methodName: "quickSearch", params: ["queryString": queryString, "entities": entities, "limit": limit], authorizationRequired: authorizationRequired)
     }
     
     public func extendedSearch(
@@ -25,8 +24,12 @@ extension RestAPIManager {
         entities: [SearchEntityType: [String: UInt]],
         authorizationRequired: Bool = true
     ) -> Single<ResponseAPIContentExtendedSearch> {
-        let methodAPIType = MethodAPIType.extendedSearch(queryString: queryString, entities: entities)
-        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
+        var modifiedEntity = [String: [String: UInt]]()
+        
+        for (key, value) in entities {
+            modifiedEntity[key.rawValue] = value
+        }
+        return executeGetRequest(methodGroup: .content, methodName: "extendedSearch", params: ["queryString": queryString, "entities": modifiedEntity], authorizationRequired: authorizationRequired)
     }
     
     public func entitySearch(
@@ -36,7 +39,6 @@ extension RestAPIManager {
         offset: UInt,
         authorizationRequired: Bool = true
     ) -> Single<ResponseAPIContentEntitySearch> {
-        let methodAPIType = MethodAPIType.entitySearch(queryString: queryString, entity: entity, limit: limit, offset: offset)
-        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
+        executeGetRequest(methodGroup: .content, methodName: "entitySearch", params: ["queryString": queryString, "entity": entity, "limit": limit, "offset": offset])
     }
 }
