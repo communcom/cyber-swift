@@ -97,7 +97,6 @@ extension RestAPIManager {
         offset: Int             = 0,
         limit: Int              = 10
     ) -> Single<ResponseAPIContentGetBlacklist> {
-        let methodAPIType = MethodAPIType.getBlacklist(userId: userId, type: type, limit: limit, offset: offset)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        executeGetRequest(methodGroup: .content, methodName: "getBlacklist", params: ["userId": userId, "type": type.rawValue/*, "limit": limit, "offset": offset*/])
     }
 }
