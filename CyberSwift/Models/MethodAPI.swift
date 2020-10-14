@@ -149,11 +149,6 @@ public enum SearchEntityType: String, Encodable {
 
 public indirect enum MethodAPIType {
     /// FACADE-SERVICE
-    //  Resolve a user profile
-    case resolveProfile(username: String)
-    
-    //  Getting a user profile
-    case getProfile(user: String?)
     
     //  Get user's black list
     case getBlacklist(userId: String?, type: GetBlacklistType, limit: Int, offset: Int)
@@ -166,9 +161,6 @@ public indirect enum MethodAPIType {
     
     //  Waiting for transaction
     case waitForTransaction(id: String)
-    
-    //  Getting user comments feed
-    case getComments(sortBy: CommentSortMode?, offset: UInt, limit: UInt, type: GetCommentsType, userId: String?, username: String? = nil, permlink: String?, communityId: String?, communityAlias: String?, parentComment: [String: String]?, resolveNestedComments: Bool?)
     
     case getComment(userId: String, permlink: String, communityId: String)
     
@@ -355,23 +347,6 @@ public indirect enum MethodAPIType {
     func introduced() -> RequestMethodParameters {
         switch self {
         /// FACADE-SERVICE
-        //  Template {"jsonrpc":"2.0","method":"content.resolveProfile","params":{"username":"johnson-annmarie-iv"},"id":33}
-        case .resolveProfile(let username):
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.content.rawValue,
-                     methodName:        "resolveProfile",
-                     parameters:        ["username": username])
-            
-        //  Template { "id": 1, "jsonrpc": "2.0", "method": "content.getProfile", "params": { "user": "<user id or user name>" }}
-        case .getProfile(let user):
-            var params = [String: Encodable]()
-            params["user"] = user
-            params["userId"] = Config.currentUser?.id
-            
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.content.rawValue,
-                     methodName:        "getProfile",
-                     parameters:        params)
 
         case .getBlacklist(let userId, let type, _, _):
             return  (methodAPIType:     self,
@@ -424,40 +399,6 @@ public indirect enum MethodAPIType {
                      parameters:        ["transactionId": id])
             
         //  Template { "id": 4, "jsonrpc": "2.0", "method": "content.getComments", "params": { "type: "user", "userId": "tst2nbduouxh", "sortBy": "time", "limit": 20 }}
-        case .getComments(let sortBy, let offset, let limit, let type, let userId, let username, let permlink, let communityId, let communityAlias, let parentComment, let resolveNestedComments):
-            var parameters: [String: Encodable] =
-                [
-                    "type": type.rawValue,
-                    "sortBy": sortBy?.rawValue,
-                    "offset": offset,
-                    "limit": limit
-                ]
-            
-            switch type {
-            case .user:
-                parameters["userId"] = userId
-            case .post:
-                parameters["userId"] = userId
-                parameters["username"] = username
-                parameters["permlink"] = permlink
-                parameters["parentComment"] = parentComment
-            case .replies:
-                parameters["userId"] = userId
-                parameters["permlink"] = permlink
-            }
-            
-            if communityId == nil {
-                parameters["communityAlias"] = communityAlias
-            } else {
-                parameters["communityId"] = communityId
-            }
-            
-            parameters["resolveNestedComments"] = resolveNestedComments
-            
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.content.rawValue,
-                     methodName:        "getComments",
-                     parameters:        parameters)
             
         case .getComment(let userId, let permlink, let communityId):
             return  (methodAPIType:     self,

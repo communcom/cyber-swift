@@ -12,8 +12,7 @@ import RxSwift
 extension RestAPIManager {
     // API `content.resolveProfile`
     public func resolveProfile(username: String) -> Single<ResponseAPIContentGetProfile> {
-        let methodAPIType = MethodAPIType.resolveProfile(username: username)
-        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false)
+        executeGetRequest(methodGroup: .content, methodName: "resolveProfile", params: ["username": username], authorizationRequired: false)
     }
     
     // API `content.getProfile`
@@ -22,14 +21,20 @@ extension RestAPIManager {
         appProfileType: AppProfileType = .cyber,
         authorizationRequired: Bool = true
     ) -> Single<ResponseAPIContentGetProfile> {
+//        return  (methodAPIType:     self,
+//                 methodGroup:       MethodAPIGroup.content.rawValue,
+//                 methodName:        "getProfile",
+//                 parameters:        params)
         
         if user == nil {
             return .error(CMError.invalidRequest(message: ErrorMessage.userIdOrUsernameIsMissing.rawValue))
         }
         
-        let methodAPIType = MethodAPIType.getProfile(user: user)
-
-        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
+        var params = [String: Encodable]()
+        params["user"] = user
+        params["userId"] = Config.currentUser?.id
+        
+        return executeGetRequest(methodGroup: .content, methodName: "getProfile", params: params)
     }
     
     // API `content.getComments` by user
@@ -40,23 +45,16 @@ extension RestAPIManager {
         userId: String?,
         authorizationRequired: Bool = true
     ) -> Single<ResponseAPIContentGetComments> {
-        guard let userId = userId ?? Config.currentUser?.id else {
-            return .error(CMError.unauthorized())
-        }
-        
-        let methodAPIType = MethodAPIType.getComments(
-            sortBy: sortBy,
-            offset: offset,
-            limit: limit,
-            type: .user,
-            userId: userId,
-            permlink: nil,
-            communityId: nil,
-            communityAlias: nil,
-            parentComment: nil,
-            resolveNestedComments: false)
-        
-        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired)
+        let parameters: [String: Encodable] =
+            [
+                "type": "user",
+                "sortBy": sortBy.rawValue,
+                "offset": offset,
+                "limit": limit,
+                "userId": userId,
+                "resolveNestedComments": false
+            ]
+        return executeGetRequest(methodGroup: .content, methodName: "getComments", params: parameters, authorizationRequired: authorizationRequired)
     }
     
     // API basic `options.set`
