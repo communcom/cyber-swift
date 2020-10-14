@@ -349,8 +349,7 @@ extension RestAPIManager {
             authorizationRequired: false
         )
             .do(onSuccess: { (_) in
-                let methodAPIType = MethodAPIType.notificationsSubscribe
-                self.sendMessageIgnoreResponse(methodAPIType: methodAPIType, authorizationRequired: false)
+                self.sendMessageIgnoreResponse(methodGroup: .notifications, methodName: "subscribe", params: [:], authorizationRequired: false)
             })
     }
     
