@@ -263,9 +263,6 @@ public indirect enum MethodAPIType {
     //  Onboarding step to force user to subscribe to at least 3 communities
     case onboardingCommunitySubscriptions(userId: String, communityIds: [String])
     
-    /// Config
-    case getConfig
-    
     /// WALLET
     case getTransferHistory(userId: String?, direction: String, transferType: String?, symbol: String?, rewards: String?, donation: String?, claim: String?, holdType: String?, offset: UInt, limit: UInt)
     
@@ -713,12 +710,6 @@ public indirect enum MethodAPIType {
                         "userId": userId,
                         "communityIds": communityIds
                     ])
-            
-        case .getConfig:
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.config.rawValue,
-                     methodName:        "getConfig",
-                     parameters:        [:])
             
         case .getTransferHistory(let userId, let direction, let transferType, let symbol, let rewards, let donation, let claim, let holdType, let offset, let limit):
             var parameters = [String: Encodable]()
