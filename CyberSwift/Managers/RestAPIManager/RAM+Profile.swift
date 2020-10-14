@@ -52,16 +52,6 @@ extension RestAPIManager {
         return executeGetRequest(methodGroup: .content, methodName: "getComments", params: parameters, authorizationRequired: authorizationRequired)
     }
     
-    // API basic `options.set`
-    public func setBasicOptions(nsfwContent: NsfwContentMode) -> Single<ResponseAPIStatus> {
-        // Check user authorize
-        guard Config.currentUser?.id != nil else { return .error(CMError.unauthorized())}
-
-        let methodAPIType = MethodAPIType.setBasicOptions(nsfw: nsfwContent.rawValue)
-        
-        return executeGetRequest(methodAPIType: methodAPIType)
-    }
-    
     // MARK: - Subscribers
     public func getSubscribers(
         userId: String?         = Config.currentUser?.id,
@@ -69,8 +59,18 @@ extension RestAPIManager {
         offset: Int             = 0,
         limit: Int              = 10
     ) -> Single<ResponseAPIContentGetSubscribers> {
-        let methodAPIType = MethodAPIType.getSubscribers(userId: userId, communityId: communityId, offset: offset, limit: limit)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        var params: [String: Encodable] = [
+            "offset": offset,
+            "limit": limit
+        ]
+        
+        if let communityId = communityId {
+            params["communityId"]   = communityId
+        } else {
+            params["userId"]        = userId
+        }
+        
+        return executeGetRequest(methodGroup: .content, methodName: "getSubscribers", params: params)
     }
     
     // MARK: - Subscriptions
@@ -80,8 +80,14 @@ extension RestAPIManager {
         offset: Int             = 0,
         limit: Int              = 10
     ) -> Single<ResponseAPIContentGetSubscriptions> {
-        let methodAPIType = MethodAPIType.getSubscriptions(userId: userId, type: type, offset: offset, limit: limit)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        let params: [String: Encodable] = [
+            "offset": offset,
+            "limit": limit,
+            "type": type.rawValue,
+            "userId": userId
+        ]
+        
+        return executeGetRequest(methodGroup: .content, methodName: "getSubscriptions", params: params)
     }
     
     // MARK: - Blacklist
