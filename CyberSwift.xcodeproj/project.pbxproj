@@ -38,7 +38,6 @@
 		B179917E2269B4560014CB44 /* PublicKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = B17991782269B4560014CB44 /* PublicKey.swift */; };
 		B18D5E0C23B9DF9D00CE2228 /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = B1AA194422956E4300AF5DF0 /* LICENSE.md */; };
 		B18EBB32223F8F8800F52D3C /* CyberSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = B18EBB30223F8F8800F52D3C /* CyberSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B1902AD622706F1E00661211 /* RequestParameterAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1902AD522706F1E00661211 /* RequestParameterAPI.swift */; };
 		B19A28D6226087EE001C9F43 /* UIDevice+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19A28D5226087EE001C9F43 /* UIDevice+Extensions.swift */; };
 		B1A74A642243892B009D68E7 /* EOSTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A74A632243892B009D68E7 /* EOSTransaction.swift */; };
 		B1A74A662243893A009D68E7 /* EOSManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A74A652243893A009D68E7 /* EOSManager.swift */; };
@@ -147,7 +146,6 @@
 		B18EBB2D223F8F8800F52D3C /* CyberSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CyberSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B18EBB30223F8F8800F52D3C /* CyberSwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CyberSwift.h; sourceTree = "<group>"; };
 		B18EBB31223F8F8800F52D3C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B1902AD522706F1E00661211 /* RequestParameterAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestParameterAPI.swift; sourceTree = "<group>"; };
 		B19A28D5226087EE001C9F43 /* UIDevice+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIDevice+Extensions.swift"; sourceTree = "<group>"; };
 		B1A74A632243892B009D68E7 /* EOSTransaction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EOSTransaction.swift; sourceTree = "<group>"; };
 		B1A74A652243893A009D68E7 /* EOSManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EOSManager.swift; sourceTree = "<group>"; };
@@ -416,7 +414,6 @@
 				BC51B48824062A1E009DFB48 /* CMError.swift */,
 				B1C3F867223F9907005711EF /* MethodAPI.swift */,
 				B1C3F864223F9906005711EF /* RequestAPI.swift */,
-				B1902AD522706F1E00661211 /* RequestParameterAPI.swift */,
 				BCE93907234D866A00226E39 /* ResponseAPI */,
 				3BDF4FA922C229440029D616 /* BCResponseAPIError.swift */,
 				ACFA282123AA99AA009B77A6 /* EOSArgument.swift */,
@@ -693,7 +690,6 @@
 				B1C3F857223F98B1005711EF /* Date+Extensions.swift in Sources */,
 				BCC0691524E4E424001419D0 /* ResponseAPI+CommiunityManager.swift in Sources */,
 				BC44DBB2238FA1FD00412F08 /* ListItemType.swift in Sources */,
-				B1902AD622706F1E00661211 /* RequestParameterAPI.swift in Sources */,
 				3B5EDE3F22E0F10900897BF3 /* RAM+Notifications.swift in Sources */,
 				BC753FFA24235C10000616B5 /* ResponseAPI+Settings.swift in Sources */,
 				BC06A99D23E7C6A8000B690E /* RAM+Search.swift in Sources */,
