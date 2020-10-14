@@ -236,22 +236,6 @@ public indirect enum MethodAPIType {
     /// OTHER
     case getEmbed(url: String)
     
-    /// COMMUNITY MANAGER
-    case getProposals(communityIds: [String], limit: Int, offset: Int)
-    
-    case getReportsList(communityIds: [String], contentType: String, status: String, sortBy: SortBy, limit: Int, offset: Int)
-    
-    case getEntityReports(userId: String, communityId: String, permlink: String, limit: Int, offset: Int)
-    
-    /// COMMUNITY CREATION
-    case createNewCommunity(name: String)
-    
-    case communitySetSettings(name: String, avatarUrl: String, coverUrl: String, language: String, description: String, rules: String, subject: String, communityId: String)
-    
-    case startCommunityCreation(communityId: String, transferTrxId: String?)
-    
-    case getUsersCommunity
-    
     /// This method return request parameters from selected enum case.
     func introduced() -> RequestMethodParameters {
         switch self {
@@ -522,49 +506,9 @@ public indirect enum MethodAPIType {
                      methodName:        "getEmbed",
                      parameters:        [ "type": "oembed", "url": url ])
             
-        case .getProposals(let communityIds, let limit, let offset):
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.content.rawValue,
-                     methodName:        "getProposals",
-                     parameters:        ["communityIds": communityIds, "limit": limit, "offset": offset ])
+        
             
-        case .getReportsList(let communityIds, let contentType, let status, let sortBy, let limit, let offset):
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.content.rawValue,
-                     methodName:        "getReportsList",
-                     parameters:        ["communityIds": communityIds, "contentType": contentType, "status": status, "sortBy": sortBy.rawValue, "limit": limit, "offset": offset ])
-            
-        case .getEntityReports(let userId, let communityId, let permlink, let limit, let offset):
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.content.rawValue,
-                     methodName:        "getEntityReports",
-                     parameters:        ["userId": userId, "communityId": communityId, "permlink": permlink, "limit": limit, "offset": offset ])
-            
-        case .createNewCommunity(let name):
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.community.rawValue,
-                     methodName:        "createNewCommunity",
-                     parameters:        ["name": name])
-            
-        case .communitySetSettings(let name, let avatarUrl, let coverUrl, let language, let description, let rules, let subject, let communityId):
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.community.rawValue,
-                     methodName:        "setSettings",
-                     parameters:        ["name": name, "avatarUrl": avatarUrl, "coverUrl": coverUrl, "language": language, "description": description, "rules": rules, "subject": subject, "communityId": communityId])
-            
-        case .startCommunityCreation(let communityId, let transferTrxId):
-            var parameters: [String: Encodable] = ["communityId": communityId]
-            parameters["transferTrxId"] = transferTrxId
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.community.rawValue,
-                     methodName:        "startCommunityCreation",
-                     parameters:        parameters)
-            
-        case .getUsersCommunity:
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.community.rawValue,
-                     methodName:        "getUsersCommunities",
-                     parameters:        [:])
+        
             
         } // switch
     }
