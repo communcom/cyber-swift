@@ -152,12 +152,6 @@ public indirect enum MethodAPIType {
     //  Waiting for transaction
     case waitForTransaction(id: String)
     
-    //  Get referral users
-    case getReferralUsers(limit: UInt, offset: UInt)
-    
-    //  Enter promo code
-    case appendReferralParent(refferalId: String, phone: String?, identity: String?, email: String?, userId: String?)
-    
     //  Log out
     case logout
     
@@ -202,22 +196,9 @@ public indirect enum MethodAPIType {
                      methodName:        "waitForTransaction",
                      parameters:        ["transactionId": id])
             
-        case .getReferralUsers(let limit, let offset):
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.content.rawValue,
-                     methodName:        "getReferralUsers",
-                     parameters:        ["limit": limit, "offset": offset])
+        
             
-        case .appendReferralParent(let refferalId, let phone, let identity, let email, let userId):
-            var params: [String: Encodable] = ["referralId": refferalId]
-            params["phone"] = phone
-            params["identity"] = identity
-            params["email"] = email
-            params["userId"] = userId
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.registration.rawValue,
-                     methodName:        "appendReferralParent",
-                     parameters:        params)
+        
             
             
         //  Template { "id": 6, "jsonrpc": "2.0", "method": "auth.logout", "params": { "": "" }}

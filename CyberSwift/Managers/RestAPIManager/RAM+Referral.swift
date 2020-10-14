@@ -11,15 +11,18 @@ import RxSwift
 
 extension RestAPIManager {
     public func getReferralUsers(
-        offset: UInt                    = 0,
-        limit: UInt                     = UInt(Config.paginationLimit)
+        offset: UInt = 0,
+        limit: UInt = UInt(Config.paginationLimit)
     ) -> Single<ResponseAPIContentGetReferralUsers> {
-        let methodAPIType = MethodAPIType.getReferralUsers(limit: limit, offset: offset)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        executeGetRequest(methodGroup: .content, methodName: "getReferralUsers", params: ["limit": limit, "offset": offset])
     }
     
     public func appendReferralParent(referralId: String) -> Single<ResponseAPIStatus> {
-        let methodAPIType = MethodAPIType.appendReferralParent(refferalId: referralId, phone: Config.currentUser?.phoneNumber, identity: Config.currentUser?.identity, email: Config.currentUser?.email, userId: Config.currentUser?.id)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        var params: [String: Encodable] = ["referralId": referralId]
+        params["phone"] = Config.currentUser?.phoneNumber
+        params["identity"] = Config.currentUser?.identity
+        params["email"] = Config.currentUser?.email
+        params["userId"] = Config.currentUser?.id
+        return executeGetRequest(methodGroup: .registration, methodName: "appendReferralParent", params: params)
     }
 }
