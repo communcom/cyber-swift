@@ -184,13 +184,6 @@ public indirect enum MethodAPIType {
     
     //  Set Push/Notify options
     case setNotice(options: RequestParameterAPI.NoticeOptions, type: NoticeType, appProfileType: AppProfileType)
-
-    /// DEVICE
-    case deviceSetInfo(timeZoneOffset: Int)
-    
-    case deviceSetFcmToken(_ token: String)
-    
-    case deviceResetFcmToken
     
     /// SEARCH
     case quickSearch(queryString: String, entities: [SearchEntityType], limit: UInt)
@@ -325,25 +318,6 @@ public indirect enum MethodAPIType {
                      parameters:        parameters)
             
         
-            
-        /// DEVICE
-        case .deviceSetInfo(let timeZoneOffset):
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.device.rawValue,
-                     methodName:        "setInfo",
-                     parameters:        ["timeZoneOffset": timeZoneOffset])
-            
-        case .deviceSetFcmToken(let token):
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.device.rawValue,
-                     methodName:        "setFcmToken",
-                     parameters:        ["fcmToken": token])
-            
-        case .deviceResetFcmToken:
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.device.rawValue,
-                     methodName:        "resetFcmToken",
-                     parameters:        [:])
         
             
         
