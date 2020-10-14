@@ -185,9 +185,6 @@ public indirect enum MethodAPIType {
     //  Set Push/Notify options
     case setNotice(options: RequestParameterAPI.NoticeOptions, type: NoticeType, appProfileType: AppProfileType)
     
-    /// SETTINGS
-    case getUserSettings
-    
     /// AIRDROP
     case getAirdrop(communityId: String)
 
@@ -310,14 +307,6 @@ public indirect enum MethodAPIType {
                      methodName:        "set",
                      parameters:        parameters)
         
-            
-        
-            
-        case .getUserSettings:
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.settings.rawValue,
-                     methodName:        "getUserSettings",
-                     parameters:        [:])
             
         case .getAirdrop(let id):
             return  (methodAPIType:     self,

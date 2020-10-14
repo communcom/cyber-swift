@@ -11,7 +11,6 @@ import RxSwift
 
 extension RestAPIManager {
     public func getUserSettings() -> Single<ResponseAPISettingsGetUserSettings> {
-        let methodAPIType = MethodAPIType.getUserSettings
-        return executeGetRequest(methodAPIType: methodAPIType)
+        executeGetRequest(methodGroup: .settings, methodName: "getUserSettings", params: [:])
     }
 }
