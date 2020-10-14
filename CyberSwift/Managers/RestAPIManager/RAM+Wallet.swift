@@ -22,16 +22,25 @@ extension RestAPIManager {
         offset: UInt = 0,
         limit: UInt = 20
     ) -> Single<ResponseAPIWalletGetTransferHistory> {
-        let methodAPIType = MethodAPIType.getTransferHistory(userId: userId, direction: direction, transferType: transferType, symbol: symbol, rewards: reward, donation: donation, claim: claim, holdType: holdType, offset: offset, limit: limit)
-        return executeGetRequest(methodAPIType: methodAPIType)
+        var parameters = [String: Encodable]()
+        parameters["userId"] = userId
+        parameters["direction"] = direction
+        parameters["transferType"] = transferType
+        parameters["symbol"] = symbol
+        parameters["rewards"] = reward
+        parameters["claim"] = claim
+        parameters["donation"] = donation
+        parameters["holdType"] = holdType
+        parameters["offset"] = offset
+        parameters["limit"] = limit
+        return executeGetRequest(methodGroup: .wallet, methodName: "getTransferHistory", params: parameters)
     }
     
     public func getBalance(
         userId: String? = nil,
         retried: Bool = false
     ) -> Single<ResponseAPIWalletGetBalances> {
-        let methodAPIType = MethodAPIType.getBalance(userId: userId)
-        return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIWalletGetBalances>)
+        (executeGetRequest(methodGroup: .wallet, methodName: "getBalance", params: ["userId": userId]) as Single<ResponseAPIWalletGetBalances>)
             .flatMap { result -> Single<ResponseAPIWalletGetBalances> in
                 if userId != Config.currentUser?.id || retried {return .just(result)}
 
@@ -57,8 +66,7 @@ extension RestAPIManager {
         quantity: String,
         authorizationRequired: Bool = true
     ) -> Single<ResponseAPIWalletGetPrice> {
-        let methodAPIType = MethodAPIType.getBuyPrice(pointSymbol: symbol, quantity: quantity)
-        return (executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: authorizationRequired) as Single<ResponseAPIWalletGetPrice>)
+        (executeGetRequest(methodGroup: .wallet, methodName: "getBuyPrice", params: ["pointSymbol": symbol, "quantity": quantity], authorizationRequired: authorizationRequired) as Single<ResponseAPIWalletGetPrice>)
             .map { result in
                 var result = result
                 result.symbol = symbol
@@ -70,8 +78,7 @@ extension RestAPIManager {
     public func getSellPrice(
         quantity: String
     ) -> Single<ResponseAPIWalletGetPrice> {
-        let methodAPIType = MethodAPIType.getSellPrice(quantity: quantity)
-        return (executeGetRequest(methodAPIType: methodAPIType) as Single<ResponseAPIWalletGetPrice>)
+        (executeGetRequest(methodGroup: .wallet, methodName: "getSellPrice", params: ["quantity": quantity]) as Single<ResponseAPIWalletGetPrice>)
             .map { result in
                 var result = result
                 result.quantity = quantity
@@ -81,13 +88,11 @@ extension RestAPIManager {
     
     // MARK: - Rewards
     public func rewardsGetStateBulk(posts: [RequestAPIContentId]) -> Single<ResponseAPIRewardsGetStateBulk> {
-        let methodAPIType = MethodAPIType.rewardsGetStateBulk(posts: posts)
-        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false)
+        executeGetRequest(methodGroup: .rewards, methodName: "getStateBulk", params: ["posts": posts], authorizationRequired: false)
     }
     
     // MARK: - Donations
     public func getDonationsBulk(posts: [RequestAPIContentId]) -> Single<ResponseAPIWalletGetDonationsBulk> {
-        let methodAPIType = MethodAPIType.getDonationsBulk(posts: posts)
-        return executeGetRequest(methodAPIType: methodAPIType, authorizationRequired: false)
+        executeGetRequest(methodGroup: .wallet, methodName: "getDonationsBulk", params: ["posts": posts], authorizationRequired: false)
     }
 }

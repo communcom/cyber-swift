@@ -185,17 +185,6 @@ public indirect enum MethodAPIType {
     //  Set Push/Notify options
     case setNotice(options: RequestParameterAPI.NoticeOptions, type: NoticeType, appProfileType: AppProfileType)
     
-    /// REGISTRATION-SERVICE
-    
-    /// WALLET
-    case getTransferHistory(userId: String?, direction: String, transferType: String?, symbol: String?, rewards: String?, donation: String?, claim: String?, holdType: String?, offset: UInt, limit: UInt)
-    
-    case getBalance(userId: String?)
-    
-    case getBuyPrice(pointSymbol: String, quantity: String)
-    
-    case getSellPrice(quantity: String)
-    
     case getCurrenciesFull
 
     /// DEVICE
@@ -210,12 +199,6 @@ public indirect enum MethodAPIType {
     case getExchangeAmount(from: String, to: String, amount: Double)
     
     case createTransaction(from: String, address: String, amount: String, extraId: String?, refundAddress: String?, refundExtraId: String?)
-    
-    /// REWARDS
-    case rewardsGetStateBulk(posts: [RequestAPIContentId])
-    
-    /// DONATIONS
-    case getDonationsBulk(posts: [RequestAPIContentId])
     
     /// SEARCH
     case quickSearch(queryString: String, entities: [SearchEntityType], limit: UInt)
@@ -349,44 +332,6 @@ public indirect enum MethodAPIType {
                      methodName:        "set",
                      parameters:        parameters)
             
-        case .getTransferHistory(let userId, let direction, let transferType, let symbol, let rewards, let donation, let claim, let holdType, let offset, let limit):
-            var parameters = [String: Encodable]()
-            parameters["userId"] = userId
-            parameters["direction"] = direction
-            parameters["transferType"] = transferType
-            parameters["symbol"] = symbol
-            parameters["rewards"] = rewards
-            parameters["claim"] = claim
-            parameters["donation"] = donation
-            parameters["holdType"] = holdType
-            parameters["offset"] = offset
-            parameters["limit"] = limit
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.wallet.rawValue,
-                     methodName:        "getTransferHistory",
-                     parameters:        parameters)
-            
-        case .getBalance(let userId):
-            var parameters = [String: Encodable]()
-            parameters["userId"] = userId
-            
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.wallet.rawValue,
-                     methodName:        "getBalance",
-                     parameters:        parameters)
-            
-        case .getBuyPrice(let pointSymbol, let quantity):
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.wallet.rawValue,
-                     methodName:        "getBuyPrice",
-                     parameters:        ["pointSymbol": pointSymbol, "quantity": quantity])
-            
-        case .getSellPrice(let quantity):
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.wallet.rawValue,
-                     methodName:        "getSellPrice",
-                     parameters:        ["quantity": quantity])
-            
         case .getCurrenciesFull:
             return  (methodAPIType:     self,
                      methodGroup:       MethodAPIGroup.exchange.rawValue,
@@ -437,20 +382,6 @@ public indirect enum MethodAPIType {
                      methodGroup:       MethodAPIGroup.exchange.rawValue,
                      methodName:        "createTransaction",
                      parameters:        parameters)
-            
-        /// REWARDS
-        case .rewardsGetStateBulk(let posts):
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.rewards.rawValue,
-                     methodName:        "getStateBulk",
-                     parameters:        ["posts": posts])
-            
-        /// DONATIONS
-        case .getDonationsBulk(let posts):
-            return  (methodAPIType:     self,
-                     methodGroup:       MethodAPIGroup.wallet.rawValue,
-                     methodName:        "getDonationsBulk",
-                     parameters:        ["posts": posts])
             
         /// SEARCH
         case .quickSearch(let queryString, let entities, let limit):
