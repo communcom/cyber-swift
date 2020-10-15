@@ -270,7 +270,7 @@ extension RestAPIManager {
     ) -> Completable {
         guard let userId = Config.currentUser?.id else {return .error(CMError.unauthorized())}
         guard communityIds.count >= 3 else {return .error(CMError.other(message: ErrorMessage.youMustSubscribeToAtLeast3Communities.rawValue))}
-        return (executeGetRequest(methodGroup: .registration, methodName: "onboardingCommunitySubscriptions", params: ["userId": userId,"communityIds": communityIds], authorizationRequired: false) as Single<ResponseAPIStatus>)
+        return (executeGetRequest(methodGroup: .registration, methodName: "onboardingCommunitySubscriptions", params: ["userId": userId, "communityIds": communityIds], authorizationRequired: false) as Single<ResponseAPIStatus>)
             .flatMapToCompletable()
     }
         

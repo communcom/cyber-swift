@@ -118,9 +118,9 @@ extension AuthManager {
         RestAPIManager.instance.sendMessageIgnoreResponse(methodGroup: .device, methodName: "resetFcmToken", params: [:], authorizationRequired: false)
         
         // logout
-        RestAPIManager.instance.sendMessageIgnoreResponse(methodGroup: .auth, methodName: "logout", params: ["":""], authorizationRequired: false)
+        RestAPIManager.instance.sendMessageIgnoreResponse(methodGroup: .auth, methodName: "logout", params: [:], authorizationRequired: false)
         
-        RestAPIManager.instance.sendMessageIgnoreResponse(methodGroup: .auth, methodName: "signOut", params: ["":""], authorizationRequired: false)
+        RestAPIManager.instance.sendMessageIgnoreResponse(methodGroup: .auth, methodName: "signOut", params: [:], authorizationRequired: false)
         
         // Remove in keychain
         try! KeychainManager.deleteUser()
