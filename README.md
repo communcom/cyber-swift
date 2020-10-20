@@ -1,5 +1,4 @@
 # CyberSwift
-<img align="right" src='https://github.com/GolosChain/GoloSwift/blob/master/GoloSwift/Resources/Media.xcassets/icon-itunes.imageset/icon-itunes%402x.png' width='128' height='128'/>
 
 Our framework is written in Swift 4 and is designed to work with the blockchain [Cyber](https://cyberway.golos.io/)
 
